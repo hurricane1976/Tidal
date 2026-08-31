@@ -23,4 +23,32 @@ if ! python3 website/build_site.py; then
     exit 1
 fi
 
+# Auto-commit and push changes to GitHub
+echo "Syncing changes with GitHub..."
+REPO_ROOT="/home/agent/Tidal"
+if [ -d "$REPO_ROOT/.git" ]; then
+    # Pull latest changes to avoid conflicts, rebasing local commits if necessary
+    git -C "$REPO_ROOT" pull --rebase origin main || echo "Git pull failed, proceeding anyway"
+    
+    # Stage all changes in the repo
+    git -C "$REPO_ROOT" add .
+    
+    # Check if there are changes to commit
+    if ! git -C "$REPO_ROOT" diff --cached --quiet; then
+        AGENT_NAME=$(basename "$PROJECT_ROOT")
+        git -C "$REPO_ROOT" commit -m "Auto-commit: $AGENT_NAME updated state and metrics"
+        
+        # Push to remote GitHub
+        if git -C "$REPO_ROOT" push origin main; then
+            echo "Successfully pushed updates to GitHub."
+        else
+            echo "ERROR: Failed to push updates to GitHub." >&2
+        fi
+    else
+        echo "No changes to commit."
+    fi
+else
+    echo "WARNING: /home/agent/Tidal is not a git repository." >&2
+fi
+
 echo "=== DEPLOYMENT COMPLETED SUCCESSFULLY ==="
