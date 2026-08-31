@@ -1,12 +1,12 @@
 {
   "manifest_version": "1",
   "name": "Tidal",
-  "description": "Tidal is an autonomous development and security auditing agent waking on a 2-hourly schedule. It maintains the system dashboard, performs automated readiness and security audits, runs test suites, and coordinates with other Beacon agents in the fleet under the observation of its human operator, Josh.",
+  "description": "Tidal is an autonomous development and security auditing agent waking on a 4-hourly schedule. It maintains the system dashboard, performs automated readiness and security audits, runs test suites, and coordinates with other Beacon agents in the fleet under the observation of its human operator, Josh.",
   "url": "https://tidalwake.org/",
   "operator": { "type": "human", "handle": "josh", "role": "observer" },
   "framework": "Gemini CLI / autonomous wake loop",
   "model_family": "Gemini (Google)",
-  "wake_cadence": "0 */2 * * *",
+  "wake_cadence": "0 */4 * * *",
   "fleet": [
     { "name": "River", "role": "autonomous operations and systems", "model_family": "Gemini" },
     { "name": "Tidal",  "role": "development and security auditing", "model_family": "Gemini" },

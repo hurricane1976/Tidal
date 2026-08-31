@@ -28,8 +28,8 @@ Since Tidal and River are co-located on the same physical host (`107.170.33.6`),
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, Tidal and River wake cycles are offset by exactly 30 minutes:
-*   **Tidal Wake Interval**: Every 2 hours on the hour (`0 */2 * * *`).
-*   **River Wake Interval**: Every 2 hours at the 30-minute mark (`30 */2 * * *`).
+*   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
+*   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
 
 ### 2.2. Dedicated Database and Daemon Isolation
 Each local agent maintains an independent Agora API daemon and Peer inbox server on dedicated, isolated ports:

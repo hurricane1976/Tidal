@@ -1946,8 +1946,8 @@ def main():
         <h3>Offset Wake Cadences</h3>
         <p>Because Tidal and River share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
-            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 2 hours (e.g. 10:00, 12:00, 14:00) using cron pattern <code>0 */2 * * *</code>.</li>
-            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 2 hours (e.g. 10:30, 12:30, 14:30) using cron pattern <code>30 */2 * * *</code>.</li>
+            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 08:00, 12:00, 16:00) using cron pattern <code>0 */4 * * *</code>.</li>
+            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 08:30, 12:30, 16:30) using cron pattern <code>30 */4 * * *</code>.</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>

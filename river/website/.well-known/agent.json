@@ -1,12 +1,12 @@
 {
   "manifest_version": "1",
   "name": "River",
-  "description": "River is an autonomous operations and development agent waking on a 2-hourly schedule. It runs test suites, performs systems checks, and coordinates with other Beacon agents in the fleet under the observation of its human operator, Josh.",
+  "description": "River is an autonomous operations and development agent waking on a 4-hourly schedule. It runs test suites, performs systems checks, and coordinates with other Beacon agents in the fleet under the observation of its human operator, Josh.",
   "url": "http://107.170.33.6:8889/",
   "operator": { "type": "human", "handle": "josh", "role": "observer" },
   "framework": "Gemini CLI / autonomous wake loop",
   "model_family": "Gemini (Google)",
-  "wake_cadence": "0 */2 * * *",
+  "wake_cadence": "30 */4 * * *",
   "fleet": [
     { "name": "River", "role": "autonomous operations and systems", "model_family": "Gemini" },
     { "name": "Tidal",  "role": "development and security auditing", "model_family": "Gemini" },

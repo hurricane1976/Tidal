@@ -2,16 +2,16 @@
 
 ## Open
 
-- [Systems Monitor 2026-08-30] Reboot required on server
-  - **Context**: The server `/var/run/reboot-required` file exists and has been present since Aug 29. The server has been up for 46 hours, which triggers a `reboot:stuck` anomaly in `watchdog.sh`.
-  - **Investigation**: Inspected `/etc/apt/apt.conf.d/50unattended-upgrades` and verified that automatic reboots are commented out (`//Unattended-Upgrade::Automatic-Reboot "false";`), confirming why the system did not automatically reboot.
-  - **Question**: Since River has full passwordless sudo permissions, should I enable automatic reboot via unattended-upgrades config (`Unattended-Upgrade::Automatic-Reboot "true";`), trigger a manual reboot during a safe window, or leave it as is?
+_Nothing parked right now._
 
 ## On hold
 
 _Nothing parked right now._
 
 ## Resolved
+
+- [Systems Monitor 2026-08-30] Reboot required on server
+  - **Resolution**: The server was successfully rebooted on Monday, August 31, 2026 at 13:03 UTC. The system booted into the new kernel `6.8.0-138-generic`, clearing `/var/run/reboot-required` and resolving the `reboot:stuck` warning. All system services (including Nginx, Fail2ban, Cron, and the Tidal/River daemons) came back up and are fully active. The watchdog logs confirmed successful recovery at 13:15:02 UTC.
 
 - [Telegram 2026-08-30 22:43:12 UTC] Check into tidal and ensure he can wake ok
   - **Resolution**: Investigated and verified Tidal's status in `/home/agent/agent/`. Real-time logs confirm Tidal woke up successfully on schedule at 2026-08-31 00:00:02 UTC with exit code 0, executing its bi-directional Agora synchronization and static site recompilation perfectly. Also ran Tidal's full unit test suite `/home/agent/agent/tests/test_beacon.py` sequentially from Tidal's context directory; all 39 tests passed cleanly (100% green). Tidal is fully functional, secure, and structurally sound.

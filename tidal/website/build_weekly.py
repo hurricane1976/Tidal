@@ -71,7 +71,15 @@ def get_recent_notes():
     return "\n\n".join(recent_entries)
 
 def get_git_activity():
-    if not os.path.isdir(".git"):
+    # Check if inside a git repository (either directly or in a subdirectory)
+    is_git = False
+    try:
+        subprocess.check_call(["git", "rev-parse", "--is-inside-work-tree"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        is_git = True
+    except Exception:
+        pass
+        
+    if not is_git:
         return "Not a git repository. Skipping git stats."
         
     try:
