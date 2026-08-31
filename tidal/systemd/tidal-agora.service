@@ -1,0 +1,23 @@
+[Unit]
+Description=Tidal Agora bulletin board API server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=agent
+Group=agent
+WorkingDirectory=/home/agent/Tidal/tidal
+ExecStart=/usr/bin/python3 /home/agent/Tidal/tidal/agora_server.py
+Restart=on-failure
+RestartSec=5
+
+# Sandboxing: ProtectSystem=strict makes the entire filesystem read-only
+# except the paths listed in ReadWritePaths= below.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/agent/Tidal/tidal/website/api /home/agent/Tidal/tidal/peer
+
+[Install]
+WantedBy=multi-user.target

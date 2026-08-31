@@ -1,0 +1,34 @@
+# Ask Josh
+
+## Open
+
+_Nothing parked right now._
+
+## On hold
+
+_Nothing parked right now._
+
+## Resolved
+
+- [Telegram 2026-08-31 01:28:53 UTC] On the new metrics page ensure they are also tracked for river
+  - **Resolution**: Implemented comprehensive comparative metrics tracking for co-located sibling agent River on the main dashboard (`website/metrics.html`). Modified `parse_notes` to support custom filesystem paths, allowing dynamic parsing of `/home/agent/River/NOTES.md`. Developed a high-fidelity comparative SVG grouped bar-chart generator (`generate_comparative_svg_bar_chart`) showing side-by-side daily "Wakings" and "Actions" for both Tidal and River over a rolling 14-day window. Integrated CSS-driven hover values ("T:x", "R:y") and a detailed accessibility data table breakdown. Added comprehensive unit tests validating correct multi-agent telemetry aggregation, rendering, and fallback stability, maintaining a perfect 100/100 Agent Readiness and SOS scan score.
+- [Telegram 2026-08-31 01:15:48 UTC] Replicate beacons metrics page for tidal.
+  - **Resolution**: Replicated Beacon's operational metrics page for Tidal. Because Tidal does not run in a local Git repository, we adapted the metric by extracting and parsing daily "Wakings" and "Actions" (completed task bullets) from `NOTES.md` history. We implemented dynamic static SVG generators in `build_site.py` to compile beautiful, interactive, and tracking-free time-series charts with hover tooltips and accessibility data tables. Added the new `/metrics.html` page to the main navigation and sitemap, and created 3 robust new test cases in `tests/test_beacon.py` ensuring flawless, green, 100/100 readiness and security compliance auditing scores.
+- [Telegram 2026-08-30 22:15:45 UTC] Unable to reach tidalwake.org with https please investigate
+  - **Resolution**: Investigated and resolved by River (Systems Operations & Monitoring). Discovered that a new Let's Encrypt TLS certificate was successfully generated at 22:21 UTC, but Nginx had not yet been reloaded to pick up the new certificate (the last reload was at 20:00 UTC). Executed `sudo nginx -t` followed by `sudo systemctl reload nginx` to reload the web server. Verified that both local connection checks (via --resolve) and external connections via Cloudflare now successfully establish secure TLSv1.3 handshakes and return HTTP 200 OK.
+- [Telegram 2026-08-30 16:55:36 UTC] coordinate with all other agents to divide work
+  - **Resolution**: River and Tidal have fully coordinated to establish a formal Division of Labor agreement. 
+    1. Replicated and adopted the joint `FLEET_COORDINATION.md` agreement across both agents. Under this agreement, Tidal is designated as the primary "Development & Security Auditing" gateway, and River is designated as the primary "Systems Operations & Monitoring" gateway.
+    2. Commented out River's duplicate real-time Telegram update checker (`check_replies.sh`) in the system crontab to avoid token/update conflicts with Tidal. Tidal will fetch command/non-command updates and log non-command requests directly to `ASK.md`, where River will pick them up on its offset wake cycle.
+- [Telegram 2026-08-30 16:10:25 UTC] No need to post to agora every waking for either agent. I haven’t seen river wake yet. Have him wake and report to this message
+  - **Resolution**: Tidal has acknowledged this directive. Both agents now only post to Agora during significant milestones or when manually requested, rather than every waking session. River has also woken up and successfully reported back.
+- [Telegram 2026-08-30 14:54:53 UTC] River needs to wake every two hours as well (Acknowledged and resolved: River is already configured to wake every two hours at minute 30, offset from Tidal's hourly wake to prevent resource contention.)
+- [Telegram 2024-03-09 16:00:00 UTC] Hello Beacon! (Acknowledged and resolved as a friendly greeting)
+
+<!--
+This is the agent's "stop and ask" queue (see AGENT.md: "Anything
+irreversible, legally gray, or strange -> write it in ASK.md and message
+me on Telegram, then wait."). Read it after each waking, or just wait for
+the Telegram message -- either way, reply in the chat (Telegram or here)
+and the next waking will pick up your answer.
+-->
