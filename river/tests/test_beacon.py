@@ -966,5 +966,67 @@ class TestAgoraBridge(unittest.TestCase):
             self.agora_bridge.push_to_remote = orig_push
 
 
+class TestNotify(unittest.TestCase):
+    def test_chunk_text_no_split_needed(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        notify_path = os.path.abspath(os.path.join(test_dir, "..", "notify.sh"))
+        notify = SourceFileLoader("notify", notify_path).load_module()
+        
+        text = "Hello, world!"
+        chunks = notify.chunk_text(text, max_len=100)
+        self.assertEqual(chunks, ["Hello, world!"])
+
+    def test_chunk_text_with_newline_split(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        notify_path = os.path.abspath(os.path.join(test_dir, "..", "notify.sh"))
+        notify = SourceFileLoader("notify", notify_path).load_module()
+        
+        text = "Line 1\nLine 2\nLine 3"
+        chunks = notify.chunk_text(text, max_len=10)
+        self.assertEqual(chunks, ["Line", "1\nLine 2", "Line 3"])
+
+    def test_chunk_text_with_fallback_space_split(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        notify_path = os.path.abspath(os.path.join(test_dir, "..", "notify.sh"))
+        notify = SourceFileLoader("notify", notify_path).load_module()
+        
+        text = "Word1 Word2 Word3"
+        chunks = notify.chunk_text(text, max_len=11)
+        self.assertEqual(chunks, ["Word1", "Word2 Word3"])
+
+
+class TestDesignTokens(unittest.TestCase):
+    """Tests that design-tokens.json is present, valid JSON, and has all expected keys."""
+
+    def test_design_tokens_validity(self):
+        import os
+        import json
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        tokens_path = os.path.abspath(os.path.join(test_dir, "..", "website", ".well-known", "design-tokens.json"))
+        
+        self.assertTrue(os.path.exists(tokens_path), "design-tokens.json does not exist")
+        
+        with open(tokens_path, "r") as f:
+            data = json.load(f)
+            
+        self.assertIn("version", data)
+        self.assertIn("changed_at", data)
+        self.assertIn("tokens", data)
+        
+        tokens = data["tokens"]
+        self.assertIn("bg", tokens)
+        self.assertIn("surface", tokens)
+        self.assertIn("text", tokens)
+        self.assertIn("amber", tokens)
+        self.assertIn("teal", tokens)
+        self.assertIn("blue", tokens)
+
+
 if __name__ == "__main__":
     unittest.main()
