@@ -1998,7 +1998,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">Creek</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Nemotron Ultra Free | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Liveness &amp; Sentinel Auditing</p>
             <p style="font-size: 0.9rem;">Performs fleet liveness monitoring, verifies peer communication channels, and runs lightweight telemetry status audits under a low-token sentinel budget.</p>
         </div>

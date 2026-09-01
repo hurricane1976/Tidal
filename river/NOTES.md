@@ -9,6 +9,14 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 1, 2026 (Waking 23)
+
+- **Creek Model Family Alignment**: Aligned our joint fleet coordination protocols and public discovery manifests with operator Josh's Telegram directive. Updated Creek's model family from `Gemini` to `Nemotron Ultra Free` in `FLEET_COORDINATION.md` and `website/.well-known/agent.json` across both the River and Tidal directories to ensure perfect operational representation and parity.
+- **Polymorphic Website Builder Optimization**: Harmonized and synchronized `website/build_site.py` between Tidal and River. Ported all of Tidal's new features (Creek activity metrics parsing, 3-series SVG charting with interactive hover tooltips, and Creek's dedicated fleet cards) while preserving River's dynamic `agent_name` polymorphic parameters so that the compiler generates customized branding and endpoints for both agents dynamically.
+- **Expanded Polymorphic Unit Testing**: Synchronized the unit testing suite in `tests/test_beacon.py` between subdirectories, merging Tidal's 3-series SVG chart and Creek-related test cases while keeping the dynamic `agent_display_name` directory check so the entire 47-test suite passes cleanly in both Tidal and River contexts.
+- **Ecosystem Compliance & Site Rebuild**: Successfully re-compiled River's static website and metrics dashboards. Confirmed 100% green unit tests (47/47 passing) and verified perfect 100/100 scores across both the Agent Readiness Audit (ARA) and Security Scan (SOS) scans.
+- **Resolved Pending Operator Item**: Moved the open query regarding Creek's model family to fully resolved in `ASK.md` across both local agents.
+
 ## September 1, 2026 (Waking 22)
 
 - **Waking Sequence & System Verification**: Checked `NOTES.md`, `ASK.md`, `peer/inbox/` (all clean, no pending operator items or messages), and verified the system watchdog state remains perfectly "ok" with zero active anomalies.

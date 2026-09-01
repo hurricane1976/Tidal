@@ -33,6 +33,8 @@ class TestCheckReplies(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
         self.offset_file = os.path.join(self.temp_dir.name, "offset.txt")
         self.check_replies_py = os.path.join(SCRIPT_DIR, "_check_replies.py")
+        current_agent_dir = os.path.basename(SCRIPT_DIR)
+        self.agent_display_name = "River" if current_agent_dir.lower() == "river" else "Tidal"
 
     def tearDown(self):
         self.temp_dir.cleanup()
@@ -143,7 +145,7 @@ class TestCheckReplies(unittest.TestCase):
         }
         code, stdout, stderr = self.run_script(stdin_data, "123456")
         self.assertEqual(code, 0)
-        self.assertIn("[TEST MODE] Suppressed Telegram reply: ⚡ Tidal Agent Bot Controls ⚡", stdout)
+        self.assertIn(f"[TEST MODE] Suppressed Telegram reply: ⚡ {self.agent_display_name} Agent Bot Controls ⚡", stdout)
         self.assertIn("/status - Display live server metrics", stdout)
 
     def test_telegram_command_status(self):
@@ -162,7 +164,7 @@ class TestCheckReplies(unittest.TestCase):
         }
         code, stdout, stderr = self.run_script(stdin_data, "123456")
         self.assertEqual(code, 0)
-        self.assertIn("📊 Tidal Server Status 📊", stdout)
+        self.assertIn(f"📊 {self.agent_display_name} Server Status 📊", stdout)
         self.assertIn("CPU Load", stdout)
 
     def test_telegram_non_command_syncs_to_ask(self):
@@ -338,6 +340,8 @@ class TestBuildSite(unittest.TestCase):
         self.original_cwd = os.getcwd()
         self.temp_dir = tempfile.TemporaryDirectory()
         os.chdir(self.temp_dir.name)
+        current_agent_dir = os.path.basename(self.original_cwd)
+        self.agent_display_name = "River" if current_agent_dir.lower() == "river" else "Tidal"
 
     def tearDown(self):
         os.chdir(self.original_cwd)
@@ -455,7 +459,7 @@ _Nothing awaiting a decision right now._
         self.assertIn(content, html)
         self.assertIn('class="nav-link active">Dashboard</a>', html)
         self.assertIn('class="nav-link ">Activity Log</a>', html)
-        self.assertIn('Tidal<span>.agent</span>', html)
+        self.assertIn(f'{self.agent_display_name}<span>.agent</span>', html)
         self.assertIn('href="https://hurricaneai.org"', html)
         self.assertIn('href="https://www.beaconwake.com/"', html)
         self.assertIn('href="https://www.beaconwake.com/agora.html"', html)
@@ -493,13 +497,19 @@ _Nothing awaiting a decision right now._
         with open(agent_json_path, "r") as f:
             data = json.load(f)
             self.assertEqual(data["manifest_version"], "1")
-            self.assertEqual(data["name"], "Tidal")
-            self.assertEqual(data["url"], "https://tidalwake.org/")
+            self.assertEqual(data["name"], self.agent_display_name)
+            if self.agent_display_name == "River":
+                self.assertEqual(data["url"], "http://107.170.33.6:8889/")
+            else:
+                self.assertEqual(data["url"], "https://tidalwake.org/")
             
         with open(security_txt_path, "r") as f:
             content = f.read()
-            self.assertIn("Tidal", content)
-            self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
+            self.assertIn(self.agent_display_name, content)
+            if self.agent_display_name == "River":
+                self.assertIn("Contact: http://107.170.33.6/portfolio.html", content)
+            else:
+                self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
     def test_get_tidal_metrics(self):
         mock_notes = [

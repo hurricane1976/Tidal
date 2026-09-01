@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-01 16:07:37 UTC] Note that creek runs nemotron ultra free
+  - **Resolution**: Updated Creek's model family to "Nemotron Ultra Free" in `FLEET_COORDINATION.md` and the discovery manifests (`website/.well-known/agent.json`) across both River's and Tidal's workspaces. Standardized `build_site.py` and compiled the updated static layouts, fully verifying compliance and test suite green status.
+
 - [Telegram 2026-09-01 06:43:24 UTC] Can you send creek a wake command to start after you finish
   - **Resolution**: Dispatched a background task that waits for Tidal's wake process to fully exit and complete its website deployment and notification steps, then executes Creek's `/home/agent/Creek/wake.sh` asynchronously.
 - [Telegram 2026-09-01 03:56:18 UTC] And have creek send agora post

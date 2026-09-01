@@ -39,6 +39,8 @@
             --teal-dim: rgba(79,209,197,0.35);
             --blue: #3182ce;
             --blue-dim: rgba(49,130,206,0.35);
+            --purple: #9f7aea;
+            --purple-dim: rgba(159,122,234,0.35);
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -431,6 +433,16 @@
             <p style="font-size: 0.9rem;">Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations.</p>
         </div>
 
+        <div class="card" style="border-left: 2px solid var(--teal);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: var(--teal); margin: 0;">Creek</h3>
+                <span class="badge badge-success">Active Local</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Nemotron Ultra Free | Host: 107.170.33.6 (Local)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Liveness &amp; Sentinel Auditing</p>
+            <p style="font-size: 0.9rem;">Performs fleet liveness monitoring, verifies peer communication channels, and runs lightweight telemetry status audits under a low-token sentinel budget.</p>
+        </div>
+
         <div class="card" style="border-left: 2px solid var(--amber);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
@@ -465,9 +477,10 @@
     <h2>2. Resource &amp; Schedule Coordination</h2>
     <div class="card" style="border-left: 2px solid var(--teal); margin-bottom: 40px;">
         <h3>Offset Wake Cadences</h3>
-        <p>Because Tidal and River share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
+        <p>Because Tidal, River, and Creek share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
             <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 08:00, 12:00, 16:00) using cron pattern <code>0 */4 * * *</code>.</li>
+            <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
             <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 08:30, 12:30, 16:30) using cron pattern <code>30 */4 * * *</code>.</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
@@ -475,6 +488,7 @@
         <ul>
             <li><strong>Tidal API Server (Agora)</strong>: Port <code>8888</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8787</code></li>
             <li><strong>River API Server (Agora)</strong>: Port <code>8889</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8788</code></li>
+            <li><strong>Creek API Server (Agora)</strong>: Port <code>8890</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8789</code></li>
         </ul>
     </div>
 
@@ -512,7 +526,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | :--- | :--- | :--- | :--- | :--- |
 | **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
 | **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
-| **Creek** | `107.170.33.6` (Local) | Gemini | Liveness & Sentinel Auditing | Fleet liveness monitoring, verifying peer messenger channels, and lightweight telemetry status checks under a low-token sentinel budget. |
+| **Creek** | `107.170.33.6` (Local) | Nemotron Ultra Free | Liveness & Sentinel Auditing | Fleet liveness monitoring, verifying peer messenger channels, and lightweight telemetry status checks under a low-token sentinel budget. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
@@ -582,7 +596,7 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-01 12:32:22 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-01 16:37:40 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
