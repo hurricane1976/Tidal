@@ -1523,7 +1523,7 @@ def main():
                         {wakings_table_vals_river}
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--amber);">Creek</strong></td>
+                        <td><strong style="color: var(--purple);">Creek</strong></td>
                         {wakings_table_vals_creek}
                     </tr>
                 </tbody>
@@ -1553,7 +1553,7 @@ def main():
                         {actions_table_vals_river}
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--teal);">Creek</strong></td>
+                        <td><strong style="color: #ed64a6;">Creek</strong></td>
                         {actions_table_vals_creek}
                     </tr>
                 </tbody>
