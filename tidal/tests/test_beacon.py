@@ -543,14 +543,34 @@ _Nothing awaiting a decision right now._
             {'date': '2026-08-31', 'count': 6},
             {'date': '2026-08-30', 'count': 8}
         ]
-        svg = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2)
-        self.assertIn('<svg', svg)
-        self.assertIn('class="metrics-svg"', svg)
-        self.assertIn('Aug 31', svg)
-        self.assertIn('Tidal', svg)
-        self.assertIn('River', svg)
-        self.assertIn('bar-rect-1', svg)
-        self.assertIn('bar-rect-2', svg)
+        mock_daily_data_3 = [
+            {'date': '2026-08-31', 'count': 5},
+            {'date': '2026-08-30', 'count': 10}
+        ]
+        
+        # Test 2-series rendering (backward compatibility)
+        svg2 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2)
+        self.assertIn('<svg', svg2)
+        self.assertIn('class="metrics-svg"', svg2)
+        self.assertIn('Aug 31', svg2)
+        self.assertIn('Tidal', svg2)
+        self.assertIn('River', svg2)
+        self.assertNotIn('Creek', svg2)
+        self.assertIn('bar-rect-1', svg2)
+        self.assertIn('bar-rect-2', svg2)
+        self.assertNotIn('class="bar-rect-3"', svg2)
+
+        # Test 3-series rendering
+        svg3 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2, mock_daily_data_3)
+        self.assertIn('<svg', svg3)
+        self.assertIn('class="metrics-svg"', svg3)
+        self.assertIn('Aug 31', svg3)
+        self.assertIn('Tidal', svg3)
+        self.assertIn('River', svg3)
+        self.assertIn('Creek', svg3)
+        self.assertIn('bar-rect-1', svg3)
+        self.assertIn('bar-rect-2', svg3)
+        self.assertIn('bar-rect-3', svg3)
 
     def test_metrics_page_generation(self):
         from unittest.mock import patch
@@ -566,6 +586,14 @@ _Nothing awaiting a decision right now._
                     {
                         'date': 'August 31, 2026 (Waking 8)',
                         'raw_content': '- Done River work\n- Tested things',
+                        'html_content': '...'
+                    }
+                ]
+            elif "Creek" in notes_path:
+                return [
+                    {
+                        'date': 'August 31, 2026 (Waking 5)',
+                        'raw_content': '- Done Creek work\n- Sentinel is ok',
                         'html_content': '...'
                     }
                 ]
@@ -592,6 +620,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("TOTAL SYSTEM ACTIONS", content)
             self.assertIn("RIVER", content)
             self.assertIn("TIDAL", content)
+            self.assertIn("CREEK", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
 
 

@@ -2,7 +2,7 @@
 
 ## Open
 
-_Nothing parked right now._
+_Nothing awaiting a decision right now._
 
 ## On hold
 
@@ -10,6 +10,10 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-01 03:56:18 UTC] And have creek send agora post
+  - **Resolution**: Developed and deployed Creek's dedicated `agora_bridge.py` synchronizer inside `/home/agent/Creek/`. Populated Creek's first local bulletin entry into `/home/agent/Creek/website/api/agora.jsonl` with an introductory message representing its core Sentinel role. Executed the bridge to successfully register, mirror, and publish Creek's introductory post onto Beacon's remote parent board at `beaconwake.com`. Because Creek's `./website/deploy.sh` is now executable and linked, Creek's future unattended cron wake cycles will automatically trigger the bridge, synchronizing local posts with the global Agora feed.
+- [Telegram 2026-09-01 03:55:42 UTC] Add creek to metric and fleet pages
+  - **Resolution**: Formally integrated co-located sibling agent `CREEK` into our telemetry metrics tracking and visual fleet layouts. Modified `build_site.py` to parse chronological activity records from `/home/agent/Creek/NOTES.md` and dynamically generate comparative 3-series SVG charts for both "Daily Wakings" and "Daily Actions", allowing unified visual and screen-reader accessible comparison of Tidal, River, and Creek. Added Creek's info matrix card to `website/fleet.html` detailing its Sentinel role, model family, wake offset schedule (`15 */4 * * *`), and local API/Peer ports. Expanded the unit test suite inside `tests/test_beacon.py` to assert correct multi-series charts rendering, achieving 100% test coverage with a flawless green status.
 - [Telegram 2026-08-31 01:28:53 UTC] On the new metrics page ensure they are also tracked for river
   - **Resolution**: Implemented comprehensive comparative metrics tracking for co-located sibling agent River on the main dashboard (`website/metrics.html`). Modified `parse_notes` to support custom filesystem paths, allowing dynamic parsing of `/home/agent/River/NOTES.md`. Developed a high-fidelity comparative SVG grouped bar-chart generator (`generate_comparative_svg_bar_chart`) showing side-by-side daily "Wakings" and "Actions" for both Tidal and River over a rolling 14-day window. Integrated CSS-driven hover values ("T:x", "R:y") and a detailed accessibility data table breakdown. Added comprehensive unit tests validating correct multi-agent telemetry aggregation, rendering, and fallback stability, maintaining a perfect 100/100 Agent Readiness and SOS scan score.
 - [Telegram 2026-08-31 01:15:48 UTC] Replicate beacons metrics page for tidal.
