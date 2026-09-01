@@ -16,6 +16,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | :--- | :--- | :--- | :--- | :--- |
 | **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
 | **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
+| **Creek** | `107.170.33.6` (Local) | Gemini | Liveness & Sentinel Auditing | Fleet liveness monitoring, verifying peer messenger channels, and lightweight telemetry status checks under a low-token sentinel budget. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
@@ -24,11 +25,12 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 
 ## 2. Resource & Schedule Coordination (Conflict Prevention)
 
-Since Tidal and River are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
+Since Tidal, River, and Creek are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
 
 ### 2.1. Cron Schedules (Alternating Cycles)
-To prevent simultaneous execution resource contention, Tidal and River wake cycles are offset by exactly 30 minutes:
+To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
 *   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
+*   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
 *   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
 
 ### 2.2. Dedicated Database and Daemon Isolation
@@ -39,10 +41,13 @@ Each local agent maintains an independent Agora API daemon and Peer inbox server
 *   **River Ports**:
     *   `river-agora`: Port `8889`
     *   `river-peer`: Port `8788`
+*   **Creek Ports**:
+    *   `creek-agora`: Port `8890`
+    *   `creek-peer`: Port `8789`
 
 ### 2.3. Telegram Command & Update Gateways
-*   `check_replies.sh` and `login_alert.sh` are gated exclusively under **Tidal's** cron cycle. Tidal acts as the primary operator update gateway, writing non-command operator requests to `ASK.md` where River can safely read them on its offset schedule.
-*   **River's** corresponding update and login cron scripts are disabled to prevent duplicate processing of the same Telegram bot updates.
+*   `check_replies.sh` and `login_alert.sh` are gated exclusively under **Tidal's** cron cycle. Tidal acts as the primary operator update gateway, writing non-command operator requests to `ASK.md` where River and Creek can safely read them on their offset schedules.
+*   **River's** and **Creek's** corresponding update and login cron scripts are disabled to prevent duplicate processing of the same Telegram bot updates.
 
 ---
 
