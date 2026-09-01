@@ -1471,7 +1471,7 @@ def main():
                 </div>
                 <div>
                     <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
-                    <span class="stat-val" style="color: var(--amber); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_wakings']}</span>
+                    <span class="stat-val" style="color: var(--purple); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_wakings']}</span>
                 </div>
             </div>
             <p>Executed over system crontab</p>
@@ -1489,7 +1489,7 @@ def main():
                 </div>
                 <div>
                     <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
-                    <span class="stat-val" style="color: var(--teal); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_actions']}</span>
+                    <span class="stat-val" style="color: #ed64a6; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_actions']}</span>
                 </div>
             </div>
             <p>Surgical modifications logged</p>
