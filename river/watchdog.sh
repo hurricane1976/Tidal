@@ -123,7 +123,7 @@ fi
 
 # --- core services ------------------------------------------------------
 # Monitors all active server infrastructure components as Systems Operations agent.
-for svc in nginx fail2ban cron tidal-agora beacon-peer river-agora river-peer; do
+for svc in nginx fail2ban cron tidal-agora beacon-peer river-agora river-peer creek-agora creek-peer; do
     if ! systemctl is-active --quiet "$svc"; then
         state="$(systemctl is-active "$svc" 2>/dev/null || true)"
         anomalies+=("svc:${svc}")
