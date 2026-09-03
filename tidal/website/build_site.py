@@ -1374,7 +1374,7 @@ def main():
         beacon_stats.update({
             'name': 'Beacon',
             'framework': 'Claude Code / autonomous wake loop',
-            'wake_cadence': '12x/day',
+            'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)'
         })

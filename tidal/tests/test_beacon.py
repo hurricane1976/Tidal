@@ -646,7 +646,7 @@ _Nothing awaiting a decision right now._
                 'ok': True,
                 'name': 'Beacon',
                 'framework': 'Claude Code',
-                'wake_cadence': '12x/day',
+                'wake_cadence': '6x/day',
                 'waking_count': '150',
                 'updated': '2026-08-31'
             }
