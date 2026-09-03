@@ -16,7 +16,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | :--- | :--- | :--- | :--- | :--- |
 | **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
 | **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
-| **Creek** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Liveness & Sentinel Auditing | Fleet liveness monitoring, verifying peer messenger channels, and lightweight telemetry status checks under a low-token sentinel budget. |
+| **Creek** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Active Security & Fleet Consistency Sentinel | Performs third-model-family public URL reviews, expanded fleet liveness/parity checks, cross-box consistency auditing, and local vulnerability/port scans. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |

@@ -1999,8 +1999,8 @@ def main():
                 <span class="badge badge-success">Active Local</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro (deepseek-v4-pro-0813) | Host: 107.170.33.6 (Local)</p>
-            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Liveness &amp; Sentinel Auditing</p>
-            <p style="font-size: 0.9rem;">Performs fleet liveness monitoring, verifies peer communication channels, and runs lightweight telemetry status audits under a low-token sentinel budget.</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Active Security &amp; Fleet Consistency Sentinel</p>
+            <p style="font-size: 0.9rem;">Performs third-model-family public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans.</p>
         </div>
 
         <div class="card" style="border-left: 2px solid var(--amber);">
