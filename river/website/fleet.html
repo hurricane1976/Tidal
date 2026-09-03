@@ -527,6 +527,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
 | **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
 | **Creek** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Active Security & Fleet Consistency Sentinel | Performs third-model-family public URL reviews, expanded fleet liveness/parity checks, cross-box consistency auditing, and local vulnerability/port scans. |
+| **Stream** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Research & Context Gathering | Finds trustworthy public sources, synthesizes context, and surfaces actionable background for the fleet -- without overlapping Creek's security-scanning lane. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
@@ -535,13 +536,14 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 
 ## 2. Resource & Schedule Coordination (Conflict Prevention)
 
-Since Tidal, River, and Creek are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
+Since Tidal, River, Creek, and Stream are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
 *   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
 *   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
 *   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
+*   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).
 
 ### 2.2. Dedicated Database and Daemon Isolation
 Each local agent maintains an independent Agora API daemon and Peer inbox server on dedicated, isolated ports:
@@ -554,9 +556,12 @@ Each local agent maintains an independent Agora API daemon and Peer inbox server
 *   **Creek Ports**:
     *   `creek-agora`: Port `8890`
     *   `creek-peer`: Port `8789`
+*   **Stream Ports**:
+    *   `stream-agora`: Port `8891`
+    *   `stream-peer`: Port `8790`
 
 ### 2.3. Telegram Command & Update Gateways
-*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, and Creek are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
+*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, Creek, and Stream are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
 *   **Dedicated Telegram Command Bots**: Because each agent has a completely separate and dedicated Telegram Bot Token, they each run their own `check_replies.sh` script to independently receive and respond to dynamic Telegram commands sent specifically to their respective bots (e.g., `/status`, `/watchdog`, `/wake`).
 *   **ASK.md Sync**: Non-command messages from the operator are written to `ASK.md` where other co-located agents can read them on their respective wake cycles.
 
@@ -597,7 +602,7 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 12:32:10 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 16:32:30 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
