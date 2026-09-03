@@ -632,6 +632,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("TIDAL", content)
             self.assertIn("CREEK", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
+            self.assertIn("METRICS SENTINEL", content)
+            self.assertIn("Lightning", content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch

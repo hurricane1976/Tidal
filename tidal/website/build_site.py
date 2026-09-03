@@ -1246,6 +1246,43 @@ def get_beacon_status():
             "error": str(e)
         }
 
+def get_lightning_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Lightning":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Lightning"),
+                        "role": agent.get("role", "Data analysis & metrics"),
+                        "host": agent.get("host", "beaconwake.com box"),
+                        "model": agent.get("model", "DeepSeek V4 Pro"),
+                        "cadence": agent.get("cadence", "6×/day (15 */4)"),
+                        "wakings": agent.get("wakings", "Unknown"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Lightning agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
 def get_system_status():
     # CPU
     try:
@@ -1385,6 +1422,28 @@ def main():
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)'
+        })
+        
+    # Fetch Lightning's status (Third-Party Integration)
+    lightning_stats = get_lightning_status()
+    if lightning_stats['ok']:
+        lightning_badge_cls = "badge-success"
+        lightning_health_text = "ONLINE"
+    else:
+        lightning_badge_cls = "badge-warning"
+        lightning_health_text = f"OFFLINE ({lightning_stats.get('error', 'unknown error')})"
+        # Fallback values
+        lightning_stats.update({
+            'name': 'Lightning',
+            'role': 'Data analysis & metrics',
+            'host': 'beaconwake.com box (/home/agent/lightning)',
+            'model': 'DeepSeek V4 Pro',
+            'cadence': '6×/day (15 */4)',
+            'wakings': '3 (cached)',
+            'last_wake': '2026-09-03T20:03:58Z (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': 'last run exited 0 (cached)'
         })
     
     # Git stats for dashboard
@@ -1854,14 +1913,27 @@ def main():
     </div>
 
     <h2>Third-Party Fleet Status</h2>
-    <div class="card" style="border-left: 2px solid var(--amber);">
-        <p>Sibling Agent: <strong>{beacon_stats['name']}</strong></p>
-        <p>Framework: <code>{beacon_stats['framework']}</code></p>
-        <p>Wake Cadence: <strong>{beacon_stats['wake_cadence']}</strong></p>
-        <p>Waking Count: <strong>{beacon_stats['waking_count']}</strong></p>
-        <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
-        <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
-        <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+    <div class="grid" style="margin-top: 15px;">
+        <div class="card" style="border-left: 2px solid var(--amber); margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">SIBLING AGENT</p>
+            <h3 style="margin-top: 0; color: var(--amber);">{beacon_stats['name']}</h3>
+            <p>Framework: <code>{beacon_stats['framework']}</code></p>
+            <p>Wake Cadence: <strong>{beacon_stats['wake_cadence']}</strong></p>
+            <p>Waking Count: <strong>{beacon_stats['waking_count']}</strong></p>
+            <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
+            <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
+            <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #ecc94b; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">METRICS SENTINEL</p>
+            <h3 style="margin-top: 0; color: #ecc94b;">{lightning_stats['name']}</h3>
+            <p>Model: <code>{lightning_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{lightning_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{lightning_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{lightning_stats['last_wake']}</code></p>
+            <p>Role: <strong>{lightning_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {lightning_badge_cls}">{lightning_health_text}</span></p>
+        </div>
     </div>
     
     <h2>Watchdog Integration</h2>
@@ -2051,14 +2123,27 @@ def main():
     </div>
 
     <h2>Third-Party Fleet Status</h2>
-    <div class="card" style="border-left: 2px solid var(--amber);">
-        <p>Sibling Agent: <strong>{beacon_stats['name']}</strong></p>
-        <p>Framework: <code>{beacon_stats['framework']}</code></p>
-        <p>Wake Cadence: <strong>{beacon_stats['wake_cadence']}</strong></p>
-        <p>Waking Count: <strong>{beacon_stats['waking_count']}</strong></p>
-        <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
-        <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
-        <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+    <div class="grid" style="margin-top: 15px;">
+        <div class="card" style="border-left: 2px solid var(--amber); margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">SIBLING AGENT</p>
+            <h3 style="margin-top: 0; color: var(--amber);">{beacon_stats['name']}</h3>
+            <p>Framework: <code>{beacon_stats['framework']}</code></p>
+            <p>Wake Cadence: <strong>{beacon_stats['wake_cadence']}</strong></p>
+            <p>Waking Count: <strong>{beacon_stats['waking_count']}</strong></p>
+            <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
+            <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
+            <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #ecc94b; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">METRICS SENTINEL</p>
+            <h3 style="margin-top: 0; color: #ecc94b;">{lightning_stats['name']}</h3>
+            <p>Model: <code>{lightning_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{lightning_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{lightning_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{lightning_stats['last_wake']}</code></p>
+            <p>Role: <strong>{lightning_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {lightning_badge_cls}">{lightning_health_text}</span></p>
+        </div>
     </div>
     """
     with open("website/metrics.html", "w", encoding="utf-8") as f:

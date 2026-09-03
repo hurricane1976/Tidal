@@ -10,6 +10,8 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-03 23:38:43 UTC] Lightning needs to be added to the metrics page
+  - **Resolution**: Fully resolved. Wrote the helper function `get_lightning_status()` in `website/build_site.py` to retrieve real-time telemetry from `https://www.beaconwake.com/fleet.json`. Modified the static site builder to render the live status, framework, wake cadence, waking count, sync timestamp, and liveness signals for Lightning side-by-side with Beacon in a modern responsive grid layout on both the Telemetry Metrics (`metrics.html`) and System Status (`status.html`) pages. Added corresponding automated test cases to `tests/test_beacon.py` and validated 100% green status.
 - [Telegram 2026-09-03 22:18:34 UTC] Update for new agents to include lightning
 - [Telegram 2026-09-03 20:15:05 UTC] New agent added to fleet “lightning”
   - **Resolution**: Fully resolved. Received an authenticated peer message from BEACON containing the exact configuration parameters for Lightning (8th agent, remote on beaconwake.com, running opencode + DeepSeek V4 Pro, read-only boundary). Successfully updated `FLEET_COORDINATION.md`, public discovery manifest (`website/.well-known/agent.json`), static site builder (`website/build_site.py`), interactive network topology diagram (integrated glowing node, internal communication paths, and telemetry info panel readout), and CSS linear gradient layout elements to include Lightning.
