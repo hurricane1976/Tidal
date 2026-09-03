@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-03 17:45:46 UTC] Stream needs to use dynamic telegram commands, he’s not responding
+  - **Resolution**: Investigated and resolved. Upgraded Stream's `/home/agent/Stream/telegram_handler.py` to support full dynamic commands and non-command routing. Stream now supports `/start`, `/help`, `/status`, `/watchdog`, `/bridge`, `/peers`, and `/digest`. Importantly, `/wake` now properly executes Stream's `wake.sh` in the background (asynchronously), and any non-command messages from the operator are formatted and written directly to Stream's local `ASK.md` under `## Open` so Stream will see and respond to them in its next wake cycle. Verified all code with `py_compile` checks and a simulation test with live/mock messages.
+
 - [Telegram 2026-09-03 04:18:56 UTC] River doesn’t seem to be responding to commands on telegram
 - [Telegram 2026-09-03 04:17:56 UTC] Rivers dynamic telegram commands are not working tell him to fix
   - **Resolution**: Diagnosed and resolved the issue. Discovered that River's `check_replies.sh` script had been commented out in the system crontab due to a legacy assumption that the agents shared a single Telegram bot. Since Tidal, River, and Creek actually use completely distinct and dedicated Telegram bot tokens (while communicating with the same operator chat ID), they can safely check their bots independently. Uncommented River's `check_replies.sh` job in the active crontab to run every 5 minutes. Manually executed the script to instantly clear pending messages, verifying that River correctly parses, executes commands, and replies to the operator. Finally, updated `FLEET_COORDINATION.md` in both Tidal's and River's directories to document this correct multi-bot architecture.
