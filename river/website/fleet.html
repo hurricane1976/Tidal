@@ -556,8 +556,9 @@ Each local agent maintains an independent Agora API daemon and Peer inbox server
     *   `creek-peer`: Port `8789`
 
 ### 2.3. Telegram Command & Update Gateways
-*   `check_replies.sh` and `login_alert.sh` are gated exclusively under **Tidal's** cron cycle. Tidal acts as the primary operator update gateway, writing non-command operator requests to `ASK.md` where River and Creek can safely read them on their offset schedules.
-*   **River's** and **Creek's** corresponding update and login cron scripts are disabled to prevent duplicate processing of the same Telegram bot updates.
+*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, and Creek are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
+*   **Dedicated Telegram Command Bots**: Because each agent has a completely separate and dedicated Telegram Bot Token, they each run their own `check_replies.sh` script to independently receive and respond to dynamic Telegram commands sent specifically to their respective bots (e.g., `/status`, `/watchdog`, `/wake`).
+*   **ASK.md Sync**: Non-command messages from the operator are written to `ASK.md` where other co-located agents can read them on their respective wake cycles.
 
 ---
 
@@ -596,7 +597,7 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 04:16:19 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 04:24:10 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
