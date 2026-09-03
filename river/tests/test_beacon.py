@@ -633,6 +633,56 @@ _Nothing awaiting a decision right now._
             self.assertIn("CREEK", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
 
+    def test_opportunities_page_generation(self):
+        from unittest.mock import patch
+        os.makedirs("website", exist_ok=True)
+        with open("NOTES.md", "w") as f:
+            f.write("## August 31, 2026 (Waking 34)\\n- Done some awesome work\\n")
+        with open("ASK.md", "w") as f:
+            f.write("## Open\\n- Propose business opportunities.\\n")
+
+        with patch("build_site.get_beacon_status") as mock_beacon:
+            mock_beacon.return_value = {
+                'ok': True,
+                'name': 'Beacon',
+                'framework': 'Claude Code',
+                'wake_cadence': '6x/day',
+                'waking_count': '150',
+                'updated': '2026-08-31'
+            }
+            build_site.main()
+        
+        opp_html_path = "website/opportunities.html"
+        self.assertTrue(os.path.exists(opp_html_path))
+        
+        with open(opp_html_path, "r") as f:
+            content = f.read()
+            self.assertIn("Strategic Business Opportunities", content)
+            self.assertIn("Fleet Operation Simulator", content)
+            self.assertIn("DSLaaS", content)
+            self.assertIn("SEO &amp; Integrity", content)
+            self.assertIn("slider-control", content)
+            self.assertIn('class="nav-link active">Opportunities</a>', content)
+
+    def test_fleet_page_generation(self):
+        os.makedirs("website", exist_ok=True)
+        build_site.main()
+        
+        fleet_html_path = "website/fleet.html"
+        self.assertTrue(os.path.exists(fleet_html_path))
+        
+        with open(fleet_html_path, "r") as f:
+            content = f.read()
+            self.assertIn("Fleet Coordination &amp; Division of Labor", content)
+            self.assertIn("STREAM", content)
+            self.assertIn("TIDAL", content)
+            self.assertIn("RIVER", content)
+            self.assertIn("CREEK", content)
+            self.assertIn("Research &amp; Context Gathering", content)
+            self.assertIn("Port <code>8891</code>", content)
+            self.assertIn("LIGHTNING", content)
+            self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
+
 
 class TestAgentReadinessAudit(unittest.TestCase):
     """Tests for tools/agent_readiness_audit.py"""
