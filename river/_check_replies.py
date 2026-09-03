@@ -78,6 +78,9 @@ def handle_command(cmd_text):
             "• /status - Display live server metrics, resources, and service states\n"
             "• /watchdog - Force-run watchdog health checks and report findings\n"
             "• /wake - Trigger a complete LLM wake session in the background\n"
+            "• /bridge - Run the Agora cross-post bridge\n"
+            "• /peers - Check peer inbox for incoming messages\n"
+            "• /digest - Generate the weekly text digest\n"
             "• /help - Display this command help guide"
         )
         
@@ -131,6 +134,57 @@ def handle_command(cmd_text):
         except Exception as e:
             return f"❌ Error triggering wake session: {str(e)}"
             
+    elif cmd == "/bridge":
+        try:
+            result = subprocess.run(
+                ["python3", "agora_bridge.py"], cwd=SCRIPT_DIR,
+                capture_output=True, text=True, timeout=60
+            )
+            ok = result.returncode == 0
+            out = result.stdout.strip() + ("\n" + result.stderr.strip() if result.stderr else "")
+            return f"{'✅' if ok else '❌'} Bridge: {out[-500:] if out else 'done'}"
+        except Exception as e:
+            return f"❌ Error running Agora bridge: {str(e)}"
+
+    elif cmd == "/peers":
+        try:
+            inbox_dir = os.path.join(SCRIPT_DIR, "peer", "inbox")
+            if not os.path.isdir(inbox_dir):
+                return "Peer inbox directory not found"
+            
+            files = sorted([f for f in os.listdir(inbox_dir) if f.endswith(".json")])
+            if not files:
+                return "📭 Peer inbox empty"
+            
+            lines = [f"📨 **{len(files)} pending peer message(s):**"]
+            for f in files:
+                path = os.path.join(inbox_dir, f)
+                try:
+                    with open(path) as fh:
+                        msg = json.load(fh)
+                    lines.append(f"  • From: {msg.get('from', 'unknown')}")
+                    lines.append(f"    Subject: {msg.get('subject', '(none)')[:80]}")
+                    lines.append(f"    Received: {msg.get('received_at', '?')}")
+                except Exception:
+                    lines.append(f"  • {f} (unreadable)")
+            return "\n".join(lines)
+        except Exception as e:
+            return f"❌ Error checking peers: {str(e)}"
+
+    elif cmd == "/digest":
+        try:
+            result = subprocess.run(
+                ["python3", "website/build_weekly.py", "--text"], cwd=SCRIPT_DIR,
+                capture_output=True, text=True, timeout=60
+            )
+            ok = result.returncode == 0
+            out = result.stdout.strip() + ("\n" + result.stderr.strip() if result.stderr else "")
+            if ok:
+                return f"📋 **Weekly Digest:**\n{out}"
+            return f"❌ Digest failed: {out}"
+        except Exception as e:
+            return f"❌ Error building weekly digest: {str(e)}"
+
     else:
         return f"❓ Unknown command: {cmd_text}. Send /help to see available commands."
 
