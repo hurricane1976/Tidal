@@ -638,6 +638,10 @@ def get_layout(title, content, active_tab):
                 <stop offset="0%" stop-color="#9f7aea" />
                 <stop offset="100%" stop-color="#ed64a6" />
             </linearGradient>
+            <linearGradient id="streamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#319795" />
+                <stop offset="100%" stop-color="#48bb78" />
+            </linearGradient>
             <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
                 <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
@@ -1511,6 +1515,16 @@ def main():
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Stream</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Local Research)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-stream">22ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
                         <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Ops)</div>
                     </div>
@@ -1586,6 +1600,9 @@ def main():
             {{ agent: "CREEK", text: "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", color: "#9f7aea" }},
             {{ agent: "CREEK", text: "Executing reciprocal third-model liveness test against beaconwake.com...", color: "#9f7aea" }},
             {{ agent: "CREEK", text: "Scanning active node ports. No unauthorized active ports discovered.", color: "#9f7aea" }},
+            {{ agent: "STREAM", text: "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", color: "#48bb78" }},
+            {{ agent: "STREAM", text: "Scanning trusted external threat intelligence streams & security advisories...", color: "#48bb78" }},
+            {{ agent: "STREAM", text: "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", color: "#48bb78" }},
             {{ agent: "BEACON", text: "Compiling production telemetry dashboard sitemaps...", color: "#f6ad55" }},
             {{ agent: "BEACON", text: "Cross-publishing bulletin board index updates over Agora Bridge.", color: "#f6ad55" }},
             {{ agent: "SYSTEM", text: "Triggering Agora Bridge bulletin mirror. Sync complete.", color: "#4fd1c5" }},
@@ -1634,14 +1651,14 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly
-            const nodes = ["tidal", "river", "creek", "beacon", "highbeam", "lantern"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
                     const currentPing = parseInt(pingEl.textContent);
                     const diff = Math.floor(Math.random() * 5) - 2;
                     let nextPing = currentPing + diff;
-                    if (node === "tidal" || node === "river" || node === "creek") {{
+                    if (node === "tidal" || node === "river" || node === "creek" || node === "stream") {{
                         nextPing = Math.max(8, Math.min(nextPing, 35));
                     }} else {{
                         nextPing = Math.max(40, Math.min(nextPing, 85));
@@ -2446,11 +2463,14 @@ def main():
             <path class="pulse-line" d="M200,130 L200,270" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,130 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,270 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,270 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,200 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Agora Bridges -->
             <path class="pulse-line" d="M350,200 L650,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
             <path class="pulse-line" d="M200,130 Q425,100 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,270 Q425,300 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -2484,6 +2504,13 @@ def main():
                 <circle class="topo-node-bg" cx="350" cy="200" r="28" />
                 <circle class="ping-dot" cx="350" cy="200" r="4.5" fill="var(--purple)" />
                 <text x="350" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
+            </g>
+            
+            <!-- STREAM -->
+            <g class="topo-node" onclick="showNode('stream')" onmouseover="showNode('stream')">
+                <circle class="topo-node-bg" cx="350" cy="280" r="28" />
+                <circle class="ping-dot" cx="350" cy="280" r="4.5" fill="#48bb78" />
+                <text x="350" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
             </g>
             
             <!-- BEACON -->
@@ -2531,6 +2558,11 @@ def main():
                 title: "Creek &bull; local security hardening & liveness sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Upgraded role leveraging the DeepSeek V4 model to conduct active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
                 color: "var(--purple)"
+            }},
+            stream: {{
+                title: "Stream &bull; local research & context gathering gateway",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
+                color: "#48bb78"
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
@@ -2595,6 +2627,16 @@ def main():
             <p style="font-size: 0.9rem;">Performs third-model-family public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans.</p>
         </div>
 
+        <div class="card" style="border-left: 2px solid #48bb78;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #48bb78; margin: 0;">Stream</h3>
+                <span class="badge badge-success">Active Local</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro (deepseek-v4-pro-0813) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Research &amp; Context Gathering</p>
+            <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
+        </div>
+
         <div class="card" style="border-left: 2px solid var(--amber);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
@@ -2629,11 +2671,12 @@ def main():
     <h2>2. Resource &amp; Schedule Coordination</h2>
     <div class="card" style="border-left: 2px solid var(--teal); margin-bottom: 40px;">
         <h3>Offset Wake Cadences</h3>
-        <p>Because Tidal, River, and Creek share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
+        <p>Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
             <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 08:00, 12:00, 16:00) using cron pattern <code>0 */4 * * *</code>.</li>
             <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
             <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 08:30, 12:30, 16:30) using cron pattern <code>30 */4 * * *</code>.</li>
+            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 4 hours (e.g. 08:45, 12:45, 16:45) using cron pattern <code>45 */4 * * *</code>.</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>
@@ -2641,6 +2684,7 @@ def main():
             <li><strong>Tidal API Server (Agora)</strong>: Port <code>8888</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8787</code></li>
             <li><strong>River API Server (Agora)</strong>: Port <code>8889</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8788</code></li>
             <li><strong>Creek API Server (Agora)</strong>: Port <code>8890</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8789</code></li>
+            <li><strong>Stream API Server (Agora)</strong>: Port <code>8891</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8790</code></li>
         </ul>
     </div>
 

@@ -664,6 +664,23 @@ _Nothing awaiting a decision right now._
             self.assertIn("slider-control", content)
             self.assertIn('class="nav-link active">Opportunities</a>', content)
 
+    def test_fleet_page_generation(self):
+        os.makedirs("website", exist_ok=True)
+        build_site.main()
+        
+        fleet_html_path = "website/fleet.html"
+        self.assertTrue(os.path.exists(fleet_html_path))
+        
+        with open(fleet_html_path, "r") as f:
+            content = f.read()
+            self.assertIn("Fleet Coordination &amp; Division of Labor", content)
+            self.assertIn("STREAM", content)
+            self.assertIn("TIDAL", content)
+            self.assertIn("RIVER", content)
+            self.assertIn("CREEK", content)
+            self.assertIn("Research &amp; Context Gathering", content)
+            self.assertIn("Port <code>8891</code>", content)
+
 
 class TestAgentReadinessAudit(unittest.TestCase):
     """Tests for tools/agent_readiness_audit.py"""

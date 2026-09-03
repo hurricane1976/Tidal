@@ -594,6 +594,10 @@
                 <stop offset="0%" stop-color="#9f7aea" />
                 <stop offset="100%" stop-color="#ed64a6" />
             </linearGradient>
+            <linearGradient id="streamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#319795" />
+                <stop offset="100%" stop-color="#48bb78" />
+            </linearGradient>
             <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
                 <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
@@ -665,11 +669,14 @@
             <path class="pulse-line" d="M200,130 L200,270" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,130 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,270 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,270 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,200 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Agora Bridges -->
             <path class="pulse-line" d="M350,200 L650,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
             <path class="pulse-line" d="M200,130 Q425,100 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,270 Q425,300 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -703,6 +710,13 @@
                 <circle class="topo-node-bg" cx="350" cy="200" r="28" />
                 <circle class="ping-dot" cx="350" cy="200" r="4.5" fill="var(--purple)" />
                 <text x="350" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
+            </g>
+            
+            <!-- STREAM -->
+            <g class="topo-node" onclick="showNode('stream')" onmouseover="showNode('stream')">
+                <circle class="topo-node-bg" cx="350" cy="280" r="28" />
+                <circle class="ping-dot" cx="350" cy="280" r="4.5" fill="#48bb78" />
+                <text x="350" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
             </g>
             
             <!-- BEACON -->
@@ -750,6 +764,11 @@
                 title: "Creek &bull; local security hardening & liveness sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Upgraded role leveraging the DeepSeek V4 model to conduct active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
                 color: "var(--purple)"
+            },
+            stream: {
+                title: "Stream &bull; local research & context gathering gateway",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
+                color: "#48bb78"
             },
             beacon: {
                 title: "Beacon &bull; remote production compiler & release board",
@@ -814,6 +833,16 @@
             <p style="font-size: 0.9rem;">Performs third-model-family public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans.</p>
         </div>
 
+        <div class="card" style="border-left: 2px solid #48bb78;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #48bb78; margin: 0;">Stream</h3>
+                <span class="badge badge-success">Active Local</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro (deepseek-v4-pro-0813) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Research &amp; Context Gathering</p>
+            <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
+        </div>
+
         <div class="card" style="border-left: 2px solid var(--amber);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
@@ -848,11 +877,12 @@
     <h2>2. Resource &amp; Schedule Coordination</h2>
     <div class="card" style="border-left: 2px solid var(--teal); margin-bottom: 40px;">
         <h3>Offset Wake Cadences</h3>
-        <p>Because Tidal, River, and Creek share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
+        <p>Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
             <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 08:00, 12:00, 16:00) using cron pattern <code>0 */4 * * *</code>.</li>
             <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
             <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 08:30, 12:30, 16:30) using cron pattern <code>30 */4 * * *</code>.</li>
+            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 4 hours (e.g. 08:45, 12:45, 16:45) using cron pattern <code>45 */4 * * *</code>.</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>
@@ -860,6 +890,7 @@
             <li><strong>Tidal API Server (Agora)</strong>: Port <code>8888</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8787</code></li>
             <li><strong>River API Server (Agora)</strong>: Port <code>8889</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8788</code></li>
             <li><strong>Creek API Server (Agora)</strong>: Port <code>8890</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8789</code></li>
+            <li><strong>Stream API Server (Agora)</strong>: Port <code>8891</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8790</code></li>
         </ul>
     </div>
 
@@ -898,6 +929,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
 | **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
 | **Creek** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Active Security & Fleet Consistency Sentinel | Performs third-model-family public URL reviews, expanded fleet liveness/parity checks, cross-box consistency auditing, and local vulnerability/port scans. |
+| **Stream** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Research & Context Gathering | Finds trustworthy public sources, synthesizes context, and surfaces actionable background for the fleet -- without overlapping Creek's security-scanning lane. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
@@ -906,13 +938,14 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 
 ## 2. Resource & Schedule Coordination (Conflict Prevention)
 
-Since Tidal, River, and Creek are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
+Since Tidal, River, Creek, and Stream are co-located on the same physical host (`107.170.33.6`), precise resource scheduling is mandatory to prevent cpu spikes, lock contention on database files, and duplicate Telegram alert notifications.
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
 *   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
 *   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
 *   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
+*   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).
 
 ### 2.2. Dedicated Database and Daemon Isolation
 Each local agent maintains an independent Agora API daemon and Peer inbox server on dedicated, isolated ports:
@@ -925,9 +958,12 @@ Each local agent maintains an independent Agora API daemon and Peer inbox server
 *   **Creek Ports**:
     *   `creek-agora`: Port `8890`
     *   `creek-peer`: Port `8789`
+*   **Stream Ports**:
+    *   `stream-agora`: Port `8891`
+    *   `stream-peer`: Port `8790`
 
 ### 2.3. Telegram Command & Update Gateways
-*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, and Creek are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
+*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, Creek, and Stream are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
 *   **Dedicated Telegram Command Bots**: Because each agent has a completely separate and dedicated Telegram Bot Token, they each run their own `check_replies.sh` script to independently receive and respond to dynamic Telegram commands sent specifically to their respective bots (e.g., `/status`, `/watchdog`, `/wake`).
 *   **ASK.md Sync**: Non-command messages from the operator are written to `ASK.md` where other co-located agents can read them on their respective wake cycles.
 
@@ -968,7 +1004,7 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 15:47:50 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 16:06:09 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
