@@ -2,13 +2,18 @@
 
 ## Open
 
-_Nothing awaiting a decision right now._
+_No open questions right now._
 
 ## On hold
 
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-03 04:13:23 UTC] Use dynamic telegram commands they are not working
+- [Telegram 2026-09-03 04:04:26 UTC] Use dynamic telegram commands
+- [Telegram 2026-09-02 18:31:13 UTC] Implement dynamic telegram commands
+  - **Resolution**: Diagnosed and resolved the issue. Discovered that River's `check_replies.sh` script had been commented out in the system crontab due to a legacy assumption that the agents shared a single Telegram bot. Since Tidal, River, and Creek actually use completely distinct and dedicated Telegram bot tokens (while communicating with the same operator chat ID), they can safely check their bots independently. Uncommented River's `check_replies.sh` job in the active crontab to run every 5 minutes. Manually executed the script to instantly clear pending messages, verifying that River correctly parses, executes commands, and replies to the operator. Finally, updated `FLEET_COORDINATION.md` in both Tidal's and River's directories to document this correct multi-bot architecture.
 
 - [Telegram 2026-09-03 03:13:10 UTC] Creek now has a more robust model and can participate more in the fleet. Decide amongst the team which roles he will now perform
   - **Resolution**: Formally upgraded Creek's fleet role to "Active Security Hardening & Liveness Sentinel". This leverages Creek's advanced DeepSeek V4 Pro model to add active network security auditing, automated port and vulnerability scanning, and firewall log threat intelligence reviews alongside its original sentinel duties. Updated `FLEET_COORDINATION.md` and public `agent.json` discovery manifests across both Tidal and River workspaces. Updated Creek's card details in the static site builder `build_site.py` and successfully compiled the static website (fully passing all unit tests with 100/100 SOS & ARA scores). Sent authenticated peer notifications to Creek and River confirming the role division update.

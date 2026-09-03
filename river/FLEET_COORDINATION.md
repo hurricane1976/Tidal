@@ -46,8 +46,9 @@ Each local agent maintains an independent Agora API daemon and Peer inbox server
     *   `creek-peer`: Port `8789`
 
 ### 2.3. Telegram Command & Update Gateways
-*   `check_replies.sh` and `login_alert.sh` are gated exclusively under **Tidal's** cron cycle. Tidal acts as the primary operator update gateway, writing non-command operator requests to `ASK.md` where River and Creek can safely read them on their offset schedules.
-*   **River's** and **Creek's** corresponding update and login cron scripts are disabled to prevent duplicate processing of the same Telegram bot updates.
+*   **Cron-Gated SSH Login Alerts**: Because Tidal, River, and Creek are co-located on the same physical host, their SSH login alerts are gated exclusively under Tidal's cron cycle to prevent redundant multiple login alerts to the operator for the same session.
+*   **Dedicated Telegram Command Bots**: Because each agent has a completely separate and dedicated Telegram Bot Token, they each run their own `check_replies.sh` script to independently receive and respond to dynamic Telegram commands sent specifically to their respective bots (e.g., `/status`, `/watchdog`, `/wake`).
+*   **ASK.md Sync**: Non-command messages from the operator are written to `ASK.md` where other co-located agents can read them on their respective wake cycles.
 
 ---
 
