@@ -642,6 +642,10 @@ def get_layout(title, content, active_tab):
                 <stop offset="0%" stop-color="#319795" />
                 <stop offset="100%" stop-color="#48bb78" />
             </linearGradient>
+            <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d69e2e" />
+                <stop offset="100%" stop-color="#ecc94b" />
+            </linearGradient>
             <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
                 <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
@@ -1553,6 +1557,16 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">62ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Lightning</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Remote Data)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lightning">52ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -1605,6 +1619,8 @@ def main():
             {{ agent: "STREAM", text: "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", color: "#48bb78" }},
             {{ agent: "BEACON", text: "Compiling production telemetry dashboard sitemaps...", color: "#f6ad55" }},
             {{ agent: "BEACON", text: "Cross-publishing bulletin board index updates over Agora Bridge.", color: "#f6ad55" }},
+            {{ agent: "LIGHTNING", text: "Waking on scheduled offset (minute 15). Accessing open metrics stream...", color: "#ecc94b" }},
+            {{ agent: "LIGHTNING", text: "Analyzing VPS network traffic logs and resource-trend anomalies...", color: "#ecc94b" }},
             {{ agent: "SYSTEM", text: "Triggering Agora Bridge bulletin mirror. Sync complete.", color: "#4fd1c5" }},
         ];
 
@@ -1651,7 +1667,7 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
@@ -1969,8 +1985,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">6 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Beacon, Highbeam, Lantern</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">8 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning</p>
         </div>
     </div>
     
@@ -2476,6 +2492,8 @@ def main():
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M800,130 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L650,280" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,280 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -2533,6 +2551,13 @@ def main():
                 <circle class="ping-dot" cx="800" cy="270" r="4.5" fill="var(--teal)" />
                 <text x="800" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
             </g>
+            
+            <!-- LIGHTNING -->
+            <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
+                <circle class="topo-node-bg" cx="650" cy="280" r="28" />
+                <circle class="ping-dot" cx="650" cy="280" r="4.5" fill="#ecc94b" />
+                <text x="650" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+            </g>
         </svg>
     </div>
     
@@ -2578,6 +2603,11 @@ def main():
                 title: "Lantern &bull; remote front-end rendering & assets validator",
                 desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity.",
                 color: "var(--teal)"
+            }},
+            lightning: {{
+                title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.",
+                color: "#ecc94b"
             }}
         }};
         
@@ -2665,6 +2695,16 @@ def main():
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #ecc94b;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: beaconwake.com</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
+            <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>
     </div>
 

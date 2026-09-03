@@ -21,6 +21,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
+| **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
 
 ---
 

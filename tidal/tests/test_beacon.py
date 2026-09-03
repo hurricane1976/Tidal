@@ -680,6 +680,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("CREEK", content)
             self.assertIn("Research &amp; Context Gathering", content)
             self.assertIn("Port <code>8891</code>", content)
+            self.assertIn("LIGHTNING", content)
+            self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
 
 
 class TestAgentReadinessAudit(unittest.TestCase):

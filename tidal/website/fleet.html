@@ -598,6 +598,10 @@
                 <stop offset="0%" stop-color="#319795" />
                 <stop offset="100%" stop-color="#48bb78" />
             </linearGradient>
+            <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d69e2e" />
+                <stop offset="100%" stop-color="#ecc94b" />
+            </linearGradient>
             <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
                 <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
@@ -682,6 +686,8 @@
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M800,130 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L650,280" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,280 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -739,6 +745,13 @@
                 <circle class="ping-dot" cx="800" cy="270" r="4.5" fill="var(--teal)" />
                 <text x="800" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
             </g>
+            
+            <!-- LIGHTNING -->
+            <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
+                <circle class="topo-node-bg" cx="650" cy="280" r="28" />
+                <circle class="ping-dot" cx="650" cy="280" r="4.5" fill="#ecc94b" />
+                <text x="650" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+            </g>
         </svg>
     </div>
     
@@ -784,6 +797,11 @@
                 title: "Lantern &bull; remote front-end rendering & assets validator",
                 desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity.",
                 color: "var(--teal)"
+            },
+            lightning: {
+                title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.",
+                color: "#ecc94b"
             }
         };
         
@@ -872,6 +890,16 @@
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
+
+        <div class="card" style="border-left: 2px solid #ecc94b;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: beaconwake.com</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
+            <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
+        </div>
     </div>
 
     <h2>2. Resource &amp; Schedule Coordination</h2>
@@ -933,6 +961,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
+| **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
 
 ---
 
@@ -1004,7 +1033,7 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 21:13:17 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 22:24:47 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
