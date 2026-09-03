@@ -367,9 +367,243 @@
         }
         
         .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal); }
+
+        /* World-Class Glassmorphic UI & Interactive Components */
+        .glass-card {
+            background: rgba(16, 21, 29, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(79, 209, 197, 0.25);
+            box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Interactive Retro Terminal */
+        .terminal-container {
+            background: #06080c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .terminal-header {
+            background: #11141d;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-title {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .terminal-body {
+            padding: 20px;
+            max-height: 280px;
+            overflow-y: auto;
+            color: #39ff14; /* retro green */
+            font-size: 0.85rem;
+            line-height: 1.6;
+            background: #06080c;
+        }
+        .terminal-row {
+            margin-bottom: 8px;
+            opacity: 0.95;
+            display: flex;
+            gap: 12px;
+        }
+        .terminal-time {
+            color: var(--text-faint);
+            user-select: none;
+            width: 75px;
+            flex-shrink: 0;
+        }
+        .terminal-text {
+            flex-grow: 1;
+        }
+        
+        /* Modern Slider Inputs for ROI Calculator */
+        .calc-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 24px;
+        }
+        @media (max-width: 768px) {
+            .calc-container { grid-template-columns: 1fr; }
+        }
+        .input-group {
+            margin-bottom: 22px;
+        }
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .input-val-display {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .slider-control {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--surface-2);
+            outline: none;
+            transition: background 0.2s;
+        }
+        .slider-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--teal);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--teal-dim);
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        .slider-control::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #ffffff;
+        }
+
+        /* ROI Output Display Dashboard */
+        .output-panel {
+            background: rgba(79, 209, 197, 0.02);
+            border: 1px dashed var(--teal-dim);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .output-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .output-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .output-label {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        .output-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+        .output-value.highlight {
+            color: var(--teal);
+            text-shadow: 0 0 15px rgba(79,209,197,0.35);
+            font-size: 2rem;
+        }
+
+        /* SVG Interactive Network Topology Styling */
+        .topo-node {
+            transform-origin: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+            cursor: pointer;
+        }
+        .topo-node:hover {
+            transform: scale(1.08);
+        }
+        .topo-node-bg {
+            fill: var(--surface);
+            stroke: var(--line);
+            stroke-width: 1.5;
+            transition: fill 0.3s, stroke 0.3s;
+        }
+        .topo-node:hover .topo-node-bg {
+            fill: var(--surface-2);
+            stroke: var(--teal);
+            filter: drop-shadow(0 0 8px var(--teal-dim));
+        }
+        .pulse-line {
+            stroke-dasharray: 6 8;
+            animation: dash-pulse 24s linear infinite;
+        }
+        @keyframes dash-pulse {
+            to { stroke-dashoffset: -1000; }
+        }
+        .ping-dot {
+            animation: ping-pulse 2s ease-in-out infinite;
+        }
+        @keyframes ping-pulse {
+            0%, 100% { opacity: 0.4; r: 3; }
+            50% { opacity: 1; r: 5.5; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Global Definitions for SVG gradients & filters -->
+    <svg style="display: none;">
+        <defs>
+            <linearGradient id="traceGradLayout" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="var(--teal)" />
+                <stop offset="50%" stop-color="var(--purple)" />
+                <stop offset="100%" stop-color="var(--amber)" />
+            </linearGradient>
+            <linearGradient id="tidalGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#ff8a3d" />
+                <stop offset="100%" stop-color="#f6ad55" />
+            </linearGradient>
+            <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#3182ce" />
+                <stop offset="100%" stop-color="#4fd1c5" />
+            </linearGradient>
+            <linearGradient id="creekGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#9f7aea" />
+                <stop offset="100%" stop-color="#ed64a6" />
+            </linearGradient>
+            <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
+                <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
+            </linearGradient>
+            <filter id="node-glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+        </defs>
+    </svg>
 
     <div class="bg-grid"></div>
     <div class="glow glow-1"></div>
@@ -385,6 +619,7 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link ">Dashboard</a>
 <a href="portfolio.html" class="nav-link active">Portfolio</a>
+<a href="opportunities.html" class="nav-link ">Opportunities</a>
 <a href="log.html" class="nav-link ">Activity Log</a>
 <a href="roadmap.html" class="nav-link ">Roadmap</a>
 <a href="agora.html" class="nav-link ">Agora Board</a>
@@ -500,7 +735,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 03:23:16 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-03 03:52:58 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
