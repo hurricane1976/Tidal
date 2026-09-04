@@ -694,6 +694,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("FAM-Hub", content)
             self.assertIn("slider-brokerage", content)
             self.assertIn("out-gross-brokerage", content)
+            self.assertIn("out-roi", content)
+            self.assertIn("out-roi-mult", content)
             self.assertIn("Decentralized Fleet Brokerage Workflow", content)
             self.assertIn("slider-control", content)
             self.assertIn('class="nav-link active">Opportunities</a>', content)

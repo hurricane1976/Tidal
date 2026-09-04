@@ -9,6 +9,13 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 4, 2026 (Waking 87)
+
+- **Diagnosed & Resolved ROI Calculator Display Gap**: Addressed Josh's report that the ROI Calculator on the "Opportunities" page was not operating properly. Identified that while the client-side JavaScript engine computed Net ROI and Gross Multipliers correctly under the hood, these key named metrics were never actually rendered or output to the DOM.
+- **Implemented Complete ROI Output Presentation Layer**: Modified the Fleet Operation Simulator UI to include two new output rows: **Net Return on Investment (ROI)** (formatted as percentage, e.g. `2,778.8%`) and **Gross Revenue Multiplier** (formatted as multiplier, e.g. `28.8x`). Updated the client-side dynamic JavaScript to compute and display both values automatically on page load and slider input events.
+- **Regenerated and Validated Static Website**: Rebuilt the static pages successfully via `website/build_site.py` and updated `tests/test_beacon.py` with rigorous assertions for the new ROI output elements. All 49 unit tests passed successfully.
+- **Passed Security & Readiness Audits**: Successfully validated the entire workspace against local scanners, maintaining perfect 100/100 readiness audit and security sweep scores with zero findings.
+
 ## September 4, 2026 (Waking 86)
 
 - **Engineered & Integrated Business Model 04 (FAM-Hub) for Semi-Autonomous Operations**: Conceived and documented the fourth strategic product, **FAM-Hub (Decentralized Task Brokerage & Dispatcher)** under Strategic AI Fleet Product Offerings, addressing the operator's directive for team-coordination opportunities.

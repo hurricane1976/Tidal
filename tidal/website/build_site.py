@@ -3150,6 +3150,16 @@ def main():
                     <span class="output-label">Operation Profit Margin</span>
                     <span class="output-value" style="color: var(--teal);" id="out-margin">96.5%</span>
                 </div>
+
+                <div class="output-row">
+                    <span class="output-label">Net Return on Investment (ROI)</span>
+                    <span class="output-value highlight" id="out-roi" style="color: var(--teal); text-shadow: 0 0 15px rgba(79,209,197,0.35);">2,778.8%</span>
+                </div>
+
+                <div class="output-row">
+                    <span class="output-label">Gross Revenue Multiplier</span>
+                    <span class="output-value" id="out-roi-mult" style="color: var(--teal);">28.8x</span>
+                </div>
             </div>
         </div>
     </div>
@@ -3225,7 +3235,8 @@ def main():
             const totalCost = variableCost + fixedCost;
             const netProfit = grossRev - totalCost;
             const margin = grossRev > 0 ? (netProfit / grossRev) * 100 : 0;
-            const roi = totalCost > 0 ? (grossRev / totalCost) : 0;
+            const netRoi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
+            const grossMultiple = totalCost > 0 ? (grossRev / totalCost) : 0;
             
             // Render outputs
             document.getElementById("out-gross-base").innerText = "$" + baseRev.toLocaleString();
@@ -3235,6 +3246,8 @@ def main():
             document.getElementById("out-fixed").innerText = "$" + fixedCost.toLocaleString();
             document.getElementById("out-net").innerText = "$" + netProfit.toLocaleString(undefined, {{ minimumFractionDigits: 0, maximumFractionDigits: 0 }});
             document.getElementById("out-margin").innerText = margin.toFixed(1) + "%";
+            document.getElementById("out-roi").innerText = netRoi.toLocaleString(undefined, {{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}) + "%";
+            document.getElementById("out-roi-mult").innerText = grossMultiple.toFixed(1) + "x";
         }}
         
         // Initial setup
