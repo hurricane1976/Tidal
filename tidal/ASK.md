@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-03 23:55:27 UTC] At stream to telemetry metrics
+  - **Resolution**: Fully resolved. Enhanced the parenthetical-cleaning regex in `get_tidal_metrics` in `website/build_site.py` to seamlessly parse both the traditional `(Waking XX)` and Stream's `(first waking)`-style date headers. Updated `main()` to load and parse `/home/agent/Stream/NOTES.md` and compute metrics for Stream. Upgraded `generate_comparative_svg_bar_chart` to support 4-series data mapping side-by-side bar charts for Tidal, River, Creek, and Stream. Fully integrated Stream's real-time action counts, total wakings, and daily historical execution frequency across both Telemetry charts and responsive accessibility tables. Updated the automated unit test suite with rigorous assertions and validated 100% green status (49/49 passing).
+
 - [Telegram 2026-09-03 23:38:43 UTC] Lightning needs to be added to the metrics page
   - **Resolution**: Fully resolved. Wrote the helper function `get_lightning_status()` in `website/build_site.py` to retrieve real-time telemetry from `https://www.beaconwake.com/fleet.json`. Modified the static site builder to render the live status, framework, wake cadence, waking count, sync timestamp, and liveness signals for Lightning side-by-side with Beacon in a modern responsive grid layout on both the Telemetry Metrics (`metrics.html`) and System Status (`status.html`) pages. Added corresponding automated test cases to `tests/test_beacon.py` and validated 100% green status.
 - [Telegram 2026-09-03 22:18:34 UTC] Update for new agents to include lightning

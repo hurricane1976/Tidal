@@ -557,6 +557,10 @@ _Nothing awaiting a decision right now._
             {'date': '2026-08-31', 'count': 5},
             {'date': '2026-08-30', 'count': 10}
         ]
+        mock_daily_data_4 = [
+            {'date': '2026-08-31', 'count': 3},
+            {'date': '2026-08-30', 'count': 7}
+        ]
         
         # Test 2-series rendering (backward compatibility)
         svg2 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2)
@@ -582,6 +586,20 @@ _Nothing awaiting a decision right now._
         self.assertIn('bar-rect-2', svg3)
         self.assertIn('bar-rect-3', svg3)
 
+        # Test 4-series rendering
+        svg4 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2, mock_daily_data_3, mock_daily_data_4)
+        self.assertIn('<svg', svg4)
+        self.assertIn('class="metrics-svg"', svg4)
+        self.assertIn('Aug 31', svg4)
+        self.assertIn('Tidal', svg4)
+        self.assertIn('River', svg4)
+        self.assertIn('Creek', svg4)
+        self.assertIn('Stream', svg4)
+        self.assertIn('bar-rect-1', svg4)
+        self.assertIn('bar-rect-2', svg4)
+        self.assertIn('bar-rect-3', svg4)
+        self.assertIn('bar-rect-4', svg4)
+
     def test_metrics_page_generation(self):
         from unittest.mock import patch
         os.makedirs("website", exist_ok=True)
@@ -604,6 +622,14 @@ _Nothing awaiting a decision right now._
                     {
                         'date': 'August 31, 2026 (Waking 5)',
                         'raw_content': '- Done Creek work\n- Sentinel is ok',
+                        'html_content': '...'
+                    }
+                ]
+            elif "Stream" in notes_path:
+                return [
+                    {
+                        'date': '2026-09-03 (first waking)',
+                        'raw_content': '- Done Stream research\n- Shared context',
                         'html_content': '...'
                     }
                 ]
@@ -631,6 +657,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("RIVER", content)
             self.assertIn("TIDAL", content)
             self.assertIn("CREEK", content)
+            self.assertIn("STREAM", content)
+            self.assertIn("Stream", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
             self.assertIn("METRICS SENTINEL", content)
             self.assertIn("Lightning", content)

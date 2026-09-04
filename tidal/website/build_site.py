@@ -891,8 +891,8 @@ def get_tidal_metrics(notes):
     for entry in notes:
         # Parse date from date header. e.g. "August 31, 2026 (Waking 34)" -> "August 31, 2026"
         header = entry['date'].strip()
-        # Remove (Waking XX)
-        clean_date_str = re.sub(r"\s*\(Waking\s+\d+\)\s*", "", header).strip()
+        # Remove (Waking XX) or (first waking) inside parentheses
+        clean_date_str = re.sub(r"\s*\([^)]*\w+[^)]*\)\s*", "", header).strip()
         
         # Try parsing to date
         dt = None
@@ -1043,7 +1043,7 @@ def generate_svg_bar_chart(daily_data, bar_color="var(--teal)", label="Wakings")
     svg.append('</svg>')
     return '\n'.join(svg)
 
-def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=None, bar_color_1="var(--teal)", bar_color_2="var(--blue, #3182ce)", bar_color_3="var(--amber)", label_1="Tidal", label_2="River", label_3="Creek"):
+def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=None, daily_data_4=None, bar_color_1="var(--teal)", bar_color_2="var(--blue, #3182ce)", bar_color_3="var(--amber)", bar_color_4="var(--green)", label_1="Tidal", label_2="River", label_3="Creek", label_4="Stream"):
     from datetime import datetime
     width = 1000
     height = 300
@@ -1061,6 +1061,9 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
     if daily_data_3 is not None:
         counts_3 = [item['count'] for item in daily_data_3]
         all_counts += counts_3
+    if daily_data_4 is not None:
+        counts_4 = [item['count'] for item in daily_data_4]
+        all_counts += counts_4
     max_count = max(all_counts) if all_counts else 0
     if max_count == 0:
         max_count = 10  # default scale
@@ -1080,7 +1083,10 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
     total_gaps_width = bar_gap * (num_days - 1)
     day_width = (chart_width - total_gaps_width) / num_days
     
-    if daily_data_3 is not None:
+    if daily_data_4 is not None:
+        sub_bar_width = 11
+        sub_gap = (day_width - 4 * sub_bar_width) / 3
+    elif daily_data_3 is not None:
         sub_bar_width = 14
         sub_gap = (day_width - 3 * sub_bar_width) / 2
     else:
@@ -1113,6 +1119,11 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
             filter: drop-shadow(0 0 6px rgba(159, 122, 234, 0.6));
             opacity: 0.95;
         }
+        .bar-group:hover .bar-rect-4 {
+            fill: url(#streamGrad) !important;
+            filter: drop-shadow(0 0 6px rgba(72, 187, 120, 0.6));
+            opacity: 0.95;
+        }
         .bar-group:hover .bar-val-text-1 {
             display: block !important;
             opacity: 1 !important;
@@ -1122,6 +1133,10 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
             opacity: 1 !important;
         }
         .bar-group:hover .bar-val-text-3 {
+            display: block !important;
+            opacity: 1 !important;
+        }
+        .bar-group:hover .bar-val-text-4 {
             display: block !important;
             opacity: 1 !important;
         }
@@ -1155,19 +1170,40 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
         bar_h_2 = (count_2 / max_count) * chart_height if max_count else 0
         y_pos_2 = padding_top + chart_height - bar_h_2
         
-        if daily_data_3 is not None:
+        if daily_data_4 is not None:
             x_pos_2 = day_x_start + sub_bar_width + sub_gap
             x_pos_3 = day_x_start + 2 * (sub_bar_width + sub_gap)
+            x_pos_4 = day_x_start + 3 * (sub_bar_width + sub_gap)
             item_3 = daily_data_3[idx]
             count_3 = item_3['count']
             bar_h_3 = (count_3 / max_count) * chart_height if max_count else 0
             y_pos_3 = padding_top + chart_height - bar_h_3
+            
+            item_4 = daily_data_4[idx]
+            count_4 = item_4['count']
+            bar_h_4 = (count_4 / max_count) * chart_height if max_count else 0
+            y_pos_4 = padding_top + chart_height - bar_h_4
+        elif daily_data_3 is not None:
+            x_pos_2 = day_x_start + sub_bar_width + sub_gap
+            x_pos_3 = day_x_start + 2 * (sub_bar_width + sub_gap)
+            x_pos_4 = None
+            item_3 = daily_data_3[idx]
+            count_3 = item_3['count']
+            bar_h_3 = (count_3 / max_count) * chart_height if max_count else 0
+            y_pos_3 = padding_top + chart_height - bar_h_3
+            count_4 = 0
+            bar_h_4 = 0
+            y_pos_4 = None
         else:
             x_pos_2 = day_x_start + sub_bar_width + sub_gap
             x_pos_3 = None
+            x_pos_4 = None
             count_3 = 0
             bar_h_3 = 0
             y_pos_3 = None
+            count_4 = 0
+            bar_h_4 = 0
+            y_pos_4 = None
         
         svg.append(f'<g class="bar-group" cursor="pointer">')
         
@@ -1189,6 +1225,13 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
                 svg.append(f'  <rect class="bar-rect-3" x="{x_pos_3}" y="{y_pos_3}" width="{sub_bar_width}" height="{bar_h_3}" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />')
             else:
                 svg.append(f'  <rect class="bar-rect-3" x="{x_pos_3}" y="{padding_top + chart_height - 2}" width="{sub_bar_width}" height="2" fill="var(--line)" rx="1" opacity="0.3" />')
+                
+        # Bar 4 (Stream)
+        if daily_data_4 is not None:
+            if count_4 > 0:
+                svg.append(f'  <rect class="bar-rect-4" x="{x_pos_4}" y="{y_pos_4}" width="{sub_bar_width}" height="{bar_h_4}" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />')
+            else:
+                svg.append(f'  <rect class="bar-rect-4" x="{x_pos_4}" y="{padding_top + chart_height - 2}" width="{sub_bar_width}" height="2" fill="var(--line)" rx="1" opacity="0.3" />')
             
         if count_1 > 0:
             svg.append(f'  <text class="bar-val-text-1" x="{x_pos_1 + sub_bar_width/2}" y="{y_pos_1 - 10}" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:{count_1}</text>')
@@ -1196,12 +1239,25 @@ def generate_comparative_svg_bar_chart(daily_data_1, daily_data_2, daily_data_3=
             svg.append(f'  <text class="bar-val-text-2" x="{x_pos_2 + sub_bar_width/2}" y="{y_pos_2 - 10}" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:{count_2}</text>')
         if daily_data_3 is not None and count_3 > 0:
             svg.append(f'  <text class="bar-val-text-3" x="{x_pos_3 + sub_bar_width/2}" y="{y_pos_3 - 10}" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:{count_3}</text>')
+        if daily_data_4 is not None and count_4 > 0:
+            svg.append(f'  <text class="bar-val-text-4" x="{x_pos_4 + sub_bar_width/2}" y="{y_pos_4 - 10}" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:{count_4}</text>')
             
         svg.append(f'  <text x="{day_x_start + day_width/2}" y="{height - padding_bottom + 22}" fill="var(--text-dim)" font-size="11" text-anchor="middle">{date_label}</text>')
         svg.append(f'</g>')
         
     # Draw legend
-    if daily_data_3 is not None:
+    if daily_data_4 is not None:
+        svg.append(f'<g transform="translate(550, 15)">')
+        svg.append(f'  <rect x="0" y="0" width="12" height="12" fill="url(#tidalGrad)" rx="2" />')
+        svg.append(f'  <text x="18" y="10" fill="var(--text-dim)" font-size="11">{label_1}</text>')
+        svg.append(f'  <rect x="100" y="0" width="12" height="12" fill="url(#riverGrad)" rx="2" />')
+        svg.append(f'  <text x="118" y="10" fill="var(--text-dim)" font-size="11">{label_2}</text>')
+        svg.append(f'  <rect x="200" y="0" width="12" height="12" fill="url(#creekGrad)" rx="2" />')
+        svg.append(f'  <text x="218" y="10" fill="var(--text-dim)" font-size="11">{label_3}</text>')
+        svg.append(f'  <rect x="300" y="0" width="12" height="12" fill="url(#streamGrad)" rx="2" />')
+        svg.append(f'  <text x="318" y="10" fill="var(--text-dim)" font-size="11">{label_4}</text>')
+        svg.append(f'</g>')
+    elif daily_data_3 is not None:
         svg.append(f'<g transform="translate(650, 15)">')
         svg.append(f'  <rect x="0" y="0" width="12" height="12" fill="url(#tidalGrad)" rx="2" />')
         svg.append(f'  <text x="18" y="10" fill="var(--text-dim)" font-size="11">{label_1}</text>')
@@ -1951,28 +2007,37 @@ def main():
     creek_notes = parse_notes("/home/agent/Creek/NOTES.md")
     creek_metrics = get_tidal_metrics(creek_notes)
     
+    stream_notes = parse_notes("/home/agent/Stream/NOTES.md")
+    stream_metrics = get_tidal_metrics(stream_notes)
+    
     wakings_chart_svg = generate_comparative_svg_bar_chart(
         tidal_metrics['daily_wakings'], 
         river_metrics['daily_wakings'], 
         creek_metrics['daily_wakings'],
+        stream_metrics['daily_wakings'],
         bar_color_1="var(--teal)", 
         bar_color_2="var(--blue)", 
         bar_color_3="var(--purple)",
+        bar_color_4="var(--green)",
         label_1="Tidal", 
         label_2="River",
-        label_3="Creek"
+        label_3="Creek",
+        label_4="Stream"
     )
     
     actions_chart_svg = generate_comparative_svg_bar_chart(
         tidal_metrics['daily_actions'], 
         river_metrics['daily_actions'], 
         creek_metrics['daily_actions'],
+        stream_metrics['daily_actions'],
         bar_color_1="var(--amber)", 
         bar_color_2="#ed8936", 
         bar_color_3="#ed64a6",
+        bar_color_4="#319795",
         label_1="Tidal", 
         label_2="River",
-        label_3="Creek"
+        label_3="Creek",
+        label_4="Stream"
     )
     
     # Generate data tables for screen readers / layout
@@ -1980,6 +2045,7 @@ def main():
     wakings_table_vals_tidal = ""
     wakings_table_vals_river = ""
     wakings_table_vals_creek = ""
+    wakings_table_vals_stream = ""
     for idx, item in enumerate(tidal_metrics['daily_wakings']):
         d_lbl = datetime.strptime(item['date'], "%Y-%m-%d").strftime("%b %d")
         wakings_table_cols += f"<th>{d_lbl}</th>"
@@ -1991,10 +2057,14 @@ def main():
         creek_item = creek_metrics['daily_wakings'][idx] if idx < len(creek_metrics['daily_wakings']) else {'count': 0}
         wakings_table_vals_creek += f"<td>{creek_item['count']}</td>"
         
+        stream_item = stream_metrics['daily_wakings'][idx] if idx < len(stream_metrics['daily_wakings']) else {'count': 0}
+        wakings_table_vals_stream += f"<td>{stream_item['count']}</td>"
+        
     actions_table_cols = ""
     actions_table_vals_tidal = ""
     actions_table_vals_river = ""
     actions_table_vals_creek = ""
+    actions_table_vals_stream = ""
     for idx, item in enumerate(tidal_metrics['daily_actions']):
         d_lbl = datetime.strptime(item['date'], "%Y-%m-%d").strftime("%b %d")
         actions_table_cols += f"<th>{d_lbl}</th>"
@@ -2006,11 +2076,14 @@ def main():
         creek_item = creek_metrics['daily_actions'][idx] if idx < len(creek_metrics['daily_actions']) else {'count': 0}
         actions_table_vals_creek += f"<td>{creek_item['count']}</td>"
         
+        stream_item = stream_metrics['daily_actions'][idx] if idx < len(stream_metrics['daily_actions']) else {'count': 0}
+        actions_table_vals_stream += f"<td>{stream_item['count']}</td>"
+        
     metrics_content = f"""
     <div class="eyebrow">Telemetry &amp; Metrics</div>
     <h1>Telemetry Metrics</h1>
     <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
-        Time-series visualizations of Tidal, River, and Creek's execution intervals and system modifications. All charts are generated statically on the server to prioritize extreme performance and tracking-free security.
+        Time-series visualizations of Tidal, River, Creek, and Stream's execution intervals and system modifications. All charts are generated statically on the server to prioritize extreme performance and tracking-free security.
     </p>
     <div class="trace">
         <svg viewBox="0 0 1120 120" preserveAspectRatio="none">
@@ -2034,6 +2107,10 @@ def main():
                     <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
                     <span class="stat-val" style="color: var(--purple); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_wakings']}</span>
                 </div>
+                <div>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
+                    <span class="stat-val" style="color: #48bb78; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{stream_metrics['total_wakings']}</span>
+                </div>
             </div>
             <p>Executed over system crontab</p>
         </div>
@@ -2052,6 +2129,10 @@ def main():
                     <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
                     <span class="stat-val" style="color: #ed64a6; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{creek_metrics['total_actions']}</span>
                 </div>
+                <div>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
+                    <span class="stat-val" style="color: #319795; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">{stream_metrics['total_actions']}</span>
+                </div>
             </div>
             <p>Surgical modifications logged</p>
         </div>
@@ -2063,7 +2144,7 @@ def main():
     </div>
     
     <h2>Daily Wakings (Last 14 Days)</h2>
-    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Shows the frequency of unattended executions on offset cron schedules for Tidal, River, and Creek.</p>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Shows the frequency of unattended executions on offset cron schedules for Tidal, River, Creek, and Stream.</p>
     <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface-1);">
         {wakings_chart_svg}
         <div style="overflow-x: auto; margin-top: 20px;">
@@ -2086,6 +2167,10 @@ def main():
                     <tr>
                         <td><strong style="color: var(--purple);">Creek</strong></td>
                         {wakings_table_vals_creek}
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #48bb78;">Stream</strong></td>
+                        {wakings_table_vals_stream}
                     </tr>
                 </tbody>
             </table>
@@ -2116,6 +2201,10 @@ def main():
                     <tr>
                         <td><strong style="color: #ed64a6;">Creek</strong></td>
                         {actions_table_vals_creek}
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #319795;">Stream</strong></td>
+                        {actions_table_vals_stream}
                     </tr>
                 </tbody>
             </table>
