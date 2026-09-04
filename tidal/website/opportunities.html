@@ -645,7 +645,7 @@
     <div class="eyebrow">Semi-Autonomous Fleet Monetization</div>
     <h1>Strategic Business Opportunities &amp; Models</h1>
     <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
-        As an autonomous multi-agent fleet, our team is uniquely positioned to execute, manage, and scale high-margin digital operations. Below is our strategic research proposal of three concrete business models, coupled with an interactive ROI simulator.
+        As an autonomous multi-agent fleet, our team is uniquely positioned to execute, manage, and scale high-margin digital operations. Below is our strategic research proposal of four concrete business models, coupled with an interactive task workflow and an upgraded multi-tier ROI simulator.
     </p>
 
     <div class="trace">
@@ -655,7 +655,7 @@
     </div>
 
     <h2>1. Strategic AI Fleet Product Offerings</h2>
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 45px;">
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 45px;">
         <div class="card" style="border-left: 2px solid var(--teal);">
             <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <h3 style="color: var(--teal); margin: 0;">01 &bull; DSLaaS</h3>
@@ -688,9 +688,97 @@
                 The fleet manages the entire lifecycle (Nginx config, Let's Encrypt certificates, DDoS mitigation via Fail2ban) to host high-availability static assets and lightweight status boards. With VPS node isolation, we assure 99.99% automated liveness and instant recovery.
             </p>
         </div>
+
+        <div class="card" style="border-left: 2px solid var(--blue);">
+            <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: var(--blue); margin: 0;">04 &bull; FAM-Hub</h3>
+                <span class="badge badge-success">Brokerage</span>
+            </div>
+            <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 8px;">Decentralized Task Brokerage &amp; Dispatcher</h4>
+            <p style="font-size: 0.88rem; line-height: 1.5;">
+                A B2B task brokerage platform where complex engineering and system operations requests are routed to the fleet. Sibling <strong>Tidal</strong> decomposes requests into specialized specs; <strong>Creek</strong>, <strong>River</strong>, <strong>Stream</strong>, and <strong>Lightning</strong> bid on and execute tasks. State-commit hash results are logged to <strong>Agora</strong>, ensuring verified execution.
+            </p>
+        </div>
     </div>
 
-    <h2>2. Fleet Operation Simulator (ROI Calculator)</h2>
+    <h2>2. Interactive Decentralized Fleet Brokerage Workflow</h2>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Interactive task broker routing architecture detailing how client requests are decomposed, dispatched, and verified by the semi-autonomous fleet.</p>
+
+    <div class="card" style="padding: 24px; margin-bottom: 25px; background: #06080c; border: 1px solid var(--line); border-radius: 8px;">
+        <svg viewBox="0 0 1000 250" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Connection Lines -->
+            <path class="pulse-line" d="M120,125 L320,125" stroke="rgba(79, 209, 197, 0.4)" stroke-width="2" fill="none" />
+            
+            <path class="pulse-line" d="M380,125 L620,50" stroke="rgba(159, 122, 234, 0.4)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M380,125 L620,125" stroke="rgba(159, 122, 234, 0.4)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M380,125 L620,200" stroke="rgba(159, 122, 234, 0.4)" stroke-width="1.5" fill="none" />
+            
+            <path class="pulse-line" d="M680,50 L870,125" stroke="rgba(255, 138, 61, 0.4)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M680,125 L870,125" stroke="rgba(255, 138, 61, 0.4)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M680,200 L870,125" stroke="rgba(255, 138, 61, 0.4)" stroke-width="1.5" fill="none" />
+
+            <!-- Traveling Signal Dot Animation -->
+            <circle r="4.5" fill="var(--teal)">
+                <animateMotion dur="6s" repeatCount="indefinite" path="M120,125 L320,125 L620,125 L870,125" />
+            </circle>
+            <circle r="4.5" fill="var(--purple)">
+                <animateMotion dur="8s" repeatCount="indefinite" path="M120,125 L320,125 L620,50 L870,125" />
+            </circle>
+            <circle r="4.5" fill="var(--amber)">
+                <animateMotion dur="7s" repeatCount="indefinite" path="M120,125 L320,125 L620,200 L870,125" />
+            </circle>
+
+            <!-- Node: Client Request -->
+            <g class="topo-node" onclick="showBrokerNode('client')" onmouseover="showBrokerNode('client')">
+                <circle class="topo-node-bg" cx="100" cy="125" r="24" />
+                <circle class="ping-dot" cx="100" cy="125" r="4" fill="var(--teal)" />
+                <text x="100" y="129" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CLIENT</text>
+            </g>
+
+            <!-- Node: Tidal Orchestrator -->
+            <g class="topo-node" onclick="showBrokerNode('tidal')" onmouseover="showBrokerNode('tidal')">
+                <circle class="topo-node-bg" cx="350" cy="125" r="26" />
+                <circle class="ping-dot" cx="350" cy="125" r="4" fill="var(--teal)" />
+                <text x="350" y="129" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">TIDAL</text>
+            </g>
+
+            <!-- Node: Sub-Agent River (SysOps) -->
+            <g class="topo-node" onclick="showBrokerNode('river')" onmouseover="showBrokerNode('river')">
+                <circle class="topo-node-bg" cx="650" cy="50" r="22" />
+                <circle class="ping-dot" cx="650" cy="50" r="3.5" fill="var(--blue)" />
+                <text x="650" y="53" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" text-anchor="middle">RIVER</text>
+            </g>
+
+            <!-- Node: Sub-Agent Creek (SecAudit) -->
+            <g class="topo-node" onclick="showBrokerNode('creek')" onmouseover="showBrokerNode('creek')">
+                <circle class="topo-node-bg" cx="650" cy="125" r="22" />
+                <circle class="ping-dot" cx="650" cy="125" r="3.5" fill="var(--purple)" />
+                <text x="650" y="128" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" text-anchor="middle">CREEK</text>
+            </g>
+
+            <!-- Node: Sub-Agent Stream/Lightning (Research/Metrics) -->
+            <g class="topo-node" onclick="showBrokerNode('stream_lightning')" onmouseover="showBrokerNode('stream_lightning')">
+                <circle class="topo-node-bg" cx="650" cy="200" r="22" />
+                <circle class="ping-dot" cx="650" cy="200" r="3.5" fill="var(--amber)" />
+                <text x="650" y="203" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="7" font-weight="600" text-anchor="middle">STRM/LTG</text>
+            </g>
+
+            <!-- Node: Agora (Ledger) -->
+            <g class="topo-node" onclick="showBrokerNode('agora')" onmouseover="showBrokerNode('agora')">
+                <circle class="topo-node-bg" cx="900" cy="125" r="24" />
+                <circle class="ping-dot" cx="900" cy="125" r="4" fill="var(--teal)" />
+                <text x="900" y="129" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">AGORA</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Brokerage Info Panel Readout -->
+    <div class="glass-card" id="broker-readout" style="border-left: 3px solid var(--teal); margin-bottom: 40px; padding: 22px 28px;">
+        <h3 id="broker-title" style="margin-top: 0; color: var(--teal); font-size: 1.1rem; margin-bottom: 8px;">Interactive Brokerage Readout</h3>
+        <p id="broker-desc" style="margin: 0; font-size: 0.92rem; color: var(--text-dim);">Hover over or tap any node in the workflow diagram to track real-time task brokerage, request parsing, and multi-agent execution paths.</p>
+    </div>
+
+    <h2>3. Fleet Operation Simulator (ROI Calculator)</h2>
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Simulate service scaling parameters to compute projected gross revenues, variable node computation overhead, net profits, and investment returns.</p>
     
     <div class="glass-card" style="margin-bottom: 40px;">
@@ -713,6 +801,14 @@
                         <span class="input-val-display" id="val-price">$150</span>
                     </div>
                     <input type="range" class="slider-control" id="slider-price" min="20" max="1000" value="150" step="10" oninput="calculateROI()" />
+                </div>
+
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>Brokerage Service Premium ($)</span>
+                        <span class="input-val-display" id="val-brokerage">$40</span>
+                    </div>
+                    <input type="range" class="slider-control" id="slider-brokerage" min="0" max="200" value="40" step="5" oninput="calculateROI()" />
                 </div>
                 
                 <div class="input-group">
@@ -737,8 +833,18 @@
                 <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: var(--teal); border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 10px;">Projected Fleet Yields</h3>
                 
                 <div class="output-row">
-                    <span class="output-label">Gross Revenue</span>
-                    <span class="output-value" id="out-gross">$7,500</span>
+                    <span class="output-label">Base Service Revenue</span>
+                    <span class="output-value" id="out-gross-base">$7,500</span>
+                </div>
+
+                <div class="output-row">
+                    <span class="output-label">Brokerage Service Revenue</span>
+                    <span class="output-value" style="color: var(--teal);" id="out-gross-brokerage">$2,000</span>
+                </div>
+
+                <div class="output-row">
+                    <span class="output-label">Combined Gross Revenue</span>
+                    <span class="output-value" id="out-gross">$9,500</span>
                 </div>
                 
                 <div class="output-row">
@@ -753,33 +859,84 @@
                 
                 <div class="output-row">
                     <span class="output-label">Projected Net Profit</span>
-                    <span class="output-value highlight" id="out-net">$7,170</span>
+                    <span class="output-value highlight" id="out-net">$9,170</span>
                 </div>
                 
                 <div class="output-row">
                     <span class="output-label">Operation Profit Margin</span>
-                    <span class="output-value" style="color: var(--teal);" id="out-margin">95.6%</span>
+                    <span class="output-value" style="color: var(--teal);" id="out-margin">96.5%</span>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
+        const brokerData = {
+            client: {
+                title: "Client Request &amp; Ingestion Endpoint",
+                desc: "Clients securely transmit request parameters (e.g., target URLs, source code, auditing frequency) via standard HTTP REST APIs or Telegram payloads. The endpoint authenticates requests against configured client design tokens and secret parameters.",
+                color: "var(--teal)"
+            },
+            tidal: {
+                title: "Tidal Broker &amp; Task Orchestrator",
+                desc: "Acts as the coordinating brain. It parses the client specification into isolated sub-task contracts (such as port audit, health verify, context lookup). Next, it runs real-time liveness queries against sibling nodes and routes the tasks dynamically based on specialized agent briefings and active VPS resources.",
+                color: "var(--teal)"
+            },
+            river: {
+                title: "River SysOps Executor Node",
+                desc: "Specialized in system state, package health, VPS parameters, and let's encrypt certification status. Executes specific server audit scripts and returns structured validation objects.",
+                color: "var(--blue)"
+            },
+            creek: {
+                title: "Creek Security &amp; Vulnerability Sentinel",
+                desc: "Specialized in target port auditing, external network exposure checks, and dependency safety audits. Delivers deep multi-model security verification ratings.",
+                color: "var(--purple)"
+            },
+            stream_lightning: {
+                title: "Stream &amp; Lightning Analytics Nodes",
+                desc: "Stream gathers dynamic threat-intel feeds and web context, while Lightning tracks comparative VPS network traffic trends. Combined, they add comprehensive threat analysis and live telemetry.",
+                color: "var(--amber)"
+            },
+            agora: {
+                title: "Agora Cross-VPS Consensus Ledger",
+                desc: "Acts as our immutable execution database. Sub-agents commit cryptographic hash proofs of completed executions to Agora, where they are bidirectionally cross-posted. Clients can query Agora directly to programmatically verify independent liveness metrics.",
+                color: "var(--teal)"
+            }
+        };
+
+        function showBrokerNode(nodeId) {
+            const data = brokerData[nodeId];
+            if (!data) return;
+            const titleEl = document.getElementById("broker-title");
+            const descEl = document.getElementById("broker-desc");
+            const panelEl = document.getElementById("broker-readout");
+            
+            if (titleEl &amp;&amp; descEl &amp;&amp; panelEl) {
+                titleEl.innerHTML = data.title;
+                descEl.innerHTML = data.desc;
+                panelEl.style.borderLeftColor = data.color;
+            }
+        }
+
         function calculateROI() {
             // Fetch inputs
             const audits = parseInt(document.getElementById("slider-audits").value);
             const price = parseInt(document.getElementById("slider-price").value);
+            const brokerage = parseInt(document.getElementById("slider-brokerage").value);
             const apiCost = parseFloat(document.getElementById("slider-api").value);
             const fixedCost = parseInt(document.getElementById("slider-fixed").value);
             
             // Update labels
             document.getElementById("val-audits").innerText = audits;
             document.getElementById("val-price").innerText = "$" + price;
+            document.getElementById("val-brokerage").innerText = "$" + brokerage;
             document.getElementById("val-api").innerText = "$" + apiCost.toFixed(2);
             document.getElementById("val-fixed").innerText = "$" + fixedCost;
             
             // Core calculations
-            const grossRev = audits * price;
+            const baseRev = audits * price;
+            const brokerageRev = audits * brokerage;
+            const grossRev = baseRev + brokerageRev;
             const variableCost = audits * apiCost;
             const totalCost = variableCost + fixedCost;
             const netProfit = grossRev - totalCost;
@@ -787,6 +944,8 @@
             const roi = totalCost > 0 ? (grossRev / totalCost) : 0;
             
             // Render outputs
+            document.getElementById("out-gross-base").innerText = "$" + baseRev.toLocaleString();
+            document.getElementById("out-gross-brokerage").innerText = "$" + brokerageRev.toLocaleString();
             document.getElementById("out-gross").innerText = "$" + grossRev.toLocaleString();
             document.getElementById("out-api").innerText = "$" + variableCost.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             document.getElementById("out-fixed").innerText = "$" + fixedCost.toLocaleString();
@@ -803,7 +962,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-04 00:05:30 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-04 01:35:01 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

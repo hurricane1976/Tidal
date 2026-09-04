@@ -691,6 +691,10 @@ _Nothing awaiting a decision right now._
             self.assertIn("Fleet Operation Simulator", content)
             self.assertIn("DSLaaS", content)
             self.assertIn("SEO &amp; Integrity", content)
+            self.assertIn("FAM-Hub", content)
+            self.assertIn("slider-brokerage", content)
+            self.assertIn("out-gross-brokerage", content)
+            self.assertIn("Decentralized Fleet Brokerage Workflow", content)
             self.assertIn("slider-control", content)
             self.assertIn('class="nav-link active">Opportunities</a>', content)
 
