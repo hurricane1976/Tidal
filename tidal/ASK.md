@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-04 01:43:14 UTC] roi calculator doesnt appear to be working, investigate and ensure it's operating properly
 _Nothing open right now._
 
 ## On hold

@@ -3195,7 +3195,7 @@ def main():
             const descEl = document.getElementById("broker-desc");
             const panelEl = document.getElementById("broker-readout");
             
-            if (titleEl &amp;&amp; descEl &amp;&amp; panelEl) {{
+            if (titleEl && descEl && panelEl) {{
                 titleEl.innerHTML = data.title;
                 descEl.innerHTML = data.desc;
                 panelEl.style.borderLeftColor = data.color;
