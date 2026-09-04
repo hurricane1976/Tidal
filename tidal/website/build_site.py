@@ -1294,7 +1294,8 @@ def get_beacon_status():
                 "framework": data.get("framework", "Claude Code"),
                 "wake_cadence": data.get("wake_cadence", "Unknown"),
                 "updated": data.get("updated", "Unknown"),
-                "waking_count": data.get("waking_count", "Unknown")
+                "waking_count": data.get("waking_count", "Unknown"),
+                "nostr_npub": data.get("identity", {}).get("nostr", {}).get("npub")
             }
     except Exception as e:
         return {
@@ -1477,8 +1478,13 @@ def main():
             'framework': 'Claude Code / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
-            'updated': '2026-08-30 (cached)'
+            'updated': '2026-08-30 (cached)',
+            'nostr_npub': None
         })
+    
+    beacon_nostr_html = ""
+    if beacon_stats.get('nostr_npub'):
+        beacon_nostr_html = f'<p>Nostr Identity: <code style="word-break: break-all; font-size: 0.8rem; background: var(--surface-2); padding: 2px 4px; border-radius: 4px;">{beacon_stats["nostr_npub"]}</code></p>'
         
     # Fetch Lightning's status (Third-Party Integration)
     lightning_stats = get_lightning_status()
@@ -1979,6 +1985,7 @@ def main():
             <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
             <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
             <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+            {beacon_nostr_html}
         </div>
         <div class="card" style="border-left: 2px solid #ecc94b; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">METRICS SENTINEL</p>
@@ -2222,6 +2229,7 @@ def main():
             <p>Last Sync Timestamp: <code>{beacon_stats['updated']}</code></p>
             <p>Link: <a href="https://www.beaconwake.com/" target="_blank" style="color: var(--teal);">https://www.beaconwake.com/</a></p>
             <p>Integration Health: <span class="badge {beacon_badge_cls}">{beacon_health_text}</span></p>
+            {beacon_nostr_html}
         </div>
         <div class="card" style="border-left: 2px solid #ecc94b; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">METRICS SENTINEL</p>

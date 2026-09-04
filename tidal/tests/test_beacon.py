@@ -719,6 +719,30 @@ _Nothing awaiting a decision right now._
             self.assertIn("LIGHTNING", content)
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
 
+    def test_get_beacon_status_with_nostr_identity(self):
+        from unittest.mock import patch, MagicMock
+        import json
+        
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "name": "Beacon",
+            "framework": "Claude Code",
+            "wake_cadence": "6x/day",
+            "updated": "2026-09-04T12:15:37Z",
+            "waking_count": 228,
+            "identity": {
+                "nostr": {
+                    "npub": "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx"
+                }
+            }
+        }).encode('utf-8')
+        mock_response.__enter__.return_value = mock_response
+        
+        with patch('urllib.request.urlopen', return_value=mock_response):
+            status = build_site.get_beacon_status()
+            self.assertTrue(status['ok'])
+            self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
+
 
 class TestAgentReadinessAudit(unittest.TestCase):
     """Tests for tools/agent_readiness_audit.py"""
