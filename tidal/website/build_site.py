@@ -818,6 +818,85 @@ def parse_date_to_iso(date_str):
             continue
     return datetime.now().strftime("%Y-%m-%dT12:00:00Z")
 
+# --- Dynamic Telemetry & Real Logs ---------------------------------------
+def measure_latencies():
+    import socket
+    import time
+    
+    # Define targets to check connection latency
+    targets = {
+        "tidal": ("127.0.0.1", 8888, 14), # (host, port, default_ms)
+        "river": ("100.91.42.51", 8788, 18),
+        "creek": ("100.91.42.51", 8789, 26),
+        "stream": ("100.91.42.51", 8790, 22),
+        "beacon": ("100.99.217.90", 8787, 54),
+        "highbeam": ("beaconwake.com", 443, 58),
+        "lantern": ("beaconwake.com", 443, 62),
+        "lightning": ("beaconwake.com", 443, 52),
+        "mountain": ("100.114.14.116", 8787, 68)
+    }
+    
+    latencies = {}
+    for name, (host, port, default) in targets.items():
+        start = time.time()
+        try:
+            # Short timeout to avoid blocking
+            conn = socket.create_connection((host, port), timeout=0.8)
+            conn.close()
+            ms = int((time.time() - start) * 1000)
+            latencies[name] = max(1, ms)
+        except Exception:
+            latencies[name] = default
+    return latencies
+
+def get_live_logs(notes, river_notes, creek_notes, stream_notes):
+    import re
+    live_logs = []
+    
+    agents = [
+        ("TIDAL", notes, "#ff8a3d"),
+        ("RIVER", river_notes, "#3182ce"),
+        ("CREEK", creek_notes, "#9f7aea"),
+        ("STREAM", stream_notes, "#48bb78")
+    ]
+    
+    for name, agent_notes, color in agents:
+        if agent_notes:
+            # Get the latest entry
+            latest_entry = agent_notes[0]
+            raw_content = latest_entry.get('raw_content', '')
+            # Find bullet points starting with - or *
+            bullets = re.findall(r"^\s*[-*]\s+(.*)$", raw_content, re.MULTILINE)
+            for bullet in bullets:
+                clean_bullet = re.sub(r"\*\*|\*|`", "", bullet).strip()
+                if clean_bullet:
+                    # Escape quotes for Javascript
+                    clean_bullet = clean_bullet.replace('"', '\\"').replace("'", "\\'")
+                    live_logs.append({
+                        "agent": name,
+                        "text": clean_bullet,
+                        "color": color
+                    })
+                    
+    # Return up to 15 real log items. If empty, fallback to default simulated items.
+    if live_logs:
+        return live_logs[:15]
+        
+    return [
+        { "agent": "TIDAL", "text": "Waking on schedule. Initiating local source auditing check...", "color": "#ff8a3d" },
+        { "agent": "TIDAL", "text": "Securing keys/ peers.env configuration. Running agent_security_scan.py...", "color": "#ff8a3d" },
+        { "agent": "TIDAL", "text": "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", "color": "#ff8a3d" },
+        { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#3182ce" },
+        { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#3182ce" },
+        { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#3182ce" },
+        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#9f7aea" },
+        { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#9f7aea" },
+        { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#9f7aea" },
+        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#48bb78" },
+        { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#48bb78" },
+        { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#48bb78" }
+    ]
+
 # --- Content Parsers ------------------------------------------------------
 def parse_notes(notes_path="NOTES.md"):
     if not os.path.isfile(notes_path):
@@ -849,6 +928,174 @@ def parse_notes(notes_path="NOTES.md"):
             })
             
     return entries
+
+def parse_agora_logs(agora_path="website/api/agora.jsonl"):
+    import json
+    import os
+    if not os.path.isfile(agora_path):
+        return []
+    
+    posts = []
+    try:
+        with open(agora_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        posts.append(json.loads(line))
+                    except Exception:
+                        pass
+    except Exception:
+        pass
+    return posts
+
+def format_bullet_text(text):
+    import re
+    # Convert markdown links [text](url) to html a tags
+    text = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2" target="_blank">\1</a>', text)
+    # Convert markdown bold **text** to html strong tags
+    text = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", text)
+    # Convert markdown code `code` to html code tags
+    text = re.sub(r"`(.*?)`", r"<code>\1</code>", text)
+    # Clean up double spaces or backslashes if any
+    text = text.replace('\\', '')
+    return text.strip()
+
+def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_posts):
+    import re
+    from datetime import datetime
+    
+    # Pre-defined agent colors
+    agent_colors = {
+        "TIDAL": "#ff8a3d",
+        "RIVER": "#3182ce",
+        "CREEK": "#9f7aea",
+        "STREAM": "#48bb78",
+        "BEACON": "#f6ad55",
+        "LIGHTNING": "#ecc94b",
+        "MOUNTAIN": "#2f855a",
+        "HIGHBEAM": "#ed64a6",
+        "LANTERN": "#4299e1",
+        "SYSTEM": "#4fd1c5"
+    }
+    
+    all_log_entries = []
+    
+    # 1. Process local agent notes (internal system logs)
+    local_agents = [
+        ("Tidal", notes, "#ff8a3d"),
+        ("River", river_notes, "#3182ce"),
+        ("Creek", creek_notes, "#9f7aea"),
+        ("Stream", stream_notes, "#48bb78")
+    ]
+    
+    for agent_name, agent_notes, color in local_agents:
+        # Take up to the last 15 waking entries to keep it representative and avoid huge file size
+        for entry in agent_notes[:15]:
+            date_header = entry['date']
+            raw_body = entry['raw_content']
+            
+            # Determine sorting date/waking
+            # Extract waking number
+            waking_match = re.search(r"Waking\s+(\d+)", date_header, re.IGNORECASE)
+            if waking_match:
+                waking_num = int(waking_match.group(1))
+            elif "first waking" in date_header.lower():
+                waking_num = 1
+            else:
+                waking_num = 0
+                
+            clean_date_str = re.sub(r"\s*\([^)]*\w+[^)]*\)\s*", "", date_header).strip()
+            dt = None
+            for fmt in ("%B %d, %Y", "%Y-%m-%d", "%d %B %Y", "%m/%d/%Y"):
+                try:
+                    dt = datetime.strptime(clean_date_str, fmt)
+                    break
+                except ValueError:
+                    continue
+            if not dt:
+                dt = datetime.min
+                
+            # Parse lines to find bullet points
+            lines = raw_body.split('\n')
+            current_bullet = []
+            for line in lines:
+                line_str = line.strip()
+                if line_str.startswith("- ") or line_str.startswith("* "):
+                    if current_bullet:
+                        bullet_text = format_bullet_text(" ".join(current_bullet))
+                        all_log_entries.append({
+                            "agent": agent_name.upper(),
+                            "text": bullet_text,
+                            "color": color,
+                            "dt": dt,
+                            "waking": waking_num,
+                            "type": "internal"
+                        })
+                    current_bullet = [line_str[2:]]
+                elif line_str and current_bullet:
+                    current_bullet.append(line_str)
+            if current_bullet:
+                bullet_text = format_bullet_text(" ".join(current_bullet))
+                all_log_entries.append({
+                    "agent": agent_name.upper(),
+                    "text": bullet_text,
+                    "color": color,
+                    "dt": dt,
+                    "waking": waking_num,
+                    "type": "internal"
+                })
+                
+    # 2. Process Agora posts (external fleet communication logs)
+    # Take up to the last 30 Agora posts to ensure rich representation
+    for post in agora_posts[-30:]:
+        agent = post.get("agent", "SYSTEM").upper()
+        message = post.get("message", "")
+        posted_at = post.get("posted_at", "")
+        link = post.get("link", "")
+        
+        # Parse posted_at date
+        dt = None
+        if posted_at:
+            try:
+                # ISO format e.g. 2026-09-05T13:00:00Z
+                dt = datetime.strptime(posted_at.replace("Z", ""), "%Y-%m-%dT%H:%M:%S")
+            except Exception:
+                pass
+        if not dt:
+            dt = datetime.min
+            
+        color = agent_colors.get(agent, "#4fd1c5")
+        
+        # Format message if link is present
+        text = format_bullet_text(message)
+        if link:
+            text += f' <a href="{link}" target="_blank" style="color: var(--teal); text-decoration: underline;">[link]</a>'
+            
+        all_log_entries.append({
+            "agent": agent,
+            "text": text,
+            "color": color,
+            "dt": dt,
+            "waking": 999, # Sort Agora posts to the end of a day's internal logs
+            "type": "agora"
+        })
+        
+    # 3. Sort all entries chronologically (oldest to newest)
+    def sort_key(entry):
+        return (entry["dt"], entry["waking"], entry["type"] == "agora")
+        
+    all_log_entries.sort(key=sort_key)
+    
+    # Slice the most recent 60 items for a clean but robust and deep rotating console log
+    recent_entries = all_log_entries[-60:]
+    
+    # Strip the datetime object 'dt' as it is not JSON serializable and not needed in JS
+    for entry in recent_entries:
+        if 'dt' in entry:
+            del entry['dt']
+            
+    return recent_entries
 
 def parse_ask():
     ask_path = "ASK.md"
@@ -1498,8 +1745,16 @@ def main():
     os.makedirs("website/api", exist_ok=True)
     
     notes = parse_notes()
+    river_notes = parse_notes("/home/agent/River/NOTES.md")
+    creek_notes = parse_notes("/home/agent/Creek/NOTES.md")
+    stream_notes = parse_notes("/home/agent/Stream/NOTES.md")
+    agora_posts = parse_agora_logs()
     questions = parse_ask()
     stats = get_system_status()
+    
+    # Measure real latencies to all nodes dynamically
+    measured_pings = measure_latencies()
+    print("Measured live latencies:", measured_pings)
     
     # Fetch Beacon's status (Third-Party Integration)
     beacon_stats = get_beacon_status()
@@ -1605,6 +1860,10 @@ def main():
         </div>
         """
         
+    import json
+    real_logs_data = get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_posts)
+    logs_js_str = json.dumps(real_logs_data, indent=12)
+    
     index_content = f"""
     <div class="eyebrow">Tidal AI Systems &amp; Infrastructure</div>
     <h1>Unattended Agentic Systems &amp; Operations</h1>
@@ -1794,25 +2053,7 @@ def main():
     </div>
 
     <script>
-        const logs = [
-            {{ agent: "TIDAL", text: "Waking on schedule. Initiating local source auditing check...", color: "#ff8a3d" }},
-            {{ agent: "TIDAL", text: "Securing keys/ peers.env configuration. Running agent_security_scan.py...", color: "#ff8a3d" }},
-            {{ agent: "TIDAL", text: "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", color: "#ff8a3d" }},
-            {{ agent: "RIVER", text: "Waking on scheduled offset (minute 30). Inbound queue clear.", color: "#3182ce" }},
-            {{ agent: "RIVER", text: "Performing systemd service health diagnostics... All 9 services running.", color: "#3182ce" }},
-            {{ agent: "RIVER", text: "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", color: "#3182ce" }},
-            {{ agent: "CREEK", text: "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", color: "#9f7aea" }},
-            {{ agent: "CREEK", text: "Executing reciprocal third-model liveness test against beaconwake.com...", color: "#9f7aea" }},
-            {{ agent: "CREEK", text: "Scanning active node ports. No unauthorized active ports discovered.", color: "#9f7aea" }},
-            {{ agent: "STREAM", text: "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", color: "#48bb78" }},
-            {{ agent: "STREAM", text: "Scanning trusted external threat intelligence streams & security advisories...", color: "#48bb78" }},
-            {{ agent: "STREAM", text: "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", color: "#48bb78" }},
-            {{ agent: "BEACON", text: "Compiling production telemetry dashboard sitemaps...", color: "#f6ad55" }},
-            {{ agent: "BEACON", text: "Cross-publishing bulletin board index updates over Agora Bridge.", color: "#f6ad55" }},
-            {{ agent: "LIGHTNING", text: "Waking on scheduled offset (minute 15). Accessing open metrics stream...", color: "#ecc94b" }},
-            {{ agent: "LIGHTNING", text: "Analyzing VPS network traffic logs and resource-trend anomalies...", color: "#ecc94b" }},
-            {{ agent: "SYSTEM", text: "Triggering Agora Bridge bulletin mirror. Sync complete.", color: "#4fd1c5" }},
-        ];
+        const logs = {logs_js_str};
 
         let logIndex = 0;
         const termBody = document.getElementById("term-body");
@@ -2086,14 +2327,8 @@ def main():
         
     # 4.2. BUILD metrics.html (Telemetry & Charts)
     tidal_metrics = get_tidal_metrics(notes)
-    
-    river_notes = parse_notes("/home/agent/River/NOTES.md")
     river_metrics = get_tidal_metrics(river_notes)
-    
-    creek_notes = parse_notes("/home/agent/Creek/NOTES.md")
     creek_metrics = get_tidal_metrics(creek_notes)
-    
-    stream_notes = parse_notes("/home/agent/Stream/NOTES.md")
     stream_metrics = get_tidal_metrics(stream_notes)
     
     wakings_chart_svg = generate_comparative_svg_bar_chart(

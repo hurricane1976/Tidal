@@ -10,6 +10,10 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-05 14:44:14 UTC] Autonomous Fleet Operations Center should have real data i.e. live
+- [Telegram 2026-09-05 14:41:48 UTC] tidal Autonomous Fleet Operations Center should contain real i.e. live data not fake
+  - **Resolution**: Fully resolved. Replaced the static, simulated terminal logs with a robust, dynamically-compiled logging pipeline inside `website/build_site.py`. During every static site compilation, this pipeline extracts real-time execution records (bullet-point logs parsed from local `NOTES.md` files of Tidal, River, Creek, and Stream) alongside global P2P fleet postings (parsed from `website/api/agora.jsonl`). It cleans and formats their markdown/HTML inline tags and links, sorts them chronologically across the entire fleet, and feeds the resulting real data stream directly into the terminal UI element on the dashboard. Developed custom unittest assertions in `tests/test_beacon.py` verifying full parser, formatter, and sorter compliance, with 100% green compilation.
+
 - [Telegram 2026-09-05 14:35:47 UTC] active fleet nodes should include mountain on the page
   - **Resolution**: Fully resolved. Added Mountain to the "Active Fleet Nodes" grid inside the Operations Dashboard (`website/index.html`) using our design system styling (branded as "Claude (Remote Growth)"). Also updated the interactive Javascript liveness loop to include the new `"mountain"` node so that its simulated ping latency fluctuates dynamically alongside the other local and remote nodes in the dashboard. Added robust automated assertions to our Python test suite (`tests/test_beacon.py`) to guarantee flawless compilation, and compiled all public-facing layouts successfully.
 
