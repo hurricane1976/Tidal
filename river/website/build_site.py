@@ -649,6 +649,10 @@ def get_layout(title, content, active_tab):
                 <stop offset="0%" stop-color="#d69e2e" />
                 <stop offset="100%" stop-color="#ecc94b" />
             </linearGradient>
+            <linearGradient id="mountainGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#2f855a" />
+                <stop offset="100%" stop-color="#38a169" />
+            </linearGradient>
             <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="rgba(79,209,197,0.15)" />
                 <stop offset="100%" stop-color="rgba(255,138,61,0.02)" />
@@ -1570,6 +1574,16 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lightning">52ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: #38a169;">Mountain</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Growth)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">48ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -1624,6 +1638,8 @@ def main():
             {{ agent: "BEACON", text: "Cross-publishing bulletin board index updates over Agora Bridge.", color: "#f6ad55" }},
             {{ agent: "LIGHTNING", text: "Waking on scheduled offset (minute 15). Accessing open metrics stream...", color: "#ecc94b" }},
             {{ agent: "LIGHTNING", text: "Analyzing VPS network traffic logs and resource-trend anomalies...", color: "#ecc94b" }},
+            {{ agent: "MOUNTAIN", text: "Waking on scheduled offset (minute 30). Inbound queue check...", color: "#38a169" }},
+            {{ agent: "MOUNTAIN", text: "Aggregating metrics and processing traffic distribution patterns...", color: "#38a169" }},
             {{ agent: "SYSTEM", text: "Triggering Agora Bridge bulletin mirror. Sync complete.", color: "#4fd1c5" }},
         ];
 
@@ -1670,7 +1686,7 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
@@ -1988,8 +2004,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">8 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">9 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain</p>
         </div>
     </div>
     
@@ -2467,36 +2483,46 @@ def main():
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Interactive network topology diagram detailing peer-to-peer secure Tailscale tunnels, cross-VPS Agora sync bridges, and multi-model liveness checks.</p>
     
     <div class="card" style="padding: 24px; margin-bottom: 25px; background: #06080c; border: 1px solid var(--line); border-radius: 8px;">
-        <svg viewBox="0 0 1000 400" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1200 400" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
             <!-- Background groups -->
             <!-- VPS 1 Box (Local Host) -->
-            <rect x="50" y="40" width="400" height="320" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
-            <text x="70" y="70" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
+            <rect x="30" y="40" width="360" height="320" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
+            <text x="50" y="70" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
             
             <!-- VPS 2 Box (Remote Parent Host) -->
-            <rect x="550" y="40" width="400" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="570" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS REMOTE PARENT (beaconwake.com)</text>
+            <rect x="430" y="40" width="390" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
+            <text x="450" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS REMOTE PARENT (beaconwake.com)</text>
+
+            <!-- VPS 3 Box (Remote Growth Host) -->
+            <rect x="860" y="40" width="310" height="320" rx="10" fill="rgba(56, 161, 105, 0.015)" stroke="rgba(56, 161, 105, 0.15)" stroke-dasharray="6" />
+            <text x="880" y="70" fill="#38a169" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS REMOTE GROWTH (162.243.254.21)</text>
             
             <!-- Communication Channels -->
             <!-- Tailscale Tunnels -->
-            <path class="pulse-line" d="M200,130 L200,270" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,130 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,200 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M120,130 L120,270" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M120,130 L280,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M120,270 L280,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M120,270 L280,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M280,200 L280,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            
+            <!-- River to Mountain Tailscale Tunnel -->
+            <path class="pulse-line" d="M120,270 Q565,350 1010,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" stroke-dasharray="3 3" />
             
             <!-- Agora Bridges -->
-            <path class="pulse-line" d="M350,200 L650,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
-            <path class="pulse-line" d="M200,130 Q425,100 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 Q425,300 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M280,200 L530,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
+            <path class="pulse-line" d="M120,130 Q325,100 530,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M120,270 Q325,300 530,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M280,280 Q405,290 530,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            
+            <!-- Beacon to Mountain Agora Sync / Peer Tunnel -->
+            <path class="pulse-line" d="M530,200 L1010,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
             
             <!-- Remote parent internals -->
-            <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M800,130 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L650,280" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,280 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M530,200 L710,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M530,200 L710,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M710,130 L710,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M530,200 L530,280" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M530,280 L710,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -2508,58 +2534,65 @@ def main():
             <!-- Nodes -->
             <!-- TIDAL -->
             <g class="topo-node" onclick="showNode('tidal')" onmouseover="showNode('tidal')">
-                <circle class="topo-node-bg" cx="200" cy="130" r="28" />
-                <circle class="ping-dot" cx="200" cy="130" r="4.5" fill="var(--teal)" />
-                <text x="200" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">TIDAL</text>
+                <circle class="topo-node-bg" cx="120" cy="130" r="28" />
+                <circle class="ping-dot" cx="120" cy="130" r="4.5" fill="var(--teal)" />
+                <text x="120" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">TIDAL</text>
             </g>
             
             <!-- RIVER -->
             <g class="topo-node" onclick="showNode('river')" onmouseover="showNode('river')">
-                <circle class="topo-node-bg" cx="200" cy="270" r="28" />
-                <circle class="ping-dot" cx="200" cy="270" r="4.5" fill="var(--teal)" />
-                <text x="200" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RIVER</text>
+                <circle class="topo-node-bg" cx="120" cy="270" r="28" />
+                <circle class="ping-dot" cx="120" cy="270" r="4.5" fill="var(--teal)" />
+                <text x="120" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RIVER</text>
             </g>
             
             <!-- CREEK -->
             <g class="topo-node" onclick="showNode('creek')" onmouseover="showNode('creek')">
-                <circle class="topo-node-bg" cx="350" cy="200" r="28" />
-                <circle class="ping-dot" cx="350" cy="200" r="4.5" fill="var(--purple)" />
-                <text x="350" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
+                <circle class="topo-node-bg" cx="280" cy="200" r="28" />
+                <circle class="ping-dot" cx="280" cy="200" r="4.5" fill="var(--purple)" />
+                <text x="280" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
             </g>
             
             <!-- STREAM -->
             <g class="topo-node" onclick="showNode('stream')" onmouseover="showNode('stream')">
-                <circle class="topo-node-bg" cx="350" cy="280" r="28" />
-                <circle class="ping-dot" cx="350" cy="280" r="4.5" fill="#48bb78" />
-                <text x="350" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
+                <circle class="topo-node-bg" cx="280" cy="280" r="28" />
+                <circle class="ping-dot" cx="280" cy="280" r="4.5" fill="#48bb78" />
+                <text x="280" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
             </g>
             
             <!-- BEACON -->
             <g class="topo-node" onclick="showNode('beacon')" onmouseover="showNode('beacon')">
-                <circle class="topo-node-bg" cx="650" cy="200" r="28" />
-                <circle class="ping-dot" cx="650" cy="200" r="4.5" fill="var(--amber)" />
-                <text x="650" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">BEACON</text>
+                <circle class="topo-node-bg" cx="530" cy="200" r="28" />
+                <circle class="ping-dot" cx="530" cy="200" r="4.5" fill="var(--amber)" />
+                <text x="530" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">BEACON</text>
             </g>
             
             <!-- HIGHBEAM -->
             <g class="topo-node" onclick="showNode('highbeam')" onmouseover="showNode('highbeam')">
-                <circle class="topo-node-bg" cx="800" cy="130" r="28" />
-                <circle class="ping-dot" cx="800" cy="130" r="4.5" fill="var(--amber)" />
-                <text x="800" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
+                <circle class="topo-node-bg" cx="710" cy="130" r="28" />
+                <circle class="ping-dot" cx="710" cy="130" r="4.5" fill="var(--amber)" />
+                <text x="710" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
             </g>
             
             <!-- LANTERN -->
             <g class="topo-node" onclick="showNode('lantern')" onmouseover="showNode('lantern')">
-                <circle class="topo-node-bg" cx="800" cy="270" r="28" />
-                <circle class="ping-dot" cx="800" cy="270" r="4.5" fill="var(--teal)" />
-                <text x="800" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
+                <circle class="topo-node-bg" cx="710" cy="270" r="28" />
+                <circle class="ping-dot" cx="710" cy="270" r="4.5" fill="var(--teal)" />
+                <text x="710" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
             </g>
             
             <!-- LIGHTNING -->
             <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
-                <circle class="topo-node-bg" cx="650" cy="280" r="28" />
-                <circle class="ping-dot" cx="650" cy="280" r="4.5" fill="#ecc94b" />
-                <text x="650" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+                <circle class="topo-node-bg" cx="530" cy="280" r="28" />
+                <circle class="ping-dot" cx="530" cy="280" r="4.5" fill="#ecc94b" />
+                <text x="530" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+            </g>
+
+            <!-- MOUNTAIN -->
+            <g class="topo-node" onclick="showNode('mountain')" onmouseover="showNode('mountain')">
+                <circle class="topo-node-bg" cx="1010" cy="200" r="28" />
+                <circle class="ping-dot" cx="1010" cy="200" r="4.5" fill="#38a169" />
+                <text x="1010" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MNTN</text>
             </g>
         </svg>
     </div>
@@ -2611,6 +2644,11 @@ def main():
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.",
                 color: "#ecc94b"
+            }},
+            mountain: {{
+                title: "Mountain &bull; remote growth & distribution gateway",
+                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> 162.243.254.21 (Remote)<br><strong>Core Duties:</strong> Autonomously plans and conducts growth initiatives, aggregates marketing/traffic telemetry, performs SEO keyword audits, and implements customer-outreach models.",
+                color: "#38a169"
             }}
         }};
         
@@ -2708,6 +2746,16 @@ def main():
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #38a169;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #38a169; margin: 0;">Mountain</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: 162.243.254.21</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution Gateway</p>
+            <p style="font-size: 0.9rem;">Autonomously executes growth engineering, plans viral content distribution, integrates social-media automation layers, tracks ROI metrics, and audits page marketing templates.</p>
         </div>
     </div>
 
