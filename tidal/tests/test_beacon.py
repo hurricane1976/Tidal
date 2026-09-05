@@ -702,6 +702,9 @@ _Nothing awaiting a decision right now._
 
     def test_fleet_page_generation(self):
         os.makedirs("website", exist_ok=True)
+        # Create a mock MOUNTAIN_ONBOARDING.md to ensure the file exists during the test
+        with open("MOUNTAIN_ONBOARDING.md", "w") as f:
+            f.write("# Mountain Onboarding & Integration Specifications")
         build_site.main()
         
         fleet_html_path = "website/fleet.html"
@@ -718,6 +721,15 @@ _Nothing awaiting a decision right now._
             self.assertIn("Port <code>8891</code>", content)
             self.assertIn("LIGHTNING", content)
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
+            self.assertIn("MOUNTAIN", content)
+            self.assertIn("Growth &amp; Distribution", content)
+
+        # Check mountain onboarding page was generated
+        onboarding_html_path = "website/mountain-onboarding.html"
+        self.assertTrue(os.path.exists(onboarding_html_path))
+        with open(onboarding_html_path, "r") as f:
+            onboarding_content = f.read()
+            self.assertIn("Mountain Onboarding &amp; Integration Specifications", onboarding_content)
 
     def test_get_beacon_status_with_nostr_identity(self):
         from unittest.mock import patch, MagicMock

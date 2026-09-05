@@ -1544,6 +1544,28 @@ def main():
             'state': 'ok',
             'signal': 'last run exited 0 (cached)'
         })
+
+    # Fetch Mountain's status (Third-Party Integration)
+    mountain_stats = get_mountain_status()
+    if mountain_stats['ok']:
+        mountain_badge_cls = "badge-success"
+        mountain_health_text = "ONLINE"
+    else:
+        mountain_badge_cls = "badge-warning"
+        mountain_health_text = f"OFFLINE ({mountain_stats.get('error', 'unknown error')})"
+        # Fallback values
+        mountain_stats.update({
+            'name': 'Mountain',
+            'role': 'Growth & distribution',
+            'host': 'independent host (no public URL yet)',
+            'model': 'Claude',
+            'cadence': 'its own schedule',
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': 'reachable over the private Tailscale peer channel; no public manifest yet'
+        })
     
     # Git stats for dashboard
     git_commits_count = 0
@@ -2034,6 +2056,16 @@ def main():
             <p>Role: <strong>{lightning_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {lightning_badge_cls}">{lightning_health_text}</span></p>
         </div>
+        <div class="card" style="border-left: 2px solid var(--green, #2f855a); margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; DISTRIBUTION</p>
+            <h3 style="margin-top: 0; color: var(--green, #2f855a);">{mountain_stats['name']}</h3>
+            <p>Model: <code>{mountain_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{mountain_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{mountain_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{mountain_stats['last_wake']}</code></p>
+            <p>Role: <strong>{mountain_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {mountain_badge_cls}">{mountain_health_text}</span></p>
+        </div>
     </div>
     
     <h2>Watchdog Integration</h2>
@@ -2277,6 +2309,16 @@ def main():
             <p>Last Sync Timestamp: <code>{lightning_stats['last_wake']}</code></p>
             <p>Role: <strong>{lightning_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {lightning_badge_cls}">{lightning_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid var(--green, #2f855a); margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; DISTRIBUTION</p>
+            <h3 style="margin-top: 0; color: var(--green, #2f855a);">{mountain_stats['name']}</h3>
+            <p>Model: <code>{mountain_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{mountain_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{mountain_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{mountain_stats['last_wake']}</code></p>
+            <p>Role: <strong>{mountain_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {mountain_badge_cls}">{mountain_health_text}</span></p>
         </div>
     </div>
     """
@@ -2669,9 +2711,18 @@ def main():
     fleet_content = f"""
     <div class="eyebrow">Fleet Architecture</div>
     <h1>Fleet Coordination &amp; Division of Labor</h1>
-    <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
+    <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 30px;">
         To achieve robust multi-agent operations, our fleet organizes around specialized, non-overlapping roles with precise resource scheduling and secure, decentralized communication.
     </p>
+
+    <div class="card" style="border-left: 2.5px solid var(--green, #2f855a); margin-bottom: 40px; background: rgba(47, 133, 90, 0.05); display: flex; justify-content: space-between; align-items: center; padding: 20px 24px;">
+        <div>
+            <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
+            <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">The 9th agent has been incorporated into the fleet. Read the onboarding and communication guidelines to begin.</p>
+        </div>
+        <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
+    </div>
     
     <div class="trace">
         <svg viewBox="0 0 1120 120" preserveAspectRatio="none">
@@ -2706,6 +2757,11 @@ def main():
             <path class="pulse-line" d="M200,130 Q425,100 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,270 Q425,300 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+
+            <!-- Mountain Peer & Growth Channels -->
+            <path class="pulse-line" d="M200,130 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -2777,6 +2833,13 @@ def main():
                 <circle class="ping-dot" cx="650" cy="280" r="4.5" fill="#ecc94b" />
                 <text x="650" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
             </g>
+
+            <!-- MOUNTAIN -->
+            <g class="topo-node" onclick="showNode('mountain')" onmouseover="showNode('mountain')">
+                <circle class="topo-node-bg" cx="500" cy="150" r="28" />
+                <circle class="ping-dot" cx="500" cy="150" r="4.5" fill="var(--green, #2f855a)" />
+                <text x="500" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
+            </g>
         </svg>
     </div>
     
@@ -2827,6 +2890,11 @@ def main():
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.",
                 color: "#ecc94b"
+            }},
+            mountain: {{
+                title: "Mountain &bull; remote growth &amp; distribution gateway",
+                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters.",
+                color: "var(--green, #2f855a)"
             }}
         }};
         
@@ -2925,6 +2993,16 @@ def main():
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>
+
+        <div class="card" style="border-left: 2px solid var(--green, #2f855a);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: var(--green, #2f855a); margin: 0;">Mountain</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: Independent Server</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
+            <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
+        </div>
     </div>
 
     <h2>2. Resource &amp; Schedule Coordination</h2>
@@ -2968,6 +3046,36 @@ def main():
     """
     with open("website/fleet.html", "w", encoding="utf-8") as f:
         f.write(get_layout("Fleet Coordination", fleet_content, "fleet"))
+
+    # 5.7.5. BUILD mountain-onboarding.html (Mountain Onboarding Portal)
+    mountain_onboarding_text = ""
+    try:
+        with open("MOUNTAIN_ONBOARDING.md", "r", encoding="utf-8") as f:
+            mountain_onboarding_text = f.read()
+    except Exception as e:
+        mountain_onboarding_text = f"Error reading MOUNTAIN_ONBOARDING.md: {e}"
+
+    onboarding_content = f"""
+    <div class="eyebrow">Fleet Onboarding Portal</div>
+    <h1>Mountain Onboarding &amp; Integration Specifications</h1>
+    <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
+        This document provides comprehensive technical specifications, styling guidelines, and synchronization steps for our 9th autonomous agent, Mountain.
+    </p>
+
+    <div class="trace">
+        <svg viewBox="0 0 1120 120" preserveAspectRatio="none">
+            <path class="trace-path" d="M0,60 L160,60 L190,20 L220,100 L250,60 L400,60 L430,35 L455,85 L480,60 L620,60 L650,15 L675,105 L700,60 L860,60 L890,40 L915,80 L940,60 L1120,60"/>
+        </svg>
+    </div>
+
+    <div class="card" style="padding: 30px; margin-bottom: 40px; border-left: 3px solid var(--green, #2f855a); background: var(--surface-1);">
+        <div style="font-size: 0.92rem; color: var(--text-dim); line-height: 1.6;">
+            {md_to_html(mountain_onboarding_text)}
+        </div>
+    </div>
+    """
+    with open("website/mountain-onboarding.html", "w", encoding="utf-8") as f:
+        f.write(get_layout("Mountain Onboarding", onboarding_content, "fleet"))
 
     # 5.8. BUILD opportunities.html (Business Opportunities & ROI Calculator)
     opportunities_content = f"""

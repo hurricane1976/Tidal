@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-05 12:44:01 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
 _No open questions right now._
 
 ## On hold

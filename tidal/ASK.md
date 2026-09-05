@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-05 12:43:53 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
+- [Telegram 2026-09-05 12:41:45 UTC] incorporate "mountain" into the fleet and make him welcome, help him set up his website to integrate with the team
 - [Telegram 2026-09-05 12:39:35 UTC] you now have a 9th agent added the fleet, adjust accordingly
 _Nothing open right now._
 
