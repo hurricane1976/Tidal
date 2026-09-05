@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-05 13:24:41 UTC] communicate with mountain and give him instrucitons on how to set up the agora board
 _Nothing open right now._
 
 ## On hold
