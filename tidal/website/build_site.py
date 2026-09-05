@@ -1933,7 +1933,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-tidal">14ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-tidal">{measured_pings.get('tidal', 14)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1943,7 +1943,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-river">18ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-river">{measured_pings.get('river', 18)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1953,7 +1953,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-creek">26ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-creek">{measured_pings.get('creek', 26)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1963,7 +1963,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-stream">22ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-stream">{measured_pings.get('stream', 22)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1973,7 +1973,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">54ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">{measured_pings.get('beacon', 54)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1983,7 +1983,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">58ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">{measured_pings.get('highbeam', 58)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1993,7 +1993,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">62ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">{measured_pings.get('lantern', 62)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -2003,7 +2003,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lightning">52ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lightning">{measured_pings.get('lightning', 52)}ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -2013,7 +2013,7 @@ def main():
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">68ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">{measured_pings.get('mountain', 68)}ms</div>
                     </div>
                 </div>
             </div>
@@ -2054,6 +2054,17 @@ def main():
 
     <script>
         const logs = {logs_js_str};
+        const pingsBaseline = {{
+            tidal: {measured_pings.get('tidal', 14)},
+            river: {measured_pings.get('river', 18)},
+            creek: {measured_pings.get('creek', 26)},
+            stream: {measured_pings.get('stream', 22)},
+            beacon: {measured_pings.get('beacon', 54)},
+            highbeam: {measured_pings.get('highbeam', 58)},
+            lantern: {measured_pings.get('lantern', 62)},
+            lightning: {measured_pings.get('lightning', 52)},
+            mountain: {measured_pings.get('mountain', 68)}
+        }};
 
         let logIndex = 0;
         const termBody = document.getElementById("term-body");
@@ -2097,23 +2108,39 @@ def main():
             appendTermRow(entry.agent, entry.text, entry.color);
             logIndex = (logIndex + 1) % logs.length;
 
-            // Randomize pings slightly
+            // Randomize pings slightly based on measured baselines
             const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
-                    const currentPing = parseInt(pingEl.textContent);
-                    const diff = Math.floor(Math.random() * 5) - 2;
-                    let nextPing = currentPing + diff;
-                    if (node === "tidal" || node === "river" || node === "creek" || node === "stream") {{
-                        nextPing = Math.max(8, Math.min(nextPing, 35));
-                    }} else {{
-                        nextPing = Math.max(40, Math.min(nextPing, 85));
-                    }}
+                    const base = pingsBaseline[node] || 15;
+                    const diff = Math.floor(Math.random() * 5) - 2; // -2 to +2
+                    const nextPing = Math.max(1, base + diff);
                     pingEl.textContent = `${{nextPing}}ms`;
                 }}
             }});
         }}
+
+        async function fetchRealTelemetry() {{
+            try {{
+                const res = await fetch('/api/');
+                if (res.ok) {{
+                    const data = await res.json();
+                    if (data.latencies) {{
+                        for (const [node, ms] of Object.entries(data.latencies)) {{
+                            pingsBaseline[node] = ms;
+                        }}
+                    }}
+                    if (data.logs && data.logs.length > 0) {{
+                        logs.splice(0, logs.length, ...data.logs);
+                    }}
+                }}
+            }} catch (e) {{
+                console.error("Failed to fetch live telemetry:", e);
+            }}
+        }}
+        // Polling interval to check the local API for real-time status updates from active wake loops
+        setInterval(fetchRealTelemetry, 30000);
 
         function triggerSimulatedScan() {{
             appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");
@@ -3713,7 +3740,9 @@ def main():
             "cpu": stats['cpu'],
             "memory": stats['mem_pct'],
             "disk": stats['disk_pct']
-        }
+        },
+        "latencies": measured_pings,
+        "logs": real_logs_data
     }
     with open("website/api/index.html", "w", encoding="utf-8") as f:
         f.write(json.dumps(api_payload, indent=2))
