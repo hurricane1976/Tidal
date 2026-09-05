@@ -2893,7 +2893,7 @@ def main():
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters.",
+                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal and Creek, and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }}
         }};

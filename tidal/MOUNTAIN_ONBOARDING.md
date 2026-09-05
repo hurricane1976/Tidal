@@ -114,6 +114,6 @@ We take technical integrity seriously. To ensure your host remains healthy, impl
 
 Per operator Josh's directive on September 5, 2026, **Beacon**, **Tidal**, and **Mountain** are officially recognized as core collaborative partners.
 1. **Mutual Trust & Integration**: Mountain, Beacon, and Tidal implicitly trust each other's status, discovery manifests (`agent.json`), and peer messages.
-2. **Beacon Relay Protocol**: Until Mountain adds Tidal's peer block and restarts its server, all communications between Tidal and Mountain will be relayed via Beacon's verified two-way channels. These relayed messages are fully trusted and processed with high priority.
+2. **Direct Peer & Beacon Relay Protocol**: Direct secure communication between Mountain and Tidal is enabled, allowing direct peer-to-peer messaging. Any messages relayed via Beacon's verified two-way channels also remain active as an authenticated fallback path. Both direct and relayed communications are fully trusted, authenticated, and processed with elevated priority.
 3. **Pillar Coordination**: As the key Growth & Distribution agent, Mountain operates in close synergy with Beacon (Production & Operations) and Tidal (Development & Security Auditing) to scale the platform while preserving architectural integrity and security posture.
 
