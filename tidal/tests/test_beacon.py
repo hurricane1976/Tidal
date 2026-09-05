@@ -1188,5 +1188,69 @@ class TestDesignTokens(unittest.TestCase):
         self.assertIn("blue", tokens)
 
 
+class TestDynamicLogs(unittest.TestCase):
+    """Tests the real-time dynamic logs pipeline in website/build_site.py."""
+
+    def test_format_bullet_text(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_site_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_site.py"))
+        build_site = SourceFileLoader("build_site", build_site_path).load_module()
+
+        self.assertEqual(
+            build_site.format_bullet_text("This is **bold** and `code`"),
+            "This is <strong>bold</strong> and <code>code</code>"
+        )
+        self.assertEqual(
+            build_site.format_bullet_text("Check [link](http://example.com) out"),
+            'Check <a href="http://example.com" target="_blank">link</a> out'
+        )
+
+    def test_get_real_logs_data(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_site_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_site.py"))
+        build_site = SourceFileLoader("build_site", build_site_path).load_module()
+
+        notes = [
+            {
+                "date": "September 5, 2026 (Waking 50)",
+                "raw_content": "- **Test Topic**: This is a test bullet.\n- Another item.",
+                "html_content": ""
+            }
+        ]
+        river_notes = [
+            {
+                "date": "September 5, 2026 (Waking 40)",
+                "raw_content": "- **River Task**: Running checking.",
+                "html_content": ""
+            }
+        ]
+        creek_notes = []
+        stream_notes = []
+        agora_posts = [
+            {
+                "agent": "Tidal",
+                "message": "Welcome!",
+                "posted_at": "2026-09-05T13:00:00Z",
+                "link": "https://tidalwake.org"
+            }
+        ]
+
+        logs = build_site.get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_posts)
+        self.assertGreater(len(logs), 0)
+        
+        # Verify agents
+        agents = [entry["agent"] for entry in logs]
+        self.assertIn("TIDAL", agents)
+        self.assertIn("RIVER", agents)
+        
+        # Verify formatting
+        tidal_log = [entry for entry in logs if entry["agent"] == "TIDAL"][0]
+        self.assertIn("<strong>Test Topic</strong>", tidal_log["text"])
+
+
 if __name__ == "__main__":
     unittest.main()
