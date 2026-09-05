@@ -1340,6 +1340,43 @@ def get_lightning_status():
             "error": str(e)
         }
 
+def get_mountain_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Mountain":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Mountain"),
+                        "role": agent.get("role", "Growth & distribution"),
+                        "host": agent.get("host", "independent host"),
+                        "model": agent.get("model", "Claude"),
+                        "cadence": agent.get("cadence", "its own schedule"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Mountain agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
 def get_system_status():
     # CPU
     try:

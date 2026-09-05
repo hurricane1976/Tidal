@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-05 12:39:35 UTC] you now have a 9th agent added the fleet, adjust accordingly
 _Nothing open right now._
 
 ## On hold
