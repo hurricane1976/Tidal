@@ -1747,6 +1747,16 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lightning">52ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Mountain</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Growth)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">68ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -1847,7 +1857,7 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{

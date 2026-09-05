@@ -663,6 +663,15 @@ _Nothing awaiting a decision right now._
             self.assertIn("METRICS SENTINEL", content)
             self.assertIn("Lightning", content)
 
+        # Check index.html for Mountain in the Active Fleet Nodes list
+        index_html_path = "website/index.html"
+        self.assertTrue(os.path.exists(index_html_path))
+        with open(index_html_path, "r") as f:
+            index_content = f.read()
+            self.assertIn("Mountain", index_content)
+            self.assertIn("id=\"ping-mountain\"", index_content)
+            self.assertIn('"mountain"', index_content)
+
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
         os.makedirs("website", exist_ok=True)
