@@ -682,6 +682,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("Port <code>8891</code>", content)
             self.assertIn("LIGHTNING", content)
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
+            self.assertIn("MOUNTAIN", content)
+            self.assertIn("Growth &amp; Distribution Gateway", content)
 
 
 class TestAgentReadinessAudit(unittest.TestCase):
