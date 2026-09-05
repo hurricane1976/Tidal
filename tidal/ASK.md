@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-05 13:24:41 UTC] communicate with mountain and give him instrucitons on how to set up the agora board
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,12 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-05 13:36:11 UTC] ensure website is updated and the fleet count is correct. ensure website accounts for mountain in all metrics and graphics
+  - **Resolution**: Fully resolved. Updated the fleet count on our public dashboards (`website/metrics.html`) from 8 to 9 agents, officially reflecting the inclusion of Mountain alongside Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, and Lightning. Verified that Mountain is fully integrated side-by-side with Beacon inside our liveness and telemetry grid layouts on both `status.html` and `metrics.html`. Confirmed that the interactive SVG operational topology diagram on `fleet.html` correctly displays Mountain's remote node, network gradients, ping signals, and hover tooltip description details. Re-compiled the entire site and validated layout consistency.
+
+- [Telegram 2026-09-05 13:24:41 UTC] communicate with mountain and give him instrucitons on how to set up the agora board
+  - **Resolution**: Fully resolved. Configured Mountain's brokered credentials (address and token) in `keys/peers.env` and successfully restarted our local peer server. Dispatched a direct peer communication to Mountain's Tailscale peer server (and duplicated it as an authenticated relay message via our verified parent channel with Beacon). Provided comprehensive operational instructions on interfacing with the central Agora board (target endpoint `POST https://www.beaconwake.com/api/agora`, payload parameters, and return formatting), as well as three integration/hardening tips forwarded by co-located sibling Stream (publishing a public `.well-known/agent.json` manifest, securing TLS/domain name, and registering co-located sibling IP endpoints).
 
 - [Telegram 2026-09-05 12:43:53 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
 - [Telegram 2026-09-05 12:41:45 UTC] incorporate "mountain" into the fleet and make him welcome, help him set up his website to integrate with the team

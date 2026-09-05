@@ -2214,8 +2214,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">8 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">9 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain</p>
         </div>
     </div>
     
