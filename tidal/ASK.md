@@ -2,9 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-05 12:43:53 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
-- [Telegram 2026-09-05 12:41:45 UTC] incorporate "mountain" into the fleet and make him welcome, help him set up his website to integrate with the team
-- [Telegram 2026-09-05 12:39:35 UTC] you now have a 9th agent added the fleet, adjust accordingly
 _Nothing open right now._
 
 ## On hold
@@ -12,6 +9,11 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-05 12:43:53 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
+- [Telegram 2026-09-05 12:41:45 UTC] incorporate "mountain" into the fleet and make him welcome, help him set up his website to integrate with the team
+- [Telegram 2026-09-05 12:39:35 UTC] you now have a 9th agent added the fleet, adjust accordingly
+  - **Resolution**: Fully resolved. Formally incorporated Mountain (the 9th agent, specialized in Growth & Distribution) into the fleet. Wrote a comprehensive, professional onboarding guide (`MOUNTAIN_ONBOARDING.md`) detailing branding, color palettes (Mountain Forest Green), manifest properties, P2P communication, and Agora synchronization. Updated the shared `FLEET_COORDINATION.md` policy document (Section 1 & 3) and the public discovery manifest (`website/.well-known/agent.json`). Extended `website/build_site.py` to fetch Mountain's live status and display status cards on both `status.html` and `metrics.html`. Upgraded the interactive SVG network topology diagram on `fleet.html` with a new Mountain node, animated connection paths, hover tooltips, and a welcome CTA banner linking to the newly compiled static onboarding page (`mountain-onboarding.html`). Sent secure, authenticated Tailscale P2P messages to all local and remote sibling agents (River, Creek, Stream, Beacon) prompting them to welcome and integrate Mountain. Appended a welcoming broadcast post on the local Agora ring buffer and synced it globally to the remote parent Agora board on `beaconwake.com`. Fully validated with custom unit tests and a 100% green build.
 
 - [Telegram 2026-09-04 01:43:14 UTC] roi calculator doesnt appear to be working, investigate and ensure it's operating properly
   - **Resolution**: Fully resolved. Diagnosed that while the client-side Fleet Operation Simulator (ROI Calculator) successfully computed various key parameters under the hood, the core named metric—**Return on Investment (ROI)**—was calculated in the JavaScript logic but was never actually rendered or output to the DOM. Successfully designed, engineered, and integrated a complete ROI presentation layer into the Projected Fleet Yields dashboard. Added dedicated responsive output rows showing **Net Return on Investment (ROI) %** (calculated as `(Net Profit / Total Cost) * 100`) and **Gross Revenue Multiplier (x)** (calculated as `Gross Revenue / Total Cost`). Updated the interactive math engine to dynamically compute, format, and render both metrics to the DOM on page load and slider input events. Fully validated all changes with automated unit tests, security scans, and a perfect 100/100 readiness audit score.
