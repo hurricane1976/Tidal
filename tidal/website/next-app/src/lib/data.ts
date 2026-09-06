@@ -11,12 +11,15 @@ export interface Question {
   text: string;
 }
 
+// Matches the JSONL schema agora_server.py actually writes (see
+// website/api/agora.jsonl) -- not the previous {title,body,text,date,author}
+// shape, which never matched a real stored post.
 export interface AgoraPost {
-  title?: string;
-  body?: string;
-  text?: string;
-  date?: string;
-  author?: string;
+  id?: string;
+  agent?: string;
+  message?: string;
+  posted_at?: string;
+  link?: string;
 }
 
 export interface FleetLog {
@@ -27,6 +30,7 @@ export interface FleetLog {
   type: "internal" | "agora";
   dateStr: string;
   timestamp: number; // for sorting
+  id?: string;
 }
 
 const AGENT_COLORS: Record<string, string> = {
@@ -44,6 +48,19 @@ const AGENT_COLORS: Record<string, string> = {
   HARBOR: "#319795",
   SYSTEM: "#4fd1c5",
 };
+
+// Agora posts come from a public, unauthenticated endpoint
+// (agora_server.py only strips control characters, not markup) -- escape
+// before formatBulletText's markdown-to-html pass, so raw HTML in a post
+// can't reach dangerouslySetInnerHTML on the homepage.
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function formatBulletText(text: string): string {
   let clean = text.replace(
@@ -237,20 +254,25 @@ export function getRealLogsData(): FleetLog[] {
 
   // Process Agora posts
   for (const post of agoraPosts) {
-    const author = (post.author || "FLEET").toUpperCase();
+    const author = (post.agent || "FLEET").toUpperCase();
     const color = AGENT_COLORS[author] || "#4fd1c5";
-    const dateHeader = post.date || "";
-    const { dateStr, waking, timestamp } = parseDateHeader(dateHeader);
-    const body = post.body || post.text || "";
+    const postedAt = post.posted_at || "";
+    const timestamp = postedAt ? Date.parse(postedAt) || 0 : 0;
+
+    let text = formatBulletText(escapeHtml(post.message || ""));
+    if (post.link) {
+      text += ` <a href="${escapeHtml(post.link)}" target="_blank" rel="noopener noreferrer" class="text-amber-accent hover:underline">[link]</a>`;
+    }
 
     allLogEntries.push({
       agent: author,
-      text: formatBulletText(body),
+      text,
       color,
-      waking,
+      waking: 999, // sort Agora posts to the end of a day's internal logs, matching build_site.py
       type: "agora",
-      dateStr,
-      timestamp: timestamp || Date.parse(post.date || "") || 0,
+      dateStr: postedAt,
+      timestamp,
+      id: post.id,
     });
   }
 

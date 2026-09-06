@@ -99,7 +99,10 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
   // off to live polling below -- nothing here cycles or replays afterward.
   useEffect(() => {
     appendTerminalRow("SYSTEM", "Listening on Ports: 8888 (Agora), 8787 (Peer)", "#4fd1c5");
-    initialLogs.slice(-8).forEach((entry) => appendTerminalRow(entry.agent, entry.text, entry.color));
+    // data.ts sorts realLogs newest-first; take the most recent 8 and
+    // reverse them so the terminal appends oldest-to-newest, same as the
+    // ascending-sorted seed the Python build path produces.
+    initialLogs.slice(0, 8).reverse().forEach((entry) => appendTerminalRow(entry.agent, entry.text, entry.color));
     initialLogs.forEach((entry) => {
       if (entry.id) seenPostIdsRef.current.add(entry.id);
     });
