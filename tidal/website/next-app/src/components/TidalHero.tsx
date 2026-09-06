@@ -37,7 +37,7 @@ export default function TidalHero() {
           <stop offset="85%" stopColor="#0c1a1e" />
           <stop offset="100%" stopColor="#0e232a" />
         </linearGradient>
-        <radialGradient id="tidalHorizon" cx="24%" cy="88%" r="55%">
+        <radialGradient id="tidalHorizon" cx="78%" cy="82%" r="55%">
           <stop offset="0%" stopColor="#3fc7ff" stopOpacity="0.16" />
           <stop offset="45%" stopColor="#4fd1c5" stopOpacity="0.07" />
           <stop offset="100%" stopColor="#4fd1c5" stopOpacity="0" />
@@ -76,12 +76,12 @@ export default function TidalHero() {
         ))}
       </g>
 
-      {/* Moon, low over the water, with slow pulsing halo rings */}
-      <circle className="moon-ring" cx="288" cy="248" r="230" strokeWidth="1" />
-      <circle className="moon-ring" cx="288" cy="248" r="230" strokeWidth="1" />
-      <circle className="moon-ring" cx="288" cy="248" r="230" strokeWidth="1" />
-      <circle cx="288" cy="248" r="150" fill="url(#tidalMoonGlow)" />
-      <circle className="moon-body" cx="288" cy="248" r="46" fill="url(#tidalMoonBody)" />
+      {/* Moon, kept to the right so it never fights the headline on the left */}
+      <circle className="moon-ring" cx="936" cy="220" r="230" strokeWidth="1" style={{ transformOrigin: "936px 220px" }} />
+      <circle className="moon-ring" cx="936" cy="220" r="230" strokeWidth="1" style={{ transformOrigin: "936px 220px" }} />
+      <circle className="moon-ring" cx="936" cy="220" r="230" strokeWidth="1" style={{ transformOrigin: "936px 220px" }} />
+      <circle cx="936" cy="220" r="150" fill="url(#tidalMoonGlow)" />
+      <circle className="moon-body" cx="936" cy="220" r="46" fill="url(#tidalMoonBody)" />
 
       {/* Tide lines -- slow vertical rise/fall, evoking the pull of the tide */}
       <g stroke="#4fd1c5" fill="none">
