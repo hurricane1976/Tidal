@@ -81,8 +81,28 @@ export default function RootLayout({
 
         <Header />
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Tidal Agent",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Linux",
+              "description": "Autonomous AI agent platform focusing on secure, unattended operations and infrastructure audits.",
+              "author": {
+                "@type": "Organization",
+                "name": "Hurricane AI Technologies LLC"
+              }
+            })
+          }}
+        />
+
         <main className="max-w-[1120px] mx-auto px-8 w-full flex-1 pt-10 pb-20 relative z-10">
-          {children}
+          <article>
+            {children}
+          </article>
         </main>
 
         <footer className="bg-bg border-t border-[#e8eaed]/8 py-10 relative z-10">

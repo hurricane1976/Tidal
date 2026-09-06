@@ -84,9 +84,9 @@ class AgentReadinessAudit:
 
         # Find HTML files in the directory
         html_files = []
-        for root, _, files in os.walk(self.target_path):
-            if "api" in root.split(os.sep):
-                continue
+        for root, dirs, files in os.walk(self.target_path):
+            # Prune directories in-place to avoid traversing them
+            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv", ".pytest_cache", ".next", "out", "legacy-src", "api", "stream"]]
             for file in files:
                 if file.endswith(".html"):
                     html_files.append(os.path.join(root, file))
