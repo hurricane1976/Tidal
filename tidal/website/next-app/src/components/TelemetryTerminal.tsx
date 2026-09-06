@@ -164,19 +164,67 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
     return () => clearInterval(poll);
   }, [appendTerminalRow]);
 
-  const triggerSimulatedScan = () => {
-    appendTerminalRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");
-    setTimeout(() => {
-      appendTerminalRow("TIDAL", "Raw secrets scan: PASS. Dangerous functions scan: PASS.", "#ff8a3d");
-      appendTerminalRow("TIDAL", "Readiness score: 100/100 (NOMINAL).", "#4fd1c5");
-    }, 1000);
+  const [isScanning, setIsScanning] = useState(false);
+  const [isDigesting, setIsDigesting] = useState(false);
+
+  const triggerLiveScan = async () => {
+    if (isScanning) return;
+    setIsScanning(true);
+    appendTerminalRow("TIDAL", "Requesting LIVE security scan from core daemon...", "#ff8a3d");
+    try {
+      const res = await fetch("/api/telemetry?scan=1", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP error " + res.status);
+      const data = await res.json();
+      if (data.success) {
+        appendTerminalRow("TIDAL", `LIVE Scan Completed Successfully. Unified Score: ${data.score}/100`, "#4fd1c5");
+        const lines = (data.output || "").split("\n");
+        lines.forEach((line: string, idx: number) => {
+          const trimmed = line.trim();
+          if (trimmed) {
+            setTimeout(() => {
+              appendTerminalRow("SCAN_ENGINE", trimmed, "#a5b9d1");
+            }, idx * 65);
+          }
+        });
+      } else {
+        appendTerminalRow("TIDAL", `LIVE Scan Failed: ${data.error || "Unknown error"}`, "#ff5f56");
+      }
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      appendTerminalRow("TIDAL", `Connection failed: ${message}`, "#ff5f56");
+    } finally {
+      setIsScanning(false);
+    }
   };
 
-  const triggerSimulatedDigest = () => {
-    appendTerminalRow("SYSTEM", "Simulating daily notification compile pipeline...", "#4fd1c5");
-    setTimeout(() => {
-      appendTerminalRow("SYSTEM", "Daily email and Telegram digest pushed to operator. Successful.", "#f6ad55");
-    }, 1200);
+  const triggerLiveDigest = async () => {
+    if (isDigesting) return;
+    setIsDigesting(true);
+    appendTerminalRow("SYSTEM", "Requesting LIVE daily digest and news aggregation compile...", "#4fd1c5");
+    try {
+      const res = await fetch("/api/telemetry?digest=1", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP error " + res.status);
+      const data = await res.json();
+      if (data.success) {
+        appendTerminalRow("SYSTEM", "LIVE Digest Compile Succeeded.", "#4fd1c5");
+        const lines = (data.output || "").split("\n");
+        lines.forEach((line: string, idx: number) => {
+          const trimmed = line.trim();
+          if (trimmed) {
+            setTimeout(() => {
+              appendTerminalRow("DIGEST_ENGINE", trimmed, "#f6ad55");
+            }, idx * 65);
+          }
+        });
+      } else {
+        appendTerminalRow("SYSTEM", `LIVE Digest Compile Failed: ${data.error || "Unknown error"}`, "#ff5f56");
+      }
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      appendTerminalRow("SYSTEM", `Connection failed: ${message}`, "#ff5f56");
+    } finally {
+      setIsDigesting(false);
+    }
   };
 
   return (
@@ -246,16 +294,26 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
 
       <div className="flex gap-3 mb-10 justify-end">
         <button
-          onClick={triggerSimulatedScan}
-          className="btn-ghost text-[0.8rem] px-4 py-2 hover:border-teal-accent hover:text-teal-accent hover:bg-teal-accent/5"
+          onClick={triggerLiveScan}
+          disabled={isScanning}
+          className={`btn-ghost text-[0.8rem] px-4 py-2 transition-all duration-300 ${
+            isScanning
+              ? "opacity-50 cursor-not-allowed border-teal-accent/30 text-teal-accent bg-teal-accent/5"
+              : "hover:border-teal-accent hover:text-teal-accent hover:bg-teal-accent/5"
+          }`}
         >
-          Simulate Security Scan
+          {isScanning ? "Scanning System..." : "Execute Live Security Scan"}
         </button>
         <button
-          onClick={triggerSimulatedDigest}
-          className="btn-ghost text-[0.8rem] px-4 py-2 border-amber-accent/30 text-amber-accent hover:border-amber-accent hover:bg-amber-accent/5"
+          onClick={triggerLiveDigest}
+          disabled={isDigesting}
+          className={`btn-ghost text-[0.8rem] px-4 py-2 border-amber-accent/30 text-amber-accent transition-all duration-300 ${
+            isDigesting
+              ? "opacity-50 cursor-not-allowed border-amber-accent/10 text-amber-accent bg-amber-accent/5"
+              : "hover:border-amber-accent hover:bg-amber-accent/5"
+          }`}
         >
-          Simulate Daily Digest
+          {isDigesting ? "Compiling Digest..." : "Compile Live Daily Digest"}
         </button>
       </div>
     </div>

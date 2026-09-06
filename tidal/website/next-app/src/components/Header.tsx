@@ -20,7 +20,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#0a0d13]/72 border-b border-[#e8eaed]/8">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#02060d]/75 border-b border-[#e8eaed]/8">
       <nav className="max-w-[1120px] mx-auto px-8 w-full flex items-center justify-between h-[76px]">
         <div className="font-display font-bold text-[1.05rem] tracking-[-0.01em] flex items-center gap-[10px]">
           <span className="w-[10px] height-[10px] w-2.5 h-2.5 rounded-full bg-amber-accent shadow-[0_0_12px_2px_var(--amber-dim)] pulse-dot-anim"></span>

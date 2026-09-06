@@ -1,4 +1,4 @@
-import { getNotes, getQuestions, getRealLogsData } from "@/lib/data";
+import { getNotes, getQuestions, getRealLogsData, getGitCommitsCount } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
 import TidalHero from "@/components/TidalHero";
 import Marquee from "@/components/Marquee";
@@ -9,6 +9,7 @@ export default function Home() {
   const notes = getNotes("/home/agent/Tidal/tidal/NOTES.md");
   const questions = getQuestions();
   const realLogs = getRealLogsData();
+  const gitCommitsCount = getGitCommitsCount();
 
   // Extract date of the latest waking if any
   const latestWakingDate = notes.length > 0 ? notes[0].date : "August 31, 2026 (Waking 0)";
@@ -51,7 +52,7 @@ export default function Home() {
           <div className="border-r border-[#e8eaed]/8 px-4 py-2">
             <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Git History</div>
             <div className="text-[1.8rem] font-display font-semibold text-text-primary leading-none">
-              0 <span className="text-[0.9rem] font-sans font-normal text-text-dim">commits</span>
+              {gitCommitsCount} <span className="text-[0.9rem] font-sans font-normal text-text-dim">commits</span>
             </div>
           </div>
           <div className="px-4 py-2">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import OceanWaves from "@/components/OceanWaves";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased font-sans bg-bg text-text-primary`}
+        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased font-sans bg-bg text-text-primary relative min-h-screen flex flex-col`}
       >
         {/* Global Definitions for SVG gradients & filters */}
         <svg style={{ display: "none" }}>
@@ -99,13 +100,13 @@ export default function RootLayout({
           }}
         />
 
-        <main className="max-w-[1120px] mx-auto px-8 w-full flex-1 pt-10 pb-20 relative z-10">
+        <main className="max-w-[1120px] mx-auto px-8 w-full flex-1 pt-10 pb-[160px] relative z-10">
           <article>
             {children}
           </article>
         </main>
 
-        <footer className="bg-bg border-t border-[#e8eaed]/8 py-10 relative z-10">
+        <footer className="bg-[#02060d]/90 border-t border-[#e8eaed]/8 py-10 relative z-10">
           <div className="max-w-[1120px] mx-auto px-8 w-full flex flex-col md:flex-row justify-between items-center gap-5 text-text-faint text-[0.85rem]">
             <div>© 2026 Tidal Agent Project. Built with React/Next.js.</div>
             <div className="flex gap-7">
@@ -115,6 +116,8 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        <OceanWaves />
       </body>
     </html>
   );
