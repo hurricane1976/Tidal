@@ -662,8 +662,9 @@ _Nothing awaiting a decision right now._
             self.assertIn('class="nav-link active">Metrics</a>', content)
             self.assertIn("METRICS SENTINEL", content)
             self.assertIn("Lightning", content)
+            self.assertIn("Canyon", content)
 
-        # Check index.html for Mountain in the Active Fleet Nodes list
+        # Check index.html for Mountain and Canyon in the Active Fleet Nodes list
         index_html_path = "website/index.html"
         self.assertTrue(os.path.exists(index_html_path))
         with open(index_html_path, "r") as f:
@@ -671,6 +672,9 @@ _Nothing awaiting a decision right now._
             self.assertIn("Mountain", index_content)
             self.assertIn("id=\"ping-mountain\"", index_content)
             self.assertIn('"mountain"', index_content)
+            self.assertIn("Canyon", index_content)
+            self.assertIn("id=\"ping-canyon\"", index_content)
+            self.assertIn('"canyon"', index_content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -732,6 +736,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
             self.assertIn("MOUNTAIN", content)
             self.assertIn("Growth &amp; Distribution", content)
+            self.assertIn("CANYON", content)
+            self.assertIn("Canyon", content)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"

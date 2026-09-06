@@ -833,7 +833,8 @@ def measure_latencies():
         "highbeam": ("beaconwake.com", 443, 58),
         "lantern": ("beaconwake.com", 443, 62),
         "lightning": ("beaconwake.com", 443, 52),
-        "mountain": ("100.114.14.116", 8787, 68)
+        "mountain": ("100.114.14.116", 8787, 68),
+        "canyon": ("100.114.14.116", 8787, 68)
     }
     
     latencies = {}
@@ -1624,6 +1625,43 @@ def get_mountain_status():
             "error": str(e)
         }
 
+def get_canyon_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Canyon":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Canyon"),
+                        "role": agent.get("role", "Fleet Scribe / Watchtower"),
+                        "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
+                        "model": agent.get("model", "DeepSeek V4 Pro (via OpenRouter)"),
+                        "cadence": agent.get("cadence", "on Mountain's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Canyon agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
 def get_system_status():
     # CPU
     try:
@@ -1822,6 +1860,28 @@ def main():
             'signal': 'reachable over the private Tailscale peer channel; no public manifest yet'
         })
     
+    # Fetch Canyon's status (Third-Party Integration)
+    canyon_stats = get_canyon_status()
+    if canyon_stats['ok']:
+        canyon_badge_cls = "badge-success"
+        canyon_health_text = "ONLINE"
+    else:
+        canyon_badge_cls = "badge-warning"
+        canyon_health_text = f"OFFLINE ({canyon_stats.get('error', 'unknown error')})"
+        # Fallback values
+        canyon_stats.update({
+            'name': 'Canyon',
+            'role': 'Fleet Scribe / Watchtower',
+            'host': 'mountainwake.org host (co-located with Mountain)',
+            'model': 'DeepSeek V4 Pro (via OpenRouter)',
+            'cadence': "on Mountain's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "watches fleet traffic and posts digests; own tailnet listener, listed in Mountain's fleet manifest. Liveness tracks Mountain's host."
+        })
+    
     # Git stats for dashboard
     git_commits_count = 0
     if os.path.isdir(".git"):
@@ -2016,6 +2076,16 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">{measured_pings.get('mountain', 68)}ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Canyon</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Remote Scribe)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">{measured_pings.get('canyon', 68)}ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -2063,7 +2133,8 @@ def main():
             highbeam: {measured_pings.get('highbeam', 58)},
             lantern: {measured_pings.get('lantern', 62)},
             lightning: {measured_pings.get('lightning', 52)},
-            mountain: {measured_pings.get('mountain', 68)}
+            mountain: {measured_pings.get('mountain', 68)},
+            canyon: {measured_pings.get('canyon', 68)}
         }};
 
         let logIndex = 0;
@@ -2109,7 +2180,7 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly based on measured baselines
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
@@ -2344,6 +2415,16 @@ def main():
             <p>Role: <strong>{mountain_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {mountain_badge_cls}">{mountain_health_text}</span></p>
         </div>
+        <div class="card" style="border-left: 2px solid #a27b5c; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET SCRIBE / WATCHTOWER</p>
+            <h3 style="margin-top: 0; color: #a27b5c;">{canyon_stats['name']}</h3>
+            <p>Model: <code>{canyon_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{canyon_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{canyon_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{canyon_stats['last_wake']}</code></p>
+            <p>Role: <strong>{canyon_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
+        </div>
     </div>
     
     <h2>Watchdog Integration</h2>
@@ -2486,8 +2567,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">9 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">10 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain, Canyon</p>
         </div>
     </div>
     
@@ -2591,6 +2672,16 @@ def main():
             <p>Last Sync Timestamp: <code>{mountain_stats['last_wake']}</code></p>
             <p>Role: <strong>{mountain_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {mountain_badge_cls}">{mountain_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #a27b5c; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET SCRIBE / WATCHTOWER</p>
+            <h3 style="margin-top: 0; color: #a27b5c;">{canyon_stats['name']}</h3>
+            <p>Model: <code>{canyon_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{canyon_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{canyon_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{canyon_stats['last_wake']}</code></p>
+            <p>Role: <strong>{canyon_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
         </div>
     </div>
     """
@@ -3034,6 +3125,8 @@ def main():
             <path class="pulse-line" d="M200,130 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M350,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -3112,6 +3205,13 @@ def main():
                 <circle class="ping-dot" cx="500" cy="150" r="4.5" fill="var(--green, #2f855a)" />
                 <text x="500" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
             </g>
+
+            <!-- CANYON -->
+            <g class="topo-node" onclick="showNode('canyon')" onmouseover="showNode('canyon')">
+                <circle class="topo-node-bg" cx="500" cy="270" r="28" />
+                <circle class="ping-dot" cx="500" cy="270" r="4.5" fill="#a27b5c" />
+                <text x="500" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
+            </g>
         </svg>
     </div>
     
@@ -3167,6 +3267,11 @@ def main():
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
                 desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal and Creek, and to remote Beacon.",
                 color: "var(--green, #2f855a)"
+            }},
+            canyon: {{
+                title: "Canyon &bull; remote fleet scribe &amp; watchtower sentinel",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
+                color: "#a27b5c"
             }}
         }};
         

@@ -695,6 +695,8 @@
             <path class="pulse-line" d="M200,130 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M350,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -773,6 +775,13 @@
                 <circle class="ping-dot" cx="500" cy="150" r="4.5" fill="var(--green, #2f855a)" />
                 <text x="500" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
             </g>
+
+            <!-- CANYON -->
+            <g class="topo-node" onclick="showNode('canyon')" onmouseover="showNode('canyon')">
+                <circle class="topo-node-bg" cx="500" cy="270" r="28" />
+                <circle class="ping-dot" cx="500" cy="270" r="4.5" fill="#a27b5c" />
+                <text x="500" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
+            </g>
         </svg>
     </div>
     
@@ -828,6 +837,11 @@
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
                 desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal and Creek, and to remote Beacon.",
                 color: "var(--green, #2f855a)"
+            },
+            canyon: {
+                title: "Canyon &bull; remote fleet scribe &amp; watchtower sentinel",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
+                color: "#a27b5c"
             }
         };
         
@@ -1082,7 +1096,7 @@ Following operator Josh's explicit directive on September 5, 2026, **Beacon**, *
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 00:02:27 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 00:10:06 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
