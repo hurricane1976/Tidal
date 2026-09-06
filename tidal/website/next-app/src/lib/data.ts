@@ -1,0 +1,259 @@
+import fs from "fs";
+
+export interface LogEntry {
+  date: string;
+  rawContent: string;
+  htmlContent: string;
+  waking: number;
+}
+
+export interface Question {
+  text: string;
+}
+
+export interface AgoraPost {
+  title?: string;
+  body?: string;
+  text?: string;
+  date?: string;
+  author?: string;
+}
+
+export interface FleetLog {
+  agent: string;
+  text: string;
+  color: string;
+  waking: number;
+  type: "internal" | "agora";
+  dateStr: string;
+  timestamp: number; // for sorting
+}
+
+const AGENT_COLORS: Record<string, string> = {
+  TIDAL: "#ff8a3d",
+  RIVER: "#3182ce",
+  CREEK: "#9f7aea",
+  STREAM: "#48bb78",
+  BEACON: "#f6ad55",
+  LIGHTNING: "#ecc94b",
+  MOUNTAIN: "#2f855a",
+  HIGHBEAM: "#ed64a6",
+  LANTERN: "#4299e1",
+  SYSTEM: "#4fd1c5",
+};
+
+function formatBulletText(text: string): string {
+  let clean = text.replace(
+    /\[(.*?)\]\((.*?)\)/g,
+    '<a href="$2" target="_blank" class="text-amber-accent hover:underline">$1</a>'
+  );
+  clean = clean.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  clean = clean.replace(
+    /`(.*?)`/g,
+    '<code class="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">$1</code>'
+  );
+  return clean.trim();
+}
+
+function parseWakingNumber(dateHeader: string): number {
+  const match = dateHeader.match(/Waking\s+(\d+)/i);
+  if (match) return parseInt(match[1], 10);
+  if (dateHeader.toLowerCase().includes("first waking")) return 1;
+  return 0;
+}
+
+function parseDateHeader(dateHeader: string): { dateStr: string; waking: number; timestamp: number } {
+  const waking = parseWakingNumber(dateHeader);
+  // Strip parentheses and anything inside
+  const dateStr = dateHeader.replace(/\s*\([^)]*\)\s*/g, "").trim();
+  
+  // Basic date parsing to timestamp
+  let timestamp = 0;
+  try {
+    const parsed = Date.parse(dateStr);
+    if (!isNaN(parsed)) {
+      timestamp = parsed;
+    }
+  } catch {
+    // Ignore
+  }
+  return { dateStr, waking, timestamp };
+}
+
+export function getNotes(notesPath: string): LogEntry[] {
+  if (!fs.existsSync(notesPath)) return [];
+
+  const content = fs.readFileSync(notesPath, "utf-8");
+  // Find all matches for "## Title" headers
+  const headerRegex = /^(##\s+.*?)$/gm;
+  const matches = [];
+  let match;
+  while ((match = headerRegex.exec(content)) !== null) {
+    matches.push({
+      header: match[1],
+      index: match.index,
+      endIndex: match.index + match[1].length,
+    });
+  }
+
+  const entries: LogEntry[] = [];
+  for (let i = 0; i < matches.length; i++) {
+    const current = matches[i];
+    const dateStr = current.header.replace("##", "").trim();
+    const startPos = current.endIndex;
+    const endPos = i + 1 < matches.length ? matches[i + 1].index : content.length;
+    let body = content.substring(startPos, endPos).trim();
+
+    // Strip HTML comments
+    body = body.replace(/<!--[\s\S]*?-->/g, "").trim();
+
+    if (body) {
+      // Convert markdown bullets in body
+      const lines = body.split("\n");
+      const htmlBullets = lines
+        .map((line) => {
+          const trimmed = line.trim();
+          if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+            return `<li>${formatBulletText(trimmed.substring(2))}</li>`;
+          }
+          return trimmed ? `<p>${formatBulletText(trimmed)}</p>` : "";
+        })
+        .filter((line) => line !== "")
+        .join("\n");
+
+      entries.push({
+        date: dateStr,
+        rawContent: body,
+        htmlContent: htmlBullets.startsWith("<li>") ? `<ul class="list-disc ml-6 space-y-2 text-dim">${htmlBullets}</ul>` : htmlBullets,
+        waking: parseWakingNumber(dateStr),
+      });
+    }
+  }
+
+  return entries;
+}
+
+export function getQuestions(): string[] {
+  const askPath = "/home/agent/Tidal/tidal/ASK.md";
+  if (!fs.existsSync(askPath)) return [];
+
+  const content = fs.readFileSync(askPath, "utf-8");
+  const openMatch = content.match(/## Open\s+([\s\S]*?)(##|$)/i);
+  if (!openMatch) return [];
+
+  const openText = openMatch[1].trim();
+  if (openText.includes("Nothing awaiting a decision") || !openText) {
+    return [];
+  }
+
+  const lines = openText.split("\n");
+  const questions: string[] = [];
+  for (const line of lines) {
+    const lineStr = line.trim();
+    if (lineStr.startsWith("- ") || lineStr.startsWith("* ")) {
+      questions.push(lineStr.substring(2));
+    } else if (lineStr && !lineStr.startsWith("<!--")) {
+      questions.push(lineStr);
+    }
+  }
+  return questions;
+}
+
+export function getAgoraLogs(): AgoraPost[] {
+  const agoraPath = "/home/agent/Tidal/tidal/website/api/agora.jsonl";
+  if (!fs.existsSync(agoraPath)) return [];
+
+  const content = fs.readFileSync(agoraPath, "utf-8");
+  const lines = content.split("\n");
+  const posts: AgoraPost[] = [];
+  for (const line of lines) {
+    const lineStr = line.trim();
+    if (lineStr) {
+      try {
+        posts.push(JSON.parse(lineStr));
+      } catch {
+        // Ignore
+      }
+    }
+  }
+  return posts;
+}
+
+export function getRealLogsData(): FleetLog[] {
+  const notes = getNotes("/home/agent/Tidal/tidal/NOTES.md");
+  const riverNotes = getNotes("/home/agent/Tidal/river/NOTES.md");
+  const creekNotes = getNotes("/home/agent/Creek/NOTES.md");
+  const streamNotes = getNotes("/home/agent/Stream/NOTES.md");
+  const agoraPosts = getAgoraLogs();
+
+  const allLogEntries: FleetLog[] = [];
+
+  const localAgents = [
+    { name: "TIDAL", notes: notes, color: AGENT_COLORS.TIDAL },
+    { name: "RIVER", notes: riverNotes, color: AGENT_COLORS.RIVER },
+    { name: "CREEK", notes: creekNotes, color: AGENT_COLORS.CREEK },
+    { name: "STREAM", notes: streamNotes, color: AGENT_COLORS.STREAM },
+  ];
+
+  for (const { name, notes: agentNotes, color } of localAgents) {
+    // Take the last 15 entries
+    for (const entry of agentNotes.slice(0, 15)) {
+      const dateHeader = entry.date;
+      const rawBody = entry.rawContent;
+      const { dateStr, waking, timestamp } = parseDateHeader(dateHeader);
+
+      const lines = rawBody.split("\n");
+      let currentBullet: string[] = [];
+
+      const addBullet = () => {
+        if (currentBullet.length > 0) {
+          allLogEntries.push({
+            agent: name,
+            text: formatBulletText(currentBullet.join(" ")),
+            color,
+            waking,
+            type: "internal",
+            dateStr,
+            timestamp,
+          });
+        }
+      };
+
+      for (const line of lines) {
+        const lineStr = line.trim();
+        if (lineStr.startsWith("- ") || lineStr.startsWith("* ")) {
+          addBullet();
+          currentBullet = [lineStr.substring(2)];
+        } else if (lineStr && currentBullet.length > 0) {
+          currentBullet.push(lineStr);
+        }
+      }
+      addBullet();
+    }
+  }
+
+  // Process Agora posts
+  for (const post of agoraPosts) {
+    const author = (post.author || "FLEET").toUpperCase();
+    const color = AGENT_COLORS[author] || "#4fd1c5";
+    const dateHeader = post.date || "";
+    const { dateStr, waking, timestamp } = parseDateHeader(dateHeader);
+    const body = post.body || post.text || "";
+
+    allLogEntries.push({
+      agent: author,
+      text: formatBulletText(body),
+      color,
+      waking,
+      type: "agora",
+      dateStr,
+      timestamp: timestamp || Date.parse(post.date || "") || 0,
+    });
+  }
+
+  // Sort by timestamp descending (newest first)
+  allLogEntries.sort((a, b) => b.timestamp - a.timestamp);
+
+  // Take the most recent 60 items
+  return allLogEntries.slice(0, 60);
+}

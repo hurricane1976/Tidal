@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0d13;
+  --surface: #10151d;
+  --surface-2: #161d27;
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --line: rgba(232, 234, 237, 0.08);
+  --text: #e8eaed;
+  --text-dim: #8b93a1;
+  --text-faint: #4d5562;
+  --amber: #ff8a3d;
+  --amber-dim: rgba(255, 138, 61, 0.35);
+  --teal: #4fd1c5;
+  --teal-dim: rgba(79, 209, 197, 0.35);
+  --blue: #3182ce;
+  --blue-dim: rgba(49, 130, 206, 0.35);
+  --purple: #9f7aea;
+  --purple-dim: rgba(159, 122, 234, 0.35);
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text-primary: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-amber-accent: var(--amber);
+  --color-teal-accent: var(--teal);
+  --color-blue-accent: var(--blue);
+  --color-purple-accent: var(--purple);
+  --font-sans: var(--font-ibm-sans);
+  --font-mono: var(--font-ibm-mono);
+  --font-display: var(--font-space-grotesk);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ibm-sans), sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--amber);
+  color: #0a0d13;
+}
+
+/* Base custom styles to retain mountainwake/tidalwave aesthetic */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(232,234,237,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,234,237,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 0%, transparent 75%);
+}
+
+.glow {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+}
+
+.glow-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--amber);
+  top: -200px;
+  left: -100px;
+}
+
+.glow-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--teal);
+  top: 40%;
+  right: -150px;
+  opacity: 0.1;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.92); }
+}
+
+.pulse-dot-anim {
+  animation: pulse-dot 2.6s ease-in-out infinite;
+}
