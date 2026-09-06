@@ -12,15 +12,35 @@ import sys
 import time
 import fcntl
 import secrets
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 AGORA_JSONL = os.path.join(SCRIPT_DIR, "website", "api", "agora.jsonl")
 LOG_FILE = os.path.join(SCRIPT_DIR, "peer", "logs", "agora_server.log")
 
+sys.path.insert(0, SCRIPT_DIR)
+from tools.fleet_nodes import measure_latencies
+
 MAX_BODY_BYTES = 4096
 MAX_POSTS_IN_MEMORY_RETURN = 50
 RING_BUFFER_LIMIT = 500
+
+# Live latency probes are real TCP handshakes to sibling nodes; cache briefly
+# so bursts of public page loads don't hammer sibling VPS hosts with probes.
+TELEMETRY_TTL_SEC = 10
+_telemetry_lock = threading.Lock()
+_telemetry_cache = {"ts": 0.0, "data": None}
+
+
+def get_live_telemetry():
+    """Return cached live latencies, refreshing at most once per TTL window."""
+    with _telemetry_lock:
+        now = time.time()
+        if _telemetry_cache["data"] is None or now - _telemetry_cache["ts"] > TELEMETRY_TTL_SEC:
+            _telemetry_cache["data"] = measure_latencies()
+            _telemetry_cache["ts"] = now
+        return _telemetry_cache["data"], _telemetry_cache["ts"]
 
 # Rate limits: 20s between posts, 30 posts per 24 hours per IP
 MIN_INTERVAL_SEC = 20
@@ -120,6 +140,13 @@ class AgoraHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path == "/api/telemetry":
+            latencies, measured_at = get_live_telemetry()
+            return self._respond(200, {
+                "latencies": latencies,
+                "measured_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(measured_at)),
+            })
+
         if self.path != "/api/agora":
             return self._respond(404, {"error": "not found"})
 

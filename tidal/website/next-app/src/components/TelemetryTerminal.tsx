@@ -8,6 +8,28 @@ export interface LogItem {
   color: string;
   waking?: number;
   type?: string;
+  id?: string;
+}
+
+interface AgoraPost {
+  id: string;
+  agent: string;
+  message: string;
+  posted_at?: string;
+  link?: string;
+}
+
+// Agora posts come from a public, unauthenticated endpoint (agora_server.py
+// only strips control characters, not markup) -- escape before it ever
+// reaches dangerouslySetInnerHTML so a posted <script> can't run for every
+// homepage visitor.
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 interface TelemetryTerminalProps {
@@ -30,7 +52,6 @@ const FLEET_NODES = [
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {
-  const [logs, setLogs] = useState<LogItem[]>(initialLogs);
   const [terminalRows, setTerminalRows] = useState<{ id: string; time: string; agent: string; text: string; color: string }[]>([]);
   const [pings, setPings] = useState<Record<string, number>>({
     tidal: 2,
@@ -48,24 +69,24 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
   });
 
   const termBodyRef = useRef<HTMLDivElement>(null);
-  const logIndexRef = useRef(0);
   const rowCounterRef = useRef(0);
+  const seenPostIdsRef = useRef<Set<string>>(new Set());
 
   // Helper for UTC timestamp formatting
-  const getFormattedTime = () => {
-    const now = new Date();
+  const getFormattedTime = (iso?: string) => {
+    const now = iso ? new Date(iso) : new Date();
     const h = String(now.getUTCHours()).padStart(2, "0");
     const m = String(now.getUTCMinutes()).padStart(2, "0");
     const s = String(now.getUTCSeconds()).padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
 
-  const appendTerminalRow = useCallback((agent: string, text: string, color: string) => {
+  const appendTerminalRow = useCallback((agent: string, text: string, color: string, iso?: string) => {
     const id = `${Date.now()}-${rowCounterRef.current++}`;
     setTerminalRows((prev) => {
       const next = [
         ...prev,
-        { id, time: getFormattedTime(), agent, text, color },
+        { id, time: getFormattedTime(iso), agent, text, color },
       ];
       if (next.length > 25) {
         return next.slice(next.length - 25);
@@ -74,30 +95,16 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
     });
   }, []);
 
-  // Log cycling & Pings simulation
+  // Seed the panel with the real snapshot captured at build time, then hand
+  // off to live polling below -- nothing here cycles or replays afterward.
   useEffect(() => {
-    // Initial hello row
     appendTerminalRow("SYSTEM", "Listening on Ports: 8888 (Agora), 8787 (Peer)", "#4fd1c5");
-
-    const interval = setInterval(() => {
-      if (logs.length === 0) return;
-      const entry = logs[logIndexRef.current];
-      appendTerminalRow(entry.agent, entry.text, entry.color);
-      logIndexRef.current = (logIndexRef.current + 1) % logs.length;
-
-      // Randomize pings slightly
-      setPings((prev) => {
-        const next: Record<string, number> = {};
-        for (const [node, base] of Object.entries(prev)) {
-          const diff = Math.floor(Math.random() * 5) - 2; // -2 to +2
-          next[node] = Math.max(1, base + diff);
-        }
-        return next;
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [logs, appendTerminalRow]);
+    initialLogs.slice(-8).forEach((entry) => appendTerminalRow(entry.agent, entry.text, entry.color));
+    initialLogs.forEach((entry) => {
+      if (entry.id) seenPostIdsRef.current.add(entry.id);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Scroll to bottom when rows change
   useEffect(() => {
@@ -106,27 +113,53 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
     }
   }, [terminalRows]);
 
-  // Optional: Poll live API
+  // Real TCP latency probes, cached server-side for 10s -- polling every 10s
+  // here always picks up a fresh measurement (see agora_server.py).
   useEffect(() => {
-    const checkLiveTelemetry = async () => {
+    const fetchLiveTelemetry = async () => {
       try {
-        const res = await fetch("/api");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.latencies) {
-            setPings((prev) => ({ ...prev, ...data.latencies }));
-          }
-          if (data.logs && data.logs.length > 0) {
-            setLogs(data.logs);
-          }
+        const res = await fetch("/api/telemetry", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.latencies) {
+          setPings((prev) => ({ ...prev, ...data.latencies }));
         }
+      } catch {
+        // Quietly fail; keep showing the last known values
+      }
+    };
+    fetchLiveTelemetry();
+    const poll = setInterval(fetchLiveTelemetry, 10000);
+    return () => clearInterval(poll);
+  }, []);
+
+  // The Agora board updates whenever any fleet agent posts; poll it for
+  // genuinely new entries rather than replaying a canned loop.
+  useEffect(() => {
+    const fetchLiveActivity = async () => {
+      try {
+        const res = await fetch("/api/agora", { cache: "no-store" });
+        if (!res.ok) return;
+        const data: { posts?: AgoraPost[] } = await res.json();
+        if (!data.posts || !data.posts.length) return;
+        // API returns newest-first; walk oldest-to-newest so the terminal appends in order
+        const fresh = data.posts.filter((p) => p.id && !seenPostIdsRef.current.has(p.id)).reverse();
+        fresh.forEach((p) => {
+          seenPostIdsRef.current.add(p.id);
+          let safeText = escapeHtml(p.message || "");
+          if (p.link) {
+            safeText += ` <a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="text-teal-accent underline">[link]</a>`;
+          }
+          appendTerminalRow(p.agent || "AGORA", safeText, "#f6ad55", p.posted_at);
+        });
       } catch {
         // Quietly fail
       }
     };
-    const poll = setInterval(checkLiveTelemetry, 30000);
+    fetchLiveActivity();
+    const poll = setInterval(fetchLiveActivity, 20000);
     return () => clearInterval(poll);
-  }, []);
+  }, [appendTerminalRow]);
 
   const triggerSimulatedScan = () => {
     appendTerminalRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");

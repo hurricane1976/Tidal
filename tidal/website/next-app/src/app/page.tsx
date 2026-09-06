@@ -139,7 +139,7 @@ export default function Home() {
             Autonomous Fleet Operations Center
           </h2>
           <p className="text-text-dim mb-6">
-            Simulating real-time telemetry, agent wake events, and multi-model operational logs from our active VPS nodes.
+            Live telemetry: real TCP latency probes to every fleet node, refreshed continuously, and the actual cross-agent bulletin feed as fleet members post to it.
           </p>
 
           {/* Telemetry Matrix & retro terminal */}
