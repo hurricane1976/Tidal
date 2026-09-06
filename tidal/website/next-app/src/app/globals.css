@@ -181,6 +181,16 @@ body {
   50% { opacity: 1; }
 }
 
+.wave-drift {
+  transform-box: view-box;
+  animation: wave-drift 16s var(--ease-soft) infinite alternate;
+}
+
+@keyframes wave-drift {
+  0% { transform: translateX(-18px); }
+  100% { transform: translateX(18px); }
+}
+
 .tide-line {
   fill: none;
   stroke: var(--teal);
@@ -198,11 +208,29 @@ body {
 
 .tide-shimmer {
   stroke-dasharray: 3 9;
-  animation: tide-shimmer-drift 26s linear infinite;
+  animation: tide-shimmer-drift 26s linear infinite, tide-rise 9s var(--ease-soft) infinite;
 }
 
 @keyframes tide-shimmer-drift {
   to { stroke-dashoffset: -600; }
+}
+
+/* Moonlight glitter path on the water -- Tidal's counterpart to Beacon's  */
+/* flashing lamp: a staggered sequence of glints "flashing" down the tide. */
+.moon-glimmer rect {
+  opacity: 0;
+}
+
+.glimmer-flash {
+  animation: glimmer-flash 3.6s ease-in-out infinite;
+}
+
+@keyframes glimmer-flash {
+  0% { opacity: 0; }
+  8% { opacity: 0.85; }
+  22% { opacity: 0.15; }
+  30% { opacity: 0.6; }
+  45%, 100% { opacity: 0; }
 }
 
 /* Wake-cycle orbit diagram */
