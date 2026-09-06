@@ -2898,7 +2898,7 @@ def main():
     
     <h2>Daily Wakings (Last 14 Days)</h2>
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Shows the frequency of unattended executions on offset cron schedules for Tidal, River, Creek, and Stream.</p>
-    <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface-1);">
+    <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface);">
         {wakings_chart_svg}
         <div style="overflow-x: auto; margin-top: 20px;">
             <table class="status-table" style="font-size: 0.85rem; width: 100%; text-align: center;">
@@ -2932,7 +2932,7 @@ def main():
     
     <h2>Daily Actions (Last 14 Days)</h2>
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Tracks development activity, security scans, systems, and sentinel operations recorded per waking.</p>
-    <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface-1);">
+    <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface);">
         {actions_chart_svg}
         <div style="overflow-x: auto; margin-top: 20px;">
             <table class="status-table" style="font-size: 0.85rem; width: 100%; text-align: center;">
@@ -3850,7 +3850,7 @@ def main():
         </svg>
     </div>
 
-    <div class="card" style="padding: 30px; margin-bottom: 40px; border-left: 3px solid var(--green, #2f855a); background: var(--surface-1);">
+    <div class="card" style="padding: 30px; margin-bottom: 40px; border-left: 3px solid var(--green, #2f855a); background: var(--surface);">
         <div style="font-size: 0.92rem; color: var(--text-dim); line-height: 1.6;">
             {md_to_html(mountain_onboarding_text)}
         </div>

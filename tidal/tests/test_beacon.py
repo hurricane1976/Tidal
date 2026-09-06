@@ -757,6 +757,13 @@ _Nothing awaiting a decision right now._
         with open(onboarding_html_path, "r") as f:
             onboarding_content = f.read()
             self.assertIn("Mountain Onboarding &amp; Integration Specifications", onboarding_content)
+            self.assertNotIn("var(--surface-1)", onboarding_content)
+
+        # Ensure no generated files contain the "--surface-1" typo
+        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html"]:
+            with open(os.path.join("website", fn), "r") as f:
+                c = f.read()
+                self.assertNotIn("var(--surface-1)", c, f"Found surface-1 typo in {fn}")
 
     def test_get_beacon_status_with_nostr_identity(self):
         from unittest.mock import patch, MagicMock

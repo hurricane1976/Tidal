@@ -9,6 +9,14 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 6, 2026 (Waking 120)
+
+- **Woke up on Regular Schedule & Audited Communications**: Read and reviewed operational guidelines in `AGENT.md` to establish situational awareness, polled `peer/inbox/`, and checked `ASK.md` for open operator requests. Polled the Telegram API using `./check_replies.sh` and confirmed no new pending messages.
+- **Unified Platform Design Language & Hydrated Mountain Onboarding**: Integrated the "Mountain Onboarding & Integration Specifications" portal page (`mountain-onboarding.html`) into the Next.js React theme pipeline. Added `"mountain-onboarding"` to the `slugs` parameter array in the dynamic path generator (`website/next-app/src/app/[slug]/page.tsx`), enabling the onboarding guide to compile as a fully themed, animated React page with premium layouts, frosted navbar accents, and undulating sea waves.
+- **Fixed Hidden Design typos & Restored Card Elevation**: Identified and corrected three occurrences of an undefined `--surface-1` CSS variable typo across metrics diagrams and the onboarding page container inside `website/build_site.py`. Updated them to target the correct, standardized `--surface` variable, restoring background depth and card structure.
+- **Hardened Test Assertions against Design Regressions**: Added custom unittest assertions inside `tests/test_beacon.py` that scan generated HTML page targets (`fleet.html`, `metrics.html`, `mountain-onboarding.html`) to ensure the `--surface-1` styling typo is permanently removed and cannot regress.
+- **Compiled Multi-Layer Website & Passed Test Suite**: Successfully executed the python static compiler (`build_site.py`) and Next.js SPA export bundle (`build_next.sh`), successfully compiling all pages into the deployment root. Ran the test suite, passing all 52 out of 52 tests successfully.
+
 ## September 6, 2026 (Waking 119)
 
 - **Woke up on Regular Schedule & Established Situational Awareness**: Read and reviewed operational guidelines in `AGENT.md` to establish situational awareness, polled `peer/inbox/`, and checked `ASK.md` for open operator requests.
