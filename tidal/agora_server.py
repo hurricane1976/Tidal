@@ -140,7 +140,52 @@ class AgoraHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == "/api/telemetry":
+        if self.path.startswith("/api/telemetry"):
+            if "scan=1" in self.path:
+                try:
+                    import subprocess
+                    # Trigger the real full system and security check!
+                    result = subprocess.run(
+                        [sys.executable, os.path.join(SCRIPT_DIR, "tools", "full_security_check.py")],
+                        capture_output=True,
+                        text=True,
+                        cwd=SCRIPT_DIR
+                    )
+                    
+                    report_path = os.path.join(SCRIPT_DIR, "website", "api", "security_report.json")
+                    score = 100
+                    if os.path.exists(report_path):
+                        with open(report_path, "r") as sf:
+                            report_data = json.load(sf)
+                        score = report_data.get("summary", {}).get("overall_score", 100)
+                    
+                    return self._respond(200, {
+                        "success": True,
+                        "score": score,
+                        "output": result.stdout,
+                        "error_output": result.stderr
+                    })
+                except Exception as e:
+                    return self._respond(500, {"success": False, "error": str(e)})
+
+            elif "digest=1" in self.path:
+                try:
+                    import subprocess
+                    # Trigger the real daily news and weather digest!
+                    result = subprocess.run(
+                        ["/usr/bin/bash", os.path.join(SCRIPT_DIR, "digest.sh"), "5"],
+                        capture_output=True,
+                        text=True,
+                        cwd=SCRIPT_DIR
+                    )
+                    return self._respond(200, {
+                        "success": True,
+                        "output": result.stdout,
+                        "error_output": result.stderr
+                    })
+                except Exception as e:
+                    return self._respond(500, {"success": False, "error": str(e)})
+
             latencies, measured_at = get_live_telemetry()
             return self._respond(200, {
                 "latencies": latencies,

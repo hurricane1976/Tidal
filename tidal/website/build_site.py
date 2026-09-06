@@ -69,18 +69,18 @@ def get_layout(title, content, active_tab):
     <style>
         :root {{
             color-scheme: dark;
-            --bg-deep: #07090e;
-            --bg: #0a0d13;
-            --surface: #10151d;
-            --surface-2: #161d27;
-            --surface-3: #1e2532;
-            --glass: rgba(255,255,255,0.035);
-            --glass-border: rgba(255,255,255,0.09);
-            --line: rgba(232,234,237,0.08);
-            --line-strong: rgba(232,234,237,0.16);
-            --text: #e8eaed;
-            --text-dim: #9aa3b2;
-            --text-faint: #6b7482;
+            --bg-deep: #02060d;
+            --bg: #030b16;
+            --surface: #081528;
+            --surface-2: #0e213b;
+            --surface-3: #162f52;
+            --glass: rgba(16, 42, 77, 0.25);
+            --glass-border: rgba(63, 199, 255, 0.15);
+            --line: rgba(63, 199, 255, 0.1);
+            --line-strong: rgba(63, 199, 255, 0.2);
+            --text: #f0f7ff;
+            --text-dim: #a5b9d1;
+            --text-faint: #6c88a8;
             --amber: #ff8a3d;
             --amber-soft: #ffc48f;
             --amber-deep: #ff6a1f;
@@ -90,7 +90,7 @@ def get_layout(title, content, active_tab):
             --teal-dim: rgba(79,209,197,0.35);
             --tide: #3fc7ff;
             --tide-bright: #a6e8ff;
-            --tide-dim: rgba(63,199,255,0.32);
+            --tide-dim: rgba(63, 199, 255, 0.32);
             --blue: #3182ce;
             --blue-dim: rgba(49,130,206,0.35);
             --purple: #9f7aea;

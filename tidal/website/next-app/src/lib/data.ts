@@ -1,4 +1,5 @@
 import fs from "fs";
+import { execSync } from "child_process";
 
 export interface LogEntry {
   date: string;
@@ -281,4 +282,17 @@ export function getRealLogsData(): FleetLog[] {
 
   // Take the most recent 60 items
   return allLogEntries.slice(0, 60);
+}
+
+/**
+ * Live Git Commit Count Audit.
+ * Performs a live inspection of git revision history to output accurate commit counts.
+ */
+export function getGitCommitsCount(): number {
+  try {
+    const countStr = execSync("git rev-list --count HEAD", { encoding: "utf8" });
+    return parseInt(countStr.trim(), 10);
+  } catch {
+    return 0;
+  }
 }
