@@ -14,6 +14,7 @@ export async function generateStaticParams() {
     "agora",
     "status",
     "metrics",
+    "secops",
     "weekly",
     "fleet",
     "mountain-onboarding",
