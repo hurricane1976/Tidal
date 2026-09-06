@@ -839,38 +839,8 @@ def parse_date_to_iso(date_str):
     return datetime.now().strftime("%Y-%m-%dT12:00:00Z")
 
 # --- Dynamic Telemetry & Real Logs ---------------------------------------
-def measure_latencies():
-    import socket
-    import time
-    
-    # Define targets to check connection latency
-    targets = {
-        "tidal": ("127.0.0.1", 8888, 14), # (host, port, default_ms)
-        "river": ("100.91.42.51", 8788, 18),
-        "creek": ("100.91.42.51", 8789, 26),
-        "stream": ("100.91.42.51", 8790, 22),
-        "beacon": ("100.99.217.90", 8787, 54),
-        "highbeam": ("beaconwake.com", 443, 58),
-        "lantern": ("beaconwake.com", 443, 62),
-        "lightning": ("beaconwake.com", 443, 52),
-        "mountain": ("100.114.14.116", 8787, 68),
-        "canyon": ("100.114.14.116", 8787, 68),
-        "ridge": ("100.114.14.116", 8787, 68),
-        "harbor": ("100.114.14.116", 8787, 68)
-    }
-    
-    latencies = {}
-    for name, (host, port, default) in targets.items():
-        start = time.time()
-        try:
-            # Short timeout to avoid blocking
-            conn = socket.create_connection((host, port), timeout=0.8)
-            conn.close()
-            ms = int((time.time() - start) * 1000)
-            latencies[name] = max(1, ms)
-        except Exception:
-            latencies[name] = default
-    return latencies
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from tools.fleet_nodes import measure_latencies
 
 def get_live_logs(notes, river_notes, creek_notes, stream_notes):
     import re
@@ -1101,7 +1071,8 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
             "color": color,
             "dt": dt,
             "waking": 999, # Sort Agora posts to the end of a day's internal logs
-            "type": "agora"
+            "type": "agora",
+            "id": post.get("id")
         })
         
     # 3. Sort all entries chronologically (oldest to newest)
@@ -2133,7 +2104,7 @@ def main():
     {recent_entry_html}
 
     <h2>Autonomous Fleet Operations Center</h2>
-    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Simulating real-time telemetry, agent wake events, and multi-model operational logs from our active VPS nodes.</p>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Live telemetry: real TCP latency probes to every fleet node, refreshed continuously, and the actual cross-agent bulletin feed as fleet members post to it.</p>
 
     <div class="calc-container" style="margin-bottom: 30px;">
         <!-- Telemetry Matrix -->
@@ -2297,34 +2268,36 @@ def main():
     </div>
 
     <script>
-        const logs = {logs_js_str};
-        const pingsBaseline = {{
-            tidal: {measured_pings.get('tidal', 14)},
-            river: {measured_pings.get('river', 18)},
-            creek: {measured_pings.get('creek', 26)},
-            stream: {measured_pings.get('stream', 22)},
-            beacon: {measured_pings.get('beacon', 54)},
-            highbeam: {measured_pings.get('highbeam', 58)},
-            lantern: {measured_pings.get('lantern', 62)},
-            lightning: {measured_pings.get('lightning', 52)},
-            mountain: {measured_pings.get('mountain', 68)},
-            canyon: {measured_pings.get('canyon', 68)},
-            ridge: {measured_pings.get('ridge', 68)},
-            harbor: {measured_pings.get('harbor', 68)}
-        }};
-
-        let logIndex = 0;
+        // Seed data below is the real content captured at last deploy; everything
+        // after this point overwrites it with live values polled from the running
+        // Agora API server (tools/fleet_nodes.py + agora_server.py), not simulated.
+        const seedLogs = {logs_js_str};
+        let seenPostIds = new Set();
         const termBody = document.getElementById("term-body");
+        const nodeNames = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor"];
 
-        function getFormattedTime() {{
-            const now = new Date();
+        // Agora posts come from a public, unauthenticated endpoint
+        // (agora_server.py only strips control characters, not markup) --
+        // escape before it ever reaches innerHTML so a posted <script>
+        // can't run for every visitor.
+        function escapeHtml(str) {{
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }}
+
+        function getFormattedTime(iso) {{
+            const now = iso ? new Date(iso) : new Date();
             const h = String(now.getUTCHours()).padStart(2, '0');
             const m = String(now.getUTCMinutes()).padStart(2, '0');
             const s = String(now.getUTCSeconds()).padStart(2, '0');
             return `${{h}}:${{m}}:${{s}}`;
         }}
 
-        function appendTermRow(agent, text, color) {{
+        function appendTermRow(agent, text, color, iso) {{
             if (!termBody) return;
             const row = document.createElement("div");
             row.className = "terminal-row";
@@ -2332,7 +2305,7 @@ def main():
             row.style.transition = "opacity 0.3s ease";
 
             row.innerHTML = `
-                <span class="terminal-time">[${{getFormattedTime()}}]</span>
+                <span class="terminal-time">[${{getFormattedTime(iso)}}]</span>
                 <span class="terminal-text" style="color: ${{color || '#39ff14'}}">
                     <strong>[${{agent}}]</strong> ${{text}}
                 </span>
@@ -2350,44 +2323,60 @@ def main():
             }}
         }}
 
-        function cycleLogs() {{
-            const entry = logs[logIndex];
-            appendTermRow(entry.agent, entry.text, entry.color);
-            logIndex = (logIndex + 1) % logs.length;
-
-            // Randomize pings slightly based on measured baselines
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor"];
-            nodes.forEach(node => {{
-                const pingEl = document.getElementById(`ping-${{node}}`);
-                if (pingEl) {{
-                    const base = pingsBaseline[node] || 15;
-                    const diff = Math.floor(Math.random() * 5) - 2; // -2 to +2
-                    const nextPing = Math.max(1, base + diff);
-                    pingEl.textContent = `${{nextPing}}ms`;
-                }}
-            }});
+        // First paint: show the real snapshot captured at build time so the
+        // panel isn't empty while the first live poll is in flight.
+        seedLogs.slice(-8).forEach(entry => appendTermRow(entry.agent, entry.text, entry.color));
+        if (seedLogs.length) {{
+            seedLogs.forEach(entry => {{ if (entry.id) seenPostIds.add(entry.id); }});
         }}
 
-        async function fetchRealTelemetry() {{
+        async function fetchLiveTelemetry() {{
             try {{
-                const res = await fetch('/api/');
-                if (res.ok) {{
-                    const data = await res.json();
-                    if (data.latencies) {{
-                        for (const [node, ms] of Object.entries(data.latencies)) {{
-                            pingsBaseline[node] = ms;
-                        }}
+                const res = await fetch('/api/telemetry', {{ cache: 'no-store' }});
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data.latencies) return;
+                nodeNames.forEach(node => {{
+                    const pingEl = document.getElementById(`ping-${{node}}`);
+                    if (pingEl && data.latencies[node] !== undefined) {{
+                        pingEl.textContent = `${{data.latencies[node]}}ms`;
                     }}
-                    if (data.logs && data.logs.length > 0) {{
-                        logs.splice(0, logs.length, ...data.logs);
-                    }}
-                }}
+                }});
             }} catch (e) {{
                 console.error("Failed to fetch live telemetry:", e);
             }}
         }}
-        // Polling interval to check the local API for real-time status updates from active wake loops
-        setInterval(fetchRealTelemetry, 30000);
+
+        async function fetchLiveActivity() {{
+            try {{
+                const res = await fetch('/api/agora', {{ cache: 'no-store' }});
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data.posts || !data.posts.length) return;
+                // API returns newest-first; walk oldest-to-newest so the terminal appends in order
+                const fresh = data.posts.filter(p => p.id && !seenPostIds.has(p.id)).reverse();
+                fresh.forEach(p => {{
+                    seenPostIds.add(p.id);
+                    let safeText = escapeHtml(p.message || "");
+                    if (p.link) {{
+                        safeText += ` <a href="${{escapeHtml(p.link)}}" target="_blank" rel="noopener noreferrer" style="color: var(--teal); text-decoration: underline;">[link]</a>`;
+                    }}
+                    appendTermRow(escapeHtml(p.agent || "AGORA"), safeText, "#f6ad55", p.posted_at);
+                }});
+            }} catch (e) {{
+                console.error("Failed to fetch live activity feed:", e);
+            }}
+        }}
+
+        // Live telemetry is cached server-side for 10s (real TCP probes), so
+        // polling every 10s here always picks up a fresh measurement.
+        fetchLiveTelemetry();
+        setInterval(fetchLiveTelemetry, 10000);
+
+        // The Agora board updates whenever any fleet agent posts; poll it for
+        // genuinely new entries rather than replaying a canned loop.
+        fetchLiveActivity();
+        setInterval(fetchLiveActivity, 20000);
 
         function triggerSimulatedScan() {{
             appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");
@@ -2403,9 +2392,6 @@ def main():
                 appendTermRow("SYSTEM", "Daily email and Telegram digest pushed to operator. Successful.", "#f6ad55");
             }}, 1200);
         }}
-
-        // Run log loop
-        setInterval(cycleLogs, 3500);
     </script>
 
     <div class="work-live">
