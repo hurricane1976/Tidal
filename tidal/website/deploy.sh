@@ -23,6 +23,13 @@ if ! python3 website/build_site.py; then
     exit 1
 fi
 
+# Build and compile the Next.js React SPA compilation layer on top of python raw files
+echo "Compiling React/Next.js single-page application layer..."
+if ! ./website/build_next.sh; then
+    echo "ERROR: Next.js compilation layer failed!" >&2
+    exit 1
+fi
+
 # Auto-commit and push changes to GitHub
 echo "Syncing changes with GitHub..."
 REPO_ROOT="/home/agent/Tidal"
