@@ -183,19 +183,19 @@ body {
 
 .wave-drift {
   transform-box: view-box;
-  animation: wave-drift 16s var(--ease-soft) infinite alternate;
+  animation: wave-drift 10s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
 
 @keyframes wave-drift {
-  0% { transform: translateX(-18px); }
-  100% { transform: translateX(18px); }
+  0% { transform: translateX(-42px); }
+  100% { transform: translateX(42px); }
 }
 
 .tide-line {
   fill: none;
   stroke: var(--teal);
   opacity: 0.16;
-  animation: tide-rise 9s var(--ease-soft) infinite;
+  animation: tide-rise 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .tide-line.tide-line-2 { animation-delay: -3s; }
@@ -203,12 +203,12 @@ body {
 
 @keyframes tide-rise {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-18px); }
 }
 
 .tide-shimmer {
   stroke-dasharray: 3 9;
-  animation: tide-shimmer-drift 26s linear infinite, tide-rise 9s var(--ease-soft) infinite;
+  animation: tide-shimmer-drift 14s linear infinite, tide-rise 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 @keyframes tide-shimmer-drift {
