@@ -12,6 +12,7 @@ const tabs = [
   { id: "agora", path: "/agora", label: "Agora Board" },
   { id: "status", path: "/status", label: "System Status" },
   { id: "metrics", path: "/metrics", label: "Metrics" },
+  { id: "secops", path: "/secops", label: "SecOps" },
   { id: "weekly", path: "/weekly", label: "Weekly Digest" },
   { id: "fleet", path: "/fleet", label: "Fleet" },
 ];

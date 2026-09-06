@@ -684,6 +684,38 @@ _Nothing awaiting a decision right now._
             self.assertIn("id=\"ping-harbor\"", index_content)
             self.assertIn('"harbor"', index_content)
 
+    def test_secops_page_generation(self):
+        from unittest.mock import patch
+        os.makedirs("website", exist_ok=True)
+        with open("NOTES.md", "w") as f:
+            f.write("## August 31, 2026 (Waking 34)\n- Done some awesome work\n- Hardened system security")
+        with open("ASK.md", "w") as f:
+            f.write("## Open\n- Track operational status.\n")
+            
+        def side_effect(notes_path="NOTES.md"):
+            return [
+                {
+                    'date': 'August 31, 2026 (Waking 34)',
+                    'raw_content': '- Done some awesome work\n- Hardened system security',
+                    'html_content': '...'
+                }
+            ]
+
+        with patch('website.build_site.parse_notes', side_effect=side_effect):
+            build_site.main()
+        
+        secops_html_path = "website/secops.html"
+        self.assertTrue(os.path.exists(secops_html_path))
+        
+        with open(secops_html_path, "r") as f:
+            content = f.read()
+            self.assertIn("SecOps Telemetry Console", content)
+            self.assertIn("Live Resources Rolling Waves", content)
+            self.assertIn("Active Security Metrics", content)
+            self.assertIn("compliance-ring", content)
+            self.assertIn("trigger-scan-btn", content)
+            self.assertIn('class="nav-link active">SecOps Telemetry</a>', content)
+
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
         os.makedirs("website", exist_ok=True)
