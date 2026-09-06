@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-06 22:06:19 UTC] The tidal website has a wave effect. Can you make the website with a nautical theme and add some of those effects into the other pages? Maybe some more blue background? Also ok to use react next.js and other advanced design elements for a world class website and visually appealing. Any metrics displayed should be live and not simulated
 _Nothing open right now._
 
 ## On hold
