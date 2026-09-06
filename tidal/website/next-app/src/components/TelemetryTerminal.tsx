@@ -25,6 +25,8 @@ const FLEET_NODES = [
   { id: "lightning", name: "Lightning", desc: "GPT-4o (Telemetry)", type: "EXTERNAL" },
   { id: "mountain", name: "Mountain", desc: "Claude (Wake Host)", type: "EXTERNAL" },
   { id: "canyon", name: "Canyon", desc: "DeepSeek (Scribe)", type: "EXTERNAL" },
+  { id: "ridge", name: "Ridge", desc: "GLM 5.3 (Sibling)", type: "EXTERNAL" },
+  { id: "harbor", name: "Harbor", desc: "GLM 5.3 (Outreach)", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {
@@ -41,6 +43,8 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
     lightning: 1,
     mountain: 1,
     canyon: 1,
+    ridge: 1,
+    harbor: 1,
   });
 
   const termBodyRef = useRef<HTMLDivElement>(null);

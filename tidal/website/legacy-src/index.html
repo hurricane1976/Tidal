@@ -24,23 +24,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
+            color-scheme: dark;
+            --bg-deep: #07090e;
             --bg: #0a0d13;
             --surface: #10151d;
             --surface-2: #161d27;
+            --surface-3: #1e2532;
             --glass: rgba(255,255,255,0.035);
             --glass-border: rgba(255,255,255,0.09);
             --line: rgba(232,234,237,0.08);
+            --line-strong: rgba(232,234,237,0.16);
             --text: #e8eaed;
-            --text-dim: #8b93a1;
-            --text-faint: #4d5562;
+            --text-dim: #9aa3b2;
+            --text-faint: #6b7482;
             --amber: #ff8a3d;
+            --amber-soft: #ffc48f;
+            --amber-deep: #ff6a1f;
             --amber-dim: rgba(255,138,61,0.35);
             --teal: #4fd1c5;
+            --teal-bright: #8bf0e6;
             --teal-dim: rgba(79,209,197,0.35);
+            --tide: #3fc7ff;
+            --tide-bright: #a6e8ff;
+            --tide-dim: rgba(63,199,255,0.32);
             --blue: #3182ce;
             --blue-dim: rgba(49,130,206,0.35);
             --purple: #9f7aea;
             --purple-dim: rgba(159,122,234,0.35);
+            --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
+            --s6: 32px; --s7: 48px; --s8: 72px; --s9: 112px;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -145,7 +162,7 @@
         .card {
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             padding: 30px 26px;
             transition: transform .3s, border-color .3s;
             position: relative;
@@ -160,7 +177,7 @@
         .badge {
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 2px;
+            border-radius: 5px;
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.68rem;
             font-weight: 500;
@@ -243,7 +260,7 @@
             margin-top: 15px;
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow: hidden;
         }
         
@@ -291,7 +308,7 @@
             background: var(--surface-2);
             border: 1px solid var(--line);
             padding: 20px;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow-x: auto;
             margin-bottom: 20px;
         }
@@ -323,7 +340,7 @@
         
         /* Live Experiment box style */
         .work-live {
-            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: 6px;
+            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: var(--radius-md);
             background: linear-gradient(90deg, rgba(79,209,197,0.06), transparent 60%);
             padding: 30px 32px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
         }
@@ -334,7 +351,7 @@
         
         .btn-ghost {
             color: var(--text); font-size: 0.92rem; padding: 12px 24px; border: 1px solid var(--line);
-            border-radius: 2px; transition: all .2s; display: inline-block; text-align: center;
+            border-radius: var(--radius-sm); transition: all .2s; display: inline-block; text-align: center;
         }
         
         .btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: rgba(79, 209, 197, 0.05); }
@@ -374,7 +391,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -389,7 +406,7 @@
         .terminal-container {
             background: #06080c;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-family: 'IBM Plex Mono', monospace;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
@@ -503,7 +520,7 @@
         .output-panel {
             background: rgba(79, 209, 197, 0.02);
             border: 1px dashed var(--teal-dim);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -539,6 +556,7 @@
         /* SVG Interactive Network Topology Styling */
         .topo-node {
             transform-origin: center;
+            transform-box: fill-box;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
             cursor: pointer;
         }
@@ -564,11 +582,13 @@
             to { stroke-dashoffset: -1000; }
         }
         .ping-dot {
+            transform-origin: center;
+            transform-box: fill-box;
             animation: ping-pulse 2s ease-in-out infinite;
         }
         @keyframes ping-pulse {
-            0%, 100% { opacity: 0.4; r: 3; }
-            50% { opacity: 1; r: 5.5; }
+            0%, 100% { opacity: 0.4; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
     </style>
 </head>
@@ -769,7 +789,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">41ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">7ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -779,7 +799,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">12ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -789,7 +809,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">2ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -809,7 +829,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">8ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">7ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -820,6 +840,26 @@
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">1ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Ridge</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Remote Sibling)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">1ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Harbor</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Outward Voice)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">1ms</div>
                     </div>
                 </div>
             </div>
@@ -1286,12 +1326,14 @@
             river: 1,
             creek: 1,
             stream: 1,
-            beacon: 41,
-            highbeam: 12,
-            lantern: 2,
+            beacon: 7,
+            highbeam: 2,
+            lantern: 1,
             lightning: 1,
-            mountain: 8,
-            canyon: 1
+            mountain: 7,
+            canyon: 1,
+            ridge: 1,
+            harbor: 1
         };
 
         let logIndex = 0;
@@ -1337,7 +1379,7 @@
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly based on measured baselines
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor"];
             nodes.forEach(node => {
                 const pingEl = document.getElementById(`ping-${node}`);
                 if (pingEl) {
@@ -1403,7 +1445,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 17:02:55 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 18:36:12 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

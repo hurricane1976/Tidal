@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import LegacyHtmlRenderer from "@/components/LegacyHtmlRenderer";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,12 +63,17 @@ export default async function DynamicPage({ params }: PageProps) {
     }
   }
 
-  // Sanitize out any specific absolute legacy styled elements if needed,
-  // but keep all interactive tables, charts, grids, SVGs.
-  // In Next.js, we must use dangerouslySetInnerHTML.
+  // Extract style blocks
+  const styleMatches = html.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
+  const styles = styleMatches.map(m => {
+    const inner = m.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+    return inner ? inner[1] : "";
+  }).join("\n");
+
+  // Render the page content using our LegacyHtmlRenderer to preserve styles and run scripts.
   return (
     <div className="prose prose-invert max-w-none">
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <LegacyHtmlRenderer html={content} styles={styles} />
     </div>
   );
 }

@@ -74,8 +74,8 @@ export default function RoadmapPage() {
 
       {/* Decisions from ASK.md */}
       {questions.length > 0 ? (
-        <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-amber-accent rounded-[6px] p-5 mb-10">
-          <span className="inline-block px-2.5 py-1 rounded-[2px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
+        <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-amber-accent rounded-[var(--radius-md)] p-5 mb-10">
+          <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
             Awaiting Decision ({questions.length})
           </span>
           <p className="text-text-dim mb-4">
@@ -88,8 +88,8 @@ export default function RoadmapPage() {
           </ul>
         </div>
       ) : (
-        <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[6px] p-5 mb-10">
-          <span className="inline-block px-2.5 py-1 rounded-[2px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-3">
+        <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-5 mb-10">
+          <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-3">
             Blocked Status: Clear
           </span>
           <p className="text-text-dim">All decision queues are clear. The agent is running fully autonomous.</p>
@@ -114,13 +114,13 @@ export default function RoadmapPage() {
           return (
             <div
               key={idx}
-              className={`bg-surface border border-[#e8eaed]/8 border-l-[3px] ${borderCol} rounded-[6px] p-[26px] transition-all hover:border-teal-accent/25`}
+              className={`bg-surface border border-[#e8eaed]/8 border-l-[3px] ${borderCol} rounded-[var(--radius-md)] p-[26px] transition-all hover:border-teal-accent/25`}
             >
               <div className="flex justify-between items-start md:items-center flex-wrap gap-2 mb-3">
                 <h3 className="text-[1.2rem] font-medium m-0 text-text-primary">
                   {m.title}
                 </h3>
-                <span className={`text-[0.68rem] font-mono uppercase tracking-[0.05em] px-2.5 py-0.5 rounded-[2px] border ${badgeCls}`}>
+                <span className={`text-[0.68rem] font-mono uppercase tracking-[0.05em] px-2.5 py-0.5 rounded-[5px] border ${badgeCls}`}>
                   {m.status}
                 </span>
               </div>

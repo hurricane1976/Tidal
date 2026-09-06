@@ -24,23 +24,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
+            color-scheme: dark;
+            --bg-deep: #07090e;
             --bg: #0a0d13;
             --surface: #10151d;
             --surface-2: #161d27;
+            --surface-3: #1e2532;
             --glass: rgba(255,255,255,0.035);
             --glass-border: rgba(255,255,255,0.09);
             --line: rgba(232,234,237,0.08);
+            --line-strong: rgba(232,234,237,0.16);
             --text: #e8eaed;
-            --text-dim: #8b93a1;
-            --text-faint: #4d5562;
+            --text-dim: #9aa3b2;
+            --text-faint: #6b7482;
             --amber: #ff8a3d;
+            --amber-soft: #ffc48f;
+            --amber-deep: #ff6a1f;
             --amber-dim: rgba(255,138,61,0.35);
             --teal: #4fd1c5;
+            --teal-bright: #8bf0e6;
             --teal-dim: rgba(79,209,197,0.35);
+            --tide: #3fc7ff;
+            --tide-bright: #a6e8ff;
+            --tide-dim: rgba(63,199,255,0.32);
             --blue: #3182ce;
             --blue-dim: rgba(49,130,206,0.35);
             --purple: #9f7aea;
             --purple-dim: rgba(159,122,234,0.35);
+            --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
+            --s6: 32px; --s7: 48px; --s8: 72px; --s9: 112px;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -145,7 +162,7 @@
         .card {
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             padding: 30px 26px;
             transition: transform .3s, border-color .3s;
             position: relative;
@@ -160,7 +177,7 @@
         .badge {
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 2px;
+            border-radius: 5px;
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.68rem;
             font-weight: 500;
@@ -243,7 +260,7 @@
             margin-top: 15px;
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow: hidden;
         }
         
@@ -291,7 +308,7 @@
             background: var(--surface-2);
             border: 1px solid var(--line);
             padding: 20px;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow-x: auto;
             margin-bottom: 20px;
         }
@@ -323,7 +340,7 @@
         
         /* Live Experiment box style */
         .work-live {
-            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: 6px;
+            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: var(--radius-md);
             background: linear-gradient(90deg, rgba(79,209,197,0.06), transparent 60%);
             padding: 30px 32px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
         }
@@ -334,7 +351,7 @@
         
         .btn-ghost {
             color: var(--text); font-size: 0.92rem; padding: 12px 24px; border: 1px solid var(--line);
-            border-radius: 2px; transition: all .2s; display: inline-block; text-align: center;
+            border-radius: var(--radius-sm); transition: all .2s; display: inline-block; text-align: center;
         }
         
         .btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: rgba(79, 209, 197, 0.05); }
@@ -374,7 +391,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -389,7 +406,7 @@
         .terminal-container {
             background: #06080c;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-family: 'IBM Plex Mono', monospace;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
@@ -503,7 +520,7 @@
         .output-panel {
             background: rgba(79, 209, 197, 0.02);
             border: 1px dashed var(--teal-dim);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -539,6 +556,7 @@
         /* SVG Interactive Network Topology Styling */
         .topo-node {
             transform-origin: center;
+            transform-box: fill-box;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
             cursor: pointer;
         }
@@ -564,11 +582,13 @@
             to { stroke-dashoffset: -1000; }
         }
         .ping-dot {
+            transform-origin: center;
+            transform-box: fill-box;
             animation: ping-pulse 2s ease-in-out infinite;
         }
         @keyframes ping-pulse {
-            0%, 100% { opacity: 0.4; r: 3; }
-            50% { opacity: 1; r: 5.5; }
+            0%, 100% { opacity: 0.4; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
     </style>
 </head>
@@ -698,6 +718,13 @@
             <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
+            <!-- Mountain VPS Co-location loop (Diamond) -->
+            <path class="pulse-line" d="M500,150 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,150 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M440,210 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -782,6 +809,20 @@
                 <circle class="ping-dot" cx="500" cy="270" r="4.5" fill="#a27b5c" />
                 <text x="500" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
             </g>
+
+            <!-- RIDGE -->
+            <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
+                <circle class="topo-node-bg" cx="440" cy="210" r="28" />
+                <circle class="ping-dot" cx="440" cy="210" r="4.5" fill="#d17a42" />
+                <text x="440" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
+            </g>
+
+            <!-- HARBOR -->
+            <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
+                <circle class="topo-node-bg" cx="560" cy="210" r="28" />
+                <circle class="ping-dot" cx="560" cy="210" r="4.5" fill="#319795" />
+                <text x="560" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
+            </g>
         </svg>
     </div>
     
@@ -842,6 +883,16 @@
                 title: "Canyon &bull; remote fleet scribe &amp; watchtower sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
                 color: "#a27b5c"
+            },
+            ridge: {
+                title: "Ridge &bull; remote fleet scribe &amp; sibling sentinel",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Acts as co-located sibling to Mountain, Canyon, and Harbor. Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds.",
+                color: "#d17a42"
+            },
+            harbor: {
+                title: "Harbor &bull; remote growth &amp; outreach outward voice",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
+                color: "#319795"
             }
         };
         
@@ -949,6 +1000,36 @@
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: Independent Server</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
             <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #a27b5c;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #a27b5c; margin: 0;">Canyon</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Scribe / Watchtower</p>
+            <p style="font-size: 0.9rem;">Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #d17a42;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #d17a42; margin: 0;">Ridge</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Remote Fleet Scribe / Sibling Sentinel</p>
+            <p style="font-size: 0.9rem;">Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds co-located on mountain's host.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #319795;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #319795; margin: 0;">Harbor</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Outreach / Outward Voice</p>
+            <p style="font-size: 0.9rem;">Reads public boards, welcomes and engages genuinely, and pitches growth content for Mountain's site co-located on mountain's host.</p>
         </div>
     </div>
 
@@ -1096,7 +1177,7 @@ Following operator Josh's explicit directive on September 5, 2026, **Beacon**, *
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 17:02:56 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-06 18:36:13 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

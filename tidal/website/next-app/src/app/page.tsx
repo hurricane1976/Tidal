@@ -1,6 +1,6 @@
 import { getNotes, getQuestions, getRealLogsData } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
-import ParticleCanvas from "@/components/ParticleCanvas";
+import TidalHero from "@/components/TidalHero";
 import Link from "next/link";
 
 export default function Home() {
@@ -14,19 +14,22 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <ParticleCanvas />
-
-      <div className="relative z-10 pt-10">
-        <div className="text-teal-accent font-mono text-[0.75rem] tracking-[0.14em] uppercase mb-7 flex items-center gap-[10px] before:content-[''] before:w-[22px] before:h-[1px] before:bg-teal-accent">
-          Tidal AI Systems &amp; Infrastructure
+      <div className="relative -mx-8 px-8 h-[560px] md:h-[640px] overflow-hidden">
+        <TidalHero />
+        <div className="relative z-10 pt-10 md:pt-16 max-w-[1120px] mx-auto">
+          <div className="text-teal-accent font-mono text-[0.75rem] tracking-[0.14em] uppercase mb-7 flex items-center gap-[10px] before:content-[''] before:w-[22px] before:h-[1px] before:bg-teal-accent">
+            Tidal AI Systems &amp; Infrastructure
+          </div>
+          <h1 className="text-[clamp(2rem,5vw,3rem)] leading-[1.1] mb-5 font-semibold text-text-primary">
+            Unattended Agentic Systems &amp; Operations
+          </h1>
+          <p className="text-[1.15rem] text-text-dim max-w-[800px] mb-10">
+            Welcome to the control center of Tidal. I design and deploy autonomous agent infrastructure—bridging decades of operations leadership with modern multi-agent architecture.
+          </p>
         </div>
-        <h1 className="text-[clamp(2rem,5vw,3rem)] leading-[1.1] mb-5 font-semibold text-text-primary">
-          Unattended Agentic Systems &amp; Operations
-        </h1>
-        <p className="text-[1.15rem] text-text-dim max-w-[800px] mb-10">
-          Welcome to the control center of Tidal. I design and deploy autonomous agent infrastructure—bridging decades of operations leadership with modern multi-agent architecture.
-        </p>
+      </div>
 
+      <div className="relative z-10">
         {/* Readout stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 border-t border-b border-[#e8eaed]/8 mb-10 py-[22px]">
           <div className="border-r border-[#e8eaed]/8 px-4 py-2">
@@ -66,17 +69,17 @@ export default function Home() {
           System Summary
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-[30px] mb-10">
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[6px] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
             <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Agent Daemon</div>
             <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ACTIVE</div>
             <p className="text-text-dim text-[0.98rem]">The core wake daemon executes on a three-hourly cron interval, executing tasks and reporting status updates safely.</p>
           </div>
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[6px] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
             <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Memory Engine</div>
             <div className="font-display text-[2rem] font-semibold text-amber-accent mb-3">{stepsCount} units</div>
             <p className="text-text-dim text-[0.98rem]">Chronological steps recorded in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
           </div>
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[6px] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
             <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Operator Signal</div>
             <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ONLINE</div>
             <p className="text-text-dim text-[0.98rem]">The Telegram bot filters updates for Josh&apos;s secure chat ID, maintaining an active, authenticated human-in-the-loop signal.</p>
@@ -85,8 +88,8 @@ export default function Home() {
 
         {/* Dynamic Decisions section */}
         {questions.length > 0 ? (
-          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-amber-accent rounded-[6px] p-5 mb-10">
-            <span className="inline-block px-2.5 py-1 rounded-[2px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
+          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-amber-accent rounded-[var(--radius-md)] p-5 mb-10">
+            <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
               Awaiting Decision ({questions.length})
             </span>
             <p className="text-text-dim mb-4">The following questions require operator sign-off in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">ASK.md</code>:</p>
@@ -97,8 +100,8 @@ export default function Home() {
             </ul>
           </div>
         ) : (
-          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[6px] p-5 mb-10">
-            <span className="inline-block px-2.5 py-1 rounded-[2px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-3">
+          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-5 mb-10">
+            <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-3">
               Blocked Status: Clear
             </span>
             <p className="text-text-dim">All decision queues are clear. The agent is running fully autonomous.</p>
@@ -107,7 +110,7 @@ export default function Home() {
 
         {/* Latest Log Preview */}
         {notes.length > 0 && (
-          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[6px] p-[26px] mb-10">
+          <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-[26px] mb-10">
             <h3 className="text-teal-accent text-[1.2rem] font-medium mb-4 mt-0">
               Latest Log Preview ({latestWakingDate})
             </h3>
@@ -129,10 +132,64 @@ export default function Home() {
         {/* Telemetry Matrix & retro terminal */}
         <TelemetryTerminal initialLogs={realLogs} />
 
+        {/* Wake cycle -- how the agent moves through a waking */}
+        <h2 className="text-[clamp(1.5rem,3.5vw,2rem)] font-semibold mt-10 mb-5 border-b border-[#e8eaed]/8 pb-2">
+          The Wake Cycle
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-[0.95fr_1.05fr] gap-[var(--s8)] items-center mb-10">
+          <div className="flex justify-center">
+            <svg viewBox="0 0 260 260" className="w-full max-w-[300px]" aria-hidden="true">
+              <circle cx="130" cy="130" r="108" fill="none" stroke="var(--line-strong)" strokeWidth="1" />
+              <circle className="loop-ring-dash" cx="130" cy="130" r="108" />
+              <g className="loop-orbit" style={{ transformOrigin: "130px 130px" }}>
+                <circle cx="130" cy="22" r="6" fill="var(--tide)" />
+              </g>
+              <circle cx="130" cy="130" r="42" fill="var(--surface-2)" stroke="var(--line-strong)" />
+              <text
+                x="130"
+                y="126"
+                textAnchor="middle"
+                fontFamily="var(--font-mono)"
+                fontSize="9"
+                fill="var(--text-dim)"
+                letterSpacing="0.04em"
+              >
+                EVERY
+              </text>
+              <text
+                x="130"
+                y="140"
+                textAnchor="middle"
+                fontFamily="var(--font-display)"
+                fontWeight={600}
+                fontSize="13"
+                fill="var(--text)"
+              >
+                4 HOURS
+              </text>
+            </svg>
+          </div>
+          <ul className="list-none m-0 p-0 max-w-[420px]">
+            {[
+              ["01", "Wake", "Cron fires on the hour. AGENT.md is re-read from scratch for situational awareness -- there is no memory between wakings."],
+              ["02", "Check inbound", "ASK.md, peer/inbox/, and Telegram replies are polled for anything the operator or a paired peer left behind."],
+              ["03", "Act", "Development, auditing, or site work is carried out and appended to NOTES.md so the next waking can pick up the thread."],
+              ["04", "Report & sleep", "./notify.sh posts a summary to Telegram, the static site is rebuilt and deployed, and the agent goes quiet until the next cycle."],
+            ].map(([num, title, desc]) => (
+              <li key={num} className="flex gap-[var(--s3)] py-[var(--s3)] border-b border-[#e8eaed]/8 last:border-b-0">
+                <b className="font-mono text-[0.74rem] tracking-[0.04em] text-teal-accent shrink-0 pt-0.5">{num}</b>
+                <span className="text-[0.9rem] text-text-dim">
+                  <strong className="text-text-primary font-medium">{title}</strong> — {desc}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {/* Work Live experiment footer promotion box */}
-        <div className="border border-teal-accent/30 rounded-[6px] bg-gradient-to-r from-teal-accent/5 to-transparent p-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-10">
+        <div className="border border-teal-accent/30 rounded-[var(--radius-md)] bg-gradient-to-r from-teal-accent/5 to-transparent p-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-10">
           <div>
-            <span className="inline-block px-2.5 py-1 rounded-[2px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-2.5">
+            <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-2.5">
               Ongoing Run
             </span>
             <h3 className="text-[1.2rem] font-medium mb-1 mt-0 text-text-primary">Beacon Wake Experiment</h3>

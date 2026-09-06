@@ -1,34 +1,65 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: dark;
+  --bg-deep: #07090e;
   --bg: #0a0d13;
   --surface: #10151d;
   --surface-2: #161d27;
+  --surface-3: #1e2532;
   --glass: rgba(255, 255, 255, 0.035);
   --glass-border: rgba(255, 255, 255, 0.09);
   --line: rgba(232, 234, 237, 0.08);
+  --line-strong: rgba(232, 234, 237, 0.16);
   --text: #e8eaed;
-  --text-dim: #8b93a1;
-  --text-faint: #4d5562;
+  --text-dim: #9aa3b2;
+  --text-faint: #6b7482;
   --amber: #ff8a3d;
+  --amber-soft: #ffc48f;
+  --amber-deep: #ff6a1f;
   --amber-dim: rgba(255, 138, 61, 0.35);
   --teal: #4fd1c5;
+  --teal-bright: #8bf0e6;
   --teal-dim: rgba(79, 209, 197, 0.35);
+  --tide: #3fc7ff;
+  --tide-bright: #a6e8ff;
+  --tide-dim: rgba(63, 199, 255, 0.32);
+  --magenta: #f06fb0;
   --blue: #3182ce;
   --blue-dim: rgba(49, 130, 206, 0.35);
   --purple: #9f7aea;
   --purple-dim: rgba(159, 122, 234, 0.35);
+  /* Tidal's signature identity gradient -- teal tide rising into moonlit cyan */
+  --tidewave: linear-gradient(115deg, var(--teal) 0%, var(--tide) 55%, var(--tide-bright) 100%);
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 72px;
+  --s9: 112px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --wrap: 1120px;
 }
 
 @theme {
   --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-text-primary: var(--text);
   --color-text-dim: var(--text-dim);
   --color-text-faint: var(--text-faint);
   --color-amber-accent: var(--amber);
   --color-teal-accent: var(--teal);
+  --color-tide-accent: var(--tide);
   --color-blue-accent: var(--blue);
   --color-purple-accent: var(--purple);
   --font-sans: var(--font-ibm-sans);
@@ -80,7 +111,7 @@ body {
 .glow-1 {
   width: 600px;
   height: 600px;
-  background: var(--amber);
+  background: var(--teal);
   top: -200px;
   left: -100px;
 }
@@ -88,7 +119,7 @@ body {
 .glow-2 {
   width: 500px;
   height: 500px;
-  background: var(--teal);
+  background: var(--tide);
   top: 40%;
   right: -150px;
   opacity: 0.1;
@@ -102,3 +133,165 @@ body {
 .pulse-dot-anim {
   animation: pulse-dot 2.6s ease-in-out infinite;
 }
+
+/* ------------------------------------------------------------------ */
+/* Tidal Hero Scene -- moonrise over a night tide, mirroring the      */
+/* craft of Beacon's lighthouse hero and Mountain's alpenglow hero.   */
+/* ------------------------------------------------------------------ */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero-star {
+  animation: star-twinkle 5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--base-opacity, 0.4); }
+  50% { opacity: calc(var(--base-opacity, 0.4) * 0.35); }
+}
+
+.moon-ring {
+  fill: none;
+  stroke: var(--tide);
+  opacity: 0;
+  transform-box: view-box;
+  animation: moon-ring 6s ease-out infinite;
+}
+
+.moon-ring:nth-of-type(2) { animation-delay: 2s; }
+.moon-ring:nth-of-type(3) { animation-delay: 4s; }
+
+@keyframes moon-ring {
+  0% { transform: scale(0.15); opacity: 0; }
+  15% { opacity: 0.35; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.moon-body {
+  animation: moon-flare 10s ease-in-out infinite;
+}
+
+@keyframes moon-flare {
+  0%, 100% { opacity: 0.94; }
+  50% { opacity: 1; }
+}
+
+.tide-line {
+  fill: none;
+  stroke: var(--teal);
+  opacity: 0.16;
+  animation: tide-rise 9s var(--ease-soft) infinite;
+}
+
+.tide-line.tide-line-2 { animation-delay: -3s; }
+.tide-line.tide-line-3 { animation-delay: -6s; }
+
+@keyframes tide-rise {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.tide-shimmer {
+  stroke-dasharray: 3 9;
+  animation: tide-shimmer-drift 26s linear infinite;
+}
+
+@keyframes tide-shimmer-drift {
+  to { stroke-dashoffset: -600; }
+}
+
+/* Wake-cycle orbit diagram */
+.loop-orbit {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: orbit-spin 14s linear infinite;
+}
+
+@keyframes orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.loop-ring-dash {
+  fill: none;
+  stroke: var(--tide-dim);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 10;
+  animation: orbit-spin 42s linear infinite;
+}
+
+/* SVG Interactive Network Topology Styling */
+.topo-node {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+  cursor: pointer;
+}
+
+.topo-node:hover {
+  transform: scale(1.08);
+}
+
+.topo-node-bg {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1.5;
+  transition: fill 0.3s, stroke 0.3s;
+}
+
+.topo-node:hover .topo-node-bg {
+  fill: var(--surface-2);
+  stroke: var(--teal);
+  filter: drop-shadow(0 0 8px var(--teal-dim));
+}
+
+.pulse-line {
+  stroke-dasharray: 6 8;
+  animation: dash-pulse 24s linear infinite;
+}
+
+@keyframes dash-pulse {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+.ping-dot {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: ping-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ping-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Trace Wave Animations */
+.trace-path {
+  fill: none;
+  stroke: url(#traceGradLayout);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5000;
+  animation: trace-draw 3.5s ease-out forwards;
+}
+
+@keyframes trace-draw {
+  from {
+    stroke-dasharray: 0 5000;
+  }
+  to {
+    stroke-dasharray: 5000 0;
+  }
+}
+

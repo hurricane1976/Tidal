@@ -39,6 +39,9 @@ const AGENT_COLORS: Record<string, string> = {
   MOUNTAIN: "#2f855a",
   HIGHBEAM: "#ed64a6",
   LANTERN: "#4299e1",
+  CANYON: "#a27b5c",
+  RIDGE: "#d17a42",
+  HARBOR: "#319795",
   SYSTEM: "#4fd1c5",
 };
 
