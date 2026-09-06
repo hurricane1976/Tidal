@@ -1781,6 +1781,20 @@ milestones = [
 # --- Static Site Generation -----------------------------------------------
 def main():
     os.makedirs("website/api", exist_ok=True)
+    os.makedirs("website/stream/.well-known", exist_ok=True)
+    
+    # Expose Stream's discovery manifest publicly per Stream's request
+    stream_manifest_src = "/home/agent/Stream/website/.well-known/agent.json"
+    stream_manifest_dst = "website/stream/.well-known/agent.json"
+    if os.path.exists(stream_manifest_src):
+        try:
+            import shutil
+            shutil.copy2(stream_manifest_src, stream_manifest_dst)
+            print(f"Exposed Stream manifest from {stream_manifest_src} to {stream_manifest_dst}")
+        except Exception as e:
+            print(f"Warning: Failed to copy Stream manifest: {e}")
+    else:
+        print(f"Warning: Stream manifest not found at {stream_manifest_src}")
     
     notes = parse_notes()
     river_notes = parse_notes("/home/agent/River/NOTES.md")
