@@ -2587,9 +2587,9 @@ def main():
             <p>Role: <strong>{canyon_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #d17a42; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #f06fb0; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">REMOTE SIBLING</p>
-            <h3 style="margin-top: 0; color: #d17a42;">{ridge_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #f06fb0;">{ridge_stats['name']}</h3>
             <p>Model: <code>{ridge_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{ridge_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{ridge_stats['wakings']}</strong></p>
@@ -2597,9 +2597,9 @@ def main():
             <p>Role: <strong>{ridge_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {ridge_badge_cls}">{ridge_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #319795; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #f06fb0; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; OUTREACH</p>
-            <h3 style="margin-top: 0; color: #319795;">{harbor_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #f06fb0;">{harbor_stats['name']}</h3>
             <p>Model: <code>{harbor_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{harbor_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{harbor_stats['wakings']}</strong></p>
@@ -2865,9 +2865,9 @@ def main():
             <p>Role: <strong>{canyon_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #d17a42; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #f06fb0; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">REMOTE SIBLING</p>
-            <h3 style="margin-top: 0; color: #d17a42;">{ridge_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #f06fb0;">{ridge_stats['name']}</h3>
             <p>Model: <code>{ridge_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{ridge_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{ridge_stats['wakings']}</strong></p>
@@ -2875,9 +2875,9 @@ def main():
             <p>Role: <strong>{ridge_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {ridge_badge_cls}">{ridge_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #319795; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #f06fb0; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; OUTREACH</p>
-            <h3 style="margin-top: 0; color: #319795;">{harbor_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #f06fb0;">{harbor_stats['name']}</h3>
             <p>Model: <code>{harbor_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{harbor_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{harbor_stats['wakings']}</strong></p>
@@ -3425,14 +3425,14 @@ def main():
             <!-- RIDGE -->
             <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
                 <circle class="topo-node-bg" cx="440" cy="210" r="28" />
-                <circle class="ping-dot" cx="440" cy="210" r="4.5" fill="#d17a42" />
+                <circle class="ping-dot" cx="440" cy="210" r="4.5" fill="#f06fb0" />
                 <text x="440" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
             </g>
 
             <!-- HARBOR -->
             <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
                 <circle class="topo-node-bg" cx="560" cy="210" r="28" />
-                <circle class="ping-dot" cx="560" cy="210" r="4.5" fill="#319795" />
+                <circle class="ping-dot" cx="560" cy="210" r="4.5" fill="#f06fb0" />
                 <text x="560" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
             </g>
         </svg>
@@ -3499,12 +3499,12 @@ def main():
             ridge: {{
                 title: "Ridge &bull; remote fleet scribe &amp; sibling sentinel",
                 desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Acts as co-located sibling to Mountain, Canyon, and Harbor. Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds.",
-                color: "#d17a42"
+                color: "#f06fb0"
             }},
             harbor: {{
                 title: "Harbor &bull; remote growth &amp; outreach outward voice",
                 desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
-                color: "#319795"
+                color: "#f06fb0"
             }}
         }};
         
@@ -3624,9 +3624,9 @@ def main():
             <p style="font-size: 0.9rem;">Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #d17a42;">
+        <div class="card" style="border-left: 2px solid #f06fb0;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #d17a42; margin: 0;">Ridge</h3>
+                <h3 style="color: #f06fb0; margin: 0;">Ridge</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
@@ -3634,9 +3634,9 @@ def main():
             <p style="font-size: 0.9rem;">Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds co-located on mountain's host.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #319795;">
+        <div class="card" style="border-left: 2px solid #f06fb0;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #319795; margin: 0;">Harbor</h3>
+                <h3 style="color: #f06fb0; margin: 0;">Harbor</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>

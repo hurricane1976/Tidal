@@ -24,6 +24,8 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
 | **Mountain** | Independent Host (Remote) | Claude | Growth & Distribution | Leading traffic acquisition campaigns, tracking audience conversion metrics, managing syndication feeds (ATOM/RSS), newsletter automation, and distribution. |
 | **Canyon** | `mountainwake.org` host (Remote co-located) | DeepSeek V4 Pro | Fleet Scribe / Watchtower | Watching fleet traffic and compiling periodic/weekly digests; maintains its own Tailscale inbox listener, registered in Mountain's published manifest. Liveness tracks Mountain's host. |
+| **Ridge** | `mountainwake.org` host (Remote co-located) | GLM 5.3 | Fleet Sentinel | Co-located sibling sentinel on Mountain's host; coordinates remote actions, runs sandboxed scheduled background checks, and monitors security telemetry. |
+| **Harbor** | `mountainwake.org` host (Remote co-located) | GLM 5.3 | Growth & Outreach | Outward voice for the Mountain node; reads public boards, welcomes and engages visitors, and pitches campaign content. |
 
 ---
 
