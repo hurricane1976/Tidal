@@ -68,23 +68,40 @@ def get_layout(title, content, active_tab):
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {{
+            color-scheme: dark;
+            --bg-deep: #07090e;
             --bg: #0a0d13;
             --surface: #10151d;
             --surface-2: #161d27;
+            --surface-3: #1e2532;
             --glass: rgba(255,255,255,0.035);
             --glass-border: rgba(255,255,255,0.09);
             --line: rgba(232,234,237,0.08);
+            --line-strong: rgba(232,234,237,0.16);
             --text: #e8eaed;
-            --text-dim: #8b93a1;
-            --text-faint: #4d5562;
+            --text-dim: #9aa3b2;
+            --text-faint: #6b7482;
             --amber: #ff8a3d;
+            --amber-soft: #ffc48f;
+            --amber-deep: #ff6a1f;
             --amber-dim: rgba(255,138,61,0.35);
             --teal: #4fd1c5;
+            --teal-bright: #8bf0e6;
             --teal-dim: rgba(79,209,197,0.35);
+            --tide: #3fc7ff;
+            --tide-bright: #a6e8ff;
+            --tide-dim: rgba(63,199,255,0.32);
             --blue: #3182ce;
             --blue-dim: rgba(49,130,206,0.35);
             --purple: #9f7aea;
             --purple-dim: rgba(159,122,234,0.35);
+            --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
+            --s6: 32px; --s7: 48px; --s8: 72px; --s9: 112px;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
+            --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
         }}
         
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -189,7 +206,7 @@ def get_layout(title, content, active_tab):
         .card {{
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             padding: 30px 26px;
             transition: transform .3s, border-color .3s;
             position: relative;
@@ -204,7 +221,7 @@ def get_layout(title, content, active_tab):
         .badge {{
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 2px;
+            border-radius: 5px;
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.68rem;
             font-weight: 500;
@@ -287,7 +304,7 @@ def get_layout(title, content, active_tab):
             margin-top: 15px;
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow: hidden;
         }}
         
@@ -335,7 +352,7 @@ def get_layout(title, content, active_tab):
             background: var(--surface-2);
             border: 1px solid var(--line);
             padding: 20px;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
             overflow-x: auto;
             margin-bottom: 20px;
         }}
@@ -367,7 +384,7 @@ def get_layout(title, content, active_tab):
         
         /* Live Experiment box style */
         .work-live {{
-            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: 6px;
+            margin-top: 40px; border: 1px solid var(--teal-dim); border-radius: var(--radius-md);
             background: linear-gradient(90deg, rgba(79,209,197,0.06), transparent 60%);
             padding: 30px 32px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
         }}
@@ -378,7 +395,7 @@ def get_layout(title, content, active_tab):
         
         .btn-ghost {{
             color: var(--text); font-size: 0.92rem; padding: 12px 24px; border: 1px solid var(--line);
-            border-radius: 2px; transition: all .2s; display: inline-block; text-align: center;
+            border-radius: var(--radius-sm); transition: all .2s; display: inline-block; text-align: center;
         }}
         
         .btn-ghost:hover {{ border-color: var(--teal); color: var(--teal); background: rgba(79, 209, 197, 0.05); }}
@@ -418,7 +435,7 @@ def get_layout(title, content, active_tab):
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -433,7 +450,7 @@ def get_layout(title, content, active_tab):
         .terminal-container {{
             background: #06080c;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-family: 'IBM Plex Mono', monospace;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
@@ -547,7 +564,7 @@ def get_layout(title, content, active_tab):
         .output-panel {{
             background: rgba(79, 209, 197, 0.02);
             border: 1px dashed var(--teal-dim);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -583,6 +600,7 @@ def get_layout(title, content, active_tab):
         /* SVG Interactive Network Topology Styling */
         .topo-node {{
             transform-origin: center;
+            transform-box: fill-box;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
             cursor: pointer;
         }}
@@ -608,11 +626,13 @@ def get_layout(title, content, active_tab):
             to {{ stroke-dashoffset: -1000; }}
         }}
         .ping-dot {{
+            transform-origin: center;
+            transform-box: fill-box;
             animation: ping-pulse 2s ease-in-out infinite;
         }}
         @keyframes ping-pulse {{
-            0%, 100% {{ opacity: 0.4; r: 3; }}
-            50% {{ opacity: 1; r: 5.5; }}
+            0%, 100% {{ opacity: 0.4; transform: scale(0.7); }}
+            50% {{ opacity: 1; transform: scale(1.2); }}
         }}
     </style>
 </head>
@@ -834,7 +854,9 @@ def measure_latencies():
         "lantern": ("beaconwake.com", 443, 62),
         "lightning": ("beaconwake.com", 443, 52),
         "mountain": ("100.114.14.116", 8787, 68),
-        "canyon": ("100.114.14.116", 8787, 68)
+        "canyon": ("100.114.14.116", 8787, 68),
+        "ridge": ("100.114.14.116", 8787, 68),
+        "harbor": ("100.114.14.116", 8787, 68)
     }
     
     latencies = {}
@@ -1662,6 +1684,80 @@ def get_canyon_status():
             "error": str(e)
         }
 
+def get_ridge_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Ridge":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Ridge"),
+                        "role": agent.get("role", "Remote Fleet Scribe / Sibling"),
+                        "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
+                        "model": agent.get("model", "GLM 5.3 (via OpenRouter)"),
+                        "cadence": agent.get("cadence", "on Mountain's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Ridge agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
+def get_harbor_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Harbor":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Harbor"),
+                        "role": agent.get("role", "Growth & Outreach / Outward Voice"),
+                        "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
+                        "model": agent.get("model", "GLM 5.3 (via OpenRouter)"),
+                        "cadence": agent.get("cadence", "on Mountain's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Harbor agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
 def get_system_status():
     # CPU
     try:
@@ -1895,6 +1991,50 @@ def main():
             'state': 'ok',
             'signal': "watches fleet traffic and posts digests; own tailnet listener, listed in Mountain's fleet manifest. Liveness tracks Mountain's host."
         })
+
+    # Fetch Ridge's status
+    ridge_stats = get_ridge_status()
+    if ridge_stats['ok']:
+        ridge_badge_cls = "badge-success"
+        ridge_health_text = "ONLINE"
+    else:
+        ridge_badge_cls = "badge-warning"
+        ridge_health_text = f"OFFLINE ({ridge_stats.get('error', 'unknown error')})"
+        # Fallback values
+        ridge_stats.update({
+            'name': 'Ridge',
+            'role': 'Remote Fleet Scribe / Sibling',
+            'host': 'mountainwake.org host (co-located with Mountain)',
+            'model': 'GLM 5.3 (via OpenRouter)',
+            'cadence': "on Mountain's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Co-located sibling on mountain's host; coordinates remote actions."
+        })
+
+    # Fetch Harbor's status
+    harbor_stats = get_harbor_status()
+    if harbor_stats['ok']:
+        harbor_badge_cls = "badge-success"
+        harbor_health_text = "ONLINE"
+    else:
+        harbor_badge_cls = "badge-warning"
+        harbor_health_text = f"OFFLINE ({harbor_stats.get('error', 'unknown error')})"
+        # Fallback values
+        harbor_stats.update({
+            'name': 'Harbor',
+            'role': 'Growth & Outreach / Outward Voice',
+            'host': 'mountainwake.org host (co-located with Mountain)',
+            'model': 'GLM 5.3 (via OpenRouter)',
+            'cadence': "on Mountain's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Growth & Outreach gateway; box's outward voice welcoming public traffic."
+        })
     
     # Git stats for dashboard
     git_commits_count = 0
@@ -2100,6 +2240,26 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">{measured_pings.get('canyon', 68)}ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Ridge</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Remote Sibling)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">{measured_pings.get('ridge', 68)}ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Harbor</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Outward Voice)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">{measured_pings.get('harbor', 68)}ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -2148,7 +2308,9 @@ def main():
             lantern: {measured_pings.get('lantern', 62)},
             lightning: {measured_pings.get('lightning', 52)},
             mountain: {measured_pings.get('mountain', 68)},
-            canyon: {measured_pings.get('canyon', 68)}
+            canyon: {measured_pings.get('canyon', 68)},
+            ridge: {measured_pings.get('ridge', 68)},
+            harbor: {measured_pings.get('harbor', 68)}
         }};
 
         let logIndex = 0;
@@ -2194,7 +2356,7 @@ def main():
             logIndex = (logIndex + 1) % logs.length;
 
             // Randomize pings slightly based on measured baselines
-            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon"];
+            const nodes = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor"];
             nodes.forEach(node => {{
                 const pingEl = document.getElementById(`ping-${{node}}`);
                 if (pingEl) {{
@@ -2439,6 +2601,26 @@ def main():
             <p>Role: <strong>{canyon_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
         </div>
+        <div class="card" style="border-left: 2px solid #d17a42; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">REMOTE SIBLING</p>
+            <h3 style="margin-top: 0; color: #d17a42;">{ridge_stats['name']}</h3>
+            <p>Model: <code>{ridge_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{ridge_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{ridge_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{ridge_stats['last_wake']}</code></p>
+            <p>Role: <strong>{ridge_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {ridge_badge_cls}">{ridge_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #319795; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; OUTREACH</p>
+            <h3 style="margin-top: 0; color: #319795;">{harbor_stats['name']}</h3>
+            <p>Model: <code>{harbor_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{harbor_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{harbor_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{harbor_stats['last_wake']}</code></p>
+            <p>Role: <strong>{harbor_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {harbor_badge_cls}">{harbor_health_text}</span></p>
+        </div>
     </div>
     
     <h2>Watchdog Integration</h2>
@@ -2581,8 +2763,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">10 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain, Canyon</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">12 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor</p>
         </div>
     </div>
     
@@ -2696,6 +2878,26 @@ def main():
             <p>Last Sync Timestamp: <code>{canyon_stats['last_wake']}</code></p>
             <p>Role: <strong>{canyon_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {canyon_badge_cls}">{canyon_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #d17a42; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">REMOTE SIBLING</p>
+            <h3 style="margin-top: 0; color: #d17a42;">{ridge_stats['name']}</h3>
+            <p>Model: <code>{ridge_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{ridge_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{ridge_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{ridge_stats['last_wake']}</code></p>
+            <p>Role: <strong>{ridge_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {ridge_badge_cls}">{ridge_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #319795; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">GROWTH &amp; OUTREACH</p>
+            <h3 style="margin-top: 0; color: #319795;">{harbor_stats['name']}</h3>
+            <p>Model: <code>{harbor_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{harbor_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{harbor_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{harbor_stats['last_wake']}</code></p>
+            <p>Role: <strong>{harbor_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {harbor_badge_cls}">{harbor_health_text}</span></p>
         </div>
     </div>
     """
@@ -3142,6 +3344,13 @@ def main():
             <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
+            <!-- Mountain VPS Co-location loop (Diamond) -->
+            <path class="pulse-line" d="M500,150 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,150 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M500,270 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M440,210 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            
             <!-- Remote parent internals -->
             <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
@@ -3226,6 +3435,20 @@ def main():
                 <circle class="ping-dot" cx="500" cy="270" r="4.5" fill="#a27b5c" />
                 <text x="500" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
             </g>
+
+            <!-- RIDGE -->
+            <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
+                <circle class="topo-node-bg" cx="440" cy="210" r="28" />
+                <circle class="ping-dot" cx="440" cy="210" r="4.5" fill="#d17a42" />
+                <text x="440" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
+            </g>
+
+            <!-- HARBOR -->
+            <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
+                <circle class="topo-node-bg" cx="560" cy="210" r="28" />
+                <circle class="ping-dot" cx="560" cy="210" r="4.5" fill="#319795" />
+                <text x="560" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
+            </g>
         </svg>
     </div>
     
@@ -3286,6 +3509,16 @@ def main():
                 title: "Canyon &bull; remote fleet scribe &amp; watchtower sentinel",
                 desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
                 color: "#a27b5c"
+            }},
+            ridge: {{
+                title: "Ridge &bull; remote fleet scribe &amp; sibling sentinel",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Acts as co-located sibling to Mountain, Canyon, and Harbor. Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds.",
+                color: "#d17a42"
+            }},
+            harbor: {{
+                title: "Harbor &bull; remote growth &amp; outreach outward voice",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
+                color: "#319795"
             }}
         }};
         
@@ -3393,6 +3626,36 @@ def main():
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: Independent Server</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
             <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #a27b5c;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #a27b5c; margin: 0;">Canyon</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Scribe / Watchtower</p>
+            <p style="font-size: 0.9rem;">Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #d17a42;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #d17a42; margin: 0;">Ridge</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Remote Fleet Scribe / Sibling Sentinel</p>
+            <p style="font-size: 0.9rem;">Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds co-located on mountain's host.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #319795;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #319795; margin: 0;">Harbor</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Outreach / Outward Voice</p>
+            <p style="font-size: 0.9rem;">Reads public boards, welcomes and engages genuinely, and pitches growth content for Mountain's site co-located on mountain's host.</p>
         </div>
     </div>
 
