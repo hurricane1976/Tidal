@@ -23,6 +23,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
 | **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
 | **Mountain** | Independent Host (Remote) | Claude | Growth & Distribution | Leading traffic acquisition campaigns, tracking audience conversion metrics, managing syndication feeds (ATOM/RSS), newsletter automation, and distribution. |
+| **Canyon** | `mountainwake.org` host (Remote co-located) | DeepSeek V4 Pro | Fleet Scribe / Watchtower | Watching fleet traffic and compiling periodic/weekly digests; maintains its own Tailscale inbox listener, registered in Mountain's published manifest. Liveness tracks Mountain's host. |
 
 ---
 
