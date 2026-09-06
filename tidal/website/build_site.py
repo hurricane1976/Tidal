@@ -2844,8 +2844,8 @@ def main():
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Open Warnings</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--line);">
-                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">Nominal</div>
-                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Scanner Status</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">{stats['uptime']}</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Host Uptime</div>
                 </div>
             </div>
         </div>
@@ -2886,15 +2886,67 @@ def main():
         secops_content += f"""
                 <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line);">
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="width: 8px; height: 8px; border-radius: 50%; background: {pulse_color}; box-shadow: 0 0 8px 1px {pulse_glow}; display: inline-block; animation: pulse-dot 2s infinite;"></span>
+                        <span id="svc-dot-{svc}" style="width: 8px; height: 8px; border-radius: 50%; background: {pulse_color}; box-shadow: 0 0 8px 1px {pulse_glow}; display: inline-block; animation: pulse-dot 2s infinite;"></span>
                         <span style="font-size: 0.85rem; font-family: 'IBM Plex Mono', monospace; font-weight: 500;">{svc}.service</span>
                     </div>
-                    <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: {pulse_color};">{state}</span>
+                    <span id="svc-state-{svc}" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: {pulse_color};">{state}</span>
                 </div>
         """
         
     secops_content += f"""
             </div>
+        </div>
+    </div>
+    
+    <!-- Live P2P Fleet Latency Matrix Card -->
+    <div class="card" style="margin-bottom: 40px; border: 1px solid var(--line-strong);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 1.15rem; color: var(--text);">Live P2P Fleet Latency Matrix</h3>
+            <div style="font-size: 0.75rem; color: var(--text-faint); font-family: 'IBM Plex Mono', monospace;">
+                P2P Probes Refreshed: <span id="measured-at-val">Snapshot</span>
+            </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px;" id="latency-matrix-grid">
+    """
+    
+    from tools.fleet_nodes import NODES
+    friendly_meta = {
+        "tidal": ("LOCAL", "Gemini (Local Dev)"),
+        "river": ("LOCAL", "Gemini (Local SysOps)"),
+        "creek": ("LOCAL", "DeepSeek (Local Sec)"),
+        "stream": ("LOCAL", "Gemini (Local Pub)"),
+        "beacon": ("REMOTE", "Claude (Remote Ops)"),
+        "highbeam": ("REMOTE", "Claude (Remote Sec)"),
+        "lantern": ("REMOTE", "Gemini (Remote UI)"),
+        "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
+        "mountain": ("REMOTE", "Claude (Remote Growth)"),
+        "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
+        "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
+        "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
+    }
+    
+    for name, (host, port, default_ms) in NODES.items():
+        ntype, desc = friendly_meta.get(name, ("REMOTE", "Unknown Sibling"))
+        badge_style = "border: 1px solid var(--teal); color: var(--teal);" if ntype == "LOCAL" else "border: 1px solid var(--purple); color: var(--purple);"
+        initial_ping = measured_pings.get(name, default_ms)
+        
+        secops_content += f"""
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; transition: border-color 0.2s;" class="latency-card">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; align-items: center; gap: 8px;">
+                        <span>{name.capitalize()}</span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--teal); display: inline-block; box-shadow: 0 0 6px var(--teal-dim);" id="ping-indicator-{name}"></span>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-faint); margin-top: 2px;">{desc}</div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; {badge_style}">{ntype}</span>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-{name}">{initial_ping}ms</div>
+                </div>
+            </div>
+        """
+        
+    secops_content += f"""
         </div>
     </div>
     
@@ -3057,12 +3109,36 @@ def main():
                 const data = await res.json();
                 
                 let avgLatency = 10;
-                if (data.latencies && data.latencies.tidal) {{
-                    avgLatency = data.latencies.tidal;
+                if (data.latencies) {{
+                    let latSum = 0;
+                    let latCount = 0;
                     for (const [node, ping] of Object.entries(data.latencies)) {{
                         const pingEl = document.getElementById('ping-' + node);
                         if (pingEl) pingEl.textContent = ping + 'ms';
+                        
+                        const ind = document.getElementById('ping-indicator-' + node);
+                        if (ind) {{
+                            if (ping < 30) {{
+                                ind.style.background = 'var(--teal)';
+                                ind.style.boxShadow = '0 0 6px var(--teal-dim)';
+                            }} else if (ping < 100) {{
+                                ind.style.background = 'var(--purple)';
+                                ind.style.boxShadow = '0 0 6px var(--purple-dim)';
+                            }} else {{
+                                ind.style.background = 'var(--amber)';
+                                ind.style.boxShadow = '0 0 6px var(--amber-dim)';
+                            }}
+                        }}
+                        
+                        latSum += ping;
+                        latCount++;
                     }}
+                    if (latCount > 0) avgLatency = latSum / latCount;
+                }}
+                
+                if (data.measured_at) {{
+                    const matEl = document.getElementById('measured-at-val');
+                    if (matEl) matEl.textContent = data.measured_at;
                 }}
                 
                 let memPct = {stats['mem_pct']};
@@ -3070,9 +3146,67 @@ def main():
                 if (cpuPct > 80) cpuPct = 35 + Math.random() * 10;
                 if (cpuPct < 2) cpuPct = 4 + Math.random() * 3;
                 
+                if (data.system) {{
+                    // Update CPU
+                    const cpuStr = data.system.cpu || "0.00, 0.00, 0.00";
+                    const cpuLoadValEl = document.getElementById('cpu-load-val');
+                    if (cpuLoadValEl) cpuLoadValEl.textContent = cpuStr;
+                    
+                    const parts = cpuStr.split(',');
+                    if (parts.length > 0) {{
+                        const load1 = parseFloat(parts[0]) || 0.0;
+                        cpuPct = Math.max(2, Math.min(100, Math.round(load1 * 50)));
+                        if (cpuPct < 5 && load1 > 0.01) cpuPct = 10;
+                    }}
+                    const cpuBar = document.getElementById('cpu-bar-fill');
+                    if (cpuBar) cpuBar.style.width = cpuPct + '%';
+                    
+                    // Update Memory
+                    if (data.system.mem_pct !== undefined) {{
+                        memPct = parseFloat(data.system.mem_pct) || memPct;
+                        const memPctValEl = document.getElementById('mem-pct-val');
+                        if (memPctValEl) memPctValEl.textContent = memPct + '%';
+                        
+                        const memBar = document.getElementById('mem-bar-fill');
+                        if (memBar) memBar.style.width = memPct + '%';
+                    }}
+                    
+                    // Update Disk
+                    if (data.system.disk_pct !== undefined) {{
+                        const diskPct = parseFloat(data.system.disk_pct);
+                        const diskPctValEl = document.getElementById('disk-pct-val');
+                        if (diskPctValEl) diskPctValEl.textContent = diskPct + '%';
+                        
+                        const diskBar = document.getElementById('disk-bar-fill');
+                        if (diskBar) diskBar.style.width = diskPct + '%';
+                    }}
+                    
+                    // Update Uptime
+                    if (data.system.uptime) {{
+                        const uptimeValEl = document.getElementById('uptime-val');
+                        if (uptimeValEl) uptimeValEl.textContent = data.system.uptime;
+                    }}
+                    
+                    // Update Service States
+                    if (data.system.services) {{
+                        for (const [svc, state] of Object.entries(data.system.services)) {{
+                            const svcEl = document.getElementById('svc-state-' + svc);
+                            const svcDot = document.getElementById('svc-dot-' + svc);
+                            if (svcEl) {{
+                                svcEl.textContent = state;
+                                svcEl.style.color = state === "active" ? "var(--teal)" : "var(--amber)";
+                            }}
+                            if (svcDot) {{
+                                svcDot.style.background = state === "active" ? "var(--teal)" : "var(--amber)";
+                                svcDot.style.boxShadow = state === "active" ? "0 0 8px 1px var(--teal-dim)" : "0 0 8px 1px var(--amber-dim)";
+                            }}
+                        }}
+                    }}
+                }}
+                
                 cpuData.push(cpuPct);
                 cpuData.shift();
-                memData.push(memPct + (Math.random() * 1.5 - 0.75));
+                memData.push(memPct);
                 memData.shift();
                 
                 if (cpuPath && memPath) {{

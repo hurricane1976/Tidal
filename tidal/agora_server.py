@@ -187,9 +187,16 @@ class AgoraHandler(BaseHTTPRequestHandler):
                     return self._respond(500, {"success": False, "error": str(e)})
 
             latencies, measured_at = get_live_telemetry()
+            system_stats = {}
+            try:
+                from website.build_site import get_system_status
+                system_stats = get_system_status()
+            except Exception as e:
+                log(f"ERROR getting system status in GET /api/telemetry: {e}")
             return self._respond(200, {
                 "latencies": latencies,
                 "measured_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(measured_at)),
+                "system": system_stats
             })
 
         if self.path != "/api/agora":
