@@ -715,6 +715,12 @@ _Nothing awaiting a decision right now._
             self.assertIn("compliance-ring", content)
             self.assertIn("trigger-scan-btn", content)
             self.assertIn('class="nav-link active">SecOps Telemetry</a>', content)
+            
+            # New live elements
+            self.assertIn("Live P2P Fleet Latency Matrix", content)
+            self.assertIn("measured-at-val", content)
+            self.assertIn('id="ping-tidal"', content)
+            self.assertIn('id="svc-dot-nginx"', content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
