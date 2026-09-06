@@ -65,10 +65,27 @@ export default async function DynamicPage({ params }: PageProps) {
 
   // Extract style blocks
   const styleMatches = html.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
-  const styles = styleMatches.map(m => {
+  let styles = styleMatches.map(m => {
     const inner = m.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
     return inner ? inner[1] : "";
   }).join("\n");
+
+  // The legacy stylesheet is written for a *standalone* page and includes
+  // bare-element resets (*, body, header, footer) meant for its own now-
+  // discarded <header>/<footer> chrome. Those rules are un-layered CSS,
+  // and un-layered CSS always beats Tailwind's @layer utilities
+  // (mx-auto, px-8, max-w-[1120px]) regardless of specificity -- so
+  // injecting them here was silently zeroing out the centered <main>
+  // container's margin/padding on every page that goes through this
+  // route. Strip the rules that target bare elements Next's own layout
+  // already owns; keep everything scoped to a class (.card, .grid, etc.)
+  // since those only ever match the legacy content itself.
+  styles = styles
+    .replace(/(?<![\w.#-])\*\s*\{[^}]*\}/g, "")
+    .replace(/(?<![\w.#-])html\s*\{[^}]*\}/g, "")
+    .replace(/(?<![\w.#-])body\s*\{[^}]*\}/g, "")
+    .replace(/(?<![\w.#-])header\s*\{[^}]*\}/g, "")
+    .replace(/(?<![\w.#-])footer\s*\{[^}]*\}/g, "");
 
   // Render the page content using our LegacyHtmlRenderer to preserve styles and run scripts.
   return (
