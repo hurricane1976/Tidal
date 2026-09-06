@@ -1,6 +1,8 @@
 import { getNotes, getQuestions, getRealLogsData } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
 import TidalHero from "@/components/TidalHero";
+import Marquee from "@/components/Marquee";
+import ScrollReveal from "@/components/ScrollReveal";
 import Link from "next/link";
 
 export default function Home() {
@@ -27,6 +29,10 @@ export default function Home() {
             Welcome to the control center of Tidal. I design and deploy autonomous agent infrastructure—bridging decades of operations leadership with modern multi-agent architecture.
           </p>
         </div>
+      </div>
+
+      <div className="-mx-8">
+        <Marquee text="AUTONOMOUS • UNATTENDED • AGENTIC" />
       </div>
 
       <div className="relative z-10">
@@ -69,21 +75,27 @@ export default function Home() {
           System Summary
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-[30px] mb-10">
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Agent Daemon</div>
-            <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ACTIVE</div>
-            <p className="text-text-dim text-[0.98rem]">The core wake daemon executes on a three-hourly cron interval, executing tasks and reporting status updates safely.</p>
-          </div>
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Memory Engine</div>
-            <div className="font-display text-[2rem] font-semibold text-amber-accent mb-3">{stepsCount} units</div>
-            <p className="text-text-dim text-[0.98rem]">Chronological steps recorded in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
-          </div>
-          <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Operator Signal</div>
-            <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ONLINE</div>
-            <p className="text-text-dim text-[0.98rem]">The Telegram bot filters updates for Josh&apos;s secure chat ID, maintaining an active, authenticated human-in-the-loop signal.</p>
-          </div>
+          <ScrollReveal>
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+              <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Agent Daemon</div>
+              <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ACTIVE</div>
+              <p className="text-text-dim text-[0.98rem]">The core wake daemon executes on a three-hourly cron interval, executing tasks and reporting status updates safely.</p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+              <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Memory Engine</div>
+              <div className="font-display text-[2rem] font-semibold text-amber-accent mb-3">{stepsCount} units</div>
+              <p className="text-text-dim text-[0.98rem]">Chronological steps recorded in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+              <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Operator Signal</div>
+              <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ONLINE</div>
+              <p className="text-text-dim text-[0.98rem]">The Telegram bot filters updates for Josh&apos;s secure chat ID, maintaining an active, authenticated human-in-the-loop signal.</p>
+            </div>
+          </ScrollReveal>
         </div>
 
         {/* Dynamic Decisions section */}
@@ -122,17 +134,20 @@ export default function Home() {
         )}
 
         {/* Interactive Fleet Operations Center */}
-        <h2 className="text-[clamp(1.5rem,3.5vw,2rem)] font-semibold mt-10 mb-2">
-          Autonomous Fleet Operations Center
-        </h2>
-        <p className="text-text-dim mb-6">
-          Simulating real-time telemetry, agent wake events, and multi-model operational logs from our active VPS nodes.
-        </p>
+        <ScrollReveal>
+          <h2 className="text-[clamp(1.5rem,3.5vw,2rem)] font-semibold mt-10 mb-2">
+            Autonomous Fleet Operations Center
+          </h2>
+          <p className="text-text-dim mb-6">
+            Simulating real-time telemetry, agent wake events, and multi-model operational logs from our active VPS nodes.
+          </p>
 
-        {/* Telemetry Matrix & retro terminal */}
-        <TelemetryTerminal initialLogs={realLogs} />
+          {/* Telemetry Matrix & retro terminal */}
+          <TelemetryTerminal initialLogs={realLogs} />
+        </ScrollReveal>
 
         {/* Wake cycle -- how the agent moves through a waking */}
+        <ScrollReveal>
         <h2 className="text-[clamp(1.5rem,3.5vw,2rem)] font-semibold mt-10 mb-5 border-b border-[#e8eaed]/8 pb-2">
           The Wake Cycle
         </h2>
@@ -185,8 +200,10 @@ export default function Home() {
             ))}
           </ul>
         </div>
+        </ScrollReveal>
 
         {/* Work Live experiment footer promotion box */}
+        <ScrollReveal>
         <div className="border border-teal-accent/30 rounded-[var(--radius-md)] bg-gradient-to-r from-teal-accent/5 to-transparent p-[30px] flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-10">
           <div>
             <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-teal-accent border border-teal-accent/35 mb-2.5">
@@ -202,6 +219,7 @@ export default function Home() {
             View Activity Log &rarr;
           </Link>
         </div>
+        </ScrollReveal>
       </div>
     </div>
   );
