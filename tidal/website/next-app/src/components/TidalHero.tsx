@@ -83,24 +83,48 @@ export default function TidalHero() {
       <circle cx="936" cy="220" r="150" fill="url(#tidalMoonGlow)" />
       <circle className="moon-body" cx="936" cy="220" r="46" fill="url(#tidalMoonBody)" />
 
-      {/* Tide lines -- slow vertical rise/fall, evoking the pull of the tide */}
-      <g stroke="#4fd1c5" fill="none">
-        <path
-          className="tide-line tide-line-1"
-          d="M0,560 C220,540 380,584 620,558 S1000,538 1200,564"
-          strokeWidth="1.4"
-        />
-        <path
-          className="tide-line tide-line-2"
-          d="M0,616 C260,596 420,638 680,612 S1020,596 1200,620"
-          strokeWidth="1.2"
-        />
-        <path
-          className="tide-line tide-line-3 tide-shimmer"
-          d="M0,672 C240,654 460,694 720,668 S1060,654 1200,676"
-          strokeWidth="1"
-          opacity="0.3"
-        />
+      {/* Moonlight glitter path -- Tidal's answer to Beacon's flashing lamp:      */}
+      {/* a column of glints on the water that flicker in a staggered sequence.   */}
+      <g className="moon-glimmer" fill="#bdeeff">
+        {[
+          [936, 420, 30, 2.2], [918, 452, 22, 1.6], [958, 460, 26, 1.8],
+          [900, 490, 34, 2.4], [966, 500, 20, 1.4], [930, 526, 40, 2.6],
+          [890, 556, 24, 1.6], [972, 566, 30, 2],   [922, 594, 46, 2.8],
+          [954, 610, 26, 1.8], [896, 628, 36, 2.2], [944, 648, 54, 3],
+        ].map(([x, y, w, h], i) => (
+          <rect
+            key={i}
+            className="glimmer-flash"
+            x={x - w / 2}
+            y={y}
+            width={w}
+            height={h}
+            rx={h / 2}
+            style={{ animationDelay: `${(i % 6) * 0.35}s` }}
+          />
+        ))}
+      </g>
+
+      {/* Tide -- a slow horizontal roll plus per-line rise/fall and a flowing shimmer */}
+      <g className="wave-drift">
+        <g stroke="#4fd1c5" fill="none">
+          <path
+            className="tide-line tide-line-1"
+            d="M0,560 C220,540 380,584 620,558 S1000,538 1200,564"
+            strokeWidth="1.4"
+          />
+          <path
+            className="tide-line tide-line-2"
+            d="M0,616 C260,596 420,638 680,612 S1020,596 1200,620"
+            strokeWidth="1.2"
+          />
+          <path
+            className="tide-line tide-line-3 tide-shimmer"
+            d="M0,672 C240,654 460,694 720,668 S1060,654 1200,676"
+            strokeWidth="1"
+            opacity="0.3"
+          />
+        </g>
       </g>
 
       {/* Shoreline silhouette anchoring the scene into the page background */}
