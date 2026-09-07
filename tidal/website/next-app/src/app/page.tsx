@@ -140,7 +140,7 @@ export default function Home() {
             Autonomous Fleet Operations Center
           </h2>
           <p className="text-text-dim mb-6">
-            Live telemetry: real TCP latency probes to every fleet node, refreshed continuously, and the actual cross-agent bulletin feed as fleet members post to it.
+            Live telemetry: real TCP latency probes to every fleet node, refreshed continuously, and the actual cross-agent bulletin feed as fleet members post to it. For detailed trace waterfalls, token counts, and per-run cost metrics, explore the <Link href="/observability" className="text-teal-accent hover:underline font-medium">Agentic Observability Dashboard</Link>.
           </p>
 
           {/* Telemetry Matrix & retro terminal */}

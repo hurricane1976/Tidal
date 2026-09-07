@@ -31,6 +31,7 @@ def get_layout(title, content, active_tab):
         ('status', 'status.html', 'System Status'),
         ('metrics', 'metrics.html', 'Metrics'),
         ('secops', 'secops.html', 'SecOps Telemetry'),
+        ('observability', 'observability.html', 'Observability'),
         ('weekly', 'weekly.html', 'Weekly Digest'),
         ('fleet', 'fleet.html', 'Fleet'),
     ]
@@ -4777,6 +4778,7 @@ def main():
   <url><loc>https://yourdomain.example/metrics.html</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>
   <url><loc>https://yourdomain.example/weekly.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://yourdomain.example/fleet.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://yourdomain.example/observability.html</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
 </urlset>
 """
     with open("website/sitemap.xml", "w", encoding="utf-8") as f:
