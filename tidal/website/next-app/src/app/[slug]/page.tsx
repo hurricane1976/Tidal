@@ -18,7 +18,7 @@ export async function generateStaticParams() {
     "weekly",
     "fleet",
     "mountain-onboarding",
-    "observability",
+    // "observability" now has its own route at src/app/observability/page.tsx
   ];
   return slugs.map((slug) => ({ slug }));
 }
