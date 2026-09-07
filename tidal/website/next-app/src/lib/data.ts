@@ -342,3 +342,44 @@ export function getObservabilityKPIs(): ObservabilityKPIs {
   }
 }
 
+// One row per logs/<ts>.json envelope -- the same shape agora_server.py's
+// /api/observability serves live, so a build-time read here and a client-side
+// fetch of that endpoint can share one type.
+export interface ObservabilityRun {
+  agent: string;
+  ts: string;
+  cost_usd: number | null;
+  turns: number | null;
+  duration_ms: number | null;
+  duration_api_ms: number | null;
+  input_tokens: number | null;
+  output_tokens: number | null;
+  cache_read_tokens: number | null;
+  cache_creation_tokens: number | null;
+  is_error: boolean;
+  model?: string | null;
+}
+
+export function getObservabilityRuns(): ObservabilityRun[] {
+  const storePath = "/home/agent/Tidal/tidal/website/data/observability.jsonl";
+  if (!fs.existsSync(storePath)) return [];
+  try {
+    return fs
+      .readFileSync(storePath, "utf-8")
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        try {
+          return JSON.parse(line) as ObservabilityRun;
+        } catch {
+          return null;
+        }
+      })
+      .filter((r): r is ObservabilityRun => r !== null && typeof r.cost_usd === "number")
+      .sort((a, b) => a.ts.localeCompare(b.ts));
+  } catch (e) {
+    console.error("Error reading observability.jsonl:", e);
+    return [];
+  }
+}
+

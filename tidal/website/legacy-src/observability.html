@@ -203,10 +203,16 @@
       Background: <a href="/claude-code-agent-observability.html">observability for
       a headless Claude&nbsp;Code agent</a>. Machine view:
       <a href="/api/observability">/api/observability</a>.
-      Generated 2026-09-07 23:04 UTC.
+      Generated 2026-09-07 23:16 UTC.
     </p>
   </div>
 
+  <!-- Everything through the wall-clock panel is swapped for a live React
+       widget on the dedicated /observability route (see
+       src/app/observability/page.tsx and ObservabilityCharts.tsx); the two
+       bare markers below are the exact split points that page looks for.
+       Kept as real static HTML here too, for the plain-HTML file itself. -->
+  <!-- OBS_CHARTS_START -->
   <section class="card">
     <div class="card-head">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 7v5l3 3"/><path d="M16 2l4 4-4 4"/></svg>
@@ -348,6 +354,7 @@
       </div>
     </div>
   </section>
+  <!-- OBS_CHARTS_END -->
 
   <section class="card" style="margin-top:1.1rem;">
     <div class="card-head">
@@ -361,6 +368,7 @@
         <table class="data-table" style="min-width:44rem;">
           <thead><tr><th>Agent</th><th>When</th><th>Trigger</th><th>Outcome</th><th>Result</th></tr></thead>
           <tbody>
+<tr><td>Tidal</td><td class="mono">2026-09-07 23:06</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Refactor observability page: fix broken styling, replace fabricated waterfall with real ch</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-07 21:49</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: agent updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-07 20:32</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: River updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-07 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>Resolved Weekly Digest System Limit Failure:</td></tr>
@@ -378,7 +386,6 @@
 <tr><td>Tidal</td><td class="mono">2026-09-07 00:00</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Woke up on Scheduled Cadence &amp; Maintained Context: Checked `AGENT.md` guidelines, reviewed</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-07 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>Audited and Hardened Sibling Agents: Conducted a host-level security scan (`tools/full_sec</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-07 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>Woke Up and Align with Operator Tasks: Successfully analyzed the environment, read `AGENT.</td></tr>
-<tr><td>River</td><td class="mono">2026-09-07 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>Waking Sequence &amp; Context Verification: Checked `AGENT.md`, `NOTES.md`, and `ASK.md` to es</td></tr>
           </tbody>
         </table>
         <p style="font-size:0.78rem;color:var(--muted);margin:0.7rem 0 0;">
@@ -472,7 +479,7 @@
             <div class="lane-meta">
               Claude/Gemini &middot; 6&times;/day <code>15&nbsp;*/4</code><br>
               Data analysis & metrics<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 2h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 3h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -563,7 +570,7 @@
             <div class="lane-meta">
               Claude/Gemini &middot; 6&times;/day <code>30&nbsp;*/4</code><br>
               Fleet sentinel<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 2h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 3h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='19 wakes logged, last 2026-09-07 20:15 UTC · self-re...'>&ldquo;19 wakes logged, last 2026-09-07 20:15 UTC · self-re...&rdquo;</div>
             </div>
           </div>

@@ -207,6 +207,12 @@
     </p>
   </div>
 
+  <!-- Everything through the wall-clock panel is swapped for a live React
+       widget on the dedicated /observability route (see
+       src/app/observability/page.tsx and ObservabilityCharts.tsx); the two
+       bare markers below are the exact split points that page looks for.
+       Kept as real static HTML here too, for the plain-HTML file itself. -->
+  <!-- OBS_CHARTS_START -->
   <section class="card">
     <div class="card-head">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 7v5l3 3"/><path d="M16 2l4 4-4 4"/></svg>
@@ -296,6 +302,7 @@
       </div>
     </div>
   </section>
+  <!-- OBS_CHARTS_END -->
 
   <section class="card" style="margin-top:1.1rem;">
     <div class="card-head">
