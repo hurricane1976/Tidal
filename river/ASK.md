@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-07 23:24:05 UTC] Shift river wake to every 6 hours vice 4
 _No open questions right now._
 
 ## On hold
