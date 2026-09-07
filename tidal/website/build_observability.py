@@ -357,6 +357,41 @@ def format_time_ago(iso_str: str) -> str:
     except Exception:
         return iso_str[:10]
 
+def _plain(s: str) -> str:
+    return (s.replace("&times;", "×").replace("&nbsp;", " ")
+             .replace("<code>", "").replace("</code>", "")
+             .replace("&amp;", "&"))
+
+
+def lanes_data() -> list[dict]:
+    """Structured (non-HTML) version of generate_observability_lanes()'s
+    merge, for the React /observability route -- same live sources
+    (fetch_remote_fleet / load_local_fleet), no markup baked in."""
+    live_agents = {}
+    for a in fetch_remote_fleet():
+        live_agents[a["name"].title()] = a
+    for a in load_local_fleet():
+        live_agents[a["name"].title()] = a
+
+    lanes = []
+    for name, meta in AGENT_METADATA.items():
+        live = live_agents.get(name, {})
+        wakes = live.get("waking_count")
+        lanes.append({
+            "name": name,
+            "family": meta["family"],
+            "cadence": _plain(meta["cadence"]),
+            "role": live.get("role", meta["role"]),
+            "envelope": meta["envelope"],
+            "model_family": live.get("model_family", "Claude/Gemini"),
+            "state": live.get("state", "unknown"),
+            "last_wake": live.get("last_wake"),
+            "waking_count": wakes if isinstance(wakes, int) else None,
+            "signal": live.get("signal", ""),
+        })
+    return lanes
+
+
 def generate_observability_lanes() -> str:
     live_agents = {}
     for a in fetch_remote_fleet():
@@ -714,6 +749,17 @@ def main() -> None:
     OUT.write_text(render(ordered))
     print(f"wrote {OUT.name} ({len(ordered)} rows in store, "
           f"{len([r for r in ordered if isinstance(r.get('cost_usd'), (int, float))])} instrumented)")
+
+    # Structured data for the React /observability route's remaining
+    # legacy-HTML sections (run explorer, per-agent lanes) -- same sources
+    # as the HTML the plain page renders, just not pre-formatted as markup.
+    page_data = {
+        "run_rows": run_explorer(),
+        "lanes": lanes_data(),
+    }
+    (HERE / "data" / "observability_page.json").write_text(
+        json.dumps(page_data, ensure_ascii=False, indent=2))
+    print("wrote data/observability_page.json")
 
 
 if __name__ == "__main__":
