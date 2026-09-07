@@ -13,6 +13,7 @@ const tabs = [
   { id: "status", path: "/status", label: "System Status" },
   { id: "metrics", path: "/metrics", label: "Metrics" },
   { id: "secops", path: "/secops", label: "SecOps" },
+  { id: "observability", path: "/observability", label: "Observability" },
   { id: "weekly", path: "/weekly", label: "Weekly Digest" },
   { id: "fleet", path: "/fleet", label: "Fleet" },
 ];
@@ -27,7 +28,7 @@ export default function Header() {
           <span className="w-[10px] height-[10px] w-2.5 h-2.5 rounded-full bg-amber-accent shadow-[0_0_12px_2px_var(--amber-dim)] pulse-dot-anim"></span>
           Tidal<span className="text-dim font-light">.agent</span>
         </div>
-        <div className="flex gap-8 text-[0.86rem] text-dim">
+        <div className="flex gap-3 xl:gap-5 text-[0.8rem] xl:text-[0.84rem] text-dim">
           {tabs.map((tab) => {
             const isActive =
               tab.path === "/"

@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-07 17:17:59 UTC] Where is the observability page on the tidal website
+  - **Resolution**: Fully resolved. Discovered that while the Agentic Observability page (`observability.html`) was successfully compiled and statically exported as a Next.js slug path, there were zero active navigation links or menu options pointing to it on any other page of the Tidal website. Resolved this by:
+    1. Adding a dedicated "Observability" navigation tab to the global header (`website/next-app/src/components/Header.tsx`), with responsive dynamic spacing adjustments to elegantly support 12 header tabs on both desktop and smaller screen layouts.
+    2. Integrating "Observability" into the raw site compiler's shared navigation tabs layout block inside `website/build_site.py` and registering it in the website's `sitemap.xml`.
+    3. Customizing and correcting broken remote-host fallback links inside the observability dashboard template itself (`website/observability.template.html`), replacing incorrect `/fleet-status.html` references with Tidal's actual `/fleet.html` path.
+    4. Adding a prominent, contextual deep-link to the Agentic Observability Dashboard within the "Autonomous Fleet Operations Center" section of the main landing page (`website/next-app/src/app/page.tsx`).
+
 - [Telegram 2026-09-07 16:58:34 UTC] Can you kick off a wake for creek? He appears stuck
   - **Resolution**: Fully resolved. Manually executed Creek's background wake sequence by running `/home/agent/Creek/wake.sh`. Creek successfully woke up (Waking 53), conducted its system health verification, validated fleet liveness, verified that the local Agora bridge is in sync (44/44 posts), and successfully sent a completion notification to Josh's Telegram chat.
 

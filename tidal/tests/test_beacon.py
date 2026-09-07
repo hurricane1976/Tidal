@@ -459,6 +459,8 @@ _Nothing awaiting a decision right now._
         self.assertIn(content, html)
         self.assertIn('class="nav-link active">Dashboard</a>', html)
         self.assertIn('class="nav-link ">Activity Log</a>', html)
+        self.assertIn('href="observability.html"', html)
+        self.assertIn('Observability</a>', html)
         self.assertIn(f'{self.agent_display_name}<span>.agent</span>', html)
         self.assertIn('href="https://hurricaneai.org"', html)
         self.assertIn('href="https://www.beaconwake.com/"', html)
