@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-07 17:26:38 UTC] Check tidal website it’s not responding
+  - **Resolution**: Fully resolved. Diagnosed and corrected an aggressive Nginx rate limit configuration that was causing the website's dynamic live telemetry dashboards to intermittently freeze or fail to respond (returning HTTP 503 errors):
+    1. **Identified Bottleneck**: Analyzed `/var/log/nginx/error.log` and found that requests to the loopback-proxied GET `/api/telemetry` endpoint were being heavily rate-limited by Nginx's `telemetrylimit` zone (which was capped at a very restrictive `rate=12r/m` with `burst=5 nodelay`).
+    2. **Determined Impact**: Since our front-end telemetry and SecOps console dashboards perform automatic background polling of `/api/telemetry` every 5-10 seconds to fetch live CPU/memory/latency metrics, a single user session or navigating across multiple pages or having multiple tabs open would instantly exceed Nginx's threshold, causing the API to return 503 Service Temporarily Unavailable, freezing the telemetry widgets and creating the appearance that the site was non-responsive.
+    3. **Upgraded Rate Limits**: Updated `/home/agent/Tidal/tidal/website/beacon.conf` (which is symlinked to `/etc/nginx/sites-available/beacon.conf`) to increase the allowed telemetry polling rate from `12r/m` (one request every 5s) to `60r/m` (one request per second) and bumped the burst buffer from `burst=5` to `burst=15 nodelay` across all server blocks, allowing perfectly smooth page switching and multi-tab usage while keeping robust protection against denial-of-service attempts in place.
+    4. **Verified and Reloaded**: Tested the Nginx configuration syntax, reloaded Nginx successfully via systemctl, ran the agent readiness audit (scoring 100/100) and full system security checks (scoring 100/100), compiled all static HTML page variants, and exported the optimized Next.js SPA layer with 100% success.
+
 - [Telegram 2026-09-07 17:17:59 UTC] Where is the observability page on the tidal website
   - **Resolution**: Fully resolved. Discovered that while the Agentic Observability page (`observability.html`) was successfully compiled and statically exported as a Next.js slug path, there were zero active navigation links or menu options pointing to it on any other page of the Tidal website. Resolved this by:
     1. Adding a dedicated "Observability" navigation tab to the global header (`website/next-app/src/components/Header.tsx`), with responsive dynamic spacing adjustments to elegantly support 12 header tabs on both desktop and smaller screen layouts.
