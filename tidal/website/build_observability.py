@@ -410,96 +410,100 @@ def generate_observability_lanes() -> str:
         lanes_html.append(html)
     return "\n".join(lanes_html)
 
-def generate_waterfall(store_rows: list[dict]) -> dict:
-    tidal_runs = [r for r in store_rows if r.get("agent") == "Tidal"]
-    if tidal_runs:
-        latest_tidal = max(tidal_runs, key=lambda r: r.get("ts"))
-    else:
-        latest_tidal = {
-            "ts": datetime.now(timezone.utc).isoformat(),
-            "duration_ms": 154000,
-            "input_tokens": 34000,
-            "output_tokens": 2400,
-            "turns": 4,
-            "is_error": False,
-        }
+def _system_of_model(model) -> str:
+    m = (model or "").lower()
+    if "claude" in m:
+        return "anthropic"
+    if "gemini" in m:
+        return "google"
+    if "deepseek" in m:
+        return "deepseek"
+    if "glm" in m:
+        return "zhipu"
+    return "unknown"
 
-    D = latest_tidal.get("duration_ms", 154000) / 1000.0
-    # allocate proportions
-    p_nostr_listen = min(12.0, D * 0.08)
-    p_nostr_reply = min(4.0, D * 0.02)
-    p_check_replies = min(3.0, D * 0.02)
-    p_read_context = min(5.0, D * 0.03)
-    p_build_site = min(11.0, D * 0.06)
-    p_smoke_local = min(6.0, D * 0.04)
-    p_deploy_sh = min(13.0, D * 0.08)
-    p_smoke_live = min(9.0, D * 0.05)
-    p_notify_sh = min(2.0, D * 0.01)
-    
-    p_agent_work = D - (p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_build_site + p_smoke_local + p_deploy_sh + p_smoke_live + p_notify_sh)
-    if p_agent_work < 10.0:
-        p_agent_work = D * 0.61
 
-    total_allocated = (p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work + p_build_site + p_smoke_local + p_deploy_sh + p_smoke_live + p_notify_sh)
-    scale = D / total_allocated
-    
-    p_nostr_listen *= scale
-    p_nostr_reply *= scale
-    p_check_replies *= scale
-    p_read_context *= scale
-    p_agent_work *= scale
-    p_build_site *= scale
-    p_smoke_local *= scale
-    p_deploy_sh *= scale
-    p_smoke_live *= scale
-    p_notify_sh *= scale
+def _run_total_tokens(r: dict) -> int:
+    return ((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0)
+             + (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0))
 
-    phases = [
-        ("wake.sh", 0, D, "wf-bar", f"{D:.1f}s"),
-        ("nostr_listen", 0, p_nostr_listen, "wf-bar io", f"{p_nostr_listen:.1f}s"),
-        ("nostr_reply", p_nostr_listen, p_nostr_reply, "wf-bar io", f"{p_nostr_reply:.1f}s"),
-        ("check_replies", p_nostr_listen + p_nostr_reply, p_check_replies, "wf-bar io", f"{p_check_replies:.1f}s"),
-        ("read context", p_nostr_listen + p_nostr_reply + p_check_replies, p_read_context, "wf-bar io", f"{p_read_context:.1f}s"),
-        ("agent work", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context, p_agent_work, "wf-bar gen", f"{p_agent_work:.1f}s"),
-        ("build_*.py", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work, p_build_site, "wf-bar", f"{p_build_site:.1f}s"),
-        ("smoke --local", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work + p_build_site, p_smoke_local, "wf-bar", f"{p_smoke_local:.1f}s"),
-        ("deploy.sh", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work + p_build_site + p_smoke_local, p_deploy_sh, "wf-bar io", f"{p_deploy_sh:.1f}s"),
-        ("smoke --live", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work + p_build_site + p_smoke_local + p_deploy_sh, p_smoke_live, "wf-bar", f"{p_smoke_live:.1f}s"),
-        ("notify.sh", p_nostr_listen + p_nostr_reply + p_check_replies + p_read_context + p_agent_work + p_build_site + p_smoke_local + p_deploy_sh + p_smoke_live, p_notify_sh, "wf-bar io", f"{p_notify_sh:.1f}s"),
-    ]
 
-    bars_html = []
-    for lbl, left, width, cls, dur_str in phases:
-        left_pct = (left / D) * 100
-        width_pct = (width / D) * 100
-        bar = f'          <span class="wf-label">{lbl}</span><div class="wf-track"><div class="{cls}" style="left:{left_pct:.2f}%;width:{width_pct:.2f}%"></div><span class="wf-ms">{dur_str}</span></div>'
-        bars_html.append(bar)
+def generate_token_bars(instrumented: list[dict], window: int = 14) -> dict:
+    """Stacked per-run token bars (in/out/cache-read/cache-write) -- every
+    number here is a field already scanned from logs/<ts>.json, no synthesis."""
+    rows = instrumented[-window:]
+    if not rows:
+        return {"flag": "live", "flag_label": "Live &mdash; filling", "bars": ""}
+    tmax = max((_run_total_tokens(r) for r in rows), default=0) or 1
+    bars = []
+    for r in rows:
+        total = _run_total_tokens(r) or 1
+        width_pct = max(3, total / tmax * 100)
+        seg = []
+        for key, cls in (("input_tokens", "in"), ("output_tokens", "out"),
+                          ("cache_read_tokens", "cache-rd"), ("cache_creation_tokens", "cache-wr")):
+            v = r.get(key) or 0
+            if v <= 0:
+                continue
+            share = v / total * 100
+            seg.append(f'<div class="sb-seg {cls}" style="width:{share:.2f}%" title="{cls}: {fmt_int(v)}"></div>')
+        lbl = esc(r["ts"][5:16].replace("T", " "))
+        bars.append(
+            f'<span class="sb-l">{lbl}</span><div class="sb-t" style="width:{width_pct:.0f}%">'
+            + "".join(seg) + "</div>"
+        )
+    return {"flag": "live", "flag_label": "Live", "bars": "\n".join(bars)}
 
-    # Calculate waking number based on notes length or fallback to 142
-    try:
-        notes_path = Path("/home/agent/Tidal/tidal/NOTES.md")
-        if notes_path.exists():
-            notes_text = notes_path.read_text(encoding="utf-8")
-            waking_num = len(re.findall(r"^##\s+September\s+\d+", notes_text, re.MULTILINE))
-            if waking_num == 0:
-                waking_num = 142
-        else:
-            waking_num = 142
-    except Exception:
-        waking_num = 142
 
-    return {
-        "flag_class": "live",
-        "flag": "Live",
-        "title": f"trace &middot; Tidal waking &middot; run #{waking_num} ({D:.1f}s real timing)",
-        "bars": "\n".join(bars_html),
-        "system": "google",
-        "model": "gemini-1.5-pro",
-        "input_tokens": fmt_int(latest_tidal.get("input_tokens", 34000)),
-        "output_tokens": fmt_int(latest_tidal.get("output_tokens", 2400)),
-        "waking": str(waking_num),
-        "outcome": "error" if latest_tidal.get("is_error") else "shipped",
-    }
+def generate_wallclock_bars(instrumented: list[dict], window: int = 14) -> dict:
+    """Stacked per-run API-time vs orchestration-time bars, from the same
+    duration_ms / duration_api_ms fields the envelope already carries."""
+    rows = [r for r in instrumented if isinstance(r.get("duration_ms"), (int, float))
+            and isinstance(r.get("duration_api_ms"), (int, float))][-window:]
+    if not rows:
+        return {"flag": "none", "flag_label": "Not instrumented", "bars": ""}
+    dmax = max((r["duration_ms"] for r in rows), default=0) or 1
+    bars = []
+    for r in rows:
+        d = r["duration_ms"]
+        api = max(0.0, min(r["duration_api_ms"], d))
+        orch = max(0.0, d - api)
+        width_pct = max(3, d / dmax * 100)
+        lbl = esc(r["ts"][5:16].replace("T", " "))
+        bars.append(
+            f'<span class="sb-l">{lbl}</span><div class="sb-t" style="width:{width_pct:.0f}%">'
+            f'<div class="sb-seg api" style="width:{api / d * 100:.2f}%" title="API: {fmt_dur(api)}"></div>'
+            f'<div class="sb-seg orch" style="width:{orch / d * 100:.2f}%" title="orchestration: {fmt_dur(orch)}"></div>'
+            "</div>"
+        )
+    return {"flag": "live", "flag_label": "Live", "bars": "\n".join(bars)}
+
+
+def generate_agent_summary(instrumented: list[dict]) -> str:
+    by_agent: dict[str, list[dict]] = {}
+    for r in instrumented:
+        by_agent.setdefault(r["agent"], []).append(r)
+    rows_html = []
+    for agent in sorted(by_agent):
+        runs = by_agent[agent]
+        n = len(runs)
+        total_cost = sum(r["cost_usd"] for r in runs)
+        turns = [r["turns"] for r in runs if isinstance(r.get("turns"), (int, float))]
+        walls = [r["duration_ms"] for r in runs if isinstance(r.get("duration_ms"), (int, float))]
+        toks = [_run_total_tokens(r) for r in runs]
+        errors = sum(1 for r in runs if r.get("is_error"))
+        rows_html.append(
+            "<tr><td>{a}</td><td class=\"mono\">{n}</td><td class=\"mono\">{tc}</td>"
+            "<td class=\"mono\">{mc}</td><td class=\"mono\">{mt}</td><td class=\"mono\">{mw}</td>"
+            "<td class=\"mono\">{mtok}</td><td class=\"mono\">{err}</td></tr>".format(
+                a=esc(agent), n=n, tc=fmt_cost(total_cost), mc=fmt_cost(total_cost / n),
+                mt=f"{sum(turns) / len(turns):.1f}" if turns else "—",
+                mw=fmt_dur(sum(walls) / len(walls)) if walls else "—",
+                mtok=fmt_int(round(sum(toks) / len(toks))) if toks else "—",
+                err=errors,
+            )
+        )
+    return "\n".join(rows_html)
 
 def render(store_rows: list[dict]) -> str:
     tmpl = TEMPLATE.read_text()
@@ -577,9 +581,43 @@ def render(store_rows: list[dict]) -> str:
         for r in run_explorer()
     )
 
-    # Generate dynamic lanes and waterfall
+    # Generate dynamic lanes, token/wall-clock breakdowns and the per-agent rollup
     lanes_html = generate_observability_lanes()
-    wf = generate_waterfall(store_rows)
+    tok = generate_token_bars(instrumented)
+    wc = generate_wallclock_bars(instrumented)
+    agsum_rows = generate_agent_summary(instrumented) if instrumented else (
+        "<tr><td colspan=\"8\" style=\"color:var(--muted);text-align:center;\">"
+        "awaiting the first instrumented run</td></tr>"
+    )
+    agsum_flag = "live" if instrumented else "live"
+    agsum_flag_label = "Live" if instrumented else "Live &mdash; filling"
+
+    # Real gen-AI attributes for the most recent instrumented Tidal run (falls
+    # back to the most recent instrumented run fleet-wide if Tidal has none).
+    tidal_runs = [r for r in instrumented if r.get("agent") == "Tidal"]
+    latest = max(tidal_runs, key=lambda r: r["ts"]) if tidal_runs else (
+        max(instrumented, key=lambda r: r["ts"]) if instrumented else None
+    )
+    try:
+        notes_path = Path("/home/agent/Tidal/tidal/NOTES.md")
+        notes_text = notes_path.read_text(encoding="utf-8") if notes_path.exists() else ""
+        waking_num = len(re.findall(r"^##\s+September\s+\d+", notes_text, re.MULTILINE)) or None
+    except Exception:
+        waking_num = None
+
+    if latest:
+        latest_attrs = {
+            "system": _system_of_model(latest.get("model")),
+            "model": latest.get("model") or "unknown",
+            "input_tokens": fmt_int(latest.get("input_tokens")),
+            "output_tokens": fmt_int(latest.get("output_tokens")),
+            "api_ms": fmt_int(latest["duration_api_ms"]) if isinstance(latest.get("duration_api_ms"), (int, float)) else "—",
+            "total_ms": fmt_int(latest["duration_ms"]) if isinstance(latest.get("duration_ms"), (int, float)) else "—",
+            "waking": str(waking_num) if waking_num else "—",
+            "outcome": "error" if latest.get("is_error") else "shipped",
+        }
+    else:
+        latest_attrs = {k: "—" for k in ("system", "model", "input_tokens", "output_tokens", "api_ms", "total_ms", "waking", "outcome")}
 
     repl = {
         "{{OBS_GENERATED_AT}}": now,
@@ -595,20 +633,33 @@ def render(store_rows: list[dict]) -> str:
         "{{OBS_KPI_MEAN}}": fmt_cost(total_cost / n) if instrumented else "—",
         "{{OBS_KPI_TOKENS}}": fmt_int(total_tok) if instrumented else "—",
         "{{OBS_KPI_SINCE}}": since or "pending",
-        
-        # New dynamic Trace Waterfall placeholders
-        "{{OBS_WF_FLAG_CLASS}}": wf["flag_class"],
-        "{{OBS_WF_FLAG}}": wf["flag"],
-        "{{OBS_WF_TITLE}}": wf["title"],
-        "{{OBS_WF_BARS}}": wf["bars"],
-        "{{OBS_WF_SYSTEM}}": wf["system"],
-        "{{OBS_WF_MODEL}}": wf["model"],
-        "{{OBS_WF_INPUT_TOKENS}}": wf["input_tokens"],
-        "{{OBS_WF_OUTPUT_TOKENS}}": wf["output_tokens"],
-        "{{OBS_WF_WAKING}}": wf["waking"],
-        "{{OBS_WF_OUTCOME}}": wf["outcome"],
-        
-        # New dynamic lanes placeholder
+
+        # Token throughput per run (stacked bars, real per-run token fields)
+        "{{OBS_TOK_FLAG}}": tok["flag"],
+        "{{OBS_TOK_FLAG_LABEL}}": tok["flag_label"],
+        "{{OBS_TOK_BARS}}": tok["bars"],
+
+        # Where the wall-clock goes (stacked bars, real duration_ms / duration_api_ms)
+        "{{OBS_WC_FLAG}}": wc["flag"],
+        "{{OBS_WC_FLAG_LABEL}}": wc["flag_label"],
+        "{{OBS_WC_BARS}}": wc["bars"],
+
+        # Real gen-AI attributes for the latest instrumented run
+        "{{OBS_WF_SYSTEM}}": latest_attrs["system"],
+        "{{OBS_WF_MODEL}}": latest_attrs["model"],
+        "{{OBS_WF_INPUT_TOKENS}}": latest_attrs["input_tokens"],
+        "{{OBS_WF_OUTPUT_TOKENS}}": latest_attrs["output_tokens"],
+        "{{OBS_WF_API_MS}}": latest_attrs["api_ms"],
+        "{{OBS_WF_TOTAL_MS}}": latest_attrs["total_ms"],
+        "{{OBS_WF_WAKING}}": latest_attrs["waking"],
+        "{{OBS_WF_OUTCOME}}": latest_attrs["outcome"],
+
+        # Per-agent rollup table
+        "{{OBS_AGSUM_FLAG}}": agsum_flag,
+        "{{OBS_AGSUM_FLAG_LABEL}}": agsum_flag_label,
+        "{{OBS_AGENT_SUMMARY_ROWS}}": agsum_rows,
+
+        # Dynamic lanes placeholder
         "{{OBS_LANES_HTML}}": lanes_html,
     }
     out = tmpl
