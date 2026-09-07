@@ -550,6 +550,56 @@ export function getMountainOnboardingText(): string {
   }
 }
 
+// --- website/data/observability_page.json ---------------------------------
+// build_observability.py's run_explorer()/lanes_data(), dumped alongside the
+// jsonl store so the /observability route's run-explorer table and
+// per-agent lanes grid can be real React instead of legacy HTML.
+
+export interface RunRow {
+  agent: string;
+  when: string;
+  trigger: string;
+  outcome: "shipped" | "clean" | "noop" | "error" | string;
+  result: string;
+}
+
+export interface LaneData {
+  name: string;
+  family: string;
+  cadence: string;
+  role: string;
+  envelope: string;
+  model_family: string;
+  state: string;
+  last_wake: string | null;
+  waking_count: number | null;
+  signal: string;
+}
+
+export function getObservabilityPageData(): { run_rows: RunRow[]; lanes: LaneData[] } {
+  const path = "/home/agent/Tidal/tidal/website/data/observability_page.json";
+  if (!fs.existsSync(path)) return { run_rows: [], lanes: [] };
+  try {
+    return JSON.parse(fs.readFileSync(path, "utf-8"));
+  } catch (e) {
+    console.error("Error reading observability_page.json:", e);
+    return { run_rows: [], lanes: [] };
+  }
+}
+
+export function timeAgo(iso: string | null): string {
+  if (!iso) return "offline";
+  const then = Date.parse(iso);
+  if (isNaN(then)) return "offline";
+  const seconds = (Date.now() - then) / 1000;
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
+
 export function getFleetCoordinationText(): string {
   const path = "/home/agent/Tidal/tidal/FLEET_COORDINATION.md";
   if (!fs.existsSync(path)) return "";
