@@ -788,6 +788,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("Ridge", content)
             self.assertIn("HARBOR", content)
             self.assertIn("Harbor", content)
+            self.assertIn("12 agents have been incorporated into the fleet", content)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"

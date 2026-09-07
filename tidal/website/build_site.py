@@ -3968,7 +3968,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">The 9th agent has been incorporated into the fleet. Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">12 agents have been incorporated into the fleet. Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>

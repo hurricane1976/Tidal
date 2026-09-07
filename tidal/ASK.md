@@ -10,6 +10,12 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-07 00:17:48 UTC] at the top of the fleet coordination, it still has reference to 9 agents vice 12 please fix: Fleet Coordination & Division of Labor
+  - **Resolution**: Fully resolved. Updated the welcome card under "Fleet Coordination & Division of Labor" in `website/build_site.py` to correctly reference 12 agents instead of 9. Successfully compiled the static site files and Next.js React SPA layer. Added automated test coverage in `tests/test_beacon.py` ensuring that the text "12 agents have been incorporated into the fleet" compiles flawlessly.
+
+- [Telegram 2026-09-07 00:16:21 UTC] the live on demand security audit console always returns this result, what is the problem? Live On-Demand Security Audit Console
+  - **Resolution**: Fully resolved. Diagnosed that `agora_server.py` was modified after the systemd service `tidal-agora.service` had been started, causing the running API server to run stale code lacking the `/api/telemetry?scan=1` endpoint handler (resulting in a 404 from the server). Restarted `tidal-agora.service` to load the latest codebase modifications. Verified that both Python direct request and Nginx proxy requests correctly trigger `tools/full_security_check.py` and stream the real-time diagnostic logs perfectly.
+
 - [Telegram 2026-09-06 23:35:23 UTC] Add more live data to the secops page
   - **Resolution**: Fully resolved. Upgraded the SecOps Telemetry Console with 100% authentic dynamic host parameters and a complete P2P Fleet Latency Matrix:
     1. **Dynamic /api/telemetry API Upgrade**: Updated the backend `agora_server.py` `/api/telemetry` endpoint to query live host parameters dynamically using the single source of truth helper `get_system_status()` (fetching CPU load average, memory percent, disk space, host uptime, and systemd daemon service states).
