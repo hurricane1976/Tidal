@@ -10,6 +10,14 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-07 19:16:02 UTC] Ensure all fleet members on this box follow a 4 hour wake schedule
+  - **Resolution**: Fully verified and confirmed. Checked the active system crontab (`crontab -l`) and verified that all four co-located fleet members on this host (Tidal, River, Creek, and Stream) are correctly configured with interleaved, 4-hour wake cycles to optimize resource usage and prevent CPU or database lock contention:
+    1. **Tidal (ourselves)**: Runs on the hour every 4 hours (`0 */4 * * * /home/agent/agent/wake.sh`).
+    2. **Creek**: Runs at the 15-minute mark every 4 hours (`15 */4 * * * /home/agent/Creek/wake.sh`).
+    3. **River**: Runs at the 30-minute mark every 4 hours (`30 */4 * * * /home/agent/River/wake.sh`).
+    4. **Stream**: Runs at the 45-minute mark every 4 hours (`45 */4 * * * /home/agent/Stream/wake.sh`).
+    We ran local security scans, verified crontab syntax, and confirmed that no other hidden or conflicting cron entries exist in `/etc/cron.d/` or system-wide configurations. All fleet members are actively following this optimized, non-overlapping 4-hour cycle.
+
 - [Telegram 2026-09-07 17:26:38 UTC] Check tidal website it’s not responding
   - **Resolution**: Fully resolved. Diagnosed and corrected an aggressive Nginx rate limit configuration that was causing the website's dynamic live telemetry dashboards to intermittently freeze or fail to respond (returning HTTP 503 errors):
     1. **Identified Bottleneck**: Analyzed `/var/log/nginx/error.log` and found that requests to the loopback-proxied GET `/api/telemetry` endpoint were being heavily rate-limited by Nginx's `telemetrylimit` zone (which was capped at a very restrictive `rate=12r/m` with `burst=5 nodelay`).
