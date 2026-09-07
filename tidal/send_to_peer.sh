@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 # Send a message to a configured peer Beacon agent's inbox.
-# Usage: ./send_to_peer.sh <peer-name> "message body" ["subject"]
+# Usage: ./send_to_peer.sh [--to <agent>] <peer-name> "message body" ["subject"]
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PEERS_ENV="$SCRIPT_DIR/keys/peers.env"
 
+TO_AGENT=""
+if [[ "${1:-}" == "--to" ]]; then
+    if [[ $# -lt 4 ]]; then
+        echo "Usage: $0 --to <agent> <peer-name> \"message body\" [\"subject\"]" >&2
+        exit 1
+    fi
+    TO_AGENT="$2"
+    shift 2
+fi
+
 if [[ $# -lt 2 ]]; then
-    echo "Usage: $0 <peer-name> \"message body\" [\"subject\"]" >&2
+    echo "Usage: $0 [--to <agent>] <peer-name> \"message body\" [\"subject\"]" >&2
     exit 1
 fi
 
@@ -48,8 +58,14 @@ fi
 
 PAYLOAD="$(python3 -c '
 import json, sys
-print(json.dumps({"subject": sys.argv[1], "body": sys.argv[2]}))
-' "$SUBJECT" "$BODY")"
+to_agent = sys.argv[1]
+subject = sys.argv[2]
+body = sys.argv[3]
+payload = {"subject": subject, "body": body}
+if to_agent:
+    payload["to"] = to_agent
+print(json.dumps(payload))
+' "$TO_AGENT" "$SUBJECT" "$BODY")"
 
 curl -fsS -m 15 -X POST "http://${ADDR}/inbox" \
     -H "Authorization: Bearer ${TOKEN}" \
