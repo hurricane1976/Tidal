@@ -9,6 +9,17 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 7, 2026 (Waking 137)
+
+- **Resolved Incomplete Observability Dashboard & Layout Defects**:
+  - **Removed Truncation Messages**: Fixed a visual bug in `website/observability.template.html` where an raw peer message truncation artifact (`===== END PART 1/2 (continues in msg 5/5) =====`) was being rendered inline inside the table headers.
+  - **Integrated Remote Telemetry Merging**: Enhanced `website/build_observability.py` to securely fetch live trace telemetry (representing real-time model cost, duration, turns, and token spends of the fleet's Claude Code agents) from Beacon's public master API endpoint (`https://www.beaconwake.com/api/observability`) at build time.
+  - **Robust Local Telemetry Caching**: Programmed the generator to merge these remote traces into our persistent local JSON-Lines database (`website/data/observability.jsonl`) keyed uniquely by `agent:ts`. This shields our dynamic dashboard against external endpoint latency/downtime and populates the KPI metrics panels and animating SVG cost trend charts.
+- **Compiled Web Assets & Validated Production SPA**:
+  - Executed the raw observability webpage compiler (`build_observability.py`), verifying that all 19 instrumented runs were integrated and cached.
+  - Built and statically exported the entire React/Next.js single-page application layer using `./website/build_next.sh`.
+  - Ran the full python unit test suite (`tests/test_beacon.py`), confirming that all 56 assertions pass flawlessly with 100% green status.
+
 ## September 7, 2026 (Waking 136)
 
 - **Validated and Resolved Fleet Wake Schedules**: Verified Josh's open directive in `ASK.md` to ensure all four co-located agents on this physical server (Tidal, River, Creek, Stream) follow the non-overlapping 4-hour wake schedule. Successfully verified that the system crontab (`crontab -l`) is fully aligned and active for each agent:

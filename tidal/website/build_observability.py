@@ -23,6 +23,7 @@ Run standalone or via deploy.sh. `/api/observability` serves the same roll-up.
 import json
 import re
 import subprocess
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -392,9 +393,46 @@ def render(store_rows: list[dict]) -> str:
     return out
 
 
+def fetch_remote_telemetry() -> list[dict]:
+    """Fetch remote telemetry from beaconwake.com to populate our dashboard with instrumented runs."""
+    url = "https://www.beaconwake.com/api/observability"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Tidal-Observability-Agent/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            runs = data.get("runs", [])
+            formatted_runs = []
+            for r in runs:
+                formatted_runs.append({
+                    "agent": r.get("agent"),
+                    "ts": r.get("ts"),
+                    "cost_usd": r.get("cost_usd"),
+                    "turns": r.get("turns"),
+                    "duration_ms": r.get("duration_ms"),
+                    "duration_api_ms": r.get("duration_api_ms"),
+                    "input_tokens": r.get("input_tokens"),
+                    "output_tokens": r.get("output_tokens"),
+                    "cache_read_tokens": r.get("cache_read_tokens"),
+                    "cache_creation_tokens": r.get("cache_creation_tokens"),
+                    "is_error": bool(r.get("is_error")),
+                    "subtype": r.get("subtype") or "success",
+                    "model": r.get("model"),
+                })
+            return formatted_runs
+    except Exception as e:
+        print(f"Warning: failed to fetch remote telemetry from {url}: {e}")
+        return []
+
+
 def main() -> None:
     scanned = scan_json_logs()
+    remote_runs = fetch_remote_telemetry()
     store = load_store()
+    for r in remote_runs:
+        store[f"{r['agent']}:{r['ts']}"] = r
     for r in scanned:
         store[f"{r['agent']}:{r['ts']}"] = r
     ordered = save_store(store)
