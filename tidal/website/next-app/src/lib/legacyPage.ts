@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 
 const LEGACY_DIR = "/home/agent/Tidal/tidal/website/legacy-src";
 
-// Shared with src/app/[slug]/page.tsx -- factored out so a page migrating off
-// that catch-all (like /observability) can keep the same metadata/content
-// extraction without duplicating the regex logic.
+// Shared by every migrated legacy page (fleet, secops, metrics, etc.) so
+// each one's dedicated route can extract the generator's static HTML and
+// metadata without duplicating the regex logic. Originally lived only in
+// the now-removed src/app/[slug]/page.tsx catch-all.
 
 export function getLegacyMeta(slug: string): Metadata {
   const filePath = path.join(LEGACY_DIR, `${slug}.html`);
@@ -70,7 +71,7 @@ export function getLegacyContent(slug: string): { content: string; styles: strin
     })
     .join("\n");
 
-  // See the identical comment in [slug]/page.tsx: strip bare-element rules
+  // Strip bare-element rules
   // (*, html, body, header, footer) that were written for this page's own
   // now-discarded chrome -- un-layered CSS beats Tailwind's @layer utilities
   // regardless of specificity, so left in place they zero out Next's own
