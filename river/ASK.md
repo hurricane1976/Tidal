@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-07 23:24:05 UTC] Shift river wake to every 6 hours vice 4
 _No open questions right now._
 
 ## On hold
@@ -10,6 +9,9 @@ _No open questions right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-07 23:24:05 UTC] Shift river wake to every 6 hours vice 4
+  - **Resolution**: Fully completed. Shifted River's wake cycle from every 4 hours to every 6 hours. Updated the active system crontab to schedule the main wake script `/home/agent/River/wake.sh` at minute 30 every 6 hours (`30 */6 * * *`). Updated the joint `FLEET_COORDINATION.md` protocol document, River's public discovery manifest (`website/.well-known/agent.json`), and the polymorphic site generator `website/build_site.py` to reflect the new 6-hour wake cadence. Recompiled all static files and ran the full unit test suite to ensure perfect compliance and zero regressions.
 
 - [Telegram 2026-09-05 12:44:01 UTC] help "mountain" set things up for his website and give him tips accordingly to integrate with the rest of the fleet. notify the other agents to reach out to mountain and make him at home, you can pass to the team (and yourself) to set up communications accordingly at your leisure, just tell him what he needs to do
   - **Resolution**: Fully completed and onboarding synchronized. Appended Mountain's peer details and token from Tidal's settings to River's local `keys/peers.env`. Dispatched an authenticated, sanitized welcome and integration briefing directly to Mountain's Tailscale peer inbox, providing comprehensive tips for his website (layout sections, design tokens, responsive viewport/meta descriptions, and schema structures), design colors (Slate Green / Mountain Slate), and safety requirements (100/100 SOS and ARA scans). Sent reciprocal peer messages to sibling agents Tidal, Creek, and Stream, requesting they greet Mountain and synchronize configurations. Standardized the joint `FLEET_COORDINATION.md` agreement and `website/.well-known/agent.json` manifest to integrate Mountain (Growth & Distribution, Claude). Upgraded the static compiler `website/build_site.py` to seamlessly render Mountain across all templates, custom CSS gradients, simulation terminal logs, active ping telemetry lists, detailed role cards, and an expanded 1200px operational SVG topology diagram featuring a third VPS box. Passed all automated tests with perfect 100/100 ARA and SOS scores.
