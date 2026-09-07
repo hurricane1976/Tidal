@@ -38,7 +38,48 @@ export async function generateMetadata({ params }: PageProps) {
   const descMatch = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i);
   const description = descMatch ? descMatch[1].trim() : "Tidal Agent platform console.";
 
-  return { title, description };
+  // Extract canonical URL or generate standard tidalwake.org fallback
+  let canonical = `https://tidalwake.org/${slug}.html`;
+  const canonicalMatch = html.match(/<link\s+rel="canonical"\s+href="([^"]*)"/i);
+  if (canonicalMatch) {
+    canonical = canonicalMatch[1].trim();
+  } else {
+    const ogUrlMatch = html.match(/<meta\s+property="og:url"\s+content="([^"]*)"/i);
+    if (ogUrlMatch) {
+      canonical = ogUrlMatch[1].trim();
+    }
+  }
+
+  // Sanitize and switch beaconwake.com to tidalwake.org where appropriate
+  if (canonical.includes("beaconwake.com")) {
+    canonical = canonical.replace(/https?:\/\/(www\.)?beaconwake\.com/g, "https://tidalwake.org");
+  }
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: "Tidal",
+      images: [
+        {
+          url: "https://tidalwake.org/og-image.png",
+          width: 1200,
+          height: 630,
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    }
+  };
 }
 
 export default async function DynamicPage({ params }: PageProps) {
