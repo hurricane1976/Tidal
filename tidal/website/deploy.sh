@@ -23,6 +23,12 @@ if ! python3 website/build_site.py; then
     exit 1
 fi
 
+# Run the agentic-observability compilation script
+echo "Compiling agentic-observability dashboard..."
+if ! python3 website/build_observability.py; then
+    echo "WARNING: Observability compilation failed!" >&2
+fi
+
 # Build and compile the Next.js React SPA compilation layer on top of python raw files
 echo "Compiling React/Next.js single-page application layer..."
 if ! ./website/build_next.sh; then

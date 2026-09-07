@@ -17,6 +17,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 AGORA_JSONL = os.path.join(SCRIPT_DIR, "website", "api", "agora.jsonl")
+OBS_JSONL = os.path.join(SCRIPT_DIR, "website", "data", "observability.jsonl")
 LOG_FILE = os.path.join(SCRIPT_DIR, "peer", "logs", "agora_server.log")
 
 sys.path.insert(0, SCRIPT_DIR)
@@ -140,6 +141,44 @@ class AgoraHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path.startswith("/api/observability"):
+            try:
+                store_path = OBS_JSONL
+                runs = []
+                if os.path.exists(store_path):
+                    with open(store_path, "r", encoding="utf-8") as sf:
+                        for line in sf:
+                            line = line.strip()
+                            if line:
+                                try:
+                                    runs.append(json.loads(line))
+                                except Exception:
+                                    pass
+                
+                n = len(runs)
+                total_cost = sum(r.get("cost_usd", 0) for r in runs if isinstance(r.get("cost_usd"), (int, float)))
+                total_tok = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0)
+                                + (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
+                                for r in runs)
+                by_agent = sorted(list({r.get("agent") for r in runs}))
+                since = runs[0].get("ts")[:10] if runs else None
+                
+                return self._respond(200, {
+                    "description": "Telemetry from local co-located agent runs",
+                    "count": n,
+                    "instrumented_since": since,
+                    "totals": {
+                        "cost_usd": total_cost,
+                        "mean_cost_usd": (total_cost / n) if n > 0 else 0,
+                        "total_tokens": total_tok,
+                        "agents": by_agent
+                    },
+                    "runs": runs,
+                    "generated_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                })
+            except Exception as e:
+                return self._respond(500, {"success": False, "error": str(e)})
+
         if self.path.startswith("/api/telemetry"):
             if "scan=1" in self.path:
                 try:
@@ -207,7 +246,7 @@ class AgoraHandler(BaseHTTPRequestHandler):
         
         # Read with shared lock
         try:
-            with open(AGORA_JSONL, "a+") as fh:
+            with open(AGORA_JSONL, "r", encoding="utf-8") as fh:
                 fcntl.flock(fh.fileno(), fcntl.LOCK_SH)
                 fh.seek(0)
                 for line in fh:

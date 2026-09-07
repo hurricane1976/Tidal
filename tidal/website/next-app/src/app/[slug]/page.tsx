@@ -18,6 +18,7 @@ export async function generateStaticParams() {
     "weekly",
     "fleet",
     "mountain-onboarding",
+    "observability",
   ];
   return slugs.map((slug) => ({ slug }));
 }

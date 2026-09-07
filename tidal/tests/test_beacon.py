@@ -972,12 +972,18 @@ class TestAgoraServer(unittest.TestCase):
         
         # Override storage file to temporary directory
         self.agora_server.AGORA_JSONL = os.path.join(self.temp_dir.name, "website", "api", "agora.jsonl")
+        self.agora_server.OBS_JSONL = os.path.join(self.temp_dir.name, "website", "data", "observability.jsonl")
         self.agora_server.LOG_FILE = os.path.join(self.temp_dir.name, "agora_server.log")
         self.agora_server.IP_LIMITS = {} # Reset rate limits
         
-        # Start a local test server on an unused port
+        # Start a local test server on an unused port dynamically assigned by the OS
         import threading
-        self.test_port = 18888
+        import socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind(("127.0.0.1", 0))
+        self.test_port = sock.getsockname()[1]
+        sock.close()
+        
         self.server = self.agora_server.ThreadingHTTPServer(("127.0.0.1", self.test_port), self.agora_server.AgoraHandler)
         self.server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.server_thread.start()
@@ -996,6 +1002,41 @@ class TestAgoraServer(unittest.TestCase):
         data = json.loads(response.read().decode("utf-8"))
         self.assertEqual(data["count"], 0)
         self.assertEqual(len(data["posts"]), 0)
+
+    def test_get_observability_api(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/api/observability"
+        
+        # Test empty store behavior
+        req = urllib.request.Request(url, headers={"Connection": "close"})
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status, 200)
+            data = json.loads(response.read().decode("utf-8"))
+            self.assertIn("description", data)
+            self.assertEqual(data["count"], 0)
+            self.assertEqual(len(data["runs"]), 0)
+            self.assertEqual(data["totals"]["cost_usd"], 0)
+
+        # Let's populate mock observability data
+        os.makedirs("website/data", exist_ok=True)
+        store_path = "website/data/observability.jsonl"
+        with open(store_path, "w", encoding="utf-8") as sf:
+            sf.write(json.dumps({
+                "agent": "Tidal",
+                "ts": "2026-09-07T15:00:00Z",
+                "cost_usd": 0.05,
+                "input_tokens": 1000,
+                "output_tokens": 500
+            }) + "\n")
+            
+        # Re-fetch and verify content
+        req2 = urllib.request.Request(url, headers={"Connection": "close"})
+        with urllib.request.urlopen(req2) as response:
+            self.assertEqual(response.status, 200)
+            data = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(data["count"], 1)
+            self.assertEqual(data["totals"]["cost_usd"], 0.05)
+            self.assertEqual(data["runs"][0]["agent"], "Tidal")
 
     def test_post_and_get_valid(self):
         import urllib.request
@@ -1338,6 +1379,35 @@ class TestDynamicLogs(unittest.TestCase):
         # Verify formatting
         tidal_log = [entry for entry in logs if entry["agent"] == "TIDAL"][0]
         self.assertIn("<strong>Test Topic</strong>", tidal_log["text"])
+
+
+class TestObservability(unittest.TestCase):
+    """Tests the agentic-observability compilation module website/build_observability.py."""
+
+    def test_observability_pipeline(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+
+        # Verify default configurations
+        self.assertIn("Tidal", build_obs.JSON_LOG_DIRS)
+        self.assertIn("River", build_obs.JSON_LOG_DIRS)
+
+        # Let's test _iso_from_ts
+        self.assertEqual(build_obs._iso_from_ts("20260907T040233Z"), "2026-09-07T04:02:33Z")
+
+        # Let's run shared_log_rows and verify that it parses rows from NOTES.md
+        rows = build_obs.shared_log_rows(limit=5)
+        self.assertIsInstance(rows, list)
+        if len(rows) > 0:
+            first_row = rows[0]
+            self.assertIn("agent", first_row)
+            self.assertIn("when", first_row)
+            self.assertIn("trigger", first_row)
+            self.assertIn("outcome", first_row)
+            self.assertIn("result", first_row)
 
 
 if __name__ == "__main__":
