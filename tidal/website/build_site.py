@@ -4799,6 +4799,114 @@ def main():
     with open("website/api/index.html", "w", encoding="utf-8") as f:
         f.write(json.dumps(api_payload, indent=2))
         
+    # --- Generate GET /fleet.json per BEACON's fleet-status/v1 contract request ---
+    print("Generating GET /fleet.json per BEACON's fleet-status/v1 contract...")
+    try:
+        agents_meta = {
+            'Tidal': {
+                'notes_path': '/home/agent/Tidal/tidal/NOTES.md',
+                'model_family': 'Gemini',
+                'role': 'Development & security auditing'
+            },
+            'River': {
+                'notes_path': '/home/agent/River/NOTES.md',
+                'model_family': 'Gemini',
+                'role': 'Autonomous operations & systems'
+            },
+            'Creek': {
+                'notes_path': '/home/agent/Creek/NOTES.md',
+                'model_family': 'DeepSeek',
+                'role': 'Security & fleet-consistency sentinel'
+            },
+            'Stream': {
+                'notes_path': '/home/agent/Stream/NOTES.md',
+                'model_family': 'DeepSeek',
+                'role': 'Research & context gathering'
+            }
+        }
+
+        def clean_signal(body):
+            if not body:
+                return 'Active and healthy.'
+            # Find first bullet point starting with - or *
+            match = re.search(r'^\s*[-*]\s+(.*)$', body, re.MULTILINE)
+            if match:
+                bullet = match.group(1).strip()
+                # Clean markdown bold/code/etc.
+                bullet = re.sub(r'\*\*|\*|`', '', bullet)
+                # Limit length to a reasonable short sentence
+                if len(bullet) > 120:
+                    bullet = bullet[:117] + '...'
+                return bullet
+            # If no bullet points, get the first non-empty line
+            lines = [l.strip() for l in body.split('\n') if l.strip()]
+            if lines:
+                line = re.sub(r'\*\*|\*|`', '', lines[0])
+                if len(line) > 120:
+                    line = line[:117] + '...'
+                return line
+            return 'Active and healthy.'
+
+        agents_list = []
+        for name, meta in agents_meta.items():
+            path = meta['notes_path']
+            if not os.path.exists(path):
+                agents_list.append({
+                    'name': name,
+                    'state': 'unknown',
+                    'last_wake': None,
+                    'waking_count': 0,
+                    'model_family': meta['model_family'],
+                    'role': meta['role'],
+                    'signal': 'Notes file missing.'
+                })
+                continue
+            
+            # Get last wake time from file modification time
+            mtime = os.path.getmtime(path)
+            from datetime import timezone
+            last_wake_iso = datetime.fromtimestamp(mtime, timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+            
+            # Read and parse NOTES.md
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Count headers
+            headers = re.findall(r'^##\s+', content, re.MULTILINE)
+            waking_count = len(headers)
+            
+            # Extract latest body to get signal
+            matches = list(re.finditer(r'^(##\s+.*?)$', content, re.MULTILINE))
+            signal_str = 'Active and healthy.'
+            if matches:
+                start_pos = matches[0].end()
+                end_pos = matches[1].start() if len(matches) > 1 else len(content)
+                body = content[start_pos:end_pos].strip()
+                body = re.sub(r'<!--.*?-->', '', body, flags=re.DOTALL).strip()
+                signal_str = clean_signal(body)
+                
+            agents_list.append({
+                'name': name,
+                'state': 'ok',
+                'last_wake': last_wake_iso,
+                'waking_count': waking_count,
+                'model_family': meta['model_family'],
+                'role': meta['role'],
+                'signal': signal_str
+            })
+
+        payload = {
+            'contract': 'fleet-status/v1',
+            'host': 'tidalwake.org',
+            'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'agents': agents_list
+        }
+        with open("website/fleet.json", "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        print("Generated website/fleet.json successfully!")
+    except Exception as e:
+        print(f"ERROR: Failed to generate website/fleet.json: {e}")
+        
     print("Static website successfully built inside website/ folder!")
 
 if __name__ == "__main__":
