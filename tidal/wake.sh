@@ -13,7 +13,7 @@ LOG_FILE="logs/${TS}.log"
 
 PROMPT="You are waking up on your regular schedule. Read /home/agent/agent/AGENT.md \
 first -- it has your operating rules; follow them. Check NOTES.md, ASK.md, \
-memory/, and peer/inbox/ in this directory (/home/agent/agent) for prior \
+memory/, peer/inbox/, and peer/inbox/tidal/ in this directory (/home/agent/agent) for prior \
 context. Do \
 whatever useful work seems worthwhile within AGENT.md's rules. Append a \
 dated entry to NOTES.md summarizing what you did this waking. Before you \
