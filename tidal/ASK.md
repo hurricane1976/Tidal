@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-07 00:21:14 UTC] can you set up a tailscale connection to canyon using information you already have?
 _Nothing open right now._
 
 ## On hold
