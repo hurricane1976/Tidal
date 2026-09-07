@@ -511,6 +511,30 @@ _Nothing awaiting a decision right now._
             else:
                 self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
+    def test_fleet_json_generation(self):
+        fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
+        self.assertTrue(os.path.exists(fleet_json_path))
+        
+        with open(fleet_json_path, "r") as f:
+            data = json.load(f)
+            
+        self.assertEqual(data.get("contract"), "fleet-status/v1")
+        self.assertEqual(data.get("host"), "tidalwake.org")
+        self.assertIn("generated_at", data)
+        self.assertIn("agents", data)
+        
+        agents = {a["name"]: a for a in data["agents"]}
+        expected_agents = ["Tidal", "River", "Creek", "Stream"]
+        for name in expected_agents:
+            self.assertIn(name, agents)
+            agent = agents[name]
+            self.assertEqual(agent.get("state"), "ok")
+            self.assertIn("last_wake", agent)
+            self.assertIsInstance(agent.get("waking_count"), int)
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek"])
+            self.assertIn("role", agent)
+            self.assertIn("signal", agent)
+
     def test_get_tidal_metrics(self):
         mock_notes = [
             {
