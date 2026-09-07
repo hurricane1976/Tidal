@@ -1,4 +1,4 @@
-import { getNotes, getQuestions, getRealLogsData, getGitCommitsCount } from "@/lib/data";
+import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
 import TidalHero from "@/components/TidalHero";
 import Marquee from "@/components/Marquee";
@@ -9,7 +9,7 @@ export default function Home() {
   const notes = getNotes("/home/agent/Tidal/tidal/NOTES.md");
   const questions = getQuestions();
   const realLogs = getRealLogsData();
-  const gitCommitsCount = getGitCommitsCount();
+  const kpis = getObservabilityKPIs();
 
   // Extract date of the latest waking if any
   const latestWakingDate = notes.length > 0 ? notes[0].date : "August 31, 2026 (Waking 0)";
@@ -44,20 +44,22 @@ export default function Home() {
             <div className="text-[1.8rem] font-display font-semibold text-teal-accent leading-none">IDLE</div>
           </div>
           <div className="border-r border-none md:border-r border-[#e8eaed]/8 px-4 py-2">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Continuity Logs</div>
+            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Instrumented Runs</div>
             <div className="text-[1.8rem] font-display font-semibold text-text-primary leading-none">
-              {stepsCount} <span className="text-[0.9rem] font-sans font-normal text-text-dim">steps</span>
+              {kpis.totalRuns} <span className="text-[0.9rem] font-sans font-normal text-text-dim">wakings</span>
             </div>
           </div>
           <div className="border-r border-[#e8eaed]/8 px-4 py-2">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Git History</div>
+            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Mean Run Cost</div>
             <div className="text-[1.8rem] font-display font-semibold text-text-primary leading-none">
-              {gitCommitsCount} <span className="text-[0.9rem] font-sans font-normal text-text-dim">commits</span>
+              ${kpis.meanCost.toFixed(4)}
             </div>
           </div>
           <div className="px-4 py-2">
-            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">System State</div>
-            <div className="text-[1.8rem] font-display font-semibold text-teal-accent leading-none">NOMINAL</div>
+            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Measured Fleet Cost</div>
+            <div className="text-[1.8rem] font-display font-semibold text-teal-accent leading-none">
+              ${kpis.totalCost.toFixed(2)}
+            </div>
           </div>
         </div>
 
@@ -75,26 +77,33 @@ export default function Home() {
         <h2 className="text-[clamp(1.5rem,3.5vw,2rem)] font-semibold mt-10 mb-5 border-b border-[#e8eaed]/8 pb-2">
           System Summary
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-[30px] mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mt-[30px] mb-10">
           <ScrollReveal>
-            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[20px] py-[24px] h-full hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
               <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Agent Daemon</div>
-              <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ACTIVE</div>
-              <p className="text-text-dim text-[0.98rem]">The core wake daemon executes on a three-hourly cron interval, executing tasks and reporting status updates safely.</p>
+              <div className="font-display text-[1.8rem] font-semibold text-teal-accent mb-3">ACTIVE</div>
+              <p className="text-text-dim text-[0.9rem] leading-snug">The core wake daemon executes on a three-hourly cron interval, executing tasks and reporting status updates safely.</p>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[20px] py-[24px] h-full hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
               <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Memory Engine</div>
-              <div className="font-display text-[2rem] font-semibold text-amber-accent mb-3">{stepsCount} units</div>
-              <p className="text-text-dim text-[0.98rem]">Chronological steps recorded in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
+              <div className="font-display text-[1.8rem] font-semibold text-amber-accent mb-3">{stepsCount} units</div>
+              <p className="text-text-dim text-[0.9rem] leading-snug">Chronological steps recorded in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={200}>
-            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[26px] py-[30px] hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[20px] py-[24px] h-full hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
               <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Operator Signal</div>
-              <div className="font-display text-[2rem] font-semibold text-teal-accent mb-3">ONLINE</div>
-              <p className="text-text-dim text-[0.98rem]">The Telegram bot filters updates for Josh&apos;s secure chat ID, maintaining an active, authenticated human-in-the-loop signal.</p>
+              <div className="font-display text-[1.8rem] font-semibold text-teal-accent mb-3">ONLINE</div>
+              <p className="text-text-dim text-[0.9rem] leading-snug">The Telegram bot filters updates for Josh&apos;s secure chat ID, maintaining an active, authenticated human-in-the-loop signal.</p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={300}>
+            <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] px-[20px] py-[24px] h-full hover:-translate-y-1 hover:border-teal-accent/35 transition-all duration-300">
+              <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-1.5">Fleet Observability</div>
+              <div className="font-display text-[1.8rem] font-semibold text-teal-accent mb-3">LIVE</div>
+              <p className="text-text-dim text-[0.9rem] leading-snug">Real-time traces, token spends, and per-run cost metrics for the entire fleet&apos;s <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">{kpis.totalRuns}</code> executions.</p>
             </div>
           </ScrollReveal>
         </div>

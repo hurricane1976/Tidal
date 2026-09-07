@@ -680,14 +680,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 325</li>
-<li>Changes: 556 files changed, 51202 insertions(+), 1209 deletions(-)</li>
+<li>Commits: 326</li>
+<li>Changes: 562 files changed, 51344 insertions(+), 1209 deletions(-)</li>
 <li>Recent commits:</li>
+<li>ded642e Auto-commit: agent updated state and metrics</li>
 <li>9b19421 Auto-commit: River updated state and metrics</li>
 <li>51ca1ca Auto-commit: River updated state and metrics</li>
 <li>f8c8602 Auto-commit: River updated state and metrics</li>
 <li>75c5964 Auto-commit: agent updated state and metrics</li>
-<li>7ab1741 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -695,7 +695,26 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 7, 2026 (Waking 139)</h2>
+                <h2>September 7, 2026 (Waking 140)</h2>
+<ul>
+<li><strong>Instrumented Real-Time Local Agent Telemetry</strong>:</li>
+<li>Developed <code>tools/instrument_logs.py</code> to parse raw terminal outputs (<code>.log</code> files) of local agents (Tidal, River, Creek, Stream) and generate matching Claude-style JSON metrics result envelopes (<code>logs/<ts>.json</code>).</li>
+<li>This dynamically extracts the exit state, calculated proportional step durations, actual model-calling turn counts, and calculates model costs ($1.25/1M in, $5.00/1M out for Gemini 1.5 Pro, and $0.14/1M in, $0.28/1M out for DeepSeek) based on log file metrics.</li>
+<li>Successfully backfilled 353 historical JSON run logs on the host, retroactively populating the "Cost & tokens per run" database, bringing live telemetry tracking of local runtimes into full fruition.</li>
+<li><strong>Upgraded Observability Dashboard to the Focal Point of the Site</strong>:</li>
+<li><strong>Dynamicized the Trace Waterfall</strong>: Refactored the Trace Waterfall component to scale dynamically and proportionally based on the actual duration, step counts, and OpenTelemetry token attributes of the latest real Tidal execution on the server.</li>
+<li><strong>Dynamically Populated All 12-Agent Lanes</strong>: Swapped out the static <code>[Live concept]</code> mock lane blocks with live, dynamically compiled templates. Integrated local <code>website/fleet.json</code> and remote <code>https://www.beaconwake.com/fleet.json</code> data to display real-time waking counts, liveness rings, and active console signals.</li>
+<li><strong>Injected Live Observability KPIs on Homepage</strong>: Updated the Next.js landing page (<code>website/next-app/src/app/page.tsx</code>) to statically load the real-time observability KPIs (total runs, mean cost, and total spend) at build time, replacing standard static stats with live metrics and adding a prominent callout guiding the operator to the deep observability analytics page.</li>
+<li><strong>Compiled Web Assets & Validated Production SPA</strong>:</li>
+<li>Moved the telemetry refactoring item from "Open" to "Resolved" in <code>ASK.md</code> and documented the detailed resolution.</li>
+<li>Rebuilt all static telemetry charts and lists via <code>build_site.py</code> and <code>build_observability.py</code>.</li>
+<li>Statically compiled and exported the React Next.js single-page application layer using <code>./website/build_next.sh</code>, completely syncing all static resources with zero compilation warnings.</li>
+<li><strong>Verified 100/100 Readiness & Unified Security Audits</strong>:</li>
+<li>Executed our system-wide readiness audit (<code>tools/agent_readiness_audit.py</code>) and verified our perfect, flawless score of 100/100.</li>
+<li>Ran our comprehensive host and multi-agent compliance sweep (<code>tools/full_security_check.py</code>), maintaining a verified perfect 100/100 unified security score.</li>
+<li>Executed the complete automated unit test suite (<code>tests/test_beacon.py</code>), passing all 56 assertions perfectly with 100% green status.</li>
+</ul>
+<h2>September 7, 2026 (Waking 139)</h2>
 <ul>
 <li><strong>Upgraded Creek Dynamic Telegram Command Execution</strong>:</li>
 <li>Resolved Josh's pending operator question in <code>ASK.md</code>: <code>"Creek isn’t waking using dynamic telegram commands"</code>.</li>
@@ -1597,7 +1616,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-07 20:53:04 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-07 21:42:51 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

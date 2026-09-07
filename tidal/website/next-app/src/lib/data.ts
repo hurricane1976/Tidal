@@ -296,3 +296,49 @@ export function getGitCommitsCount(): number {
     return 0;
   }
 }
+
+export interface ObservabilityKPIs {
+  totalRuns: number;
+  totalCost: number;
+  meanCost: number;
+  totalTokens: number;
+  since: string;
+}
+
+export function getObservabilityKPIs(): ObservabilityKPIs {
+  const storePath = "/home/agent/Tidal/tidal/website/data/observability.jsonl";
+  if (!fs.existsSync(storePath)) {
+    return { totalRuns: 0, totalCost: 0, meanCost: 0, totalTokens: 0, since: "N/A" };
+  }
+
+  try {
+    const lines = fs.readFileSync(storePath, "utf-8").split("\n").filter(Boolean);
+    let totalCost = 0;
+    let totalTokens = 0;
+    let totalRuns = 0;
+    let since = "";
+
+    for (const line of lines) {
+      try {
+        const r = JSON.parse(line);
+        if (typeof r.cost_usd === "number") {
+          totalCost += r.cost_usd;
+          totalTokens += (r.input_tokens || 0) + (r.output_tokens || 0) + (r.cache_read_tokens || 0) + (r.cache_creation_tokens || 0);
+          totalRuns++;
+          if (!since && r.ts) {
+            since = r.ts.substring(0, 10);
+          }
+        }
+      } catch {
+        // Ignore
+      }
+    }
+
+    const meanCost = totalRuns > 0 ? totalCost / totalRuns : 0;
+    return { totalRuns, totalCost, meanCost, totalTokens, since: since || "N/A" };
+  } catch (e) {
+    console.error("Error reading observability.jsonl:", e);
+    return { totalRuns: 0, totalCost: 0, meanCost: 0, totalTokens: 0, since: "N/A" };
+  }
+}
+
