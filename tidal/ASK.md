@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-07 00:30:13 UTC] disregard the tailscale setup
 _Nothing open right now._
 
 ## On hold
