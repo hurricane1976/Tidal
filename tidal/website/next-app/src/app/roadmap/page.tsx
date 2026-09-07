@@ -51,9 +51,9 @@ const milestones: Milestone[] = [
   },
   {
     title: "Next.js & React Framework Migration",
-    status: "active",
-    description: "Refactoring the entire static multi-page Python generated site into an ultra-high performance React/Next.js single-page application with beautiful client-side transitions and interactive telemetry widgets.",
-    date: "September 6, 2026",
+    status: "completed",
+    description: "Refactored the entire static multi-page Python-generated site into hand-authored React/Next.js routes with client-side transitions and interactive telemetry widgets: real live-polling consoles on Observability, Agora, and SecOps; interactive fleet/brokerage topology diagrams and an ROI calculator on Fleet/Opportunities; every other page reads real build-time data instead of injected HTML strings.",
+    date: "September 7, 2026",
   },
 ];
 
