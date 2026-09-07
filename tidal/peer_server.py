@@ -139,7 +139,19 @@ class Handler(BaseHTTPRequestHandler):
         subject = str(payload.get("subject", ""))[:200]
         body = str(payload.get("body", ""))[:MAX_BODY_BYTES]
 
-        os.makedirs(INBOX_DIR, exist_ok=True)
+        to_val = payload.get("to")
+        target_dir = INBOX_DIR
+
+        if to_val is not None:
+            if isinstance(to_val, str) and re.match(r"^[a-z][a-z0-9_-]{0,31}$", to_val):
+                if to_val in ("processed", "logs"):
+                    log(f"WARN reserved 'to' value {to_val!r} from peer={peer_name}, routing to root inbox")
+                else:
+                    target_dir = os.path.join(INBOX_DIR, to_val)
+            else:
+                log(f"WARN invalid/malformed 'to' value {to_val!r} from peer={peer_name}, routing to root inbox")
+
+        os.makedirs(target_dir, exist_ok=True)
         fname = (
             f"{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}"
             f"-{peer_name}-{os.urandom(4).hex()}.json"
@@ -150,11 +162,14 @@ class Handler(BaseHTTPRequestHandler):
             "body": body,
             "received_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         }
-        with open(os.path.join(INBOX_DIR, fname), "w") as fh:
+        if to_val is not None:
+            record["to"] = to_val
+
+        with open(os.path.join(target_dir, fname), "w") as fh:
             json.dump(record, fh, indent=2)
 
         _recent.setdefault(peer_name, []).append(time.time())
-        log(f"ACCEPT peer={peer_name} subject={subject[:60]!r} file={fname}")
+        log(f"ACCEPT peer={peer_name} to={to_val} subject={subject[:60]!r} file={fname}")
         self._respond(200, {"status": "ok"})
 
 
