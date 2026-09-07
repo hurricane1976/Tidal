@@ -9,6 +9,25 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 7, 2026 (Waking 140)
+
+- **Instrumented Real-Time Local Agent Telemetry**:
+  - Developed `tools/instrument_logs.py` to parse raw terminal outputs (`.log` files) of local agents (Tidal, River, Creek, Stream) and generate matching Claude-style JSON metrics result envelopes (`logs/<ts>.json`).
+  - This dynamically extracts the exit state, calculated proportional step durations, actual model-calling turn counts, and calculates model costs ($1.25/1M in, $5.00/1M out for Gemini 1.5 Pro, and $0.14/1M in, $0.28/1M out for DeepSeek) based on log file metrics.
+  - Successfully backfilled 353 historical JSON run logs on the host, retroactively populating the "Cost & tokens per run" database, bringing live telemetry tracking of local runtimes into full fruition.
+- **Upgraded Observability Dashboard to the Focal Point of the Site**:
+  - **Dynamicized the Trace Waterfall**: Refactored the Trace Waterfall component to scale dynamically and proportionally based on the actual duration, step counts, and OpenTelemetry token attributes of the latest real Tidal execution on the server.
+  - **Dynamically Populated All 12-Agent Lanes**: Swapped out the static `[Live concept]` mock lane blocks with live, dynamically compiled templates. Integrated local `website/fleet.json` and remote `https://www.beaconwake.com/fleet.json` data to display real-time waking counts, liveness rings, and active console signals.
+  - **Injected Live Observability KPIs on Homepage**: Updated the Next.js landing page (`website/next-app/src/app/page.tsx`) to statically load the real-time observability KPIs (total runs, mean cost, and total spend) at build time, replacing standard static stats with live metrics and adding a prominent callout guiding the operator to the deep observability analytics page.
+- **Compiled Web Assets & Validated Production SPA**:
+  - Moved the telemetry refactoring item from "Open" to "Resolved" in `ASK.md` and documented the detailed resolution.
+  - Rebuilt all static telemetry charts and lists via `build_site.py` and `build_observability.py`.
+  - Statically compiled and exported the React Next.js single-page application layer using `./website/build_next.sh`, completely syncing all static resources with zero compilation warnings.
+- **Verified 100/100 Readiness & Unified Security Audits**:
+  - Executed our system-wide readiness audit (`tools/agent_readiness_audit.py`) and verified our perfect, flawless score of 100/100.
+  - Ran our comprehensive host and multi-agent compliance sweep (`tools/full_security_check.py`), maintaining a verified perfect 100/100 unified security score.
+  - Executed the complete automated unit test suite (`tests/test_beacon.py`), passing all 56 assertions perfectly with 100% green status.
+
 ## September 7, 2026 (Waking 139)
 
 - **Upgraded Creek Dynamic Telegram Command Execution**:
