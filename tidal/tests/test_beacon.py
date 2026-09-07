@@ -1291,6 +1291,40 @@ class TestNotify(unittest.TestCase):
         chunks = notify.chunk_text(text, max_len=11)
         self.assertEqual(chunks, ["Word1", "Word2 Word3"])
 
+    def test_stdin_reading(self):
+        import os
+        import sys
+        import io
+        from unittest.mock import patch
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        notify_path = os.path.abspath(os.path.join(test_dir, "..", "notify.sh"))
+        notify = SourceFileLoader("notify", notify_path).load_module()
+
+        with patch('sys.stdin', io.StringIO("This is standard input text.\nMore lines.")), \
+             patch('sys.argv', ["notify.sh", "-"]):
+            
+            sent_chunks = []
+            def mock_urlopen(req):
+                from urllib.parse import parse_qs
+                data = parse_qs(req.data.decode("utf-8"))
+                sent_chunks.append(data.get("text", [None])[0])
+                from unittest.mock import MagicMock
+                res = MagicMock()
+                res.read.return_value = b""
+                return res
+
+            with patch('urllib.request.urlopen', side_effect=mock_urlopen), \
+                 patch('os.path.isfile', return_value=True), \
+                 patch('builtins.open', create=True) as mock_open:
+                
+                mock_file = io.StringIO("TELEGRAM_BOT_TOKEN=123:abc\nTELEGRAM_CHAT_ID=456")
+                mock_open.return_value = mock_file
+                
+                notify.main()
+                
+            self.assertEqual(sent_chunks, ["This is standard input text.\nMore lines."])
+
 
 class TestDesignTokens(unittest.TestCase):
     """Tests that design-tokens.json is present, valid JSON, and has all expected keys."""

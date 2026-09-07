@@ -29,8 +29,8 @@ HOUR_ET="$(TZ=America/New_York date +%H)"
 [ -f "$STATE_FILE" ] && [ "$(cat "$STATE_FILE")" = "$WEEK_ET" ] && exit 0
 
 mkdir -p logs
-if BODY="$(python3 website/build_weekly.py --text 2>>logs/weekly_digest.log)"; then
-    ./notify.sh "$BODY" >>logs/weekly_digest.log 2>&1 && echo "$WEEK_ET" >"$STATE_FILE"
+if python3 website/build_weekly.py --text 2>>logs/weekly_digest.log | ./notify.sh - >>logs/weekly_digest.log 2>&1; then
+    echo "$WEEK_ET" >"$STATE_FILE"
 else
-    echo "$(date -u +%FT%TZ) build_weekly.py --text failed" >>logs/weekly_digest.log
+    echo "$(date -u +%FT%TZ) weekly digest pipeline failed" >>logs/weekly_digest.log
 fi
