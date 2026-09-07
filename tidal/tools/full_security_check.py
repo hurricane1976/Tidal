@@ -19,7 +19,7 @@ import socket
 import re
 import subprocess
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # Ensure tools/ is in sys.path to import AgentSecurityScanner
 tools_dir = os.path.dirname(os.path.abspath(__file__))
@@ -37,7 +37,7 @@ except ImportError:
 class SystemSecurityAudit:
     def __init__(self):
         self.report = {
-            "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "host_health": {},
             "ssh_audit": {"passed": True, "details": [], "score": 100},
             "credentials_audit": {"passed": True, "details": [], "score": 100, "remediations": []},

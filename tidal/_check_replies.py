@@ -6,7 +6,7 @@ import json
 import sys
 import os
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 
 chat_id, offset_file = sys.argv[1], sys.argv[2]
 data = json.load(sys.stdin)
@@ -32,7 +32,7 @@ def append_to_ask_md(msg_text, date_epoch):
         print(f"[TEST MODE] Suppressed ASK.md append: {msg_text}")
         return
     try:
-        dt_str = datetime.utcfromtimestamp(date_epoch).strftime('%Y-%m-%d %H:%M:%S UTC')
+        dt_str = datetime.fromtimestamp(date_epoch, timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     except Exception:
         dt_str = "Unknown UTC Time"
         
