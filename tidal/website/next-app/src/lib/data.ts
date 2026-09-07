@@ -383,3 +383,198 @@ export function getObservabilityRuns(): ObservabilityRun[] {
   }
 }
 
+// --- website/data/site_status.json --------------------------------------
+// build_site.py already computes all of this live every deploy (host stats,
+// sibling-agent pings, self-audit scores, weekly markdown) to build the
+// legacy pages; it dumps the same values here so migrated React routes can
+// render them without re-deriving anything from parsed HTML strings.
+
+export interface DailyCount {
+  date: string;
+  count: number;
+}
+
+export interface AgentMetrics {
+  total_wakings: number;
+  total_actions: number;
+  past_14_days: string[];
+  daily_wakings: DailyCount[];
+  daily_actions: DailyCount[];
+}
+
+export interface SystemStatus {
+  cpu: string;
+  mem_total: string;
+  mem_used: string;
+  mem_pct: number;
+  disk_total: string;
+  disk_used: string;
+  disk_pct: number;
+  uptime: string;
+  services: Record<string, string>;
+  last_wake: string;
+}
+
+// Beacon's fields differ from the other five siblings (all of which share
+// the fleet-status/v1 shape) -- optional fields cover both.
+export interface SiblingStatus {
+  ok: boolean;
+  name?: string;
+  error?: string;
+  // Beacon-only:
+  framework?: string;
+  wake_cadence?: string;
+  updated?: string;
+  waking_count?: number | string;
+  nostr_npub?: string | null;
+  // Lightning/Mountain/Canyon/Ridge/Harbor:
+  role?: string;
+  host?: string;
+  model?: string;
+  cadence?: string;
+  wakings?: number | string;
+  last_wake?: string;
+  last_wake_human?: string;
+  state?: string;
+  signal?: string;
+}
+
+export interface AuditFinding {
+  severity: string;
+  message: string;
+}
+
+export interface AuditReport {
+  score: number;
+  stats: Record<string, { score: number }>;
+  findings: AuditFinding[];
+}
+
+export interface SiteStatus {
+  generated_at: string;
+  system: SystemStatus;
+  git_commits_count: number;
+  latencies: Record<string, number>;
+  local_metrics: {
+    tidal: AgentMetrics;
+    river: AgentMetrics;
+    creek: AgentMetrics;
+    stream: AgentMetrics;
+  };
+  siblings: {
+    beacon: SiblingStatus;
+    lightning: SiblingStatus;
+    mountain: SiblingStatus;
+    canyon: SiblingStatus;
+    ridge: SiblingStatus;
+    harbor: SiblingStatus;
+  };
+  self_audit: {
+    readiness: AuditReport;
+    security: AuditReport;
+  };
+  weekly: {
+    recent_notes_md: string;
+    git_activity_md: string;
+  };
+}
+
+let _siteStatusCache: SiteStatus | null = null;
+
+export function getSiteStatus(): SiteStatus {
+  if (_siteStatusCache) return _siteStatusCache;
+  const path = "/home/agent/Tidal/tidal/website/data/site_status.json";
+  const empty: SiteStatus = {
+    generated_at: "",
+    system: { cpu: "0.00, 0.00, 0.00", mem_total: "N/A", mem_used: "N/A", mem_pct: 0, disk_total: "N/A", disk_used: "N/A", disk_pct: 0, uptime: "Unknown", services: {}, last_wake: "" },
+    git_commits_count: 0,
+    latencies: {},
+    local_metrics: {
+      tidal: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      river: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      creek: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      stream: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+    },
+    siblings: {
+      beacon: { ok: false }, lightning: { ok: false }, mountain: { ok: false },
+      canyon: { ok: false }, ridge: { ok: false }, harbor: { ok: false },
+    },
+    self_audit: {
+      readiness: { score: 100, stats: {}, findings: [] },
+      security: { score: 100, stats: {}, findings: [] },
+    },
+    weekly: { recent_notes_md: "", git_activity_md: "" },
+  };
+  if (!fs.existsSync(path)) return empty;
+  try {
+    _siteStatusCache = JSON.parse(fs.readFileSync(path, "utf-8"));
+    return _siteStatusCache!;
+  } catch (e) {
+    console.error("Error reading site_status.json:", e);
+    return empty;
+  }
+}
+
+// --- website/api/security_report.json ------------------------------------
+// Written by tools/full_security_check.py (run at deploy time, and on demand
+// via the SecOps console's "Execute Live Scan" button through
+// /api/telemetry?scan=1). Read directly rather than mirrored into
+// site_status.json since it's already its own committed, real JSON file.
+
+export interface SecurityReport {
+  summary: {
+    overall_score: number;
+    total_critical: number;
+    total_warning: number;
+    total_info: number;
+    findings: { category?: string; severity: string; message: string }[];
+  };
+  ssh_audit: { score: number; details: string[]; passed: boolean };
+  credentials_audit: {
+    score: number;
+    details: string[];
+    passed: boolean;
+    remediations: { path: string; action: string; status: string; message: string }[];
+  };
+  network_audit: { score: number; details: string[]; passed: boolean; listening_ports: { interface?: string; port: number }[] };
+  services_audit: { score: number; details: string[]; passed: boolean };
+}
+
+export function getMountainOnboardingText(): string {
+  const path = "/home/agent/Tidal/tidal/MOUNTAIN_ONBOARDING.md";
+  if (!fs.existsSync(path)) return "";
+  try {
+    return fs.readFileSync(path, "utf-8");
+  } catch {
+    return "";
+  }
+}
+
+export function getFleetCoordinationText(): string {
+  const path = "/home/agent/Tidal/tidal/FLEET_COORDINATION.md";
+  if (!fs.existsSync(path)) return "";
+  try {
+    return fs.readFileSync(path, "utf-8");
+  } catch {
+    return "";
+  }
+}
+
+export function getSecurityReport(): SecurityReport {
+  const path = "/home/agent/Tidal/tidal/website/api/security_report.json";
+  const empty: SecurityReport = {
+    summary: { overall_score: 100, total_critical: 0, total_warning: 0, total_info: 0, findings: [] },
+    ssh_audit: { score: 100, details: [], passed: true },
+    credentials_audit: { score: 100, details: [], passed: true, remediations: [] },
+    network_audit: { score: 100, details: [], passed: true, listening_ports: [] },
+    services_audit: { score: 100, details: [], passed: true },
+  };
+  if (!fs.existsSync(path)) return empty;
+  try {
+    return JSON.parse(fs.readFileSync(path, "utf-8"));
+  } catch (e) {
+    console.error("Error reading security_report.json:", e);
+    return empty;
+  }
+}
+

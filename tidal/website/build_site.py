@@ -4908,7 +4908,48 @@ def main():
         print("Generated website/fleet.json successfully!")
     except Exception as e:
         print(f"ERROR: Failed to generate website/fleet.json: {e}")
-        
+
+    # --- Dump the real data this run already computed to JSON, so the ---
+    # --- Next.js pages migrating off legacy HTML (metrics/status/portfolio) ---
+    # --- can render it with hand-authored React instead of re-deriving it ---
+    # --- from parsed HTML strings. Single source of truth stays here. ---
+    try:
+        from datetime import timezone as _tz
+        os.makedirs("website/data", exist_ok=True)
+        site_status_payload = {
+            "generated_at": datetime.now(_tz.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "system": stats,
+            "git_commits_count": git_commits_count,
+            "latencies": measured_pings,
+            "local_metrics": {
+                "tidal": tidal_metrics,
+                "river": river_metrics,
+                "creek": creek_metrics,
+                "stream": stream_metrics,
+            },
+            "siblings": {
+                "beacon": {"ok": beacon_stats.get("ok", False), **beacon_stats},
+                "lightning": {"ok": lightning_stats.get("ok", False), **lightning_stats},
+                "mountain": {"ok": mountain_stats.get("ok", False), **mountain_stats},
+                "canyon": {"ok": canyon_stats.get("ok", False), **canyon_stats},
+                "ridge": {"ok": ridge_stats.get("ok", False), **ridge_stats},
+                "harbor": {"ok": harbor_stats.get("ok", False), **harbor_stats},
+            },
+            "self_audit": {
+                "readiness": ara_report,
+                "security": sos_report,
+            },
+            "weekly": {
+                "recent_notes_md": locals().get("recent_notes_md", ""),
+                "git_activity_md": locals().get("git_activity_md", ""),
+            },
+        }
+        with open("website/data/site_status.json", "w", encoding="utf-8") as f:
+            json.dump(site_status_payload, f, indent=2, default=str)
+        print("Wrote website/data/site_status.json")
+    except Exception as e:
+        print(f"ERROR: Failed to write website/data/site_status.json: {e}")
+
     print("Static website successfully built inside website/ folder!")
 
 if __name__ == "__main__":
