@@ -783,6 +783,13 @@ def generate_observability_json(ordered: list[dict]) -> None:
     success_rate_pct_tidal = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples_tidal * 100.0) if samples_tidal > 0 else 100.0
     last_wake_tidal = tidal_rows[-1]["ts"] if tidal_rows else None
     
+    # Error subtype breakdown for Tidal
+    errored_rows_tidal = [r for r in tidal_rows if r.get("is_error")]
+    error_subtypes_tidal = {}
+    for r in errored_rows_tidal:
+        subtype = r.get("subtype") or "unknown"
+        error_subtypes_tidal[subtype] = error_subtypes_tidal.get(subtype, 0) + 1
+    
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     
     siblings = {}
@@ -805,6 +812,13 @@ def generate_observability_json(ordered: list[dict]) -> None:
         success_rate_pct_sib = (sum(1 for r in sib_rows if not r.get("is_error")) / samples_sib * 100.0) if samples_sib > 0 else 100.0
         last_seen_sib = sib_rows[-1]["ts"] if sib_rows else None
         
+        # Error subtype breakdown for this sibling
+        errored_rows_sib = [r for r in sib_rows if r.get("is_error")]
+        error_subtypes_sib = {}
+        for r in errored_rows_sib:
+            subtype = r.get("subtype") or "unknown"
+            error_subtypes_sib[subtype] = error_subtypes_sib.get(subtype, 0) + 1
+        
         siblings[sib_name] = {
             "samples": samples_sib,
             "min_samples": 5,
@@ -812,7 +826,8 @@ def generate_observability_json(ordered: list[dict]) -> None:
             "avg_tokens": avg_tokens_sib,
             "avg_duration_s": avg_duration_s_sib,
             "success_rate_pct": success_rate_pct_sib,
-            "last_seen": last_seen_sib
+            "last_seen": last_seen_sib,
+            "error_subtypes": error_subtypes_sib
         }
         
     obs_json = {
@@ -825,7 +840,8 @@ def generate_observability_json(ordered: list[dict]) -> None:
         "success_rate_pct": success_rate_pct_tidal,
         "last_wake": last_wake_tidal,
         "generated_at": generated_at,
-        "siblings": siblings
+        "siblings": siblings,
+        "error_subtypes": error_subtypes_tidal
     }
     
     json_out = HERE / "observability.json"
