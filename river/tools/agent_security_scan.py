@@ -118,7 +118,7 @@ class AgentSecurityScanner:
         file_count = 0
         for root, dirs, files in os.walk(self.target_path):
             # Prune git folder, pycache, etc.
-            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv", ".pytest_cache", "tools"]]
+            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv", ".pytest_cache", "tools", ".next", "out"]]
             
             for file in files:
                 file_path = os.path.join(root, file)

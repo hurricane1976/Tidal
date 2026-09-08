@@ -459,6 +459,8 @@ _Nothing awaiting a decision right now._
         self.assertIn(content, html)
         self.assertIn('class="nav-link active">Dashboard</a>', html)
         self.assertIn('class="nav-link ">Activity Log</a>', html)
+        self.assertIn('href="observability.html"', html)
+        self.assertIn('Observability</a>', html)
         self.assertIn(f'{self.agent_display_name}<span>.agent</span>', html)
         self.assertIn('href="https://hurricaneai.org"', html)
         self.assertIn('href="https://www.beaconwake.com/"', html)
@@ -511,6 +513,30 @@ _Nothing awaiting a decision right now._
             else:
                 self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
+    def test_fleet_json_generation(self):
+        fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
+        self.assertTrue(os.path.exists(fleet_json_path))
+        
+        with open(fleet_json_path, "r") as f:
+            data = json.load(f)
+            
+        self.assertEqual(data.get("contract"), "fleet-status/v1")
+        self.assertEqual(data.get("host"), "tidalwake.org")
+        self.assertIn("generated_at", data)
+        self.assertIn("agents", data)
+        
+        agents = {a["name"]: a for a in data["agents"]}
+        expected_agents = ["Tidal", "River", "Creek", "Stream"]
+        for name in expected_agents:
+            self.assertIn(name, agents)
+            agent = agents[name]
+            self.assertEqual(agent.get("state"), "ok")
+            self.assertIn("last_wake", agent)
+            self.assertIsInstance(agent.get("waking_count"), int)
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek"])
+            self.assertIn("role", agent)
+            self.assertIn("signal", agent)
+
     def test_get_tidal_metrics(self):
         mock_notes = [
             {
@@ -557,6 +583,10 @@ _Nothing awaiting a decision right now._
             {'date': '2026-08-31', 'count': 5},
             {'date': '2026-08-30', 'count': 10}
         ]
+        mock_daily_data_4 = [
+            {'date': '2026-08-31', 'count': 3},
+            {'date': '2026-08-30', 'count': 7}
+        ]
         
         # Test 2-series rendering (backward compatibility)
         svg2 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2)
@@ -582,6 +612,20 @@ _Nothing awaiting a decision right now._
         self.assertIn('bar-rect-2', svg3)
         self.assertIn('bar-rect-3', svg3)
 
+        # Test 4-series rendering
+        svg4 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2, mock_daily_data_3, mock_daily_data_4)
+        self.assertIn('<svg', svg4)
+        self.assertIn('class="metrics-svg"', svg4)
+        self.assertIn('Aug 31', svg4)
+        self.assertIn('Tidal', svg4)
+        self.assertIn('River', svg4)
+        self.assertIn('Creek', svg4)
+        self.assertIn('Stream', svg4)
+        self.assertIn('bar-rect-1', svg4)
+        self.assertIn('bar-rect-2', svg4)
+        self.assertIn('bar-rect-3', svg4)
+        self.assertIn('bar-rect-4', svg4)
+
     def test_metrics_page_generation(self):
         from unittest.mock import patch
         os.makedirs("website", exist_ok=True)
@@ -604,6 +648,14 @@ _Nothing awaiting a decision right now._
                     {
                         'date': 'August 31, 2026 (Waking 5)',
                         'raw_content': '- Done Creek work\n- Sentinel is ok',
+                        'html_content': '...'
+                    }
+                ]
+            elif "Stream" in notes_path:
+                return [
+                    {
+                        'date': '2026-09-03 (first waking)',
+                        'raw_content': '- Done Stream research\n- Shared context',
                         'html_content': '...'
                     }
                 ]
@@ -631,7 +683,70 @@ _Nothing awaiting a decision right now._
             self.assertIn("RIVER", content)
             self.assertIn("TIDAL", content)
             self.assertIn("CREEK", content)
+            self.assertIn("STREAM", content)
+            self.assertIn("Stream", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
+            self.assertIn("METRICS SENTINEL", content)
+            self.assertIn("Lightning", content)
+            self.assertIn("Canyon", content)
+            self.assertIn("Ridge", content)
+            self.assertIn("Harbor", content)
+
+        # Check index.html for Mountain and Canyon in the Active Fleet Nodes list
+        index_html_path = "website/index.html"
+        self.assertTrue(os.path.exists(index_html_path))
+        with open(index_html_path, "r") as f:
+            index_content = f.read()
+            self.assertIn("Mountain", index_content)
+            self.assertIn("id=\"ping-mountain\"", index_content)
+            self.assertIn('"mountain"', index_content)
+            self.assertIn("Canyon", index_content)
+            self.assertIn("id=\"ping-canyon\"", index_content)
+            self.assertIn('"canyon"', index_content)
+            self.assertIn("Ridge", index_content)
+            self.assertIn("id=\"ping-ridge\"", index_content)
+            self.assertIn('"ridge"', index_content)
+            self.assertIn("Harbor", index_content)
+            self.assertIn("id=\"ping-harbor\"", index_content)
+            self.assertIn('"harbor"', index_content)
+
+    def test_secops_page_generation(self):
+        from unittest.mock import patch
+        os.makedirs("website", exist_ok=True)
+        with open("NOTES.md", "w") as f:
+            f.write("## August 31, 2026 (Waking 34)\n- Done some awesome work\n- Hardened system security")
+        with open("ASK.md", "w") as f:
+            f.write("## Open\n- Track operational status.\n")
+            
+        def side_effect(notes_path="NOTES.md"):
+            return [
+                {
+                    'date': 'August 31, 2026 (Waking 34)',
+                    'raw_content': '- Done some awesome work\n- Hardened system security',
+                    'html_content': '...'
+                }
+            ]
+
+        with patch('website.build_site.parse_notes', side_effect=side_effect):
+            build_site.main()
+        
+        secops_html_path = "website/secops.html"
+        self.assertTrue(os.path.exists(secops_html_path))
+        
+        with open(secops_html_path, "r") as f:
+            content = f.read()
+            self.assertIn("SecOps Telemetry Console", content)
+            self.assertIn("Live Resources Rolling Waves", content)
+            self.assertIn("Active Security Metrics", content)
+            self.assertIn("compliance-ring", content)
+            self.assertIn("trigger-scan-btn", content)
+            self.assertIn('class="nav-link active">SecOps Telemetry</a>', content)
+            
+            # New live elements
+            self.assertIn("Live P2P Fleet Latency Matrix", content)
+            self.assertIn("measured-at-val", content)
+            self.assertIn('id="ping-tidal"', content)
+            self.assertIn('id="svc-dot-nginx"', content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -661,11 +776,20 @@ _Nothing awaiting a decision right now._
             self.assertIn("Fleet Operation Simulator", content)
             self.assertIn("DSLaaS", content)
             self.assertIn("SEO &amp; Integrity", content)
+            self.assertIn("FAM-Hub", content)
+            self.assertIn("slider-brokerage", content)
+            self.assertIn("out-gross-brokerage", content)
+            self.assertIn("out-roi", content)
+            self.assertIn("out-roi-mult", content)
+            self.assertIn("Decentralized Fleet Brokerage Workflow", content)
             self.assertIn("slider-control", content)
             self.assertIn('class="nav-link active">Opportunities</a>', content)
 
     def test_fleet_page_generation(self):
         os.makedirs("website", exist_ok=True)
+        # Create a mock MOUNTAIN_ONBOARDING.md to ensure the file exists during the test
+        with open("MOUNTAIN_ONBOARDING.md", "w") as f:
+            f.write("# Mountain Onboarding & Integration Specifications")
         build_site.main()
         
         fleet_html_path = "website/fleet.html"
@@ -683,7 +807,52 @@ _Nothing awaiting a decision right now._
             self.assertIn("LIGHTNING", content)
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
             self.assertIn("MOUNTAIN", content)
-            self.assertIn("Growth &amp; Distribution Gateway", content)
+            self.assertIn("Growth &amp; Distribution", content)
+            self.assertIn("CANYON", content)
+            self.assertIn("Canyon", content)
+            self.assertIn("RIDGE", content)
+            self.assertIn("Ridge", content)
+            self.assertIn("HARBOR", content)
+            self.assertIn("Harbor", content)
+            self.assertIn("12 agents have been incorporated into the fleet", content)
+
+        # Check mountain onboarding page was generated
+        onboarding_html_path = "website/mountain-onboarding.html"
+        self.assertTrue(os.path.exists(onboarding_html_path))
+        with open(onboarding_html_path, "r") as f:
+            onboarding_content = f.read()
+            self.assertIn("Mountain Onboarding &amp; Integration Specifications", onboarding_content)
+            self.assertNotIn("var(--surface-1)", onboarding_content)
+
+        # Ensure no generated files contain the "--surface-1" typo
+        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html"]:
+            with open(os.path.join("website", fn), "r") as f:
+                c = f.read()
+                self.assertNotIn("var(--surface-1)", c, f"Found surface-1 typo in {fn}")
+
+    def test_get_beacon_status_with_nostr_identity(self):
+        from unittest.mock import patch, MagicMock
+        import json
+        
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "name": "Beacon",
+            "framework": "Claude Code",
+            "wake_cadence": "6x/day",
+            "updated": "2026-09-04T12:15:37Z",
+            "waking_count": 228,
+            "identity": {
+                "nostr": {
+                    "npub": "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx"
+                }
+            }
+        }).encode('utf-8')
+        mock_response.__enter__.return_value = mock_response
+        
+        with patch('urllib.request.urlopen', return_value=mock_response):
+            status = build_site.get_beacon_status()
+            self.assertTrue(status['ok'])
+            self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):
@@ -805,12 +974,18 @@ class TestAgoraServer(unittest.TestCase):
         
         # Override storage file to temporary directory
         self.agora_server.AGORA_JSONL = os.path.join(self.temp_dir.name, "website", "api", "agora.jsonl")
+        self.agora_server.OBS_JSONL = os.path.join(self.temp_dir.name, "website", "data", "observability.jsonl")
         self.agora_server.LOG_FILE = os.path.join(self.temp_dir.name, "agora_server.log")
         self.agora_server.IP_LIMITS = {} # Reset rate limits
         
-        # Start a local test server on an unused port
+        # Start a local test server on an unused port dynamically assigned by the OS
         import threading
-        self.test_port = 18888
+        import socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind(("127.0.0.1", 0))
+        self.test_port = sock.getsockname()[1]
+        sock.close()
+        
         self.server = self.agora_server.ThreadingHTTPServer(("127.0.0.1", self.test_port), self.agora_server.AgoraHandler)
         self.server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.server_thread.start()
@@ -829,6 +1004,41 @@ class TestAgoraServer(unittest.TestCase):
         data = json.loads(response.read().decode("utf-8"))
         self.assertEqual(data["count"], 0)
         self.assertEqual(len(data["posts"]), 0)
+
+    def test_get_observability_api(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/api/observability"
+        
+        # Test empty store behavior
+        req = urllib.request.Request(url, headers={"Connection": "close"})
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status, 200)
+            data = json.loads(response.read().decode("utf-8"))
+            self.assertIn("description", data)
+            self.assertEqual(data["count"], 0)
+            self.assertEqual(len(data["runs"]), 0)
+            self.assertEqual(data["totals"]["cost_usd"], 0)
+
+        # Let's populate mock observability data
+        os.makedirs("website/data", exist_ok=True)
+        store_path = "website/data/observability.jsonl"
+        with open(store_path, "w", encoding="utf-8") as sf:
+            sf.write(json.dumps({
+                "agent": "Tidal",
+                "ts": "2026-09-07T15:00:00Z",
+                "cost_usd": 0.05,
+                "input_tokens": 1000,
+                "output_tokens": 500
+            }) + "\n")
+            
+        # Re-fetch and verify content
+        req2 = urllib.request.Request(url, headers={"Connection": "close"})
+        with urllib.request.urlopen(req2) as response:
+            self.assertEqual(response.status, 200)
+            data = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(data["count"], 1)
+            self.assertEqual(data["totals"]["cost_usd"], 0.05)
+            self.assertEqual(data["runs"][0]["agent"], "Tidal")
 
     def test_post_and_get_valid(self):
         import urllib.request
@@ -1081,6 +1291,40 @@ class TestNotify(unittest.TestCase):
         chunks = notify.chunk_text(text, max_len=11)
         self.assertEqual(chunks, ["Word1", "Word2 Word3"])
 
+    def test_stdin_reading(self):
+        import os
+        import sys
+        import io
+        from unittest.mock import patch
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        notify_path = os.path.abspath(os.path.join(test_dir, "..", "notify.sh"))
+        notify = SourceFileLoader("notify", notify_path).load_module()
+
+        with patch('sys.stdin', io.StringIO("This is standard input text.\nMore lines.")), \
+             patch('sys.argv', ["notify.sh", "-"]):
+            
+            sent_chunks = []
+            def mock_urlopen(req):
+                from urllib.parse import parse_qs
+                data = parse_qs(req.data.decode("utf-8"))
+                sent_chunks.append(data.get("text", [None])[0])
+                from unittest.mock import MagicMock
+                res = MagicMock()
+                res.read.return_value = b""
+                return res
+
+            with patch('urllib.request.urlopen', side_effect=mock_urlopen), \
+                 patch('os.path.isfile', return_value=True), \
+                 patch('builtins.open', create=True) as mock_open:
+                
+                mock_file = io.StringIO("TELEGRAM_BOT_TOKEN=123:abc\nTELEGRAM_CHAT_ID=456")
+                mock_open.return_value = mock_file
+                
+                notify.main()
+                
+            self.assertEqual(sent_chunks, ["This is standard input text.\nMore lines."])
+
 
 class TestDesignTokens(unittest.TestCase):
     """Tests that design-tokens.json is present, valid JSON, and has all expected keys."""
@@ -1107,6 +1351,99 @@ class TestDesignTokens(unittest.TestCase):
         self.assertIn("amber", tokens)
         self.assertIn("teal", tokens)
         self.assertIn("blue", tokens)
+
+
+class TestDynamicLogs(unittest.TestCase):
+    """Tests the real-time dynamic logs pipeline in website/build_site.py."""
+
+    def test_format_bullet_text(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_site_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_site.py"))
+        build_site = SourceFileLoader("build_site", build_site_path).load_module()
+
+        self.assertEqual(
+            build_site.format_bullet_text("This is **bold** and `code`"),
+            "This is <strong>bold</strong> and <code>code</code>"
+        )
+        self.assertEqual(
+            build_site.format_bullet_text("Check [link](http://example.com) out"),
+            'Check <a href="http://example.com" target="_blank">link</a> out'
+        )
+
+    def test_get_real_logs_data(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_site_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_site.py"))
+        build_site = SourceFileLoader("build_site", build_site_path).load_module()
+
+        notes = [
+            {
+                "date": "September 5, 2026 (Waking 50)",
+                "raw_content": "- **Test Topic**: This is a test bullet.\n- Another item.",
+                "html_content": ""
+            }
+        ]
+        river_notes = [
+            {
+                "date": "September 5, 2026 (Waking 40)",
+                "raw_content": "- **River Task**: Running checking.",
+                "html_content": ""
+            }
+        ]
+        creek_notes = []
+        stream_notes = []
+        agora_posts = [
+            {
+                "agent": "Tidal",
+                "message": "Welcome!",
+                "posted_at": "2026-09-05T13:00:00Z",
+                "link": "https://tidalwake.org"
+            }
+        ]
+
+        logs = build_site.get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_posts)
+        self.assertGreater(len(logs), 0)
+        
+        # Verify agents
+        agents = [entry["agent"] for entry in logs]
+        self.assertIn("TIDAL", agents)
+        self.assertIn("RIVER", agents)
+        
+        # Verify formatting
+        tidal_log = [entry for entry in logs if entry["agent"] == "TIDAL"][0]
+        self.assertIn("<strong>Test Topic</strong>", tidal_log["text"])
+
+
+class TestObservability(unittest.TestCase):
+    """Tests the agentic-observability compilation module website/build_observability.py."""
+
+    def test_observability_pipeline(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+
+        # Verify default configurations
+        self.assertIn("Tidal", build_obs.JSON_LOG_DIRS)
+        self.assertIn("River", build_obs.JSON_LOG_DIRS)
+
+        # Let's test _iso_from_ts
+        self.assertEqual(build_obs._iso_from_ts("20260907T040233Z"), "2026-09-07T04:02:33Z")
+
+        # Let's run shared_log_rows and verify that it parses rows from NOTES.md
+        rows = build_obs.shared_log_rows(limit=5)
+        self.assertIsInstance(rows, list)
+        if len(rows) > 0:
+            first_row = rows[0]
+            self.assertIn("agent", first_row)
+            self.assertIn("when", first_row)
+            self.assertIn("trigger", first_row)
+            self.assertIn("outcome", first_row)
+            self.assertIn("result", first_row)
 
 
 if __name__ == "__main__":
