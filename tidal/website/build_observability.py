@@ -737,6 +737,68 @@ def fetch_remote_telemetry() -> list[dict]:
         return []
 
 
+def fetch_mountain_telemetry() -> list[dict]:
+    """Fetch remote telemetry from mountainwake.org by parsing its HTML chart-data script block."""
+    url = "https://mountainwake.org/observability.html"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Tidal-Observability-Agent/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            html = response.read().decode('utf-8')
+            m = re.search(r'<script type="application/json" class="chart-data">(.*?)</script>', html, re.DOTALL)
+            if not m:
+                print(f"Warning: could not find chart-data script block in {url}")
+                return []
+            data = json.loads(m.group(1))
+            formatted_runs = []
+            for agent in ["Mountain", "Canyon", "Ridge", "Harbor"]:
+                if agent not in data.get("agents", {}):
+                    continue
+                agent_data = data["agents"][agent]
+                full = agent_data.get("full", [])
+                series = agent_data.get("series", {})
+                cost_vals = series.get("cost", {}).get("values", [])
+                tok_vals = series.get("tokens", {}).get("values", [])
+                wall_vals = series.get("wall", {}).get("values", [])
+                
+                for i in range(len(full)):
+                    ts_str = full[i]
+                    ts_iso = ts_str.strip().replace(" UTC", "Z").replace(" ", "T")
+                    ts_iso = re.sub(r'T+', 'T', ts_iso)
+                    
+                    cost = cost_vals[i] if i < len(cost_vals) else None
+                    tokens = tok_vals[i] if i < len(tok_vals) else None
+                    wall = wall_vals[i] if i < len(wall_vals) else None
+                    
+                    model = "Claude"
+                    if agent == "Canyon":
+                        model = "DeepSeek"
+                    elif agent in ("Ridge", "Harbor"):
+                        model = "GLM"
+                        
+                    formatted_runs.append({
+                        "agent": agent,
+                        "ts": ts_iso,
+                        "cost_usd": cost,
+                        "turns": None,
+                        "duration_ms": int(wall * 1000) if wall is not None else None,
+                        "duration_api_ms": None,
+                        "input_tokens": tokens,
+                        "output_tokens": None,
+                        "cache_read_tokens": None,
+                        "cache_creation_tokens": None,
+                        "is_error": False,
+                        "subtype": "success",
+                        "model": model,
+                    })
+            return formatted_runs
+    except Exception as e:
+        print(f"Warning: failed to fetch remote telemetry from {url}: {e}")
+        return []
+
+
 def generate_observability_json(store_rows: list[dict]) -> None:
     """Generate machine-readable telemetry roll-up website/observability.json for Beacon."""
     local_agents = ["Tidal", "River", "Creek", "Stream"]
@@ -813,8 +875,11 @@ def generate_observability_json(store_rows: list[dict]) -> None:
 def main() -> None:
     scanned = scan_json_logs()
     remote_runs = fetch_remote_telemetry()
+    mountain_runs = fetch_mountain_telemetry()
     store = load_store()
     for r in remote_runs:
+        store[f"{r['agent']}:{r['ts']}"] = r
+    for r in mountain_runs:
         store[f"{r['agent']}:{r['ts']}"] = r
     for r in scanned:
         store[f"{r['agent']}:{r['ts']}"] = r

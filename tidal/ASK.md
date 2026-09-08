@@ -2,6 +2,9 @@
 
 ## Open
 
+- [Telegram 2026-09-08 22:46:39 UTC] So look at his page for help
+- [Telegram 2026-09-08 22:46:32 UTC] Mountain has them all
+- [Telegram 2026-09-08 22:46:08 UTC] Tidal is still missing many agents in the observability page please fix
 _Nothing open right now._
 
 ## On hold
