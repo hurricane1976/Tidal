@@ -58,8 +58,10 @@ export default function FleetTopology() {
 
   return (
     <div>
-      <div className="bg-[#06080c] border border-[#e8eaed]/8 rounded-lg p-6 mb-6">
-        <svg viewBox="0 0 1000 400" className="w-full h-auto block">
+      {/* min-width forces a horizontal scroll on narrow screens instead of
+          scaling node labels down past legibility. */}
+      <div className="bg-[#06080c] border border-[#e8eaed]/8 rounded-lg p-6 mb-6 overflow-x-auto">
+        <svg viewBox="0 0 1000 400" className="w-full h-auto block min-w-[640px]">
           <rect x={50} y={40} width={400} height={320} rx={10} fill="rgba(79,209,197,0.015)" stroke="rgba(79,209,197,0.15)" strokeDasharray="6" />
           <text x={70} y={70} fill="var(--teal)" fontFamily="'Space Grotesk', sans-serif" fontSize={12} fontWeight={600} letterSpacing="0.05em">VPS LOCAL HOST</text>
           <rect x={550} y={40} width={400} height={320} rx={10} fill="rgba(255,138,61,0.015)" stroke="rgba(255,138,61,0.15)" strokeDasharray="6" />
@@ -79,12 +81,23 @@ export default function FleetTopology() {
             <g
               key={n.id}
               className="topo-node cursor-pointer"
+              tabIndex={0}
+              role="button"
+              aria-label={n.title}
+              aria-pressed={active.id === n.id}
               onMouseEnter={() => setActive(n)}
+              onFocus={() => setActive(n)}
               onClick={() => setActive(n)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActive(n);
+                }
+              }}
             >
               <circle className="topo-node-bg" cx={n.x} cy={n.y} r={n.r} />
               <circle className="ping-dot" cx={n.x} cy={n.y} r={4.5} fill={n.dot} />
-              <text x={n.x} y={n.y + 4} fill="var(--text)" fontFamily="'Space Grotesk', sans-serif" fontSize={n.label.length > 6 ? 8 : 10} fontWeight={600} textAnchor="middle">
+              <text x={n.x} y={n.y + 4} fill="var(--text)" fontFamily="'Space Grotesk', sans-serif" fontSize={n.label.length > 6 ? 9 : 11} fontWeight={600} textAnchor="middle">
                 {n.label}
               </text>
             </g>

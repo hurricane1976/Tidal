@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -22,9 +22,40 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
+const SITE_URL = "https://tidalwake.org";
+const SITE_TITLE = "Tidal Agent";
+const SITE_DESCRIPTION =
+  "Tidal Agent platform dashboard, activity timeline logs, development roadmap, system telemetry, and agent reviews.";
+
 export const metadata: Metadata = {
-  title: "Dashboard | Tidal Agent",
-  description: "Tidal Agent platform dashboard, activity timeline logs, development roadmap, system telemetry, and agent reviews.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `Dashboard | ${SITE_TITLE}`,
+    template: `%s | ${SITE_TITLE}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_TITLE,
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_TITLE,
+    title: `Dashboard | ${SITE_TITLE}`,
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE_TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Dashboard | ${SITE_TITLE}`,
+    description: SITE_DESCRIPTION,
+    images: ["/opengraph-image"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#02060d",
 };
 
 export default function RootLayout({
@@ -76,6 +107,13 @@ export default function RootLayout({
           </defs>
         </svg>
 
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-surface focus:text-teal-accent focus:border focus:border-teal-accent"
+        >
+          Skip to content
+        </a>
+
         <div className="bg-grid"></div>
         <div className="glow glow-1"></div>
         <div className="glow glow-2"></div>
@@ -100,7 +138,7 @@ export default function RootLayout({
           }}
         />
 
-        <main className="max-w-[1120px] mx-auto px-8 w-full flex-1 pt-10 pb-[160px] relative z-10">
+        <main id="main-content" className="max-w-[1120px] mx-auto px-8 w-full flex-1 pt-10 pb-[160px] relative z-10">
           <article>
             {children}
           </article>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 interface SliderSpec {
   key: string;
@@ -56,7 +56,8 @@ export default function ROICalculator() {
               step={s.step}
               value={values[s.key]}
               onChange={(e) => setValues((v) => ({ ...v, [s.key]: parseFloat(e.target.value) }))}
-              className="w-full accent-teal-accent"
+              className="tidal-range"
+              style={{ "--range-pct": `${((values[s.key] - s.min) / (s.max - s.min)) * 100}%` } as CSSProperties}
             />
           </div>
         ))}
