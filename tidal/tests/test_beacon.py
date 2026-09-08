@@ -824,8 +824,17 @@ _Nothing awaiting a decision right now._
             self.assertIn("Mountain Onboarding &amp; Integration Specifications", onboarding_content)
             self.assertNotIn("var(--surface-1)", onboarding_content)
 
+        # Check infrastructure page was generated
+        infrastructure_html_path = "website/infrastructure.html"
+        self.assertTrue(os.path.exists(infrastructure_html_path))
+        with open(infrastructure_html_path, "r") as f:
+            infrastructure_content = f.read()
+            self.assertIn("Systems &amp; Security Infrastructure", infrastructure_content)
+            self.assertIn("HARDENED VPS HOST (107.170.33.6)", infrastructure_content)
+            self.assertNotIn("var(--surface-1)", infrastructure_content)
+
         # Ensure no generated files contain the "--surface-1" typo
-        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html"]:
+        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html", "infrastructure.html"]:
             with open(os.path.join("website", fn), "r") as f:
                 c = f.read()
                 self.assertNotIn("var(--surface-1)", c, f"Found surface-1 typo in {fn}")

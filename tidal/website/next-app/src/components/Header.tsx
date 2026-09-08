@@ -14,6 +14,7 @@ const tabs = [
   { id: "metrics", path: "/metrics", label: "Metrics" },
   { id: "secops", path: "/secops", label: "SecOps" },
   { id: "observability", path: "/observability", label: "Observability" },
+  { id: "infrastructure", path: "/infrastructure", label: "Infrastructure" },
   { id: "weekly", path: "/weekly", label: "Weekly Digest" },
   { id: "fleet", path: "/fleet", label: "Fleet" },
 ];
