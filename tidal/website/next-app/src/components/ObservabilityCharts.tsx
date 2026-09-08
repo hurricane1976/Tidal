@@ -69,7 +69,7 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
         if (!res.ok) throw new Error(String(res.status));
         const data: ApiResponse = await res.json();
         if (Array.isArray(data.runs) && data.runs.length) {
-          setRuns(data.runs.filter((r) => typeof r.cost_usd === "number"));
+          setRuns(data.runs);
           setLive(true);
           setFetchError(false);
         }

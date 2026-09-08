@@ -522,7 +522,9 @@ def generate_agent_summary(instrumented: list[dict]) -> str:
     for agent in sorted(by_agent):
         runs = by_agent[agent]
         n = len(runs)
-        total_cost = sum(r["cost_usd"] for r in runs)
+        has_cost = any(r.get("cost_usd") is not None for r in runs)
+        total_cost = sum(r.get("cost_usd") or 0 for r in runs) if has_cost else None
+        mean_cost = total_cost / n if (total_cost is not None and n > 0) else None
         turns = [r["turns"] for r in runs if isinstance(r.get("turns"), (int, float))]
         walls = [r["duration_ms"] for r in runs if isinstance(r.get("duration_ms"), (int, float))]
         toks = [_run_total_tokens(r) for r in runs]
@@ -531,7 +533,7 @@ def generate_agent_summary(instrumented: list[dict]) -> str:
             "<tr><td>{a}</td><td class=\"mono\">{n}</td><td class=\"mono\">{tc}</td>"
             "<td class=\"mono\">{mc}</td><td class=\"mono\">{mt}</td><td class=\"mono\">{mw}</td>"
             "<td class=\"mono\">{mtok}</td><td class=\"mono\">{err}</td></tr>".format(
-                a=esc(agent), n=n, tc=fmt_cost(total_cost), mc=fmt_cost(total_cost / n),
+                a=esc(agent), n=n, tc=fmt_cost(total_cost), mc=fmt_cost(mean_cost),
                 mt=f"{sum(turns) / len(turns):.1f}" if turns else "—",
                 mw=fmt_dur(sum(walls) / len(walls)) if walls else "—",
                 mtok=fmt_int(round(sum(toks) / len(toks))) if toks else "—",
@@ -544,9 +546,10 @@ def render(store_rows: list[dict]) -> str:
     tmpl = TEMPLATE.read_text()
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    instrumented = [r for r in store_rows if isinstance(r.get("cost_usd"), (int, float))]
+    instrumented = store_rows
     n = len(instrumented)
-    total_cost = sum(r["cost_usd"] for r in instrumented)
+    has_total_cost = any(r.get("cost_usd") is not None for r in instrumented)
+    total_cost = sum(r.get("cost_usd") or 0 for r in instrumented) if has_total_cost else None
     total_tok = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0)
                     + (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
                     for r in instrumented)
@@ -559,7 +562,7 @@ def render(store_rows: list[dict]) -> str:
             f"since <strong>{since}</strong> "
             f"({', '.join(by_agent)}) &mdash; "
             f"<strong>{fmt_cost(total_cost)}</strong> total, "
-            f"<strong>{fmt_cost(total_cost / n)}</strong> mean, "
+            f"<strong>{fmt_cost(total_cost / n if total_cost is not None else None)}</strong> mean, "
             f"<strong>{fmt_int(total_tok)}</strong> tokens (incl. cache)."
         )
         recent = instrumented[-12:][::-1]
@@ -570,7 +573,7 @@ def render(store_rows: list[dict]) -> str:
             "<td class=\"mono\">{cr} cache-rd</td>"
             "<td><span class=\"outcome {oc}\">{ol}</span></td></tr>".format(
                 a=esc(r["agent"]), t=esc(r["ts"][5:16].replace("T", " ")),
-                c=fmt_cost(r["cost_usd"]), turns=fmt_int(r.get("turns")),
+                c=fmt_cost(r.get("cost_usd")), turns=fmt_int(r.get("turns")),
                 dur=fmt_dur(r.get("duration_ms")),
                 it=fmt_int(r.get("input_tokens")), ot=fmt_int(r.get("output_tokens")),
                 cr=fmt_int(r.get("cache_read_tokens")),
@@ -581,12 +584,12 @@ def render(store_rows: list[dict]) -> str:
         )
         # cost bars, newest-right, scaled to the max in the window
         window = instrumented[-16:]
-        cmax = max((r["cost_usd"] for r in window), default=0) or 1
+        cmax = max((r.get("cost_usd") or 0 for r in window), default=0) or 1
         cost_bars = "\n".join(
             "<span class=\"cb-l\">{lbl}</span><div class=\"cb-t\">"
             "<div class=\"cb-b real\" style=\"width:{w:.0f}%\" title=\"{c}\"></div></div>".format(
                 lbl=esc(r["ts"][5:16].replace("T", " ")),
-                w=max(3, r["cost_usd"] / cmax * 100), c=fmt_cost(r["cost_usd"]),
+                w=max(3, (r.get("cost_usd") or 0) / cmax * 100), c=fmt_cost(r.get("cost_usd")),
             )
             for r in window
         )
@@ -887,7 +890,7 @@ def main() -> None:
     generate_observability_json(ordered)
     OUT.write_text(render(ordered))
     print(f"wrote {OUT.name} ({len(ordered)} rows in store, "
-          f"{len([r for r in ordered if isinstance(r.get('cost_usd'), (int, float))])} instrumented)")
+          f"{len(ordered)} instrumented)")
 
     # Structured data for the React /observability route's remaining
     # legacy-HTML sections (run explorer, per-agent lanes) -- same sources
