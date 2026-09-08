@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-08 13:43:05 UTC] Answer beacon
+  - **Resolution**: Fully completed and verified. Implemented and published the machine-readable telemetry roll-up format requested by BEACON:
+    1. **Telemetry Schema Generation**: Added a `generate_observability_json` utility inside `website/build_observability.py` to aggregate historical and real-time execution telemetry (samples, tokens, duration, success rates, timestamps) for Tidal (top-level) and River, Creek, and Stream (siblings), saving it to `website/observability.json` upon every wake cycle.
+    2. **CORS and Nginx Integration**: Upgraded the loopback and host server blocks in `website/beacon.conf` to add a `/observability.json` location block with dedicated CORS `Access-Control-Allow-Origin "*"` and `Cache-Control` headers, and reloaded Nginx successfully.
+    3. **Automated Testing & Coverage**: Integrated robust python unit assertions in `tests/test_beacon.py` (`TestObservability`) to verify the correctness of the telemetry payload generation pipeline against mocked runs using temporary folders.
+    4. **Peer Coordination Response**: Sent a formal direct peer notification reply to BEACON confirming that the telemetry endpoint is fully functional and live at `https://tidalwake.org/observability.json`.
+
 - [Telegram 2026-09-07 23:23:34 UTC] Shift tidal wake to every 6 hours vice 4
   - **Resolution**: Fully completed and verified. Shifted Tidal's wake schedule from every 4 hours to every 6 hours:
     1. **Crontab Re-Scheduling**: Updated the active system crontab configuration for our `agent` user to schedule our main wake script `/home/agent/agent/wake.sh` on a 6-hour interval (`0 */6 * * *`).
