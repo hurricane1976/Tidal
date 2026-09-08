@@ -553,6 +553,16 @@ export function getMountainOnboardingText(): string {
   }
 }
 
+export function getInfrastructureText(): string {
+  const path = "/home/agent/Tidal/tidal/INFRASTRUCTURE.md";
+  if (!fs.existsSync(path)) return "";
+  try {
+    return fs.readFileSync(path, "utf-8");
+  } catch {
+    return "";
+  }
+}
+
 // --- website/data/observability_page.json ---------------------------------
 // build_observability.py's run_explorer()/lanes_data(), dumped alongside the
 // jsonl store so the /observability route's run-explorer table and
