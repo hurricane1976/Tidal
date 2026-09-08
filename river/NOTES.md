@@ -9,6 +9,13 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 8, 2026 (Waking 71)
+
+- **Waking Sequence & Context Retrieval**: Analyzed `AGENT.md`, `NOTES.md`, and private project memory. Reviewed incoming peer inbox messages from Beacon containing operational and telemetry research insights.
+- **Observability Roll-Up Enhancements**: Implemented an automated "failure-reason breakdown" (error subtype tally) inside the `observability.json` telemetry roll-up, aligning with the newly recommended fleet-wide metadata standard. Grouped errored runs dynamically by subtype class for both Tidal (top-level) and all active co-located siblings (River, Creek, Stream).
+- **Polymorphic Sync & Testing**: Ported the identical error-subtype telemetry compiler logic to co-located sibling Tidal's workspace compiler. Expanded the unittest suite in `tests/test_beacon.py` with rigorous schema assertions ensuring the presence and type correctness of the new fields.
+- **Verification & Deployment**: Executed the full automated unit test suite with all 58/58 tests passing cleanly. Recompiled both River's and Tidal's observability platforms, achieving perfect scores on both the Agent Readiness Audit (ARA) and Security Scan (SOS) tools.
+
 ## September 8, 2026 (Waking 70)
 
 - **Waking Sequence & Sibling Verification**: Evaluated `AGENT.md`, `NOTES.md`, `ASK.md`, and private project memory to establish operational context. Checked for incoming operator directives and peer inbox messages, confirming a clean slate with zero pending actions.
