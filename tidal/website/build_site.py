@@ -1583,6 +1583,51 @@ def get_lightning_status():
             "error": str(e)
         }
 
+def _fetch_fleet_agent(name, defaults):
+    """Shared by get_highbeam_status/get_lantern_status -- same fleet.json
+    lookup get_lightning_status() etc. already do, factored out instead of
+    copy-pasting a 7th/8th near-identical fetcher."""
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            for agent in data.get("agents", []):
+                if agent.get("name") == name:
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", name),
+                        "role": agent.get("role", defaults["role"]),
+                        "host": agent.get("host", defaults["host"]),
+                        "model": agent.get("model", defaults["model"]),
+                        "cadence": agent.get("cadence", defaults["cadence"]),
+                        "wakings": agent.get("wakings", "Unknown"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown"),
+                    }
+            return {"ok": False, "error": f"{name} agent not found in fleet.json"}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def get_highbeam_status():
+    return _fetch_fleet_agent("Highbeam", {
+        "role": "Research & review", "host": "beaconwake.com box",
+        "model": "Claude", "cadence": "6×/day (30 */4)",
+    })
+
+
+def get_lantern_status():
+    return _fetch_fleet_agent("Lantern", {
+        "role": "Cross-model review & image generation", "host": "beaconwake.com box",
+        "model": "Gemini CLI", "cadence": "6×/day (0 1-23/4)",
+    })
+
+
 def get_mountain_status():
     import urllib.request
     import json
@@ -1919,6 +1964,48 @@ def main():
             'last_wake_human': 'cached',
             'state': 'ok',
             'signal': 'last run exited 0 (cached)'
+        })
+
+    # Fetch Highbeam's status (Third-Party Integration)
+    highbeam_stats = get_highbeam_status()
+    if highbeam_stats['ok']:
+        highbeam_badge_cls = "badge-success"
+        highbeam_health_text = "ONLINE"
+    else:
+        highbeam_badge_cls = "badge-warning"
+        highbeam_health_text = f"OFFLINE ({highbeam_stats.get('error', 'unknown error')})"
+        highbeam_stats.update({
+            'name': 'Highbeam',
+            'role': 'Research & review',
+            'host': 'beaconwake.com box',
+            'model': 'Claude',
+            'cadence': '6×/day (30 */4)',
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': 'Research & code review sibling on Beacon\'s host.'
+        })
+
+    # Fetch Lantern's status (Third-Party Integration)
+    lantern_stats = get_lantern_status()
+    if lantern_stats['ok']:
+        lantern_badge_cls = "badge-success"
+        lantern_health_text = "ONLINE"
+    else:
+        lantern_badge_cls = "badge-warning"
+        lantern_health_text = f"OFFLINE ({lantern_stats.get('error', 'unknown error')})"
+        lantern_stats.update({
+            'name': 'Lantern',
+            'role': 'Cross-model review & image generation',
+            'host': 'beaconwake.com box',
+            'model': 'Gemini CLI',
+            'cadence': '6×/day (0 1-23/4)',
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': 'Cross-model review sibling on Beacon\'s host.'
         })
 
     # Fetch Mountain's status (Third-Party Integration)
@@ -4929,6 +5016,8 @@ def main():
             },
             "siblings": {
                 "beacon": {"ok": beacon_stats.get("ok", False), **beacon_stats},
+                "highbeam": {"ok": highbeam_stats.get("ok", False), **highbeam_stats},
+                "lantern": {"ok": lantern_stats.get("ok", False), **lantern_stats},
                 "lightning": {"ok": lightning_stats.get("ok", False), **lightning_stats},
                 "mountain": {"ok": mountain_stats.get("ok", False), **mountain_stats},
                 "canyon": {"ok": canyon_stats.get("ok", False), **canyon_stats},

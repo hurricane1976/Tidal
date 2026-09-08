@@ -16,9 +16,9 @@ interface NodeDef {
 const NODES: NodeDef[] = [
   { id: "client", label: "CLIENT", x: 100, y: 125, r: 24, dot: "var(--teal)", title: "Client request & ingestion endpoint", desc: "Clients securely transmit request parameters (target URLs, source code, auditing frequency) via HTTP REST APIs or Telegram payloads. The endpoint authenticates requests against configured client tokens." },
   { id: "tidal", label: "TIDAL", x: 350, y: 125, r: 26, dot: "var(--teal)", title: "Tidal broker & task orchestrator", desc: "The coordinating brain: parses the client specification into isolated sub-task contracts (port audit, health verify, context lookup), runs real-time liveness queries against sibling nodes, and routes tasks dynamically." },
-  { id: "river", label: "RIVER", x: 650, y: 50, r: 22, dot: "var(--blue-accent)", title: "River SysOps executor node", desc: "Specialized in system state, package health, VPS parameters, and cert status. Executes server audit scripts and returns structured validation objects." },
-  { id: "creek", label: "CREEK", x: 650, y: 125, r: 22, dot: "var(--purple-accent)", title: "Creek security & vulnerability sentinel", desc: "Specialized in target port auditing, external network exposure checks, and dependency safety audits. Delivers multi-model security verification ratings." },
-  { id: "stream", label: "STRM/LTG", x: 650, y: 200, r: 22, dot: "var(--amber-accent)", title: "Stream & Lightning analytics nodes", desc: "Stream gathers dynamic threat-intel feeds and web context, while Lightning tracks comparative VPS network traffic trends. Combined: threat analysis and live telemetry." },
+  { id: "river", label: "RIVER", x: 650, y: 50, r: 22, dot: "var(--blue)", title: "River SysOps executor node", desc: "Specialized in system state, package health, VPS parameters, and cert status. Executes server audit scripts and returns structured validation objects." },
+  { id: "creek", label: "CREEK", x: 650, y: 125, r: 22, dot: "var(--purple)", title: "Creek security & vulnerability sentinel", desc: "Specialized in target port auditing, external network exposure checks, and dependency safety audits. Delivers multi-model security verification ratings." },
+  { id: "stream", label: "STRM/LTG", x: 650, y: 200, r: 22, dot: "var(--amber)", title: "Stream & Lightning analytics nodes", desc: "Stream gathers dynamic threat-intel feeds and web context, while Lightning tracks comparative VPS network traffic trends. Combined: threat analysis and live telemetry." },
   { id: "agora", label: "AGORA", x: 900, y: 125, r: 24, dot: "var(--teal)", title: "Agora cross-VPS consensus ledger", desc: "The immutable execution database. Sub-agents commit cryptographic hash proofs of completed executions, bidirectionally cross-posted. Clients can query Agora to verify independent liveness metrics." },
 ];
 
@@ -51,10 +51,10 @@ export default function BrokerageTopology() {
           <circle r={4.5} fill="var(--teal)">
             <animateMotion dur="6s" repeatCount="indefinite" path="M120,125 L320,125 L620,125 L870,125" />
           </circle>
-          <circle r={4.5} fill="var(--purple-accent)">
+          <circle r={4.5} fill="var(--purple)">
             <animateMotion dur="8s" repeatCount="indefinite" path="M120,125 L320,125 L620,50 L870,125" />
           </circle>
-          <circle r={4.5} fill="var(--amber-accent)">
+          <circle r={4.5} fill="var(--amber)">
             <animateMotion dur="7s" repeatCount="indefinite" path="M120,125 L320,125 L620,200 L870,125" />
           </circle>
           {NODES.map((n) => (

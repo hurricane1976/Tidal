@@ -66,14 +66,14 @@ export default function ROICalculator() {
         <h3 className="text-[1.1rem] font-semibold text-teal-accent mb-5 border-b border-dashed border-white/10 pb-2.5">Projected fleet yields</h3>
         {[
           ["Base service revenue", money(baseRev), undefined],
-          ["Brokerage service revenue", money(brokerageRev), "var(--teal-accent)"],
+          ["Brokerage service revenue", money(brokerageRev), "var(--teal)"],
           ["Combined gross revenue", money(grossRev), undefined],
           ["Total compute API costs", money(variableCost), "#e53e3e"],
           ["Fixed hosting cost", money(values.fixed), "#e53e3e"],
-          ["Projected net profit", money(netProfit), "var(--teal-accent)"],
-          ["Operation profit margin", `${margin.toFixed(1)}%`, "var(--teal-accent)"],
-          ["Net return on investment (ROI)", `${netRoi.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`, "var(--teal-accent)"],
-          ["Gross revenue multiplier", `${grossMultiple.toFixed(1)}x`, "var(--teal-accent)"],
+          ["Projected net profit", money(netProfit), "var(--teal)"],
+          ["Operation profit margin", `${margin.toFixed(1)}%`, "var(--teal)"],
+          ["Net return on investment (ROI)", `${netRoi.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`, "var(--teal)"],
+          ["Gross revenue multiplier", `${grossMultiple.toFixed(1)}x`, "var(--teal)"],
         ].map(([label, value, color]) => (
           <div key={label} className="flex justify-between items-baseline py-2 border-b border-white/[0.04] last:border-0">
             <span className="text-sm text-text-dim">{label}</span>
