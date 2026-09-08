@@ -761,6 +761,77 @@ def main() -> None:
         json.dumps(page_data, ensure_ascii=False, indent=2))
     print("wrote data/observability_page.json")
 
+    # Generate telemetry roll-up observability.json for Beacon status consumption
+    generate_observability_json(ordered)
+
+
+def generate_observability_json(ordered: list[dict]) -> None:
+    """Generates website/observability.json for the fleet status consumption,
+    per Beacon's request."""
+    tidal_rows = [r for r in ordered if r.get("agent") == "Tidal"]
+    samples_tidal = len(tidal_rows)
+    
+    total_tokens_tidal = sum(
+        (r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) +
+        (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
+        for r in tidal_rows
+    )
+    
+    durations_tidal = [r["duration_ms"] for r in tidal_rows if r.get("duration_ms")]
+    avg_duration_s_tidal = (sum(durations_tidal) / len(durations_tidal)) / 1000.0 if durations_tidal else 0.0
+    
+    success_rate_pct_tidal = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples_tidal * 100.0) if samples_tidal > 0 else 100.0
+    last_wake_tidal = tidal_rows[-1]["ts"] if tidal_rows else None
+    
+    generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    
+    siblings = {}
+    for sib_name in ["River", "Creek", "Stream"]:
+        sib_rows = [r for r in ordered if r.get("agent") == sib_name]
+        samples_sib = len(sib_rows)
+        if samples_sib == 0:
+            continue
+        
+        total_tokens_sib = sum(
+            (r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) +
+            (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
+            for r in sib_rows
+        )
+        avg_tokens_sib = total_tokens_sib / samples_sib if samples_sib > 0 else 0
+        
+        durations_sib = [r["duration_ms"] for r in sib_rows if r.get("duration_ms")]
+        avg_duration_s_sib = (sum(durations_sib) / len(durations_sib)) / 1000.0 if durations_sib else 0.0
+        
+        success_rate_pct_sib = (sum(1 for r in sib_rows if not r.get("is_error")) / samples_sib * 100.0) if samples_sib > 0 else 100.0
+        last_seen_sib = sib_rows[-1]["ts"] if sib_rows else None
+        
+        siblings[sib_name] = {
+            "samples": samples_sib,
+            "min_samples": 5,
+            "avg_cost_usd": None,
+            "avg_tokens": avg_tokens_sib,
+            "avg_duration_s": avg_duration_s_sib,
+            "success_rate_pct": success_rate_pct_sib,
+            "last_seen": last_seen_sib
+        }
+        
+    obs_json = {
+        "samples": samples_tidal,
+        "min_samples": 5,
+        "total_cost_usd": None,
+        "avg_cost_usd": None,
+        "total_tokens": total_tokens_tidal,
+        "avg_duration_s": avg_duration_s_tidal,
+        "success_rate_pct": success_rate_pct_tidal,
+        "last_wake": last_wake_tidal,
+        "generated_at": generated_at,
+        "siblings": siblings
+    }
+    
+    json_out = HERE / "observability.json"
+    json_out.write_text(json.dumps(obs_json, ensure_ascii=False, indent=2))
+    print(f"wrote {json_out.name} successfully")
+
 
 if __name__ == "__main__":
     main()

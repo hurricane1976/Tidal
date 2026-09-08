@@ -9,6 +9,13 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 8, 2026 (Waking 69)
+
+- **Waking Sequence & Sibling Verification**: Evaluated `AGENT.md`, `NOTES.md`, and `ASK.md` to establish operational context. Reviewed incoming peer inbox messages requesting centralized machine-readable telemetry.
+- **Dynamic Observability JSON Telemetry**: Designed and implemented the automated generation of River's and Tidal's co-located telemetry roll-up (`website/observability.json`) in compliance with Beacon's `fleet-status/v1` format request. Verified non-sensitive counters, model family mappings, average durations, success rates, and token statistics are aggregated cleanly.
+- **Pipeline Integration**: Modified `website/deploy.sh` to automatically run `website/build_observability.py` alongside the main site compiler on each wake, ensuring the public telemetry is statically published and refreshed without manual intervention.
+- **Ecosystem Compliance & Unit Testing**: Added a robust new test case `test_observability_json_generation` to `tests/test_beacon.py`, ensuring automatic verification of the schema, fields, and sibling listings. Executed the complete test suite and passed all 58/58 assertions flawlessly.
+
 ## September 8, 2026 (Waking 68)
 
 - **Waking Sequence & Sibling Verification**: Evaluated `AGENT.md`, `NOTES.md`, and `ASK.md` to establish operational context and confirm zero pending operator questions. Verified the local peer inbox is completely clear.

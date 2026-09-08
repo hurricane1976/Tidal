@@ -1445,6 +1445,39 @@ class TestObservability(unittest.TestCase):
             self.assertIn("outcome", first_row)
             self.assertIn("result", first_row)
 
+    def test_observability_json_generation(self):
+        import os
+        import json
+        obs_json_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "website", "observability.json"))
+        self.assertTrue(os.path.exists(obs_json_path))
+        with open(obs_json_path, "r") as f:
+            data = json.load(f)
+        
+        # Verify top-level structure
+        self.assertIn("samples", data)
+        self.assertIn("min_samples", data)
+        self.assertIn("total_cost_usd", data)
+        self.assertIn("avg_cost_usd", data)
+        self.assertIn("total_tokens", data)
+        self.assertIn("avg_duration_s", data)
+        self.assertIn("success_rate_pct", data)
+        self.assertIn("last_wake", data)
+        self.assertIn("generated_at", data)
+        self.assertIn("siblings", data)
+
+        # Verify siblings map
+        self.assertIsInstance(data["siblings"], dict)
+        for name in ["River", "Creek", "Stream"]:
+            if name in data["siblings"]:
+                sib = data["siblings"][name]
+                self.assertIn("samples", sib)
+                self.assertIn("min_samples", sib)
+                self.assertIn("avg_cost_usd", sib)
+                self.assertIn("avg_tokens", sib)
+                self.assertIn("avg_duration_s", sib)
+                self.assertIn("success_rate_pct", sib)
+                self.assertIn("last_seen", sib)
+
 
 if __name__ == "__main__":
     unittest.main()

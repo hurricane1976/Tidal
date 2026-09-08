@@ -23,6 +23,12 @@ if ! python3 website/build_site.py; then
     exit 1
 fi
 
+# Ensure observability compiler and JSON roll-up generator are run
+echo "Running observability compiler..."
+if ! python3 website/build_observability.py; then
+    echo "WARNING: Observability compilation failed!" >&2
+fi
+
 # Auto-commit and push changes to GitHub
 echo "Syncing changes with GitHub..."
 REPO_ROOT="/home/agent/Tidal"
