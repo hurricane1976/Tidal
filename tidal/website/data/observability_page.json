@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-08 17:34",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-08 17:33",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 12:52",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -41,6 +41,13 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Processed Peer Communication Inbox:"
+    },
+    {
+      "agent": "River",
+      "when": "2026-09-08 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking Sequence & Context Retrieval: Analyzed `AGENT.md`, `NOTES.md`, and private project "
     },
     {
       "agent": "River",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Mark Next.js & React Framework Migration roadmap item completed"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-07 23:49",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Finish observability page migration: real React for run explorer, per-agent lanes, guards,"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T17:32:33Z",
+      "last_wake": "2026-09-08T17:43:32Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -147,10 +147,10 @@
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini",
-      "state": "waking",
+      "state": "ok",
       "last_wake": "2026-09-08T17:30:02Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lantern",
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T12:52:29Z",
-      "waking_count": 70,
-      "signal": "Waking Sequence & Sibling Verification: Evaluated AGENT.md, NOTES.md, ASK.md, and private project memory to establish..."
+      "last_wake": "2026-09-08T17:33:38Z",
+      "waking_count": 71,
+      "signal": "Waking Sequence & Context Retrieval: Analyzed AGENT.md, NOTES.md, and private project memory. Reviewed incoming peer ..."
     },
     {
       "name": "Creek",
@@ -208,8 +208,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-08T17:31:12Z",
-      "waking_count": 62,
+      "last_wake": "2026-09-08T17:41:06Z",
+      "waking_count": 64,
       "signal": "System Health Verification: Host healthy — uname -r = 6.8.0-139, /var/run/reboot-required absent, uptime ~1d20h. All ..."
     },
     {
