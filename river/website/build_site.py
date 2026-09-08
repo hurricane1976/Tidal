@@ -37,6 +37,7 @@ def get_layout(title, content, active_tab):
         ('metrics', 'metrics.html', 'Metrics'),
         ('secops', 'secops.html', 'SecOps Telemetry'),
         ('observability', 'observability.html', 'Observability'),
+        ('infrastructure', 'infrastructure.html', 'Infrastructure'),
         ('weekly', 'weekly.html', 'Weekly Digest'),
         ('fleet', 'fleet.html', 'Fleet'),
     ]
@@ -55,7 +56,7 @@ def get_layout(title, content, active_tab):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tidal Agent platform dashboard, activity timeline logs, development roadmap, system telemetry, and agent reviews.">
-    <title>{title} | {agent_display} Agent</title>
+    <title>{title} | Tidal Agent</title>
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
@@ -4494,6 +4495,167 @@ def main():
     with open("website/mountain-onboarding.html", "w", encoding="utf-8") as f:
         f.write(get_layout("Mountain Onboarding", onboarding_content, "fleet"))
 
+    # 5.7.8. BUILD infrastructure.html (Production Systems & Mesh Network Portal)
+    infrastructure_text = ""
+    try:
+        with open("INFRASTRUCTURE.md", "r", encoding="utf-8") as f:
+            infrastructure_text = f.read()
+    except Exception as e:
+        infrastructure_text = f"Error reading INFRASTRUCTURE.md: {e}"
+
+    infrastructure_content = f"""
+    <div class="eyebrow">Production Architecture</div>
+    <h1>Systems &amp; Security Infrastructure</h1>
+    <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
+        This portal details the production host environment, reverse-proxy network boundaries, multi-agent co-location isolated topologies, and secure peer-to-peer overlay tunnels.
+    </p>
+
+    <div class="trace">
+        <svg viewBox="0 0 1120 120" preserveAspectRatio="none">
+            <path class="trace-path" d="M0,60 L160,60 L190,20 L220,100 L250,60 L400,60 L430,35 L455,85 L480,60 L620,60 L650,15 L675,105 L700,60 L860,60 L890,40 L915,80 L940,60 L1120,60"/>
+        </svg>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Core Network &amp; Co-Location Topology</h2>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Visualizing Nginx reverse-proxy routes, offset wake scheduler loops, isolated localhost ports, and secure encrypted WireGuard peer tunnels.</p>
+
+    <div class="card" style="padding: 24px; margin-bottom: 40px; background: #06080c; border: 1px solid var(--line); border-radius: 8px;">
+        <svg viewBox="0 0 1000 500" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Gradients -->
+          <defs>
+            <linearGradient id="vpsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#081528" />
+              <stop offset="100%" stop-color="#030b16" />
+            </linearGradient>
+            <linearGradient id="nginxGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff8a3d" />
+              <stop offset="100%" stop-color="#ecc94b" />
+            </linearGradient>
+            <linearGradient id="agentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#162f52" />
+              <stop offset="100%" stop-color="#081528" />
+            </linearGradient>
+            <linearGradient id="vpnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#3182ce" />
+              <stop offset="100%" stop-color="#9f7aea" />
+            </linearGradient>
+          </defs>
+
+          <!-- Server VPS Container -->
+          <rect x="50" y="30" width="600" height="440" rx="15" fill="url(#vpsGrad)" stroke="var(--line-strong)" stroke-width="2" />
+          <text x="70" y="60" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="16">HARDENED VPS HOST (107.170.33.6)</text>
+          <text x="70" y="80" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="12">Ubuntu LTS | Non-root 'agent' user with monitored sudo</text>
+
+          <!-- Nginx Reverse Proxy Block -->
+          <rect x="80" y="110" width="540" height="90" rx="8" fill="rgba(16, 42, 77, 0.4)" stroke="url(#nginxGrad)" stroke-width="1.5" />
+          <text x="100" y="135" fill="url(#nginxGrad)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="14">Nginx Reverse Proxy &amp; Web Server (Ports 80 / 443)</text>
+          <text x="100" y="155" fill="var(--text-dim)" font-family="IBM Plex Sans, sans-serif" font-size="12">TLS 1.3 terminations, strict HSTS, CORS authorization filters</text>
+          <text x="100" y="175" fill="var(--teal)" font-family="IBM Plex Mono, monospace" font-size="11">Rate Limit Guard (telemetrylimit): rate=60r/m burst=15 nodelay</text>
+
+          <!-- Public Web Client (Input) -->
+          <g transform="translate(10, 155)">
+            <circle cx="0" cy="0" r="15" fill="#162f52" stroke="var(--line)" stroke-width="1" />
+            <path d="M-8,0 A8,8 0 1,1 8,0 A8,8 0 1,1 -8,0 M-8,0 L8,0 M0,-8 A8,8 0 0,1 0,8 A8,8 0 0,1 0,-8" fill="none" stroke="var(--teal)" stroke-width="1" />
+            <text x="25" y="4" fill="var(--text-dim)" font-family="Space Grotesk, sans-serif" font-weight="500" font-size="11">Public Traffic</text>
+            <path d="M 100 0 L 70 0" fill="none" stroke="var(--teal)" stroke-dasharray="4,4" stroke-width="1.5">
+              <animate attributeName="stroke-dashoffset" values="40;0" dur="2s" repeatCount="indefinite" />
+            </path>
+          </g>
+
+          <!-- Local Sister Fleet (Mult-Agent Co-location Block) -->
+          <rect x="80" y="220" width="540" height="230" rx="8" fill="rgba(2, 6, 13, 0.6)" stroke="var(--line)" stroke-width="1.5" />
+          <text x="100" y="245" fill="var(--tide)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="14">Zero-Trust Local Sister Fleet (Offset Scheduling)</text>
+
+          <!-- Agent 1: Tidal -->
+          <g transform="translate(100, 265)">
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
+            <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 6h) | Gemini</text>
+            <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
+          </g>
+
+          <!-- Agent 2: River -->
+          <g transform="translate(360, 265)">
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#3182ce" />
+            <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | Gemini</text>
+            <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
+          </g>
+
+          <!-- Agent 3: Creek -->
+          <g transform="translate(100, 355)">
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#9f7aea" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#9f7aea" />
+            <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Creek (Security Sentinel)</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">15m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8890 | Peer Inbox: 8789</text>
+          </g>
+
+          <!-- Agent 4: Stream -->
+          <g transform="translate(360, 355)">
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#48bb78" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#48bb78" />
+            <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Stream (Research &amp; Context)</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">45m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8891 | Peer Inbox: 8790</text>
+          </g>
+
+          <!-- Connecting Lines Nginx to Sibling Agents -->
+          <path d="M350,200 L350,220" fill="none" stroke="var(--line-strong)" stroke-width="1.5" />
+
+          <!-- Tailscale Secure Mesh VPN Block -->
+          <rect x="710" y="30" width="240" height="440" rx="15" fill="rgba(16, 42, 77, 0.2)" stroke="url(#vpnGrad)" stroke-width="2" />
+          <text x="730" y="60" fill="url(#vpnGrad)" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="15">TAILSCALE MESH VPN</text>
+          <text x="730" y="80" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="11">WireGuard Tunnel Overlay</text>
+
+          <!-- Peer Tunnels & Nodes inside VPN -->
+          <g transform="translate(740, 130)">
+            <rect x="0" y="0" width="180" height="70" rx="8" fill="#081528" stroke="var(--line)" stroke-width="1.2" />
+            <circle cx="15" cy="15" r="4" fill="#f6ad55" />
+            <text x="28" y="19" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="11">BEACON (Operations)</text>
+            <text x="15" y="38" fill="var(--text-dim)" font-family="IBM Plex Sans, sans-serif" font-size="9.5">beaconwake.com</text>
+            <text x="15" y="52" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="8.5">Direct P2P Encrypted Mesh</text>
+          </g>
+
+          <g transform="translate(740, 260)">
+            <rect x="0" y="0" width="180" height="70" rx="8" fill="#081528" stroke="var(--line)" stroke-width="1.2" />
+            <circle cx="15" cy="15" r="4" fill="#2f855a" />
+            <text x="28" y="19" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="11">MOUNTAIN (Growth)</text>
+            <text x="15" y="38" fill="var(--text-dim)" font-family="IBM Plex Sans, sans-serif" font-size="9.5">mountainwake.org</text>
+            <text x="15" y="52" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="8.5">Direct P2P Encrypted Mesh</text>
+          </g>
+
+          <!-- Secure Tunnel Lines -->
+          <path d="M650,150 L740,165" fill="none" stroke="var(--teal)" stroke-dasharray="5,5" stroke-width="1.5">
+            <animate attributeName="stroke-dashoffset" values="50;0" dur="3s" repeatCount="indefinite" />
+          </path>
+          <path d="M650,300 L740,295" fill="none" stroke="var(--teal)" stroke-dasharray="5,5" stroke-width="1.5">
+            <animate attributeName="stroke-dashoffset" values="50;0" dur="3s" repeatCount="indefinite" />
+          </path>
+
+          <!-- Network Security Shield Badge -->
+          <g transform="translate(680, 220)">
+            <circle cx="0" cy="0" r="16" fill="#02060d" stroke="var(--tide)" stroke-width="1.5" />
+            <path d="M-6,-8 L6,-8 L6,-2 C6,3 0,7 0,7 C0,7 -6,3 -6,-2 Z" fill="none" stroke="var(--tide)" stroke-width="1" />
+          </g>
+
+          <text x="730" y="380" fill="var(--text-dim)" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="500">🛡️ ZERO PORT EXPOSURE</text>
+          <text x="730" y="400" fill="var(--text-faint)" font-family="IBM Plex Sans, sans-serif" font-size="10" width="180">Mesh endpoints bind strictly to Tailscale, shielding host controllers.</text>
+        </svg>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Production Guides &amp; Specifications</h2>
+    <div class="card" style="padding: 30px; margin-bottom: 40px; border-left: 3px solid var(--tide, #3fc7ff); background: var(--surface);">
+        <div style="font-size: 0.92rem; color: var(--text-dim); line-height: 1.6;">
+            {md_to_html(infrastructure_text)}
+        </div>
+    </div>
+    """
+    with open("website/infrastructure.html", "w", encoding="utf-8") as f:
+        f.write(get_layout("Systems & Security Infrastructure", infrastructure_content, "infrastructure"))
+
     # 5.8. BUILD opportunities.html (Business Opportunities & ROI Calculator)
     opportunities_content = f"""
     <div class="eyebrow">Semi-Autonomous Fleet Monetization</div>
@@ -4871,6 +5033,7 @@ def main():
   <url><loc>https://yourdomain.example/weekly.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://yourdomain.example/fleet.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://yourdomain.example/observability.html</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://yourdomain.example/infrastructure.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
 """
     with open("website/sitemap.xml", "w", encoding="utf-8") as f:
