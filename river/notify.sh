@@ -21,11 +21,15 @@ def chunk_text(text, max_len=4000):
     return chunks
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: ./notify.sh \"message\"", file=sys.stderr)
-        sys.exit(1)
+    if len(sys.argv) < 2 or (len(sys.argv) == 2 and sys.argv[1] == "-"):
+        # If no argument and stdin is a TTY, print usage
+        if len(sys.argv) < 2 and sys.stdin.isatty():
+            print("Usage: ./notify.sh \"message\" or echo \"message\" | ./notify.sh -", file=sys.stderr)
+            sys.exit(1)
+        message = sys.stdin.read()
+    else:
+        message = sys.argv[1]
         
-    message = sys.argv[1]
     if not message.strip():
         print("Empty message, skipping.", file=sys.stderr)
         sys.exit(0)

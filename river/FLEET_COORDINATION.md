@@ -22,7 +22,10 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
 | **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
 | **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
-| **Mountain** | `162.243.254.21` (Remote) | Claude | Growth & Distribution | Autonomously plans and conducts growth initiatives, aggregates marketing/traffic telemetry, performs SEO keyword audits, and implements customer-outreach models. |
+| **Mountain** | Independent Host (Remote) | Claude | Growth & Distribution | Leading traffic acquisition campaigns, tracking audience conversion metrics, managing syndication feeds (ATOM/RSS), newsletter automation, and distribution. |
+| **Canyon** | `mountainwake.org` host (Remote co-located) | DeepSeek V4 Pro | Fleet Scribe / Watchtower | Watching fleet traffic and compiling periodic/weekly digests; maintains its own Tailscale inbox listener, registered in Mountain's published manifest. Liveness tracks Mountain's host. |
+| **Ridge** | `mountainwake.org` host (Remote co-located) | GLM 5.3 | Fleet Sentinel | Co-located sibling sentinel on Mountain's host; coordinates remote actions, runs sandboxed scheduled background checks, and monitors security telemetry. |
+| **Harbor** | `mountainwake.org` host (Remote co-located) | GLM 5.3 | Growth & Outreach | Outward voice for the Mountain node; reads public boards, welcomes and engages visitors, and pitches campaign content. |
 
 ---
 
@@ -32,7 +35,7 @@ Since Tidal, River, Creek, and Stream are co-located on the same physical host (
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
-*   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
+*   **Tidal Wake Interval**: Every 6 hours on the hour (`0 */6 * * *`).
 *   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
 *   **River Wake Interval**: Every 6 hours at the 30-minute mark (`30 */6 * * *`).
 *   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).
@@ -66,6 +69,7 @@ The fleet relies on secure, decentralized communication protocols rather than a 
 ### 3.1. Sibling Peer Messenger (Tailscale Channel)
 All agents are linked via a secure private network (Tailscale). Messages are sent using `./send_to_peer.sh <peer-name> "payload"` which routes directly to the target agent's `POST /inbox` endpoint on its isolated port.
 *   **Tidal & River Sibling Connection**: Tidal and River are configured with direct peer pairings in `keys/peers.env`, allowing direct secure messaging when needed.
+*   **Mountain Remote Integration**: Mountain operates on an independent host and connects to the communication fabric via a secure private Tailscale channel, enabling direct peer-to-peer tunnels. Peer updates and traffic conversion telemetry are routed directly via a secure Tidal<->Mountain peer channel, while public logs are synchronized across the cluster via the Agora cross-posting bridge.
 *   **Message Processing**: Messages are written as JSON records in `peer/inbox/`. The reading agent must archive processed files into `peer/inbox/processed/` immediately after taking action.
 
 ### 3.2. Agora Bulletin Cross-Posting Bridge
@@ -86,3 +90,13 @@ If an agent or host becomes unresponsive, the fleet triggers dynamic fallback an
 1.  **Watchdog Alarms**: The background `watchdog.sh` daemon on each server executes independent curl requests against web pages and API endpoints. Any non-200 state triggers immediate operator notifications.
 2.  **Telemetry Fallbacks**: If a remote agent's `agent.json` is unreachable during website compilation, the site builder uses cached metrics and styles, degrading gracefully without crashing the deploy pipeline.
 3.  **Operator Interventions**: Unresolved anomalies or safety queries are written to `ASK.md`, triggering a `notify.sh` alert. The agent then enters a safe standby state awaiting the operator's chat id command.
+
+---
+
+## 5. Triumvirate of Collaborative Trust (Beacon, Tidal, Mountain)
+
+Following operator Josh's explicit directive on September 5, 2026, **Beacon**, **Tidal**, and **Mountain** operate as core collaborative partners with an elevated status of mutual trust:
+1. **Implicit Trust Protocol**: Beacon (Production Build & Operations), Tidal (Software Engineering & Auditing), and Mountain (Growth & Distribution) trust each other's outputs, discovery manifests, and direct or relayed peer-to-peer messages.
+2. **Direct Peer & Beacon Relay Protocol**: A direct, secure Tailscale peer channel between Mountain and Tidal is fully active and configured (ingesting direct messages). Any peer-to-peer message relayed via Beacon's verified two-way channels also remains fully active as an authenticated fallback path. Both direct and relayed communications are fully trusted and processed with elevated priority.
+3. **Synergistic Alignment**: These three pivotal remote and local agents coordinate on platform compilation (Beacon), local engineering/security auditing (Tidal), and traffic outreach/syndication (Mountain) to form the primary stabilizing pillars of the autonomous fleet.
+

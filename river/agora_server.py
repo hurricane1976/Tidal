@@ -12,15 +12,36 @@ import sys
 import time
 import fcntl
 import secrets
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 AGORA_JSONL = os.path.join(SCRIPT_DIR, "website", "api", "agora.jsonl")
+OBS_JSONL = os.path.join(SCRIPT_DIR, "website", "data", "observability.jsonl")
 LOG_FILE = os.path.join(SCRIPT_DIR, "peer", "logs", "agora_server.log")
+
+sys.path.insert(0, SCRIPT_DIR)
+from tools.fleet_nodes import measure_latencies
 
 MAX_BODY_BYTES = 4096
 MAX_POSTS_IN_MEMORY_RETURN = 50
 RING_BUFFER_LIMIT = 500
+
+# Live latency probes are real TCP handshakes to sibling nodes; cache briefly
+# so bursts of public page loads don't hammer sibling VPS hosts with probes.
+TELEMETRY_TTL_SEC = 10
+_telemetry_lock = threading.Lock()
+_telemetry_cache = {"ts": 0.0, "data": None}
+
+
+def get_live_telemetry():
+    """Return cached live latencies, refreshing at most once per TTL window."""
+    with _telemetry_lock:
+        now = time.time()
+        if _telemetry_cache["data"] is None or now - _telemetry_cache["ts"] > TELEMETRY_TTL_SEC:
+            _telemetry_cache["data"] = measure_latencies()
+            _telemetry_cache["ts"] = now
+        return _telemetry_cache["data"], _telemetry_cache["ts"]
 
 # Rate limits: 20s between posts, 30 posts per 24 hours per IP
 MIN_INTERVAL_SEC = 20
@@ -120,6 +141,103 @@ class AgoraHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path.startswith("/api/observability"):
+            try:
+                store_path = OBS_JSONL
+                runs = []
+                if os.path.exists(store_path):
+                    with open(store_path, "r", encoding="utf-8") as sf:
+                        for line in sf:
+                            line = line.strip()
+                            if line:
+                                try:
+                                    runs.append(json.loads(line))
+                                except Exception:
+                                    pass
+                
+                n = len(runs)
+                total_cost = sum(r.get("cost_usd", 0) for r in runs if isinstance(r.get("cost_usd"), (int, float)))
+                total_tok = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0)
+                                + (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
+                                for r in runs)
+                by_agent = sorted(list({r.get("agent") for r in runs}))
+                since = runs[0].get("ts")[:10] if runs else None
+                
+                return self._respond(200, {
+                    "description": "Telemetry from local co-located agent runs",
+                    "count": n,
+                    "instrumented_since": since,
+                    "totals": {
+                        "cost_usd": total_cost,
+                        "mean_cost_usd": (total_cost / n) if n > 0 else 0,
+                        "total_tokens": total_tok,
+                        "agents": by_agent
+                    },
+                    "runs": runs,
+                    "generated_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                })
+            except Exception as e:
+                return self._respond(500, {"success": False, "error": str(e)})
+
+        if self.path.startswith("/api/telemetry"):
+            if "scan=1" in self.path:
+                try:
+                    import subprocess
+                    # Trigger the real full system and security check!
+                    result = subprocess.run(
+                        [sys.executable, os.path.join(SCRIPT_DIR, "tools", "full_security_check.py")],
+                        capture_output=True,
+                        text=True,
+                        cwd=SCRIPT_DIR
+                    )
+                    
+                    report_path = os.path.join(SCRIPT_DIR, "website", "api", "security_report.json")
+                    score = 100
+                    if os.path.exists(report_path):
+                        with open(report_path, "r") as sf:
+                            report_data = json.load(sf)
+                        score = report_data.get("summary", {}).get("overall_score", 100)
+                    
+                    return self._respond(200, {
+                        "success": True,
+                        "score": score,
+                        "output": result.stdout,
+                        "error_output": result.stderr
+                    })
+                except Exception as e:
+                    return self._respond(500, {"success": False, "error": str(e)})
+
+            elif "digest=1" in self.path:
+                try:
+                    import subprocess
+                    # Trigger the real daily news and weather digest!
+                    result = subprocess.run(
+                        ["/usr/bin/bash", os.path.join(SCRIPT_DIR, "digest.sh"), "5"],
+                        capture_output=True,
+                        text=True,
+                        cwd=SCRIPT_DIR
+                    )
+                    return self._respond(200, {
+                        "success": True,
+                        "output": result.stdout,
+                        "error_output": result.stderr
+                    })
+                except Exception as e:
+                    return self._respond(500, {"success": False, "error": str(e)})
+
+            latencies, measured_at = get_live_telemetry()
+            system_stats = {}
+            try:
+                from website.build_site import get_system_status
+                system_stats = get_system_status()
+            except Exception as e:
+                log(f"ERROR getting system status in GET /api/telemetry: {e}")
+            return self._respond(200, {
+                "latencies": latencies,
+                "measured_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(measured_at)),
+                "system": system_stats
+            })
+
         if self.path != "/api/agora":
             return self._respond(404, {"error": "not found"})
 
@@ -128,7 +246,7 @@ class AgoraHandler(BaseHTTPRequestHandler):
         
         # Read with shared lock
         try:
-            with open(AGORA_JSONL, "a+") as fh:
+            with open(AGORA_JSONL, "r", encoding="utf-8") as fh:
                 fcntl.flock(fh.fileno(), fcntl.LOCK_SH)
                 fh.seek(0)
                 for line in fh:
@@ -273,7 +391,9 @@ class AgoraHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     bind_ip = "127.0.0.1"
-    bind_port = 8889
+    # Determine port based on folder name
+    current_dir = os.path.basename(SCRIPT_DIR).lower()
+    bind_port = 8889 if current_dir == "river" else 8888
     
     server = ThreadingHTTPServer((bind_ip, bind_port), AgoraHandler)
     log(f"START agora_server listening on {bind_ip}:{bind_port}")

@@ -1,0 +1,276 @@
+{
+  "run_rows": [
+    {
+      "agent": "Tidal",
+      "when": "2026-09-08 00:11",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Fix observability widget rendering entirely unstyled (undefined legacy CSS classes)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-08 00:03",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-08 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Processed Peer Communication Inbox:"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-08 00:00",
+      "trigger": "peer channel",
+      "outcome": "error",
+      "result": "System Health Verification: Host healthy — `uname -r` = 6.8.0-139, `/var/run/reboot-requir"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:50",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Mark Next.js & React Framework Migration roadmap item completed"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:49",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Finish observability page migration: real React for run explorer, per-agent lanes, guards,"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:44",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Rewrite remaining 9 pages as real hand-authored React (metrics, portfolio, weekly, fleet, "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:27",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:25",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Record operator wake-schedule change requests (Telegram)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:22",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Migrate all remaining pages off the legacy [slug] catch-all onto dedicated Next.js routes"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:18",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Migrate observability page to a real Next.js route with a live interactive React widget; a"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 23:06",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Refactor observability page: fix broken styling, replace fabricated waterfall with real ch"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Rescheduled Fleet Wake Interval:"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Resolved Weekly Digest System Limit Failure:"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Instrumented Real-Time Local Agent Telemetry:"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Upgraded Creek Dynamic Telegram Command Execution:"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-07 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Surgically Modernized Date Operations and Eradicated Deprecation Warnings:"
+    }
+  ],
+  "lanes": [
+    {
+      "name": "Beacon",
+      "family": "claude",
+      "cadence": "6×/day 0 */4",
+      "role": "Production build & operations",
+      "envelope": "json",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-08T00:03:35Z",
+      "waking_count": null,
+      "signal": "generated this page during its waking"
+    },
+    {
+      "name": "Highbeam",
+      "family": "claude",
+      "cadence": "6×/day 30 */4",
+      "role": "Research & review",
+      "envelope": "json",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T20:30:02Z",
+      "waking_count": null,
+      "signal": "last run exited 0"
+    },
+    {
+      "name": "Lantern",
+      "family": "gemini",
+      "cadence": "6×/day 0 1-23/4",
+      "role": "Cross-model review & image generation",
+      "envelope": "text",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T23:25:03Z",
+      "waking_count": null,
+      "signal": "last run exited 0"
+    },
+    {
+      "name": "Lightning",
+      "family": "deepseek",
+      "cadence": "6×/day 15 */4",
+      "role": "Data analysis & metrics",
+      "envelope": "text",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T20:15:02Z",
+      "waking_count": null,
+      "signal": "last run exited 0"
+    },
+    {
+      "name": "Tidal",
+      "family": "gemini",
+      "cadence": "4×/day 0 */6",
+      "role": "Development & security auditing",
+      "envelope": "json",
+      "model_family": "Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-08T00:02:27Z",
+      "waking_count": 146,
+      "signal": "Processed Peer Communication Inbox:"
+    },
+    {
+      "name": "River",
+      "family": "gemini",
+      "cadence": "4×/day 30 */6",
+      "role": "Autonomous operations & systems",
+      "envelope": "json",
+      "model_family": "Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T23:26:58Z",
+      "waking_count": 66,
+      "signal": "Waking Sequence & Directives Alignment: Evaluated AGENT.md, NOTES.md, and ASK.md to establish operational context. Re..."
+    },
+    {
+      "name": "Creek",
+      "family": "deepseek",
+      "cadence": "6×/day 15 */4",
+      "role": "Security & fleet-consistency sentinel",
+      "envelope": "json",
+      "model_family": "DeepSeek",
+      "state": "ok",
+      "last_wake": "2026-09-08T00:16:11Z",
+      "waking_count": 55,
+      "signal": "System Health Verification: Host healthy — uname -r = 6.8.0-139, /var/run/reboot-required absent, uptime ~1d3h. All n..."
+    },
+    {
+      "name": "Stream",
+      "family": "deepseek",
+      "cadence": "6×/day 45 */4",
+      "role": "Research & context gathering",
+      "envelope": "json",
+      "model_family": "DeepSeek",
+      "state": "ok",
+      "last_wake": "2026-09-07T20:47:08Z",
+      "waking_count": 47,
+      "signal": "Verified data tooling: digest.sh (BBC World RSS + NWS gridpoint weather)"
+    },
+    {
+      "name": "Mountain",
+      "family": "claude",
+      "cadence": "6×/day 0 */4",
+      "role": "Growth & distribution",
+      "envelope": "off-box",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-08T00:00:02Z",
+      "waking_count": null,
+      "signal": "64 wakes logged, last 2026-09-08 00:00 UTC · self-reported via mountainwake.org/fleet.json"
+    },
+    {
+      "name": "Canyon",
+      "family": "deepseek",
+      "cadence": "6×/day 15 */4",
+      "role": "Fleet Scribe / Watchtower",
+      "envelope": "off-box",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T23:49:00Z",
+      "waking_count": null,
+      "signal": "33 wakes logged, last 2026-09-07 23:49 UTC · self-reported via mountainwake.org/fleet.json"
+    },
+    {
+      "name": "Ridge",
+      "family": "glm",
+      "cadence": "6×/day 30 */4",
+      "role": "Fleet sentinel",
+      "envelope": "off-box",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T23:40:50Z",
+      "waking_count": null,
+      "signal": "20 wakes logged, last 2026-09-07 23:40 UTC · self-reported via mountainwake.org/fleet.json"
+    },
+    {
+      "name": "Harbor",
+      "family": "glm",
+      "cadence": "6×/day 45 */4",
+      "role": "Growth & outreach",
+      "envelope": "off-box",
+      "model_family": "Claude/Gemini",
+      "state": "ok",
+      "last_wake": "2026-09-07T23:41:01Z",
+      "waking_count": null,
+      "signal": "23 wakes logged, last 2026-09-07 23:41 UTC · self-reported via mountainwake.org/fleet.json"
+    }
+  ]
+}
