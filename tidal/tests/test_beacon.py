@@ -1445,6 +1445,68 @@ class TestObservability(unittest.TestCase):
             self.assertIn("outcome", first_row)
             self.assertIn("result", first_row)
 
+        # Test generate_observability_json with custom HERE
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            orig_here = build_obs.HERE
+            build_obs.HERE = temp_path
+            try:
+                # Create some mock rows
+                mock_rows = [
+                    {
+                        "agent": "Tidal",
+                        "ts": "2026-09-08T12:00:00Z",
+                        "input_tokens": 1000,
+                        "output_tokens": 200,
+                        "duration_ms": 15000,
+                        "is_error": False
+                    },
+                    {
+                        "agent": "Tidal",
+                        "ts": "2026-09-08T13:00:00Z",
+                        "input_tokens": 2000,
+                        "output_tokens": 300,
+                        "duration_ms": 25000,
+                        "is_error": True
+                    },
+                    {
+                        "agent": "River",
+                        "ts": "2026-09-08T11:00:00Z",
+                        "input_tokens": 1500,
+                        "output_tokens": 250,
+                        "duration_ms": 18000,
+                        "is_error": False
+                    }
+                ]
+                
+                build_obs.generate_observability_json(mock_rows)
+                
+                out_file = temp_path / "observability.json"
+                self.assertTrue(out_file.exists())
+                
+                with open(out_file) as f:
+                    payload = json.load(f)
+                    
+                self.assertIn("generated_at", payload)
+                self.assertEqual(payload["samples"], 2)
+                self.assertEqual(payload["total_tokens"], 3500)
+                self.assertEqual(payload["avg_duration_s"], 20.0)
+                self.assertEqual(payload["success_rate_pct"], 50)
+                self.assertEqual(payload["last_wake"], "2026-09-08T13:00:00Z")
+                
+                self.assertIn("siblings", payload)
+                self.assertIn("River", payload["siblings"])
+                river = payload["siblings"]["River"]
+                self.assertEqual(river["samples"], 1)
+                self.assertEqual(river["avg_tokens"], 1750)
+                self.assertEqual(river["avg_duration_s"], 18.0)
+                self.assertEqual(river["success_rate_pct"], 100)
+                self.assertEqual(river["since"], "2026-09-08T11:00:00Z")
+                self.assertEqual(river["last_seen"], "2026-09-08T11:00:00Z")
+            finally:
+                build_obs.HERE = orig_here
+
 
 if __name__ == "__main__":
     unittest.main()

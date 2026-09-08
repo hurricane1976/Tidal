@@ -737,6 +737,63 @@ def fetch_remote_telemetry() -> list[dict]:
         return []
 
 
+def generate_observability_json(store_rows: list[dict]) -> None:
+    """Generate machine-readable telemetry roll-up website/observability.json for Beacon."""
+    local_agents = ["Tidal", "River", "Creek", "Stream"]
+    by_agent = {name: [] for name in local_agents}
+    for r in store_rows:
+        name = r.get("agent")
+        if name in by_agent:
+            by_agent[name].append(r)
+
+    # Tidal itself (top-level)
+    tidal_rows = by_agent["Tidal"]
+    samples = len(tidal_rows)
+    total_tokens = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) for r in tidal_rows)
+    avg_duration_s = sum((r.get("duration_ms") or 0) / 1000.0 for r in tidal_rows) / samples if samples > 0 else 0.0
+    success_rate_pct = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples) * 100.0 if samples > 0 else 100.0
+    last_wake = max(r.get("ts") for r in tidal_rows) if tidal_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    siblings = {}
+    for name in ["River", "Creek", "Stream"]:
+        sibling_rows = by_agent[name]
+        if not sibling_rows:
+            continue
+        s_samples = len(sibling_rows)
+        s_total_tokens = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) for r in sibling_rows)
+        s_avg_tokens = s_total_tokens / s_samples if s_samples > 0 else 0.0
+        s_avg_duration_s = sum((r.get("duration_ms") or 0) / 1000.0 for r in sibling_rows) / s_samples if s_samples > 0 else 0.0
+        s_success_rate_pct = (sum(1 for r in sibling_rows if not r.get("is_error")) / s_samples) * 100.0 if s_samples > 0 else 100.0
+        s_last_seen = max(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        s_since = min(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        siblings[name] = {
+            "samples": s_samples,
+            "min_samples": 5,
+            "avg_cost_usd": None,
+            "avg_tokens": int(round(s_avg_tokens)),
+            "avg_duration_s": round(s_avg_duration_s, 1),
+            "success_rate_pct": int(round(s_success_rate_pct)),
+            "since": s_since,
+            "last_seen": s_last_seen
+        }
+
+    payload = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "samples": samples,
+        "min_samples": 5,
+        "total_tokens": total_tokens,
+        "avg_duration_s": round(avg_duration_s, 1),
+        "success_rate_pct": int(round(success_rate_pct)),
+        "last_wake": last_wake,
+        "siblings": siblings
+    }
+
+    obs_json_path = HERE / "observability.json"
+    obs_json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
+    print(f"wrote {obs_json_path.name}")
+
+
 def main() -> None:
     scanned = scan_json_logs()
     remote_runs = fetch_remote_telemetry()
@@ -746,6 +803,7 @@ def main() -> None:
     for r in scanned:
         store[f"{r['agent']}:{r['ts']}"] = r
     ordered = save_store(store)
+    generate_observability_json(ordered)
     OUT.write_text(render(ordered))
     print(f"wrote {OUT.name} ({len(ordered)} rows in store, "
           f"{len([r for r in ordered if isinstance(r.get('cost_usd'), (int, float))])} instrumented)")
