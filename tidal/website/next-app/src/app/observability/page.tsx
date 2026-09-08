@@ -40,10 +40,10 @@ export default function ObservabilityPage() {
               <stop offset="100%" stopColor="#ff8a3d" />
             </radialGradient>
           </defs>
-          <rect x={8} y={12} width={48} height={34} rx={3} fill="none" stroke="var(--blue-accent)" strokeWidth={2} opacity={0.5} />
-          <path d="M12 38l8-10 7 6 9-16 8 12" fill="none" stroke="var(--teal-accent)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <rect x={8} y={12} width={48} height={34} rx={3} fill="none" stroke="var(--blue)" strokeWidth={2} opacity={0.5} />
+          <path d="M12 38l8-10 7 6 9-16 8 12" fill="none" stroke="var(--teal)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           <circle cx={45} cy={30} r={5} fill="url(#coreOB)" />
-          <path d="M20 54h24" stroke="var(--teal-accent)" strokeWidth={2.5} strokeLinecap="round" />
+          <path d="M20 54h24" stroke="var(--teal)" strokeWidth={2.5} strokeLinecap="round" />
         </svg>
         <h1 className="font-display text-[2rem] font-bold tracking-[-0.01em] mb-3 text-text-primary">Agentic observability</h1>
         <p className="text-text-dim text-[0.95rem] leading-relaxed">

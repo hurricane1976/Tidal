@@ -86,6 +86,8 @@ export default function StatusPage() {
       <h2 className="text-[1.4rem] font-semibold mb-5">Third-party fleet status</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
         <SiblingCard label="Beacon" accent="#ff8a3d" s={siblings.beacon} />
+        <SiblingCard label="Highbeam" accent="#ff8a3d" s={siblings.highbeam} />
+        <SiblingCard label="Lantern" accent="#4fd1c5" s={siblings.lantern} />
         <SiblingCard label="Lightning" accent="#ecc94b" s={siblings.lightning} />
         <SiblingCard label="Mountain" accent="#2f855a" s={siblings.mountain} />
         <SiblingCard label="Canyon" accent="#a27b5c" s={siblings.canyon} />

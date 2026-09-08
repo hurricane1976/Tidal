@@ -99,6 +99,8 @@ export default function MetricsPage() {
       <h2 className="text-[1.4rem] font-semibold mt-10 mb-5">Third-party fleet status</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
         <SiblingCard label="Beacon" accent="#ff8a3d" s={site.siblings.beacon} />
+        <SiblingCard label="Highbeam" accent="#ff8a3d" s={site.siblings.highbeam} />
+        <SiblingCard label="Lantern" accent="#4fd1c5" s={site.siblings.lantern} />
         <SiblingCard label="Lightning" accent="#ecc94b" s={site.siblings.lightning} />
         <SiblingCard label="Mountain" accent="#2f855a" s={site.siblings.mountain} />
         <SiblingCard label="Canyon" accent="#a27b5c" s={site.siblings.canyon} />

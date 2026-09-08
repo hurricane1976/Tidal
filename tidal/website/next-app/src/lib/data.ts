@@ -463,6 +463,8 @@ export interface SiteStatus {
   };
   siblings: {
     beacon: SiblingStatus;
+    highbeam: SiblingStatus;
+    lantern: SiblingStatus;
     lightning: SiblingStatus;
     mountain: SiblingStatus;
     canyon: SiblingStatus;
@@ -496,7 +498,8 @@ export function getSiteStatus(): SiteStatus {
       stream: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
     },
     siblings: {
-      beacon: { ok: false }, lightning: { ok: false }, mountain: { ok: false },
+      beacon: { ok: false }, highbeam: { ok: false }, lantern: { ok: false },
+      lightning: { ok: false }, mountain: { ok: false },
       canyon: { ok: false }, ridge: { ok: false }, harbor: { ok: false },
     },
     self_audit: {

@@ -31,9 +31,9 @@ const NODES: NodeMeta[] = [
 ];
 
 function pingColor(ms: number) {
-  if (ms < 30) return "var(--teal-accent)";
-  if (ms < 100) return "var(--purple-accent)";
-  return "var(--amber-accent)";
+  if (ms < 30) return "var(--teal)";
+  if (ms < 100) return "var(--purple)";
+  return "var(--amber)";
 }
 
 function svgPath(data: number[]) {
@@ -128,7 +128,7 @@ export default function SecOpsConsole({
   async function runScan() {
     setScanning(true);
     setScanProgress(0);
-    setTerminalLines([{ text: "[RUNNING] Spawning full system and security scan audit subprocess...", color: "var(--amber-accent)" }]);
+    setTerminalLines([{ text: "[RUNNING] Spawning full system and security scan audit subprocess...", color: "var(--amber)" }]);
     const progInterval = setInterval(() => setScanProgress((p) => Math.min(95, p + 4)), 150);
     try {
       const res = await fetch("/api/telemetry?scan=1", { cache: "no-store" });
@@ -140,7 +140,7 @@ export default function SecOpsConsole({
       }
       const data = await res.json();
       if (data.success) {
-        setTerminalLines([{ text: `[SUCCESS] Live scan compiled successfully! Compliance score: ${data.score}/100`, color: "var(--teal-accent)" }]);
+        setTerminalLines([{ text: `[SUCCESS] Live scan compiled successfully! Compliance score: ${data.score}/100`, color: "var(--teal)" }]);
         const lines: string[] = String(data.output || "").split("\n").map((l: string) => l.trim()).filter(Boolean);
         let idx = 0;
         const printNext = () => {
@@ -177,22 +177,22 @@ export default function SecOpsConsole({
             <svg viewBox="0 0 120 120" className="w-[120px] h-[120px]">
               <circle cx={60} cy={60} r={radius} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth={6} />
               <circle
-                cx={60} cy={60} r={radius} fill="none" stroke="var(--teal-accent)" strokeWidth={6}
+                cx={60} cy={60} r={radius} fill="none" stroke="var(--teal)" strokeWidth={6}
                 strokeDasharray={circumference} strokeDashoffset={ringOffset} strokeLinecap="round"
                 style={{ transition: "stroke-dashoffset 2s var(--ease-expo, cubic-bezier(.16,1,.3,1))", transform: "rotate(-90deg)", transformOrigin: "50% 50%" }}
               />
-              <text x={60} y={66} fontFamily="'Space Grotesk', sans-serif" fontSize={20} fontWeight={700} fill="var(--teal-accent)" textAnchor="middle">{complianceDisplay}%</text>
+              <text x={60} y={66} fontFamily="'Space Grotesk', sans-serif" fontSize={20} fontWeight={700} fill="var(--teal)" textAnchor="middle">{complianceDisplay}%</text>
             </svg>
           </div>
           <div className="text-sm text-text-dim">Score based on 5 parameters</div>
         </div>
 
-        <div className="bg-surface border border-[#e8eaed]/8 border-l-[3px] border-l-[var(--tide-accent)] rounded-[var(--radius-md)] p-6">
+        <div className="bg-surface border border-[#e8eaed]/8 border-l-[3px] border-l-[var(--tide)] rounded-[var(--radius-md)] p-6">
           <div className="font-mono text-[0.72rem] text-text-faint uppercase tracking-[0.1em] mb-4">Host resource gauges</div>
           {[
-            { label: "CPU load average", val: system.cpu, pct: cpuPct, color: "var(--teal-accent)" },
-            { label: `Memory usage (${system.mem_used} / ${system.mem_total})`, val: `${system.mem_pct}%`, pct: system.mem_pct, color: "var(--tide-accent)" },
-            { label: `Disk space (${system.disk_used} / ${system.disk_total})`, val: `${system.disk_pct}%`, pct: system.disk_pct, color: "var(--amber-accent)" },
+            { label: "CPU load average", val: system.cpu, pct: cpuPct, color: "var(--teal)" },
+            { label: `Memory usage (${system.mem_used} / ${system.mem_total})`, val: `${system.mem_pct}%`, pct: system.mem_pct, color: "var(--tide)" },
+            { label: `Disk space (${system.disk_used} / ${system.disk_total})`, val: `${system.disk_pct}%`, pct: system.disk_pct, color: "var(--amber)" },
           ].map((row) => (
             <div key={row.label} className="mb-3.5 last:mb-0">
               <div className="flex justify-between text-[0.8rem] text-text-dim mb-1">
@@ -210,9 +210,9 @@ export default function SecOpsConsole({
           <div className="font-mono text-[0.72rem] text-text-faint uppercase tracking-[0.1em] mb-3">Active security metrics</div>
           <div className="grid grid-cols-2 gap-3 mt-2">
             {[
-              ["Active sockets", activeSocketsCount, "var(--teal-accent)"],
-              ["Remediations", remediationsCount, "var(--tide-accent)"],
-              ["Open warnings", openWarningsCount, "var(--amber-accent)"],
+              ["Active sockets", activeSocketsCount, "var(--teal)"],
+              ["Remediations", remediationsCount, "var(--tide)"],
+              ["Open warnings", openWarningsCount, "var(--amber)"],
               ["Host uptime", system.uptime, "var(--text-dim)"],
             ].map(([label, val, color]) => (
               <div key={label as string} className="bg-white/[0.02] border border-[#e8eaed]/8 rounded-lg p-2.5 text-center">
@@ -230,15 +230,15 @@ export default function SecOpsConsole({
             <h3 className="text-[1.1rem] font-semibold m-0">Live resources rolling waves</h3>
             <div className="flex gap-3 text-xs">
               <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-teal-accent inline-block" />CPU load %</span>
-              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[var(--tide-accent)] inline-block" />Memory %</span>
+              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[var(--tide)] inline-block" />Memory %</span>
             </div>
           </div>
           <svg viewBox="0 0 500 150" className="w-full h-[200px] bg-[rgba(3,11,22,0.4)] border border-white/10 rounded-[var(--radius-md)]" preserveAspectRatio="none">
             <line x1={0} y1={37.5} x2={500} y2={37.5} stroke="rgba(255,255,255,0.03)" strokeDasharray="4,4" />
             <line x1={0} y1={75} x2={500} y2={75} stroke="rgba(255,255,255,0.03)" strokeDasharray="4,4" />
             <line x1={0} y1={112.5} x2={500} y2={112.5} stroke="rgba(255,255,255,0.03)" strokeDasharray="4,4" />
-            <path d={svgPath(cpuData)} fill="none" stroke="var(--teal-accent)" strokeWidth={2} />
-            <path d={svgPath(memData)} fill="none" stroke="var(--tide-accent)" strokeWidth={2} />
+            <path d={svgPath(cpuData)} fill="none" stroke="var(--teal)" strokeWidth={2} />
+            <path d={svgPath(memData)} fill="none" stroke="var(--tide)" strokeWidth={2} />
           </svg>
           <div className="text-xs text-text-faint mt-2 font-mono text-right">Polling frequency: {POLL_MS}ms</div>
         </div>
@@ -251,10 +251,10 @@ export default function SecOpsConsole({
               return (
                 <div key={svc} className="flex justify-between items-center bg-white/[0.02] px-3.5 py-2.5 rounded-lg border border-white/10">
                   <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full inline-block pulse-dot-anim" style={{ background: active ? "var(--teal-accent)" : "var(--amber-accent)" }} />
+                    <span className="w-2 h-2 rounded-full inline-block pulse-dot-anim" style={{ background: active ? "var(--teal)" : "var(--amber)" }} />
                     <span className="text-[0.85rem] font-mono font-medium">{svc}.service</span>
                   </div>
-                  <span className="text-xs font-semibold uppercase" style={{ color: active ? "var(--teal-accent)" : "var(--amber-accent)" }}>{state}</span>
+                  <span className="text-xs font-semibold uppercase" style={{ color: active ? "var(--teal)" : "var(--amber)" }}>{state}</span>
                 </div>
               );
             })}
@@ -283,7 +283,7 @@ export default function SecOpsConsole({
                 <div className="text-right">
                   <span
                     className="inline-block text-[0.55rem] px-1.5 py-0.5 rounded font-bold uppercase border"
-                    style={{ color: n.type === "LOCAL" ? "var(--teal-accent)" : "var(--purple-accent)", borderColor: n.type === "LOCAL" ? "var(--teal-accent)" : "var(--purple-accent)" }}
+                    style={{ color: n.type === "LOCAL" ? "var(--teal)" : "var(--purple)", borderColor: n.type === "LOCAL" ? "var(--teal)" : "var(--purple)" }}
                   >
                     {n.type}
                   </span>
