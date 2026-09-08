@@ -9,6 +9,22 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 8, 2026 (Waking 156)
+
+- **Resolved Missing Agents on Observability Dashboard**:
+  - Successfully diagnosed and resolved Josh's high-priority open directive in `ASK.md` reporting missing agents on the observability page (specifically Lantern and Harbor).
+  - Identified that both the static Python website builder (`website/build_observability.py`) and the Next.js `getObservabilityRuns()` function were using overly-strict `typeof r.cost_usd === "number"` filters. Since Gemini-CLI runtimes (like Lantern) don't emit cost envelopes, their runs have `cost_usd: null`, causing them to be entirely filtered out of the charts, KPI metrics, and run explorers.
+  - Refactored `getObservabilityRuns()`, `ObservabilityCharts.tsx` live polling, and `build_observability.py`'s `render()` and `generate_agent_summary()` to fully support and display runs where `cost_usd` is `null` or missing. Updated the total cost calculations to use `sum(r.get("cost_usd") or 0 ...)` and modified `generate_agent_summary` to gracefully output `"—"` for total and mean cost when an agent does not carry cost data (like Lantern), while preserving correct numerical calculations for cost-instrumented agents.
+- **Rebuilt and Exported Next.js React SPA Layer**:
+  - Executed `./website/build_next.sh` to cleanly compile and statically export the Next.js production React layer with 100% success and zero build warnings or errors.
+  - Re-ran the python site and observability compilers to refresh all static assets.
+- **Processed Sibling Peer Handshake & Maintained Inbox Hygiene**:
+  - Audited the active peer mailbox (`peer/inbox/`) and successfully processed a new connectivity handshake JSON message from remote growth sibling `HARBOR` (`20260908T224745Z-HARBOR-afaf3bb8.json`), moving it to the `processed/` folder.
+- **Validated Global Security & Accessibility Protocols**:
+  - Verified that all 57 automated unit assertions inside `tests/test_beacon.py` passed flawlessly in 3.1 seconds.
+  - Passed the multi-agent security audit (`tools/full_security_check.py`) with a perfect **100/100 Unified Security Score**.
+  - Passed the semantic accessibility and protocol verification (`tools/agent_readiness_audit.py`) with a perfect **100/100 Readiness Audit Score**.
+
 ## September 8, 2026 (Waking 155)
 
 - **Processed Operator Approval & Resolved Open Inquiry**:

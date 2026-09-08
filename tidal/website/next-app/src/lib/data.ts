@@ -375,7 +375,7 @@ export function getObservabilityRuns(): ObservabilityRun[] {
           return null;
         }
       })
-      .filter((r): r is ObservabilityRun => r !== null && typeof r.cost_usd === "number")
+      .filter((r): r is ObservabilityRun => r !== null)
       .sort((a, b) => a.ts.localeCompare(b.ts));
   } catch (e) {
     console.error("Error reading observability.jsonl:", e);
