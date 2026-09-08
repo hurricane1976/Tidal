@@ -174,65 +174,67 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
 
   if (!runs.length) {
     return (
-      <div className="card">
-        <p className="!mb-0" style={{ color: "var(--muted)" }}>
+      <div className="bg-surface border border-white/10 rounded-[var(--radius-md)] p-6">
+        <p className="m-0 text-text-dim text-sm">
           Awaiting the first instrumented run &mdash; this widget polls{" "}
-          <code>/api/observability</code> live and will populate automatically.
+          <code className="font-mono bg-white/5 px-1 rounded">/api/observability</code> live and will populate automatically.
         </p>
       </div>
     );
   }
 
+  const legend: [string, string][] = [
+    ["#8ea0c8", "input"],
+    ["var(--amber)", "output"],
+    ["var(--teal)", "cache read"],
+    ["var(--purple)", "cache write"],
+  ];
+  const wallLegend: [string, string][] = [
+    ["var(--teal)", "API call time"],
+    ["#8ea0c8", "orchestration (tools, I/O, deploy)"],
+  ];
+
   return (
-    <section className="card" style={{ marginTop: "1.1rem" }}>
-      <div className="card-head" style={{ justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
-        <div className="card-head" style={{ marginBottom: 0 }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+    <section className="bg-surface border border-white/10 rounded-[var(--radius-md)] p-6 mt-6">
+      <div className="flex justify-between items-center flex-wrap gap-2 mb-1">
+        <div className="flex items-center gap-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--tide)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 flex-none">
             <path d="M12 2a10 10 0 1 0 10 10" />
             <path d="M12 7v5l3 3" />
             <path d="M16 2l4 4-4 4" />
           </svg>
-          <h2>
+          <h2 className="text-[1.1rem] font-semibold m-0">
             Cost, tokens &amp; wall-clock &mdash; interactive
-            <span className="panel-flag live">{live ? "Live" : fetchError ? "Live (cached)" : "Live"}</span>
+            <span className="ml-2 text-[0.6rem] font-mono uppercase px-2 py-0.5 rounded border text-teal-accent border-teal-accent/30 align-middle">
+              {live ? "Live" : fetchError ? "Live (cached)" : "Live"}
+            </span>
           </h2>
         </div>
-        <span style={{ fontSize: "0.72rem", color: "var(--muted)", fontFamily: '"IBM Plex Mono",monospace' }}>
-          updated {agoLabel(lastFetch, now)}
-        </span>
+        <span className="text-[0.72rem] text-text-faint font-mono">updated {agoLabel(lastFetch, now)}</span>
       </div>
-      <p>
-        A real React widget, not a server-rendered image: it polls the same <code>/api/observability</code> endpoint
+      <p className="text-sm text-text-dim mb-4">
+        A real React widget, not a server-rendered image: it polls the same <code className="font-mono bg-white/5 px-1 rounded">/api/observability</code> endpoint
         the machine-readable view uses, every 30s. Filter by agent, switch views, and click any bar or row to pin its
         full detail below.
       </p>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "1.1rem", alignItems: "center", margin: "0.2rem 0 1rem" }}>
-        <div style={{ display: "flex", gap: "0.35rem" }} role="tablist" aria-label="Chart view">
+      <div className="flex flex-wrap items-center gap-4 mb-4">
+        <div className="flex gap-1.5" role="tablist" aria-label="Chart view">
           {(["cost", "tokens", "wallclock"] as Tab[]).map((t) => (
             <button
               key={t}
               role="tab"
               aria-selected={tab === t}
               onClick={() => setTab(t)}
-              style={{
-                fontFamily: '"Space Grotesk",sans-serif',
-                fontSize: "0.74rem",
-                letterSpacing: "0.02em",
-                padding: "0.35rem 0.8rem",
-                borderRadius: "6px",
-                border: "1px solid rgba(255,255,255,0.1)",
-                cursor: "pointer",
-                background: tab === t ? "var(--accent-2, #4fd1c5)" : "rgba(255,255,255,0.03)",
-                color: tab === t ? "#02120f" : "var(--muted)",
-                fontWeight: tab === t ? 600 : 400,
-              }}
+              className={`font-display text-[0.74rem] tracking-[0.02em] px-3 py-1.5 rounded-md border border-white/10 cursor-pointer ${
+                tab === t ? "bg-teal-accent text-[#02120f] font-semibold" : "bg-white/[0.03] text-text-dim"
+              }`}
             >
               {t === "cost" ? "Cost / run" : t === "tokens" ? "Token mix" : "API vs. orchestration"}
             </button>
           ))}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+        <div className="flex flex-wrap gap-1.5">
           {agents.map((a) => {
             const off = excludedAgents.has(a);
             return (
@@ -240,30 +242,10 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                 key={a}
                 onClick={() => toggleAgent(a)}
                 title={off ? `Show ${a}` : `Hide ${a}`}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.35rem",
-                  fontSize: "0.7rem",
-                  fontFamily: '"IBM Plex Mono",monospace',
-                  padding: "0.25rem 0.55rem",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  cursor: "pointer",
-                  opacity: off ? 0.4 : 1,
-                  background: "rgba(255,255,255,0.03)",
-                  color: "var(--muted)",
-                }}
+                className="inline-flex items-center gap-1.5 text-[0.7rem] font-mono px-2.5 py-1 rounded-full border border-white/10 bg-white/[0.03] text-text-dim cursor-pointer"
+                style={{ opacity: off ? 0.4 : 1 }}
               >
-                <span
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    background: agentColor.get(a),
-                    display: "inline-block",
-                  }}
-                />
+                <span className="w-2 h-2 rounded-full inline-block" style={{ background: agentColor.get(a) }} />
                 {a}
               </button>
             );
@@ -271,45 +253,38 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
         </div>
       </div>
 
-      <div className="mock-gauge-wrap" style={{ marginBottom: "1rem" }}>
-        <div className="mock-gauge">
-          <div className="n ok">{kpis.n}</div>
-          <div className="l">runs (filtered)</div>
-        </div>
-        <div className="mock-gauge">
-          <div className="n ok">{fmtCost(kpis.cost)}</div>
-          <div className="l">total cost</div>
-        </div>
-        <div className="mock-gauge">
-          <div className="n ok">{fmtCost(kpis.mean)}</div>
-          <div className="l">mean cost</div>
-        </div>
-        <div className="mock-gauge">
-          <div className="n ok">{fmtInt(kpis.tokens)}</div>
-          <div className="l">tokens (incl. cache)</div>
-        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+        {[
+          [kpis.n, "runs (filtered)"],
+          [fmtCost(kpis.cost), "total cost"],
+          [fmtCost(kpis.mean), "mean cost"],
+          [fmtInt(kpis.tokens), "tokens (incl. cache)"],
+        ].map(([val, label]) => (
+          <div key={label as string} className="bg-white/[0.02] border border-white/10 rounded-lg p-3 text-center">
+            <div className="text-[1.3rem] font-display font-semibold text-teal-accent">{val}</div>
+            <div className="text-[0.65rem] text-text-dim uppercase tracking-[0.03em] mt-1">{label}</div>
+          </div>
+        ))}
       </div>
 
-      <div className="mock-window">
-        <div className="mock-titlebar">
-          <span className="dot" /><span className="dot" /><span className="dot" />
-          <span className="label">last {windowRuns.length} runs &middot; hover or click a bar for detail</span>
+      <div className="border border-white/10 rounded-lg overflow-hidden bg-black/20">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-white/5 border-b border-white/10">
+          <span className="w-2 h-2 rounded-full bg-white/20 inline-block" />
+          <span className="w-2 h-2 rounded-full bg-white/20 inline-block" />
+          <span className="w-2 h-2 rounded-full bg-white/20 inline-block" />
+          <span className="text-xs text-text-faint font-mono ml-2">last {windowRuns.length} runs &middot; hover or click a bar for detail</span>
         </div>
-        <div className="mock-body">
+        <div className="p-4">
           {tab === "cost" && (
-            <div className="costbars">
+            <div className="grid gap-1.5" style={{ gridTemplateColumns: "9.5rem 1fr" }}>
               {windowRuns.map((r) => {
                 const key = runKey(r);
                 return (
-                  <div
-                    key={key}
-                    style={{ display: "contents", cursor: "pointer" }}
-                    onClick={() => setSelected(selected === key ? null : key)}
-                  >
-                    <span className="cb-l">{shortTs(r.ts)}</span>
-                    <div className="cb-t" title={`${r.agent} &middot; ${fmtCost(r.cost_usd)}`}>
+                  <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                    <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
+                    <div className="h-4 bg-white/5 rounded relative self-center" title={`${r.agent} · ${fmtCost(r.cost_usd)}`}>
                       <div
-                        className="cb-b real"
+                        className="absolute inset-y-0 left-0 rounded"
                         style={{
                           width: `${Math.max(3, ((r.cost_usd || 0) / costMax) * 100)}%`,
                           background: agentColor.get(r.agent),
@@ -325,56 +300,43 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
 
           {tab === "tokens" && (
             <>
-              <div className="stackbars">
+              <div className="grid gap-1.5" style={{ gridTemplateColumns: "9.5rem 1fr" }}>
                 {windowRuns.map((r) => {
                   const key = runKey(r);
                   const total = totalTokens(r) || 1;
                   return (
-                    <div
-                      key={key}
-                      style={{ display: "contents", cursor: "pointer" }}
-                      onClick={() => setSelected(selected === key ? null : key)}
-                    >
-                      <span className="sb-l">{shortTs(r.ts)}</span>
+                    <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                      <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
                       <div
-                        className="sb-t"
-                        style={{
-                          width: `${Math.max(3, (total / tokMax) * 100)}%`,
-                          outline: selected === key ? "2px solid #fff" : "none",
-                        }}
+                        className="h-4 bg-white/5 rounded flex overflow-hidden self-center"
+                        style={{ width: `${Math.max(3, (total / tokMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none" }}
                       >
-                        {(r.input_tokens || 0) > 0 && (
-                          <div className="sb-seg" style={{ width: `${((r.input_tokens || 0) / total) * 100}%`, background: "#8ea0c8" }} title={`input: ${fmtInt(r.input_tokens)}`} />
-                        )}
-                        {(r.output_tokens || 0) > 0 && (
-                          <div className="sb-seg" style={{ width: `${((r.output_tokens || 0) / total) * 100}%`, background: "var(--amber)" }} title={`output: ${fmtInt(r.output_tokens)}`} />
-                        )}
-                        {(r.cache_read_tokens || 0) > 0 && (
-                          <div className="sb-seg" style={{ width: `${((r.cache_read_tokens || 0) / total) * 100}%`, background: "var(--accent-2)" }} title={`cache read: ${fmtInt(r.cache_read_tokens)}`} />
-                        )}
-                        {(r.cache_creation_tokens || 0) > 0 && (
-                          <div className="sb-seg" style={{ width: `${((r.cache_creation_tokens || 0) / total) * 100}%`, background: "var(--purple)" }} title={`cache write: ${fmtInt(r.cache_creation_tokens)}`} />
-                        )}
+                        {(r.input_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.input_tokens || 0) / total) * 100}%`, background: "#8ea0c8" }} title={`input: ${fmtInt(r.input_tokens)}`} />}
+                        {(r.output_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.output_tokens || 0) / total) * 100}%`, background: "var(--amber)" }} title={`output: ${fmtInt(r.output_tokens)}`} />}
+                        {(r.cache_read_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_read_tokens || 0) / total) * 100}%`, background: "var(--teal)" }} title={`cache read: ${fmtInt(r.cache_read_tokens)}`} />}
+                        {(r.cache_creation_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_creation_tokens || 0) / total) * 100}%`, background: "var(--purple)" }} title={`cache write: ${fmtInt(r.cache_creation_tokens)}`} />}
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <div className="stack-legend">
-                <span><i style={{ background: "#8ea0c8" }} />input</span>
-                <span><i style={{ background: "var(--amber)" }} />output</span>
-                <span><i style={{ background: "var(--accent-2)" }} />cache read</span>
-                <span><i style={{ background: "var(--purple)" }} />cache write</span>
+              <div className="flex flex-wrap gap-4 mt-3 text-[0.72rem] text-text-dim">
+                {legend.map(([color, label]) => (
+                  <span key={label} className="inline-flex items-center gap-1.5">
+                    <i className="w-2 h-2 rounded-sm inline-block not-italic" style={{ background: color }} />
+                    {label}
+                  </span>
+                ))}
               </div>
             </>
           )}
 
           {tab === "wallclock" && (
             <>
-              <div className="stackbars">
+              <div className="grid gap-1.5" style={{ gridTemplateColumns: "9.5rem 1fr" }}>
                 {wallRuns.length === 0 && (
-                  <p style={{ gridColumn: "1 / -1", color: "var(--muted)", fontSize: "0.82rem" }}>
-                    No run in this window carries <code>duration_api_ms</code> yet.
+                  <p className="text-text-dim text-[0.82rem]" style={{ gridColumn: "1 / -1" }}>
+                    No run in this window carries <code className="font-mono bg-white/5 px-1 rounded">duration_api_ms</code> yet.
                   </p>
                 )}
                 {wallRuns.map((r) => {
@@ -383,56 +345,53 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                   const api = Math.max(0, Math.min(r.duration_api_ms || 0, d));
                   const orch = Math.max(0, d - api);
                   return (
-                    <div
-                      key={key}
-                      style={{ display: "contents", cursor: "pointer" }}
-                      onClick={() => setSelected(selected === key ? null : key)}
-                    >
-                      <span className="sb-l">{shortTs(r.ts)}</span>
+                    <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                      <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
                       <div
-                        className="sb-t"
-                        style={{
-                          width: `${Math.max(3, (d / wallMax) * 100)}%`,
-                          outline: selected === key ? "2px solid #fff" : "none",
-                        }}
+                        className="h-4 bg-white/5 rounded flex overflow-hidden self-center"
+                        style={{ width: `${Math.max(3, (d / wallMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none" }}
                       >
-                        <div className="sb-seg" style={{ width: `${(api / d) * 100}%`, background: "var(--accent-2)" }} title={`API: ${fmtDur(api)}`} />
-                        <div className="sb-seg" style={{ width: `${(orch / d) * 100}%`, background: "#8ea0c8" }} title={`orchestration: ${fmtDur(orch)}`} />
+                        <div className="h-full" style={{ width: `${(api / d) * 100}%`, background: "var(--teal)" }} title={`API: ${fmtDur(api)}`} />
+                        <div className="h-full" style={{ width: `${(orch / d) * 100}%`, background: "#8ea0c8" }} title={`orchestration: ${fmtDur(orch)}`} />
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <div className="stack-legend">
-                <span><i style={{ background: "var(--accent-2)" }} />API call time</span>
-                <span><i style={{ background: "#8ea0c8" }} />orchestration (tools, I/O, deploy)</span>
+              <div className="flex flex-wrap gap-4 mt-3 text-[0.72rem] text-text-dim">
+                {wallLegend.map(([color, label]) => (
+                  <span key={label} className="inline-flex items-center gap-1.5">
+                    <i className="w-2 h-2 rounded-sm inline-block not-italic" style={{ background: color }} />
+                    {label}
+                  </span>
+                ))}
               </div>
             </>
           )}
 
           {selectedRun && (
-            <div className="attr-list" style={{ marginTop: "1rem" }}>
-              <span className="k">agent</span> = &quot;{selectedRun.agent}&quot;<br />
-              <span className="k">ts</span> = &quot;{selectedRun.ts}&quot;<br />
-              <span className="k">model</span> = &quot;{selectedRun.model || "unknown"}&quot;<br />
-              <span className="k">cost_usd</span> = {fmtCost(selectedRun.cost_usd)}<br />
-              <span className="k">turns</span> = {fmtInt(selectedRun.turns)}<br />
-              <span className="k">duration_ms</span> = {fmtInt(selectedRun.duration_ms)} ({fmtDur(selectedRun.duration_ms)})<br />
-              <span className="k">duration_api_ms</span> = {fmtInt(selectedRun.duration_api_ms)}<br />
-              <span className="k">input_tokens</span> = {fmtInt(selectedRun.input_tokens)}<br />
-              <span className="k">output_tokens</span> = {fmtInt(selectedRun.output_tokens)}<br />
-              <span className="k">cache_read_tokens</span> = {fmtInt(selectedRun.cache_read_tokens)}<br />
-              <span className="k">cache_creation_tokens</span> = {fmtInt(selectedRun.cache_creation_tokens)}<br />
-              <span className="k">is_error</span> = {String(!!selectedRun.is_error)}
+            <div className="font-mono text-xs leading-relaxed text-text-dim bg-white/[0.02] border border-white/10 rounded-lg p-3.5 overflow-x-auto mt-4">
+              <span className="text-teal-accent">agent</span> = &quot;{selectedRun.agent}&quot;<br />
+              <span className="text-teal-accent">ts</span> = &quot;{selectedRun.ts}&quot;<br />
+              <span className="text-teal-accent">model</span> = &quot;{selectedRun.model || "unknown"}&quot;<br />
+              <span className="text-teal-accent">cost_usd</span> = {fmtCost(selectedRun.cost_usd)}<br />
+              <span className="text-teal-accent">turns</span> = {fmtInt(selectedRun.turns)}<br />
+              <span className="text-teal-accent">duration_ms</span> = {fmtInt(selectedRun.duration_ms)} ({fmtDur(selectedRun.duration_ms)})<br />
+              <span className="text-teal-accent">duration_api_ms</span> = {fmtInt(selectedRun.duration_api_ms)}<br />
+              <span className="text-teal-accent">input_tokens</span> = {fmtInt(selectedRun.input_tokens)}<br />
+              <span className="text-teal-accent">output_tokens</span> = {fmtInt(selectedRun.output_tokens)}<br />
+              <span className="text-teal-accent">cache_read_tokens</span> = {fmtInt(selectedRun.cache_read_tokens)}<br />
+              <span className="text-teal-accent">cache_creation_tokens</span> = {fmtInt(selectedRun.cache_creation_tokens)}<br />
+              <span className="text-teal-accent">is_error</span> = {String(!!selectedRun.is_error)}
             </div>
           )}
         </div>
       </div>
 
-      <div style={{ overflowX: "auto", marginTop: "1rem" }}>
-        <table className="data-table" style={{ minWidth: "44rem" }}>
+      <div className="overflow-x-auto mt-4">
+        <table className="w-full text-sm min-w-[44rem]">
           <thead>
-            <tr>
+            <tr className="text-left text-text-faint uppercase text-[0.7rem] tracking-[0.05em] border-b border-white/10">
               {([
                 ["agent", "Agent", null],
                 ["ts", "Started", "ts"],
@@ -445,7 +404,7 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                 <th
                   key={id}
                   onClick={() => key && toggleSort(key)}
-                  style={{ cursor: key ? "pointer" : "default", userSelect: "none" }}
+                  className={`py-2 pr-4 ${key ? "cursor-pointer select-none" : ""}`}
                   title={key ? "Click to sort" : undefined}
                 >
                   {label}
@@ -461,16 +420,19 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                 <tr
                   key={key}
                   onClick={() => setSelected(selected === key ? null : key)}
-                  style={{ cursor: "pointer", background: selected === key ? "rgba(255,255,255,0.05)" : undefined }}
+                  className="border-b border-white/5 cursor-pointer"
+                  style={{ background: selected === key ? "rgba(255,255,255,0.05)" : undefined }}
                 >
-                  <td>{r.agent}</td>
-                  <td className="mono">{shortTs(r.ts)}</td>
-                  <td className="mono">{fmtCost(r.cost_usd)}</td>
-                  <td className="mono">{fmtInt(r.turns)}</td>
-                  <td className="mono">{fmtDur(r.duration_ms)}</td>
-                  <td className="mono">{fmtInt(totalTokens(r))}</td>
-                  <td>
-                    <span className={`outcome ${r.is_error ? "error" : "shipped"}`}>{r.is_error ? "error" : "ok"}</span>
+                  <td className="py-2 pr-4">{r.agent}</td>
+                  <td className="py-2 pr-4 font-mono text-xs whitespace-nowrap">{shortTs(r.ts)}</td>
+                  <td className="py-2 pr-4 font-mono text-xs">{fmtCost(r.cost_usd)}</td>
+                  <td className="py-2 pr-4 font-mono text-xs">{fmtInt(r.turns)}</td>
+                  <td className="py-2 pr-4 font-mono text-xs">{fmtDur(r.duration_ms)}</td>
+                  <td className="py-2 pr-4 font-mono text-xs">{fmtInt(totalTokens(r))}</td>
+                  <td className="py-2">
+                    <span className={`text-[0.65rem] font-mono uppercase px-2 py-0.5 rounded border ${r.is_error ? "text-amber-accent border-amber-accent/30" : "text-teal-accent border-teal-accent/30"}`}>
+                      {r.is_error ? "error" : "ok"}
+                    </span>
                   </td>
                 </tr>
               );
