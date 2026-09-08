@@ -754,6 +754,13 @@ def generate_observability_json(store_rows: list[dict]) -> None:
     success_rate_pct = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples) * 100.0 if samples > 0 else 100.0
     last_wake = max(r.get("ts") for r in tidal_rows) if tidal_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    # Error subtype breakdown for Tidal
+    errored_rows_tidal = [r for r in tidal_rows if r.get("is_error")]
+    error_subtypes_tidal = {}
+    for r in errored_rows_tidal:
+        subtype = r.get("subtype") or "unknown"
+        error_subtypes_tidal[subtype] = error_subtypes_tidal.get(subtype, 0) + 1
+
     siblings = {}
     for name in ["River", "Creek", "Stream"]:
         sibling_rows = by_agent[name]
@@ -767,6 +774,13 @@ def generate_observability_json(store_rows: list[dict]) -> None:
         s_last_seen = max(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         s_since = min(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+        # Error subtype breakdown for this sibling
+        errored_rows_sib = [r for r in sibling_rows if r.get("is_error")]
+        error_subtypes_sib = {}
+        for r in errored_rows_sib:
+            subtype = r.get("subtype") or "unknown"
+            error_subtypes_sib[subtype] = error_subtypes_sib.get(subtype, 0) + 1
+
         siblings[name] = {
             "samples": s_samples,
             "min_samples": 5,
@@ -775,7 +789,8 @@ def generate_observability_json(store_rows: list[dict]) -> None:
             "avg_duration_s": round(s_avg_duration_s, 1),
             "success_rate_pct": int(round(s_success_rate_pct)),
             "since": s_since,
-            "last_seen": s_last_seen
+            "last_seen": s_last_seen,
+            "error_subtypes": error_subtypes_sib
         }
 
     payload = {
@@ -786,7 +801,8 @@ def generate_observability_json(store_rows: list[dict]) -> None:
         "avg_duration_s": round(avg_duration_s, 1),
         "success_rate_pct": int(round(success_rate_pct)),
         "last_wake": last_wake,
-        "siblings": siblings
+        "siblings": siblings,
+        "error_subtypes": error_subtypes_tidal
     }
 
     obs_json_path = HERE / "observability.json"

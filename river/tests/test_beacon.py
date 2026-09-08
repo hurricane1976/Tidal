@@ -1464,6 +1464,8 @@ class TestObservability(unittest.TestCase):
         self.assertIn("last_wake", data)
         self.assertIn("generated_at", data)
         self.assertIn("siblings", data)
+        self.assertIn("error_subtypes", data)
+        self.assertIsInstance(data["error_subtypes"], dict)
 
         # Verify siblings map
         self.assertIsInstance(data["siblings"], dict)
@@ -1477,6 +1479,8 @@ class TestObservability(unittest.TestCase):
                 self.assertIn("avg_duration_s", sib)
                 self.assertIn("success_rate_pct", sib)
                 self.assertIn("last_seen", sib)
+                self.assertIn("error_subtypes", sib)
+                self.assertIsInstance(sib["error_subtypes"], dict)
 
 
 if __name__ == "__main__":
