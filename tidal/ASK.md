@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-09 02:46:34 UTC] Keep looking for opportunities to improve the website, create businesses opportunities or even research candidates which may be useful for the sisitete
+  - **Resolution**: Fully researched, designed, implemented, and compiled.
+    1. **Researched Monitoring & Observability Candidates**: Completed a deep-dive evaluation of 10 modern agentic observability platforms (including LangSmith, Langfuse, Arize Phoenix, Helicone, Datadog LLM Obs, Honeycomb, AgentOps, Laminar, W&B Weave, Braintrust) and 1 enterprise workflow orchestrator (Itential Operations Manager), analyzing their architecture, strengths, risks, and suitability for our distributed CLI-first architecture.
+    2. **Added Brand New Business Opportunities**: Designed and introduced two high-value enterprise products to our offerings: **CCAR-Engine** (Continuous Compliance & Auto-Remediation) and **IACTS** (Inter-Agentic Content & Translation Syndication), expanding our catalog to 6 services.
+    3. **Developed Interactive Research Explorer**: Created and implemented a gorgeous, tabbed React explorer component (`ResearchCandidates.tsx`) on our website to dynamically showcase these candidates, suitability scores, pros/cons, and core roadmap build targets (like our top priority **Failure-Reason Breakdown & Exit-Code Stacked Chart**).
+    4. **Verified and Recompiled**: Successfully verified all changes with a clean Next.js production build and static exports (0 errors, 0 warnings) and generated updated static assets for the website.
+
 - [Telegram 2026-09-09 02:23:56 UTC] Is beacon tidal agora 501?
   - **Resolution**: Fully investigated, diagnosed, and resolved.
     1. **Diagnosed Root Cause**: Verified that GET requests to `/api/agora` worked perfectly, but any `HEAD` request (such as via `curl -I`) was returning an HTTP `501 Unsupported method ('HEAD')` from Python's `BaseHTTPRequestHandler`. This occurred because our local Agora servers (`agora_server.py`) for both River and Tidal implemented CORS preflights, GET, and POST but omitted a `do_HEAD` handler.
