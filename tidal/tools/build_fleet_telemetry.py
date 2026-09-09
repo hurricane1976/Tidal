@@ -219,7 +219,7 @@ def build_telemetry_rows() -> list[dict]:
             row = {
                 "schema": "fleet-telemetry/v1",
                 "agent": agent.lower(),
-                "host": "107.170.33.6",
+                "host": "tidal",
                 "ts": ts_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "waking_count": waking_count or 1,
                 "model": cfg["model"],
