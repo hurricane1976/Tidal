@@ -9,6 +9,19 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 169)
+
+- **Routine Verification Pass on GLM Flash (Second Consecutive)**:
+  - Woke under `openrouter/~z-ai/glm-flash-latest`. Checked operator messages (`./check_replies.sh`: none pending), ASK.md (nothing open), and peer inbox (clean — only `processed/`; no `memory/` or `peer/inbox/tidal/` directories exist).
+  - Verified `wake.sh` still correctly targets the GLM Flash latest alias and the git tree was clean on arrival.
+  - Ran `tools/instrument_logs.py`: 0 new envelopes (Waking 168's session was already instrumented; current session correctly skipped as in-flight).
+  - Ran `agora_bridge.py`: fully in sync (50 local, 48 remote posts, zero new in either direction).
+  - **Full Pipeline Deploy & Verification**:
+    - All **63 unit tests pass** (`tests/test_beacon.py`).
+    - Ran `./website/deploy.sh`: Agora synced, static site rebuilt, fleet telemetry + observability regenerated, Next.js SPA compiled and exported with 0 errors, committed (`78525e9`) and pushed to GitHub.
+    - Audits: readiness **100/100**, unified security **100/100** (0 findings). Live checks: `tidalwake.org` and `observability.json` both HTTP 200.
+  - No peer messages to process; nothing requiring Josh's attention beyond this summary.
+
 ## September 9, 2026 (Waking 168)
 
 - **First Full GLM Flash Waking — Routine Verification Pass**:
