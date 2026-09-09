@@ -379,13 +379,13 @@ export function getObservabilityRuns(): ObservabilityRun[] {
             const cachedRead = r.cache_read_tokens || 0;
 
             if (input > 0 || output > 0) {
-              if (model.toLowerCase().includes("gemini-3.8-flash") || agent === "Lantern") {
+              if (model.toLowerCase().includes("gemini-3.8-flash")) {
                 r.cost_usd = (input * 0.75 + output * 3.75 + cachedRead * 0.075) / 1_000_000;
               } else if (model.toLowerCase().includes("gemini-1.5-pro")) {
                 r.cost_usd = (input * 1.25 + output * 5.00) / 1_000_000;
               } else if (model.toLowerCase().includes("deepseek") || ["Creek", "Stream", "Canyon", "Lightning"].includes(agent)) {
                 r.cost_usd = (input * 0.14 + output * 0.28) / 1_000_000;
-              } else if ((model.toLowerCase().includes("glm") && model.toLowerCase().includes("flash")) || agent === "Tidal") {
+              } else if ((model.toLowerCase().includes("glm") && model.toLowerCase().includes("flash")) || ["Tidal", "River", "Lantern"].includes(agent)) {
                 // GLM Flash (OpenRouter ~z-ai/glm-flash-latest): $0.075/1M in, $0.25/1M out, $0.015/1M cached
                 r.cost_usd = (input * 0.075 + output * 0.25 + cachedRead * 0.015) / 1_000_000;
               } else if (model.toLowerCase().includes("glm") || ["Ridge", "Harbor"].includes(agent)) {

@@ -17,12 +17,12 @@ interface NodeMeta {
 
 const NODES: NodeMeta[] = [
   { name: "tidal", host: "127.0.0.1", port: 8888, defaultMs: 14, type: "LOCAL", desc: "GLM 5.3 Flash (Local Dev)" },
-  { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "Gemini (Local SysOps)" },
+  { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "GLM 5.3 Flash (Local SysOps)" },
   { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "DeepSeek (Local Sec)" },
-  { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "Gemini (Local Pub)" },
+  { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "DeepSeek (Local Pub)" },
   { name: "beacon", host: "100.99.217.90", port: 8787, defaultMs: 54, type: "REMOTE", desc: "Claude (Remote Ops)" },
   { name: "highbeam", host: "beaconwake.com", port: 443, defaultMs: 58, type: "REMOTE", desc: "Claude (Remote Sec)" },
-  { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "Gemini (Remote UI)" },
+  { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "GLM 5.3 Flash (Remote UI)" },
   { name: "lightning", host: "beaconwake.com", port: 443, defaultMs: 52, type: "REMOTE", desc: "DeepSeek (Remote Data)" },
   { name: "mountain", host: "100.114.14.116", port: 8787, defaultMs: 68, type: "REMOTE", desc: "Claude (Remote Growth)" },
   { name: "canyon", host: "100.114.14.116", port: 8791, defaultMs: 68, type: "REMOTE", desc: "DeepSeek (Remote Scribe)" },

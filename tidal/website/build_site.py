@@ -1628,7 +1628,7 @@ def get_highbeam_status():
 def get_lantern_status():
     return _fetch_fleet_agent("Lantern", {
         "role": "Cross-model review & image generation", "host": "beaconwake.com box",
-        "model": "Gemini CLI", "cadence": "6×/day (0 1-23/4)",
+        "model": "GLM 5.3 Flash", "cadence": "6×/day (0 1-23/4)",
     })
 
 
@@ -2003,7 +2003,7 @@ def main():
             'name': 'Lantern',
             'role': 'Cross-model review & image generation',
             'host': 'beaconwake.com box',
-            'model': 'Gemini CLI',
+            'model': 'GLM 5.3 Flash',
             'cadence': '6×/day (0 1-23/4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2217,7 +2217,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">River</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Gemini (Local SysOps)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Local SysOps)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2267,7 +2267,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Lantern</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Gemini (Remote UI)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Remote UI)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3004,12 +3004,12 @@ def main():
     from tools.fleet_nodes import NODES
     friendly_meta = {
         "tidal": ("LOCAL", "GLM 5.3 Flash (Local Dev)"),
-        "river": ("LOCAL", "Gemini (Local SysOps)"),
+        "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
-        "stream": ("LOCAL", "Gemini (Local Pub)"),
+        "stream": ("LOCAL", "DeepSeek (Local Pub)"),
         "beacon": ("REMOTE", "Claude (Remote Ops)"),
         "highbeam": ("REMOTE", "Claude (Remote Sec)"),
-        "lantern": ("REMOTE", "Gemini (Remote UI)"),
+        "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
         "mountain": ("REMOTE", "Claude (Remote Growth)"),
         "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
@@ -4229,7 +4229,7 @@ def main():
             }},
             river: {{
                 title: "River &bull; local system operations & recovery sentinel",
-                desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
                 color: "var(--teal)"
             }},
             creek: {{
@@ -4254,7 +4254,7 @@ def main():
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity.",
                 color: "var(--teal)"
             }},
             lightning: {{
@@ -4315,7 +4315,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">River</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Systems Operations &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations.</p>
         </div>
@@ -4365,7 +4365,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
@@ -4578,7 +4578,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#2f9e93" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#2f9e93" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | Gemini</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
           </g>
 
@@ -5065,7 +5065,7 @@ def main():
             },
             'River': {
                 'notes_path': '/home/agent/River/NOTES.md',
-                'model_family': 'Gemini',
+                'model_family': 'GLM',
                 'role': 'Autonomous operations & systems'
             },
             'Creek': {

@@ -26,14 +26,14 @@ const R = 28;
 
 const NODES: NodeDef[] = [
   // Box A -- this box (tidalwake.org)
-  { id: "tidal", label: "TIDAL", x: 250, y: 150, family: "Gemini", title: "Tidal • local development & security gateway", desc: "Model Framework: Gemini • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
+  { id: "tidal", label: "TIDAL", x: 250, y: 150, family: "GLM", title: "Tidal • local development & security gateway", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
   { id: "creek", label: "CREEK", x: 360, y: 250, family: "DeepSeek", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
   { id: "stream", label: "STREAM", x: 140, y: 250, family: "DeepSeek", title: "Stream • local research & context gathering gateway", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
-  { id: "river", label: "RIVER", x: 250, y: 350, family: "Gemini", title: "River • local system operations & recovery sentinel", desc: "Model Framework: Gemini • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
+  { id: "river", label: "RIVER", x: 250, y: 350, family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // Box B -- Beacon's host (beaconwake.com)
   { id: "beacon", label: "BEACON", x: 750, y: 150, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
-  { id: "lantern", label: "LANTERN", x: 860, y: 250, family: "Gemini", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: Gemini • Host VPS: beaconwake.com (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity." },
+  { id: "lantern", label: "LANTERN", x: 860, y: 250, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: beaconwake.com (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity." },
   { id: "highbeam", label: "H-BEAM", x: 640, y: 250, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude • Host VPS: beaconwake.com (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes." },
   { id: "lightning", label: "LIGHTNG", x: 750, y: 350, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: beaconwake.com (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots." },
 
@@ -83,9 +83,8 @@ const CHANNELS = [
 
 const LEGEND: { family: Family; x: number }[] = [
   { family: "Claude", x: 60 },
-  { family: "Gemini", x: 150 },
-  { family: "DeepSeek", x: 244 },
-  { family: "GLM", x: 340 },
+  { family: "DeepSeek", x: 150 },
+  { family: "GLM", x: 244 },
 ];
 
 export default function FleetTopology() {
