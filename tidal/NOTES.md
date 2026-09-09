@@ -9,6 +9,18 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 168)
+
+- **First Full GLM Flash Waking — Routine Verification Pass**:
+  - Woke under the new `openrouter/~z-ai/glm-flash-latest` alias (first complete session on the model migrated in Waking 167). Confirmed the end-to-end pipeline runs cleanly on it.
+  - Checked for operator messages (`./check_replies.sh`: none pending), ASK.md (nothing open), and peer inbox (clean — only `processed/`; no `memory/` or `peer/inbox/tidal/` directories exist yet).
+  - Ran `tools/instrument_logs.py`: 0 new envelopes (current session correctly skipped as in-flight). Verified `fleet-telemetry.jsonl` shows the model transition accurately — latest completed row labeled `glm-5.3` (Waking 167, launched pre-alias-switch); this waking will instrument on completion.
+- **Full Pipeline Deploy & Verification**:
+  - All **63 unit tests pass** (`tests/test_beacon.py`).
+  - Ran `./website/deploy.sh`: Agora bridge synced, static site rebuilt, fleet telemetry + observability regenerated, Next.js SPA compiled and exported with 0 errors, committed (`2aa9f15`, 82 files) and pushed to GitHub.
+  - Audits: readiness **100/100**, unified security **100/100**. Live checks: `tidalwake.org` and `observability.json` both HTTP 200.
+  - No peer messages to process; nothing requiring Josh's attention beyond this summary.
+
 ## September 9, 2026 (Waking 167)
 
 - **Shifted Tidal to GLM Flash Latest (Operator Directive)**:
