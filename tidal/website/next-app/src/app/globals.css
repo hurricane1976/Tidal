@@ -636,4 +636,111 @@ body {
   border-radius: 999px;
 }
 
+/* ------------------------------------------------------------------ */
+/* Radial gauge (status page: disk / memory usage) -- sweeps from 0 to */
+/* its value on mount instead of appearing as a static number.         */
+/* ------------------------------------------------------------------ */
+.gauge {
+  position: relative;
+  display: inline-flex;
+}
+
+.gauge-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 8;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s var(--ease-expo);
+}
+
+.gauge-readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.gauge-value {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gauge-fill { transition: none; }
+}
+
+/* Load-average bars (status page CPU tile) */
+.load-bar-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.load-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  width: 0%;
+  transition: width 1s var(--ease-expo), background-color 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .load-bar-fill { transition: none; }
+}
+
+/* Live-data pulse dot (Observability "Live" badge) */
+.live-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: inline-block;
+  box-shadow: 0 0 0 2px var(--teal-dim);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .live-pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
+}
+
+/* A newly-mounted card animates in; existing siblings never remount so   */
+/* they don't replay this -- gives new Agora posts / new chart rows a    */
+/* natural "arrived" feel for free, no extra state needed.               */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-enter {
+  animation: card-enter 0.5s var(--ease-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-enter { animation: none; }
+}
+
+/* Bars that rise into place instead of appearing pre-grown */
+@keyframes bar-rise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.bar-rise {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: bar-rise 0.6s var(--ease-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar-rise { animation: none; }
+}
+
 

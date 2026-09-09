@@ -205,7 +205,8 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
           </svg>
           <h2 className="text-[1.1rem] font-semibold m-0">
             Cost, tokens &amp; wall-clock &mdash; interactive
-            <span className="ml-2 text-[0.6rem] font-mono uppercase px-2 py-0.5 rounded border text-teal-accent border-teal-accent/30 align-middle">
+            <span className="ml-2 inline-flex items-center gap-1.5 text-[0.6rem] font-mono uppercase px-2 py-0.5 rounded border text-teal-accent border-teal-accent/30 align-middle">
+              <span className="live-pulse-dot" aria-hidden="true" />
               {live ? "Live" : fetchError ? "Live (cached)" : "Live"}
             </span>
           </h2>
@@ -280,7 +281,7 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
               {windowRuns.map((r) => {
                 const key = runKey(r);
                 return (
-                  <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                  <div key={key} className="card-enter" style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
                     <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
                     <div className="h-4 bg-white/5 rounded relative self-center" title={`${r.agent} · ${fmtCost(r.cost_usd)}`}>
                       <div
@@ -289,6 +290,7 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                           width: `${Math.max(3, ((r.cost_usd || 0) / costMax) * 100)}%`,
                           background: agentColor.get(r.agent),
                           outline: selected === key ? "2px solid #fff" : "none",
+                          transition: "width 0.6s var(--ease-expo), outline-color 0.2s ease",
                         }}
                       />
                     </div>
@@ -305,16 +307,16 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                   const key = runKey(r);
                   const total = totalTokens(r) || 1;
                   return (
-                    <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                    <div key={key} className="card-enter" style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
                       <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
                       <div
                         className="h-4 bg-white/5 rounded flex overflow-hidden self-center"
-                        style={{ width: `${Math.max(3, (total / tokMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none" }}
+                        style={{ width: `${Math.max(3, (total / tokMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none", transition: "width 0.6s var(--ease-expo)" }}
                       >
-                        {(r.input_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.input_tokens || 0) / total) * 100}%`, background: "#8ea0c8" }} title={`input: ${fmtInt(r.input_tokens)}`} />}
-                        {(r.output_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.output_tokens || 0) / total) * 100}%`, background: "var(--amber)" }} title={`output: ${fmtInt(r.output_tokens)}`} />}
-                        {(r.cache_read_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_read_tokens || 0) / total) * 100}%`, background: "var(--teal)" }} title={`cache read: ${fmtInt(r.cache_read_tokens)}`} />}
-                        {(r.cache_creation_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_creation_tokens || 0) / total) * 100}%`, background: "var(--purple)" }} title={`cache write: ${fmtInt(r.cache_creation_tokens)}`} />}
+                        {(r.input_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.input_tokens || 0) / total) * 100}%`, background: "#8ea0c8", transition: "width 0.6s var(--ease-expo)" }} title={`input: ${fmtInt(r.input_tokens)}`} />}
+                        {(r.output_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.output_tokens || 0) / total) * 100}%`, background: "var(--amber)", transition: "width 0.6s var(--ease-expo)" }} title={`output: ${fmtInt(r.output_tokens)}`} />}
+                        {(r.cache_read_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_read_tokens || 0) / total) * 100}%`, background: "var(--teal)", transition: "width 0.6s var(--ease-expo)" }} title={`cache read: ${fmtInt(r.cache_read_tokens)}`} />}
+                        {(r.cache_creation_tokens || 0) > 0 && <div className="h-full" style={{ width: `${((r.cache_creation_tokens || 0) / total) * 100}%`, background: "var(--purple)", transition: "width 0.6s var(--ease-expo)" }} title={`cache write: ${fmtInt(r.cache_creation_tokens)}`} />}
                       </div>
                     </div>
                   );
@@ -345,14 +347,14 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
                   const api = Math.max(0, Math.min(r.duration_api_ms || 0, d));
                   const orch = Math.max(0, d - api);
                   return (
-                    <div key={key} style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
+                    <div key={key} className="card-enter" style={{ display: "contents", cursor: "pointer" }} onClick={() => setSelected(selected === key ? null : key)}>
                       <span className="text-xs font-mono text-text-dim text-right self-center">{shortTs(r.ts)}</span>
                       <div
                         className="h-4 bg-white/5 rounded flex overflow-hidden self-center"
-                        style={{ width: `${Math.max(3, (d / wallMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none" }}
+                        style={{ width: `${Math.max(3, (d / wallMax) * 100)}%`, outline: selected === key ? "2px solid #fff" : "none", transition: "width 0.6s var(--ease-expo)" }}
                       >
-                        <div className="h-full" style={{ width: `${(api / d) * 100}%`, background: "var(--teal)" }} title={`API: ${fmtDur(api)}`} />
-                        <div className="h-full" style={{ width: `${(orch / d) * 100}%`, background: "#8ea0c8" }} title={`orchestration: ${fmtDur(orch)}`} />
+                        <div className="h-full" style={{ width: `${(api / d) * 100}%`, background: "var(--teal)", transition: "width 0.6s var(--ease-expo)" }} title={`API: ${fmtDur(api)}`} />
+                        <div className="h-full" style={{ width: `${(orch / d) * 100}%`, background: "#8ea0c8", transition: "width 0.6s var(--ease-expo)" }} title={`orchestration: ${fmtDur(orch)}`} />
                       </div>
                     </div>
                   );

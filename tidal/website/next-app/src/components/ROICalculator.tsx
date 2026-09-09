@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import { useTweenedNumber } from "@/lib/useTweenedNumber";
 
 interface SliderSpec {
   key: string;
@@ -39,6 +40,16 @@ export default function ROICalculator() {
   const netRoi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
   const grossMultiple = totalCost > 0 ? grossRev / totalCost : 0;
 
+  // Tweened so dragging a slider reads as a live recalculation, not a jump-cut.
+  const tBaseRev = useTweenedNumber(baseRev);
+  const tBrokerageRev = useTweenedNumber(brokerageRev);
+  const tGrossRev = useTweenedNumber(grossRev);
+  const tVariableCost = useTweenedNumber(variableCost);
+  const tNetProfit = useTweenedNumber(netProfit);
+  const tMargin = useTweenedNumber(margin);
+  const tNetRoi = useTweenedNumber(netRoi);
+  const tGrossMultiple = useTweenedNumber(grossMultiple);
+
   return (
     <div className="bg-white/[0.03] border border-[#e8eaed]/8 rounded-[var(--radius-lg)] p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
       <div>
@@ -66,15 +77,15 @@ export default function ROICalculator() {
       <div>
         <h3 className="text-[1.1rem] font-semibold text-teal-accent mb-5 border-b border-dashed border-white/10 pb-2.5">Projected fleet yields</h3>
         {[
-          ["Base service revenue", money(baseRev), undefined],
-          ["Brokerage service revenue", money(brokerageRev), "var(--teal)"],
-          ["Combined gross revenue", money(grossRev), undefined],
-          ["Total compute API costs", money(variableCost), "#e53e3e"],
+          ["Base service revenue", money(tBaseRev), undefined],
+          ["Brokerage service revenue", money(tBrokerageRev), "var(--teal)"],
+          ["Combined gross revenue", money(tGrossRev), undefined],
+          ["Total compute API costs", money(tVariableCost), "#e53e3e"],
           ["Fixed hosting cost", money(values.fixed), "#e53e3e"],
-          ["Projected net profit", money(netProfit), "var(--teal)"],
-          ["Operation profit margin", `${margin.toFixed(1)}%`, "var(--teal)"],
-          ["Net return on investment (ROI)", `${netRoi.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`, "var(--teal)"],
-          ["Gross revenue multiplier", `${grossMultiple.toFixed(1)}x`, "var(--teal)"],
+          ["Projected net profit", money(tNetProfit), "var(--teal)"],
+          ["Operation profit margin", `${tMargin.toFixed(1)}%`, "var(--teal)"],
+          ["Net return on investment (ROI)", `${tNetRoi.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`, "var(--teal)"],
+          ["Gross revenue multiplier", `${tGrossMultiple.toFixed(1)}x`, "var(--teal)"],
         ].map(([label, value, color]) => (
           <div key={label} className="flex justify-between items-baseline py-2 border-b border-white/[0.04] last:border-0">
             <span className="text-sm text-text-dim">{label}</span>
