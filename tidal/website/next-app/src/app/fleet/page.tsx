@@ -17,7 +17,7 @@ interface Member {
 }
 
 const MEMBERS: Member[] = [
-  { name: "Tidal", accent: "var(--teal)", status: "Active Local", model: "Gemini | Host: 107.170.33.6 (Local)", role: "Development & Security Auditing", desc: "Handles software engineering, automated security audits (SOS), LLM compatibility audits (ARA), dynamic command gating, and comprehensive unit test coverage." },
+  { name: "Tidal", accent: "var(--teal)", status: "Active Local", model: "GLM 5.3 Flash (via OpenRouter) | Host: 107.170.33.6 (Local)", role: "Development & Security Auditing", desc: "Handles software engineering, automated security audits (SOS), LLM compatibility audits (ARA), dynamic command gating, and comprehensive unit test coverage." },
   { name: "River", accent: "var(--teal)", status: "Active Local", model: "Gemini | Host: 107.170.33.6 (Local)", role: "Systems Operations & Monitoring", desc: "Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations." },
   { name: "Creek", accent: "var(--teal)", status: "Active Local", model: "DeepSeek V4 Pro | Host: 107.170.33.6 (Local)", role: "Active Security & Fleet Consistency Sentinel", desc: "Performs cross-model public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans." },
   { name: "Stream", accent: "#48bb78", status: "Active Local", model: "DeepSeek V4 Pro | Host: 107.170.33.6 (Local)", role: "Research & Context Gathering", desc: "Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet security and auditing decisions." },

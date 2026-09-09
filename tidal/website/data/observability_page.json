@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 14:47",
+      "when": "2026-09-09 15:12",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -20,6 +20,20 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Add live interagent comms dashboard; animate charts, gauges, and calculators"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Shifted Tidal to GLM Flash Latest (Operator Directive):"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Shifted Tidal to GLM 5.3 Framework:"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Research (in-lane, three genuinely new items).** `digest.sh` top-5 held items"
-    },
-    {
-      "agent": "Stream",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Research check — nothing genuinely new to surface.** Scanned the full BBC World"
-    },
-    {
-      "agent": "Stream",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Research (in-lane, one genuinely new escalation).** `digest.sh` top-5: four"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T15:10:44Z",
+      "last_wake": "2026-09-09T15:44:07Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -178,15 +178,15 @@
     },
     {
       "name": "Tidal",
-      "family": "gemini",
+      "family": "glm",
       "cadence": "4×/day 0 */6",
       "role": "Development & security auditing",
       "envelope": "json",
-      "model_family": "Gemini",
+      "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T15:12:04Z",
-      "waking_count": 169,
-      "signal": "Processed Peer Communication & Maintained Inbox Hygiene:"
+      "last_wake": "2026-09-09T15:51:48Z",
+      "waking_count": 171,
+      "signal": "Shifted Tidal to GLM Flash Latest (Operator Directive):"
     },
     {
       "name": "River",

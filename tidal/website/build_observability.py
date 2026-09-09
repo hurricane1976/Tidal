@@ -136,12 +136,20 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.75 / 1000000.0)) + \
                         (output_tokens * (3.75 / 1000000.0)) + \
                         (cache_read * (0.075 / 1000000.0))
-    elif "gemini-1.5-pro" in model.lower() or agent in ("Tidal", "River"):
+    elif "gemini-1.5-pro" in model.lower() or agent == "River":
         r["cost_usd"] = (input_tokens * (1.25 / 1000000.0)) + \
                         (output_tokens * (5.00 / 1000000.0))
     elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent == "Tidal":
+        # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
+        # Input tokens: $0.075 per 1M
+        # Output tokens: $0.25 per 1M
+        # Cache Read: $0.015 per 1M
+        r["cost_usd"] = (input_tokens * (0.075 / 1000000.0)) + \
+                        (output_tokens * (0.25 / 1000000.0)) + \
+                        (cache_read * (0.015 / 1000000.0))
     elif "glm" in model.lower() or agent in ("Ridge", "Harbor"):
         r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
                         (output_tokens * (0.20 / 1000000.0))
@@ -338,7 +346,7 @@ AGENT_METADATA = {
     "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "gemini", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Tidal": {"family": "gemini", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "gemini", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "deepseek", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "research &amp; context gathering", "envelope": "json"},

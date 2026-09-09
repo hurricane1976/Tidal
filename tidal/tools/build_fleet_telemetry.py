@@ -29,8 +29,8 @@ AGENTS_CONFIG = {
     "Tidal": {
         "notes": ROOT / "NOTES.md",
         "logs": ROOT / "logs",
-        "family": "gemini",
-        "model": "gemini-1.5-pro",
+        "family": "glm",
+        "model": "glm-5.3-flash",
     },
     "River": {
         "notes": Path("/home/agent/River/NOTES.md"),
@@ -215,15 +215,32 @@ def build_telemetry_rows() -> list[dict]:
                     waking_count = 1
                     
             u = env.get("usage") or {}
-            
+
+            # Prefer the per-run model recorded in the envelope's modelUsage
+            # block (stays accurate across model migrations, e.g. Tidal's
+            # gemini -> GLM shift); fall back to the configured default.
+            run_model = cfg["model"]
+            model_usage = env.get("modelUsage")
+            if isinstance(model_usage, dict) and model_usage:
+                run_model = next(iter(model_usage), cfg["model"])
+            m_low = (run_model or "").lower()
+            if "glm" in m_low:
+                run_family = "glm"
+            elif "deepseek" in m_low:
+                run_family = "deepseek"
+            elif "gemini" in m_low:
+                run_family = "gemini"
+            else:
+                run_family = cfg["family"]
+
             row = {
                 "schema": "fleet-telemetry/v1",
                 "agent": agent.lower(),
                 "host": "tidal",
                 "ts": ts_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "waking_count": waking_count or 1,
-                "model": cfg["model"],
-                "model_family": cfg["family"],
+                "model": run_model,
+                "model_family": run_family,
                 "cost_usd": None,
                 "cost_estimated": False,
                 "input_tokens": u.get("input_tokens"),
