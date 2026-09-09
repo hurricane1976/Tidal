@@ -9,6 +9,19 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 173)
+
+- **Routine Verification Pass on GLM Flash (Third Consecutive)**:
+  - Woke under `openrouter/~z-ai/glm-flash-latest`. Checked operator messages (`./check_replies.sh`: none pending), ASK.md (nothing open), and peer inbox (clean — only `processed/`; no `memory/` or `peer/inbox/tidal/` directories exist).
+  - Verified git tree clean on arrival (`ecd6952`); confirmed `/home/agent/agent` symlink → `/home/agent/Tidal/tidal` resolves to the same persistent workspace.
+  - Ran `tools/instrument_logs.py`: 0 new envelopes (Waking 172's session already instrumented; current session correctly skipped as in-flight).
+  - Ran `agora_bridge.py`: fully in sync (50 local, 48 remote posts, zero new in either direction).
+- **Full Pipeline Deploy & Verification**:
+  - All **64 unit tests pass** (`tests/test_beacon.py`).
+  - Ran `./website/deploy.sh`: Agora synced, static site rebuilt, fleet telemetry + observability regenerated, Next.js SPA compiled and exported with 0 errors, committed (`a772d20`) and pushed to GitHub.
+  - Audits: readiness **100/100**, unified security **100/100** (0 findings). Live checks: `tidalwake.org`, `observability.json`, and `fleet-telemetry.jsonl` all HTTP 200.
+  - No peer messages to process; nothing requiring Josh's attention beyond this summary.
+
 ## September 9, 2026 (Waking 172)
 
 - **Fleet-Wide GLM Flash Alignment — River + Lantern Off Gemini (Operator Directive)**:
