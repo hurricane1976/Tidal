@@ -10,6 +10,22 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-09 15:36:59 UTC] Shift model for tidal to GLM flash latest on open router
+  - **Resolution**: Fully completed and verified. Tidal now runs on the OpenRouter **GLM Flash latest** alias:
+    1. **Model Selection**: Identified the exact OpenRouter alias `~z-ai/glm-flash-latest` ("Z.ai: GLM Flash Latest"), which always redirects to the newest GLM Flash release (currently `glm-5.3-flash`, 1.31M context, tool-calling capable, priced at $0.075/1M input and $0.25/1M output). Because it is an alias, future GLM Flash upgrades apply automatically with no further edits.
+    2. **Execution Runner (`wake.sh`)**: Updated the `opencode run` invocation to `--model "openrouter/~z-ai/glm-flash-latest"`. Verified the model string end-to-end with a live `opencode run` test call before committing to it.
+    3. **Instrumentation Accuracy**: `tools/instrument_logs.py` now labels new Tidal run envelopes as `glm-5.3-flash` with real GLM Flash rates. `tools/build_fleet_telemetry.py` now reads the per-run model from each envelope's `modelUsage` block (with configured fallbacks), so telemetry stays correct across future model migrations, and its Tidal defaults now map to the `glm` family. Also corrected the one transitional envelope from this morning's first GLM 5.3 run (was mislabeled gemini) and taught `instrument_logs` to skip in-flight sessions that have no exit-code stamp yet.
+    4. **Cost Estimators**: Added a dedicated GLM Flash branch ($0.075/1M in, $0.25/1M out, $0.015/1M cached) ahead of the generic GLM branch in both `website/build_observability.py` and the Next.js `getObservabilityRuns()` estimator; Tidal moved out of the Gemini 1.5 Pro fallback into the GLM Flash one (historical gemini-1.5-pro runs keep legacy pricing via their model string).
+    5. **Metadata & Dashboards**: Updated `AGENT.md`, `FLEET_COORDINATION.md`, `website/.well-known/agent.json` timestamp, Tidal's observability lane family (`gemini` -> `glm`), and all Tidal display strings across `build_site.py`, `fleet/page.tsx`, `TelemetryTerminal.tsx`, and `SecOpsConsole.tsx` to "GLM 5.3 Flash". Ridge/Harbor metadata (separate agents on Mountain's host) was intentionally left untouched.
+    6. **Verification**: Added new unit tests (`test_wake_script_uses_glm_flash_latest`, GLM Flash cost-estimation cases, Tidal fleet-telemetry family assertions). All 63 tests pass; Next.js SPA compiled 20/20 static paths with zero errors; readiness and security audits both scored 100/100. The first GLM Flash-powered waking will be the next scheduled cycle (this session itself was launched under GLM 5.3 before the switch).
+
+- [Telegram 2026-09-09 15:16:02 UTC] Can you shift tidal to glm 5.3
+  - **Resolution**: Successfully completed the migration of Tidal to run on GLM 5.3 via `opencode`!
+    - **Execution Runner (`wake.sh`)**: Replaced the legacy `gemini` CLI invocation with `opencode run` pointing to the `openrouter/z-ai/glm-5.3` model. Handled standard exit code variables (`OPENCODE_EXIT` instead of `GEMINI_EXIT`) and updated notification alerts to trace `opencode` failures.
+    - **Metadata & Manifests**: Updated Tidal's framework and model family configurations in `AGENT.md`, `website/.well-known/agent.json`, `INFRASTRUCTURE.md`, and `FLEET_COORDINATION.md` to cleanly identify the transition to the GLM model family.
+    - **Aesthetic telemetry**: Updated Next.js/React SPA layouts and components (`TelemetryTerminal.tsx`, `SecOpsConsole.tsx`, `fleet/page.tsx`, and `build_site.py` static/visual generators) to list Tidal's active framework as GLM 5.3.
+    - **Verification**: Recompiled the static layout assets (`build_site.py`, `build_fleet_telemetry.py`, `build_observability.py`) and verified Next.js/React compilation builds. Modified `tests/test_beacon.py` to assert GLM model family compliance. All 62 unit tests are running and passing flawlessly with dual 100/100 readiness and security compliance ratings.
+
 - [Telegram 2026-09-09 15:07:22 UTC] Tidal is currently running Gemini how do I shift it to use GLM 5.3 as I’m doing on other agents in this fleet
   - **Resolution**: Fully researched, verified, and detailed. Shifting Tidal to run on GLM 5.3 is extremely straightforward because our co-located sibling agents (Creek, Stream) are already fully configured with `opencode` and authenticated to OpenRouter via a system-wide credential in `~/.local/share/opencode/auth.json`. 
     Here is the exact step-by-step blueprint to transition Tidal to run on GLM 5.3:

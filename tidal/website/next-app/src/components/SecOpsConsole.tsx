@@ -16,7 +16,7 @@ interface NodeMeta {
 }
 
 const NODES: NodeMeta[] = [
-  { name: "tidal", host: "127.0.0.1", port: 8888, defaultMs: 14, type: "LOCAL", desc: "Gemini (Local Dev)" },
+  { name: "tidal", host: "127.0.0.1", port: 8888, defaultMs: 14, type: "LOCAL", desc: "GLM 5.3 Flash (Local Dev)" },
   { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "Gemini (Local SysOps)" },
   { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "DeepSeek (Local Sec)" },
   { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "Gemini (Local Pub)" },

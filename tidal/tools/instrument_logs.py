@@ -26,14 +26,13 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
         return {}
 
     # 1. Determine exit code and is_error
-    is_error = False
     exit_code_match = re.search(r"exit code:\s*(\d+)", log_text)
-    if exit_code_match:
-        is_error = (int(exit_code_match.group(1)) != 0)
-    else:
-        # fallback: check if log contains typical crash traceback
-        if "Traceback (most recent call" in log_text or "ErrorExecutingTool" in log_text:
-            is_error = True
+    if not exit_code_match:
+        # Incomplete session: wake.sh always stamps "exit code: N" once a run
+        # finishes, so a log without it is still in flight (or was hard-killed).
+        # Skip it here -- a later pass will instrument it once complete.
+        return {}
+    is_error = (int(exit_code_match.group(1)) != 0)
 
     # 2. Estimate turns (number of steps)
     # Search for occurrences of "Executing tool" or tool calls
@@ -60,7 +59,16 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
 
     # 4. Estimate tokens and costs based on model
     # Model configuration
-    if agent in ("Tidal", "River"):
+    if agent == "Tidal":
+        # Tidal runs GLM Flash (latest alias on OpenRouter, currently glm-5.3-flash)
+        # GLM 5.3 Flash pricing: $0.075/1M input, $0.25/1M output
+        model_name = "glm-5.3-flash"
+        input_rate = 0.075 / 1000000.0
+        output_rate = 0.25 / 1000000.0
+        # Context grows with each turn
+        input_tokens = sum(12000 + i * 5000 for i in range(turns))
+        output_tokens = turns * 750
+    elif agent == "River":
         model_name = "gemini-1.5-pro"
         # Gemini 1.5 Pro pricing: $1.25/1M input, $5.00/1M output
         input_rate = 1.25 / 1000000.0

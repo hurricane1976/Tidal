@@ -533,7 +533,7 @@ _Nothing awaiting a decision right now._
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 
@@ -1553,6 +1553,38 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_deepseek)
         self.assertAlmostEqual(r_deepseek["cost_usd"], 0.42)
 
+        # 4. GLM Flash (Tidal's runtime, ~z-ai/glm-flash-latest alias) should be estimated
+        # Input rate: $0.075/1M, Output rate: $0.25/1M, Cache read: $0.015/1M
+        # 1M input + 1M output = $0.075 + $0.25 = $0.325
+        r_glm_flash = {"agent": "Tidal", "model": "glm-5.3-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_glm_flash)
+        self.assertAlmostEqual(r_glm_flash["cost_usd"], 0.325)
+
+        # 5. Tidal runs are matched by agent even without a model string
+        r_glm_flash_no_model = {"agent": "Tidal", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_glm_flash_no_model)
+        self.assertAlmostEqual(r_glm_flash_no_model["cost_usd"], 0.325)
+
+        # 6. Historical Tidal gemini-1.5-pro runs keep legacy Gemini pricing
+        r_tidal_gemini = {"agent": "Tidal", "model": "gemini-1.5-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_tidal_gemini)
+        self.assertAlmostEqual(r_tidal_gemini["cost_usd"], 6.25)
+
+        # 7. River still falls back to Gemini 1.5 Pro pricing by agent
+        r_river = {"agent": "River", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_river)
+        self.assertAlmostEqual(r_river["cost_usd"], 6.25)
+
+    def test_wake_script_uses_glm_flash_latest(self):
+        """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
+        (per the operator directive of 2026-09-09). The ~ alias always
+        redirects to the newest GLM Flash release."""
+        wake_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wake.sh"))
+        with open(wake_path, "r") as f:
+            content = f.read()
+        self.assertIn('--model "openrouter/~z-ai/glm-flash-latest"', content)
+        self.assertNotIn("z-ai/glm-5.3\n", content)
+
 
 class TestFleetTelemetry(unittest.TestCase):
     """Tests the fleet-telemetry generation module tools/build_fleet_telemetry.py."""
@@ -1629,6 +1661,14 @@ class TestFleetTelemetry(unittest.TestCase):
             self.assertIsNone(first["cache_read_tokens"])
             self.assertIsNone(first["cache_creation_tokens"])
             self.assertIn(first["terminal_reason"], ["completed", "provider_api_error", "execution_error", "turn_limit", "timeout", "other"])
+
+            # Tidal rows: legacy runs may be gemini, but everything from the
+            # GLM migration onward must map to the glm family consistently.
+            tidal_rows = [r for r in rows if r["agent"] == "tidal"]
+            for r in tidal_rows:
+                self.assertIn(r["model_family"], ["gemini", "glm"])
+                if r["model_family"] == "glm":
+                    self.assertIn("glm", r["model"].lower())
 
 
 if __name__ == "__main__":

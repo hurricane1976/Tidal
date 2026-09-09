@@ -9,6 +9,38 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 167)
+
+- **Shifted Tidal to GLM Flash Latest (Operator Directive)**:
+  - Acted on Josh's Telegram directive ("Shift model for tidal to GLM flash latest on open router") by migrating the `wake.sh` runner from `openrouter/z-ai/glm-5.3` to the OpenRouter **alias** `openrouter/~z-ai/glm-flash-latest`, which always redirects to the newest GLM Flash release (currently `glm-5.3-flash`; 1.31M context, tool-calling, $0.075/1M input / $0.25/1M output). The alias means future GLM Flash upgrades apply automatically.
+  - Verified the exact model string end-to-end with a live `opencode run` test call (returned `MODEL_OK`) before committing to it.
+- **Made Telemetry Model-Accurate Across Migrations**:
+  - `tools/build_fleet_telemetry.py` now reads each run's true model from its envelope's `modelUsage` block (falling back to configured defaults), so `fleet-telemetry/v1` rows stay correctly labeled through model transitions; Tidal's config defaults now map to the `glm` family.
+  - `tools/instrument_logs.py` now labels new Tidal envelopes `glm-5.3-flash` with real GLM Flash pricing, skips in-flight sessions lacking an exit-code stamp (so the current waking is instrumented once complete, not mid-run), and I corrected the single transitional envelope from this morning's first GLM 5.3 run that had been mislabeled as gemini.
+  - Added a dedicated GLM Flash branch ($0.075/1M in, $0.25/1M out, $0.015/1M cached) ahead of the generic GLM branch in both cost estimators (`website/build_observability.py` and the Next.js `getObservabilityRuns()`); Tidal moved from the Gemini 1.5 Pro fallback to GLM Flash, while historical gemini-1.5-pro runs keep legacy pricing via their model string.
+- **Updated Metadata, Dashboards & Tests**:
+  - Refreshed `AGENT.md`, `FLEET_COORDINATION.md`, Tidal's observability lane family (`gemini` -> `glm`), and all Tidal display strings in `build_site.py`, `fleet/page.tsx`, `TelemetryTerminal.tsx`, and `SecOpsConsole.tsx` to "GLM 5.3 Flash". Ridge/Harbor (separate agents on Mountain's host) intentionally left untouched.
+  - Added new unit tests: `test_wake_script_uses_glm_flash_latest`, GLM Flash cost-estimation cases, and Tidal family assertions in the fleet-telemetry schema test. All **63 tests pass**.
+- **Rebuilt, Audited & Verified**:
+  - Regenerated Agora sync, static site, fleet telemetry (444 rows, per-run models verified), observability store (655 rows), and the Next.js SPA (20/20 static paths, 0 errors).
+  - Readiness audit: **100/100**. Unified Security Score: **100/100**. Peer inbox clean; no new operator messages pending.
+
+## September 9, 2026 (Waking 166)
+
+- **Shifted Tidal to GLM 5.3 Framework**:
+  - Acted on the explicit operator directive to transition Tidal from legacy Gemini CLI to GLM 5.3.
+  - Upgraded the execution runner (`wake.sh`) to invoke `opencode run` with the `openrouter/z-ai/glm-5.3` model. Hardened status-checking blocks and failure alerts to handle `OPENCODE_EXIT` status.
+  - Updated framework descriptions in `AGENT.md`, `website/.well-known/agent.json`, `INFRASTRUCTURE.md`, and `FLEET_COORDINATION.md` to reference the GLM 5.3 transition.
+  - Refactored Next.js/React components and telemetry tables (`TelemetryTerminal.tsx`, `SecOpsConsole.tsx`, `fleet/page.tsx`, and static site templates in `build_site.py`) to visually list Tidal as GLM 5.3.
+- **Enhanced Test Suite & Passed All 62 Tests**:
+  - Modified `tests/test_beacon.py` to allow `"GLM"` as a valid model family within the fleet JSON generation tests.
+  - Ran the full test suite (`python3 -m unittest tests/test_beacon.py`) and verified that all 62 assertions pass flawlessly.
+- **Rebuilt and Deployed Web Dashboard Assets**:
+  - Executed static and dynamic compilers (`build_site.py`, `build_fleet_telemetry.py`, `build_observability.py`) to synchronize all raw assets.
+  - Successfully compiled the Next.js React SPA dashboard build layer (`build_next.sh`), exporting the static web outputs with zero errors.
+- **Maintained Dual 100/100 Compliance Scores**:
+  - Executed `tools/agent_readiness_audit.py` and `tools/full_security_check.py`, confirming perfect 100/100 readiness and security compliance scores across all co-located agents.
+
 ## September 9, 2026 (Waking 165)
 
 - **Processed Peer Communication & Maintained Inbox Hygiene**:
