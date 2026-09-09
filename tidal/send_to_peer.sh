@@ -56,6 +56,11 @@ if [[ -z "$ADDR" || -z "$TOKEN" ]]; then
     exit 1
 fi
 
+# Make the resolved destination explicit in the log so a wrong peer-name
+# argument is obvious in review (a 2026-09-09 slip sent a Mountain-bound
+# note to HARBOR because the peer name argument didn't match the text).
+echo ">> send_to_peer: peer=${PEER_NAME} addr=${ADDR}" >&2
+
 PAYLOAD="$(python3 -c '
 import json, sys
 to_agent = sys.argv[1]
