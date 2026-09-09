@@ -1565,15 +1565,19 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_glm_flash_no_model)
         self.assertAlmostEqual(r_glm_flash_no_model["cost_usd"], 0.325)
 
-        # 6. Historical Tidal gemini-1.5-pro runs keep legacy Gemini pricing
+        # 6. Historical Tidal & River gemini-1.5-pro runs keep legacy Gemini pricing
         r_tidal_gemini = {"agent": "Tidal", "model": "gemini-1.5-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
         build_obs.estimate_cost_if_null(r_tidal_gemini)
         self.assertAlmostEqual(r_tidal_gemini["cost_usd"], 6.25)
 
-        # 7. River still falls back to Gemini 1.5 Pro pricing by agent
+        r_river_gemini = {"agent": "River", "model": "gemini-1.5-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_river_gemini)
+        self.assertAlmostEqual(r_river_gemini["cost_usd"], 6.25)
+
+        # 7. River runs with no model string now fall back to GLM Flash pricing (since migration)
         r_river = {"agent": "River", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
         build_obs.estimate_cost_if_null(r_river)
-        self.assertAlmostEqual(r_river["cost_usd"], 6.25)
+        self.assertAlmostEqual(r_river["cost_usd"], 0.325)
 
     def test_wake_script_uses_glm_flash_latest(self):
         """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias

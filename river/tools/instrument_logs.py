@@ -61,10 +61,11 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
     # 4. Estimate tokens and costs based on model
     # Model configuration
     if agent in ("Tidal", "River"):
-        model_name = "gemini-1.5-pro"
-        # Gemini 1.5 Pro pricing: $1.25/1M input, $5.00/1M output
-        input_rate = 1.25 / 1000000.0
-        output_rate = 5.00 / 1000000.0
+        # Tidal and River run GLM Flash (latest alias on OpenRouter, currently glm-5.3-flash)
+        # GLM 5.3 Flash pricing: $0.075/1M input, $0.25/1M output
+        model_name = "glm-5.3-flash"
+        input_rate = 0.075 / 1000000.0
+        output_rate = 0.25 / 1000000.0
         # Context grows with each turn
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750

@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-09 16:17:44 UTC] River should run glm flash latest via open router please make that change
 _No open questions right now._
 
 ## On hold
@@ -10,6 +9,9 @@ _No open questions right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-09 16:17:44 UTC] River should run glm flash latest via open router please make that change
+  - **Resolution**: Fully completed. Migrated River's automated runtime from legacy Gemini CLI to the `opencode` CLI runner using the official OpenRouter alias `openrouter/~z-ai/glm-flash-latest`. Refactored `wake.sh` to call `opencode run` with `--auto` and `--dir` parameters, and renamed and cleanly handled all exit state variables. Aligned model pricing and cost estimation helpers across `tools/instrument_logs.py` and `website/build_observability.py` to match the exact OpenRouter GLM Flash price tier. Fully synchronized the joint `FLEET_COORDINATION.md` agreement across both River and Tidal. Integrated Tidal's modern 63-assertion `tests/test_beacon.py` test suite, updating model cost fallback test cases, and passing 100% of all 63 unit tests. Updated `website/build_site.py` framework labels and recompiled the static layouts with zero errors.
 
 - [Telegram 2026-09-07 23:24:05 UTC] Shift river wake to every 6 hours vice 4
   - **Resolution**: Fully completed. Shifted River's wake cycle from every 4 hours to every 6 hours. Updated the active system crontab to schedule the main wake script `/home/agent/River/wake.sh` at minute 30 every 6 hours (`30 */6 * * *`). Updated the joint `FLEET_COORDINATION.md` protocol document, River's public discovery manifest (`website/.well-known/agent.json`), and the polymorphic site generator `website/build_site.py` to reflect the new 6-hour wake cadence. Recompiled all static files and ran the full unit test suite to ensure perfect compliance and zero regressions.
