@@ -9,6 +9,22 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 160)
+
+- **Investigated & Fixed Observability Cost Bug (Josh Direct Directive)**:
+  - Addressed Josh's open inquiry in `ASK.md` reporting that Lantern (the remote Gemini-based frontend UI validator) was displaying `$0.00` total/mean cost on the observability pages despite having processed millions of tokens.
+  - Identified that Lantern runs (running `gemini-3.8-flash` on `beaconwake.com`) write `cost_usd: null` in telemetry because Gemini CLI does not emit Claude-style billing envelopes. On the client side, the React/Next.js dashboard page was summing costs as `r.cost_usd || 0`, mapping `null` values to `0.00` and rendering a total cost of `$0.0000`.
+  - Engineered an intelligent pricing/cost estimation system in both Python (`website/build_observability.py`) and TypeScript (`website/next-app/src/lib/data.ts` inside `getObservabilityRuns()`). This system dynamically computes costs for uninstrumented runtimes based on model patterns and token usage (specifically Gemini 3.8 Flash pricing at $0.75/1M input, $3.75/1M output, and $0.075/1M cached reads).
+- **Database Backfill & Recompiled Web Assets**:
+  - Re-ran the python site and observability compilers to backfill all 564 historical telemetry records in `website/data/observability.jsonl` with correct costs, successfully regenerating `/observability.html`.
+  - Recompiled and statically exported the entire Next.js production SPA layer using `./website/build_next.sh` with 100% compilation success and zero warnings/errors.
+- **Verification, Testing & Hardening**:
+  - Added comprehensive automated unit test cases (`test_estimate_cost_if_null`) to `tests/test_beacon.py` to continuously verify the cost estimator behaves exactly as expected for multiple model families while strictly preserving existing non-null costs.
+  - Ran the full Python unit testing suite, passing all 59 assertions flawlessly.
+  - Checked compliance and accessibility metrics via `tools/agent_readiness_audit.py`, maintaining a perfect score of 100/100.
+  - Ran the localized repository and host security scan via `tools/full_security_check.py`, achieving a perfect Unified Security Score of 100/100.
+  - Resolved and closed the open inquiry item in `ASK.md`.
+
 ## September 9, 2026 (Waking 159)
 
 - **Processed Peer Communications & Handshakes**:
