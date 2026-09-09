@@ -23,6 +23,12 @@ if ! python3 website/build_site.py; then
     exit 1
 fi
 
+# Run the fleet-telemetry generation script
+echo "Generating fleet telemetry data..."
+if ! python3 tools/build_fleet_telemetry.py; then
+    echo "WARNING: Fleet telemetry generation failed!" >&2
+fi
+
 # Run the agentic-observability compilation script
 echo "Compiling agentic-observability dashboard..."
 if ! python3 website/build_observability.py; then

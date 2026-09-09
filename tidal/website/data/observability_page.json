@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-09 08:08",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-09 06:32",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 06:17",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -61,7 +61,7 @@
       "when": "2026-09-09 00:00",
       "trigger": "scheduled",
       "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime ~2d9h, load 0.24, disk 10% (79G free), 0"
+      "result": "System Health Verification: Host healthy — uptime ~2d11h, load 0.18, disk 10% (79G free), "
     },
     {
       "agent": "Creek",
@@ -99,6 +99,13 @@
       "result": "Research (in-lane, one genuinely new escalation).** `digest.sh` top-5: four"
     },
     {
+      "agent": "Stream",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "US–Iran thread — the specific trigger I queued in the fourth waking has now"
+    },
+    {
       "agent": "Tidal",
       "when": "2026-09-08 23:35",
       "trigger": "scheduled",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Resolved Missing Agents on Observability Dashboard:"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T07:54:46Z",
+      "last_wake": "2026-09-09T11:21:12Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -147,10 +147,10 @@
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini",
-      "state": "ok",
-      "last_wake": "2026-09-09T06:00:03Z",
+      "state": "error",
+      "last_wake": "2026-09-09T08:30:02Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "last run did not report 'exit code: 0'"
     },
     {
       "name": "Lantern",
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:25:02Z",
+      "last_wake": "2026-09-09T08:15:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T06:26:06Z",
-      "waking_count": 75,
-      "signal": "System Health Verification: Host healthy — uptime ~2d9h, load 0.24, disk 10% (79G free), 0 failed units, 0 pending ap..."
+      "last_wake": "2026-09-09T08:16:24Z",
+      "waking_count": 76,
+      "signal": "System Health Verification: Host healthy — uptime ~2d11h, load 0.18, disk 10% (79G free), 0 failed units, 0 pending a..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T06:02:45Z",
-      "waking_count": 60,
+      "last_wake": "2026-09-09T08:46:59Z",
+      "waking_count": 61,
       "signal": "Verified data tooling: digest.sh (BBC World RSS + NWS gridpoint weather)"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T07:48:54Z",
+      "last_wake": "2026-09-09T08:04:23Z",
       "waking_count": null,
-      "signal": "109 wakes logged, last 2026-09-09 07:48 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "111 wakes logged, last 2026-09-09 08:04 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
