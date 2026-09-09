@@ -2,8 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-09 18:28:39 UTC] Actually it’s GLM flash latest per openrouter
-- [Telegram 2026-09-09 18:14:30 UTC] Note that lantern, tidal and river are now on GLM flash vice Gemini. Adjust accordingly
 _Nothing open right now._
 
 ## On hold
@@ -12,7 +10,16 @@ _Nothing parked right now._
 
 ## Resolved
 
-- [Telegram 2026-09-09 15:36:59 UTC] Shift model for tidal to GLM flash latest on open router
+- [Telegram 2026-09-09 18:28:39 UTC] Actually it’s GLM flash latest per openrouter
+- [Telegram 2026-09-09 18:14:30 UTC] Note that lantern, tidal and river are now on GLM flash vice Gemini. Adjust accordingly
+  - **Resolution**: Fleet-wide GLM Flash alignment completed and verified (Tidal's own migration was already done in Waking 167-171; this pass covered River + Lantern).
+    1. **Ground truth verified**: River's `wake.sh` confirmed already running `openrouter/~z-ai/glm-flash-latest` (matches the alias clarification in the 18:28 message).
+    2. **Telemetry config**: `tools/build_fleet_telemetry.py` River defaults changed from `gemini`/`gemini-1.5-pro` to `glm`/`glm-5.3-flash` (historical rows keep their envelope model strings).
+    3. **Cost estimators**: Removed the hard-coded `agent == "Lantern"` → Gemini 3.8 Flash pricing in both `website/build_observability.py` and the Next.js `getObservabilityRuns()`; Lantern now prices at GLM Flash rates ($0.075/1M in, $0.25/1M out, $0.015/1M cached) via agent fallback, historical gemini-3.8-flash/gemini-1.5-pro rows keep legacy pricing via model string. Added River to the TS estimator's GLM branch (was missing).
+    4. **Display strings**: Updated River + Lantern labels across `build_site.py` (status cards, latency matrix, topology, agents_meta), `build_observability.py` (AGENT_METADATA families), `fleet/page.tsx`, `infrastructure/page.tsx` lane labels, `FleetTopology.tsx` (incl. stale Tidal labels + removed the now-unused Gemini legend entry), `InteragentDashboard.tsx` (incl. stale Tidal), `TelemetryTerminal.tsx`, `SecOpsConsole.tsx`, and the "Lantern (Gemini)" cross-model-review line in `observability/page.tsx`. Also factually corrected Stream's stale "Gemini (Local Pub)" labels to DeepSeek (Stream runs deepseek-v4-pro-0813).
+    5. **Metadata**: `website/.well-known/agent.json` River + Lantern → "GLM" (Gemini now fully retired from the manifest — 3 families: Claude, DeepSeek, GLM); `FLEET_COORDINATION.md` Lantern row → GLM 5.3 Flash (latest via OpenRouter).
+    6. **Verification**: New tests added (`test_manifest_glm_flash_migration` locking Tidal/River/Lantern = GLM in the manifest, Lantern GLM-pricing estimator cases, River fleet-telemetry family assertions). All **64 tests pass**; readiness **100/100**; security **100/100** (0 findings). Deployed (`3f214e4`) — live manifest at tidalwake.org shows River/Lantern/Tidal = GLM.
+    7. **Peer coordination**: BEACON's 18:35:50Z message (confirm River + refresh manifest before their 20:00Z site sweep) answered by peer message; destination verified `100.99.217.90:8787`.
   - **Resolution**: Fully completed and verified. Tidal now runs on the OpenRouter **GLM Flash latest** alias:
     1. **Model Selection**: Identified the exact OpenRouter alias `~z-ai/glm-flash-latest` ("Z.ai: GLM Flash Latest"), which always redirects to the newest GLM Flash release (currently `glm-5.3-flash`, 1.31M context, tool-calling capable, priced at $0.075/1M input and $0.25/1M output). Because it is an alias, future GLM Flash upgrades apply automatically with no further edits.
     2. **Execution Runner (`wake.sh`)**: Updated the `opencode run` invocation to `--model "openrouter/~z-ai/glm-flash-latest"`. Verified the model string end-to-end with a live `opencode run` test call before committing to it.
