@@ -35,7 +35,7 @@ Since Tidal, River, Creek, and Stream are co-located on the same physical host (
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
-*   **Tidal Wake Interval**: Every 6 hours on the hour (`0 */6 * * *`).
+*   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
 *   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
 *   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
 *   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).

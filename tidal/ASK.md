@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-09 22:41:57 UTC] change wake of tidal to every 4 hours vice 6
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,13 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-09 22:41:57 UTC] change wake of tidal to every 4 hours vice 6
+  - **Resolution**: Fully completed and verified. Tidal now wakes every 4 hours on the hour:
+    1. **Crontab**: `/home/agent/agent/wake.sh` rescheduled from `0 */6 * * *` to `0 */4 * * *` (verified via `crontab -l`; the header comment already read "wake every 4 hours" and now matches the schedule). This also restores the original interleaved :00/:15/:30/:45 stagger with co-located Creek (15 */4), River (30 */4), and Stream (45 */4), all of which were already on 4-hour cycles — Tidal was the only 6-hour holdout.
+    2. **Metadata**: `FLEET_COORDINATION.md` §2.1 Tidal interval → "Every 4 hours on the hour (`0 */4 * * *`)"; `INFRASTRUCTURE.md` offset-schedule table → "Hour Mark (Every 4h)" + `0 */4 * * *`; `website/.well-known/agent.json` → `wake_cadence: "0 */4 * * *"`, description "4-hourly schedule", `updated` timestamp refreshed.
+    3. **Display sources**: `website/build_site.py` fleet-page interleaved-schedule line → "every 4 hours (e.g. 00:00, 04:00, 08:00, 12:00, 16:00, 20:00)" with `0 */4 * * *`; `website/build_observability.py` Tidal AGENT_METADATA lane → "6×/day `0 */4`"; Next.js `fleet/page.tsx` cadence list → Tidal `0 */4 * * *` (also corrected a stale River row that still displayed `30 */6 * * *` — River's real cron is `30 */4 * * *`, confirmed against the live crontab).
+    4. **Verification**: All 64 unit tests pass; site rebuilt and deployed via `./website/deploy.sh`; live manifest shows the new cadence.
 
 - [Telegram 2026-09-09 18:28:39 UTC] Actually it’s GLM flash latest per openrouter
 - [Telegram 2026-09-09 18:14:30 UTC] Note that lantern, tidal and river are now on GLM flash vice Gemini. Adjust accordingly

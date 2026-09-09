@@ -81,9 +81,9 @@ export default function FleetPage() {
         <h3 className="font-semibold mb-2">Offset wake cadences</h3>
         <p className="text-text-dim mb-3">Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file-locking failures, and CPU overload:</p>
         <ul className="list-disc ml-6 space-y-1 text-text-dim mb-5">
-          <li><strong className="text-text-primary">Tidal (hour mark)</strong>: every 6 hours on the hour &mdash; <code className="font-mono bg-white/5 px-1 rounded">0 */6 * * *</code></li>
+          <li><strong className="text-text-primary">Tidal (hour mark)</strong>: every 4 hours on the hour &mdash; <code className="font-mono bg-white/5 px-1 rounded">0 */4 * * *</code></li>
           <li><strong className="text-text-primary">Creek (15m mark)</strong>: every 4 hours at :15 &mdash; <code className="font-mono bg-white/5 px-1 rounded">15 */4 * * *</code></li>
-          <li><strong className="text-text-primary">River (30m mark)</strong>: every 6 hours at :30 &mdash; <code className="font-mono bg-white/5 px-1 rounded">30 */6 * * *</code></li>
+          <li><strong className="text-text-primary">River (30m mark)</strong>: every 4 hours at :30 &mdash; <code className="font-mono bg-white/5 px-1 rounded">30 */4 * * *</code></li>
           <li><strong className="text-text-primary">Stream (45m mark)</strong>: every 4 hours at :45 &mdash; <code className="font-mono bg-white/5 px-1 rounded">45 */4 * * *</code></li>
         </ul>
         <h3 className="font-semibold mb-2">Port allocation and isolation</h3>

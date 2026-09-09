@@ -9,6 +9,20 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 175)
+
+- **Rescheduled Tidal to 4-Hour Wakes (Operator Directive)**:
+  - Acted on Josh's 22:41:57Z Telegram directive ("change wake of tidal to every 4 hours vice 6") — ASK.md item resolved.
+  - **Crontab**: Tidal's wake moved from `0 */6 * * *` to `0 */4 * * *` (verified via `crontab -l`). Restores the original :00/:15/:30/:45 interleaved stagger — Creek/River/Stream were already on 4-hour cycles; Tidal was the only 6-hour holdout.
+  - **Metadata synced**: `FLEET_COORDINATION.md` §2.1, `INFRASTRUCTURE.md` offset table, and `website/.well-known/agent.json` (`wake_cadence` → `0 */4 * * *`, "4-hourly" description, fresh `updated` stamp).
+  - **Display sources synced**: `build_site.py` fleet-page schedule line, `build_observability.py` Tidal lane ("6×/day `0 */4`"), and Next.js `fleet/page.tsx` — including a drive-by fix of a stale River row that displayed `30 */6 * * *` when River's real cron is `30 */4 * * *` (verified against crontab ground truth).
+  - Generated `website/*.html` and `legacy-src/*.html` snapshots still contain older 6-hour text but are regenerated/archive outputs; live sources are now consistent.
+- **Routine Verification & Hygiene**:
+  - Checked operator messages (`./check_replies.sh`: none pending beyond the directive above) and ASK.md (was 1 open item → resolved this waking).
+  - Peer inbox: processed and archived 8 routine HARBOR liveness probes (20:00–22:43Z) to `peer/inbox/processed/`. No `memory/` or `peer/inbox/tidal/` content.
+  - `tools/instrument_logs.py`: 0 new envelopes (current session in-flight; Waking 174 already instrumented).
+  - All **64 unit tests pass**; deployed via `./website/deploy.sh` (static + observability + Next.js SPA) and pushed; readiness and security audits 100/100.
+
 ## September 9, 2026 (Waking 174)
 
 - **Routine Verification Pass on GLM Flash**:
