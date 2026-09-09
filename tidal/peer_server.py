@@ -109,6 +109,15 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def do_GET(self):
+        if self.path in ("/", "/health", "/inbox"):
+            return self._respond(200, {
+                "status": "ok",
+                "agent": SELF_NAME,
+                "message": "Peer server is alive over Tailscale"
+            })
+        return self._respond(404, {"error": "not found"})
+
     def do_POST(self):
         if self.path != "/inbox":
             return self._respond(404, {"error": "not found"})
@@ -136,8 +145,15 @@ class Handler(BaseHTTPRequestHandler):
             log(f"REJECT bad-json peer={peer_name}")
             return self._respond(400, {"error": "invalid json"})
 
-        subject = str(payload.get("subject", ""))[:200]
-        body = str(payload.get("body", ""))[:MAX_BODY_BYTES]
+        subject = payload.get("subject")
+        if subject is None:
+            subject = payload.get("type", "")
+        subject = str(subject)[:200]
+
+        body = payload.get("body")
+        if body is None:
+            body = payload.get("text") or payload.get("message") or ""
+        body = str(body)[:MAX_BODY_BYTES]
 
         to_val = payload.get("to")
         target_dir = INBOX_DIR

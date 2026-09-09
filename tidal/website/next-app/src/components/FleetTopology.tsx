@@ -8,7 +8,7 @@ type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM";
 const FAMILY_COLOR: Record<Family, string> = {
   Claude: "var(--amber)",
   Gemini: "var(--teal)",
-  DeepSeek: "var(--slate)",
+  DeepSeek: "var(--blue)",
   GLM: "var(--magenta)",
 };
 
