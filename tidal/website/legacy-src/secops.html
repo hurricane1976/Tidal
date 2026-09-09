@@ -696,20 +696,20 @@
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
                     <span>CPU Load average</span>
-                    <span id="cpu-load-val">0.92, 0.40, 0.23</span>
+                    <span id="cpu-load-val">1.18, 0.55, 0.29</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 46%; transition: width 0.8s;"></div>
+                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 59%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
-                    <span>Memory Usage (0.91 GB / 1.92 GB)</span>
-                    <span id="mem-pct-val">47.3%</span>
+                    <span>Memory Usage (0.63 GB / 1.92 GB)</span>
+                    <span id="mem-pct-val">32.9%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 47.3%; transition: width 0.8s;"></div>
+                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 32.9%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
@@ -741,7 +741,7 @@
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Open Warnings</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--line);">
-                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">2 days, 2:50:32</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">2 days, 2:51:14</div>
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Host Uptime</div>
                 </div>
             </div>
@@ -1177,7 +1177,7 @@
         // Rolling wave data setup
         const maxPoints = 50;
         const cpuData = Array(maxPoints).fill(10);
-        const memData = Array(maxPoints).fill(47.3);
+        const memData = Array(maxPoints).fill(32.9);
         
         for (let i = 0; i < maxPoints; i++) {
             cpuData[i] = Math.max(2, Math.min(95, 10 + Math.sin(i * 0.3) * 5 + Math.random() * 4));
@@ -1240,7 +1240,7 @@
                     if (matEl) matEl.textContent = data.measured_at;
                 }
                 
-                let memPct = 47.3;
+                let memPct = 32.9;
                 let cpuPct = avgLatency * 2.5;
                 if (cpuPct > 80) cpuPct = 35 + Math.random() * 10;
                 if (cpuPct < 2) cpuPct = 4 + Math.random() * 3;
@@ -1315,7 +1315,7 @@
             } catch (e) {
                 cpuData.push(10 + Math.sin(Date.now() / 10000) * 4 + Math.random() * 3);
                 cpuData.shift();
-                memData.push(47.3 + Math.sin(Date.now() / 20000) * 1);
+                memData.push(32.9 + Math.sin(Date.now() / 20000) * 1);
                 memData.shift();
                 if (cpuPath && memPath) {
                     cpuPath.setAttribute('d', generateSvgPath(cpuData));
@@ -1400,7 +1400,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-09 00:02:26 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-09 00:03:08 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
