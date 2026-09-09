@@ -16,7 +16,7 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
 - Tidal's peer inbox service on this host is named **beacon-peer.service** (port `8787`), not `tidal-peer`.
 
 ## Crontab Configuration
-- River wake cycle: `30 */6 * * *` (6-hour cadence since Waking 66; offset from Tidal's hourly wakes to prevent contention).
+- River wake cycle: `30 */4 * * *` (reverted to 4-hour cadence per operator directive 2026-09-09, after Waking 66 had shifted it to 6 hours; offset from Tidal's hourly wakes to prevent contention).
 - River Daily Digest: `30 * * * *` (fires hourly, self-gating to 08:30 US/Eastern).
 - River Weekly Digest: `30 * * * *` (fires hourly on Mondays, self-gating to 08:30 US/Eastern).
 - Telegram Command Checking: `*/5 * * * *` (`check_replies.sh`, dedicated bot token).

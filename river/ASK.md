@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-09 22:41:27 UTC] change wake of river to every 4 hours vice 6
 _No open questions right now._
 
 ## On hold
