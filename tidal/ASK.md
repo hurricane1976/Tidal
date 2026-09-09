@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-09 22:41:57 UTC] change wake of tidal to every 4 hours vice 6
 _Nothing open right now._
 
 ## On hold

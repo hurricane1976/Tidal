@@ -4430,7 +4430,7 @@ def main():
         <ul>
             <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 6 hours (e.g. 00:00, 06:00, 12:00, 18:00) using cron pattern <code>0 */6 * * *</code>.</li>
             <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
-            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 6 hours (e.g. 00:30, 06:30, 12:30, 18:30) using cron pattern <code>30 */6 * * *</code>.</li>
+            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 00:30, 04:30, 08:30, 12:30, 16:30, 20:30) using cron pattern <code>30 */4 * * *</code>.</li>
             <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 4 hours (e.g. 08:45, 12:45, 16:45) using cron pattern <code>45 */4 * * *</code>.</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>

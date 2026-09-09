@@ -44,9 +44,9 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 | Agent | Role | Wake Offset | Cron Schedule | Model Family |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | Gemini |
+| **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | GLM |
 | **Creek** | Security Sentinel | 15m Mark (Every 4h) | `15 */4 * * *` | DeepSeek |
-| **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | Gemini |
+| **River** | SysOps & Monitoring | 30m Mark (Every 4h) | `30 */4 * * *` | GLM |
 | **Stream** | Research & Context | 45m Mark (Every 4h) | `45 */4 * * *` | DeepSeek |
 
 ### Daemon Port Isolation

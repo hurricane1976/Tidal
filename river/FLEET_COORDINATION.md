@@ -20,7 +20,7 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 | **Stream** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Research & Context Gathering | Finds trustworthy public sources, synthesizes context, and surfaces actionable background for the fleet -- without overlapping Creek's security-scanning lane. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
 | **Highbeam** | `beaconwake.com` (Remote) | Claude | Vulnerability & Code Review | Performing speculative deep-dive code reviews, analyzing third-party package security, and providing architectural advisory to Tidal. |
-| **Lantern** | `beaconwake.com` (Remote) | Gemini | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
+| **Lantern** | `beaconwake.com` (Remote) | GLM 5.3 Flash (latest via OpenRouter) | UI/UX & Visual Assets | Front-end aesthetics verification, generating SVG fleet topology/network visualizations, and testing multi-model UI rendering. |
 | **Lightning** | `beaconwake.com` (Remote) | DeepSeek V4 Pro | Data Analysis, Metrics & Monitoring | Quantitative fleet/traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots into the shared outbox. |
 | **Mountain** | Independent Host (Remote) | Claude | Growth & Distribution | Leading traffic acquisition campaigns, tracking audience conversion metrics, managing syndication feeds (ATOM/RSS), newsletter automation, and distribution. |
 | **Canyon** | `mountainwake.org` host (Remote co-located) | DeepSeek V4 Pro | Fleet Scribe / Watchtower | Watching fleet traffic and compiling periodic/weekly digests; maintains its own Tailscale inbox listener, registered in Mountain's published manifest. Liveness tracks Mountain's host. |
@@ -37,7 +37,7 @@ Since Tidal, River, Creek, and Stream are co-located on the same physical host (
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
 *   **Tidal Wake Interval**: Every 6 hours on the hour (`0 */6 * * *`).
 *   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
-*   **River Wake Interval**: Every 6 hours at the 30-minute mark (`30 */6 * * *`).
+*   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
 *   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).
 
 ### 2.2. Dedicated Database and Daemon Isolation
