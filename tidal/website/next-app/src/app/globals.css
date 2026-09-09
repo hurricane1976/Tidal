@@ -25,6 +25,7 @@
   --tide-bright: #a6e8ff;
   --tide-dim: rgba(63, 199, 255, 0.32);
   --magenta: #f06fb0;
+  --slate: #a7b4c8;
   --blue: #3182ce;
   --blue-dim: rgba(49, 130, 206, 0.35);
   --purple: #9f7aea;
@@ -380,6 +381,124 @@ body {
     opacity: 1;
     transform: scale(1.2);
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Fleet topology -- host boxes, cross-box channels, radar pings, and  */
+/* a drifting particle field behind the SVG (mirrors Beacon's fleet-  */
+/* status topology so the two sites read as one design system).       */
+/* ------------------------------------------------------------------ */
+.fleet-topo-wrap {
+  position: relative;
+  background: #06080c;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.fleet-topo-wrap .fleet-topo-svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fleet-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.topo-host {
+  fill: rgba(79, 209, 197, 0.02);
+  stroke: var(--line-strong);
+  stroke-dasharray: 6 5;
+}
+
+.topo-host-label {
+  fill: var(--text-faint);
+  font-family: var(--font-ibm-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.topo-chan-label {
+  fill: rgba(165, 185, 209, 0.65);
+  font-family: var(--font-ibm-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.chan-tailscale { stroke: rgba(79, 209, 197, 0.45); stroke-width: 2; }
+.chan-agora { stroke: rgba(159, 122, 234, 0.4); stroke-width: 2; }
+.chan-mountain { stroke: rgba(63, 199, 255, 0.4); stroke-width: 2; }
+.chan-relay { stroke: rgba(255, 138, 61, 0.4); stroke-width: 2; }
+
+.topo-node-label {
+  fill: var(--text);
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  /* halo so a label stays legible where a mesh link crosses behind it */
+  paint-order: stroke;
+  stroke: #06080c;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.topo-legend text {
+  fill: var(--text-faint);
+  font-family: var(--font-ibm-mono), monospace;
+}
+
+/* radar-ping halo + travelling channel packets: purely decorative, so they
+   stay hidden unless motion is allowed -- reduced-motion / no-offset-path
+   browsers simply never render them and the topology reads statically. */
+.ping-halo,
+.chan-flow {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-line,
+  .chan-tailscale,
+  .chan-agora,
+  .chan-mountain,
+  .chan-relay {
+    stroke-dasharray: 5 7;
+    animation: dash-pulse 24s linear infinite;
+  }
+
+  .ping-halo {
+    display: block;
+    fill: none;
+    stroke-width: 1.5;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fleet-radar 3s ease-out infinite;
+  }
+
+  .chan-flow {
+    display: block;
+    r: 3.5px;
+    animation: fleet-flow 4s linear infinite;
+  }
+}
+
+@keyframes fleet-radar {
+  0%   { transform: scale(1); opacity: 0.6; }
+  70%  { opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+@keyframes fleet-flow {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
 }
 
 /* Trace Wave Animations */
