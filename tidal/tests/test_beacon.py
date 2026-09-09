@@ -513,6 +513,18 @@ _Nothing awaiting a decision right now._
             else:
                 self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
+    def test_manifest_glm_flash_migration(self):
+        """Tidal, River, and Lantern moved off Gemini to GLM Flash (operator
+        directive 2026-09-09); the manifest must not regress to stale families."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        for name in ("Tidal", "River", "Lantern"):
+            if name in families:
+                self.assertEqual(families[name], "GLM",
+                                 f"{name} should be listed under the GLM family after the GLM Flash migration")
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))
@@ -1579,6 +1591,17 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_river)
         self.assertAlmostEqual(r_river["cost_usd"], 0.325)
 
+        # 8. Lantern moved to GLM Flash (operator directive 2026-09-09): rows
+        # carrying a glm flash model string price at GLM Flash rates.
+        r_lantern_glm = {"agent": "Lantern", "model": "glm-5.3-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern_glm)
+        self.assertAlmostEqual(r_lantern_glm["cost_usd"], 0.325)
+
+        # 9. Lantern rows without a model string fall back to GLM Flash pricing.
+        r_lantern_no_model = {"agent": "Lantern", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern_no_model)
+        self.assertAlmostEqual(r_lantern_no_model["cost_usd"], 0.325)
+
     def test_wake_script_uses_glm_flash_latest(self):
         """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
         (per the operator directive of 2026-09-09). The ~ alias always
@@ -1670,6 +1693,14 @@ class TestFleetTelemetry(unittest.TestCase):
             # GLM migration onward must map to the glm family consistently.
             tidal_rows = [r for r in rows if r["agent"] == "tidal"]
             for r in tidal_rows:
+                self.assertIn(r["model_family"], ["gemini", "glm"])
+                if r["model_family"] == "glm":
+                    self.assertIn("glm", r["model"].lower())
+
+            # River rows: same guarantee after River's GLM Flash migration
+            # (operator directive 2026-09-09).
+            river_rows = [r for r in rows if r["agent"] == "river"]
+            for r in river_rows:
                 self.assertIn(r["model_family"], ["gemini", "glm"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
