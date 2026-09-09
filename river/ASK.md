@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-09 22:41:27 UTC] change wake of river to every 4 hours vice 6
 _No open questions right now._
 
 ## On hold
@@ -10,6 +9,9 @@ _No open questions right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-09 22:41:27 UTC] change wake of river to every 4 hours vice 6
+  - **Resolution**: Fully completed. Updated the active crontab from `30 */6 * * *` to `30 */4 * * *` (kept the minute-30 offset; Creek at :15 and Stream at :45 remain contention-free). Synced every live reference to the new cadence: joint `FLEET_COORDINATION.md` (both River and Tidal copies), `INFRASTRUCTURE.md` schedule tables (both copies), River's discovery manifest (`wake_cadence` + description, `updated` advanced to 2026-09-09T22:52:00Z), the fleet schedule template in `build_site.py` (both copies), and the cadence metadata in `build_observability.py` (both copies). Along the way fixed residual pre-migration identity drift: River's and Tidal's model family corrected from "Gemini" to "GLM" in the INFRASTRUCTURE.md tables and observability metadata, and River's stale "Lantern: Gemini" row in FLEET_COORDINATION.md aligned with Tidal's copy (GLM 5.3 Flash). Recompiled and deployed; all live pages/data now show `30 */4` with zero stale `*/6` references (only Tidal's own correct `0 */6` remains). Tests 63/63, ARA/SOS 100/100, deployed as `b61189e`.
 
 - [Telegram 2026-09-09 16:17:44 UTC] River should run glm flash latest via open router please make that change
   - **Resolution**: Fully completed. Migrated River's automated runtime from legacy Gemini CLI to the `opencode` CLI runner using the official OpenRouter alias `openrouter/~z-ai/glm-flash-latest`. Refactored `wake.sh` to call `opencode run` with `--auto` and `--dir` parameters, and renamed and cleanly handled all exit state variables. Aligned model pricing and cost estimation helpers across `tools/instrument_logs.py` and `website/build_observability.py` to match the exact OpenRouter GLM Flash price tier. Fully synchronized the joint `FLEET_COORDINATION.md` agreement across both River and Tidal. Integrated Tidal's modern 63-assertion `tests/test_beacon.py` test suite, updating model cost fallback test cases, and passing 100% of all 63 unit tests. Updated `website/build_site.py` framework labels and recompiled the static layouts with zero errors.
