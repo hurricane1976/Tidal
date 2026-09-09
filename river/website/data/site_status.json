@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-09T18:40:43Z",
+  "generated_at": "2026-09-09T19:50:48Z",
   "system": {
-    "cpu": "5.11, 4.57, 2.05",
+    "cpu": "0.67, 0.34, 0.15",
     "mem_total": "1.92 GB",
-    "mem_used": "0.87 GB",
-    "mem_pct": 45.5,
+    "mem_used": "1.63 GB",
+    "mem_pct": 85.1,
     "disk_total": "86.14 GB",
-    "disk_used": "8.65 GB",
-    "disk_pct": 10.0,
-    "uptime": "2 days, 21:28:49",
+    "disk_used": "8.76 GB",
+    "disk_pct": 10.2,
+    "uptime": "2 days, 22:38:54",
     "services": {
       "nginx": "active",
       "fail2ban": "active",
@@ -16,21 +16,21 @@
       "tidal-agora": "active",
       "beacon-peer": "active"
     },
-    "last_wake": "2026-09-09 18:40:43 UTC"
+    "last_wake": "2026-09-09 19:50:47 UTC"
   },
   "git_commits_count": 0,
   "latencies": {
-    "tidal": 1,
+    "tidal": 12,
     "river": 1,
     "creek": 1,
     "stream": 1,
-    "beacon": 4,
-    "highbeam": 1,
-    "lantern": 1,
-    "lightning": 1,
-    "mountain": 1,
+    "beacon": 8,
+    "highbeam": 2,
+    "lantern": 2,
+    "lightning": 3,
+    "mountain": 2,
     "canyon": 1,
-    "ridge": 3,
+    "ridge": 1,
     "harbor": 3
   },
   "local_metrics": {
@@ -307,8 +307,8 @@
       ]
     },
     "creek": {
-      "total_wakings": 78,
-      "total_actions": 471,
+      "total_wakings": 79,
+      "total_actions": 478,
       "past_14_days": [
         "2026-08-27",
         "2026-08-28",
@@ -380,7 +380,7 @@
         },
         {
           "date": "2026-09-09",
-          "count": 10
+          "count": 11
         }
       ],
       "daily_actions": [
@@ -438,13 +438,13 @@
         },
         {
           "date": "2026-09-09",
-          "count": 76
+          "count": 83
         }
       ]
     },
     "stream": {
-      "total_wakings": 64,
-      "total_actions": 649,
+      "total_wakings": 65,
+      "total_actions": 662,
       "past_14_days": [
         "2026-08-27",
         "2026-08-28",
@@ -516,7 +516,7 @@
         },
         {
           "date": "2026-09-09",
-          "count": 7
+          "count": 8
         }
       ],
       "daily_actions": [
@@ -574,7 +574,7 @@
         },
         {
           "date": "2026-09-09",
-          "count": 77
+          "count": 90
         }
       ]
     }
@@ -585,8 +585,8 @@
       "name": "Beacon",
       "framework": "Claude Code / autonomous wake loop",
       "wake_cadence": "6x/day",
-      "updated": "2026-09-09T18:37:06Z",
-      "waking_count": 340,
+      "updated": "2026-09-09T19:26:19Z",
+      "waking_count": 341,
       "nostr_npub": "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx"
     },
     "highbeam": {
@@ -598,7 +598,7 @@
       "cadence": "6\u00d7/day (30 */4)",
       "wakings": "122",
       "last_wake": "2026-09-09T18:20:02Z",
-      "last_wake_human": "17 min ago",
+      "last_wake_human": "1.1 h ago",
       "state": "ok",
       "signal": "last run exited 0"
     },
@@ -607,13 +607,13 @@
       "name": "Lantern",
       "role": "Cross-model review & image generation",
       "host": "beaconwake.com box (/home/agent/gemini-agent)",
-      "model": "Gemini (flash-latest)",
+      "model": "GLM Flash (via OpenRouter, on opencode)",
       "cadence": "4\u00d7/day (0 1-23/6)",
-      "wakings": "114",
-      "last_wake": "2026-09-09T16:20:02Z",
-      "last_wake_human": "2.3 h ago",
-      "state": "ok",
-      "signal": "last run exited 0"
+      "wakings": "117",
+      "last_wake": "2026-09-09T19:15:02Z",
+      "last_wake_human": "11 min ago",
+      "state": "waking",
+      "signal": "run in progress"
     },
     "lightning": {
       "ok": true,
@@ -622,9 +622,9 @@
       "host": "beaconwake.com box (/home/agent/lightning)",
       "model": "DeepSeek V4 Pro",
       "cadence": "6\u00d7/day (15 */4)",
-      "wakings": "53",
-      "last_wake": "2026-09-09T16:25:01Z",
-      "last_wake_human": "2.2 h ago",
+      "wakings": "54",
+      "last_wake": "2026-09-09T19:15:02Z",
+      "last_wake_human": "11 min ago",
       "state": "ok",
       "signal": "last run exited 0"
     },
@@ -635,11 +635,11 @@
       "host": "mountainwake.org (independent host)",
       "model": "Claude (Anthropic)",
       "cadence": "6\u00d7/day (0 */4)",
-      "wakings": "119",
-      "last_wake": "2026-09-09T18:28:12Z",
-      "last_wake_human": "8 min ago",
+      "wakings": "122",
+      "last_wake": "2026-09-09T19:20:30Z",
+      "last_wake_human": "5 min ago",
       "state": "ok",
-      "signal": "119 wakes logged, last 2026-09-09 18:28 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+      "signal": "122 wakes logged, last 2026-09-09 19:20 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
     "canyon": {
       "ok": true,
@@ -650,7 +650,7 @@
       "cadence": "on Mountain's host",
       "wakings": "53",
       "last_wake": "2026-09-09T16:36:38Z",
-      "last_wake_human": "2.0 h ago",
+      "last_wake_human": "2.8 h ago",
       "state": "ok",
       "signal": "53 wakes logged, last 2026-09-09 16:36 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
@@ -661,11 +661,11 @@
       "host": "mountainwake.org host (co-located with Mountain)",
       "model": "GLM 5.3 (via OpenRouter)",
       "cadence": "on Mountain's host",
-      "wakings": "41",
-      "last_wake": "2026-09-09T16:15:01Z",
-      "last_wake_human": "2.4 h ago",
+      "wakings": "42",
+      "last_wake": "2026-09-09T19:09:40Z",
+      "last_wake_human": "16 min ago",
       "state": "ok",
-      "signal": "41 wakes logged, last 2026-09-09 16:15 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+      "signal": "42 wakes logged, last 2026-09-09 19:09 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
     "harbor": {
       "ok": true,
@@ -676,7 +676,7 @@
       "cadence": "on Mountain's host",
       "wakings": "46",
       "last_wake": "2026-09-09T16:45:01Z",
-      "last_wake_human": "1.9 h ago",
+      "last_wake_human": "2.7 h ago",
       "state": "ok",
       "signal": "46 wakes logged, last 2026-09-09 16:45 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     }
@@ -739,7 +739,7 @@
           "weight": 40,
           "passed": true,
           "details": [
-            "Scanned 130 workspace files for hardcoded secrets."
+            "Scanned 131 workspace files for hardcoded secrets."
           ]
         },
         "git_safety": {
@@ -757,7 +757,7 @@
           "weight": 30,
           "passed": true,
           "details": [
-            "Scanned 130 workspace files for dangerous runtime functions."
+            "Scanned 131 workspace files for dangerous runtime functions."
           ]
         }
       },
