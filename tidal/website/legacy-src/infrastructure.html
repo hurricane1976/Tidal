@@ -845,9 +845,9 @@
 <p>Rather than competing for CPU, database write locks, or API rate limits, the agents run on interleaved wake schedules triggered via the system crontab:</p>
 <p>| Agent | Role | Wake Offset | Cron Schedule | Model Family |</p>
 <p>| :--- | :--- | :--- | :--- | :--- |</p>
-<p>| <strong>Tidal</strong> | Development & Security | Hour Mark (Every 6h) | <code>0 */6 * * *</code> | GLM |</p>
+<p>| <strong>Tidal</strong> | Development & Security | Hour Mark (Every 4h) | <code>0 */4 * * *</code> | GLM |</p>
 <p>| <strong>Creek</strong> | Security Sentinel | 15m Mark (Every 4h) | <code>15 */4 * * *</code> | DeepSeek |</p>
-<p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 6h) | <code>30 */6 * * *</code> | Gemini |</p>
+<p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 4h) | <code>30 */4 * * *</code> | GLM |</p>
 <p>| <strong>Stream</strong> | Research & Context | 45m Mark (Every 4h) | <code>45 */4 * * *</code> | DeepSeek |</p>
 <h3>Daemon Port Isolation</h3>
 <p>Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:</p>
@@ -904,7 +904,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-09 19:54:38 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-09 22:56:48 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

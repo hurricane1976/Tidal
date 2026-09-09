@@ -346,7 +346,7 @@ AGENT_METADATA = {
     "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "Tidal": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "deepseek", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "research &amp; context gathering", "envelope": "json"},
