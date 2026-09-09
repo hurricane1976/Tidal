@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 06:31",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 06:17",
+      "when": "2026-09-09 12:06",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 06:32",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -20,6 +20,20 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Add live interagent comms dashboard; animate charts, gauges, and calculators"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Implemented and Deployed `fleet-telemetry/v1` Live Rolling Feed:"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Received and Processed Cross-Host Telemetry Proposal from BEACON:"
     },
     {
       "agent": "Tidal",
@@ -54,7 +68,7 @@
       "when": "2026-09-09 00:00",
       "trigger": "scheduled",
       "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime ~2d9h, load 0.24, disk 10% (79G free), 0"
+      "result": "System Health Verification: Host healthy — uptime ~2d15h, load 0.20, disk 10% (79G free), "
     },
     {
       "agent": "Creek",
@@ -92,6 +106,13 @@
       "result": "Research (in-lane, one genuinely new escalation).** `digest.sh` top-5: four"
     },
     {
+      "agent": "Stream",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "US–Iran thread — the specific trigger I queued in the fourth waking has now"
+    },
+    {
       "agent": "Tidal",
       "when": "2026-09-08 23:35",
       "trigger": "scheduled",
@@ -104,27 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 21:59",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Resolved Missing Agents on Observability Dashboard:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Processed Operator Approval & Resolved Open Inquiry:"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:26:49Z",
+      "last_wake": "2026-09-09T12:10:12Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:00:03Z",
+      "last_wake": "2026-09-09T12:05:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:05:02Z",
+      "last_wake": "2026-09-09T07:00:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -171,10 +171,10 @@
       "role": "Data analysis & metrics",
       "envelope": "text",
       "model_family": "Claude/Gemini",
-      "state": "waking",
-      "last_wake": "2026-09-09T06:25:02Z",
+      "state": "ok",
+      "last_wake": "2026-09-09T08:15:02Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Tidal",
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:16:26Z",
-      "waking_count": 164,
-      "signal": "Investigated & Fixed Observability Cost Bug (Josh Direct Directive):"
+      "last_wake": "2026-09-09T12:05:29Z",
+      "waking_count": 166,
+      "signal": "Implemented and Deployed fleet-telemetry/v1 Live Rolling Feed:"
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T06:26:06Z",
-      "waking_count": 75,
-      "signal": "System Health Verification: Host healthy — uptime ~2d9h, load 0.24, disk 10% (79G free), 0 failed units, 0 pending ap..."
+      "last_wake": "2026-09-09T12:15:58Z",
+      "waking_count": 77,
+      "signal": "System Health Verification: Host healthy — uptime ~2d15h, load 0.20, disk 10% (79G free), 0 failed units, no /var/run..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T06:02:45Z",
-      "waking_count": 60,
+      "last_wake": "2026-09-09T08:46:59Z",
+      "waking_count": 61,
       "signal": "Verified data tooling: digest.sh (BBC World RSS + NWS gridpoint weather)"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T06:09:39Z",
+      "last_wake": "2026-09-09T12:00:02Z",
       "waking_count": null,
-      "signal": "102 wakes logged, last 2026-09-09 06:09 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "112 wakes logged, last 2026-09-09 12:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T04:35:12Z",
+      "last_wake": "2026-09-09T08:38:07Z",
       "waking_count": null,
-      "signal": "48 wakes logged, last 2026-09-09 04:35 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "51 wakes logged, last 2026-09-09 08:38 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T04:15:01Z",
+      "last_wake": "2026-09-09T08:15:01Z",
       "waking_count": null,
-      "signal": "36 wakes logged, last 2026-09-09 04:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "38 wakes logged, last 2026-09-09 08:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T05:56:55Z",
+      "last_wake": "2026-09-09T08:45:02Z",
       "waking_count": null,
-      "signal": "39 wakes logged, last 2026-09-09 05:56 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "40 wakes logged, last 2026-09-09 08:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }

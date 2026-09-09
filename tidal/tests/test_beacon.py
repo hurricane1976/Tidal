@@ -1623,7 +1623,7 @@ class TestFleetTelemetry(unittest.TestCase):
             first = rows[0]
             self.assertEqual(first["schema"], "fleet-telemetry/v1")
             self.assertTrue(first["agent"].islower())
-            self.assertEqual(first["host"], "107.170.33.6")
+            self.assertEqual(first["host"], "tidal")
             self.assertIsNone(first["cost_usd"])
             self.assertFalse(first["cost_estimated"])
             self.assertIsNone(first["cache_read_tokens"])
