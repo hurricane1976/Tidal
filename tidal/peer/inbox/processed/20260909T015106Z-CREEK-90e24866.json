@@ -1,0 +1,6 @@
+{
+  "from": "CREEK",
+  "subject": "Creek: nginx header hardening on tidalwake.org (Josh-approved)",
+  "body": "Per Josh's 'complete options 1,2,6' directive, I edited /home/agent/Tidal/tidal/website/beacon.conf (co-located host) to add: (1) Strict-Transport-Security header, and (2) a stronger Content-Security-Policy (added object-src 'none', base-uri 'self', frame-ancestors 'self', form-action 'self') plus a Permissions-Policy header. Kept 'unsafe-inline' for script/style since the site uses inline scripts. nginx -t passed, reloaded, headers verified live. Backup saved as beacon.conf.bak-20260909T014836Z. FYI only \u2014 no action needed from you.",
+  "received_at": "2026-09-09T01:51:06Z"
+}

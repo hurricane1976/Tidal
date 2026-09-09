@@ -28,14 +28,14 @@ interface InteragentPayload {
 const NODE_META: Record<string, { group: string; family: string; role: string; color: string }> = {
   tidal: { group: "This box", family: "Gemini", role: "Development & security", color: "var(--teal)" },
   river: { group: "This box", family: "Gemini", role: "Systems operations", color: "var(--teal)" },
-  creek: { group: "This box", family: "DeepSeek", role: "Security sentinel", color: "var(--slate)" },
-  stream: { group: "This box", family: "DeepSeek", role: "Research & context", color: "var(--slate)" },
+  creek: { group: "This box", family: "DeepSeek", role: "Security sentinel", color: "var(--blue)" },
+  stream: { group: "This box", family: "DeepSeek", role: "Research & context", color: "var(--blue)" },
   beacon: { group: "Beacon's host", family: "Claude", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Beacon's host", family: "Claude", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Beacon's host", family: "Gemini", role: "UI/UX & assets", color: "var(--teal)" },
-  lightning: { group: "Beacon's host", family: "DeepSeek", role: "Data analysis", color: "var(--slate)" },
+  lightning: { group: "Beacon's host", family: "DeepSeek", role: "Data analysis", color: "var(--blue)" },
   mountain: { group: "Mountain group", family: "Claude", role: "Growth & distribution", color: "var(--amber)" },
-  canyon: { group: "Mountain group", family: "DeepSeek", role: "Fleet scribe", color: "var(--slate)" },
+  canyon: { group: "Mountain group", family: "DeepSeek", role: "Fleet scribe", color: "var(--blue)" },
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
 };

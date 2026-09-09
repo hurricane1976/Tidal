@@ -650,20 +650,20 @@ def get_layout(title, content, active_tab):
                 <stop offset="100%" stop-color="var(--amber)" />
             </linearGradient>
             <linearGradient id="tidalGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#ff8a3d" />
-                <stop offset="100%" stop-color="#f6ad55" />
-            </linearGradient>
-            <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#3182ce" />
+                <stop offset="0%" stop-color="#2f9e93" />
                 <stop offset="100%" stop-color="#4fd1c5" />
             </linearGradient>
+            <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#238276" />
+                <stop offset="100%" stop-color="#2f9e93" />
+            </linearGradient>
             <linearGradient id="creekGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#9f7aea" />
-                <stop offset="100%" stop-color="#ed64a6" />
+                <stop offset="0%" stop-color="#5aa9ff" />
+                <stop offset="100%" stop-color="#8cc3ff" />
             </linearGradient>
             <linearGradient id="streamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#319795" />
-                <stop offset="100%" stop-color="#48bb78" />
+                <stop offset="0%" stop-color="#3f7fd6" />
+                <stop offset="100%" stop-color="#5aa9ff" />
             </linearGradient>
             <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stop-color="#d69e2e" />
@@ -850,10 +850,10 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
     live_logs = []
     
     agents = [
-        ("TIDAL", notes, "#ff8a3d"),
-        ("RIVER", river_notes, "#3182ce"),
-        ("CREEK", creek_notes, "#9f7aea"),
-        ("STREAM", stream_notes, "#48bb78")
+        ("TIDAL", notes, "#4fd1c5"),
+        ("RIVER", river_notes, "#2f9e93"),
+        ("CREEK", creek_notes, "#8cc3ff"),
+        ("STREAM", stream_notes, "#3f7fd6")
     ]
     
     for name, agent_notes, color in agents:
@@ -879,18 +879,18 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
         return live_logs[:15]
         
     return [
-        { "agent": "TIDAL", "text": "Waking on schedule. Initiating local source auditing check...", "color": "#ff8a3d" },
-        { "agent": "TIDAL", "text": "Securing keys/ peers.env configuration. Running agent_security_scan.py...", "color": "#ff8a3d" },
-        { "agent": "TIDAL", "text": "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", "color": "#ff8a3d" },
-        { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#3182ce" },
-        { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#3182ce" },
-        { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#3182ce" },
-        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#9f7aea" },
-        { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#9f7aea" },
-        { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#9f7aea" },
-        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#48bb78" },
-        { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#48bb78" },
-        { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#48bb78" }
+        { "agent": "TIDAL", "text": "Waking on schedule. Initiating local source auditing check...", "color": "#4fd1c5" },
+        { "agent": "TIDAL", "text": "Securing keys/ peers.env configuration. Running agent_security_scan.py...", "color": "#4fd1c5" },
+        { "agent": "TIDAL", "text": "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", "color": "#4fd1c5" },
+        { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#2f9e93" },
+        { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#2f9e93" },
+        { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#2f9e93" },
+        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#8cc3ff" },
+        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#3f7fd6" }
     ]
 
 # --- Content Parsers ------------------------------------------------------
@@ -963,15 +963,18 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
     
     # Pre-defined agent colors
     agent_colors = {
-        "TIDAL": "#ff8a3d",
-        "RIVER": "#3182ce",
-        "CREEK": "#9f7aea",
-        "STREAM": "#48bb78",
-        "BEACON": "#f6ad55",
-        "LIGHTNING": "#ecc94b",
-        "MOUNTAIN": "#2f855a",
-        "HIGHBEAM": "#ed64a6",
-        "LANTERN": "#4299e1",
+        "TIDAL": "#4fd1c5",
+        "RIVER": "#2f9e93",
+        "CREEK": "#8cc3ff",
+        "STREAM": "#3f7fd6",
+        "BEACON": "#ff8a3d",
+        "LIGHTNING": "#5aa9ff",
+        "MOUNTAIN": "#d96a2a",
+        "HIGHBEAM": "#ffab5e",
+        "LANTERN": "#7ee0d6",
+        "CANYON": "#6a86e6",
+        "RIDGE": "#f06fb0",
+        "HARBOR": "#f59ccb",
         "SYSTEM": "#4fd1c5"
     }
     
@@ -979,10 +982,10 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
     
     # 1. Process local agent notes (internal system logs)
     local_agents = [
-        ("Tidal", notes, "#ff8a3d"),
-        ("River", river_notes, "#3182ce"),
-        ("Creek", creek_notes, "#9f7aea"),
-        ("Stream", stream_notes, "#48bb78")
+        ("Tidal", notes, "#4fd1c5"),
+        ("River", river_notes, "#2f9e93"),
+        ("Creek", creek_notes, "#8cc3ff"),
+        ("Stream", stream_notes, "#3f7fd6")
     ]
     
     for agent_name, agent_notes, color in local_agents:
@@ -2469,9 +2472,9 @@ def main():
         setInterval(fetchLiveActivity, 20000);
 
         function triggerSimulatedScan() {{
-            appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");
+            appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#4fd1c5");
             setTimeout(() => {{
-                appendTermRow("TIDAL", "Raw secrets scan: PASS. Dangerous functions scan: PASS.", "#ff8a3d");
+                appendTermRow("TIDAL", "Raw secrets scan: PASS. Dangerous functions scan: PASS.", "#4fd1c5");
                 appendTermRow("TIDAL", "Readiness score: 100/100 (NOMINAL).", "#4fd1c5");
             }}, 1000);
         }}
@@ -4563,8 +4566,8 @@ def main():
 
           <!-- Agent 1: Tidal -->
           <g transform="translate(100, 265)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#4fd1c5" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#4fd1c5" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 6h) | Gemini</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
@@ -4572,8 +4575,8 @@ def main():
 
           <!-- Agent 2: River -->
           <g transform="translate(360, 265)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#3182ce" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#2f9e93" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#2f9e93" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | Gemini</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
@@ -4581,8 +4584,8 @@ def main():
 
           <!-- Agent 3: Creek -->
           <g transform="translate(100, 355)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#9f7aea" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#9f7aea" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#8cc3ff" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#8cc3ff" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Creek (Security Sentinel)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">15m mark (Every 4h) | DeepSeek</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8890 | Peer Inbox: 8789</text>
@@ -4590,8 +4593,8 @@ def main():
 
           <!-- Agent 4: Stream -->
           <g transform="translate(360, 355)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#48bb78" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#48bb78" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3f7fd6" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#3f7fd6" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Stream (Research &amp; Context)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">45m mark (Every 4h) | DeepSeek</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8891 | Peer Inbox: 8790</text>
