@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-09 18:28:39 UTC] Actually it’s GLM flash latest per openrouter
+- [Telegram 2026-09-09 18:14:30 UTC] Note that lantern, tidal and river are now on GLM flash vice Gemini. Adjust accordingly
 _Nothing open right now._
 
 ## On hold
