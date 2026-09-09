@@ -2,7 +2,14 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 19:52",
+      "when": "2026-09-09 19:54",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "Waking 174: routine verification pass, process 5 Mountain liveness probes, full pipeline d"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 19:53",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -27,6 +34,13 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "CORS + ndjson content-type for fleet-telemetry feed (per Harbor report)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Routine Verification Pass on GLM Flash:"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Received and Processed Cross-Host Telemetry Proposal from BEACON:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Investigated & Fixed Observability Cost Bug (Josh Direct Directive):"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Processed Peer Communications & Handshakes:"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T19:06:20Z",
-      "waking_count": 177,
-      "signal": "Routine Verification Pass on GLM Flash (Third Consecutive):"
+      "last_wake": "2026-09-09T19:54:10Z",
+      "waking_count": 178,
+      "signal": "Routine Verification Pass on GLM Flash:"
     },
     {
       "name": "River",
