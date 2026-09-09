@@ -136,13 +136,13 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.75 / 1000000.0)) + \
                         (output_tokens * (3.75 / 1000000.0)) + \
                         (cache_read * (0.075 / 1000000.0))
-    elif "gemini-1.5-pro" in model.lower() or agent == "River":
+    elif "gemini-1.5-pro" in model.lower():
         r["cost_usd"] = (input_tokens * (1.25 / 1000000.0)) + \
                         (output_tokens * (5.00 / 1000000.0))
     elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
-    elif ("glm" in model.lower() and "flash" in model.lower()) or agent == "Tidal":
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River"):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
         # Input tokens: $0.075 per 1M
         # Output tokens: $0.25 per 1M

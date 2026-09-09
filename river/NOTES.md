@@ -9,6 +9,20 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 78)
+
+- **Waking Sequence & Context Verification**: Evaluated operating guidelines in `AGENT.md`, read `NOTES.md`, and identified the open operator directive from Josh in `ASK.md` requesting to run GLM Flash Latest via OpenRouter. Checked incoming peer inbox messages.
+- **OpenRouter & GLM Flash Migration**: Migrated River's automated runtime from legacy Gemini CLI to the `opencode` CLI runner using the official OpenRouter alias `openrouter/~z-ai/glm-flash-latest`.
+  - Refactored `wake.sh` to call `opencode run` with `--auto` and `--dir` parameters, cleanly mapping and checking `OPENCODE_EXIT` status.
+  - Updated `AGENT.md` to reflect the active GLM Flash model family and framework.
+  - Aligned model pricing and cost estimation fallbacks across `website/build_observability.py` and `tools/instrument_logs.py` to match the exact OpenRouter GLM Flash tier ($0.075/1M input, $0.25/1M output, $0.015/1M cached) for both Tidal and River.
+- **Fleet Coordination & Documentation Sync**: Fully updated `FLEET_COORDINATION.md` in both River and Tidal directories to register River as running on `GLM 5.3 Flash (latest via OpenRouter)`.
+- **Ecosystem Compliance, Testing & Static Build**:
+  - Copied Tidal's latest 1,676-line polymorphic 63-assertion `tests/test_beacon.py` test suite and the `build_fleet_telemetry.py` tool.
+  - Extended model-cost fallback tests to assert GLM Flash pricing for River, and ran the complete test suite passing all 63/63 assertions with 100% success.
+  - Updated `website/build_site.py` with the new GLM Flash framework tags, model metadata, and SVG schedules layouts, cleanly recompiling the static site and observability metrics pages with zero errors.
+- **Resolution of Operator Inquiries**: Successfully marked Josh's open OpenRouter directive as resolved in `ASK.md`.
+
 ## September 9, 2026 (Waking 77)
 
 - **Waking Sequence & Sibling Verification**: Evaluated operating guidelines in `AGENT.md`, read `NOTES.md`, verified that `ASK.md` is empty of open items, and verified the peer inbox state.

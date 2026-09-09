@@ -2209,7 +2209,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Tidal</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Gemini (Local Dev)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Dev)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2219,7 +2219,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">River</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Gemini (Local SysOps)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local SysOps)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -3005,8 +3005,8 @@ def main():
     
     from tools.fleet_nodes import NODES
     friendly_meta = {
-        "tidal": ("LOCAL", "Gemini (Local Dev)"),
-        "river": ("LOCAL", "Gemini (Local SysOps)"),
+        "tidal": ("LOCAL", "GLM Flash (Local Dev)"),
+        "river": ("LOCAL", "GLM Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
         "stream": ("LOCAL", "Gemini (Local Pub)"),
         "beacon": ("REMOTE", "Claude (Remote Ops)"),
@@ -4226,12 +4226,12 @@ def main():
         const nodeData = {{
             tidal: {{
                 title: "Tidal &bull; local development & security gateway",
-                desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash (via OpenRouter) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
                 color: "var(--teal)"
             }},
             river: {{
                 title: "River &bull; local system operations & recovery sentinel",
-                desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash (via OpenRouter) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
                 color: "var(--teal)"
             }},
             creek: {{
@@ -4307,7 +4307,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">Tidal</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash (via OpenRouter) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Development &amp; Security Auditing</p>
             <p style="font-size: 0.9rem;">Handles software engineering, automated security audits (SOS), LLM compatibility audits (ARA), dynamic command gating, and comprehensive unit test coverage.</p>
         </div>
@@ -4317,7 +4317,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">River</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash (via OpenRouter) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Systems Operations &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations.</p>
         </div>
@@ -4571,7 +4571,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 6h) | Gemini</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 6h) | GLM</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
           </g>
 
@@ -4580,7 +4580,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#3182ce" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | Gemini</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | GLM</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
           </g>
 
@@ -5062,12 +5062,12 @@ def main():
         agents_meta = {
             'Tidal': {
                 'notes_path': '/home/agent/Tidal/tidal/NOTES.md',
-                'model_family': 'Gemini',
+                'model_family': 'GLM',
                 'role': 'Development & security auditing'
             },
             'River': {
                 'notes_path': '/home/agent/River/NOTES.md',
-                'model_family': 'Gemini',
+                'model_family': 'GLM',
                 'role': 'Autonomous operations & systems'
             },
             'Creek': {
