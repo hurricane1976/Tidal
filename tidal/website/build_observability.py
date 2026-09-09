@@ -114,6 +114,42 @@ def _canonical_model(env: dict) -> str | None:
     return best
 
 
+def estimate_cost_if_null(r: dict) -> None:
+    """Estimate cost for runtimes/agents that don't emit a cost envelope but have tokens."""
+    if r.get("cost_usd") is not None:
+        return
+    
+    agent = r.get("agent")
+    model = r.get("model") or ""
+    input_tokens = r.get("input_tokens") or 0
+    output_tokens = r.get("output_tokens") or 0
+    cache_read = r.get("cache_read_tokens") or 0
+    
+    if not input_tokens and not output_tokens:
+        return
+        
+    # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
+    # Input tokens: $0.75 per 1M
+    # Output tokens: $3.75 per 1M
+    # Cache Read: $0.075 per 1M
+    if "gemini-3.8-flash" in model.lower() or agent == "Lantern":
+        r["cost_usd"] = (input_tokens * (0.75 / 1000000.0)) + \
+                        (output_tokens * (3.75 / 1000000.0)) + \
+                        (cache_read * (0.075 / 1000000.0))
+    elif "gemini-1.5-pro" in model.lower() or agent in ("Tidal", "River"):
+        r["cost_usd"] = (input_tokens * (1.25 / 1000000.0)) + \
+                        (output_tokens * (5.00 / 1000000.0))
+    elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
+        r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
+                        (output_tokens * (0.28 / 1000000.0))
+    elif "glm" in model.lower() or agent in ("Ridge", "Harbor"):
+        r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
+                        (output_tokens * (0.20 / 1000000.0))
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Beacon", "Highbeam", "Mountain"):
+        r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
+                        (output_tokens * (15.00 / 1000000.0))
+
+
 def load_store() -> dict:
     rows = {}
     if STORE.exists():
@@ -125,6 +161,7 @@ def load_store() -> dict:
                 r = json.loads(line)
             except ValueError:
                 continue
+            estimate_cost_if_null(r)
             rows[f"{r.get('agent')}:{r.get('ts')}"] = r
     return rows
 
@@ -819,6 +856,10 @@ def generate_observability_json(store_rows: list[dict]) -> None:
     success_rate_pct = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples) * 100.0 if samples > 0 else 100.0
     last_wake = max(r.get("ts") for r in tidal_rows) if tidal_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    # Cost breakdown for Tidal
+    total_cost_usd = sum(r.get("cost_usd") or 0.0 for r in tidal_rows)
+    avg_cost_usd = total_cost_usd / samples if samples > 0 else 0.0
+
     # Error subtype breakdown for Tidal
     errored_rows_tidal = [r for r in tidal_rows if r.get("is_error")]
     error_subtypes_tidal = {}
@@ -839,6 +880,10 @@ def generate_observability_json(store_rows: list[dict]) -> None:
         s_last_seen = max(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         s_since = min(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+        # Cost breakdown for sibling
+        s_total_cost = sum(r.get("cost_usd") or 0.0 for r in sibling_rows)
+        s_avg_cost = s_total_cost / s_samples if s_samples > 0 else 0.0
+
         # Error subtype breakdown for this sibling
         errored_rows_sib = [r for r in sibling_rows if r.get("is_error")]
         error_subtypes_sib = {}
@@ -849,7 +894,7 @@ def generate_observability_json(store_rows: list[dict]) -> None:
         siblings[name] = {
             "samples": s_samples,
             "min_samples": 5,
-            "avg_cost_usd": None,
+            "avg_cost_usd": round(s_avg_cost, 4) if s_avg_cost > 0.0 else None,
             "avg_tokens": int(round(s_avg_tokens)),
             "avg_duration_s": round(s_avg_duration_s, 1),
             "success_rate_pct": int(round(s_success_rate_pct)),
@@ -862,6 +907,8 @@ def generate_observability_json(store_rows: list[dict]) -> None:
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "samples": samples,
         "min_samples": 5,
+        "total_cost_usd": round(total_cost_usd, 4),
+        "avg_cost_usd": round(avg_cost_usd, 4),
         "total_tokens": total_tokens,
         "avg_duration_s": round(avg_duration_s, 1),
         "success_rate_pct": int(round(success_rate_pct)),
@@ -881,10 +928,13 @@ def main() -> None:
     mountain_runs = fetch_mountain_telemetry()
     store = load_store()
     for r in remote_runs:
+        estimate_cost_if_null(r)
         store[f"{r['agent']}:{r['ts']}"] = r
     for r in mountain_runs:
+        estimate_cost_if_null(r)
         store[f"{r['agent']}:{r['ts']}"] = r
     for r in scanned:
+        estimate_cost_if_null(r)
         store[f"{r['agent']}:{r['ts']}"] = r
     ordered = save_store(store)
     generate_observability_json(ordered)

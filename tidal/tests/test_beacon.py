@@ -1527,6 +1527,32 @@ class TestObservability(unittest.TestCase):
             finally:
                 build_obs.HERE = orig_here
 
+    def test_estimate_cost_if_null(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+
+        # 1. Existing cost shouldn't change
+        r_existing = {"agent": "Lantern", "model": "gemini-3.8-flash", "input_tokens": 10000, "output_tokens": 1000, "cost_usd": 12.34}
+        build_obs.estimate_cost_if_null(r_existing)
+        self.assertEqual(r_existing["cost_usd"], 12.34)
+
+        # 2. Lantern / gemini-3.8-flash with null cost should be estimated
+        # Input rate: $0.75/1M, Output rate: $3.75/1M
+        # 1M input + 1M output = $0.75 + $3.75 = $4.50
+        r_lantern = {"agent": "Lantern", "model": "gemini-3.8-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern)
+        self.assertAlmostEqual(r_lantern["cost_usd"], 4.50)
+
+        # 3. DeepSeek with null cost should be estimated
+        # Input rate: $0.14/1M, Output rate: $0.28/1M
+        # 1M input + 1M output = $0.14 + $0.28 = $0.42
+        r_deepseek = {"agent": "Creek", "model": "deepseek-v4-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_deepseek)
+        self.assertAlmostEqual(r_deepseek["cost_usd"], 0.42)
+
 
 if __name__ == "__main__":
     unittest.main()
