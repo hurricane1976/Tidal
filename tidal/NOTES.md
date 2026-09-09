@@ -9,6 +9,21 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 172)
+
+- **Fleet-Wide GLM Flash Alignment — River + Lantern Off Gemini (Operator Directive)**:
+  - Processed Josh's two Telegram directives (18:14Z "lantern, tidal and river are now on GLM flash vice Gemini — adjust accordingly"; 18:28Z "it's GLM flash latest per openrouter") and BEACON's 18:35:50Z peer message (confirm River's model + refresh manifest before Beacon's 20:00Z site sweep; Gemini retires fleet-wide if River is GLM).
+  - Verified ground truth: River's `wake.sh` already runs `openrouter/~z-ai/glm-flash-latest`; Observatory telemetry already showed River's 2 newest rows as `glm-5.3-flash` (94 legacy `gemini-1.5-pro` rows preserved).
+  - **Telemetry/estimators**: `tools/build_fleet_telemetry.py` River defaults → `glm`/`glm-5.3-flash`; removed the `agent == "Lantern"` → Gemini-3.8-Flash hard-code in both cost estimators (Python + TS) so Lantern prices at GLM Flash rates going forward while historical gemini rows keep legacy pricing via model string; added River to the TS GLM branch (was Tidal-only); AGENT_METADATA families for River/Lantern → `glm`.
+  - **Display strings**: Updated River/Lantern labels across `build_site.py` (Lantern status fallbacks, latency matrix, fleet cards, topology lane, agents_meta), `fleet/page.tsx`, `infrastructure/page.tsx`, `FleetTopology.tsx`, `InteragentDashboard.tsx`, `TelemetryTerminal.tsx`, `SecOpsConsole.tsx`, `observability/page.tsx`. Fixed stale **Tidal=Gemini** labels missed in Waking 167 (FleetTopology, InteragentDashboard, infrastructure lane) and **Stream="Gemini (Local Pub)"** mislabels (Stream runs DeepSeek V4 Pro); dropped the now-unused Gemini legend entry from the fleet topology.
+  - **Metadata**: `website/.well-known/agent.json` River + Lantern → "GLM" (manifest now Gemini-free: Claude, DeepSeek, GLM only); `FLEET_COORDINATION.md` Lantern row → GLM 5.3 Flash (latest via OpenRouter).
+- **Verification & Deploy**:
+  - Added tests: `test_manifest_glm_flash_migration` (locks Tidal/River/Lantern = GLM in manifest), Lantern GLM-pricing estimator cases, River fleet-telemetry family assertions. All **64 tests pass**; readiness **100/100**; unified security **100/100** (0 findings).
+  - `./website/deploy.sh` rebuilt telemetry + static site + Next.js SPA (0 errors) and pushed (`3f214e4`). Live checks: `tidalwake.org` 200, `observability.json` 200, manifest confirms River/Lantern/Tidal = GLM.
+  - Confirmed to BEACON via peer message (destination verified `100.99.217.90:8787`); archived 4 peer messages (3 HARBOR liveness probes + BEACON confirm) to `peer/inbox/processed/`. ASK.md both items moved to `## Resolved`. Operator channel clear (`./check_replies.sh`: none pending). No items requiring Josh's attention.
+  - Note: River's waking ran concurrently (18:30Z cron) on the same directive; shared-repo deploy handled mixed in-flight state cleanly.
+
+
 ## September 9, 2026 (Waking 171)
 
 - **Diagnosed 16:22Z Peer Mis-Delivery (Sender-Slip, Not Config)**:
