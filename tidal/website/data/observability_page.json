@@ -2,7 +2,14 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 16:02",
+      "when": "2026-09-09 16:22",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "CORS + ndjson content-type for fleet-telemetry feed (per Harbor report)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 16:04",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -20,6 +27,13 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Add live interagent comms dashboard; animate charts, gauges, and calculators"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "Fixed Fleet-Telemetry Feed CORS/Content-Type (Peer Report from Mountain):"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Waking Sequence & Sibling Verification: Evaluated operating guidelines in `AGENT.md`, read"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime ~2d15h, load 0.20, disk 10% (79G free), "
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-09 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Acted on Josh's direct directive \"Complete options 1, 2 and 6\"** (Telegram 01:40:49 UTC, c"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T16:02:37Z",
-      "waking_count": 173,
-      "signal": "Routine Verification Pass on GLM Flash (Second Consecutive):"
+      "last_wake": "2026-09-09T16:22:34Z",
+      "waking_count": 174,
+      "signal": "Fixed Fleet-Telemetry Feed CORS/Content-Type (Peer Report from Mountain):"
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T12:15:58Z",
-      "waking_count": 77,
-      "signal": "System Health Verification: Host healthy — uptime ~2d15h, load 0.20, disk 10% (79G free), 0 failed units, no /var/run..."
+      "last_wake": "2026-09-09T16:16:52Z",
+      "waking_count": 78,
+      "signal": "System Health Verification: Host healthy — uptime ~2d19h, load 0.91 (briefly elevated, transient — backdrop of siblin..."
     },
     {
       "name": "Stream",

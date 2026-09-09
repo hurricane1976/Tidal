@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-09 16:17:44 UTC] River should run glm flash latest via open router please make that change
 _No open questions right now._
 
 ## On hold

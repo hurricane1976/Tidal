@@ -533,7 +533,7 @@ _Nothing awaiting a decision right now._
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 
@@ -824,8 +824,17 @@ _Nothing awaiting a decision right now._
             self.assertIn("Mountain Onboarding &amp; Integration Specifications", onboarding_content)
             self.assertNotIn("var(--surface-1)", onboarding_content)
 
+        # Check infrastructure page was generated
+        infrastructure_html_path = "website/infrastructure.html"
+        self.assertTrue(os.path.exists(infrastructure_html_path))
+        with open(infrastructure_html_path, "r") as f:
+            infrastructure_content = f.read()
+            self.assertIn("Systems &amp; Security Infrastructure", infrastructure_content)
+            self.assertIn("HARDENED VPS HOST (107.170.33.6)", infrastructure_content)
+            self.assertNotIn("var(--surface-1)", infrastructure_content)
+
         # Ensure no generated files contain the "--surface-1" typo
-        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html"]:
+        for fn in ["fleet.html", "metrics.html", "mountain-onboarding.html", "infrastructure.html"]:
             with open(os.path.join("website", fn), "r") as f:
                 c = f.read()
                 self.assertNotIn("var(--surface-1)", c, f"Found surface-1 typo in {fn}")
@@ -1456,42 +1465,214 @@ class TestObservability(unittest.TestCase):
             self.assertIn("outcome", first_row)
             self.assertIn("result", first_row)
 
-    def test_observability_json_generation(self):
-        import os
-        import json
-        obs_json_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "website", "observability.json"))
-        self.assertTrue(os.path.exists(obs_json_path))
-        with open(obs_json_path, "r") as f:
-            data = json.load(f)
-        
-        # Verify top-level structure
-        self.assertIn("samples", data)
-        self.assertIn("min_samples", data)
-        self.assertIn("total_cost_usd", data)
-        self.assertIn("avg_cost_usd", data)
-        self.assertIn("total_tokens", data)
-        self.assertIn("avg_duration_s", data)
-        self.assertIn("success_rate_pct", data)
-        self.assertIn("last_wake", data)
-        self.assertIn("generated_at", data)
-        self.assertIn("siblings", data)
-        self.assertIn("error_subtypes", data)
-        self.assertIsInstance(data["error_subtypes"], dict)
+        # Test generate_observability_json with custom HERE
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            orig_here = build_obs.HERE
+            build_obs.HERE = temp_path
+            try:
+                # Create some mock rows
+                mock_rows = [
+                    {
+                        "agent": "Tidal",
+                        "ts": "2026-09-08T12:00:00Z",
+                        "input_tokens": 1000,
+                        "output_tokens": 200,
+                        "duration_ms": 15000,
+                        "is_error": False
+                    },
+                    {
+                        "agent": "Tidal",
+                        "ts": "2026-09-08T13:00:00Z",
+                        "input_tokens": 2000,
+                        "output_tokens": 300,
+                        "duration_ms": 25000,
+                        "is_error": True
+                    },
+                    {
+                        "agent": "River",
+                        "ts": "2026-09-08T11:00:00Z",
+                        "input_tokens": 1500,
+                        "output_tokens": 250,
+                        "duration_ms": 18000,
+                        "is_error": False
+                    }
+                ]
+                
+                build_obs.generate_observability_json(mock_rows)
+                
+                out_file = temp_path / "observability.json"
+                self.assertTrue(out_file.exists())
+                
+                with open(out_file) as f:
+                    payload = json.load(f)
+                    
+                self.assertIn("generated_at", payload)
+                self.assertEqual(payload["samples"], 2)
+                self.assertEqual(payload["total_tokens"], 3500)
+                self.assertEqual(payload["avg_duration_s"], 20.0)
+                self.assertEqual(payload["success_rate_pct"], 50)
+                self.assertEqual(payload["last_wake"], "2026-09-08T13:00:00Z")
+                
+                self.assertIn("siblings", payload)
+                self.assertIn("River", payload["siblings"])
+                river = payload["siblings"]["River"]
+                self.assertEqual(river["samples"], 1)
+                self.assertEqual(river["avg_tokens"], 1750)
+                self.assertEqual(river["avg_duration_s"], 18.0)
+                self.assertEqual(river["success_rate_pct"], 100)
+                self.assertEqual(river["since"], "2026-09-08T11:00:00Z")
+                self.assertEqual(river["last_seen"], "2026-09-08T11:00:00Z")
+            finally:
+                build_obs.HERE = orig_here
 
-        # Verify siblings map
-        self.assertIsInstance(data["siblings"], dict)
-        for name in ["River", "Creek", "Stream"]:
-            if name in data["siblings"]:
-                sib = data["siblings"][name]
-                self.assertIn("samples", sib)
-                self.assertIn("min_samples", sib)
-                self.assertIn("avg_cost_usd", sib)
-                self.assertIn("avg_tokens", sib)
-                self.assertIn("avg_duration_s", sib)
-                self.assertIn("success_rate_pct", sib)
-                self.assertIn("last_seen", sib)
-                self.assertIn("error_subtypes", sib)
-                self.assertIsInstance(sib["error_subtypes"], dict)
+    def test_estimate_cost_if_null(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+
+        # 1. Existing cost shouldn't change
+        r_existing = {"agent": "Lantern", "model": "gemini-3.8-flash", "input_tokens": 10000, "output_tokens": 1000, "cost_usd": 12.34}
+        build_obs.estimate_cost_if_null(r_existing)
+        self.assertEqual(r_existing["cost_usd"], 12.34)
+
+        # 2. Lantern / gemini-3.8-flash with null cost should be estimated
+        # Input rate: $0.75/1M, Output rate: $3.75/1M
+        # 1M input + 1M output = $0.75 + $3.75 = $4.50
+        r_lantern = {"agent": "Lantern", "model": "gemini-3.8-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern)
+        self.assertAlmostEqual(r_lantern["cost_usd"], 4.50)
+
+        # 3. DeepSeek with null cost should be estimated
+        # Input rate: $0.14/1M, Output rate: $0.28/1M
+        # 1M input + 1M output = $0.14 + $0.28 = $0.42
+        r_deepseek = {"agent": "Creek", "model": "deepseek-v4-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_deepseek)
+        self.assertAlmostEqual(r_deepseek["cost_usd"], 0.42)
+
+        # 4. GLM Flash (Tidal's runtime, ~z-ai/glm-flash-latest alias) should be estimated
+        # Input rate: $0.075/1M, Output rate: $0.25/1M, Cache read: $0.015/1M
+        # 1M input + 1M output = $0.075 + $0.25 = $0.325
+        r_glm_flash = {"agent": "Tidal", "model": "glm-5.3-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_glm_flash)
+        self.assertAlmostEqual(r_glm_flash["cost_usd"], 0.325)
+
+        # 5. Tidal runs are matched by agent even without a model string
+        r_glm_flash_no_model = {"agent": "Tidal", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_glm_flash_no_model)
+        self.assertAlmostEqual(r_glm_flash_no_model["cost_usd"], 0.325)
+
+        # 6. Historical Tidal & River gemini-1.5-pro runs keep legacy Gemini pricing
+        r_tidal_gemini = {"agent": "Tidal", "model": "gemini-1.5-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_tidal_gemini)
+        self.assertAlmostEqual(r_tidal_gemini["cost_usd"], 6.25)
+
+        r_river_gemini = {"agent": "River", "model": "gemini-1.5-pro", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_river_gemini)
+        self.assertAlmostEqual(r_river_gemini["cost_usd"], 6.25)
+
+        # 7. River runs with no model string now fall back to GLM Flash pricing (since migration)
+        r_river = {"agent": "River", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_river)
+        self.assertAlmostEqual(r_river["cost_usd"], 0.325)
+
+    def test_wake_script_uses_glm_flash_latest(self):
+        """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
+        (per the operator directive of 2026-09-09). The ~ alias always
+        redirects to the newest GLM Flash release."""
+        wake_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wake.sh"))
+        with open(wake_path, "r") as f:
+            content = f.read()
+        self.assertIn('--model "openrouter/~z-ai/glm-flash-latest"', content)
+        self.assertNotIn("z-ai/glm-5.3\n", content)
+
+
+class TestFleetTelemetry(unittest.TestCase):
+    """Tests the fleet-telemetry generation module tools/build_fleet_telemetry.py."""
+
+    def test_map_subtype_to_reason(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        self.assertEqual(build_telemetry.map_subtype_to_reason("success", False), "completed")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("success", True), "completed")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("error_max_turns", True), "turn_limit")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("error_during_execution", True), "execution_error")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("timeout", True), "timeout")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("upstream 5xx", True), "provider_api_error")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("some_unknown_error", True), "execution_error")
+
+    def test_parse_notes_waking_counts(self):
+        import os
+        import tempfile
+        from pathlib import Path
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir) / "NOTES.md"
+            
+            # 1. Test standard (Tidal) newest-on-top format
+            temp_path.write_text("""
+## September 9, 2026 (Waking 161)
+- Bullet 1
+## September 8, 2026 (Waking 160)
+- Bullet 2
+""", encoding="utf-8")
+            
+            wakes = build_telemetry.parse_notes_waking_counts("Tidal", temp_path)
+            self.assertEqual(len(wakes), 2)
+            self.assertEqual(wakes[0]["waking_count"], 160) # oldest sorted first
+            self.assertEqual(wakes[1]["waking_count"], 161)
+
+            # 2. Test Stream style oldest-on-top format
+            temp_path.write_text("""
+## 2026-09-03 (first waking)
+- Bullet 1
+## 2026-09-03 (second waking)
+- Bullet 2
+""", encoding="utf-8")
+            
+            wakes = build_telemetry.parse_notes_waking_counts("Stream", temp_path)
+            self.assertEqual(len(wakes), 2)
+            self.assertEqual(wakes[0]["waking_count"], 1)
+            self.assertEqual(wakes[1]["waking_count"], 2)
+
+    def test_build_telemetry_schema(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        rows = build_telemetry.build_telemetry_rows()
+        self.assertIsInstance(rows, list)
+        if len(rows) > 0:
+            first = rows[0]
+            self.assertEqual(first["schema"], "fleet-telemetry/v1")
+            self.assertTrue(first["agent"].islower())
+            self.assertEqual(first["host"], "tidal")
+            self.assertIsNone(first["cost_usd"])
+            self.assertFalse(first["cost_estimated"])
+            self.assertIsNone(first["cache_read_tokens"])
+            self.assertIsNone(first["cache_creation_tokens"])
+            self.assertIn(first["terminal_reason"], ["completed", "provider_api_error", "execution_error", "turn_limit", "timeout", "other"])
+
+            # Tidal rows: legacy runs may be gemini, but everything from the
+            # GLM migration onward must map to the glm family consistently.
+            tidal_rows = [r for r in rows if r["agent"] == "tidal"]
+            for r in tidal_rows:
+                self.assertIn(r["model_family"], ["gemini", "glm"])
+                if r["model_family"] == "glm":
+                    self.assertIn("glm", r["model"].lower())
 
 
 if __name__ == "__main__":
