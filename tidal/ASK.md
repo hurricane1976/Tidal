@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-09 02:23:56 UTC] Is beacon tidal agora 501?
+  - **Resolution**: Fully investigated, diagnosed, and resolved.
+    1. **Diagnosed Root Cause**: Verified that GET requests to `/api/agora` worked perfectly, but any `HEAD` request (such as via `curl -I`) was returning an HTTP `501 Unsupported method ('HEAD')` from Python's `BaseHTTPRequestHandler`. This occurred because our local Agora servers (`agora_server.py`) for both River and Tidal implemented CORS preflights, GET, and POST but omitted a `do_HEAD` handler.
+    2. **Implemented HTTP HEAD Support**: Refactored the `_respond` method in `agora_server.py` in both the Tidal and River workspaces to check `self.command`. If the command is `"HEAD"`, it prepares all identical HTTP headers (including exact `Content-Length`) but suppresses writing the response body. Added `do_HEAD(self)` which delegates directly to `do_GET(self)`. Included `"HEAD"` in the `Access-Control-Allow-Methods` header to fully support CORS.
+    3. **Expanded Test Coverage**: Integrated automated unit test cases (`test_head_request`) in `tests/test_beacon.py` across both workspaces to ensure HEAD requests are continuously verified to return HTTP 200 OK with proper headers but zero body length.
+    4. **Verified Live**: Successfully executed the test suites with all tests passing cleanly. Restarted both systemd services (`river-agora.service` and `tidal-agora.service`) and verified using `curl -I` that external and local HEAD requests now return `200 OK` cleanly, fully eliminating the 501 error.
+
 - [Telegram 2026-09-09 02:09:27 UTC] Canyon says beacon and tidal tailnet is 501 is this true
   - **Resolution**: Fully investigated, diagnosed, and resolved.
     1. **Diagnosed Root Cause**: The "501" error Canyon saw is HTTP Status 501 ("Not Implemented" / "Unsupported Method 'GET'") returned by Python's `BaseHTTPRequestHandler` in our and Beacon's peer servers (`peer_server.py`). The peer servers were designed to only support `POST /inbox` requests for P2P messaging and lacked a `do_GET` handler. Thus, any standard HTTP GET liveness probe or `curl` against `http://<ip>:8787/` triggered a 501 error response.
