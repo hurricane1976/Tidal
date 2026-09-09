@@ -114,6 +114,42 @@ def _canonical_model(env: dict) -> str | None:
     return best
 
 
+def estimate_cost_if_null(r: dict) -> None:
+    """Estimate cost for runtimes/agents that don't emit a cost envelope but have tokens."""
+    if r.get("cost_usd") is not None:
+        return
+    
+    agent = r.get("agent")
+    model = r.get("model") or ""
+    input_tokens = r.get("input_tokens") or 0
+    output_tokens = r.get("output_tokens") or 0
+    cache_read = r.get("cache_read_tokens") or 0
+    
+    if not input_tokens and not output_tokens:
+        return
+        
+    # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
+    # Input tokens: $0.75 per 1M
+    # Output tokens: $3.75 per 1M
+    # Cache Read: $0.075 per 1M
+    if "gemini-3.8-flash" in model.lower() or agent == "Lantern":
+        r["cost_usd"] = (input_tokens * (0.75 / 1000000.0)) + \
+                        (output_tokens * (3.75 / 1000000.0)) + \
+                        (cache_read * (0.075 / 1000000.0))
+    elif "gemini-1.5-pro" in model.lower() or agent in ("Tidal", "River"):
+        r["cost_usd"] = (input_tokens * (1.25 / 1000000.0)) + \
+                        (output_tokens * (5.00 / 1000000.0))
+    elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
+        r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
+                        (output_tokens * (0.28 / 1000000.0))
+    elif "glm" in model.lower() or agent in ("Ridge", "Harbor"):
+        r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
+                        (output_tokens * (0.20 / 1000000.0))
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Beacon", "Highbeam", "Mountain"):
+        r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
+                        (output_tokens * (15.00 / 1000000.0))
+
+
 def load_store() -> dict:
     rows = {}
     if STORE.exists():
@@ -125,6 +161,7 @@ def load_store() -> dict:
                 r = json.loads(line)
             except ValueError:
                 continue
+            estimate_cost_if_null(r)
             rows[f"{r.get('agent')}:{r.get('ts')}"] = r
     return rows
 
@@ -522,7 +559,9 @@ def generate_agent_summary(instrumented: list[dict]) -> str:
     for agent in sorted(by_agent):
         runs = by_agent[agent]
         n = len(runs)
-        total_cost = sum(r["cost_usd"] for r in runs)
+        has_cost = any(r.get("cost_usd") is not None for r in runs)
+        total_cost = sum(r.get("cost_usd") or 0 for r in runs) if has_cost else None
+        mean_cost = total_cost / n if (total_cost is not None and n > 0) else None
         turns = [r["turns"] for r in runs if isinstance(r.get("turns"), (int, float))]
         walls = [r["duration_ms"] for r in runs if isinstance(r.get("duration_ms"), (int, float))]
         toks = [_run_total_tokens(r) for r in runs]
@@ -531,7 +570,7 @@ def generate_agent_summary(instrumented: list[dict]) -> str:
             "<tr><td>{a}</td><td class=\"mono\">{n}</td><td class=\"mono\">{tc}</td>"
             "<td class=\"mono\">{mc}</td><td class=\"mono\">{mt}</td><td class=\"mono\">{mw}</td>"
             "<td class=\"mono\">{mtok}</td><td class=\"mono\">{err}</td></tr>".format(
-                a=esc(agent), n=n, tc=fmt_cost(total_cost), mc=fmt_cost(total_cost / n),
+                a=esc(agent), n=n, tc=fmt_cost(total_cost), mc=fmt_cost(mean_cost),
                 mt=f"{sum(turns) / len(turns):.1f}" if turns else "—",
                 mw=fmt_dur(sum(walls) / len(walls)) if walls else "—",
                 mtok=fmt_int(round(sum(toks) / len(toks))) if toks else "—",
@@ -544,9 +583,10 @@ def render(store_rows: list[dict]) -> str:
     tmpl = TEMPLATE.read_text()
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    instrumented = [r for r in store_rows if isinstance(r.get("cost_usd"), (int, float))]
+    instrumented = store_rows
     n = len(instrumented)
-    total_cost = sum(r["cost_usd"] for r in instrumented)
+    has_total_cost = any(r.get("cost_usd") is not None for r in instrumented)
+    total_cost = sum(r.get("cost_usd") or 0 for r in instrumented) if has_total_cost else None
     total_tok = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0)
                     + (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
                     for r in instrumented)
@@ -559,7 +599,7 @@ def render(store_rows: list[dict]) -> str:
             f"since <strong>{since}</strong> "
             f"({', '.join(by_agent)}) &mdash; "
             f"<strong>{fmt_cost(total_cost)}</strong> total, "
-            f"<strong>{fmt_cost(total_cost / n)}</strong> mean, "
+            f"<strong>{fmt_cost(total_cost / n if total_cost is not None else None)}</strong> mean, "
             f"<strong>{fmt_int(total_tok)}</strong> tokens (incl. cache)."
         )
         recent = instrumented[-12:][::-1]
@@ -570,7 +610,7 @@ def render(store_rows: list[dict]) -> str:
             "<td class=\"mono\">{cr} cache-rd</td>"
             "<td><span class=\"outcome {oc}\">{ol}</span></td></tr>".format(
                 a=esc(r["agent"]), t=esc(r["ts"][5:16].replace("T", " ")),
-                c=fmt_cost(r["cost_usd"]), turns=fmt_int(r.get("turns")),
+                c=fmt_cost(r.get("cost_usd")), turns=fmt_int(r.get("turns")),
                 dur=fmt_dur(r.get("duration_ms")),
                 it=fmt_int(r.get("input_tokens")), ot=fmt_int(r.get("output_tokens")),
                 cr=fmt_int(r.get("cache_read_tokens")),
@@ -581,12 +621,12 @@ def render(store_rows: list[dict]) -> str:
         )
         # cost bars, newest-right, scaled to the max in the window
         window = instrumented[-16:]
-        cmax = max((r["cost_usd"] for r in window), default=0) or 1
+        cmax = max((r.get("cost_usd") or 0 for r in window), default=0) or 1
         cost_bars = "\n".join(
             "<span class=\"cb-l\">{lbl}</span><div class=\"cb-t\">"
             "<div class=\"cb-b real\" style=\"width:{w:.0f}%\" title=\"{c}\"></div></div>".format(
                 lbl=esc(r["ts"][5:16].replace("T", " ")),
-                w=max(3, r["cost_usd"] / cmax * 100), c=fmt_cost(r["cost_usd"]),
+                w=max(3, (r.get("cost_usd") or 0) / cmax * 100), c=fmt_cost(r.get("cost_usd")),
             )
             for r in window
         )
@@ -737,18 +777,170 @@ def fetch_remote_telemetry() -> list[dict]:
         return []
 
 
+def fetch_mountain_telemetry() -> list[dict]:
+    """Fetch remote telemetry from mountainwake.org by parsing its HTML chart-data script block."""
+    url = "https://mountainwake.org/observability.html"
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Tidal-Observability-Agent/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            html = response.read().decode('utf-8')
+            m = re.search(r'<script type="application/json" class="chart-data">(.*?)</script>', html, re.DOTALL)
+            if not m:
+                print(f"Warning: could not find chart-data script block in {url}")
+                return []
+            data = json.loads(m.group(1))
+            formatted_runs = []
+            for agent in ["Mountain", "Canyon", "Ridge", "Harbor"]:
+                if agent not in data.get("agents", {}):
+                    continue
+                agent_data = data["agents"][agent]
+                full = agent_data.get("full", [])
+                series = agent_data.get("series", {})
+                cost_vals = series.get("cost", {}).get("values", [])
+                tok_vals = series.get("tokens", {}).get("values", [])
+                wall_vals = series.get("wall", {}).get("values", [])
+                
+                for i in range(len(full)):
+                    ts_str = full[i]
+                    ts_iso = ts_str.strip().replace(" UTC", "Z").replace(" ", "T")
+                    ts_iso = re.sub(r'T+', 'T', ts_iso)
+                    
+                    cost = cost_vals[i] if i < len(cost_vals) else None
+                    tokens = tok_vals[i] if i < len(tok_vals) else None
+                    wall = wall_vals[i] if i < len(wall_vals) else None
+                    
+                    model = "Claude"
+                    if agent == "Canyon":
+                        model = "DeepSeek"
+                    elif agent in ("Ridge", "Harbor"):
+                        model = "GLM"
+                        
+                    formatted_runs.append({
+                        "agent": agent,
+                        "ts": ts_iso,
+                        "cost_usd": cost,
+                        "turns": None,
+                        "duration_ms": int(wall * 1000) if wall is not None else None,
+                        "duration_api_ms": None,
+                        "input_tokens": tokens,
+                        "output_tokens": None,
+                        "cache_read_tokens": None,
+                        "cache_creation_tokens": None,
+                        "is_error": False,
+                        "subtype": "success",
+                        "model": model,
+                    })
+            return formatted_runs
+    except Exception as e:
+        print(f"Warning: failed to fetch remote telemetry from {url}: {e}")
+        return []
+
+
+def generate_observability_json(store_rows: list[dict]) -> None:
+    """Generate machine-readable telemetry roll-up website/observability.json for Beacon."""
+    local_agents = ["Tidal", "River", "Creek", "Stream"]
+    by_agent = {name: [] for name in local_agents}
+    for r in store_rows:
+        name = r.get("agent")
+        if name in by_agent:
+            by_agent[name].append(r)
+
+    # Tidal itself (top-level)
+    tidal_rows = by_agent["Tidal"]
+    samples = len(tidal_rows)
+    total_tokens = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) for r in tidal_rows)
+    avg_duration_s = sum((r.get("duration_ms") or 0) / 1000.0 for r in tidal_rows) / samples if samples > 0 else 0.0
+    success_rate_pct = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples) * 100.0 if samples > 0 else 100.0
+    last_wake = max(r.get("ts") for r in tidal_rows) if tidal_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Cost breakdown for Tidal
+    total_cost_usd = sum(r.get("cost_usd") or 0.0 for r in tidal_rows)
+    avg_cost_usd = total_cost_usd / samples if samples > 0 else 0.0
+
+    # Error subtype breakdown for Tidal
+    errored_rows_tidal = [r for r in tidal_rows if r.get("is_error")]
+    error_subtypes_tidal = {}
+    for r in errored_rows_tidal:
+        subtype = r.get("subtype") or "unknown"
+        error_subtypes_tidal[subtype] = error_subtypes_tidal.get(subtype, 0) + 1
+
+    siblings = {}
+    for name in ["River", "Creek", "Stream"]:
+        sibling_rows = by_agent[name]
+        if not sibling_rows:
+            continue
+        s_samples = len(sibling_rows)
+        s_total_tokens = sum((r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) for r in sibling_rows)
+        s_avg_tokens = s_total_tokens / s_samples if s_samples > 0 else 0.0
+        s_avg_duration_s = sum((r.get("duration_ms") or 0) / 1000.0 for r in sibling_rows) / s_samples if s_samples > 0 else 0.0
+        s_success_rate_pct = (sum(1 for r in sibling_rows if not r.get("is_error")) / s_samples) * 100.0 if s_samples > 0 else 100.0
+        s_last_seen = max(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        s_since = min(r.get("ts") for r in sibling_rows) if sibling_rows else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Cost breakdown for sibling
+        s_total_cost = sum(r.get("cost_usd") or 0.0 for r in sibling_rows)
+        s_avg_cost = s_total_cost / s_samples if s_samples > 0 else 0.0
+
+        # Error subtype breakdown for this sibling
+        errored_rows_sib = [r for r in sibling_rows if r.get("is_error")]
+        error_subtypes_sib = {}
+        for r in errored_rows_sib:
+            subtype = r.get("subtype") or "unknown"
+            error_subtypes_sib[subtype] = error_subtypes_sib.get(subtype, 0) + 1
+
+        siblings[name] = {
+            "samples": s_samples,
+            "min_samples": 5,
+            "avg_cost_usd": round(s_avg_cost, 4) if s_avg_cost > 0.0 else None,
+            "avg_tokens": int(round(s_avg_tokens)),
+            "avg_duration_s": round(s_avg_duration_s, 1),
+            "success_rate_pct": int(round(s_success_rate_pct)),
+            "since": s_since,
+            "last_seen": s_last_seen,
+            "error_subtypes": error_subtypes_sib
+        }
+
+    payload = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "samples": samples,
+        "min_samples": 5,
+        "total_cost_usd": round(total_cost_usd, 4),
+        "avg_cost_usd": round(avg_cost_usd, 4),
+        "total_tokens": total_tokens,
+        "avg_duration_s": round(avg_duration_s, 1),
+        "success_rate_pct": int(round(success_rate_pct)),
+        "last_wake": last_wake,
+        "siblings": siblings,
+        "error_subtypes": error_subtypes_tidal
+    }
+
+    obs_json_path = HERE / "observability.json"
+    obs_json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
+    print(f"wrote {obs_json_path.name}")
+
+
 def main() -> None:
     scanned = scan_json_logs()
     remote_runs = fetch_remote_telemetry()
+    mountain_runs = fetch_mountain_telemetry()
     store = load_store()
     for r in remote_runs:
+        estimate_cost_if_null(r)
+        store[f"{r['agent']}:{r['ts']}"] = r
+    for r in mountain_runs:
+        estimate_cost_if_null(r)
         store[f"{r['agent']}:{r['ts']}"] = r
     for r in scanned:
+        estimate_cost_if_null(r)
         store[f"{r['agent']}:{r['ts']}"] = r
     ordered = save_store(store)
+    generate_observability_json(ordered)
     OUT.write_text(render(ordered))
     print(f"wrote {OUT.name} ({len(ordered)} rows in store, "
-          f"{len([r for r in ordered if isinstance(r.get('cost_usd'), (int, float))])} instrumented)")
+          f"{len(ordered)} instrumented)")
 
     # Structured data for the React /observability route's remaining
     # legacy-HTML sections (run explorer, per-agent lanes) -- same sources
@@ -760,93 +952,6 @@ def main() -> None:
     (HERE / "data" / "observability_page.json").write_text(
         json.dumps(page_data, ensure_ascii=False, indent=2))
     print("wrote data/observability_page.json")
-
-    # Generate telemetry roll-up observability.json for Beacon status consumption
-    generate_observability_json(ordered)
-
-
-def generate_observability_json(ordered: list[dict]) -> None:
-    """Generates website/observability.json for the fleet status consumption,
-    per Beacon's request."""
-    tidal_rows = [r for r in ordered if r.get("agent") == "Tidal"]
-    samples_tidal = len(tidal_rows)
-    
-    total_tokens_tidal = sum(
-        (r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) +
-        (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
-        for r in tidal_rows
-    )
-    
-    durations_tidal = [r["duration_ms"] for r in tidal_rows if r.get("duration_ms")]
-    avg_duration_s_tidal = (sum(durations_tidal) / len(durations_tidal)) / 1000.0 if durations_tidal else 0.0
-    
-    success_rate_pct_tidal = (sum(1 for r in tidal_rows if not r.get("is_error")) / samples_tidal * 100.0) if samples_tidal > 0 else 100.0
-    last_wake_tidal = tidal_rows[-1]["ts"] if tidal_rows else None
-    
-    # Error subtype breakdown for Tidal
-    errored_rows_tidal = [r for r in tidal_rows if r.get("is_error")]
-    error_subtypes_tidal = {}
-    for r in errored_rows_tidal:
-        subtype = r.get("subtype") or "unknown"
-        error_subtypes_tidal[subtype] = error_subtypes_tidal.get(subtype, 0) + 1
-    
-    generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    
-    siblings = {}
-    for sib_name in ["River", "Creek", "Stream"]:
-        sib_rows = [r for r in ordered if r.get("agent") == sib_name]
-        samples_sib = len(sib_rows)
-        if samples_sib == 0:
-            continue
-        
-        total_tokens_sib = sum(
-            (r.get("input_tokens") or 0) + (r.get("output_tokens") or 0) +
-            (r.get("cache_read_tokens") or 0) + (r.get("cache_creation_tokens") or 0)
-            for r in sib_rows
-        )
-        avg_tokens_sib = total_tokens_sib / samples_sib if samples_sib > 0 else 0
-        
-        durations_sib = [r["duration_ms"] for r in sib_rows if r.get("duration_ms")]
-        avg_duration_s_sib = (sum(durations_sib) / len(durations_sib)) / 1000.0 if durations_sib else 0.0
-        
-        success_rate_pct_sib = (sum(1 for r in sib_rows if not r.get("is_error")) / samples_sib * 100.0) if samples_sib > 0 else 100.0
-        last_seen_sib = sib_rows[-1]["ts"] if sib_rows else None
-        
-        # Error subtype breakdown for this sibling
-        errored_rows_sib = [r for r in sib_rows if r.get("is_error")]
-        error_subtypes_sib = {}
-        for r in errored_rows_sib:
-            subtype = r.get("subtype") or "unknown"
-            error_subtypes_sib[subtype] = error_subtypes_sib.get(subtype, 0) + 1
-        
-        siblings[sib_name] = {
-            "samples": samples_sib,
-            "min_samples": 5,
-            "avg_cost_usd": None,
-            "avg_tokens": avg_tokens_sib,
-            "avg_duration_s": avg_duration_s_sib,
-            "success_rate_pct": success_rate_pct_sib,
-            "last_seen": last_seen_sib,
-            "error_subtypes": error_subtypes_sib
-        }
-        
-    obs_json = {
-        "samples": samples_tidal,
-        "min_samples": 5,
-        "total_cost_usd": None,
-        "avg_cost_usd": None,
-        "total_tokens": total_tokens_tidal,
-        "avg_duration_s": avg_duration_s_tidal,
-        "success_rate_pct": success_rate_pct_tidal,
-        "last_wake": last_wake_tidal,
-        "generated_at": generated_at,
-        "siblings": siblings,
-        "error_subtypes": error_subtypes_tidal
-    }
-    
-    json_out = HERE / "observability.json"
-    json_out.write_text(json.dumps(obs_json, ensure_ascii=False, indent=2))
-    print(f"wrote {json_out.name} successfully")
 
 
 if __name__ == "__main__":

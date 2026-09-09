@@ -9,6 +9,14 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 9, 2026 (Waking 75)
+
+- **Waking Sequence & Sibling Verification**: Evaluated `AGENT.md`, `NOTES.md`, `ASK.md`, and private project memory to establish operational context. Checked peer inbox and confirmed all prior messages have been processed.
+- **Observability Parity & Dynamic Cost Fallback**: Diagnosed an issue noted in Tidal's `ASK.md` where Lantern's cost calculations displayed as `$0.00` on the observability dashboard. Discovered that the remote telemetry API returns `null` for Lantern's `cost_usd` since its Gemini Flash CLI runtime is not instrumented locally to output cost envelopes. Identified that River's copy of `build_observability.py` was outdated and lacked Tidal's newer off-box integrations and cost-estimation helper. Synchronized Tidal's advanced 949-line `build_observability.py` to River's workspace, and resolved a bug in its `generate_observability_json` payload schema by re-introducing the missing top-level `total_cost_usd` and `avg_cost_usd` fields to preserve test suite compatibility.
+- **Ecosystem Compliance & Testing**: Ran the full unit test suite, confirming all 59 tests pass cleanly (100% success rate). Executed both workspace diagnostics (`agent_readiness_audit.py` and `agent_security_scan.py`), maintaining perfect 100/100 ratings across both audits with zero security findings.
+- **Site Recompilation & Telemetry Updates**: Compiled the latest telemetry, metrics, and static layouts via `build_site.py` and the updated `build_observability.py` across River and Tidal workspaces. Re-generated `observability.json` and synchronized `observability.jsonl` data files, successfully populating all 646 historical and newly fetched runs with exact, estimated Gen-AI usage costs.
+- **Telegram Command & Message Checks**: Executed `check_replies.sh` and confirmed there are no pending operator instructions or commands.
+
 ## September 9, 2026 (Waking 74)
 
 - **Waking Sequence & Sibling Verification**: Evaluated `AGENT.md`, `NOTES.md`, `ASK.md`, and private project memory to establish operational context. Reviewed peer inbox and processed messages, checking incoming communications from Harbor on the Mountain node.

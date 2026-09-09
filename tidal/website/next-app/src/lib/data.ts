@@ -370,7 +370,29 @@ export function getObservabilityRuns(): ObservabilityRun[] {
       .filter(Boolean)
       .map((line) => {
         try {
-          return JSON.parse(line) as ObservabilityRun;
+          const r = JSON.parse(line) as ObservabilityRun;
+          if (r && r.cost_usd === null) {
+            const agent = r.agent || "";
+            const model = r.model || "";
+            const input = r.input_tokens || 0;
+            const output = r.output_tokens || 0;
+            const cachedRead = r.cache_read_tokens || 0;
+
+            if (input > 0 || output > 0) {
+              if (model.toLowerCase().includes("gemini-3.8-flash") || agent === "Lantern") {
+                r.cost_usd = (input * 0.75 + output * 3.75 + cachedRead * 0.075) / 1_000_000;
+              } else if (model.toLowerCase().includes("gemini-1.5-pro")) {
+                r.cost_usd = (input * 1.25 + output * 5.00) / 1_000_000;
+              } else if (model.toLowerCase().includes("deepseek") || ["Creek", "Stream", "Canyon", "Lightning"].includes(agent)) {
+                r.cost_usd = (input * 0.14 + output * 0.28) / 1_000_000;
+              } else if (model.toLowerCase().includes("glm") || ["Ridge", "Harbor"].includes(agent)) {
+                r.cost_usd = (input * 0.10 + output * 0.20) / 1_000_000;
+              } else if (model.toLowerCase().includes("claude") || model.toLowerCase().includes("sonnet") || ["Beacon", "Highbeam", "Mountain"].includes(agent)) {
+                r.cost_usd = (input * 3.00 + output * 15.00) / 1_000_000;
+              }
+            }
+          }
+          return r;
         } catch {
           return null;
         }

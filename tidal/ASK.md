@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-09 06:07:49 UTC] Lantern doesn’t look likes it’s calculating correct in the observability page shows 0.00 cost
 _Nothing open right now._
 
 ## On hold
