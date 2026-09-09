@@ -10,6 +10,42 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-09 15:07:22 UTC] Tidal is currently running Gemini how do I shift it to use GLM 5.3 as I’m doing on other agents in this fleet
+  - **Resolution**: Fully researched, verified, and detailed. Shifting Tidal to run on GLM 5.3 is extremely straightforward because our co-located sibling agents (Creek, Stream) are already fully configured with `opencode` and authenticated to OpenRouter via a system-wide credential in `~/.local/share/opencode/auth.json`. 
+    Here is the exact step-by-step blueprint to transition Tidal to run on GLM 5.3:
+    1. **Edit `wake.sh`**:
+       In `/home/agent/Tidal/tidal/wake.sh` (or `/home/agent/agent/wake.sh`), locate the `gemini` invocation:
+       ```bash
+       gemini --yolo \
+           --include-directories /home/agent \
+           -p "$PROMPT" \
+           >>"$LOG_FILE" 2>&1
+       GEMINI_EXIT=$?
+       ```
+       Replace it with the `opencode` execution pointing to GLM 5.3, matching our other opencode-run agents:
+       ```bash
+       opencode run \
+           --auto \
+           --dir /home/agent/Tidal/tidal \
+           --model openrouter/z-ai/glm-5.3 \
+           "$PROMPT" \
+           >>"$LOG_FILE" 2>&1
+       OPENCODE_EXIT=$?
+       ```
+       Additionally, update all subsequent status-checking blocks in `wake.sh` to reference `OPENCODE_EXIT` instead of `GEMINI_EXIT`:
+       - Change `[ "$GEMINI_EXIT" -eq 0 ]` to `[ "$OPENCODE_EXIT" -eq 0 ]`
+       - Change `[ "$GEMINI_EXIT" -ne 0 ]` to `[ "$OPENCODE_EXIT" -ne 0 ]`
+    2. **Edit `AGENT.md`**:
+       Update the header definition in `/home/agent/Tidal/tidal/AGENT.md` from:
+       ```markdown
+       You are Tidal, running through the Gemini CLI on this server.
+       ```
+       to:
+       ```markdown
+       You are Tidal, running through opencode (GLM 5.3) on this server.
+       ```
+    Since this request was received as an Inquiry asking *how* to shift it, we have documented the precise steps above but **have not modified any script or agent files** to preserve stable operations until you issue an explicit directive to perform the migration. If you want us to perform this migration automatically, please send a message or update the instructions with a direct directive (e.g. "Migrate Tidal to GLM 5.3" or similar), and we will execute the change, update the unit tests, and verify it flawlessly.
+
 - [Telegram 2026-09-09 06:07:49 UTC] Lantern doesn’t look likes it’s calculating correct in the observability page shows 0.00 cost
   - **Resolution**: Fully investigated, diagnosed, and resolved.
     1. **Identified the Root Cause**: Discovered that Lantern runs (using `gemini-3.8-flash` on the remote Beacon host) do not emit a Claude-style billing envelope and thus have `cost_usd: null` in the collected telemetry database (`website/data/observability.jsonl`). On the client side, the React/Next.js dashboard page was summing costs as `r.cost_usd || 0`, mapping `null` values to `0.00` and rendering a total cost of `$0.0000` despite millions of tokens being processed.
