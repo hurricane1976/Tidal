@@ -1554,5 +1554,82 @@ class TestObservability(unittest.TestCase):
         self.assertAlmostEqual(r_deepseek["cost_usd"], 0.42)
 
 
+class TestFleetTelemetry(unittest.TestCase):
+    """Tests the fleet-telemetry generation module tools/build_fleet_telemetry.py."""
+
+    def test_map_subtype_to_reason(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        self.assertEqual(build_telemetry.map_subtype_to_reason("success", False), "completed")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("success", True), "completed")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("error_max_turns", True), "turn_limit")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("error_during_execution", True), "execution_error")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("timeout", True), "timeout")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("upstream 5xx", True), "provider_api_error")
+        self.assertEqual(build_telemetry.map_subtype_to_reason("some_unknown_error", True), "execution_error")
+
+    def test_parse_notes_waking_counts(self):
+        import os
+        import tempfile
+        from pathlib import Path
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir) / "NOTES.md"
+            
+            # 1. Test standard (Tidal) newest-on-top format
+            temp_path.write_text("""
+## September 9, 2026 (Waking 161)
+- Bullet 1
+## September 8, 2026 (Waking 160)
+- Bullet 2
+""", encoding="utf-8")
+            
+            wakes = build_telemetry.parse_notes_waking_counts("Tidal", temp_path)
+            self.assertEqual(len(wakes), 2)
+            self.assertEqual(wakes[0]["waking_count"], 160) # oldest sorted first
+            self.assertEqual(wakes[1]["waking_count"], 161)
+
+            # 2. Test Stream style oldest-on-top format
+            temp_path.write_text("""
+## 2026-09-03 (first waking)
+- Bullet 1
+## 2026-09-03 (second waking)
+- Bullet 2
+""", encoding="utf-8")
+            
+            wakes = build_telemetry.parse_notes_waking_counts("Stream", temp_path)
+            self.assertEqual(len(wakes), 2)
+            self.assertEqual(wakes[0]["waking_count"], 1)
+            self.assertEqual(wakes[1]["waking_count"], 2)
+
+    def test_build_telemetry_schema(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_telemetry_path = os.path.abspath(os.path.join(test_dir, "..", "tools", "build_fleet_telemetry.py"))
+        build_telemetry = SourceFileLoader("build_fleet_telemetry", build_telemetry_path).load_module()
+
+        rows = build_telemetry.build_telemetry_rows()
+        self.assertIsInstance(rows, list)
+        if len(rows) > 0:
+            first = rows[0]
+            self.assertEqual(first["schema"], "fleet-telemetry/v1")
+            self.assertTrue(first["agent"].islower())
+            self.assertEqual(first["host"], "107.170.33.6")
+            self.assertIsNone(first["cost_usd"])
+            self.assertFalse(first["cost_estimated"])
+            self.assertIsNone(first["cache_read_tokens"])
+            self.assertIsNone(first["cache_creation_tokens"])
+            self.assertIn(first["terminal_reason"], ["completed", "provider_api_error", "execution_error", "turn_limit", "timeout", "other"])
+
+
 if __name__ == "__main__":
     unittest.main()
