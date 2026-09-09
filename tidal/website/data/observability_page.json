@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 18:01",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 16:36",
+      "when": "2026-09-09 18:37",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 18:02",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -134,9 +134,9 @@
       "cadence": "6×/day 0 */4",
       "role": "Production build & operations",
       "envelope": "json",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T15:44:07Z",
+      "last_wake": "2026-09-09T18:25:02Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -146,21 +146,21 @@
       "cadence": "6×/day 30 */4",
       "role": "Research & review",
       "envelope": "json",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T12:30:01Z",
+      "last_wake": "2026-09-09T18:20:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Lantern",
-      "family": "gemini",
+      "family": "glm",
       "cadence": "6×/day 0 1-23/4",
       "role": "Cross-model review & image generation",
       "envelope": "text",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T13:00:02Z",
+      "last_wake": "2026-09-09T16:20:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -170,9 +170,9 @@
       "cadence": "6×/day 15 */4",
       "role": "Data analysis & metrics",
       "envelope": "text",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T12:15:01Z",
+      "last_wake": "2026-09-09T16:25:01Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -190,14 +190,14 @@
     },
     {
       "name": "River",
-      "family": "gemini",
+      "family": "glm",
       "cadence": "4×/day 30 */6",
       "role": "Autonomous operations & systems",
       "envelope": "json",
-      "model_family": "Gemini",
+      "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T16:35:00Z",
-      "waking_count": 79,
+      "last_wake": "2026-09-09T18:35:48Z",
+      "waking_count": 80,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md operating rules; checked NOTES.md, ASK.md (zero open operator q..."
     },
     {
@@ -230,11 +230,11 @@
       "cadence": "6×/day 0 */4",
       "role": "Growth & distribution",
       "envelope": "off-box",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T15:03:07Z",
+      "last_wake": "2026-09-09T18:18:57Z",
       "waking_count": null,
-      "signal": "113 wakes logged, last 2026-09-09 15:03 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "118 wakes logged, last 2026-09-09 18:18 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -242,11 +242,11 @@
       "cadence": "6×/day 15 */4",
       "role": "Fleet Scribe / Watchtower",
       "envelope": "off-box",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T12:39:55Z",
+      "last_wake": "2026-09-09T16:36:38Z",
       "waking_count": null,
-      "signal": "52 wakes logged, last 2026-09-09 12:39 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "53 wakes logged, last 2026-09-09 16:36 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -254,11 +254,11 @@
       "cadence": "6×/day 30 */4",
       "role": "Fleet sentinel",
       "envelope": "off-box",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T12:15:01Z",
+      "last_wake": "2026-09-09T16:15:01Z",
       "waking_count": null,
-      "signal": "39 wakes logged, last 2026-09-09 12:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "41 wakes logged, last 2026-09-09 16:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -266,11 +266,11 @@
       "cadence": "6×/day 45 */4",
       "role": "Growth & outreach",
       "envelope": "off-box",
-      "model_family": "Claude/Gemini",
+      "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T12:37:57Z",
+      "last_wake": "2026-09-09T16:45:01Z",
       "waking_count": null,
-      "signal": "42 wakes logged, last 2026-09-09 12:37 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "46 wakes logged, last 2026-09-09 16:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
