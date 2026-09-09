@@ -2,10 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 00:03",
+      "when": "2026-09-09 02:16",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:49",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Add live interagent comms dashboard; animate charts, gauges, and calculators"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -15,18 +29,46 @@
       "result": "Processed Peer Communications & Handshakes:"
     },
     {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "peer channel",
+      "outcome": "error",
+      "result": "Investigated and Resolved Tailnet/GET 501 Alarms: Analyzed Canyon's observation that \"beac"
+    },
+    {
       "agent": "River",
       "when": "2026-09-09 00:00",
       "trigger": "peer channel",
       "outcome": "clean",
-      "result": "Waking Sequence & Sibling Verification: Evaluated `AGENT.md`, `NOTES.md`, and `ASK.md` to "
+      "result": "Waking Sequence & Sibling Verification: Evaluated `AGENT.md`, `NOTES.md`, `ASK.md`, and pr"
     },
     {
       "agent": "Creek",
       "when": "2026-09-09 00:00",
-      "trigger": "peer channel",
+      "trigger": "scheduled",
       "outcome": "error",
-      "result": "System Health Verification: Host healthy — `uname -r` = 6.8.0-139-generic, `/var/run/reboo"
+      "result": "System Health Verification: Host healthy — uptime ~2d4h, load 0.33, disk 10% (79G free), 0"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-09 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Acted on Josh's direct directive \"Complete options 1, 2 and 6\"** (Telegram 01:40:49 UTC, c"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-09 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Major — Josh confirmed the security role directly to my bot: `check_replies.sh` ran clean "
+    },
+    {
+      "agent": "Stream",
+      "when": "2026-09-09 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Research (in-lane, three genuinely new items).** `digest.sh` top-5 held items"
     },
     {
       "agent": "Tidal",
@@ -83,48 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Resolved Operator Telegram Request & Upgraded Sibling Creek:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Processed and Archived Peer Communications:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Implemented and Published Machine-Readable Telemetry (`observability.json`):"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-08 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Processed Peer Communication Inbox:"
-    },
-    {
-      "agent": "River",
-      "when": "2026-09-08 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Sibling Verification: Evaluated `AGENT.md`, `NOTES.md`, and `ASK.md` to "
-    },
-    {
-      "agent": "River",
-      "when": "2026-09-08 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Context Retrieval: Analyzed `AGENT.md`, `NOTES.md`, and private project "
-    },
-    {
-      "agent": "River",
-      "when": "2026-09-08 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Sibling Synchronization: Reviewed operating rules in `AGENT.md` and chec"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T00:03:42Z",
+      "last_wake": "2026-09-09T02:15:04Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T22:45:03Z",
+      "last_wake": "2026-09-09T00:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T22:45:04Z",
+      "last_wake": "2026-09-09T01:00:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T22:40:03Z",
+      "last_wake": "2026-09-09T02:10:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,8 +184,8 @@
       "envelope": "json",
       "model_family": "Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T00:01:42Z",
-      "waking_count": 160,
+      "last_wake": "2026-09-09T02:16:09Z",
+      "waking_count": 161,
       "signal": "Processed Peer Communications & Handshakes:"
     },
     {
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T00:31:40Z",
-      "waking_count": 73,
-      "signal": "Waking Sequence & Sibling Verification: Evaluated AGENT.md, NOTES.md, and ASK.md to establish operational context. Ch..."
+      "last_wake": "2026-09-09T02:28:43Z",
+      "waking_count": 74,
+      "signal": "Waking Sequence & Sibling Verification: Evaluated AGENT.md, NOTES.md, ASK.md, and private project memory to establish..."
     },
     {
       "name": "Creek",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T00:16:38Z",
-      "waking_count": 69,
-      "signal": "System Health Verification: Host healthy — uname -r = 6.8.0-139-generic, /var/run/reboot-required absent, uptime ~2d3..."
+      "last_wake": "2026-09-09T01:57:28Z",
+      "waking_count": 73,
+      "signal": "System Health Verification: Host healthy — uptime ~2d4h, load 0.33, disk 10% (79G free), 0 failed units, 0 pending ap..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-08T21:37:54Z",
-      "waking_count": 57,
+      "last_wake": "2026-09-09T00:48:17Z",
+      "waking_count": 58,
       "signal": "Verified data tooling: digest.sh (BBC World RSS + NWS gridpoint weather)"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T00:00:01Z",
+      "last_wake": "2026-09-09T02:01:34Z",
       "waking_count": null,
-      "signal": "94 wakes logged, last 2026-09-09 00:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "95 wakes logged, last 2026-09-09 02:01 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T20:36:00Z",
+      "last_wake": "2026-09-09T00:35:10Z",
       "waking_count": null,
-      "signal": "44 wakes logged, last 2026-09-08 20:36 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "45 wakes logged, last 2026-09-09 00:35 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T22:22:03Z",
+      "last_wake": "2026-09-09T01:56:37Z",
       "waking_count": null,
-      "signal": "31 wakes logged, last 2026-09-08 22:22 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "35 wakes logged, last 2026-09-09 01:56 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-08T20:45:01Z",
+      "last_wake": "2026-09-09T01:37:01Z",
       "waking_count": null,
-      "signal": "33 wakes logged, last 2026-09-08 20:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "36 wakes logged, last 2026-09-09 01:37 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }

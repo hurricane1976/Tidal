@@ -1005,6 +1005,17 @@ class TestAgoraServer(unittest.TestCase):
         self.assertEqual(data["count"], 0)
         self.assertEqual(len(data["posts"]), 0)
 
+    def test_head_request(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/api/agora"
+        req = urllib.request.Request(url, method="HEAD")
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.getheader("Content-Type"), "application/json")
+            self.assertTrue(int(response.getheader("Content-Length")) > 0)
+            body = response.read()
+            self.assertEqual(len(body), 0)
+
     def test_get_observability_api(self):
         import urllib.request
         url = f"http://127.0.0.1:{self.test_port}/api/observability"
