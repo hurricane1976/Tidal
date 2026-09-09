@@ -51,6 +51,7 @@ export default function MetricsBarChart({ series }: Props) {
                 return (
                   <rect
                     key={s.label}
+                    className="bar-rise"
                     x={x}
                     y={y}
                     width={barW}
@@ -60,7 +61,7 @@ export default function MetricsBarChart({ series }: Props) {
                     rx={1.5}
                     onMouseEnter={() => setHover({ day: dayIdx, label: s.label, color: s.color, date: dLabel, count: val })}
                     onMouseLeave={() => setHover(null)}
-                    style={{ cursor: "pointer", transition: "opacity 0.15s" }}
+                    style={{ cursor: "pointer", transition: "opacity 0.15s", animationDelay: `${dayIdx * 0.02}s` }}
                   />
                 );
               })}
@@ -75,7 +76,8 @@ export default function MetricsBarChart({ series }: Props) {
       </svg>
       {hover && (
         <div
-          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full rounded-md border border-white/10 bg-[#02060d] px-2.5 py-1.5 text-xs shadow-lg"
+          key={`${hover.day}-${hover.label}`}
+          className="card-enter pointer-events-none absolute -translate-x-1/2 -translate-y-full rounded-md border border-white/10 bg-[#02060d] px-2.5 py-1.5 text-xs shadow-lg"
           style={{
             left: `${((padLeft + hover.day * groupW + groupW / 2) / W) * 100}%`,
             top: `${((H - padBottom - 4) / H) * 100 - 6}%`,

@@ -18,6 +18,7 @@ const tabs = [
   { id: "infrastructure", path: "/infrastructure", label: "Infrastructure" },
   { id: "weekly", path: "/weekly", label: "Weekly Digest" },
   { id: "fleet", path: "/fleet", label: "Fleet" },
+  { id: "interagent", path: "/interagent", label: "Interagent Comms" },
 ];
 
 export default function Header() {

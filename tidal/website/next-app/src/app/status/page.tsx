@@ -1,4 +1,6 @@
 import { getSiteStatus, getSecurityReport, type SiblingStatus } from "@/lib/data";
+import Gauge from "@/components/Gauge";
+import LoadBars from "@/components/LoadBars";
 
 export const metadata = {
   title: "System Status | Tidal Agent",
@@ -38,18 +40,22 @@ export default function StatusPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
         <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
-          <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">CPU load average (1m, 5m, 15m)</div>
-          <div className="text-[1.6rem] font-display font-semibold">{system.cpu}</div>
+          <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">CPU load average</div>
+          <LoadBars cpu={system.cpu} />
         </div>
-        <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
-          <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">Disk usage</div>
-          <div className="text-[1.6rem] font-display font-semibold">{system.disk_pct}%</div>
-          <p className="text-sm text-text-dim mt-1 mb-0">Using {system.disk_used} of {system.disk_total}</p>
+        <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6 flex items-center gap-5">
+          <Gauge value={system.disk_pct} color="var(--tide)" />
+          <div>
+            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">Disk usage</div>
+            <p className="text-sm text-text-dim m-0">Using {system.disk_used} of {system.disk_total}</p>
+          </div>
         </div>
-        <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
-          <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">Memory usage</div>
-          <div className="text-[1.6rem] font-display font-semibold">{system.mem_pct}%</div>
-          <p className="text-sm text-text-dim mt-1 mb-0">Using {system.mem_used} of {system.mem_total}</p>
+        <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6 flex items-center gap-5">
+          <Gauge value={system.mem_pct} color="var(--amber)" />
+          <div>
+            <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-2">Memory usage</div>
+            <p className="text-sm text-text-dim m-0">Using {system.mem_used} of {system.mem_total}</p>
+          </div>
         </div>
       </div>
 

@@ -58,7 +58,8 @@ export default function BrokerageTopology() {
             <animateMotion dur="7s" repeatCount="indefinite" path="M120,125 L320,125 L620,200 L870,125" />
           </circle>
           {NODES.map((n) => (
-            <g key={n.id} className="topo-node cursor-pointer" onMouseEnter={() => setActive(n)} onClick={() => setActive(n)}>
+            <g key={n.id} className="topo-node cursor-pointer" tabIndex={0} role="button" aria-label={n.title} onMouseEnter={() => setActive(n)} onFocus={() => setActive(n)} onClick={() => setActive(n)}>
+              <circle className="ping-halo" cx={n.x} cy={n.y} r={n.r + 2} style={{ stroke: n.dot }} aria-hidden="true" />
               <circle className="topo-node-bg" cx={n.x} cy={n.y} r={n.r} />
               <circle className="ping-dot" cx={n.x} cy={n.y} r={4} fill={n.dot} />
               <text x={n.x} y={n.y + 4} fill="var(--text)" fontFamily="'Space Grotesk', sans-serif" fontSize={n.label.length > 6 ? 7 : 9} fontWeight={600} textAnchor="middle">

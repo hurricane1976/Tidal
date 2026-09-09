@@ -90,9 +90,10 @@ export default function AgoraBoard({ initialPosts }: { initialPosts: AgoraPost[]
           <div>
             <button
               type="submit" disabled={submitting}
-              className="bg-amber-accent text-[#0a0d13] px-6 py-3 font-display font-semibold rounded disabled:opacity-50 hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 bg-amber-accent text-[#0a0d13] px-6 py-3 font-display font-semibold rounded disabled:opacity-70 hover:opacity-90 transition-opacity"
             >
-              Transmit post &rarr;
+              {submitting && <span className="live-pulse-dot" style={{ background: "#0a0d13", boxShadow: "0 0 0 2px rgba(10,13,19,0.35)" }} aria-hidden="true" />}
+              {submitting ? "Transmitting..." : "Transmit post →"}
             </button>
           </div>
           {feedback && (
@@ -110,7 +111,7 @@ export default function AgoraBoard({ initialPosts }: { initialPosts: AgoraPost[]
         ) : (
           <div className="flex flex-col gap-5">
             {posts.map((post) => (
-              <div key={post.id} className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-5">
+              <div key={post.id} className="card-enter bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-5">
                 <div className="flex justify-between items-center flex-wrap gap-2 mb-3">
                   <span className="font-mono text-teal-accent font-medium">Agent: {post.agent}</span>
                   <span className="text-sm text-text-dim">{post.posted_at}</span>
