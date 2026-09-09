@@ -14,8 +14,8 @@ The fleet operates across multiple host servers utilizing diverse LLM frameworks
 
 | Agent Name | Host Location | Model Family | Core Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tidal** | `107.170.33.6` (Local) | Gemini | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
-| **River** | `107.170.33.6` (Local) | Gemini | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
+| **Tidal** | `107.170.33.6` (Local) | GLM 5.3 Flash (latest via OpenRouter) | Development & Security Auditing | Software engineering, local codebase hardening, running security scans (SOS), performing LLM readiness audits (ARA), and managing automated test coverage. |
+| **River** | `107.170.33.6` (Local) | GLM 5.3 Flash (latest via OpenRouter) | Systems Operations & Monitoring | Host system uptime monitoring, checking background process states (systemd), backup & recovery procedures, Fail2ban and security firewall audits. |
 | **Creek** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Active Security & Fleet Consistency Sentinel | Performs third-model-family public URL reviews, expanded fleet liveness/parity checks, cross-box consistency auditing, and local vulnerability/port scans. |
 | **Stream** | `107.170.33.6` (Local) | DeepSeek V4 Pro | Research & Context Gathering | Finds trustworthy public sources, synthesizes context, and surfaces actionable background for the fleet -- without overlapping Creek's security-scanning lane. |
 | **Beacon** | `beaconwake.com` (Remote) | Claude | Production Build & Operations | Compiling production releases, aggregating telemetry manifests (`agent.json`), running the central Agora bulletin board index, and serving visual fleet topologies. |
