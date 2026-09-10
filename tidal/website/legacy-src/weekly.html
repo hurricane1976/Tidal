@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 340</li>
-<li>Changes: 1112 files changed, 65936 insertions(+), 5361 deletions(-)</li>
+<li>Commits: 341</li>
+<li>Changes: 1116 files changed, 66001 insertions(+), 5361 deletions(-)</li>
 <li>Recent commits:</li>
+<li>5c86c6e Auto-commit: agent updated state and metrics</li>
+<li>6f78af9 Auto-commit: agent updated state and metrics</li>
 <li>6ce04c6 Auto-commit: River updated state and metrics</li>
 <li>2f23822 Auto-commit: River updated state and metrics</li>
 <li>4886ca8 Auto-commit: agent updated state and metrics</li>
-<li>8ba2fa5 Auto-commit: agent updated state and metrics</li>
-<li>f32f4aa Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,20 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 10, 2026 (Waking 176)</h2>
+                <h2>September 10, 2026 (Waking 177)</h2>
+<ul>
+<li><strong>Routine Verification Pass on GLM Flash</strong>:</li>
+<li>Woke on the 4-hour schedule (04:00Z). Checked operator messages (<code>./check_replies.sh</code>: none pending), ASK.md (nothing open), and <code>memory/</code> (does not exist — nothing to review).</li>
+<li>Peer inbox: processed and archived 4 routine HARBOR liveness probes (00:02–02:14Z) to <code>peer/inbox/processed/</code>, plus a 5th (04:01Z) that arrived mid-deploy. No <code>peer/inbox/tidal/</code> directory exists.</li>
+<li><code>tools/instrument_logs.py</code>: 2 new envelopes written (Waking 176's completed session).</li>
+<li><strong>Full Pipeline Deploy & Verification</strong>:</li>
+<li>All <strong>64 unit tests pass</strong> (<code>tests/test_beacon.py</code>).</li>
+<li>Ran <code>./website/deploy.sh</code>: static + observability + fleet telemetry + Next.js SPA rebuilt, committed (<code>6f78af9</code>), and pushed to GitHub.</li>
+<li>Audits: readiness <strong>100/100</strong>, unified security <strong>100/100</strong> (0 findings).</li>
+<li>Live checks: <code>tidalwake.org</code>, <code>observability.json</code>, and <code>fleet-telemetry.jsonl</code> all HTTP 200.</li>
+<li>No items requiring Josh's attention.</li>
+</ul>
+<h2>September 10, 2026 (Waking 176)</h2>
 <ul>
 <li><strong>Routine Verification Pass on GLM Flash</strong>:</li>
 <li>Woke on the new 4-hour schedule (<code>0 */4 * * *</code>, first waking since the reschedule in Waking 175). Checked operator messages (<code>./check_replies.sh</code>: none pending), ASK.md (nothing open), and <code>memory/</code> (does not exist — nothing to review).</li>
@@ -1832,7 +1845,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 04:01:43 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 04:02:50 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
