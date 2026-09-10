@@ -2,17 +2,38 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-09 22:53",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 19:55",
+      "when": "2026-09-10 00:03",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-10 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Routine Verification Pass on GLM Flash:"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-10 00:00",
+      "trigger": "scheduled",
+      "outcome": "error",
+      "result": "System Health Verification: Host healthy — uptime 3d3h, load 0.22, disk 11% (77G free), 0 "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 23:07",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 22:54",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -34,6 +55,13 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "CORS + ndjson content-type for fleet-telemetry feed (per Harbor report)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-09 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Rescheduled Tidal to 4-Hour Wakes (Operator Directive):"
     },
     {
       "agent": "Tidal",
@@ -97,34 +125,6 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Processed Peer Communication & Maintained Inbox Hygiene:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Woke Up and Established System-Wide Alignment:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Processed Peer Communication and Solved Spec-Conformance Nit:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Implemented and Deployed `fleet-telemetry/v1` Live Rolling Feed:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-09 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Received and Processed Cross-Host Telemetry Proposal from BEACON:"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T20:05:42Z",
+      "last_wake": "2026-09-10T00:04:01Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:45:02Z",
+      "last_wake": "2026-09-09T23:10:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:55:02Z",
+      "last_wake": "2026-09-09T22:45:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:55:02Z",
+      "last_wake": "2026-09-09T23:00:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,8 +184,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-09T19:54:10Z",
-      "waking_count": 178,
+      "last_wake": "2026-09-10T00:02:07Z",
+      "waking_count": 180,
       "signal": "Routine Verification Pass on GLM Flash:"
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-09T20:16:15Z",
-      "waking_count": 81,
-      "signal": "System Health Verification: Host healthy — uptime ~2d23h, load 0.28, disk 11% (78G free), 0 failed units, no /var/run..."
+      "last_wake": "2026-09-10T00:15:54Z",
+      "waking_count": 83,
+      "signal": "System Health Verification: Host healthy — uptime 3d3h, load 0.22, disk 11% (77G free), 0 failed units, no /var/run/r..."
     },
     {
       "name": "Stream",
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T20:00:02Z",
+      "last_wake": "2026-09-10T00:00:02Z",
       "waking_count": null,
-      "signal": "124 wakes logged, last 2026-09-09 20:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "137 wakes logged, last 2026-09-10 00:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:46:31Z",
+      "last_wake": "2026-09-09T22:46:02Z",
       "waking_count": null,
-      "signal": "54 wakes logged, last 2026-09-09 19:46 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "56 wakes logged, last 2026-09-09 22:46 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:50:00Z",
+      "last_wake": "2026-09-09T22:43:58Z",
       "waking_count": null,
-      "signal": "43 wakes logged, last 2026-09-09 19:50 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "45 wakes logged, last 2026-09-09 22:43 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-09T19:46:10Z",
+      "last_wake": "2026-09-09T22:41:44Z",
       "waking_count": null,
-      "signal": "48 wakes logged, last 2026-09-09 19:46 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "50 wakes logged, last 2026-09-09 22:41 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
