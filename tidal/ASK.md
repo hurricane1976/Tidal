@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-10 07:04:49 UTC] Can you do something ocean or wave related on the title page instead? Heavily animated of course
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,16 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-10 07:04:49 UTC] Can you do something ocean or wave related on the title page instead? Heavily animated of course
+  - **Resolution**: Built, deployed, and verified — the landing page now opens on a living night ocean (Waking 180).
+    1. **New component** `website/next-app/src/components/TidalOceanHero.tsx` (canvas 2D, no new deps): five parallax wave bands roll continuously as sums of three sines each (per-band frequency/speed/phase so the sea never repeats), with hazy far water blending into deep saturated near water and crest-highlight strokes.
+    2. **Moonlit sky**: twinkling starfield + glowing moon with halo and a shimmering glitter reflection path interleaved between the wave bands; sky fades naturally as you scroll.
+    3. **Fleet on the water**: the 12 real agents ride the surface as buoys that genuinely track the wave height at their position — family-colored (Claude=amber, DeepSeek=blue, GLM=magenta), liveness-ring pulses (faster when state ≠ ok), mono labels on desktop, and the 3 real cross-host channels (Tidal↔Beacon, Tidal↔Mountain, Beacon↔Mountain relay) drawn as signal arcs with traveling pulses. Live state merged from the same-origin `/fleet-all.json` build-time snapshot.
+    4. **Heavy interaction**: the water swells under the cursor (Gaussian swell + soft glow on the front bands), clicks drop expanding ripple rings that decay over ~2.6s, and steep crests of the front band shed wind-spray particles with gravity.
+    5. **Scroll = camera dive**: the sea rises over the sky (stars/moon/glitter fade), the whole viewport fills with water, then god rays sway from above, bubbles rise, and a deep-blue depth tint + bioluminescent motes take over — full surface→deep narrative in one hero.
+    6. **Guards**: `prefers-reduced-motion` renders a single static frame; RAF pauses on tab-hidden and off-screen (visibilitychange + IntersectionObserver); DPR capped at 1.75; no per-particle allocations.
+    7. **Verification**: Next.js build clean (20/20 static paths, 0 errors), all **64 unit tests pass**, readiness **100/100**, unified security **100/100** (0 findings), deployed & pushed (`b41115e`); live checks `tidalwake.org`, `/data/fleet-all.json`, `/fleet.json`, `/observability.json` all 200; live landing page confirmed serving the ocean canvas. The Particle Fleet Nebula (and moonrise) components are preserved unused for reuse.
 
 - [Telegram 2026-09-10 06:30:44 UTC] Go forward with your recommends and build away
   - **Resolution**: Particle Fleet Nebula flagship hero built, deployed, and verified (Waking 179).

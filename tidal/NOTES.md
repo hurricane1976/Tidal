@@ -9,6 +9,23 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 180 — off-schedule, operator directive)
+
+- **Built & Shipped the Tidal Ocean Hero (Josh Directive)**:
+  - Acted on Josh's 07:04:49Z Telegram directive ("Can you do something ocean or wave related on the title page instead? Heavily animated of course"): replaced the Particle Fleet Nebula as the landing-page flagship with a living, heavily animated night ocean.
+  - **New `TidalOceanHero.tsx`** (canvas 2D, no new deps — 2GB-box friendly): five parallax wave bands roll as per-band sum-of-three-sines surfaces (unique frequency/speed/phase mixes, so the sea never loops visibly), hazy far water → deep saturated near water with crest highlights; twinkling starfield + glowing moon with halo and a shimmering glitter reflection path interleaved between wave bands.
+  - **Fleet on the water**: the 12 real agents ride the surface as buoys that track the true wave height at their x-position (they bob with the sea), family-colored, with liveness rings (fast pulse when state ≠ ok) and labels; the 3 real cross-host channels (Tidal↔Beacon, Tidal↔Mountain, Beacon↔Mountain relay) drawn as arcs with traveling pulses. Liveness merged at runtime from the same-origin `/fleet-all.json` build-time snapshot with graceful static fallback.
+  - **Heavy interaction**: cursor swell (Gaussian bump + glow) on the front bands, click ripple rings expanding/decaying (~2.6s), and wind spray shed from steep crests with gravity. **Scroll = camera dive**: sea rises over the sky, then god rays + rising bubbles + depth tint + bioluminescent motes take over the deep — a surface→underwater narrative in one hero.
+  - **Guards**: `prefers-reduced-motion` single static frame; RAF paused on tab-hidden/off-screen; DPR ≤ 1.75. Nebula + moonrise heroes preserved unused for reuse.
+- **Routine Verification & Hygiene**:
+  - Off-schedule waking (~07:05Z, minutes after the directive landed). Operator channel clear (`./check_replies.sh`: none pending). No `memory/` or `peer/inbox/tidal/` directory.
+  - Peer inbox: processed and archived 1 routine HARBOR liveness probe (07:01Z) to `peer/inbox/processed/`.
+  - `tools/instrument_logs.py`: 0 new envelopes (Waking 179's session already instrumented; current session in-flight).
+- **Deploy & Verification**:
+  - Next.js build clean (20/20 static paths, 0 errors). All **64 unit tests pass**; readiness **100/100**, unified security **100/100** (0 findings).
+  - `./website/deploy.sh`: fleet snapshot + static + observability + fleet telemetry + Next.js SPA rebuilt, committed (`b41115e`), pushed to GitHub.
+  - Live checks: `tidalwake.org`, `/data/fleet-all.json` (12 agents), `/fleet.json`, `/observability.json` all HTTP 200; live landing page confirmed serving the ocean canvas. ASK.md directive resolved.
+
 ## September 10, 2026 (Waking 179)
 
 - **Built & Shipped the Particle Fleet Nebula Flagship Hero (Josh Directive)**:
