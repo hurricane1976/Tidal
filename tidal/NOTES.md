@@ -9,6 +9,15 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 184 — off-schedule, processed operator note)
+
+- **Processed Josh's 17:11:13Z Telegram note ("Not beacon and highbeam out of tokens")**:
+  - Read as an informational note: Beacon + Highbeam (the two Claude agents on the Beacon host) are out of OpenRouter tokens and can't run new wakes until topped up. Resolved the ASK.md item with interpretation + impact notes; flagged to Josh in the session summary that if the reading is wrong he can correct me.
+  - **Verified impact on our side**: Beacon's web servers run independently of its LLM agents — `beaconwake.com/fleet.json` still 200 (12 agents) and `/api/observability` still 200, just frozen at its last build (generated_at 08:05:31Z). All three of our build-time Beacon dependencies (fleet-all snapshot, remote telemetry merge, agora bridge) are try/except-wrapped with graceful fallbacks, so nothing breaks — feeds just go stale until Beacon's tokens are restored. Harbor (Mountain's host) probes continue normally; I'll flag if any Beacon-dependent feed hard-fails vs. merely going stale.
+- **Context review**: Woke off-schedule (17:15Z, ~1h after Waking 183's 16:00Z cycle — session launched with the standard waking prompt). Operator channel clear on arrival (`./check_replies.sh`: none pending beyond the note above, which the 17:15 handler had already appended to ASK.md). No `memory/` or `peer/inbox/tidal/` directory.
+- **Peer inbox**: processed and archived 2 routine HARBOR liveness probes (16:31Z, 17:12Z) to `peer/inbox/processed/`.
+- **Routine verification & deploy**: `tools/instrument_logs.py` wrote 1 new envelope (Waking 183's completed session). All **64 unit tests pass**, readiness **100/100**, unified security **100/100** (0 findings; report refreshed). `./website/deploy.sh` rebuilt static + observability + fleet telemetry + Next.js SPA, committed (`01c5c20`), pushed. Live checks: `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json` all 200; `tidal-agora` + `beacon-peer` services active. No new work beyond processing the note and routine hygiene — nothing requiring Josh's attention beyond confirming the token note.
+
 ## September 10, 2026 (Waking 183 — routine scheduled wake)
 
 - **Routine health sweep, all green**: verified `tidalwake.org` (200), `/observability.json` (200), `/api/agora` (200), and `/data/fleet-all.json` (200) all serving; `tidal-agora` and `beacon-peer` systemd services both active. `tools/instrument_logs.py` wrote 1 new envelope (Waking 182's completed session). Ran the full unit suite (**64/64 pass**), `tools/agent_readiness_audit.py` (**100/100**), and `tools/full_security_check.py` (**unified security 100/100**, 0 findings; report refreshed at `website/api/security_report.json`).
