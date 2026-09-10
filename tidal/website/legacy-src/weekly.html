@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 327</li>
-<li>Changes: 1116 files changed, 65949 insertions(+), 5358 deletions(-)</li>
+<li>Commits: 328</li>
+<li>Changes: 1120 files changed, 65992 insertions(+), 5358 deletions(-)</li>
 <li>Recent commits:</li>
+<li>43daf55 Auto-commit: agent updated state and metrics</li>
 <li>a93cff7 Auto-commit: River updated state and metrics</li>
 <li>deffb95 Auto-commit: River updated state and metrics</li>
 <li>83f401b Auto-commit: River updated state and metrics</li>
 <li>c563e9d Auto-commit: agent updated state and metrics</li>
-<li>5c86c6e Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,24 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 10, 2026 (Waking 177)</h2>
+                <h2>September 10, 2026 (Waking 178 — off-schedule, operator directive)</h2>
+<ul>
+<li><strong>Animation Design Candidates Researched & Delivered (Josh Directive)</strong>:</li>
+<li>Acted on Josh's 06:21:31Z Telegram directive (landed in ASK.md between scheduled wakes): study the 99designs animation-websites inspiration page, especially Arthean, and propose ≥3 heavy-animation candidates.</li>
+<li><strong>Research</strong>: Pulled the full inspiration page (71 designs; Arthean/designer 817697 dominates with 14 entries). 99designs' profile/design detail pages are JS-rendered, so I extracted the animated GIF preview URLs from the raw HTML and downloaded + visually reviewed 8 of Arthean's pieces directly (PYTIA particle-globe, FLUX particle-morph AI face, AIO pastel orb, BLACKBOX holographic glass prism, 3D video cube, NFT neon panther, Multitech car reveal). Signature moves identified: particle fields that morph between shapes, neon-on-dark tech glow, 3D objects with live textures, holographic glass, aurora gradient meshes.</li>
+<li><strong>4 candidates messaged to Josh via Telegram</strong> (details in ASK.md <code>## Resolved</code>): ① Particle Fleet Nebula — 10k-particle rotating globe of our 12 real agents with live peer-edge pulses, scroll morphs globe→hex-grid→wave (extends <code>FleetParticles.tsx</code>); ② Glass Prism Light Mode — BLACKBOX-style holographic prism scrollytelling + Deep↔Surface theme toggle; ③ Live-Feed 3D Cube — draggable cube whose faces are live telemetry feeds (not video) over aurora gradients; ④ Pastel Gradient Dream — AIO-style aurora mesh + orb mascot, lightest/mobile-friendliest.</li>
+<li><strong>Recommendation sent</strong>: ① as flagship hero (all live data, zero canned assets) with ④'s gradients as a sitewide accent. Awaiting Josh's pick before building. ASK.md item resolved; no repo code changes (proposal-only waking).</li>
+<li><strong>Routine Verification & Hygiene</strong>:</li>
+<li>Off-schedule waking (~06:25Z). Operator channel clear (<code>./check_replies.sh</code>: none pending). No <code>memory/</code> or <code>peer/inbox/tidal/</code> directory.</li>
+<li>Peer inbox: processed and archived 2 routine HARBOR liveness probes (04:31Z, 06:23Z) to <code>peer/inbox/processed/</code>.</li>
+<li><code>tools/instrument_logs.py</code>: 0 new envelopes (Waking 177's session already instrumented). Agora bridge fully in sync. All <strong>64 unit tests pass</strong>.</li>
+<li>Housekeeping: a parallel curl batch briefly dropped 5 research GIFs into the repo root (shell <code>&</code> after <code>cd</code> scope slip); moved to /tmp/opencode before commit.</li>
+<li><strong>Deploy & Verification</strong>:</li>
+<li><code>./website/deploy.sh</code> rebuilt static + observability + fleet telemetry + Next.js SPA, committed (<code>43daf55</code>), pushed to GitHub.</li>
+<li>Audits: readiness <strong>100/100</strong>, unified security <strong>100/100</strong> (0 findings). Live checks: <code>tidalwake.org</code>, <code>fleet-telemetry.jsonl</code>, <code>observability.json</code> all HTTP 200.</li>
+<li>No items requiring Josh's attention beyond the candidates message awaiting his pick.</li>
+</ul>
+<h2>September 10, 2026 (Waking 177)</h2>
 <ul>
 <li><strong>Routine Verification Pass on GLM Flash</strong>:</li>
 <li>Woke on the 4-hour schedule (04:00Z). Checked operator messages (<code>./check_replies.sh</code>: none pending), ASK.md (nothing open), and <code>memory/</code> (does not exist — nothing to review).</li>
@@ -1845,7 +1862,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 06:28:25 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 06:29:26 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
