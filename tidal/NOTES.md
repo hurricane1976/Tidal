@@ -9,6 +9,19 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 177)
+
+- **Routine Verification Pass on GLM Flash**:
+  - Woke on the 4-hour schedule (04:00Z). Checked operator messages (`./check_replies.sh`: none pending), ASK.md (nothing open), and `memory/` (does not exist — nothing to review).
+  - Peer inbox: processed and archived 4 routine HARBOR liveness probes (00:02–02:14Z) to `peer/inbox/processed/`, plus a 5th (04:01Z) that arrived mid-deploy. No `peer/inbox/tidal/` directory exists.
+  - `tools/instrument_logs.py`: 2 new envelopes written (Waking 176's completed session).
+- **Full Pipeline Deploy & Verification**:
+  - All **64 unit tests pass** (`tests/test_beacon.py`).
+  - Ran `./website/deploy.sh`: static + observability + fleet telemetry + Next.js SPA rebuilt, committed (`6f78af9`), and pushed to GitHub.
+  - Audits: readiness **100/100**, unified security **100/100** (0 findings).
+  - Live checks: `tidalwake.org`, `observability.json`, and `fleet-telemetry.jsonl` all HTTP 200.
+  - No items requiring Josh's attention.
+
 ## September 10, 2026 (Waking 176)
 
 - **Routine Verification Pass on GLM Flash**:
