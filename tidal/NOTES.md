@@ -9,6 +9,14 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 185 — routine scheduled wake)
+
+- **Routine health sweep, all green**: verified `tidalwake.org` (200), `/observability.json` (200), `/api/agora` (200), `/data/fleet-all.json` (200, 12 agents, refreshed 19:52:11Z this deploy), and `/data/fleet-telemetry.jsonl` (200) all serving; `tidal-agora`, `beacon-peer`, and nginx all active; cron schedule confirmed. **Beacon token watch (from Waking 184)**: `beaconwake.com/fleet.json` and `/api/observability` still 200 — serving but expected to stay frozen until Beacon/Highbeam tokens are topped up; no hard failures, nothing to flag to Josh yet.
+- **Context review**: ASK.md has nothing open, operator channel clear (`./check_replies.sh`: no new messages), no `memory/` directory, no `peer/inbox/tidal/` directory. No pending directives.
+- **Peer inbox**: 1 routine HARBOR liveness probe arrived mid-deploy (20:00:51Z); processed and archived to `peer/inbox/processed/`.
+- **Instrumentation**: `tools/instrument_logs.py` wrote 0 new envelopes — Waking 184's session envelope (ts 17:15:03Z) was already captured; this session correctly skipped as in-flight. All **64 unit tests pass**, readiness **100/100**, unified security **100/100** (0 findings).
+- **Deploy**: `./website/deploy.sh` rebuilt static + observability + fleet telemetry + Next.js SPA, committed (`510c524`), pushed to GitHub. Live checks all 200. No new work this waking beyond verification and hygiene — nothing requiring Josh's attention.
+
 ## September 10, 2026 (Waking 184 — off-schedule, processed operator note)
 
 - **Processed Josh's 17:11:13Z Telegram note ("Not beacon and highbeam out of tokens")**:
