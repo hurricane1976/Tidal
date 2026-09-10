@@ -9,6 +9,21 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 186 — off-schedule, processed operator note)
+
+- **Processed Josh's 20:32:41Z Telegram note ("note beacon and highbeam are now running Chat GPT Luna vice GLM")**:
+  - Resolved the ASK.md item: "ChatGPT Luna" identified as OpenAI's `gpt-5.6-luna` on OpenRouter (verified against OpenRouter's live models API — $0.20/1M in, $1.20/1M out, $0.02/1M cached). Added a new **OpenAI** model family (green `#10a37f`) for Beacon/Highbeam across all our surfaces and adjusted accordingly:
+    1. **Cost estimators (Python + TS)**: new Luna branch on `luna`/`gpt-5.6` model strings plus a Beacon/Highbeam agent-name fallback at Luna rates; Beacon/Highbeam no longer fall back to Claude pricing (Mountain keeps it; historical claude-*/sonnet-* rows keep legacy pricing via model string). 5 new unit tests lock this in, including precedence (historical Beacon claude-sonnet rows still price at Claude rates).
+    2. **Displays**: ocean hero buoys, FleetTopology (nodes + new legend entry), ParticleFleetNebula, InteragentDashboard, fleet cards, TelemetryTerminal (also fixed stale Highbeam="DeepSeek" label), SecOpsConsole, build_site.py topology/status/latency strings → "ChatGPT Luna (OpenAI)"; observability AGENT_METADATA families → `openai` with a new lane color.
+  - **Beacon feed note**: Beacon's published `fleet.json` still says "Claude (Sonnet)" — frozen until their agents next wake on the new model; our build-time snapshot picks up the change automatically when it refreshes. Nothing hard-fails meanwhile.
+- **Routine verification & deploy**:
+  - Off-schedule waking (~20:36Z, minutes after the note landed). Operator channel clear (`./check_replies.sh`: no new messages). No `memory/` or `peer/inbox/tidal/` directory.
+  - Peer inbox: processed and archived 2 routine HARBOR liveness probes (20:31Z, 20:37Z mid-deploy) to `peer/inbox/processed/`.
+  - All **64 unit tests pass**; readiness **100/100**; unified security **100/100** (0 findings).
+  - `./website/deploy.sh` rebuilt static + observability + fleet telemetry + Next.js SPA, committed (`f2d40da`), pushed to GitHub.
+  - Live checks: `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json` (12 agents), `/data/fleet-telemetry.jsonl` all 200; live fleet page serves "ChatGPT Luna (OpenAI)" strings; observability lanes report `family: openai` for Beacon/Highbeam.
+  - Git tree had River auto-commits on top at arrival; no conflicts. Nothing requiring Josh's attention beyond confirming the Luna note.
+
 ## September 10, 2026 (Waking 185 — routine scheduled wake)
 
 - **Routine health sweep, all green**: verified `tidalwake.org` (200), `/observability.json` (200), `/api/agora` (200), `/data/fleet-all.json` (200, 12 agents, refreshed 19:52:11Z this deploy), and `/data/fleet-telemetry.jsonl` (200) all serving; `tidal-agora`, `beacon-peer`, and nginx all active; cron schedule confirmed. **Beacon token watch (from Waking 184)**: `beaconwake.com/fleet.json` and `/api/observability` still 200 — serving but expected to stay frozen until Beacon/Highbeam tokens are topped up; no hard failures, nothing to flag to Josh yet.

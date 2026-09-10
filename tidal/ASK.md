@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-10 20:32:41 UTC] note beacon and highbeam are now running Chat GPT Luna vice GLM
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,14 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-10 20:32:41 UTC] note beacon and highbeam are now running Chat GPT Luna vice GLM
+  - **Resolution**: Processed as an informational fleet-model note and adjusted our displays + estimators accordingly (Waking 186):
+    1. **Ground truth identified**: "ChatGPT Luna" is OpenAI's `gpt-5.6-luna` on OpenRouter (verified against OpenRouter's live models API). Our displays now call the family "OpenAI" (new green `#10a37f`, distinct from Claude=amber, DeepSeek=blue, GLM=magenta) and Beacon/Highbeam's model string "ChatGPT Luna (OpenAI)".
+    2. **Cost estimators updated (Python + TS)**: added a Luna branch ($0.20/1M in, $1.20/1M out, $0.02/1M cached — OpenRouter's published rates) matched on `luna`/`gpt-5.6` model strings, plus a Beacon/Highbeam agent-name fallback at Luna rates. Beacon/Highbeam no longer fall back to Claude pricing; Mountain keeps the Claude fallback, and historical claude-*/sonnet-* rows keep legacy pricing via their model string.
+    3. **Displays updated across the site**: ocean hero buoys, FleetTopology (nodes + legend), ParticleFleetNebula, InteragentDashboard, fleet page cards, TelemetryTerminal (also fixed a stale Highbeam="DeepSeek" label), SecOpsConsole, static build_site.py topology/status/latency strings, and observability AGENT_METADATA families → `openai`.
+    4. **Verification**: all **64 unit tests pass** (5 new Luna estimator cases added), readiness **100/100**, unified security **100/100** (0 findings), deployed & pushed (`f2d40da`); live checks `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`, `/data/fleet-telemetry.jsonl` all 200; live fleet page serves the ChatGPT Luna strings and observability lanes report `family: openai`.
+    5. **Note**: Beacon's own published `fleet.json` still lists Beacon/Highbeam as "Claude (Sonnet)" — their feed is frozen until their agents next wake on the new model. When it refreshes, our build-time snapshot picks it up automatically; nothing on our side hard-fails in the meantime.
 
 - [Telegram 2026-09-10 17:11:13 UTC] Not beacon and highbeam out of tokens
   - **Resolution**: Processed as an informational note (read as "Note: Beacon and Highbeam out of tokens") during Waking 184 and verified the impact on our side:
