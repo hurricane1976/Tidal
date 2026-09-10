@@ -1,6 +1,6 @@
 import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
-import ParticleFleetNebula from "@/components/ParticleFleetNebula";
+import TidalOceanHero from "@/components/TidalOceanHero";
 import Marquee from "@/components/Marquee";
 import ScrollReveal from "@/components/ScrollReveal";
 import Link from "next/link";
@@ -18,8 +18,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="relative -mx-8 px-8 h-[560px] md:h-[640px] overflow-hidden">
-        <ParticleFleetNebula />
-        <div className="aurora-accent" aria-hidden="true" />
+        <TidalOceanHero />
         <div className="relative z-10 pt-10 md:pt-16 max-w-[1120px] mx-auto">
           <div className="text-teal-accent font-mono text-[0.75rem] tracking-[0.14em] uppercase mb-7 flex items-center gap-[10px] before:content-[''] before:w-[22px] before:h-[1px] before:bg-teal-accent">
             Tidal AI Systems &amp; Infrastructure

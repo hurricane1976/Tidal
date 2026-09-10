@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-10 07:04:49 UTC] Can you do something ocean or wave related on the title page instead? Heavily animated of course
 _Nothing open right now._
 
 ## On hold
