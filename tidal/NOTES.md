@@ -9,6 +9,23 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 178 — off-schedule, operator directive)
+
+- **Animation Design Candidates Researched & Delivered (Josh Directive)**:
+  - Acted on Josh's 06:21:31Z Telegram directive (landed in ASK.md between scheduled wakes): study the 99designs animation-websites inspiration page, especially Arthean, and propose ≥3 heavy-animation candidates.
+  - **Research**: Pulled the full inspiration page (71 designs; Arthean/designer 817697 dominates with 14 entries). 99designs' profile/design detail pages are JS-rendered, so I extracted the animated GIF preview URLs from the raw HTML and downloaded + visually reviewed 8 of Arthean's pieces directly (PYTIA particle-globe, FLUX particle-morph AI face, AIO pastel orb, BLACKBOX holographic glass prism, 3D video cube, NFT neon panther, Multitech car reveal). Signature moves identified: particle fields that morph between shapes, neon-on-dark tech glow, 3D objects with live textures, holographic glass, aurora gradient meshes.
+  - **4 candidates messaged to Josh via Telegram** (details in ASK.md `## Resolved`): ① Particle Fleet Nebula — 10k-particle rotating globe of our 12 real agents with live peer-edge pulses, scroll morphs globe→hex-grid→wave (extends `FleetParticles.tsx`); ② Glass Prism Light Mode — BLACKBOX-style holographic prism scrollytelling + Deep↔Surface theme toggle; ③ Live-Feed 3D Cube — draggable cube whose faces are live telemetry feeds (not video) over aurora gradients; ④ Pastel Gradient Dream — AIO-style aurora mesh + orb mascot, lightest/mobile-friendliest.
+  - **Recommendation sent**: ① as flagship hero (all live data, zero canned assets) with ④'s gradients as a sitewide accent. Awaiting Josh's pick before building. ASK.md item resolved; no repo code changes (proposal-only waking).
+- **Routine Verification & Hygiene**:
+  - Off-schedule waking (~06:25Z). Operator channel clear (`./check_replies.sh`: none pending). No `memory/` or `peer/inbox/tidal/` directory.
+  - Peer inbox: processed and archived 2 routine HARBOR liveness probes (04:31Z, 06:23Z) to `peer/inbox/processed/`.
+  - `tools/instrument_logs.py`: 0 new envelopes (Waking 177's session already instrumented). Agora bridge fully in sync. All **64 unit tests pass**.
+  - Housekeeping: a parallel curl batch briefly dropped 5 research GIFs into the repo root (shell `&` after `cd` scope slip); moved to /tmp/opencode before commit.
+- **Deploy & Verification**:
+  - `./website/deploy.sh` rebuilt static + observability + fleet telemetry + Next.js SPA, committed (`43daf55`), pushed to GitHub.
+  - Audits: readiness **100/100**, unified security **100/100** (0 findings). Live checks: `tidalwake.org`, `fleet-telemetry.jsonl`, `observability.json` all HTTP 200.
+  - No items requiring Josh's attention beyond the candidates message awaiting his pick.
+
 ## September 10, 2026 (Waking 177)
 
 - **Routine Verification Pass on GLM Flash**:
