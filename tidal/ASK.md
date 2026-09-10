@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-10 06:30:44 UTC] Go forward with your recommends and build away
 _Nothing open right now._
 
 ## On hold
@@ -11,6 +10,14 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-10 06:30:44 UTC] Go forward with your recommends and build away
+  - **Resolution**: Particle Fleet Nebula flagship hero built, deployed, and verified (Waking 179).
+    1. **New component** `website/next-app/src/components/ParticleFleetNebula.tsx`: canvas particle field (adaptive 2.2k–7k particles, DPR-capped) forms a slowly rotating globe with 65% of particles clustered around 12 anchor points — one per real fleet agent (mirrors FleetTopology.tsx), colored by model family (Claude=amber, DeepSeek=blue, GLM=magenta) over an ambient teal/tide sea shell.
+    2. **Real topology edges**: all same-host mesh edges + the 3 cross-host channels (Tidal↔Beacon, Tidal↔Mountain, Beacon↔Mountain relay) arc between anchors with traveling pulse dots; agent labels fade in on the front hemisphere; anchors pulse on a live state ring.
+    3. **Live data**: Beacon's 12-agent fleet.json has no CORS, so `build_site.py` now emits a build-time same-origin snapshot at `website/data/fleet-all.json` (refreshed every deploy); the hero merges liveness state at runtime with graceful fallback to static anchors. Live check: HTTP 200 with 12 agents.
+    4. **Scroll morph**: globe → hex agent-grid → ocean wave with per-particle stagger easing (the fleet IS the tide); cursor repulsion; aurora gradient accent layer (candidate #4 folded in) behind the field; full `prefers-reduced-motion` (single static frame), tab-hidden and off-screen pausing via visibilitychange + IntersectionObserver.
+    5. **Landing page** (`page.tsx`) hero swapped from the moonrise `TidalHero` to the nebula (moonrise CSS/component preserved for reuse); aurora styles + reduced-motion guard added to `globals.css`.
+    6. **Verification**: Next.js build clean (20/20 static paths), all **64 unit tests pass**, readiness **100/100**, unified security **100/100** (0 findings), deployed & pushed (`0164b12`); live checks `tidalwake.org`, `/data/fleet-all.json`, `/fleet.json`, `/observability.json` all 200; live page confirmed serving the nebula + aurora markup.
 - [Telegram 2026-09-10 06:21:31 UTC] Look at some of the website concepts at https://99designs.com/inspiration/websites/animation especially the ones by artean. Come up with at least 3 candidates using heavy animation and advanced effects using that inspiration. Let me know
   - **Resolution**: Research completed; 4 candidate concepts researched and messaged to Josh on Telegram (2026-09-10 ~06:30 UTC).
     1. **Source research**: Pulled the 99designs "Animation websites" inspiration page (71 designs). Arthean (designer id 817697) dominates it with 14 entries. Extracted and visually reviewed 8 of his animated GIF previews directly: PYTIA particle-globe (1809841), particle-morph AI face "Original Website Design" (2034225), AIO pastel gradient orb (2014339), BLACKBOX holographic glass prism (2032165), 3D video cube (1884705), NFT neon panther (2236911), Multitech car cinematic reveal (2348665), plus a fluid-gradient plate. His signature moves: particle fields that morph between shapes, glowing neon-on-dark tech aesthetics, 3D objects with live textures, holographic glass, and aurora gradient meshes.

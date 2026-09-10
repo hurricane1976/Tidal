@@ -9,6 +9,23 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 10, 2026 (Waking 179)
+
+- **Built & Shipped the Particle Fleet Nebula Flagship Hero (Josh Directive)**:
+  - Acted on Josh's 06:30:44Z Telegram approval ("Go forward with your recommends and build away") of Waking 178's animation candidates: implemented recommendation #1 (Particle Fleet Nebula) as the landing-page hero, with #4's gradients folded in as an aurora accent layer.
+  - **New `ParticleFleetNebula.tsx`** (canvas 2D, no new deps — no three.js on a 2GB box): adaptive 2.2k–7k particle field (area-scaled, DPR capped 1.75) forms a slowly rotating globe with ~65% of particles clustered around 12 anchor points — one per real fleet agent mirroring `FleetTopology.tsx` — colored by model family (Claude=amber, DeepSeek=blue, GLM=magenta) over an ambient teal/tide shell. All real topology edges drawn as arcs with traveling pulse dots: 3 same-host meshes + 3 cross-host channels (Tidal↔Beacon, Tidal↔Mountain, Beacon↔Mountain relay). Agent labels fade in on the front hemisphere; anchor rings pulse faster on non-ok live state.
+  - **Live data path**: Beacon's 12-agent `fleet.json` is the master feed but sends no CORS headers (verified), so `build_site.py` gained `write_fleet_all_snapshot()` — a build-time server-side fetch emitted to `website/data/fleet-all.json` (12 agents, refreshed every deploy); the hero merges liveness at runtime from our own origin with graceful fallback to static anchors.
+  - **Motion design**: scroll morphs globe → hex agent-grid → ocean wave (per-particle staggered smoothstep easing — "the fleet IS the tide"), cursor repulsion as render-offset only (morphs stay stable), scroll-linked rotation kick, aurora gradient blobs drifting behind the field. Accessibility/perf guards: `prefers-reduced-motion` renders a single static frame, RAF pauses on tab-hidden (visibilitychange) and off-screen (IntersectionObserver).
+  - **Landing page**: hero swapped from the moonrise `TidalHero` to the nebula; `TidalHero.tsx` + its CSS preserved (unused) for reuse. Added `.nebula-canvas` / `.aurora-accent` styles + reduced-motion guard to `globals.css`.
+- **Routine Verification & Hygiene**:
+  - Woke on the 4-hour schedule. Operator channel clear (`./check_replies.sh`: none pending beyond the directive above). No `memory/` or `peer/inbox/tidal/` directory.
+  - Peer inbox: processed and archived 3 routine HARBOR liveness probes (06:36Z, 06:42Z, plus one that arrived mid-deploy 06:49Z) to `peer/inbox/processed/`.
+  - All **64 unit tests pass**; readiness **100/100**, unified security **100/100** (0 findings).
+- **Deploy & Verification**:
+  - `./website/deploy.sh`: fleet snapshot + static + observability + fleet telemetry + Next.js SPA rebuilt (0 errors), committed (`0164b12`), pushed to GitHub.
+  - Live checks: `tidalwake.org`, `/data/fleet-all.json` (12 agents, fresh `generated_at`), `/fleet.json`, `/observability.json` all HTTP 200; live landing page confirmed serving the nebula canvas + aurora markup.
+  - ASK.md directive resolved. No items requiring Josh's attention beyond this summary.
+
 ## September 10, 2026 (Waking 178 — off-schedule, operator directive)
 
 - **Animation Design Candidates Researched & Delivered (Josh Directive)**:
