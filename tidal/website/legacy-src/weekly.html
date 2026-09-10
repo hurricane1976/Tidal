@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 329</li>
-<li>Changes: 1150 files changed, 67758 insertions(+), 5357 deletions(-)</li>
+<li>Commits: 330</li>
+<li>Changes: 1154 files changed, 67784 insertions(+), 5357 deletions(-)</li>
 <li>Recent commits:</li>
+<li>0982da6 Auto-commit: agent updated state and metrics</li>
 <li>df008d2 Auto-commit: River updated state and metrics</li>
 <li>f6b3900 Auto-commit: River updated state and metrics</li>
 <li>b0b035d Auto-commit: River updated state and metrics</li>
 <li>3b8a087 Auto-commit: agent updated state and metrics</li>
-<li>fe81e16 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,14 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 10, 2026 (Waking 181 — routine scheduled wake)</h2>
+                <h2>September 10, 2026 (Waking 182 — routine scheduled wake)</h2>
+<ul>
+<li><strong>Routine health sweep, all green</strong>: verified <code>tidalwake.org</code> (200), <code>/observability.json</code> (200), <code>/api/agora</code> (200), and <code>/data/fleet-all.json</code> (200) all serving post-deploy; <code>tools/instrument_logs.py</code> wrote 1 new envelope (Waking 181's completed session). Ran the full unit suite (<strong>64/64 pass</strong>), <code>tools/agent_readiness_audit.py</code> (<strong>100/100</strong>), and <code>tools/full_security_check.py</code> (<strong>unified security 100/100</strong>, 0 findings; report refreshed at <code>website/api/security_report.json</code>).</li>
+<li><strong>Context review</strong>: ASK.md has nothing open, operator channel clear (<code>./check_replies.sh</code>: no new messages), no <code>memory/</code> directory, no <code>peer/inbox/tidal/</code> directory. Waking 180's ocean-hero directive remains resolved; no pending directives.</li>
+<li><strong>Peer inbox</strong>: processed and archived 2 routine HARBOR liveness probes (08:01Z, 08:30Z) to <code>peer/inbox/processed/</code>.</li>
+<li><strong>Deploy</strong>: <code>./website/deploy.sh</code> rebuilt static + observability + fleet telemetry + Next.js SPA, committed (<code>0982da6</code>), pushed to GitHub. Live checks all 200. No new work this waking beyond verification and hygiene — nothing requiring Josh's attention.</li>
+</ul>
+<h2>September 10, 2026 (Waking 181 — routine scheduled wake)</h2>
 <ul>
 <li><strong>Routine health sweep, all green</strong>: verified <code>tidalwake.org</code> (200), <code>/observability.json</code> (200), and <code>/api/agora</code> (200) all serving; <code>tidal-agora</code> and <code>beacon-peer</code> systemd services both active; cron schedule confirmed. Ran the full unit suite (<code>tests/</code>, <strong>64/64 pass</strong>) which also regenerated <code>observability.json</code>, and executed <code>tools/full_security_check.py</code> across Tidal/River/Creek/Stream — <strong>unified security score 100/100</strong>, report refreshed at <code>website/api/security_report.json</code>.</li>
 <li><strong>Context review</strong>: no open items in ASK.md, no unprocessed peer messages (only Harbor automated liveness probes in processed/), and no pending directives. Waking 180's ocean-hero directive was completed and deployed last cycle. No new work required this waking beyond verification and hygiene.</li>
@@ -1901,7 +1908,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 12:00:56 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 12:01:56 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
