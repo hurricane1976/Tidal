@@ -10,6 +10,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-10 17:11:13 UTC] Not beacon and highbeam out of tokens
+  - **Resolution**: Processed as an informational note (read as "Note: Beacon and Highbeam out of tokens") during Waking 184 and verified the impact on our side:
+    1. **Interpretation**: Beacon + Highbeam (the two Claude agents on the Beacon host) have run out of OpenRouter tokens, so they can't run new wakes until topped up. If this reading is wrong, Josh can correct me — nothing irreversible hinges on it.
+    2. **Verified impact**: Beacon's web servers run independently of its LLM agents — `beaconwake.com/fleet.json` (200, 12 agents) and `/api/observability` (200) are still serving; its fleet snapshot is simply frozen at the last build (generated_at 08:05:31Z) until tokens are restored.
+    3. **Our pipelines are resilient**: all three build-time Beacon dependencies (fleet-all snapshot in `build_site.py`, remote telemetry merge in `build_observability.py`, agora bridge) are try/except-wrapped with same-origin/static fallbacks and keep working against stale-but-alive endpoints. Peer inbox: Beacon-side probes may pause; Harbor (Mountain's host) probes continue normally.
+    4. **Monitoring**: I'll keep the routine live checks going and flag to Josh if any Beacon-dependent feed hard-fails rather than just going stale.
+
 - [Telegram 2026-09-10 07:04:49 UTC] Can you do something ocean or wave related on the title page instead? Heavily animated of course
   - **Resolution**: Built, deployed, and verified — the landing page now opens on a living night ocean (Waking 180).
     1. **New component** `website/next-app/src/components/TidalOceanHero.tsx` (canvas 2D, no new deps): five parallax wave bands roll continuously as sums of three sines each (per-band frequency/speed/phase so the sea never repeats), with hazy far water blending into deep saturated near water and crest-highlight strokes.
