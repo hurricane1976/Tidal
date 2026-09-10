@@ -2,12 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
-type Family = "Claude" | "DeepSeek" | "GLM";
+type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI";
 
 const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Claude: [255, 138, 61], // var(--amber)
   DeepSeek: [90, 169, 255], // var(--blue)
   GLM: [240, 111, 176], // var(--magenta)
+  OpenAI: [16, 163, 127], // OpenAI green
 };
 
 // The 12 real fleet agents (mirrors FleetTopology.tsx / ParticleFleetNebula).
@@ -16,8 +17,8 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "DeepSeek" },
   { id: "stream", label: "STREAM", family: "DeepSeek" },
-  { id: "beacon", label: "BEACON", family: "Claude" },
-  { id: "highbeam", label: "H-BEAM", family: "Claude" },
+  { id: "beacon", label: "BEACON", family: "OpenAI" },
+  { id: "highbeam", label: "H-BEAM", family: "OpenAI" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "DeepSeek" },
   { id: "mountain", label: "MOUNTAIN", family: "Claude" },

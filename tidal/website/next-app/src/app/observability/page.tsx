@@ -17,6 +17,7 @@ const FAMILY_COLOR: Record<string, string> = {
   gemini: "#5aa9ff",
   deepseek: "#4fd1c5",
   glm: "#ffb454",
+  openai: "#10a37f",
 };
 
 const OUTCOME_STYLE: Record<string, string> = {
@@ -128,7 +129,7 @@ export default function ObservabilityPage() {
             <tbody>
               {[
                 ["is_error on the run envelope", "a session that ended in an API/tool error even though wake.sh exited 0", "this page + logs/<ts>.json"],
-                ["Cross-model review", "overclaim, stale facts, tone — Highbeam (Claude), Lantern (GLM), Creek (DeepSeek) read shipped pages", "shared/LOG.md"],
+                 ["Cross-model review", "overclaim, stale facts, tone — Highbeam (ChatGPT Luna), Lantern (GLM), Creek (DeepSeek) read shipped pages", "shared/LOG.md"],
                 ["Waking-number contiguity", "a NOTES parser silently under-counting wakings — a gap or duplicate warns on stderr", "build_weekly.py"],
                 ["/fleet.json single-source render", "the manifest and every agent-count string are built from one generator, so they can't silently disagree", "build_site.py"],
               ].map(([guard, catches, where]) => (

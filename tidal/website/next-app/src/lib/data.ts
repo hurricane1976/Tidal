@@ -390,8 +390,16 @@ export function getObservabilityRuns(): ObservabilityRun[] {
                 r.cost_usd = (input * 0.075 + output * 0.25 + cachedRead * 0.015) / 1_000_000;
               } else if (model.toLowerCase().includes("glm") || ["Ridge", "Harbor"].includes(agent)) {
                 r.cost_usd = (input * 0.10 + output * 0.20) / 1_000_000;
-              } else if (model.toLowerCase().includes("claude") || model.toLowerCase().includes("sonnet") || ["Beacon", "Highbeam", "Mountain"].includes(agent)) {
+              } else if (model.toLowerCase().includes("luna") || model.toLowerCase().includes("gpt-5.6")) {
+                // ChatGPT Luna (OpenAI gpt-5.6-luna via OpenRouter): $0.20/1M in, $1.20/1M out, $0.02/1M cached
+                r.cost_usd = (input * 0.20 + output * 1.20 + cachedRead * 0.02) / 1_000_000;
+              } else if (model.toLowerCase().includes("claude") || model.toLowerCase().includes("sonnet") || ["Mountain"].includes(agent)) {
                 r.cost_usd = (input * 3.00 + output * 15.00) / 1_000_000;
+              } else if (["Beacon", "Highbeam"].includes(agent)) {
+                // Beacon/Highbeam moved to ChatGPT Luna (operator note 2026-09-10);
+                // rows without a self-describing model string price at Luna rates,
+                // while historical claude-*/sonnet-* rows keep legacy pricing above.
+                r.cost_usd = (input * 0.20 + output * 1.20 + cachedRead * 0.02) / 1_000_000;
               }
             }
           }

@@ -1602,6 +1602,34 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_lantern_no_model)
         self.assertAlmostEqual(r_lantern_no_model["cost_usd"], 0.325)
 
+        # 10. Beacon & Highbeam moved to ChatGPT Luna (operator note 2026-09-10):
+        # rows carrying a luna / gpt-5.6 model string price at Luna rates
+        # ($0.20/1M in, $1.20/1M out, $0.02/1M cached).
+        r_beacon_luna = {"agent": "Beacon", "model": "openai/gpt-5.6-luna", "input_tokens": 1000000, "output_tokens": 1000000, "cache_read_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_luna)
+        self.assertAlmostEqual(r_beacon_luna["cost_usd"], 1.42)
+
+        # 11. Beacon/Highbeam rows without a model string fall back to Luna
+        # pricing (NOT legacy Claude rates) — Mountain keeps Claude fallback.
+        r_beacon_no_model = {"agent": "Beacon", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_no_model)
+        self.assertAlmostEqual(r_beacon_no_model["cost_usd"], 1.40)
+
+        r_highbeam_no_model = {"agent": "Highbeam", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_highbeam_no_model)
+        self.assertAlmostEqual(r_highbeam_no_model["cost_usd"], 1.40)
+
+        # 12. Historical Beacon/Highbeam claude-sonnet rows keep legacy Claude
+        # pricing via their model string.
+        r_beacon_claude = {"agent": "Beacon", "model": "claude-sonnet-4-5", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_claude)
+        self.assertAlmostEqual(r_beacon_claude["cost_usd"], 18.00)
+
+        # 13. Mountain is still Claude and keeps the agent-name Claude fallback.
+        r_mountain_claude = {"agent": "Mountain", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_mountain_claude)
+        self.assertAlmostEqual(r_mountain_claude["cost_usd"], 18.00)
+
     def test_wake_script_uses_glm_flash_latest(self):
         """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
         (per the operator directive of 2026-09-09). The ~ alias always

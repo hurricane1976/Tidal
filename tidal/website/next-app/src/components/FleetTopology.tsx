@@ -3,13 +3,14 @@
 import { useState } from "react";
 import FleetParticles from "./FleetParticles";
 
-type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM";
+type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI";
 
 const FAMILY_COLOR: Record<Family, string> = {
   Claude: "var(--amber)",
   Gemini: "var(--teal)",
   DeepSeek: "var(--blue)",
   GLM: "var(--magenta)",
+  OpenAI: "#10a37f",
 };
 
 interface NodeDef {
@@ -32,9 +33,9 @@ const NODES: NodeDef[] = [
   { id: "river", label: "RIVER", x: 250, y: 350, family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // Box B -- Beacon's host (beaconwake.com)
-  { id: "beacon", label: "BEACON", x: 750, y: 150, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
+    { id: "beacon", label: "BEACON", x: 750, y: 150, family: "OpenAI", title: "Beacon • remote production compiler & release board", desc: "Model Framework: ChatGPT Luna (OpenAI) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
   { id: "lantern", label: "LANTERN", x: 860, y: 250, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: beaconwake.com (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity." },
-  { id: "highbeam", label: "H-BEAM", x: 640, y: 250, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude • Host VPS: beaconwake.com (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes." },
+    { id: "highbeam", label: "H-BEAM", x: 640, y: 250, family: "OpenAI", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: ChatGPT Luna (OpenAI) • Host VPS: beaconwake.com (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes." },
   { id: "lightning", label: "LIGHTNG", x: 750, y: 350, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: beaconwake.com (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots." },
 
   // Box C -- Mountain group (independent host)
@@ -85,6 +86,7 @@ const LEGEND: { family: Family; x: number }[] = [
   { family: "Claude", x: 60 },
   { family: "DeepSeek", x: 150 },
   { family: "GLM", x: 244 },
+  { family: "OpenAI", x: 334 },
 ];
 
 export default function FleetTopology() {
