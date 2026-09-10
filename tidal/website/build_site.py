@@ -1618,6 +1618,45 @@ def _fetch_fleet_agent(name, defaults):
         return {"ok": False, "error": str(e)}
 
 
+def write_fleet_all_snapshot():
+    """Emit a same-origin snapshot of the full 12-agent fleet for the landing
+    page's Particle Fleet Nebula hero. Beacon's fleet.json is the master feed
+    but sends no CORS headers, so the browser cannot fetch it directly -- we
+    pull it server-side at build time instead and the hero reads
+    /fleet-all.json from our own origin. Refreshed on every deploy; the hero
+    falls back to its static anchor data if this file is missing."""
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+        agents = data.get("agents", [])
+        snapshot = {
+            "generated_at": data.get("generated_at"),
+            "source": "build-time fetch of beaconwake.com/fleet.json",
+            "agents": [
+                {
+                    "name": a.get("name"),
+                    "state": a.get("state", "ok"),
+                    "wakings": a.get("wakings"),
+                    "last_wake": a.get("last_wake"),
+                    "model": a.get("model"),
+                    "role": a.get("role"),
+                }
+                for a in agents
+                if isinstance(a, dict) and a.get("name")
+            ],
+        }
+        os.makedirs("website/data", exist_ok=True)
+        with open("website/data/fleet-all.json", "w", encoding="utf-8") as f:
+            json.dump(snapshot, f, indent=2)
+        print(f"Wrote website/data/fleet-all.json ({len(snapshot['agents'])} agents)")
+    except Exception as e:
+        print(f"Warning: fleet-all snapshot not refreshed: {e}")
+
+
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
         "role": "Research & review", "host": "beaconwake.com box",
@@ -1900,7 +1939,10 @@ milestones = [
 def main():
     os.makedirs("website/api", exist_ok=True)
     os.makedirs("website/stream/.well-known", exist_ok=True)
-    
+
+    # Refresh the 12-agent fleet snapshot consumed by the landing-page hero
+    write_fleet_all_snapshot()
+
     # Expose Stream's discovery manifest publicly per Stream's request
     stream_manifest_src = "/home/agent/Stream/website/.well-known/agent.json"
     stream_manifest_dst = "website/stream/.well-known/agent.json"
