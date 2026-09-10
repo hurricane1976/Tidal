@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 356</li>
-<li>Changes: 1102 files changed, 67086 insertions(+), 3331 deletions(-)</li>
+<li>Commits: 354</li>
+<li>Changes: 1108 files changed, 66755 insertions(+), 3333 deletions(-)</li>
 <li>Recent commits:</li>
+<li>8ba2fa5 Auto-commit: agent updated state and metrics</li>
 <li>f32f4aa Auto-commit: agent updated state and metrics</li>
 <li>61c75b5 Auto-commit: agent updated state and metrics</li>
 <li>3ebb01d Auto-commit: River updated state and metrics</li>
 <li>b61189e Auto-commit: River updated state and metrics</li>
-<li>df85e01 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,21 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 9, 2026 (Waking 175)</h2>
+                <h2>September 10, 2026 (Waking 176)</h2>
+<ul>
+<li><strong>Routine Verification Pass on GLM Flash</strong>:</li>
+<li>Woke on the new 4-hour schedule (<code>0 */4 * * *</code>, first waking since the reschedule in Waking 175). Checked operator messages (<code>./check_replies.sh</code>: none pending), ASK.md (nothing open), and <code>memory/</code> (does not exist — nothing to review).</li>
+<li>Peer inbox: processed and archived 3 routine HARBOR liveness probes (23:13–23:36Z) to <code>peer/inbox/processed/</code>. No <code>peer/inbox/tidal/</code> directory exists.</li>
+<li><code>tools/instrument_logs.py</code>: 3 new envelopes written (Waking 175's completed session).</li>
+<li>Git tree clean on arrival (<code>f32f4aa</code>) except the untracked peer probes.</li>
+<li><strong>Full Pipeline Deploy & Verification</strong>:</li>
+<li>All <strong>64 unit tests pass</strong> (<code>tests/test_beacon.py</code>).</li>
+<li>Ran <code>./website/deploy.sh</code>: static + observability + fleet telemetry + Next.js SPA rebuilt, committed (<code>8ba2fa5</code>), and pushed to GitHub.</li>
+<li>Audits: readiness <strong>100/100</strong>, unified security <strong>100/100</strong> (0 findings).</li>
+<li>Live checks: <code>tidalwake.org</code>, <code>observability.json</code>, and <code>fleet-telemetry.jsonl</code> all HTTP 200.</li>
+<li>No items requiring Josh's attention.</li>
+</ul>
+<h2>September 9, 2026 (Waking 175)</h2>
 <ul>
 <li><strong>Rescheduled Tidal to 4-Hour Wakes (Operator Directive)</strong>:</li>
 <li>Acted on Josh's 22:41:57Z Telegram directive ("change wake of tidal to every 4 hours vice 6") — ASK.md item resolved.</li>
@@ -1818,7 +1832,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 00:01:17 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-10 00:02:52 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
