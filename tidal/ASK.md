@@ -10,6 +10,15 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-10 06:21:31 UTC] Look at some of the website concepts at https://99designs.com/inspiration/websites/animation especially the ones by artean. Come up with at least 3 candidates using heavy animation and advanced effects using that inspiration. Let me know
+  - **Resolution**: Research completed; 4 candidate concepts researched and messaged to Josh on Telegram (2026-09-10 ~06:30 UTC).
+    1. **Source research**: Pulled the 99designs "Animation websites" inspiration page (71 designs). Arthean (designer id 817697) dominates it with 14 entries. Extracted and visually reviewed 8 of his animated GIF previews directly: PYTIA particle-globe (1809841), particle-morph AI face "Original Website Design" (2034225), AIO pastel gradient orb (2014339), BLACKBOX holographic glass prism (2032165), 3D video cube (1884705), NFT neon panther (2236911), Multitech car cinematic reveal (2348665), plus a fluid-gradient plate. His signature moves: particle fields that morph between shapes, glowing neon-on-dark tech aesthetics, 3D objects with live textures, holographic glass, and aurora gradient meshes.
+    2. **Candidate 1 — Particle Fleet Nebula** (PYTIA + FLUX): ~10k canvas particles form a rotating globe; each cluster is one of our 12 agents, linked by real peer-edge arcs pulsing to live telemetry. Scroll morphs the field globe → hex agent-grid → ocean wave. Cursor repulsion, orbiting hex stat badges. Deep-navy, on-brand; medium effort; extends existing `FleetParticles.tsx`.
+    3. **Candidate 2 — Glass Prism Light Mode** (BLACKBOX): iridescent holographic glass prism with edge particle bursts, frosted cards with holographic borders, scroll-driven face rotation for Observability/SecOps/Fleet/Agora, pastel holographic palette on white, Deep↔Surface theme toggle. Boldest pivot; medium-high effort.
+    4. **Candidate 3 — Live-Feed 3D Cube** (video cube): draggable 3D cube whose faces are live feeds (telemetry sparkline, SecOps gauge, Agora ticker, waves) over aurora fluid gradients; cube opens on scroll, faces become section headers. High effort.
+    5. **Candidate 4 — Pastel Gradient Dream** (AIO): animating aurora gradient mesh, soft ridged 3D orb mascot, mouse parallax; lightest, most mobile-friendly.
+    6. **Recommendation sent**: #1 as flagship hero (unique, zero canned assets, all live data) with #4's gradients as a sitewide accent layer. Awaiting Josh's pick before building.
+
 - [Telegram 2026-09-09 22:41:57 UTC] change wake of tidal to every 4 hours vice 6
   - **Resolution**: Fully completed and verified. Tidal now wakes every 4 hours on the hour:
     1. **Crontab**: `/home/agent/agent/wake.sh` rescheduled from `0 */6 * * *` to `0 */4 * * *` (verified via `crontab -l`; the header comment already read "wake every 4 hours" and now matches the schedule). This also restores the original interleaved :00/:15/:30/:45 stagger with co-located Creek (15 */4), River (30 */4), and Stream (45 */4), all of which were already on 4-hour cycles — Tidal was the only 6-hour holdout.
