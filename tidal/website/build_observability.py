@@ -153,9 +153,24 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "glm" in model.lower() or agent in ("Ridge", "Harbor"):
         r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
                         (output_tokens * (0.20 / 1000000.0))
-    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Beacon", "Highbeam", "Mountain"):
+    elif "luna" in model.lower() or "gpt-5.6" in model.lower():
+        # ChatGPT Luna (OpenAI gpt-5.6-luna via OpenRouter):
+        # Input tokens: $0.20 per 1M
+        # Output tokens: $1.20 per 1M
+        # Cache Read: $0.02 per 1M
+        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
+                        (output_tokens * (1.20 / 1000000.0)) + \
+                        (cache_read * (0.02 / 1000000.0))
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain",):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
+    elif agent in ("Beacon", "Highbeam"):
+        # Beacon/Highbeam moved to ChatGPT Luna (operator note 2026-09-10);
+        # rows without a self-describing model string price at Luna rates.
+        # Historical claude-*/sonnet-* rows keep legacy pricing above.
+        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
+                        (output_tokens * (1.20 / 1000000.0)) + \
+                        (cache_read * (0.02 / 1000000.0))
 
 
 def load_store() -> dict:
@@ -342,8 +357,8 @@ def fmt_dur(ms) -> str:
 
 
 AGENT_METADATA = {
-    "Beacon": {"family": "claude", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
-    "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
+    "Beacon": {"family": "openai", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Highbeam": {"family": "openai", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Tidal": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "dev &amp; security audit", "envelope": "json"},

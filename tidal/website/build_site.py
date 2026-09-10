@@ -2289,7 +2289,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">ChatGPT Luna (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2299,7 +2299,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Highbeam</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">ChatGPT Luna (Remote Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -4286,13 +4286,13 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
-                color: "var(--amber)"
+                desc: "<strong>Model Framework:</strong> ChatGPT Luna (OpenAI) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                color: "#10a37f"
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes.",
-                color: "var(--amber)"
+                desc: "<strong>Model Framework:</strong> ChatGPT Luna (OpenAI) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes.",
+                color: "#10a37f"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
@@ -4382,22 +4382,22 @@ def main():
             <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid var(--amber);">
+        <div class="card" style="border-left: 2px solid #10a37f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
+                <h3 style="color: #10a37f; margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: ChatGPT Luna (OpenAI) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid var(--amber);">
+        <div class="card" style="border-left: 2px solid #10a37f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
+                <h3 style="color: #10a37f; margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: ChatGPT Luna (OpenAI) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>

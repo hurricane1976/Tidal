@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-10 20:32:41 UTC] note beacon and highbeam are now running Chat GPT Luna vice GLM
 _Nothing open right now._
 
 ## On hold
