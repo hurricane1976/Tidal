@@ -488,8 +488,11 @@ body {
 .chan-agora { stroke: rgba(159, 122, 234, 0.4); stroke-width: 2; }
 .chan-mountain { stroke: rgba(63, 199, 255, 0.4); stroke-width: 2; }
 .chan-relay { stroke: rgba(255, 138, 61, 0.4); stroke-width: 2; }
-/* sibling links whose listeners are live but per-pair credentials are still
-   being brokered: dim + dashed so they read as "almost nailed up" */
+/* live zero-secret identity links (Lantern + Highbeam -> local quartet):
+   solid green so they read the same as the other live peer channels */
+.chan-live { stroke: rgba(72, 187, 120, 0.5); stroke-width: 2; }
+/* sibling links whose listeners are live but the identity recipe has not
+   been adopted yet: dim + dashed so they read as "almost nailed up" */
 .chan-pending { stroke: rgba(255, 138, 61, 0.22); stroke-width: 2; stroke-dasharray: 3 6; }
 
 .topo-node-label {
@@ -521,7 +524,8 @@ body {
   .chan-tailscale,
   .chan-agora,
   .chan-mountain,
-  .chan-relay {
+  .chan-relay,
+  .chan-live {
     stroke-dasharray: 5 7;
     animation: dash-pulse 24s linear infinite;
   }

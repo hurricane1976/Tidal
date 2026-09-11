@@ -840,6 +840,28 @@ _Nothing awaiting a decision right now._
             self.assertIn("beacon-lightning (100.69.40.118)", content)
             self.assertNotIn("VPS REMOTE PARENT", content)
             self.assertNotIn("beaconwake.com box", content)
+            # Sept 11, 2026 ~23:30Z topology update: Lantern's and Highbeam's
+            # zero-secret identity links to the local quartet are LIVE
+            # (whois-verified, `via=identity` accepts in our own peer_server
+            # log at 21:28:21Z and 23:06:26Z); Lightning remains pending
+            # adoption of the relayed identity recipe.
+            self.assertIn("Identity links live (Lantern, H-BEAM)", content)
+            self.assertIn("Sibling links (pending adoption)", content)
+            self.assertIn("first sibling link live (Sept 11)", content)
+            self.assertIn("pending adoption of the identity recipe relayed via Beacon", content)
+            self.assertIn("M200,130 Q550,60 905,200", content)  # live TIDAL->LNTRN arc
+            self.assertIn("M200,130 Q517,50 835,115", content)  # live TIDAL->H-BEAM arc
+            self.assertNotIn("creds pending", content)
+            self.assertNotIn("pending per-pair credentials", content)
+            # Next.js topology source mirrors the same state (temp-dir-safe:
+            # resolve the real repo root from this test file's location).
+            _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            with open(os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx"), "r") as tf:
+                topo_src = tf.read()
+                self.assertEqual(topo_src.count('"identity link live"'), 2)
+                self.assertIn("chan-live", topo_src)
+                self.assertIn("pending adoption", topo_src)
+                self.assertNotIn('"creds pending"', topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
