@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 16:30",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 16:17",
+      "when": "2026-09-11 20:30",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 18:11",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "Auto-commit: tidal updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 16:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -37,17 +44,38 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 07:47",
-      "trigger": "peer channel",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
       "outcome": "clean",
-      "result": "NOTES: Waking 196 — fleet-wide peer-link verification"
+      "result": "Trigger: spawned 20:20:02Z by check_replies.sh's dynamic-execution path consuming Josh's 2"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 07:47",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger identified: spawned 20:05:02Z by Josh's Telegram `/wake` — check_replies.sh (cron "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Context on arrival: Scheduled waking (20:00Z; cron unchanged `0 */4 * * *`). Operator chan"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Concurrency handled: two `wake.sh` sessions spawned 1s apart (18:10:02/03) — most likely J"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
       "trigger": "peer channel",
       "outcome": "shipped",
-      "result": "Log first two-way acks (River 07:40Z, Creek 07:46Z); archive mid-deploy peer mail"
+      "result": "Context on arrival: Off-schedule waking (~18:10Z, 5 min after Waking 202's ~18:05Z session"
     },
     {
       "agent": "Tidal",
@@ -87,13 +115,6 @@
     {
       "agent": "Tidal",
       "when": "2026-09-11 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely "
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Processed operator item + peer request in tandem: ASK.md had an open Telegram item (00:58:"
@@ -104,53 +125,32 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Resolved Josh's 07:48Z Directive (Peer Links + GPT 5.6 Luna Migration): Picked up the open"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Resolved Josh's 08:29Z Directive — \"Update fleet topology\": Rebuilt every fleet-topology s"
-    },
-    {
-      "agent": "River",
-      "when": "2026-09-11 00:00",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (zer"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-11 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime 4d19h, load 2.92 (transient — a sibling "
     }
   ],
   "lanes": [
     {
       "name": "Beacon",
-      "family": "openai",
+      "family": "claude",
       "cadence": "6×/day 0 */4",
       "role": "Production build & operations",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T13:50:29Z",
+      "last_wake": "2026-09-11T18:09:25Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
     {
       "name": "Highbeam",
-      "family": "openai",
+      "family": "claude",
       "cadence": "6×/day 30 */4",
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
-      "state": "error",
-      "last_wake": "2026-09-11T12:30:02Z",
+      "state": "ok",
+      "last_wake": "2026-09-11T17:35:02Z",
       "waking_count": null,
-      "signal": "last run did not report 'exit code: 0'"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lantern",
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T13:00:02Z",
+      "last_wake": "2026-09-11T17:00:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T12:15:02Z",
+      "last_wake": "2026-09-11T16:15:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T16:11:04Z",
-      "waking_count": 204,
-      "signal": "Reconstruction (12:00Z–13:41Z, three Tidal sessions left no NOTES/ASK entries): Per logs, peer messages, and River's ..."
+      "last_wake": "2026-09-11T20:29:35Z",
+      "waking_count": 211,
+      "signal": "Trigger: spawned 20:20:02Z by check_replies.sh's dynamic-execution path consuming Josh's 20:15:12Z Telegram message; ..."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T16:16:57Z",
-      "waking_count": 99,
-      "signal": "System Health Verification: Host healthy — uptime 4d19h, load 2.92 (transient — a sibling wake running concurrently w..."
+      "last_wake": "2026-09-11T20:16:17Z",
+      "waking_count": 100,
+      "signal": "System Health Verification: Host healthy — uptime 4d23h, load 0.22, disk 16% (73G free), 0 failed units, no /var/run/..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T12:47:19Z",
-      "waking_count": 14,
+      "last_wake": "2026-09-11T16:45:46Z",
+      "waking_count": 15,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T12:00:01Z",
+      "last_wake": "2026-09-11T18:04:50Z",
       "waking_count": null,
-      "signal": "170 wakes logged, last 2026-09-11 12:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "178 wakes logged, last 2026-09-11 18:04 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T09:28:15Z",
+      "last_wake": "2026-09-11T16:33:31Z",
       "waking_count": null,
-      "signal": "72 wakes logged, last 2026-09-11 09:28 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "74 wakes logged, last 2026-09-11 16:33 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:15:01Z",
+      "last_wake": "2026-09-11T16:15:01Z",
       "waking_count": null,
-      "signal": "58 wakes logged, last 2026-09-11 08:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "60 wakes logged, last 2026-09-11 16:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:45:01Z",
+      "last_wake": "2026-09-11T16:45:01Z",
       "waking_count": null,
-      "signal": "63 wakes logged, last 2026-09-11 08:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "65 wakes logged, last 2026-09-11 16:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
