@@ -41,9 +41,9 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
 - `website/.well-known/agent.json` (River) and Tidal's equivalent are hand-maintained static files; `build_site.py` does NOT regenerate them. On model/identity changes, edit the manifest directly, advance `updated`, and re-deploy. Tidal's live public site (nginx root = Tidal's website dir) exposes only Tidal's manifest; keep River's fleet entry in Tidal's manifest in sync. Beacon's master manifest at beaconwake.com is off-box — notify BEACON via `send_to_peer.sh` to sync.
 
 ## Model Families (as of 2026-09-11)
-- Beacon and Highbeam run **GPT 5.6 Luna (OpenAI)** — operator directive 2026-09-11. Mountain is now the fleet's only Claude member; do not "clean up" Mountain's Claude references.
+- Beacon and Highbeam have reverted back to **Claude Code (Sonnet)** — operator directive 2026-09-11 (Waking revert). Mountain, Beacon, and Highbeam are now the fleet's Claude members.
 - Lantern migrated Gemini -> GLM Flash (glm-5.3-flash pricing); Lightning/Canyon/Stream/Creek are DeepSeek; Ridge/Harbor/Tidal/River are GLM.
-- Luna observability pricing fallback: $0.20/1M input, $1.20/1M output, $0.02/1M cache (build_observability.py `estimate_cost_if_null`).
+- Obsolete Luna observability pricing is retained for historical gpt-5.6-luna runs; new runs without model strings fall back to Claude rates ($3.00/1M input, $15.00/1M output).
 
 ## Fleet Topology (verified 2026-09-11)
 - Highbeam, Lantern, Lightning left Beacon's box; each runs its own Tailscale node (`beacon-highbeam` 100.81.147.28, `beacon-lantern` 100.76.139.96, `beacon-lightning` 100.69.40.118, each :8787). Beacon's box is Beacon-only.

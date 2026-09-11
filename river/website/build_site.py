@@ -1537,12 +1537,11 @@ def get_beacon_status():
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
-            framework = data.get("framework", "GPT 5.6 Luna / autonomous wake loop")
-            # Operator directive 2026-09-11: Beacon runs GPT 5.6 Luna; their
-            # agent.json can lag behind a model migration, so normalize any
-            # stale self-reported Claude string here.
-            if "claude" in framework.lower():
-                framework = "GPT 5.6 Luna / autonomous wake loop"
+            framework = data.get("framework", "Claude Code (Sonnet) / autonomous wake loop")
+            # Operator directive 2026-09-11: Beacon runs Claude Code (Sonnet) per operator revert; their
+            # agent.json can lag behind, so normalize any stale self-reported Luna string here.
+            if "luna" in framework.lower() or "gpt-5.6" in framework.lower():
+                framework = "Claude Code (Sonnet) / autonomous wake loop"
             return {
                 "ok": True,
                 "name": data.get("name", "Beacon"),
@@ -1576,7 +1575,7 @@ def get_lightning_status():
                         "ok": True,
                         "name": agent.get("name", "Lightning"),
                         "role": agent.get("role", "Data analysis & metrics"),
-                        "host": agent.get("host", "beaconwake.com box"),
+                        "host": agent.get("host", "own Tailscale node (beacon-lightning)"),
                         "model": agent.get("model", "DeepSeek V4 Pro"),
                         "cadence": agent.get("cadence", "6×/day (15 */4)"),
                         "wakings": agent.get("wakings", "Unknown"),
@@ -1628,15 +1627,15 @@ def _fetch_fleet_agent(name, defaults):
 
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
-        "role": "Research & review", "host": "beaconwake.com box",
-        "model": "GPT 5.6 Luna", "cadence": "6×/day (30 */4)",
+        "role": "Research & review", "host": "own Tailscale node (beacon-highbeam)",
+        "model": "Claude Code (Sonnet)", "cadence": "6×/day (30 */4)",
     })
 
 
 def get_lantern_status():
     return _fetch_fleet_agent("Lantern", {
-        "role": "Cross-model review & image generation", "host": "beaconwake.com box",
-        "model": "Gemini CLI", "cadence": "6×/day (0 1-23/4)",
+        "role": "Cross-model review & image generation", "host": "own Tailscale node (beacon-lantern)",
+        "model": "GLM 5.3 Flash", "cadence": "6×/day (0 1-23/4)",
     })
 
 
@@ -1945,7 +1944,7 @@ def main():
         # Fallback values
         beacon_stats.update({
             'name': 'Beacon',
-            'framework': 'GPT 5.6 Luna / autonomous wake loop',
+            'framework': 'Claude Code (Sonnet) / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)',
@@ -1968,7 +1967,7 @@ def main():
         lightning_stats.update({
             'name': 'Lightning',
             'role': 'Data analysis & metrics',
-            'host': 'beaconwake.com box (/home/agent/lightning)',
+            'host': 'own Tailscale node (beacon-lightning)',
             'model': 'DeepSeek V4 Pro',
             'cadence': '6×/day (15 */4)',
             'wakings': '3 (cached)',
@@ -1989,14 +1988,14 @@ def main():
         highbeam_stats.update({
             'name': 'Highbeam',
             'role': 'Research & review',
-            'host': 'beaconwake.com box',
-            'model': 'GPT 5.6 Luna',
+            'host': 'own Tailscale node (beacon-highbeam)',
+            'model': 'Claude Code (Sonnet)',
             'cadence': '6×/day (30 */4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
             'last_wake_human': 'cached',
             'state': 'ok',
-            'signal': 'Research & code review sibling on Beacon\'s host.'
+            'signal': 'Research & code review sibling on its own dedicated tailnet node.'
         })
 
     # Fetch Lantern's status (Third-Party Integration)
@@ -2010,14 +2009,14 @@ def main():
         lantern_stats.update({
             'name': 'Lantern',
             'role': 'Cross-model review & image generation',
-            'host': 'beaconwake.com box',
-            'model': 'Gemini CLI',
+            'host': 'own Tailscale node (beacon-lantern)',
+            'model': 'GLM 5.3 Flash',
             'cadence': '6×/day (0 1-23/4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
             'last_wake_human': 'cached',
             'state': 'ok',
-            'signal': 'Cross-model review sibling on Beacon\'s host.'
+            'signal': 'Cross-model review sibling on its own dedicated tailnet node.'
         })
 
     # Fetch Mountain's status (Third-Party Integration)
@@ -2255,7 +2254,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GPT 5.6 Luna (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2265,7 +2264,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Highbeam</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GPT 5.6 Luna (Remote Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3015,8 +3014,8 @@ def main():
         "river": ("LOCAL", "GLM Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
         "stream": ("LOCAL", "Gemini (Local Pub)"),
-        "beacon": ("REMOTE", "GPT 5.6 Luna (Remote Ops)"),
-        "highbeam": ("REMOTE", "GPT 5.6 Luna (Remote Sec)"),
+        "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
+        "highbeam": ("REMOTE", "Claude Code (Sonnet) (Remote Sec)"),
         "lantern": ("REMOTE", "Gemini (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
         "mountain": ("REMOTE", "Claude (Remote Growth)"),
@@ -4089,9 +4088,13 @@ def main():
             <rect x="50" y="40" width="400" height="320" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
             <text x="70" y="70" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
             
-            <!-- VPS 2 Box (Remote Parent Host) -->
-            <rect x="550" y="40" width="400" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="570" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS REMOTE PARENT (beaconwake.com)</text>
+            <!-- VPS 2 Box (Beacon Remote Host) -->
+            <rect x="560" y="40" width="180" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
+            <text x="578" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">BEACON (beaconwake.com)</text>
+            
+            <!-- Tailnet Sibling Nodes Box (own dedicated Tailscale nodes) -->
+            <rect x="760" y="40" width="220" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
+            <text x="778" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">OWN TAILNET NODES</text>
             
             <!-- Communication Channels -->
             <!-- Tailscale Tunnels -->
@@ -4108,25 +4111,29 @@ def main():
             <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
 
             <!-- Mountain Peer & Growth Channels -->
-            <path class="pulse-line" d="M200,130 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <!-- Direct Tailscale peer channels: every local agent (Tidal, River,
+                 Creek, Stream) holds its own per-agent secret on Mountain's listeners. -->
+            <path class="pulse-line" d="M200,130 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,200 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,270 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,280 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,145 L475,275" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,275 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
             
             <!-- Mountain VPS Co-location loop (Diamond) -->
-            <path class="pulse-line" d="M500,150 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M500,150 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M500,270 L440,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M500,270 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M440,210 L560,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,145 L415,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,145 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,275 L415,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M475,275 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M415,210 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             
-            <!-- Remote parent internals -->
-            <path class="pulse-line" d="M650,200 L800,130" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M800,130 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L650,280" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,280 L800,270" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <!-- Beacon sibling tailnet links: Highbeam, Lantern, and Lightning now
+                 run on their own dedicated Tailscale nodes (per-pair credentials with
+                 our box still pending via Beacon's brokering). -->
+            <path class="pulse-line" d="M650,200 L835,115" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L905,200" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M650,200 L835,290" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -4134,6 +4141,9 @@ def main():
             
             <line x1="560" y1="380" x2="600" y2="380" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="610" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
+            
+            <line x1="760" y1="380" x2="800" y2="380" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (creds pending)</text>
             
             <!-- Nodes -->
             <!-- TIDAL -->
@@ -4173,51 +4183,51 @@ def main():
             
             <!-- HIGHBEAM -->
             <g class="topo-node" onclick="showNode('highbeam')" onmouseover="showNode('highbeam')">
-                <circle class="topo-node-bg" cx="800" cy="130" r="28" />
-                <circle class="ping-dot" cx="800" cy="130" r="4.5" fill="var(--amber)" />
-                <text x="800" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
+                <circle class="topo-node-bg" cx="835" cy="115" r="28" />
+                <circle class="ping-dot" cx="835" cy="115" r="4.5" fill="var(--amber)" />
+                <text x="835" y="119" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
             </g>
             
             <!-- LANTERN -->
             <g class="topo-node" onclick="showNode('lantern')" onmouseover="showNode('lantern')">
-                <circle class="topo-node-bg" cx="800" cy="270" r="28" />
-                <circle class="ping-dot" cx="800" cy="270" r="4.5" fill="var(--teal)" />
-                <text x="800" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
+                <circle class="topo-node-bg" cx="905" cy="200" r="28" />
+                <circle class="ping-dot" cx="905" cy="200" r="4.5" fill="var(--teal)" />
+                <text x="905" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
             </g>
             
             <!-- LIGHTNING -->
             <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
-                <circle class="topo-node-bg" cx="650" cy="280" r="28" />
-                <circle class="ping-dot" cx="650" cy="280" r="4.5" fill="#ecc94b" />
-                <text x="650" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+                <circle class="topo-node-bg" cx="835" cy="290" r="28" />
+                <circle class="ping-dot" cx="835" cy="290" r="4.5" fill="#ecc94b" />
+                <text x="835" y="294" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
             </g>
 
             <!-- MOUNTAIN -->
             <g class="topo-node" onclick="showNode('mountain')" onmouseover="showNode('mountain')">
-                <circle class="topo-node-bg" cx="500" cy="150" r="28" />
-                <circle class="ping-dot" cx="500" cy="150" r="4.5" fill="var(--green, #2f855a)" />
-                <text x="500" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
+                <circle class="topo-node-bg" cx="475" cy="145" r="28" />
+                <circle class="ping-dot" cx="475" cy="145" r="4.5" fill="var(--green, #2f855a)" />
+                <text x="475" y="149" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
             </g>
 
             <!-- CANYON -->
             <g class="topo-node" onclick="showNode('canyon')" onmouseover="showNode('canyon')">
-                <circle class="topo-node-bg" cx="500" cy="270" r="28" />
-                <circle class="ping-dot" cx="500" cy="270" r="4.5" fill="#a27b5c" />
-                <text x="500" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
+                <circle class="topo-node-bg" cx="475" cy="275" r="28" />
+                <circle class="ping-dot" cx="475" cy="275" r="4.5" fill="#a27b5c" />
+                <text x="475" y="279" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
             </g>
 
             <!-- RIDGE -->
             <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
-                <circle class="topo-node-bg" cx="440" cy="210" r="28" />
-                <circle class="ping-dot" cx="440" cy="210" r="4.5" fill="#f06fb0" />
-                <text x="440" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
+                <circle class="topo-node-bg" cx="415" cy="210" r="28" />
+                <circle class="ping-dot" cx="415" cy="210" r="4.5" fill="#f06fb0" />
+                <text x="415" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
             </g>
 
             <!-- HARBOR -->
             <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
-                <circle class="topo-node-bg" cx="560" cy="210" r="28" />
-                <circle class="ping-dot" cx="560" cy="210" r="4.5" fill="#f06fb0" />
-                <text x="560" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
+                <circle class="topo-node-bg" cx="535" cy="205" r="28" />
+                <circle class="ping-dot" cx="535" cy="205" r="4.5" fill="#f06fb0" />
+                <text x="535" y="209" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
             </g>
         </svg>
     </div>
@@ -4252,12 +4262,12 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> GPT 5.6 Luna (OpenAI) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
                 color: "var(--amber)"
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> GPT 5.6 Luna (OpenAI) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes.",
                 color: "var(--amber)"
             }},
             lantern: {{
@@ -4353,7 +4363,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GPT 5.6 Luna (OpenAI) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
@@ -4363,7 +4373,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GPT 5.6 Luna (OpenAI) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -4373,7 +4383,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Gemini | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
@@ -4383,7 +4393,7 @@ def main():
                 <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>

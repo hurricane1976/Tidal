@@ -9,11 +9,14 @@ Verifies the logic across:
 """
 
 import unittest
+from unittest.mock import patch
 import subprocess
 import tempfile
 import sys
 import os
 import json
+import socket
+import struct
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 
@@ -867,7 +870,7 @@ _Nothing awaiting a decision right now._
         mock_response = MagicMock()
         mock_response.read.return_value = json.dumps({
             "name": "Beacon",
-            "framework": "Claude Code",
+            "framework": "gpt-5.6-luna",
             "wake_cadence": "6x/day",
             "updated": "2026-09-04T12:15:37Z",
             "waking_count": 228,
@@ -883,9 +886,9 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
-            # Operator directive 2026-09-11: stale Claude self-reports from
-            # Beacon's feed must normalize to GPT 5.6 Luna.
-            self.assertEqual(status['framework'], "GPT 5.6 Luna / autonomous wake loop")
+            # Operator directive 2026-09-11: stale Luna self-reports from
+            # Beacon's feed must normalize to Claude Code (Sonnet).
+            self.assertEqual(status['framework'], "Claude Code (Sonnet) / autonomous wake loop")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):
@@ -1621,15 +1624,15 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_beacon_luna)
         self.assertAlmostEqual(r_beacon_luna["cost_usd"], 1.42)
 
-        # 11. Beacon/Highbeam rows without a model string fall back to Luna
-        # pricing (NOT legacy Claude rates) — Mountain keeps Claude fallback.
+        # 11. Beacon/Highbeam rows without a model string fall back to Claude
+        # pricing (reverted from temporary Luna rates) — Mountain keeps Claude fallback.
         r_beacon_no_model = {"agent": "Beacon", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
         build_obs.estimate_cost_if_null(r_beacon_no_model)
-        self.assertAlmostEqual(r_beacon_no_model["cost_usd"], 1.40)
+        self.assertAlmostEqual(r_beacon_no_model["cost_usd"], 18.00)
 
         r_highbeam_no_model = {"agent": "Highbeam", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
         build_obs.estimate_cost_if_null(r_highbeam_no_model)
-        self.assertAlmostEqual(r_highbeam_no_model["cost_usd"], 1.40)
+        self.assertAlmostEqual(r_highbeam_no_model["cost_usd"], 18.00)
 
         # 12. Historical Beacon/Highbeam claude-sonnet rows keep legacy Claude
         # pricing via their model string.
@@ -1744,6 +1747,154 @@ class TestFleetTelemetry(unittest.TestCase):
                 self.assertIn(r["model_family"], ["gemini", "glm"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
+
+
+class TestPeerServer(unittest.TestCase):
+    """Tests for peer_server.py PROXYv2 protocol and identity resolution"""
+
+    def setUp(self):
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.original_cwd = os.getcwd()
+        os.chdir(self.temp_dir.name)
+        sys.path.insert(0, SCRIPT_DIR)
+
+        # Create temporary directories for inbox and logs
+        self.inbox_dir = os.path.join(self.temp_dir.name, "peer", "inbox")
+        self.log_file = os.path.join(self.temp_dir.name, "peer", "logs", "peer_server.log")
+
+        # Import peer_server
+        import peer_server
+        self.peer_server = peer_server
+
+        # Override global configurations directly on the module
+        self.peer_server.PEER_TOKENS = {"mock-river-token": "RIVER"}
+        self.peer_server.PEER_ROSTER = {
+            "gemini-agent": "RIVER",
+            "gemini-agent.some-tailnet.net": "RIVER"
+        }
+        self.peer_server.INBOX_DIR = self.inbox_dir
+        self.peer_server.LOG_FILE = self.log_file
+        self.peer_server.BIND_HOST = "127.0.0.1"
+        self.peer_server.SELF_NAME = "TIDAL"
+
+        # Start server in a background thread on a dynamic port
+        import threading
+        self.server = self.peer_server.ThreadingHTTPServer(("127.0.0.1", 0), self.peer_server.Handler)
+        self.test_port = self.server.server_address[1]
+        self.server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.server_thread.start()
+
+    def tearDown(self):
+        self.server.shutdown()
+        self.server.server_close()
+        os.chdir(self.original_cwd)
+        self.temp_dir.cleanup()
+
+    def test_get_health(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/health"
+        response = urllib.request.urlopen(url)
+        self.assertEqual(response.status, 200)
+        data = json.loads(response.read().decode("utf-8"))
+        self.assertEqual(data["status"], "ok")
+        self.assertEqual(data["agent"], "TIDAL")
+
+    def test_post_inbox_with_token(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        payload = json.dumps({"subject": "Test Token", "body": "Hello world"}).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={"Authorization": "Bearer mock-river-token", "Content-Type": "application/json"}
+        )
+        response = urllib.request.urlopen(req)
+        self.assertEqual(response.status, 200)
+        data = json.loads(response.read().decode("utf-8"))
+        self.assertEqual(data["status"], "ok")
+
+        # Verify file written to inbox
+        files = os.listdir(self.inbox_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.inbox_dir, files[0])) as f:
+            record = json.load(f)
+            self.assertEqual(record["from"], "RIVER")
+            self.assertEqual(record["subject"], "Test Token")
+            self.assertEqual(record["body"], "Hello world")
+
+    def test_post_inbox_unauthorized(self):
+        import urllib.request
+        import urllib.error
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        payload = json.dumps({"subject": "Test", "body": "Unauth"}).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={"Authorization": "Bearer bad-token", "Content-Type": "application/json"}
+        )
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req)
+        self.assertEqual(ctx.exception.code, 401)
+
+    @patch("subprocess.check_output")
+    def test_post_inbox_proxy_v2(self, mock_subprocess):
+        # Configure mock for tailscale whois
+        mock_subprocess.return_value = json.dumps({
+            "Node": {
+                "Name": "gemini-agent.some-tailnet.net."
+            }
+        })
+
+        # Connect to server via raw socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(("127.0.0.1", self.test_port))
+
+        # Build PROXYv2 header
+        # Header signature: \r\n\r\n\x00\r\nQUIT\n
+        sig = b'\x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A'
+        # Command (0x21), Family (0x11 for IPv4), Length (12 bytes)
+        info = struct.pack("!BBH", 0x21, 0x11, 12)
+        # Source IP: 100.91.42.51 (Tailscale)
+        src_ip_bytes = socket.inet_pton(socket.AF_INET, "100.91.42.51")
+        # Dest IP: 127.0.0.1
+        dst_ip_bytes = socket.inet_pton(socket.AF_INET, "127.0.0.1")
+        # Source/Dest Ports: 12345, 8787
+        ports_bytes = struct.pack("!HH", 12345, 8787)
+        
+        proxy_header = sig + info + src_ip_bytes + dst_ip_bytes + ports_bytes
+        s.sendall(proxy_header)
+
+        # Build standard HTTP request without Authorization header
+        payload = json.dumps({"subject": "Proxy test", "body": "Hello via Proxy"}).encode("utf-8")
+        http_req = (
+            "POST /inbox HTTP/1.1\r\n"
+            "Host: 127.0.0.1\r\n"
+            f"Content-Length: {len(payload)}\r\n"
+            "Content-Type: application/json\r\n"
+            "Connection: close\r\n\r\n"
+        ).encode("utf-8") + payload
+        s.sendall(http_req)
+
+        # Read response
+        response = b""
+        while True:
+            chunk = s.recv(4096)
+            if not chunk:
+                break
+            response += chunk
+        s.close()
+
+        # Parse and verify response
+        self.assertIn(b"200 OK", response)
+        
+        # Verify file written to inbox correctly maps to RIVER
+        files = os.listdir(self.inbox_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.inbox_dir, files[0])) as f:
+            record = json.load(f)
+            self.assertEqual(record["from"], "RIVER") # resolved from tailscale whois!
+            self.assertEqual(record["subject"], "Proxy test")
+            self.assertEqual(record["body"], "Hello via Proxy")
 
 
 if __name__ == "__main__":

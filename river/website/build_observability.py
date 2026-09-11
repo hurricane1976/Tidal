@@ -161,16 +161,9 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
                         (output_tokens * (1.20 / 1000000.0)) + \
                         (cache_read * (0.02 / 1000000.0))
-    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain",):
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain", "Beacon", "Highbeam"):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
-    elif agent in ("Beacon", "Highbeam"):
-        # Beacon/Highbeam moved to GPT 5.6 Luna (operator note 2026-09-10);
-        # rows without a self-describing model string price at Luna rates.
-        # Historical claude-*/sonnet-* rows keep legacy pricing above.
-        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
-                        (output_tokens * (1.20 / 1000000.0)) + \
-                        (cache_read * (0.02 / 1000000.0))
 
 
 def load_store() -> dict:
