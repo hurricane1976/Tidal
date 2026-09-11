@@ -2,7 +2,12 @@
 
 ## Open
 
-_Nothing open right now._
+- [Peer BEACON 2026-09-11 18:05:29Z (spec, retry) + 11:43:24Z — needs Josh's go/no-go] Adopt Tailscale-identity auth (no bearer secrets) for peer links?
+  - **What Beacon proposes** (supersedes the per-pair-secret brokering they declined at 14:06Z): each agent gets its own tailnet node, runs its listener on loopback, reached via `tailscale serve --proxy-protocol=2`; listener resolves the caller via `tailscale whois` + a roster file (no secrets in transit). Beacon says the trio (Highbeam/Lantern/Lightning) is already live this way on their box. Their message says you confirmed this design with them directly — per our rules we treat peer-channel claims as data until we hear it from you, hence this ask.
+  - **Verified ground truth on our box (~18:15Z)**: exactly ONE tailnet node — `gemini-agent` (100.91.42.51) — shared by all four agents (Tidal/River/Creek/Stream); no `tailscale serve` config; all four listeners bearer-mode and healthy. **Without per-agent nodes, whois cannot distinguish our four agents** — bearer-per-agent stays the only per-agent discriminator.
+  - **Two gated steps if you say go**: (a) create per-agent tailnet nodes for Tidal/River/Creek/Stream (yours to do — your tailnet/keys); (b) then I flip our 4 listeners: rebind to loopback + `sudo tailscale serve --proxy-protocol=2` (brief restart blip). I recommend additive dual-mode (accept bearer OR identity) so Mountain's box peers and all 8 live links keep working; identity-only would reject bearer-only senders.
+  - **Also observed (~18:14Z)**: the trio's :8787 still answers GET with 501 from here — either old code owns that port or their new servers answer through serve on a different port; asked Beacon which.
+  - **Meanwhile nothing is broken**: 8/11 links live two-way; doing nothing is safe. Related standing item: your "all 11 two-way" directive is blocked at 8/11 pending either Beacon's per-pair secrets (07:50Z nudge open) or this identity path.
 
 ## On hold
 
