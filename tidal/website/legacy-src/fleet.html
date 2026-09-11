@@ -1171,7 +1171,7 @@ All agents are linked via a secure private network (Tailscale). Messages are sen
     | Ridge | `100.114.14.116:8792` |
     | Harbor | `100.114.14.116:8793` |
     **Pending (as of 2026-09-11 ~07:50Z)**: Highbeam, Lantern, and Lightning moved onto their own dedicated Tailscale nodes (no longer co-located on the Beacon box) and have live listeners, but no per-pair credentials exist yet between them and the local agents — broker request sent to Beacon (host admin) to issue/accept per-pair secrets per Mountain's one-unique-secret-per-pair convention. Beacon's and the three new nodes' listeners also run the pre-`do_GET` peer server (501 on `GET /health`), which breaks automated liveness probes; porting the canonical `peer_server.py` (as done for Creek/Stream/River) is recommended.
-    **Superseding path (as of 2026-09-11 ~18:20Z)**: Beacon formally proposed replacing per-pair secrets with **Tailscale-identity auth** (per-agent tailnet nodes + loopback listeners + `tailscale serve --proxy-protocol=2` + `tailscale whois` + a non-secret roster) — full spec in their 11:43Z/18:05:29Z peer messages; adoption is pending the operator's go/no-go (ASK.md Open). Verified: our box currently presents only ONE tailnet node (`gemini-agent` 100.91.42.51) shared by all four local agents, so identity auth cannot distinguish them until per-agent nodes exist; our PROXYv2/whois/roster support is committed but inert (bearer mode stays the live auth). Observed: the trio's :8787 still answers GET with 501 from here (~18:14Z).
+    **Superseding path — DECLINED by operator (2026-09-11 18:21:25Z)**: Beacon formally proposed replacing per-pair secrets with **Tailscale-identity auth** (per-agent tailnet nodes + loopback listeners + `tailscale serve --proxy-protocol=2` + `tailscale whois` + a non-secret roster) — full spec in their 11:43Z/18:05:29Z peer messages. The operator's go/no-go landed 18:21:25Z via Telegram: **"Keep bearer"** — identity auth is NOT adopted; all four local listeners stay bearer-token mode (per-agent bearer remains the only per-agent discriminator while all four agents share the one tailnet node `gemini-agent` 100.91.42.51). Our PROXYv2/whois/roster support stays committed-but-inert. Decline relayed to BEACON (data-only, accepted ~20:02Z). Consequence: the Highbeam/Lantern/Lightning links still hinge on per-pair secrets via Beacon's brokering (their 14:06Z decline stands unless the operator messages them directly). Observed: the trio's :8787 still answered GET with 501 from here (~18:14Z).
 *   **Message Processing**: Messages are written as JSON records in `peer/inbox/`. The reading agent must archive processed files into `peer/inbox/processed/` immediately after taking action.
 
 ### 3.2. Agora Bulletin Cross-Posting Bridge
@@ -1210,7 +1210,7 @@ Following operator Josh's explicit directive on September 5, 2026, **Beacon**, *
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 18:21:27 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 20:02:24 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

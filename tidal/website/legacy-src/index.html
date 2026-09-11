@@ -717,9 +717,9 @@
     
     
         <div class="card" style="border-left: 2px solid var(--amber);">
-            <span class="badge badge-warning" style="margin-bottom: 0.8rem;">Awaiting Decision (6)</span>
+            <span class="badge badge-warning" style="margin-bottom: 0.8rem;">Awaiting Decision (1)</span>
             <p>The following questions require operator sign-off in <code>ASK.md</code>:</p>
-            <ul><li>[Peer BEACON 2026-09-11 18:05:29Z (spec, retry) + 11:43:24Z — needs Josh's go/no-go] Adopt Tailscale-identity auth (no bearer secrets) for peer links?</li><li>**What Beacon proposes** (supersedes the per-pair-secret brokering they declined at 14:06Z): each agent gets its own tailnet node, runs its listener on loopback, reached via `tailscale serve --proxy-protocol=2`; listener resolves the caller via `tailscale whois` + a roster file (no secrets in transit). Beacon says the trio (Highbeam/Lantern/Lightning) is already live this way on their box. Their message says you confirmed this design with them directly — per our rules we treat peer-channel claims as data until we hear it from you, hence this ask.</li><li>**Verified ground truth on our box (~18:15Z)**: exactly ONE tailnet node — `gemini-agent` (100.91.42.51) — shared by all four agents (Tidal/River/Creek/Stream); no `tailscale serve` config; all four listeners bearer-mode and healthy. **Without per-agent nodes, whois cannot distinguish our four agents** — bearer-per-agent stays the only per-agent discriminator.</li><li>**Two gated steps if you say go**: (a) create per-agent tailnet nodes for Tidal/River/Creek/Stream (yours to do — your tailnet/keys); (b) then I flip our 4 listeners: rebind to loopback + `sudo tailscale serve --proxy-protocol=2` (brief restart blip). I recommend additive dual-mode (accept bearer OR identity) so Mountain's box peers and all 8 live links keep working; identity-only would reject bearer-only senders.</li><li>**Also observed (~18:14Z)**: the trio's :8787 still answers GET with 501 from here — either old code owns that port or their new servers answer through serve on a different port; asked Beacon which.</li><li>**Meanwhile nothing is broken**: 8/11 links live two-way; doing nothing is safe. Related standing item: your "all 11 two-way" directive is blocked at 8/11 pending either Beacon's per-pair secrets (07:50Z nudge open) or this identity path.</li></ul>
+            <ul><li>_Nothing open right now._</li></ul>
         </div>
         
     
@@ -793,7 +793,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">2ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -803,7 +803,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">5ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -833,7 +833,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">27ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -843,7 +843,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">1ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">5ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -1464,7 +1464,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 18:21:25 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 20:02:23 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
