@@ -31,7 +31,8 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 ];
 
 // Same-host full meshes + the cross-host channels (peer/agora, direct
-// Tailscale to Mountain, Beacon's relay). Mirrors FLEET_COORDINATION.md §5.
+// Tailscale from every local agent to Mountain, Beacon's relay).
+// Mirrors FLEET_COORDINATION.md §5.
 const QUADS: number[][] = [
   [0, 1, 2, 3],
   [4, 5, 6, 7],
@@ -41,6 +42,9 @@ const CHANNELS: [number, number][] = [
   [0, 4], // Tailscale peer channel + Agora bridge (Tidal <-> Beacon)
   [0, 8], // direct Tailscale peer channel (Tidal <-> Mountain)
   [4, 8], // relay via Beacon (Beacon <-> Mountain)
+  [2, 8], // direct Tailscale peer channel (Creek <-> Mountain)
+  [3, 8], // direct Tailscale peer channel (Stream <-> Mountain)
+  [1, 8], // direct Tailscale peer channel (River <-> Mountain)
 ];
 
 interface Edge {

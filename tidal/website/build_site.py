@@ -4142,8 +4142,12 @@ def main():
             <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
 
             <!-- Mountain Peer & Growth Channels -->
+            <!-- Direct Tailscale peer channels: every local agent (Tidal, River,
+                 Creek, Stream) holds its own per-agent secret on Mountain's listeners. -->
             <path class="pulse-line" d="M200,130 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M350,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,270 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M350,280 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M650,200 L500,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M500,150 L500,270" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M500,270 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
@@ -4306,7 +4310,7 @@ def main():
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal and Creek, and to remote Beacon.",
+                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
             canyon: {{
