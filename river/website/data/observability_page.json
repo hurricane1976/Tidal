@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 08:30",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 08:07",
+      "when": "2026-09-11 08:41",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 08:39",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "fleet page cards: Highbeam/Lantern/Lightning on own tailnet nodes"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 08:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -48,13 +55,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Waking 193: resolve topology-update directive in ASK.md; NOTES entry; archive HARBOR/RIVER"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 02:09",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Notes: Waking 192 session log; ASK.md attribution corrections"
     },
     {
       "agent": "Tidal",
@@ -106,6 +106,13 @@
       "result": "Resolved Josh's 07:48Z Directive (Peer Links + GPT 5.6 Luna Migration): Picked up the open"
     },
     {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Resolved Josh's 08:29Z Directive — \"Update fleet topology\": Rebuilt every fleet-topology s"
+    },
+    {
       "agent": "River",
       "when": "2026-09-11 00:00",
       "trigger": "peer channel",
@@ -115,16 +122,9 @@
     {
       "agent": "Creek",
       "when": "2026-09-11 00:00",
-      "trigger": "scheduled",
+      "trigger": "peer channel",
       "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime 4d11h, load 0.14, disk 14% (75G free), 0"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Acted on Josh's two full-mesh directives (Telegram 07:28:49Z \"check and verify peer links…"
+      "result": "System Health Verification: Host healthy — uptime 4d15h, load 15.47 (transient — Tidal's G"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:27:01Z",
+      "last_wake": "2026-09-11T12:12:31Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:20:02Z",
+      "last_wake": "2026-09-11T10:50:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -159,10 +159,10 @@
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
-      "state": "waking",
-      "last_wake": "2026-09-11T08:20:02Z",
+      "state": "ok",
+      "last_wake": "2026-09-11T09:30:02Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lightning",
@@ -184,8 +184,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:06:58Z",
-      "waking_count": 202,
+      "last_wake": "2026-09-11T08:40:34Z",
+      "waking_count": 203,
       "signal": "Reconstructed entry (logged retroactively by Waking 198): The 07:50–07:55Z session completed Josh's 07:48:14Z Telegra..."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T08:22:46Z",
-      "waking_count": 97,
-      "signal": "System Health Verification: Host healthy — uptime 4d11h, load 0.14, disk 14% (75G free), 0 failed units, no /var/run/..."
+      "last_wake": "2026-09-11T12:20:01Z",
+      "waking_count": 98,
+      "signal": "System Health Verification: Host healthy — uptime 4d15h, load 15.47 (transient — Tidal's GLM-flash wake running concu..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T07:31:23Z",
-      "waking_count": 12,
+      "last_wake": "2026-09-11T08:47:00Z",
+      "waking_count": 13,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T08:17:25Z",
+      "last_wake": "2026-09-11T12:00:01Z",
       "waking_count": null,
-      "signal": "165 wakes logged, last 2026-09-11 08:17 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "170 wakes logged, last 2026-09-11 12:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T07:49:57Z",
+      "last_wake": "2026-09-11T09:28:15Z",
       "waking_count": null,
-      "signal": "69 wakes logged, last 2026-09-11 07:49 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "72 wakes logged, last 2026-09-11 09:28 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T07:26:48Z",
+      "last_wake": "2026-09-11T08:45:01Z",
       "waking_count": null,
-      "signal": "62 wakes logged, last 2026-09-11 07:26 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "63 wakes logged, last 2026-09-11 08:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }

@@ -1535,12 +1535,11 @@ def get_beacon_status():
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
-            framework = data.get("framework", "GPT 5.6 Luna / autonomous wake loop")
-            # Operator directive 2026-09-11: Beacon runs GPT 5.6 Luna; their
-            # agent.json can lag behind a model migration, so normalize any
-            # stale self-reported Claude string here.
-            if "claude" in framework.lower():
-                framework = "GPT 5.6 Luna / autonomous wake loop"
+            framework = data.get("framework", "Claude Code (Sonnet) / autonomous wake loop")
+            # Operator directive 2026-09-11: Beacon runs Claude Code (Sonnet) per operator revert; their
+            # agent.json can lag behind, so normalize any stale self-reported Luna string here.
+            if "luna" in framework.lower() or "gpt-5.6" in framework.lower():
+                framework = "Claude Code (Sonnet) / autonomous wake loop"
             return {
                 "ok": True,
                 "name": data.get("name", "Beacon"),
@@ -1666,7 +1665,7 @@ def write_fleet_all_snapshot():
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
         "role": "Research & review", "host": "own Tailscale node (beacon-highbeam)",
-        "model": "GPT 5.6 Luna", "cadence": "6×/day (30 */4)",
+        "model": "Claude Code (Sonnet)", "cadence": "6×/day (30 */4)",
     })
 
 
@@ -1985,7 +1984,7 @@ def main():
         # Fallback values
         beacon_stats.update({
             'name': 'Beacon',
-            'framework': 'GPT 5.6 Luna / autonomous wake loop',
+            'framework': 'Claude Code (Sonnet) / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)',
@@ -2030,7 +2029,7 @@ def main():
             'name': 'Highbeam',
             'role': 'Research & review',
             'host': 'own Tailscale node (beacon-highbeam)',
-            'model': 'GPT 5.6 Luna',
+            'model': 'Claude Code (Sonnet)',
             'cadence': '6×/day (30 */4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2295,7 +2294,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GPT 5.6 Luna (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2305,7 +2304,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Highbeam</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GPT 5.6 Luna (Remote Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3055,8 +3054,8 @@ def main():
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
         "stream": ("LOCAL", "DeepSeek (Local Pub)"),
-        "beacon": ("REMOTE", "GPT 5.6 Luna (Remote Ops)"),
-        "highbeam": ("REMOTE", "GPT 5.6 Luna (Remote Sec)"),
+        "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
+        "highbeam": ("REMOTE", "Claude Code (Sonnet) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
         "mountain": ("REMOTE", "Claude (Remote Growth)"),
@@ -4303,13 +4302,13 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> GPT 5.6 Luna (OpenAI) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
-                color: "#10a37f"
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                color: "var(--amber)"
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> GPT 5.6 Luna (OpenAI) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
-                color: "#10a37f"
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
@@ -4399,22 +4398,22 @@ def main():
             <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #10a37f;">
+        <div class="card" style="border-left: 2px solid var(--amber);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #10a37f; margin: 0;">Beacon</h3>
+                <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GPT 5.6 Luna (OpenAI) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #10a37f;">
+        <div class="card" style="border-left: 2px solid var(--amber);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #10a37f; margin: 0;">Highbeam</h3>
+                <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GPT 5.6 Luna (OpenAI) | Host: own Tailscale node beacon-highbeam (100.81.147.28)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>

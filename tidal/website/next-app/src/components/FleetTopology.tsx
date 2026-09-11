@@ -33,10 +33,10 @@ const NODES: NodeDef[] = [
   { id: "river", label: "RIVER", x: 185, y: 350, family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // Box B -- Beacon's host (beaconwake.com)
-  { id: "beacon", label: "BEACON", x: 510, y: 230, family: "OpenAI", title: "Beacon • remote production compiler & release board", desc: "Model Framework: GPT 5.6 Luna (OpenAI) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
+  { id: "beacon", label: "BEACON", x: 510, y: 230, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
 
   // Box D -- sibling agents on their own dedicated Tailscale nodes
-  { id: "highbeam", label: "H-BEAM", x: 760, y: 140, family: "OpenAI", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: GPT 5.6 Luna (OpenAI) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; direct peer link pending per-pair credentials." },
+  { id: "highbeam", label: "H-BEAM", x: 760, y: 140, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; direct peer link pending per-pair credentials." },
   { id: "lantern", label: "LANTERN", x: 940, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; direct peer link pending per-pair credentials." },
   { id: "lightning", label: "LIGHTNG", x: 850, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; direct peer link pending per-pair credentials." },
 
@@ -101,7 +101,6 @@ const LEGEND: { family: Family; x: number }[] = [
   { family: "Claude", x: 60 },
   { family: "DeepSeek", x: 150 },
   { family: "GLM", x: 244 },
-  { family: "OpenAI", x: 334 },
 ];
 
 export default function FleetTopology() {

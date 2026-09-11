@@ -7,7 +7,8 @@ Every number here is measured at generation time:
 
 * **Per-run cost / tokens / turns / duration** come from the JSON result
   envelope `claude -p --output-format json` writes to `logs/<ts>.json` on each
-  waking (wired into wake.sh). Beacon and Highbeam (both GPT 5.6 Luna) emit it;
+  waking (wired into wake.sh). Beacon and Highbeam (both Claude Code Sonnet,
+  per the 2026-09-11 operator revert) emit it;
   Lantern and Lightning (opencode) do not yet, so their lanes show
   "runtime not instrumented" rather than a fabricated number.
 * **The run explorer** (runs as rows) is merged from Beacon's git commits and
@@ -161,16 +162,9 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
                         (output_tokens * (1.20 / 1000000.0)) + \
                         (cache_read * (0.02 / 1000000.0))
-    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain",):
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain", "Beacon", "Highbeam"):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
-    elif agent in ("Beacon", "Highbeam"):
-        # Beacon/Highbeam moved to GPT 5.6 Luna (operator note 2026-09-10);
-        # rows without a self-describing model string price at Luna rates.
-        # Historical claude-*/sonnet-* rows keep legacy pricing above.
-        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
-                        (output_tokens * (1.20 / 1000000.0)) + \
-                        (cache_read * (0.02 / 1000000.0))
 
 
 def load_store() -> dict:
@@ -357,8 +351,8 @@ def fmt_dur(ms) -> str:
 
 
 AGENT_METADATA = {
-    "Beacon": {"family": "openai", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
-    "Highbeam": {"family": "openai", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
+    "Beacon": {"family": "claude", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Tidal": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "dev &amp; security audit", "envelope": "json"},

@@ -20,6 +20,9 @@ import os
 import re
 import sys
 import time
+import struct
+import subprocess
+import socket
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -69,7 +72,7 @@ def load_config():
     host = self_bind.rsplit(":", 1)[0]
     if host in ("0.0.0.0", "", "*"):
         sys.exit(
-            "SELF_BIND must be this box's Tailscale IP, never 0.0.0.0 -- "
+            "SELF_BIND must be this box's Tailscale IP or 127.0.0.1 -- "
             "see PEER_COMMUNICATION.md. Refusing to start."
         )
     return self_name or "unknown", self_bind, peers
@@ -88,6 +91,36 @@ def log(line):
         fh.write(f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} {line}\n")
 
 
+ROSTER_FILE = os.path.join(SCRIPT_DIR, "peer", "roster.json")
+
+
+def load_roster():
+    if os.path.isfile(ROSTER_FILE):
+        try:
+            with open(ROSTER_FILE) as fh:
+                return json.load(fh)
+        except Exception as e:
+            log(f"ERROR: failed to load roster: {e}")
+    return {}
+
+
+PEER_ROSTER = load_roster()
+
+
+def resolve_tailscale_identity(ip):
+    """Run 'tailscale whois --json <ip>' and return the Node Name."""
+    try:
+        raw = subprocess.check_output(["tailscale", "whois", "--json", ip], text=True)
+        data = json.loads(raw)
+        name = data.get("Node", {}).get("Name", "")
+        if name.endswith("."):
+            name = name[:-1]
+        return name
+    except Exception as e:
+        log(f"ERROR: tailscale whois failed for {ip}: {e}")
+        return None
+
+
 def rate_limited(peer_name):
     now = time.time()
     hist = [t for t in _recent.get(peer_name, []) if now - t < 3600]
@@ -97,6 +130,43 @@ def rate_limited(peer_name):
 
 class Handler(BaseHTTPRequestHandler):
     server_version = "BeaconPeer/1.0"
+
+    def setup(self):
+        super().setup()
+        self.resolved_peer_name = None
+        if BIND_HOST == "127.0.0.1":
+            try:
+                # Peek (never consume): PROXYv2 starts with \r\n\r\n\0; HTTP
+                # request lines never do, so plain requests fall through
+                # untouched and the buffered rfile still sees every byte.
+                first = self.connection.recv(1, socket.MSG_PEEK)
+                if first == b"\x0d":
+                    sig = self.connection.recv(12, socket.MSG_PEEK)
+                    if len(sig) == 12 and sig == b'\x0D\x0A\x0D\x0A\x00\x0D\x0A\x51\x55\x49\x54\x0A':
+                        header = self.rfile.read(16)  # signature + ver_cmd/family/length
+                        ver_cmd, fam_prot, length = struct.unpack("!BBH", header[12:16])
+                        addr_data = self.rfile.read(length)
+                        src_ip = None
+                        if fam_prot == 0x11:  # IPv4
+                            src_ip = socket.inet_ntop(socket.AF_INET, addr_data[:4])
+                        elif fam_prot == 0x21:  # IPv6
+                            src_ip = socket.inet_ntop(socket.AF_INET6, addr_data[:16])
+
+                        if src_ip:
+                            self.client_address = (src_ip, self.client_address[1])
+                            node_name = resolve_tailscale_identity(src_ip)
+                            if node_name:
+                                prefix = node_name.split(".", 1)[0]
+                                peer = PEER_ROSTER.get(node_name) or PEER_ROSTER.get(prefix)
+                                if peer:
+                                    self.resolved_peer_name = peer
+                                    log(f"PROXYv2 identity resolved: ip={src_ip} node={node_name} peer={peer}")
+                                else:
+                                    log(f"PROXYv2 identity unmapped: ip={src_ip} node={node_name}")
+                            else:
+                                log(f"PROXYv2 tailscale whois failed for ip={src_ip}")
+            except Exception as e:
+                log(f"PROXYv2 parse error: {e}")
 
     def log_message(self, fmt, *args):
         pass  # we do our own logging via log() below
@@ -130,12 +200,15 @@ class Handler(BaseHTTPRequestHandler):
         if length <= 0 or length > MAX_BODY_BYTES:
             return self._respond(413, {"error": "body missing or too large"})
 
-        auth = self.headers.get("Authorization", "")
-        m = re.match(r"^Bearer (.+)$", auth)
-        token = m.group(1).strip() if m else None
-        peer_name = PEER_TOKENS.get(token) if token else None
+        peer_name = self.resolved_peer_name
         if not peer_name:
-            log(f"REJECT unknown-token from={self.client_address[0]}")
+            auth = self.headers.get("Authorization", "")
+            m = re.match(r"^Bearer (.+)$", auth)
+            token = m.group(1).strip() if m else None
+            peer_name = PEER_TOKENS.get(token) if token else None
+
+        if not peer_name:
+            log(f"REJECT unauthorized from={self.client_address[0]}")
             return self._respond(401, {"error": "unauthorized"})
 
         if rate_limited(peer_name):
