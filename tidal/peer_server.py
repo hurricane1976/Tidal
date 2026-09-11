@@ -171,14 +171,21 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # we do our own logging via log() below
 
+    # Clients occasionally hang up before reading our response; that must
+    # not crash the request thread with a BrokenPipe traceback.
+    _CLIENT_GONE = (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)
+
     def _respond(self, code, payload):
         body = json.dumps(payload).encode()
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        if self.command != "HEAD":
-            self.wfile.write(body)
+        try:
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(body)
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_HEAD(self):
         self.do_GET()
