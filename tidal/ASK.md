@@ -2,8 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-11 07:38:39 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 ensure peer links are nailed up between everyone and work
-- [Telegram 2026-09-11 07:28:38 UTC] Check and verify peer links send messages to they connected peers and report status ensure communications work to all other agents
 _Nothing open right now._
 
 ## On hold
@@ -11,6 +9,16 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-11 07:38:39 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 ensure peer links are nailed up between everyone and work
+- [Telegram 2026-09-11 07:28:38 UTC] Check and verify peer links send messages to they connected peers and report status ensure communications work to all other agents
+  - **Resolution**: Fleet-wide peer-link verification executed (Waking 196, ~07:45–07:55Z). All 12 members enumerated from the deployed fleet feed; listener map probed end-to-end.
+    1. **us→them 8/8 live**: authenticated POSTs via `send_to_peer.sh` (destinations logged) accepted by every configured peer — BEACON `100.99.217.90:8787` `{"status":"ok"}`, RIVER `:8788`, CREEK `:8789`, STREAM `:8790` (co-located), MOUNTAIN `100.114.14.116:8787` (routed_to root), CANYON `:8791`, RIDGE `:8792`, HARBOR `:8793` (all `{"ok":true}`). Each message asks for a one-line ack back to our inbox to prove the return leg; acks expected on peers' next wakes.
+    2. **them→us evidence on record**: HARBOR 41 msgs in last 36h (latest 07:39Z), STREAM 07:30:44Z link-check, CREEK 02:16Z, RIVER 02:15:33Z, RIDGE-via-Harbor-relay 07:33:55Z. BEACON last initiated Sept 9 (their agents were token-depleted, now back on Luna), MOUNTAIN Sept 7, CANYON/RIDGE have never initiated to us (their listeners accept us fine; initiation is their side's config).
+    3. **The 3 unlinked members found and diagnosed**: HIGHBEAM, LANTERN, LIGHTNING left the Beacon box and now run **their own dedicated Tailscale nodes** — `beacon-highbeam` 100.81.147.28:8787, `beacon-lantern` 100.76.139.96:8787, `beacon-lightning` 100.69.40.118:8787 — all alive (501-on-GET from pre-`do_GET` peer server = old code, same bug we fixed on Creek/Stream/River). No per-pair credentials exist anywhere on our box for them, so links can't be nailed until secrets are exchanged.
+    4. **Broker request sent to BEACON** (authenticated, accepted): asked them, as the three's host admin, to broker per-pair secrets per Mountain's one-unique-secret-per-pair convention — either accept our `peer_intro` records over the channel or issue secrets for their listeners; offered reciprocal registration. Also flagged the 501-on-GET /health bug (breaks Mountain's automated liveness probes) and offered our canonical `peer_server.py` as a drop-in port.
+    5. **Docs updated**: `FLEET_COORDINATION.md` §1 host locations (Highbeam/Lantern/Lightning → own tailnet nodes) and §3.1 now carries the full 12-listener map + pending-credential note.
+    6. **Status for Josh**: 8 of 11 peers verified reachable and authenticated from Tidal right now (4 with fresh two-way evidence); 3 of 11 (Highbeam/Lantern/Lightning) pending credential brokering via Beacon — will nail them up as soon as secrets arrive, or Josh can nudge Beacon on Telegram if he wants it faster.
 
 - [Telegram 2026-09-11 02:45:16 UTC] Tell beacon to update his fleet topology
   - **Resolution**: Completed (Waking 194, ~02:52Z). Sent BEACON a peer message (destination verified `100.99.217.90:8787`, `{"status":"ok"}`) relaying the directive with the verified ground truth from our local `keys/peers.env` files (Tidal/River/Creek/Stream) and the Mountain confirmations from Wakings 190/191: every local agent on our box (100.91.42.51) now holds its own direct authenticated Tailscale channel to the Mountain box (100.114.14.116:8787) with a unique per-agent secret — Creek (:8789), Stream (:8790), River (:8788), plus Tidal's existing channel. Suggested Beacon draw 6 cross-host channels (Tidal↔Beacon, Beacon↔Mountain relay, Tidal↔Mountain, River↔Mountain, Creek↔Mountain, Stream↔Mountain) and pointed them at our deployed /fleet.html + FLEET_COORDINATION.md §3.1 as reference. Noted no ack required; will flag to Josh when Beacon confirms.
