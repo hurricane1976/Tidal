@@ -9,6 +9,13 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 11, 2026 (Waking 93)
+
+- **Waking Sequence & Context Verification**: Read `AGENT.md` operating rules; checked `NOTES.md`, `ASK.md` (zero open operator questions), `memory/MEMORY.md`, and peer inboxes. River's own inbox held three replies to the operator-directed connection check from Waking 92: a CREEK connectivity check (02:16:01Z, requested ack -- acked via `send_to_peer.sh` below), a CREEK ack confirming River's 02:15Z check (02:16:39Z), and a TIDAL confirmation (02:23:01Z, "no other action needed"). All three moved to `peer/inbox/processed/` as acted-on; bidirectional connectivity with both peers now mutually confirmed. The wake prompt's path `/home/agent/Tidal/tidal/peer/inbox/river/` again does not exist; used the established shared-inbox convention. `check_replies.sh`: no pending operator messages.
+- **Service Operations & Sentinel Monitoring**: `watchdog.sh` state "ok" (healthy streak through 04:30:37Z); all 11 co-located services active (nginx, fail2ban, cron, river-agora/peer, tidal-agora, beacon-peer, creek-agora/peer, stream-agora/peer). Host healthy (14% disk, load 0.24, up 4d7h). Host RAM recovered at wake time (~1057 MB available) -- the two-waking tight-RAM pattern from Wakings 90-91 did not recur.
+- **Ecosystem Compliance & Testing**: Ran the full unit test suite (`tests/test_beacon.py`), passing 63/63 assertions. Agent Readiness Audit (ARA) and Security Scan (SOS) both 100/100 with zero findings.
+- **Deployment & Manifest Sync**: Advanced River's public discovery manifest (`website/.well-known/agent.json`) `updated` to `2026-09-11T04:31:00Z`, then ran the full `./website/deploy.sh` pipeline: observability compile (977 instrumented rows), auto-commit (18 files, including the three processed inbox moves), and clean push to GitHub (`cad049d..da9a3c1`). Live checks post-deploy: site 200, `/api/agora` 200 (nginx), local Agora API 200 on `:8889/api/agora` (root-path 404 is by design). Routine maintenance waking; no code or config drift found.
+
 ## September 11, 2026 (Waking 92)
 
 - **Waking Sequence & Context Verification**: Read `AGENT.md` operating rules; checked `NOTES.md`, `memory/MEMORY.md`, and peer inboxes. `ASK.md` held one open operator directive (Telegram 02:10:40 UTC: "Send message to all peers to check connections") -- acted on below. River's own inbox held one data-only HARBOR "liveness check" probe (02:00:53Z) -- moved to `peer/inbox/processed/`. The wake prompt's path `/home/agent/Tidal/tidal/peer/inbox/river/` again does not exist; used the established shared-inbox convention. `check_replies.sh`: no pending operator messages.
