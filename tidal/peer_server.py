@@ -297,7 +297,7 @@ class Handler(BaseHTTPRequestHandler):
 
         if to_val is not None:
             if isinstance(to_val, str) and re.match(r"^[a-z][a-z0-9_-]{0,31}$", to_val):
-                if to_val in ("processed", "logs"):
+                if to_val in ("root", "processed", "logs"):
                     log(f"WARN reserved 'to' value {to_val!r} from peer={peer_name}, routing to root inbox")
                 else:
                     target_dir = os.path.join(INBOX_DIR, to_val)

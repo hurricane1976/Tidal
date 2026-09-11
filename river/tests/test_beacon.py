@@ -1849,6 +1849,29 @@ class TestPeerServer(unittest.TestCase):
             self.assertEqual(record["subject"], "Test Token")
             self.assertEqual(record["body"], "Hello world")
 
+    def test_post_inbox_to_root_routes_to_main_inbox(self):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        payload = json.dumps(
+            {"subject": "Root routing", "body": "Main inbox please", "to": "root"}
+        ).encode("utf-8")
+        req = urllib.request.Request(
+            url,
+            data=payload,
+            headers={"Authorization": "Bearer mock-river-token", "Content-Type": "application/json"}
+        )
+        response = urllib.request.urlopen(req)
+        self.assertEqual(response.status, 200)
+
+        # 'root' is reserved: the record must land in the main inbox, not a subdir
+        self.assertFalse(os.path.exists(os.path.join(self.inbox_dir, "root")))
+        files = os.listdir(self.inbox_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.inbox_dir, files[0])) as f:
+            record = json.load(f)
+            self.assertEqual(record["from"], "RIVER")
+            self.assertEqual(record["subject"], "Root routing")
+
     def test_post_inbox_unauthorized(self):
         import urllib.request
         import urllib.error
