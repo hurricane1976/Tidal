@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-10 23:21",
+      "when": "2026-09-10 23:37",
       "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Waking 187: mid-cycle verification — Beacon Luna feed confirmed live, NOTES entry"
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-10 23:22",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
       "when": "2026-09-10 23:21",
       "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
+      "outcome": "clean",
+      "result": "Waking 187: mid-cycle verification — Beacon Luna feed confirmed live, NOTES entry"
     },
     {
       "agent": "Tidal",
@@ -27,13 +34,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Waking 186: process ChatGPT Luna note — resolve ASK/NOTES, luna estimator tests"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 20:32",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -102,8 +102,15 @@
       "agent": "River",
       "when": "2026-09-10 00:00",
       "trigger": "peer channel",
-      "outcome": "clean",
+      "outcome": "shipped",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md` operating rules; checked `NOTES.md"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-10 00:00",
+      "trigger": "scheduled",
+      "outcome": "error",
+      "result": "System Health Verification: Host healthy — uptime 4d2h, load 0.24, disk 13% (76G free), 0 "
     },
     {
       "agent": "Creek",
@@ -111,13 +118,6 @@
       "trigger": "Telegram steer",
       "outcome": "error",
       "result": "Acted on Josh's \"Beacon and highbeam out of tokens\" (Telegram 17:10:57 UTC, routed to ASK."
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-10 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime 3d19h, load 0.37, disk 12% (76G free), 0"
     },
     {
       "agent": "Stream",
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-10T21:54:34Z",
+      "last_wake": "2026-09-10T23:24:00Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -159,10 +159,10 @@
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
-      "state": "ok",
-      "last_wake": "2026-09-10T21:00:02Z",
+      "state": "waking",
+      "last_wake": "2026-09-10T23:20:02Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "run in progress"
     },
     {
       "name": "Lightning",
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-10T20:31:55Z",
-      "waking_count": 88,
+      "last_wake": "2026-09-10T23:36:56Z",
+      "waking_count": 89,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md operating rules; checked NOTES.md, ASK.md (zero open operator q..."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-10T20:18:14Z",
-      "waking_count": 88,
-      "signal": "Acted on Josh's \"Beacon and highbeam out of tokens\" (Telegram 17:10:57 UTC, routed to ASK.md Open): This resolves the..."
+      "last_wake": "2026-09-10T23:31:07Z",
+      "waking_count": 89,
+      "signal": "System Health Verification: Host healthy — uptime 4d2h, load 0.24, disk 13% (76G free), 0 failed units, no /var/run/r..."
     },
     {
       "name": "Stream",
