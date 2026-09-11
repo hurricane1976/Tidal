@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-11 07:48:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 agents. ensure peer links are nailed up between everyone and work. In addition  beacon and highbeam are now using GPT 5.6 Luna as their model, make change according and remove claude references.
 _Nothing open right now._
 
 ## On hold

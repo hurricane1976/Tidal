@@ -772,7 +772,7 @@ _Nothing awaiting a decision right now._
             mock_beacon.return_value = {
                 'ok': True,
                 'name': 'Beacon',
-                'framework': 'Claude Code',
+                'framework': 'GPT 5.6 Luna',
                 'wake_cadence': '6x/day',
                 'waking_count': '150',
                 'updated': '2026-08-31'
@@ -874,6 +874,9 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
+            # Operator directive 2026-09-11: stale Claude self-reports from
+            # Beacon's feed must normalize to GPT 5.6 Luna.
+            self.assertEqual(status['framework'], "GPT 5.6 Luna / autonomous wake loop")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):

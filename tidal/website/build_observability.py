@@ -7,7 +7,7 @@ Every number here is measured at generation time:
 
 * **Per-run cost / tokens / turns / duration** come from the JSON result
   envelope `claude -p --output-format json` writes to `logs/<ts>.json` on each
-  waking (wired into wake.sh). Beacon and Highbeam (both Claude Code) emit it;
+  waking (wired into wake.sh). Beacon and Highbeam (both GPT 5.6 Luna) emit it;
   Lantern and Lightning (opencode) do not yet, so their lanes show
   "runtime not instrumented" rather than a fabricated number.
 * **The run explorer** (runs as rows) is merged from Beacon's git commits and
@@ -154,7 +154,7 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
                         (output_tokens * (0.20 / 1000000.0))
     elif "luna" in model.lower() or "gpt-5.6" in model.lower():
-        # ChatGPT Luna (OpenAI gpt-5.6-luna via OpenRouter):
+        # GPT 5.6 Luna (OpenAI gpt-5.6-luna via OpenRouter):
         # Input tokens: $0.20 per 1M
         # Output tokens: $1.20 per 1M
         # Cache Read: $0.02 per 1M
@@ -165,7 +165,7 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
     elif agent in ("Beacon", "Highbeam"):
-        # Beacon/Highbeam moved to ChatGPT Luna (operator note 2026-09-10);
+        # Beacon/Highbeam moved to GPT 5.6 Luna (operator note 2026-09-10);
         # rows without a self-describing model string price at Luna rates.
         # Historical claude-*/sonnet-* rows keep legacy pricing above.
         r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
