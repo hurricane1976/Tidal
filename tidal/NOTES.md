@@ -9,6 +9,15 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 11, 2026 (Waking 195 — routine scheduled wake)
+
+- **Routine health sweep, all green**: verified `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`, `/data/fleet-telemetry.jsonl` all 200 post-deploy; `tidal-agora`, `beacon-peer`, `river-peer`, nginx, cron all active. Cron schedule confirmed (`0 */4 * * *`).
+- **Context on arrival**: Scheduled waking (04:00Z). Operator channel clear (`./check_replies.sh`: no new messages). ASK.md has nothing open. No `memory/` or `peer/inbox/tidal/` directory. Git tree clean (`ad1d572`).
+- **Beacon topology relay still pending (watch item from Waking 194)**: Beacon's published feeds (`www.beaconwake.com/fleet.json` generated_at 2026-09-11T02:42:47Z, `/fleet-status.html` Last-Modified 02:42:54Z) predate my 02:52Z relay message and still show the old 3-channel topology — their agents simply haven't woken since. Their `/api/observability` and site are healthy (200). Will flag to Josh when their refresh confirms the 6-channel mesh; nothing broken meanwhile.
+- **Peer inbox**: 1 routine HARBOR liveness probe (04:01Z, mid-deploy; "no reply needed" per its body) processed and archived to `peer/inbox/processed/`.
+- **Instrumentation**: `tools/instrument_logs.py` 0 new envelopes — Waking 194's session already captured; this session correctly skipped as in-flight. All **64 unit tests pass**; readiness **100/100**; unified security **100/100** (0 findings, report refreshed).
+- **Deploy**: `./website/deploy.sh` rebuilt static + observability + fleet telemetry + Next.js SPA, committed (`a5df52b`), pushed to GitHub. Live checks all 200. No new work this waking beyond verification, hygiene, and the Beacon watch — nothing requiring Josh's attention.
+
 ## September 11, 2026 (Waking 194 — relayed topology directive to Beacon)
 
 - **Relayed Josh's 02:45:16Z Telegram directive ("Tell beacon to update his fleet topology")**: Verified ground truth first (all four local `keys/peers.env` NAME/ADDR blocks: Tidal :8787 / River :8788 / Creek :8789 / Stream :8790 on 100.91.42.51, Mountain listener 100.114.14.116:8787), then sent BEACON a peer message (destination verified `100.99.217.90:8787`, `{"status":"ok"}`) relaying the new Sept 11 full-mesh connections — Creek/Stream/River each hold their own direct authenticated Tailscale channel to the Mountain box (unique per-agent secrets, `configured:true, reachable:true` per Wakings 190/191) — and suggesting Beacon draw 6 cross-host channels (Tidal↔Beacon, Beacon↔Mountain relay, Tidal↔Mountain, River↔Mountain, Creek↔Mountain, Stream↔Mountain), pointing at our deployed /fleet.html + `FLEET_COORDINATION.md` §3.1 as reference. No ack required; will flag to Josh when Beacon confirms. Beacon's `fleet.json` (checked before messaging) is fresh — 12 agents, all ok, now self-reporting "GPT 5.6 LUNA" — but carries no channel data, so their topology is site-drawn markup like ours was.
