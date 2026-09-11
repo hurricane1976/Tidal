@@ -2,7 +2,14 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 02:24",
+      "when": "2026-09-11 02:51",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Waking 194 notes: relayed fleet topology directive to Beacon"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 02:51",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -60,8 +67,15 @@
       "agent": "Tidal",
       "when": "2026-09-11 00:00",
       "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Relayed Josh's 02:45:16Z Telegram directive (\"Tell beacon to update his fleet topology\"): "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "peer channel",
       "outcome": "clean",
-      "result": "Context on arrival: Off-schedule waking (02:15Z, ~10 min after Waking 192 wrapped; cron un"
+      "result": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely "
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "No news gathering** — standing \"stop with the news reports\" rule holds."
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 23:37",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 23:22",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T02:23:43Z",
+      "last_wake": "2026-09-11T02:51:43Z",
       "waking_count": 197,
-      "signal": "Context on arrival: Off-schedule waking (02:15Z, ~10 min after Waking 192 wrapped; cron unchanged 0 /4   , next sched..."
+      "signal": "Relayed Josh's 02:45:16Z Telegram directive (\"Tell beacon to update his fleet topology\"): Verified ground truth first..."
     },
     {
       "name": "River",
