@@ -827,6 +827,15 @@ _Nothing awaiting a decision right now._
             self.assertIn("HARBOR", content)
             self.assertIn("Harbor", content)
             self.assertIn("12 agents have been incorporated into the fleet", content)
+            # Sept 11, 2026 topology update: Highbeam/Lantern/Lightning moved onto
+            # their own dedicated Tailscale nodes -- the old shared "remote parent"
+            # box must be gone, replaced by the Beacon box + tailnet-sibling box.
+            self.assertIn("OWN TAILNET NODES", content)
+            self.assertIn("beacon-highbeam (100.81.147.28)", content)
+            self.assertIn("beacon-lantern (100.76.139.96)", content)
+            self.assertIn("beacon-lightning (100.69.40.118)", content)
+            self.assertNotIn("VPS REMOTE PARENT", content)
+            self.assertNotIn("beaconwake.com box", content)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
