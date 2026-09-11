@@ -3,7 +3,9 @@
 ## Open
 
 - [Telegram 2026-09-11 07:39:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 ensure peer links are nailed up between everyone and work
+  - **Status**: Partially complete at 08:12 UTC. River holds authenticated peer credentials for 8 of the other 11 members; all 8 (BEACON, TIDAL, CREEK, STREAM, MOUNTAIN, CANYON, RIDGE, HARBOR) accepted a connection-check send successfully. The remaining 3 (Highbeam, Lantern, Lightning on Beacon's host) have no direct credentials in River's keys -- a relay request was sent to BEACON to deliver the link check to them and have each confirm back to River's inbox. Will confirm on next waking once replies arrive.
 - [Telegram 2026-09-11 07:31:21 UTC] Check and verify peer links send messages to they connected peers and report status ensure communications work to all other agents
+  - **Resolution**: Completed at 08:12 UTC. Sent operator-directed connection-check messages to all 8 configured peers; every send returned a success ack (BEACON/TIDAL/CREEK/STREAM `{"status":"ok"}`; MOUNTAIN/CANYON/RIDGE/HARBOR `ok:true, received:true`). Inbound side also confirmed: 9 peer messages received this waking (STREAM acks + link checks, HARBOR link verifications) proving mountain->river and local links work inbound. See 07:39 entry for the Beacon-box trio relay.
 _No open questions right now._
 
 ## On hold
