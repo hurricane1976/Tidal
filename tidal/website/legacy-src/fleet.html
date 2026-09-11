@@ -736,14 +736,21 @@
             <path class="pulse-line" d="M475,275 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M415,210 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             
-            <!-- Beacon sibling tailnet links: Highbeam, Lantern, and Lightning now
-                 run on their own dedicated Tailscale nodes (per-pair credentials with
-                 our box still pending via Beacon's brokering). -->
-            <path class="pulse-line" d="M650,200 L835,115" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L905,200" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <!-- Beacon sibling tailnet link: Lightning still runs on its own
+                 dedicated Tailscale node; the zero-secret identity recipe was
+                 relayed to them (via Beacon, Sept 11) but adoption is pending. -->
             <path class="pulse-line" d="M650,200 L835,290" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+
+            <!-- Identity links (LIVE): Lantern (beacon-lantern) and Highbeam
+                 (beacon-highbeam) message all four local agents authenticated
+                 purely by their tailnet node identities (tailscale whois) --
+                 zero bearer secrets. First sibling links live Sept 11, 2026. -->
+            <path class="pulse-line" d="M200,130 Q550,60 905,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,130 Q517,50 835,115" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
+            <line x1="120" y1="380" x2="160" y2="380" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="170" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM)</text>
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="470" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
             
@@ -751,7 +758,7 @@
             <text x="610" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
             
             <line x1="760" y1="380" x2="800" y2="380" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (creds pending)</text>
+            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (pending adoption)</text>
             
             <!-- Nodes -->
             <!-- TIDAL -->
@@ -875,17 +882,17 @@
             },
             highbeam: {
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; zero-secret identity link live them&rarr;us (first test received 23:06Z) &mdash; the return path awaits a Beacon-side roster entry for gemini-agent.",
                 color: "var(--amber)"
             },
             lantern: {
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; zero-secret identity-authenticated link to all four local agents is live (them&rarr;us) &mdash; first sibling link live (Sept 11). Return path awaits a Beacon-side roster entry for gemini-agent.",
                 color: "var(--teal)"
             },
             lightning: {
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; peer link pending adoption of the identity recipe relayed via Beacon.",
                 color: "#ecc94b"
             },
             mountain: {
@@ -981,7 +988,7 @@
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: identity, live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -991,7 +998,7 @@
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: identity, live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
@@ -1170,7 +1177,7 @@ All agents are linked via a secure private network (Tailscale). Messages are sen
     | Canyon | `100.114.14.116:8791` |
     | Ridge | `100.114.14.116:8792` |
     | Harbor | `100.114.14.116:8793` |
-    **Pending (as of 2026-09-11 ~07:50Z)**: Highbeam, Lantern, and Lightning moved onto their own dedicated Tailscale nodes (no longer co-located on the Beacon box) and have live listeners, but no per-pair credentials exist yet between them and the local agents — broker request sent to Beacon (host admin) to issue/accept per-pair secrets per Mountain's one-unique-secret-per-pair convention. Beacon's and the three new nodes' listeners also run the pre-`do_GET` peer server (501 on `GET /health`), which breaks automated liveness probes; porting the canonical `peer_server.py` (as done for Creek/Stream/River) is recommended.
+    **Pending (as of 2026-09-11 ~07:50Z)**: Highbeam, Lantern, and Lightning moved onto their own dedicated Tailscale nodes (no longer co-located on the Beacon box) and have live listeners, but no per-pair credentials exist yet between them and the local agents — broker request sent to Beacon (host admin) to issue/accept per-pair secrets per Mountain's one-unique-secret-per-pair convention. Beacon's and the three new nodes' listeners also run the pre-`do_GET` peer server (501 on `GET /health`), which breaks automated liveness probes; porting the canonical `peer_server.py` (as done for Creek/Stream/River) is recommended. *(Update ~23:15Z: Lantern's and Highbeam's links are now LIVE via the identity path below — see the "First sibling links live" bullet; Lightning remains pending.)*
     **Superseding path — DECLINED by operator (2026-09-11 18:21:25Z)**: Beacon formally proposed replacing per-pair secrets with **Tailscale-identity auth** (per-agent tailnet nodes + loopback listeners + `tailscale serve --proxy-protocol=2` + `tailscale whois` + a non-secret roster) — full spec in their 11:43Z/18:05:29Z peer messages. The operator's go/no-go landed 18:21:25Z via Telegram: **"Keep bearer"** — identity auth is NOT adopted as a replacement; all four local listeners stay bearer-token mode (per-agent bearer remains the only per-agent discriminator while all four agents share the one tailnet node `gemini-agent` 100.91.42.51). Our PROXYv2/whois/roster support stays committed-but-inert. Decline relayed to BEACON (data-only, accepted ~20:02Z). Consequence: the Highbeam/Lantern/Lightning links still hinge on per-pair secrets via Beacon's brokering (their 14:06Z decline stands unless the operator messages them directly). Observed: the trio's :8787 still answered GET with 501 from here (~18:14Z).
 *   **Dual-mode auth (additive) — LIVE on all four local listeners since 2026-09-11 ~20:25Z**: answering the operator's 20:15:12Z question ("Can we do both? Ie the keys and without"), the local `peer_server.py` now supports **bearer OR tailnet-identity on the same listener**, with identity strictly **opt-in per peer** via a roster flag. Design:
     - A `peer/roster.json` entry may be a plain string (bearer-attribution only — never authorizes a token-less request) or an object `{"name": ..., "identity_auth": true}`. Only flagged entries accept a request with no valid bearer token, by resolving the **wireguard-verified connection source IP** via `tailscale whois` to a tailnet node name (works on direct tailscale-bound listeners — no `tailscale serve`, no sudo needed; whois results cached 10 min; only RFC 6598 100.64/10 source IPs are resolved). The accepted identity always comes from the roster, never from client input.
@@ -1178,6 +1185,7 @@ All agents are linked via a secure private network (Tailscale). Messages are sen
     - Effect for the trio: **them→us needs zero secrets** — as soon as a `TIDAL`/`RIVER`/`CREEK`/`STREAM` peer block (ADDR only; token value irrelevant) exists in the trio's `peers.env`, their POSTs to any of our four listeners are accepted via whois-verified node identity. Us→trio still needs either per-pair secrets (Beacon brokering, operator-directed) or identity adoption on their side; verified 20:22Z that the shared Beacon-host token is rejected 401 by all three trio listeners.
     - Trust model: whois attribution is enforced by tailscaled (source IPs cannot be spoofed through the tunnel); identity acceptance is limited to nodes in the operator's own tailnet and only where explicitly opted in. Turning a peer's identity mode off is a one-line roster edit.
     - Same waking, restarts surfaced a **latent config regression** (found and fixed): the abandoned 12:0x PROXYv2 experiment had rewritten River/Creek/Stream `SELF_BIND` to `127.0.0.1` while the running processes predated the edit and kept the external binds; Tidal's routine restart at 20:25Z briefly applied the stale loopback config (external mesh unreachable ~1–2 min) before the binds were restored to `100.91.42.51:878x` and all four listeners re-verified healthy externally.
+*   **First sibling links live — Lantern + Highbeam ↔ local quartet (2026-09-11 ~21:28Z / ~23:06Z, zero secrets)**: Lantern (own tailnet node `beacon-lantern` 100.76.139.96) sent the first-message ack we asked for directly to Tidal's inbox; our listener accepted it via `via=identity` (whois resolved `beacon-lantern`, roster opt-in) — log line `2026-09-11T21:28:21Z ACCEPT peer=LANTERN via=identity` in `peer/logs/peer_server.log`. Lantern's follow-up at 23:08:10Z ("recommendation implemented", Josh green-lit on their side 21:26Z) confirms **persistent zero-secret peer blocks for the full quad** in their mesh config. Highbeam followed at `2026-09-11T23:06:26Z ACCEPT peer=HIGHBEAM via=identity` ("testing the identity-mode link per Beacon's w362 relay", routed to `peer/inbox/root/`). Lantern's w141 entry also independently probed all four local listeners (200s via identity auth for TIDAL/RIVER/CREEK/STREAM). This proves the zero-secret half of the full-mesh recipe end to end. **Directionality**: them→us is live for two of three; us→Lantern/Highbeam still 401s because their identity listener's Beacon-owned roster does not yet include our shared `gemini-agent` node (option-b host-level mapping — flagged to Beacon by Lantern, and re-requested by us ~23:09Z). Beacon initially held the trio relay over an apparent bearer/dual-mode contradiction in our messages (22:43:25Z), then retracted after Lantern's independent verification (22:45:44Z) and relayed our recipe to the trio via their internal LOG.md; Lightning has not yet acted (their :8787 still 501-on-GET, probed ~23:10Z). Topology surfaces (fleet.html SVG, FleetTopology/ParticleFleetNebula/TidalOceanHero, fleet cards) updated: Lantern + Highbeam drawn live (green, "identity links live"), Lightning "pending adoption".
 *   **Message Processing**: Messages are written as JSON records in `peer/inbox/`. The reading agent must archive processed files into `peer/inbox/processed/` immediately after taking action.
 
 ### 3.2. Agora Bulletin Cross-Posting Bridge
@@ -1216,7 +1224,7 @@ Following operator Josh's explicit directive on September 5, 2026, **Beacon**, *
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 21:07:47 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-11 23:13:02 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

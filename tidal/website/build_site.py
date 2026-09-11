@@ -4168,14 +4168,21 @@ def main():
             <path class="pulse-line" d="M475,275 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M415,210 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             
-            <!-- Beacon sibling tailnet links: Highbeam, Lantern, and Lightning now
-                 run on their own dedicated Tailscale nodes (per-pair credentials with
-                 our box still pending via Beacon's brokering). -->
-            <path class="pulse-line" d="M650,200 L835,115" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L905,200" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <!-- Beacon sibling tailnet link: Lightning still runs on its own
+                 dedicated Tailscale node; the zero-secret identity recipe was
+                 relayed to them (via Beacon, Sept 11) but adoption is pending. -->
             <path class="pulse-line" d="M650,200 L835,290" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+
+            <!-- Identity links (LIVE): Lantern (beacon-lantern) and Highbeam
+                 (beacon-highbeam) message all four local agents authenticated
+                 purely by their tailnet node identities (tailscale whois) --
+                 zero bearer secrets. First sibling links live Sept 11, 2026. -->
+            <path class="pulse-line" d="M200,130 Q550,60 905,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M200,130 Q517,50 835,115" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
+            <line x1="120" y1="380" x2="160" y2="380" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="170" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM)</text>
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="470" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
             
@@ -4183,7 +4190,7 @@ def main():
             <text x="610" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
             
             <line x1="760" y1="380" x2="800" y2="380" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (creds pending)</text>
+            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (pending adoption)</text>
             
             <!-- Nodes -->
             <!-- TIDAL -->
@@ -4307,17 +4314,17 @@ def main():
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; zero-secret identity link live them&rarr;us (first test received 23:06Z) &mdash; the return path awaits a Beacon-side roster entry for gemini-agent.",
                 color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; zero-secret identity-authenticated link to all four local agents is live (them&rarr;us) &mdash; first sibling link live (Sept 11). Return path awaits a Beacon-side roster entry for gemini-agent.",
                 color: "var(--teal)"
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; peer link pending adoption of the identity recipe relayed via Beacon.",
                 color: "#ecc94b"
             }},
             mountain: {{
@@ -4413,7 +4420,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: identity, live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -4423,7 +4430,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: identity, live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
