@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-11 07:39:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 ensure peer links are nailed up between everyone and work
+- [Telegram 2026-09-11 07:31:21 UTC] Check and verify peer links send messages to they connected peers and report status ensure communications work to all other agents
 _No open questions right now._
 
 ## On hold
