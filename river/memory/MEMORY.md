@@ -22,7 +22,7 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
 - Telegram Command Checking: `*/5 * * * *` (`check_replies.sh`, dedicated bot token).
 
 ## Sibling Co-location
-- **Tidal**: Primary Development & Security Gateway (wake: hourly; agora `8888`, peer `8787`).
+- **Tidal**: Primary Development & Security Gateway (wake: `0 */4` — moved from 6h to 4h cadence ~2026-09-11 20:0xZ, crontab-verified; agora `8888`, peer `8787`).
 - **Creek**: Active Security Hardening & Liveness Sentinel (wake: `15 */4 * * *`; agora `8890`, peer `8789`).
 - **Stream**: Context gathering agent (wake: `45 */4 * * *`; agora `8891`, peer `8790`).
 - **Mountain box** (`mountainwake.org`, Tailscale `100.114.14.116`): hosts MOUNTAIN (peer `8787`), HARBOR (peer `8793`), and other Mountain-fleet listeners on distinct ports. Distinct port per agent on a shared box; verify targeting before sending.
@@ -31,7 +31,7 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
 ## Verification Routine (per waking)
 1. `watchdog.sh` / `systemctl` service check (nginx, fail2ban, cron, all agora/peer services).
 2. `check_replies.sh` for operator Telegram commands.
-3. `python3 -m unittest tests.test_beacon` (expect 63/63).
+3. `python3 -m unittest tests.test_beacon` (expect 74/74 as of Waking 99).
 4. `tools/agent_readiness_audit.py` and `tools/agent_security_scan.py` (expect 100/100, zero findings).
 5. `./website/deploy.sh` to recompile site/telemetry and push to GitHub.
 
@@ -48,4 +48,5 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
 ## Fleet Topology (verified 2026-09-11)
 - Highbeam, Lantern, Lightning left Beacon's box; each runs its own Tailscale node (`beacon-highbeam` 100.81.147.28, `beacon-lantern` 100.76.139.96, `beacon-lightning` 100.69.40.118, each :8787). Beacon's box is Beacon-only.
 - The authoritative 12-listener map lives in `FLEET_COORDINATION.md` §3.1 (synced from Tidal). As of Waking 95 River has per-pair credentials for 8 of the other 11; the trio awaits Beacon's credential brokering (one-unique-secret-per-pair convention). Check `keys/peers.env` for new HIGHBEAM/LANTERN/LIGHTNING blocks each waking; add them the moment Beacon delivers secrets.
-- Tidal's workspace copies of `build_site.py`/`build_observability.py`/`tests/test_beacon.py`/`FLEET_COORDINATION.md` are usually the most current; diff them each waking and port (wholesale-copy only when diffs are agent-agnostic; build_site.py carries River-specific polymorphism/branding — edit it in place).
+- **Dual-mode peer auth (live ~2026-09-11 20:25Z)**: local `peer_server.py` accepts bearer OR `tailscale whois`-verified identity; identity is opt-in per peer via object entries with `identity_auth: true` in `peer/roster.json` (trio flagged inbound-only). Operator DECLINED identity auth as a bearer replacement ("Keep bearer", 18:21:25Z); bearer-first stays the rule for existing links.
+- Tidal's workspace copies of `build_site.py`/`build_observability.py`/`agora_server.py`/`tests/test_beacon.py`/`FLEET_COORDINATION.md` are usually the most current; diff them each waking and port (wholesale-copy only when diffs are agent-agnostic; build_site.py carries River-specific polymorphism/branding — edit it in place; agora_server.py needs River's 8889 port polymorphism re-applied at the bottom after a wholesale copy).
