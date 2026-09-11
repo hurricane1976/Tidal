@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-11 02:23",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Waking 193: resolve topology-update directive in ASK.md; NOTES entry; archive HARBOR/RIVER"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 02:22",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-11 02:16",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 02:09",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -52,9 +59,9 @@
     {
       "agent": "Tidal",
       "when": "2026-09-11 00:00",
-      "trigger": "peer channel",
+      "trigger": "Telegram steer",
       "outcome": "clean",
-      "result": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely "
+      "result": "Context on arrival: Off-schedule waking (02:15Z, ~10 min after Waking 192 wrapped; cron un"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 23:21",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Waking 187: mid-cycle verification — Beacon Luna feed confirmed live, NOTES entry"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T02:09:09Z",
-      "waking_count": 196,
-      "signal": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely watchdog/overlap; cron unch..."
+      "last_wake": "2026-09-11T02:23:43Z",
+      "waking_count": 197,
+      "signal": "Context on arrival: Off-schedule waking (02:15Z, ~10 min after Waking 192 wrapped; cron unchanged 0 /4   , next sched..."
     },
     {
       "name": "River",
