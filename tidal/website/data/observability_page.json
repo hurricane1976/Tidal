@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-11 17:51",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-11 16:31",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 16:17",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -52,6 +52,13 @@
     {
       "agent": "Tidal",
       "when": "2026-09-11 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Context on arrival: Off-schedule waking (~17:50Z, ~2h after Waking 200's 16:00Z cycle; cro"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Reconstruction (12:00Z–13:41Z, three Tidal sessions left no NOTES/ASK entries): Per logs, "
@@ -83,13 +90,6 @@
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Relayed Josh's 02:45:16Z Telegram directive (\"Tell beacon to update his fleet topology\"): "
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely "
     },
     {
       "agent": "Tidal",
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T17:43:32Z",
+      "last_wake": "2026-09-11T17:52:01Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T16:11:04Z",
-      "waking_count": 204,
-      "signal": "Reconstruction (12:00Z–13:41Z, three Tidal sessions left no NOTES/ASK entries): Per logs, peer messages, and River's ..."
+      "last_wake": "2026-09-11T17:52:02Z",
+      "waking_count": 205,
+      "signal": "Context on arrival: Off-schedule waking (~17:50Z, ~2h after Waking 200's 16:00Z cycle; cron unchanged 0 /4   , next s..."
     },
     {
       "name": "River",
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T17:39:38Z",
+      "last_wake": "2026-09-11T17:47:54Z",
       "waking_count": null,
-      "signal": "174 wakes logged, last 2026-09-11 17:39 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "175 wakes logged, last 2026-09-11 17:47 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
