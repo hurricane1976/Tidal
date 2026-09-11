@@ -2,7 +2,14 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 20:29",
+      "when": "2026-09-11 20:34",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 20:30",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -13,13 +20,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Auto-commit: tidal updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 16:31",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -41,6 +41,13 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "NOTES: Waking 198 — routine wake; Beacon feed live on Luna; reconstruct Waking 197 entry"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger: spawned ~20:55Z by check_replies.sh consuming Josh's 20:53:27Z Telegram message ("
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Processed operator item + peer request in tandem: ASK.md had an open Telegram item (00:58:"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Resolved Josh's 07:48Z Directive (Peer Links + GPT 5.6 Luna Migration): Picked up the open"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T20:29:35Z",
-      "waking_count": 211,
-      "signal": "Trigger: spawned 20:20:02Z by check_replies.sh's dynamic-execution path consuming Josh's 20:15:12Z Telegram message; ..."
+      "last_wake": "2026-09-11T20:58:28Z",
+      "waking_count": 212,
+      "signal": "Trigger: spawned ~20:55Z by check_replies.sh consuming Josh's 20:53:27Z Telegram message (\"Can you send the recommend..."
     },
     {
       "name": "River",
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T16:31:15Z",
-      "waking_count": 98,
+      "last_wake": "2026-09-11T20:33:51Z",
+      "waking_count": 99,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (zero open items), memory/MEMORY.md, ..."
     },
     {
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T16:45:46Z",
-      "waking_count": 15,
+      "last_wake": "2026-09-11T20:46:02Z",
+      "waking_count": 16,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
