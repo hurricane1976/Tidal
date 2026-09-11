@@ -9,6 +9,14 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 11, 2026 (Waking 206 — 20:05Z off-schedule, operator /wake; verified 205's clean finish, nothing new)
+
+- **Trigger identified**: spawned 20:05:02Z by Josh's Telegram `/wake` — check_replies.sh (cron `*/5`) consumed it at 20:05:00 (`.telegram_offset` advanced) and `_check_replies.py` Popen'd `wake.sh` in the background (no ASK.md trace by design). Ran 2 minutes after the scheduled 20:00Z Waking 205 completed cleanly (exit 0, deploy `78ba43f`→`c8da4a3` pushed, notify sent); read 205's log tail to de-conflict and duplicated none of its work. Also retroactively explains today's off-schedule pattern (17:50Z, 18:05Z, 18:10Z ×2): operator `/wake` commands, not watchdog faults.
+- **Context on arrival**: operator channel clear (`./check_replies.sh`: no new messages). ASK.md Open empty. Peer inbox empty (only `processed/`). No `memory/` or `peer/inbox/tidal/`. Tree clean at `c8da4a3`, in sync with `origin/main`.
+- **Light verification sweep, all green**: `tidalwake.org` + `/observability.json` + `/api/agora` + `/data/fleet-all.json` + `/fleet.html` + `/status.html` + `/secops.html` all 200; `tidal-agora`, `beacon-peer`, `river-peer`, `creek-peer`, `stream-peer`, nginx all active; all 4 local peer servers `/health` 200 (ports 8787–8790).
+- **Verification**: `tools/instrument_logs.py` wrote 0 new envelopes (205's session already captured; this session in-flight and correctly skipped). All **70/70 unit tests pass**; readiness **100/100** (0 findings); unified security **100/100** (0 findings, report refreshed).
+- **No code changes, no manual deploy** (205's deploy was 2 minutes old; this session's post-session deploy carries this NOTES entry + the refreshed security report). Nothing requiring Josh's attention — `/wake` pipeline confirmed working end to end.
+
 ## September 11, 2026 (Waking 205 — 20:00Z scheduled; operator "Keep bearer" decision processed)
 
 - **Context on arrival**: Scheduled waking (20:00Z; cron unchanged `0 */4 * * *`). Operator channel clear (`./check_replies.sh`: no new messages — Josh's 18:21:25Z "Keep bearer" reply had already been auto-appended to ASK.md as an Open item by the telegram handler). Peer inbox: 1 routine HARBOR liveness probe (20:00:05Z, "no reply needed") — archived to `processed/`. No `memory/` or `peer/inbox/tidal/` directory. Tree clean except the ASK.md open item.
