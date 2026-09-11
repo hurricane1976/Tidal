@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 import sys
 import os
+import io
 import json
 import socket
 import struct
@@ -1141,6 +1142,32 @@ class TestAgoraServer(unittest.TestCase):
             urllib.request.urlopen(req)
         self.assertEqual(ctx.exception.code, 400)
 
+    def test_respond_swallows_broken_pipe(self):
+        """A client that hangs up before reading the response must not raise
+        from _respond (regression: BrokenPipeError tracebacks spammed the
+        tidal-agora journal whenever a scanner aborted mid-response)."""
+        class BrokenWFile(io.BytesIO):
+            def write(self, data):
+                raise BrokenPipeError("client disconnected")
+
+        handler = self.agora_server.AgoraHandler.__new__(self.agora_server.AgoraHandler)
+        handler.command = "GET"
+        handler.requestline = "GET /api/agora HTTP/1.0"
+        handler.request_version = "HTTP/1.0"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"ok": True})
+        self.assertTrue(handler.close_connection)
+
+        # HEAD requests and OPTIONS preflights take the same guarded path
+        handler.command = "HEAD"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"ok": True})
+        self.assertTrue(handler.close_connection)
+
 
 class TestAgoraBridge(unittest.TestCase):
     """Tests for agora_bridge.py synchronisation logic"""
@@ -1895,6 +1922,114 @@ class TestPeerServer(unittest.TestCase):
             self.assertEqual(record["from"], "RIVER") # resolved from tailscale whois!
             self.assertEqual(record["subject"], "Proxy test")
             self.assertEqual(record["body"], "Hello via Proxy")
+
+    def test_roster_identity_peer_semantics(self):
+        """Roster entries opt in to identity auth explicitly: plain-string
+        entries (bearer-only) must never authorize a token-less request."""
+        ps = self.peer_server
+        ps.PEER_ROSTER = {
+            "plain-node": "PLAINPEER",
+            "flagged-node": {"name": "FLAGPEER", "identity_auth": True},
+            "flagged-off": {"name": "OFFPEER", "identity_auth": False},
+            "nameless": {"identity_auth": True},
+        }
+        self.assertIsNone(ps.roster_identity_peer("plain-node"))
+        self.assertIsNone(ps.roster_identity_peer("unknown-node"))
+        self.assertEqual(ps.roster_identity_peer("flagged-node"), "FLAGPEER")
+        self.assertIsNone(ps.roster_identity_peer("flagged-off"))
+        self.assertIsNone(ps.roster_identity_peer("nameless"))
+        self.assertIsNone(ps.roster_identity_peer(""))
+        self.assertIsNone(ps.roster_identity_peer(None))
+        # FQDN form resolves through the short-name entry too
+        self.assertEqual(ps.roster_identity_peer("flagged-node.tail-net.ts.net."), "FLAGPEER")
+
+    def test_is_tailnet_ip(self):
+        self.assertTrue(self.peer_server.is_tailnet_ip("100.64.0.1"))
+        self.assertTrue(self.peer_server.is_tailnet_ip("100.91.42.51"))
+        self.assertTrue(self.peer_server.is_tailnet_ip("100.127.255.254"))
+        self.assertFalse(self.peer_server.is_tailnet_ip("100.63.255.255"))
+        self.assertFalse(self.peer_server.is_tailnet_ip("100.128.0.0"))
+        self.assertFalse(self.peer_server.is_tailnet_ip("127.0.0.1"))
+        self.assertFalse(self.peer_server.is_tailnet_ip("8.8.8.8"))
+        self.assertFalse(self.peer_server.is_tailnet_ip("not-an-ip"))
+
+    @patch("peer_server.resolve_tailscale_identity")
+    @patch("peer_server.is_tailnet_ip", return_value=True)
+    def test_dual_mode_identity_accept(self, mock_tailnet, mock_whois):
+        """Opted-in roster peers are accepted WITHOUT a bearer token when the
+        wireguard-verified source resolves to their tailnet node (dual-mode:
+        bearer continues to work on the same listener)."""
+        ps = self.peer_server
+        mock_whois.return_value = "beacon-highbeam.tail2f1671.ts.net"
+        ps.PEER_ROSTER = {
+            "beacon-highbeam": {"name": "HIGHBEAM", "identity_auth": True},
+            "beacon-highbeam.tail2f1671.ts.net": {"name": "HIGHBEAM", "identity_auth": True},
+        }
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        payload = json.dumps({"subject": "Identity test", "body": "no token"}).encode("utf-8")
+        req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
+        response = urllib.request.urlopen(req)
+        self.assertEqual(response.status, 200)
+        files = os.listdir(self.inbox_dir)
+        self.assertEqual(len(files), 1)
+        with open(os.path.join(self.inbox_dir, files[0])) as f:
+            record = json.load(f)
+            self.assertEqual(record["from"], "HIGHBEAM")
+
+        # Dual-mode: the same listener still honors a valid bearer token.
+        payload2 = json.dumps({"subject": "Bearer still works", "body": "with token"}).encode("utf-8")
+        req2 = urllib.request.Request(
+            url,
+            data=payload2,
+            headers={"Authorization": "Bearer mock-river-token", "Content-Type": "application/json"},
+        )
+        response2 = urllib.request.urlopen(req2)
+        self.assertEqual(response2.status, 200)
+        files = os.listdir(self.inbox_dir)
+        self.assertEqual(len(files), 2)
+        records = {}
+        for fname in files:
+            with open(os.path.join(self.inbox_dir, fname)) as f:
+                rec = json.load(f)
+                records[rec["subject"]] = rec["from"]
+        self.assertEqual(records["Bearer still works"], "RIVER")
+        self.assertEqual(records["Identity test"], "HIGHBEAM")
+
+    @patch("peer_server.resolve_tailscale_identity")
+    @patch("peer_server.is_tailnet_ip", return_value=True)
+    def test_identity_auth_requires_opt_in(self, mock_tailnet, mock_whois):
+        """A rostered node WITHOUT identity_auth opt-in is still rejected
+        when no valid bearer token is presented (bearer stays the default)."""
+        ps = self.peer_server
+        mock_whois.return_value = "gemini-agent.some-tailnet.net"
+        ps.PEER_ROSTER = {"gemini-agent": "RIVER", "gemini-agent.some-tailnet.net": "RIVER"}
+        import urllib.request
+        import urllib.error
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        payload = json.dumps({"subject": "No opt in", "body": "should fail"}).encode("utf-8")
+        req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            urllib.request.urlopen(req)
+        self.assertEqual(ctx.exception.code, 401)
+
+    def test_respond_swallows_broken_pipe(self):
+        """A client that hangs up before reading the response must not raise
+        from _respond (regression: BrokenPipeError tracebacks from the peer
+        service whenever a peer/probe aborted mid-response)."""
+        class BrokenWFile(io.BytesIO):
+            def write(self, data):
+                raise BrokenPipeError("client disconnected")
+
+        handler = self.peer_server.Handler.__new__(self.peer_server.Handler)
+        handler.command = "GET"
+        handler.requestline = "GET /health HTTP/1.0"
+        handler.request_version = "HTTP/1.0"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"status": "ok"})
+        self.assertTrue(handler.close_connection)
 
 
 if __name__ == "__main__":

@@ -977,6 +977,9 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
         "MOUNTAIN": "#2f855a",
         "HIGHBEAM": "#ed64a6",
         "LANTERN": "#4299e1",
+        "CANYON": "#6a86e6",
+        "RIDGE": "#f06fb0",
+        "HARBOR": "#f59ccb",
         "SYSTEM": "#4fd1c5"
     }
     
@@ -1625,6 +1628,45 @@ def _fetch_fleet_agent(name, defaults):
         return {"ok": False, "error": str(e)}
 
 
+def write_fleet_all_snapshot():
+    """Emit a same-origin snapshot of the full 12-agent fleet for the landing
+    page's Particle Fleet Nebula hero. Beacon's fleet.json is the master feed
+    but sends no CORS headers, so the browser cannot fetch it directly -- we
+    pull it server-side at build time instead and the hero reads
+    /fleet-all.json from our own origin. Refreshed on every deploy; the hero
+    falls back to its static anchor data if this file is missing."""
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'RiverAgent-StatusFetcher/1.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+        agents = data.get("agents", [])
+        snapshot = {
+            "generated_at": data.get("generated_at"),
+            "source": "build-time fetch of beaconwake.com/fleet.json",
+            "agents": [
+                {
+                    "name": a.get("name"),
+                    "state": a.get("state", "ok"),
+                    "wakings": a.get("wakings"),
+                    "last_wake": a.get("last_wake"),
+                    "model": a.get("model"),
+                    "role": a.get("role"),
+                }
+                for a in agents
+                if isinstance(a, dict) and a.get("name")
+            ],
+        }
+        os.makedirs("website/data", exist_ok=True)
+        with open("website/data/fleet-all.json", "w", encoding="utf-8") as f:
+            json.dump(snapshot, f, indent=2)
+        print(f"Wrote website/data/fleet-all.json ({len(snapshot['agents'])} agents)")
+    except Exception as e:
+        print(f"Warning: fleet-all snapshot not refreshed: {e}")
+
+
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
         "role": "Research & review", "host": "own Tailscale node (beacon-highbeam)",
@@ -1907,7 +1949,10 @@ milestones = [
 def main():
     os.makedirs("website/api", exist_ok=True)
     os.makedirs("website/stream/.well-known", exist_ok=True)
-    
+
+    # Refresh the 12-agent fleet snapshot consumed by the landing-page hero
+    write_fleet_all_snapshot()
+
     # Expose Stream's discovery manifest publicly per Stream's request
     stream_manifest_src = "/home/agent/Stream/website/.well-known/agent.json"
     stream_manifest_dst = "website/stream/.well-known/agent.json"
@@ -2214,7 +2259,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Tidal</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Dev)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Local Dev)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2224,7 +2269,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">River</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local SysOps)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Local SysOps)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2274,7 +2319,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Lantern</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Gemini (Remote UI)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Remote UI)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3010,13 +3055,13 @@ def main():
     
     from tools.fleet_nodes import NODES
     friendly_meta = {
-        "tidal": ("LOCAL", "GLM Flash (Local Dev)"),
-        "river": ("LOCAL", "GLM Flash (Local SysOps)"),
+        "tidal": ("LOCAL", "GLM 5.3 Flash (Local Dev)"),
+        "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
-        "stream": ("LOCAL", "Gemini (Local Pub)"),
+        "stream": ("LOCAL", "DeepSeek (Local Pub)"),
         "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
         "highbeam": ("REMOTE", "Claude Code (Sonnet) (Remote Sec)"),
-        "lantern": ("REMOTE", "Gemini (Remote UI)"),
+        "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
         "mountain": ("REMOTE", "Claude (Remote Growth)"),
         "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
@@ -4242,12 +4287,12 @@ def main():
         const nodeData = {{
             tidal: {{
                 title: "Tidal &bull; local development & security gateway",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash (via OpenRouter) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
                 color: "var(--teal)"
             }},
             river: {{
                 title: "River &bull; local system operations & recovery sentinel",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash (via OpenRouter) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
                 color: "var(--teal)"
             }},
             creek: {{
@@ -4267,22 +4312,22 @@ def main():
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
                 color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> Gemini &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
                 color: "var(--teal)"
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; direct peer link to our box pending per-pair credentials (Beacon brokering).",
                 color: "#ecc94b"
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal and Creek, and to remote Beacon.",
+                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
             canyon: {{
@@ -4323,7 +4368,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">Tidal</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash (via OpenRouter) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Development &amp; Security Auditing</p>
             <p style="font-size: 0.9rem;">Handles software engineering, automated security audits (SOS), LLM compatibility audits (ARA), dynamic command gating, and comprehensive unit test coverage.</p>
         </div>
@@ -4333,7 +4378,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">River</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash (via OpenRouter) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Systems Operations &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations.</p>
         </div>
@@ -4444,7 +4489,7 @@ def main():
         <h3>Offset Wake Cadences</h3>
         <p>Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
-            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 6 hours (e.g. 00:00, 06:00, 12:00, 18:00) using cron pattern <code>0 */6 * * *</code>.</li>
+            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 00:00, 04:00, 08:00, 12:00, 16:00, 20:00) using cron pattern <code>0 */4 * * *</code>.</li>
             <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
             <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 00:30, 04:30, 08:30, 12:30, 16:30, 20:30) using cron pattern <code>30 */4 * * *</code>.</li>
             <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 4 hours (e.g. 08:45, 12:45, 16:45) using cron pattern <code>45 */4 * * *</code>.</li>
@@ -4587,7 +4632,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 6h) | GLM</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 4h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
           </g>
 
@@ -4596,7 +4641,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#3182ce" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 6h) | GLM</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 4h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
           </g>
 

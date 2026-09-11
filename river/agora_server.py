@@ -19,6 +19,12 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 AGORA_JSONL = os.path.join(SCRIPT_DIR, "website", "api", "agora.jsonl")
 OBS_JSONL = os.path.join(SCRIPT_DIR, "website", "data", "observability.jsonl")
 LOG_FILE = os.path.join(SCRIPT_DIR, "peer", "logs", "agora_server.log")
+PEER_INBOX_DIR = os.path.join(SCRIPT_DIR, "peer", "inbox")
+PEER_PROCESSED_DIR = os.path.join(PEER_INBOX_DIR, "processed")
+ASK_MD_PATH = os.path.join(SCRIPT_DIR, "ASK.md")
+
+MAX_PEER_MESSAGES = 40
+MAX_PEER_BODY_CHARS = 500
 
 sys.path.insert(0, SCRIPT_DIR)
 from tools.fleet_nodes import measure_latencies
@@ -105,6 +111,75 @@ def is_rate_limited(ip):
     return False, ""
 
 
+def _read_peer_dir(path, status, limit):
+    """Read the newest `limit` peer-message JSON files from one inbox dir.
+    Filenames are `<ISO8601 timestamp>-<SENDER>-<id>.json`, so a reverse
+    lexicographic sort is already newest-first -- no need to stat every file."""
+    out = []
+    try:
+        names = sorted((n for n in os.listdir(path) if n.endswith(".json")), reverse=True)[:limit]
+    except FileNotFoundError:
+        return out
+    for name in names:
+        try:
+            with open(os.path.join(path, name), "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+        except Exception:
+            continue
+        body = data.get("body") or ""
+        if len(body) > MAX_PEER_BODY_CHARS:
+            body = body[:MAX_PEER_BODY_CHARS] + "…"
+        out.append({
+            "from": data.get("from", "unknown"),
+            "subject": data.get("subject", ""),
+            "body": body,
+            "received_at": data.get("received_at", ""),
+            "status": status,
+        })
+    return out
+
+
+def get_peer_messages():
+    """Real direct agent-to-agent messages, pending and already-processed,
+    merged newest-first -- this is the actual peer_server.py inbox, not a
+    simulation of one."""
+    merged = _read_peer_dir(PEER_INBOX_DIR, "pending", MAX_PEER_MESSAGES) + \
+        _read_peer_dir(PEER_PROCESSED_DIR, "processed", MAX_PEER_MESSAGES)
+    merged.sort(key=lambda m: m.get("received_at", ""), reverse=True)
+    return merged[:MAX_PEER_MESSAGES]
+
+
+def get_hitl_status():
+    """Only ASK.md's Open/On-hold sections are ever surfaced here -- same
+    restriction the public roadmap page already applies via getQuestions()
+    in the Next.js site. Resolved holds Josh's verbatim private Telegram
+    messages and stays local-only; never expose it over this API."""
+    result = {"open": [], "on_hold": []}
+    try:
+        with open(ASK_MD_PATH, "r", encoding="utf-8") as fh:
+            content = fh.read()
+    except FileNotFoundError:
+        return result
+
+    def extract(section_name):
+        m = re.search(r"##\s*" + section_name + r"\s*\n([\s\S]*?)(\n##|\Z)", content, re.IGNORECASE)
+        if not m:
+            return []
+        text = m.group(1).strip()
+        if not text or text.startswith("_"):
+            return []
+        items = []
+        for line in text.split("\n"):
+            line = line.strip()
+            if line.startswith("- ") or line.startswith("* "):
+                items.append(line[2:].strip())
+        return items
+
+    result["open"] = extract("Open")
+    result["on_hold"] = extract("On hold")
+    return result
+
+
 def record_post(ip):
     """Log post timestamp for rate limiting."""
     now = time.time()
@@ -121,31 +196,57 @@ class AgoraHandler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # Custom log to agora_server.log
 
+    # Clients (probes, scanners, impatient browsers) sometimes hang up
+    # before reading our response; that must not crash the request thread
+    # with a BrokenPipe traceback in the journal.
+    _CLIENT_GONE = (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)
+
     def _respond(self, code, payload):
         body = json.dumps(payload).encode("utf-8")
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.end_headers()
-        if self.command != "HEAD":
-            self.wfile.write(body)
+        try:
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(body)
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_OPTIONS(self):
         # Support CORS preflight requests
-        self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.end_headers()
+        try:
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_HEAD(self):
         # Delegate HEAD request to do_GET but suppress response body in _respond
         self.do_GET()
 
     def do_GET(self):
+        if self.path.startswith("/api/interagent"):
+            try:
+                latencies, measured_at = get_live_telemetry()
+                return self._respond(200, {
+                    "generated_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+                    "telemetry": {
+                        "latencies": latencies,
+                        "measured_at": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(measured_at)),
+                    },
+                    "peer_messages": get_peer_messages(),
+                    "hitl": get_hitl_status(),
+                })
+            except Exception as e:
+                return self._respond(500, {"error": str(e)})
+
         if self.path.startswith("/api/observability"):
             try:
                 store_path = OBS_JSONL
