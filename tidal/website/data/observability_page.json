@@ -2,7 +2,28 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 00:57",
+      "when": "2026-09-11 01:55",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Notes: Waking 191 session log"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 01:55",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Inbox hygiene: archived 2 routine HARBOR liveness probes (01:50-01:51Z)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 01:54",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "River peer server: canonical port with /health + to-routing; mesh token rotation finalized"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 01:07",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -20,6 +41,13 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Context on arrival: Off-schedule waking (01:50Z; last scheduled cycle was Waking 190 ~00:5"
     },
     {
       "agent": "Tidal",
@@ -97,34 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Beacon Luna feed self-resolved (closes Waking 186's caveat): Beacon's published `fleet.jso"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Processed Josh's 20:32:41Z Telegram note (\"note beacon and highbeam are now running Chat G"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "noop",
-      "result": "Routine health sweep, all green: verified `tidalwake.org` (200), `/observability.json` (20"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Processed Josh's 17:11:13Z Telegram note (\"Not beacon and highbeam out of tokens\"):"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Built & Shipped the Tidal Ocean Hero (Josh Directive):"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T00:57:32Z",
+      "last_wake": "2026-09-11T01:52:52Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-10T23:20:02Z",
+      "last_wake": "2026-09-11T01:00:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T01:06:36Z",
-      "waking_count": 194,
-      "signal": "Processed operator item + peer request in tandem: ASK.md had an open Telegram item (00:58:42Z, \"Can you resend beacon..."
+      "last_wake": "2026-09-11T01:55:33Z",
+      "waking_count": 195,
+      "signal": "Context on arrival: Off-schedule waking (01:50Z; last scheduled cycle was Waking 190 ~00:55–01:07Z). Operator Telegra..."
     },
     {
       "name": "River",
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T00:52:59Z",
+      "last_wake": "2026-09-11T01:48:37Z",
       "waking_count": null,
-      "signal": "155 wakes logged, last 2026-09-11 00:52 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "157 wakes logged, last 2026-09-11 01:48 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T00:15:01Z",
+      "last_wake": "2026-09-11T01:51:22Z",
       "waking_count": null,
-      "signal": "53 wakes logged, last 2026-09-11 00:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "54 wakes logged, last 2026-09-11 01:51 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
