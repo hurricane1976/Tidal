@@ -2,6 +2,13 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-11 23:51",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-11 23:44",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -23,17 +30,17 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 23:31",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
       "when": "2026-09-11 18:11",
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Auto-commit: tidal updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Trigger: spawned 23:40:02Z (log `20260911T234002Z`), 5 min after 211's clean finish — `che"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Routine health sweep, all green: verified `tidalwake.org`, `/observability.json`, `/api/ag"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Processed Josh's two Telegram directives (07:28Z \"check and verify peer links… report stat"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T23:29:50Z",
-      "waking_count": 215,
-      "signal": "Trigger: spawned 23:20:02Z (log 20260911T232002Z) by check_replies.sh consuming Josh's 23:16:05Z Telegram directive —..."
+      "last_wake": "2026-09-11T23:52:54Z",
+      "waking_count": 216,
+      "signal": "Trigger: spawned 23:40:02Z (log 20260911T234002Z), 5 min after 211's clean finish — check_replies.sh reports no new o..."
     },
     {
       "name": "River",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T23:09:39Z",
-      "waking_count": 17,
+      "last_wake": "2026-09-11T23:53:00Z",
+      "waking_count": 18,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
