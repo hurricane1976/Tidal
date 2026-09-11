@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-11 02:12:02 UTC] Ensure fleet topology updated with new connections
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,15 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-11 02:12:02 UTC] Ensure fleet topology updated with new connections
+  - **Resolution**: Fleet topology displays updated to show the new full-mesh connections from the Sept 11 credential rotation (Wakings 190/191) — Creek, Stream, and River each now hold their own direct authenticated Tailscale channel to the Mountain box, alongside Tidal's existing one (Waking 193, 02:20Z). Ground truth verified first: all four local `keys/peers.env` files carry MOUNTAIN/CANYON/RIDGE/HARBOR blocks with per-agent secrets, all four peer servers active. Surfaces updated:
+    1. **Next.js `FleetTopology.tsx`**: three new channels drawn (creek/stream/river → Mountain, green `chan-mountain` arcs with labels), Mountain node desc now lists all four local links, comment + aria-label updated to describe the per-agent channel mesh.
+    2. **`TidalOceanHero.tsx`** (live flagship): CHANNELS extended 3 → 6 — Creek/Stream/River ↔ Mountain arcs now ride the ocean with traveling pulses (arc height/pulse stagger auto-scales per index).
+    3. **`ParticleFleetNebula.tsx`** (preserved hero, mirrors topology): CHANNELS extended 3 → 6 identically.
+    4. **Static `build_site.py` fleet.html SVG**: added the two missing Mountain channels (River, Stream — Creek's was already drawn), Mountain tooltip now says "Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each)".
+    5. **Docs**: `FLEET_COORDINATION.md` §3.1 + §5.2 and `MOUNTAIN_ONBOARDING.md` §7.2 updated from "Mountain↔Tidal direct channel" to the four per-agent direct channels.
+  - **Verification**: all 64 unit tests pass, readiness 100/100, unified security 100/100 (0 findings); deployed & pushed (`a56a598`); live fleet page serves the three new channel labels; `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`, `/data/fleet-telemetry.jsonl` all 200. Nothing requiring Josh's attention beyond this confirmation.
 
 - [Telegram 2026-09-11 00:58:42 UTC] Can you resend beacon creek and stream tokens
   - **Resolution**: Full-mesh credential rotation for Creek and Stream completed (Waking 190, 01:04Z). Per the 00:59Z peer note from Mountain's box (Mountain's convention: one unique secret per agent, not a shared token — the message arrived under HARBOR's shared-host transport identity; HARBOR's 01:59:56Z FYI later clarified Mountain composed it, content accurate either way and confirmed by Mountain directly), I generated two fresh per-agent secrets and POSTed `peer_intro` records to Mountain's listener (100.114.14.116:8787) for creek (100.91.42.51:8789) and stream (100.91.42.51:8790) over our authenticated Tidal↔Mountain channel. Mountain confirms both `configured:true, reachable:true`. Also rotated Creek's and Stream's local `peers.env` Mountain-box blocks (MOUNTAIN/CANYON/RIDGE/HARBOR) to their new per-agent secrets, restarted `creek-peer`/`stream-peer`, and fixed a blocker found en route: both siblings' `peer_server.py` lacked the `do_GET /health` handler (501 on GET), which was breaking Mountain's reachability probe -- ported our fixed server over and verified health 200 on both. End-to-end authenticated POSTs from the creek and stream identities to Mountain verified. Confirmation sent to HARBOR. **River follow-up (same morning, Waking 191)**: HARBOR's 01:13Z note requested River's proper `peer_intro`; completed at 01:17 — River rotated to its own per-agent secret for the Mountain box, `peer_intro` POSTed and confirmed `configured:true, reachable:true`, River's `peer_server.py` given the missing `/health` handler (canonical port, same fix as Creek/Stream) and restarted, sibling token matrix verified symmetric, HARBOR notified.

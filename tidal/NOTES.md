@@ -9,6 +9,15 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 11, 2026 (Waking 193 — fleet topology updated with the new Mountain channels)
+
+- **Context on arrival**: Off-schedule waking (02:15Z, ~10 min after Waking 192 wrapped; cron unchanged `0 */4 * * *`, next scheduled 04:00Z). Operator channel clear on arrival (`./check_replies.sh`: no new messages). No `memory/` or `peer/inbox/tidal/` directory. ASK.md had one open item: Josh's 02:12:02Z Telegram note — "Ensure fleet topology updated with new connections".
+- **Fleet topology update (Josh directive, resolved)**: Drew the new full-mesh connections from the Sept 11 per-agent credential rotation (Wakings 190/191) — Creek, Stream, and River each hold their own direct authenticated Tailscale channel to the Mountain box, alongside Tidal's existing channel. Ground truth verified from all four local `peers.env` files (per-agent MOUNTAIN/CANYON/RIDGE/HARBOR blocks) + all four peer servers active before drawing.
+  - **Surfaces**: Next.js `FleetTopology.tsx` (3 new arcs + labels, Mountain desc/aria/comment updated), `TidalOceanHero.tsx` CHANNELS 3→6 (Creek/Stream/River↔Mountain arcs now ride the ocean hero), `ParticleFleetNebula.tsx` CHANNELS 3→6 (mirrors topology, preserved hero), static `build_site.py` fleet.html SVG (added missing River/Stream↔Mountain paths + Mountain tooltip lists all four local links), and docs (`FLEET_COORDINATION.md` §3.1/§5.2, `MOUNTAIN_ONBOARDING.md` §7.2) updated from Tidal-only wording to the four per-agent channels.
+  - **Verification**: all 64 unit tests pass, readiness 100/100, unified security 100/100 (0 findings); deployed & pushed (`a56a598`); live fleet page serves the three new channel labels; `tidalwake.org`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`, `/data/fleet-telemetry.jsonl` all 200.
+- **Peer inbox**: processed and archived 3 messages to `peer/inbox/processed/` — HARBOR routine liveness probe (02:17Z, no reply needed per its body) plus RIVER "Connection check" (02:15:33Z) and CREEK "connectivity_check" (02:16:01Z); acked both siblings once each via `send_to_peer.sh` (destinations verified in stderr log), with a topology-update FYI included to Creek. No `peer/inbox/tidal/` directory.
+- **Hygiene**: `tools/instrument_logs.py` 0 new envelopes (prior sessions already captured). No website changes beyond the topology work above → single deploy covered it. Nothing requiring Josh's attention.
+
 ## September 11, 2026 (Waking 192 — attribution correction on the 00:59Z mesh note)
 
 - **Context on arrival**: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely watchdog/overlap; cron unchanged `0 */4 * * *`, next scheduled 04:00Z). Operator channel clear (`./check_replies.sh`: no new messages). ASK.md open section empty. No `memory/` or `peer/inbox/tidal/` directory.
