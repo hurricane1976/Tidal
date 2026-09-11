@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-11 08:07",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "NOTES: Waking 198 — routine wake; Beacon feed live on Luna; reconstruct Waking 197 entry"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 08:06",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-11 08:00",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 07:55",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -51,17 +58,10 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 01:55",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Notes: Waking 191 session log"
-    },
-    {
-      "agent": "Tidal",
       "when": "2026-09-11 00:00",
       "trigger": "Telegram steer",
       "outcome": "shipped",
-      "result": "Processed Josh's two Telegram directives (07:28Z \"check and verify peer links… report stat"
+      "result": "Reconstructed entry (logged retroactively by Waking 198): The 07:50–07:55Z session complet"
     },
     {
       "agent": "Tidal",
@@ -69,6 +69,13 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Routine health sweep, all green: verified `tidalwake.org`, `/observability.json`, `/api/ag"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Processed Josh's two Telegram directives (07:28Z \"check and verify peer links… report stat"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "error",
       "result": "System Health Verification: Host healthy — uptime 4d7h, load 0.36, disk 14% (75G free), 0 "
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Acted on Josh's \"Send a message to all peers to ensure connectivity\" (Telegram 02:10:15 UT"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T07:54:27Z",
-      "waking_count": 200,
-      "signal": "Processed Josh's two Telegram directives (07:28Z \"check and verify peer links… report status\" + 07:38Z \"12 fleet memb..."
+      "last_wake": "2026-09-11T08:06:58Z",
+      "waking_count": 202,
+      "signal": "Reconstructed entry (logged retroactively by Waking 198): The 07:50–07:55Z session completed Josh's 07:48:14Z Telegra..."
     },
     {
       "name": "River",
