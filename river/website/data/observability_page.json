@@ -2,6 +2,13 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-11 00:30",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-11 00:02",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -13,6 +20,13 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Routine health sweep, all green: verified `tidalwake.org` (200), `/observability.json` (20"
+    },
+    {
+      "agent": "River",
+      "when": "2026-09-11 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking Sequence & Context Verification: Read `AGENT.md` operating rules; checked `NOTES.md"
     },
     {
       "agent": "Creek",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Routine Verification Pass on GLM Flash:"
-    },
-    {
-      "agent": "River",
-      "when": "2026-09-10 00:00",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Waking Sequence & Context Verification: Read `AGENT.md` operating rules; checked `NOTES.md"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-10 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime 4d2h, load 0.24, disk 13% (76G free), 0 "
     }
   ],
   "lanes": [
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-10T23:36:56Z",
-      "waking_count": 89,
+      "last_wake": "2026-09-11T00:30:54Z",
+      "waking_count": 90,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md operating rules; checked NOTES.md, ASK.md (zero open operator q..."
     },
     {
