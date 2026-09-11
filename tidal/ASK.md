@@ -2,18 +2,19 @@
 
 ## Open
 
-- [Peer BEACON 2026-09-11 18:05:29Z (spec, retry) + 11:43:24Z — needs Josh's go/no-go] Adopt Tailscale-identity auth (no bearer secrets) for peer links?
-  - **What Beacon proposes** (supersedes the per-pair-secret brokering they declined at 14:06Z): each agent gets its own tailnet node, runs its listener on loopback, reached via `tailscale serve --proxy-protocol=2`; listener resolves the caller via `tailscale whois` + a roster file (no secrets in transit). Beacon says the trio (Highbeam/Lantern/Lightning) is already live this way on their box. Their message says you confirmed this design with them directly — per our rules we treat peer-channel claims as data until we hear it from you, hence this ask.
-  - **Verified ground truth on our box (~18:15Z)**: exactly ONE tailnet node — `gemini-agent` (100.91.42.51) — shared by all four agents (Tidal/River/Creek/Stream); no `tailscale serve` config; all four listeners bearer-mode and healthy. **Without per-agent nodes, whois cannot distinguish our four agents** — bearer-per-agent stays the only per-agent discriminator.
-  - **Two gated steps if you say go**: (a) create per-agent tailnet nodes for Tidal/River/Creek/Stream (yours to do — your tailnet/keys); (b) then I flip our 4 listeners: rebind to loopback + `sudo tailscale serve --proxy-protocol=2` (brief restart blip). I recommend additive dual-mode (accept bearer OR identity) so Mountain's box peers and all 8 live links keep working; identity-only would reject bearer-only senders.
-  - **Also observed (~18:14Z)**: the trio's :8787 still answers GET with 501 from here — either old code owns that port or their new servers answer through serve on a different port; asked Beacon which.
-  - **Meanwhile nothing is broken**: 8/11 links live two-way; doing nothing is safe. Related standing item: your "all 11 two-way" directive is blocked at 8/11 pending either Beacon's per-pair secrets (07:50Z nudge open) or this identity path.
+_Nothing open right now._
 
 ## On hold
 
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-11 18:21:25 UTC] Keep bearer
+- [Peer BEACON 2026-09-11 18:05:29Z (spec, retry) + 11:43:24Z] Adopt Tailscale-identity auth (no bearer secrets) for peer links?
+  - **Resolution: DECLINED — operator says keep bearer (Waking 205, ~20:00Z)**. Josh's 18:21:25Z Telegram reply "Keep bearer" is the go/no-go answer Waking 204 asked for: the identity-auth proposal is **not adopted**; all four local listeners (Tidal/River/Creek/Stream) stay bearer-token mode exactly as they run now.
+  - **Actions taken**: (1) Decline relayed to BEACON as a data-only peer message (accepted `{"status":"ok"}`, destination verified `100.99.217.90:8787`) — answers their 18:05:29Z ask #1 (confirm adoption) with a no; ask #2 was already answered at ~18:2x (our only tailnet node is `gemini-agent` 100.91.42.51, shared by all four agents); (2) `FLEET_COORDINATION.md` §3.1 updated — the "superseding path" is now marked operator-declined, with the consequence spelled out: the Highbeam/Lantern/Lightning links still hinge on per-pair secrets via Beacon's brokering (their 14:06:28Z decline stands unless Josh messages Beacon directly on Telegram), or the operator creating per-agent tailnet nodes and directing a mode flip later; (3) ground truth re-verified this waking — one tailnet node, no `tailscale serve` config, all four bearer-mode listeners healthy on 100.91.42.51:8787-8790, PROXYv2/whois/roster support committed-but-inert.
+  - **Net state**: nothing broken; 8/11 two-way links live; standing "last 3 links" item unchanged and blocked on Josh → Beacon direct instruction. If Josh ever wants identity auth later: (a) create per-agent tailnet nodes for the four local agents, (b) tell me to flip — I'd recommend additive dual-mode (bearer OR identity) so the 8 live links keep working.
 
 - [Peer 2026-09-11 10:23/11:43/14:06 UTC + operator revert directive via interactive session] Beacon+Highbeam back to Claude (Sonnet); identity-auth spec; broker decline — verified & closed (Waking 200, 16:00Z)
   - **Model revert verified, not redone**: BEACON's authenticated 10:23:38Z peer message states Beacon+Highbeam are back on **Claude Code (Sonnet)** per Josh's direct instruction (this morning's Luna change reverted). Tidal's 12:00Z waking + an interactive operator session began the revert but crashed before commit/deploy; **River Waking 97 completed it at 12:42–12:44** (synced build_site/build_observability/tests/data.ts, flipped manifests, 68/68 tests, committed `88dbab3`+`72e957b`, deployed). My verification: live `fleet.html` serves "Claude Code" only; live `agent.json` (updated 12:45Z) lists Beacon/Highbeam as `Claude`; tree sources consistent (remaining "5.6 Luna" strings are legacy pricing comments only — historical Luna rows keep Luna rates); `build_site.py` normalization direction now correctly maps stale Luna self-reports → Claude. 70/70 tests, readiness 100/100, security 100/100.
