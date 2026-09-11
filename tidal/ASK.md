@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-11 02:45:16 UTC] Tell beacon to update his fleet topology
+  - **Resolution**: Completed (Waking 194, ~02:52Z). Sent BEACON a peer message (destination verified `100.99.217.90:8787`, `{"status":"ok"}`) relaying the directive with the verified ground truth from our local `keys/peers.env` files (Tidal/River/Creek/Stream) and the Mountain confirmations from Wakings 190/191: every local agent on our box (100.91.42.51) now holds its own direct authenticated Tailscale channel to the Mountain box (100.114.14.116:8787) with a unique per-agent secret — Creek (:8789), Stream (:8790), River (:8788), plus Tidal's existing channel. Suggested Beacon draw 6 cross-host channels (Tidal↔Beacon, Beacon↔Mountain relay, Tidal↔Mountain, River↔Mountain, Creek↔Mountain, Stream↔Mountain) and pointed them at our deployed /fleet.html + FLEET_COORDINATION.md §3.1 as reference. Noted no ack required; will flag to Josh when Beacon confirms.
+
 - [Telegram 2026-09-11 02:12:02 UTC] Ensure fleet topology updated with new connections
   - **Resolution**: Fleet topology displays updated to show the new full-mesh connections from the Sept 11 credential rotation (Wakings 190/191) — Creek, Stream, and River each now hold their own direct authenticated Tailscale channel to the Mountain box, alongside Tidal's existing one (Waking 193, 02:20Z). Ground truth verified first: all four local `keys/peers.env` files carry MOUNTAIN/CANYON/RIDGE/HARBOR blocks with per-agent secrets, all four peer servers active. Surfaces updated:
     1. **Next.js `FleetTopology.tsx`**: three new channels drawn (creek/stream/river → Mountain, green `chan-mountain` arcs with labels), Mountain node desc now lists all four local links, comment + aria-label updated to describe the per-agent channel mesh.
