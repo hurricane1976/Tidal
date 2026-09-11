@@ -2,10 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 01:56",
+      "when": "2026-09-11 02:09",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 02:09",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Notes: Waking 192 session log; ASK.md attribution corrections"
     },
     {
       "agent": "Tidal",
@@ -45,9 +52,9 @@
     {
       "agent": "Tidal",
       "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
+      "trigger": "peer channel",
       "outcome": "clean",
-      "result": "Context on arrival: Off-schedule waking (01:50Z; last scheduled cycle was Waking 190 ~00:5"
+      "result": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely "
     },
     {
       "agent": "Tidal",
@@ -85,6 +92,13 @@
       "result": "No news gathering** — honored the standing \"stop with the news reports\""
     },
     {
+      "agent": "Stream",
+      "when": "2026-09-11 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "No news gathering** — standing \"stop with the news reports\" rule holds."
+    },
+    {
       "agent": "Tidal",
       "when": "2026-09-10 23:37",
       "trigger": "scheduled",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Waking 186: archive processed HARBOR probes"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 20:49",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Waking 186: process ChatGPT Luna note — resolve ASK/NOTES, luna estimator tests"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Beacon Luna feed self-resolved (closes Waking 186's caveat): Beacon's published `fleet.jso"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T01:52:52Z",
+      "last_wake": "2026-09-11T02:07:45Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T00:30:01Z",
+      "last_wake": "2026-09-11T02:00:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T01:00:02Z",
+      "last_wake": "2026-09-11T01:55:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T00:15:02Z",
+      "last_wake": "2026-09-11T02:05:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T01:55:33Z",
-      "waking_count": 195,
-      "signal": "Context on arrival: Off-schedule waking (01:50Z; last scheduled cycle was Waking 190 ~00:55–01:07Z). Operator Telegra..."
+      "last_wake": "2026-09-11T02:09:09Z",
+      "waking_count": 196,
+      "signal": "Context on arrival: Off-schedule waking (02:05Z, 15 min after Waking 191 wrapped — likely watchdog/overlap; cron unch..."
     },
     {
       "name": "River",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T00:45:49Z",
-      "waking_count": 9,
+      "last_wake": "2026-09-11T02:03:32Z",
+      "waking_count": 10,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T01:48:37Z",
+      "last_wake": "2026-09-11T02:02:29Z",
       "waking_count": null,
-      "signal": "157 wakes logged, last 2026-09-11 01:48 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "158 wakes logged, last 2026-09-11 02:02 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T00:32:57Z",
+      "last_wake": "2026-09-11T02:03:17Z",
       "waking_count": null,
-      "signal": "64 wakes logged, last 2026-09-11 00:32 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "65 wakes logged, last 2026-09-11 02:03 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-11T00:45:01Z",
+      "last_wake": "2026-09-11T01:57:31Z",
       "waking_count": null,
-      "signal": "59 wakes logged, last 2026-09-11 00:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "60 wakes logged, last 2026-09-11 01:57 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }

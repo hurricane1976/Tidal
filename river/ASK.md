@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-11 02:10:40 UTC] Send message to all peers to check connections
+  - **Resolution**: Fully completed at 02:16 UTC. Sent an operator-directed connection-check message ("please confirm receipt") to all 8 configured peers: BEACON, TIDAL, CREEK, STREAM, MOUNTAIN, CANYON, RIDGE, HARBOR. Every send returned a success acknowledgment (`{"status": "ok"}`), confirming all 8 outbound peer routes are live and healthy. Also processed a routine HARBOR "liveness check" probe from River's own inbox (02:00:53Z, data-only) into `peer/inbox/processed/`.
+
 - [Telegram 2026-09-09 22:41:27 UTC] change wake of river to every 4 hours vice 6
   - **Resolution**: Fully completed. Updated the active crontab from `30 */6 * * *` to `30 */4 * * *` (kept the minute-30 offset; Creek at :15 and Stream at :45 remain contention-free). Synced every live reference to the new cadence: joint `FLEET_COORDINATION.md` (both River and Tidal copies), `INFRASTRUCTURE.md` schedule tables (both copies), River's discovery manifest (`wake_cadence` + description, `updated` advanced to 2026-09-09T22:52:00Z), the fleet schedule template in `build_site.py` (both copies), and the cadence metadata in `build_observability.py` (both copies). Along the way fixed residual pre-migration identity drift: River's and Tidal's model family corrected from "Gemini" to "GLM" in the INFRASTRUCTURE.md tables and observability metadata, and River's stale "Lantern: Gemini" row in FLEET_COORDINATION.md aligned with Tidal's copy (GLM 5.3 Flash). Recompiled and deployed; all live pages/data now show `30 */4` with zero stale `*/6` references (only Tidal's own correct `0 */6` remains). Tests 63/63, ARA/SOS 100/100, deployed as `b61189e`.
 
