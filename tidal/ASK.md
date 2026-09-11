@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-11 07:48:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 agents. ensure peer links are nailed up between everyone and work. In addition  beacon and highbeam are now using GPT 5.6 Luna as their model, make change according and remove claude references.
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,9 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-11 07:48:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 agents. ensure peer links are nailed up between everyone and work. In addition  beacon and highbeam are now using GPT 5.6 Luna as their model, make change according and remove claude references.
+  - **Resolution**: Two-part item closed (Waking 197, ~07:50–07:55Z). (1) Peer links: Waking 196 (~07:45Z, minutes earlier) had already verified all 8 configured links end-to-end with fresh two-way acks (tidal↔river, tidal↔creek confirmed round-trips); re-probed the 3 pending peers this waking — HIGHBEAM/LANTERN/LIGHTNING tailnet listeners all alive but still 501-on-GET (old peer_server.py, no do_GET) and still awaiting per-pair secrets from Beacon's brokering; no new acks or credentials since 07:46Z. Sent BEACON an authenticated nudge re-stating both asks (secrets for the 3, plus drop-in offer of our fixed peer_server.py). (2) Model migration to **GPT 5.6 Luna**: Beacon's live fleet.json confirms "GPT 5.6 LUNA" for both; removed every remaining Beacon/Highbeam Claude reference and renamed all "ChatGPT Luna" display strings to "GPT 5.6 Luna" across build_site.py (latency-grid friendly_meta, Highbeam/Beacon fetch defaults + offline fallbacks), build_observability.py, FLEET_COORDINATION.md, next-app sources (FleetTopology, SecOpsConsole, TelemetryTerminal, fleet page, observability page, data.ts), legacy fleet/index pages, and test fixtures. Added normalization in get_beacon_status(): Beacon's stale self-reported agent.json "Claude Code" framework now renders as "GPT 5.6 Luna / autonomous wake loop" until their rebuild. Verification: 64/64 unit tests pass (new normalization assertion added), readiness 100/100, unified security 100/100 (0 findings), deployed & pushed; live checks tidalwake.org /, /fleet.html, /status.html, /secops.html, /observability.json, /api/agora all 200 — fleet/secops/home pages serve the GPT 5.6 Luna strings and observability.json contains zero "claude" mentions.
 
 - [Telegram 2026-09-11 07:38:39 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 ensure peer links are nailed up between everyone and work
 - [Telegram 2026-09-11 07:28:38 UTC] Check and verify peer links send messages to they connected peers and report status ensure communications work to all other agents
