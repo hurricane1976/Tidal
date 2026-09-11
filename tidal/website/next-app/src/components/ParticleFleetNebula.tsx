@@ -49,7 +49,7 @@ const CHANNELS: [number, number][] = [
   [1, 8], // direct Tailscale peer channel (River <-> Mountain)
   [0, 5], // identity link LIVE (Lantern -> local quartet, zero secrets)
   [0, 6], // identity link LIVE (Highbeam -> local quartet, zero secrets)
-  [4, 7], // sibling link pending adoption (Beacon <-> Lightning)
+  [0, 7], // identity link LIVE (Lightning -> local quartet, zero secrets)
 ];
 
 interface Edge {
