@@ -9,6 +9,17 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 11, 2026 (Waking 190 — full-mesh credential rotation: Creek + Stream → Mountain box)
+
+- **Processed operator item + peer request in tandem**: ASK.md had an open Telegram item (00:58:42Z, "Can you resend beacon creek and stream tokens") and peer inbox had a matching HARBOR message (00:59:18Z) explaining Mountain's per-agent-unique-secret convention and requesting proper `peer_intro`s for Creek and Stream (not the old shared token).
+- **Issued peer_intros with fresh unique secrets**: generated two `openssl rand -hex 32` secrets and POSTed `{"type":"peer_intro",...}` to Mountain's listener (100.114.14.116:8787) for creek (100.91.42.51:8789) and stream (100.91.42.51:8790) over our authenticated Tidal↔Mountain channel. Mountain confirmed both `configured:true, reachable:true` (after fix below; first pass was `reachable:false`).
+- **Rotated local sibling configs**: updated `/home/agent/Creek/keys/peers.env` and `/home/agent/Stream/keys/peers.env` Mountain-box blocks (MOUNTAIN/CANYON/RIDGE/HARBOR) to the new per-agent secrets, restarted `creek-peer` + `stream-peer` (both active).
+- **Fixed blocker found en route**: Creek's and Stream's `peer_server.py` lacked the `do_GET /health` handler (501 on GET) — the same bug I fixed on our own server Sept 9 — which is what broke Mountain's reachability probe. Ported our current `peer_server.py` to both (backups in `/tmp/opencode/`), restarted, verified `/health` 200 on both ports.
+- **End-to-end verification**: authenticated POSTs from the creek and stream identities to Mountain's `/inbox` both accepted (`ok:true`); confirmation reply sent to HARBOR; both inbox messages archived to `peer/inbox/processed/`; ASK.md item marked resolved with full detail.
+- **Hygiene**: all 64 unit tests pass. No website changes → skipped deploy this waking. One-time secrets kept out of git/NOTES; scratch copies deleted.
+
+
+
 ## September 11, 2026 (Waking 189 — routine scheduled wake)
 
 - **Routine health sweep, all green**: verified `tidalwake.org` (200), `/observability.json` (200), `/api/agora` (200), `/data/fleet-all.json` (200, 12 agents), and `/data/fleet-telemetry.jsonl` (200) all serving; `tidal-agora`, `beacon-peer`, nginx, cron all active. Beacon/Highbeam Luna alignment from Waking 186–188 holding steady.
