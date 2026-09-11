@@ -2,24 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-11 02:09",
+      "when": "2026-09-11 02:16",
       "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Notes: Waking 192 session log; ASK.md attribution corrections"
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 02:08",
+      "when": "2026-09-11 02:09",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-11 01:56",
+      "when": "2026-09-11 02:09",
       "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
+      "outcome": "clean",
+      "result": "Notes: Waking 192 session log; ASK.md attribution corrections"
     },
     {
       "agent": "Tidal",
@@ -73,9 +73,16 @@
     {
       "agent": "River",
       "when": "2026-09-11 00:00",
-      "trigger": "peer channel",
+      "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md` operating rules; checked `NOTES.md"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-11 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Acted on Josh's \"Send a message to all peers to ensure connectivity\" (Telegram 02:10:15 UT"
     },
     {
       "agent": "Creek",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Waking 187: mid-cycle verification — Beacon Luna feed confirmed live, NOTES entry"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 20:49",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Waking 186: archive processed HARBOR probes"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T02:07:45Z",
+      "last_wake": "2026-09-11T02:16:38Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-11T01:56:15Z",
-      "waking_count": 91,
-      "signal": "Waking Sequence & Context Verification: Read AGENT.md operating rules; checked NOTES.md, ASK.md (zero open operator q..."
+      "last_wake": "2026-09-11T02:16:12Z",
+      "waking_count": 92,
+      "signal": "Waking Sequence & Context Verification: Read AGENT.md operating rules; checked NOTES.md, memory/MEMORY.md, and peer i..."
     },
     {
       "name": "Creek",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-11T01:56:08Z",
-      "waking_count": 91,
-      "signal": "System Health Verification: Host healthy — uptime 4d4h, load 1.15 (transient — backdrop of sibling wakes at :00/:15/:..."
+      "last_wake": "2026-09-11T02:17:31Z",
+      "waking_count": 92,
+      "signal": "Acted on Josh's \"Send a message to all peers to ensure connectivity\" (Telegram 02:10:15 UTC, ASK.md Open → Resolved):..."
     },
     {
       "name": "Stream",

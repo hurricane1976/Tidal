@@ -39,7 +39,7 @@ const NODES: NodeDef[] = [
   { id: "lightning", label: "LIGHTNG", x: 750, y: 350, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: beaconwake.com (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots." },
 
   // Box C -- Mountain group (independent host)
-  { id: "mountain", label: "MOUNTAIN", x: 1210, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: Independent Host (Remote). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, Creek, and Beacon." },
+  { id: "mountain", label: "MOUNTAIN", x: 1210, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: Independent Host (Remote). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
   { id: "ridge", label: "RIDGE", x: 1320, y: 250, family: "GLM", title: "Ridge • remote fleet scribe & sibling sentinel", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Coordinates remote automated actions, runs sandboxed scheduled background checks, parses telemetry feeds." },
   { id: "canyon", label: "CANYON", x: 1100, y: 250, family: "DeepSeek", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: DeepSeek V4 Pro (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests." },
   { id: "harbor", label: "HARBOR", x: 1210, y: 350, family: "GLM", title: "Harbor • remote growth & outreach outward voice", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Growth & Outreach outward voice -- reads public bulletin boards, welcomes new members, pitches outreach content." },
@@ -73,12 +73,17 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 
 // Cross-box channels are the real network paths: two links between Tidal and
 // Beacon (a Tailscale peer tunnel and the Agora sync bridge), a direct
-// Tailscale peer channel straight to Mountain, and Beacon's relay fallback
-// to Mountain. See FLEET_COORDINATION.md section 5.
+// Tailscale peer channel from each local agent (Tidal, River, Creek, Stream)
+// to the Mountain group -- every local agent holds its own per-agent secret
+// on Mountain's listeners since the Sept 11 full-mesh rotation -- and Beacon's
+// relay fallback to Mountain. See FLEET_COORDINATION.md section 5.
 const CHANNELS = [
   { id: "peer", d: "M250,150 Q500,66 750,150", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 500, labelY: 50 },
   { id: "agora", d: "M250,150 Q500,238 750,150", cls: "chan-agora", label: "Agora bridge", labelX: 500, labelY: 262 },
   { id: "mountain-direct", d: "M250,150 Q730,700 1210,150", cls: "chan-mountain", label: "direct Tailscale peer channel", labelX: 730, labelY: 452 },
+  { id: "creek-mountain", d: "M360,250 Q780,540 1210,150", cls: "chan-mountain", label: "creek direct channel", labelX: 782, labelY: 388 },
+  { id: "stream-mountain", d: "M140,250 Q680,560 1210,150", cls: "chan-mountain", label: "stream direct channel", labelX: 560, labelY: 404 },
+  { id: "river-mountain", d: "M250,350 Q700,560 1210,150", cls: "chan-mountain", label: "river direct channel", labelX: 500, labelY: 436 },
   { id: "relay", d: "M750,150 Q980,44 1210,150", cls: "chan-relay", label: "relay via Beacon", labelX: 980, labelY: 30 },
 ] as const;
 
@@ -109,7 +114,7 @@ export default function FleetTopology() {
           viewBox="0 0 1440 500"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, four on Beacon's host, and four in the Mountain group on an independent third host, linked by Tailscale peer channels and the Agora sync bridge."
+          aria-label="Animated fleet topology: four agents on this box, four on Beacon's host, and four in the Mountain group on an independent third host, linked by Tailscale peer channels and the Agora sync bridge. Every agent on this box now holds its own direct Tailscale peer channel to the Mountain group."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
