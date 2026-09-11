@@ -7,8 +7,8 @@ Every number here is measured at generation time:
 
 * **Per-run cost / tokens / turns / duration** come from the JSON result
   envelope `claude -p --output-format json` writes to `logs/<ts>.json` on each
-  waking (wired into wake.sh). Beacon and Highbeam (both Claude Code) emit it;
-  Lantern (Gemini CLI) and Lightning (opencode) do not yet, so their lanes show
+  waking (wired into wake.sh). Beacon and Highbeam (both GPT 5.6 Luna) emit it;
+  Lantern and Lightning (opencode) do not yet, so their lanes show
   "runtime not instrumented" rather than a fabricated number.
 * **The run explorer** (runs as rows) is merged from Beacon's git commits and
   the shared fleet timeline `shared/LOG.md`.
@@ -132,7 +132,7 @@ def estimate_cost_if_null(r: dict) -> None:
     # Input tokens: $0.75 per 1M
     # Output tokens: $3.75 per 1M
     # Cache Read: $0.075 per 1M
-    if "gemini-3.8-flash" in model.lower() or agent == "Lantern":
+    if "gemini-3.8-flash" in model.lower():
         r["cost_usd"] = (input_tokens * (0.75 / 1000000.0)) + \
                         (output_tokens * (3.75 / 1000000.0)) + \
                         (cache_read * (0.075 / 1000000.0))
@@ -142,7 +142,7 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
-    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River"):
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River", "Lantern"):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
         # Input tokens: $0.075 per 1M
         # Output tokens: $0.25 per 1M
@@ -153,9 +153,24 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "glm" in model.lower() or agent in ("Ridge", "Harbor"):
         r["cost_usd"] = (input_tokens * (0.10 / 1000000.0)) + \
                         (output_tokens * (0.20 / 1000000.0))
-    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Beacon", "Highbeam", "Mountain"):
+    elif "luna" in model.lower() or "gpt-5.6" in model.lower():
+        # GPT 5.6 Luna (OpenAI gpt-5.6-luna via OpenRouter):
+        # Input tokens: $0.20 per 1M
+        # Output tokens: $1.20 per 1M
+        # Cache Read: $0.02 per 1M
+        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
+                        (output_tokens * (1.20 / 1000000.0)) + \
+                        (cache_read * (0.02 / 1000000.0))
+    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain",):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
+    elif agent in ("Beacon", "Highbeam"):
+        # Beacon/Highbeam moved to GPT 5.6 Luna (operator note 2026-09-10);
+        # rows without a self-describing model string price at Luna rates.
+        # Historical claude-*/sonnet-* rows keep legacy pricing above.
+        r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
+                        (output_tokens * (1.20 / 1000000.0)) + \
+                        (cache_read * (0.02 / 1000000.0))
 
 
 def load_store() -> dict:
@@ -342,11 +357,11 @@ def fmt_dur(ms) -> str:
 
 
 AGENT_METADATA = {
-    "Beacon": {"family": "claude", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
-    "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
-    "Lantern": {"family": "gemini", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
+    "Beacon": {"family": "openai", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Highbeam": {"family": "openai", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
+    "Lantern": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "Tidal": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "deepseek", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "research &amp; context gathering", "envelope": "json"},
@@ -428,7 +443,7 @@ def lanes_data() -> list[dict]:
             "cadence": _plain(meta["cadence"]),
             "role": live.get("role", meta["role"]),
             "envelope": meta["envelope"],
-            "model_family": live.get("model_family", "Claude/Gemini"),
+            "model_family": live.get("model_family", "Claude/Gemini/GLM"),
             "state": live.get("state", "unknown"),
             "last_wake": live.get("last_wake"),
             "waking_count": wakes if isinstance(wakes, int) else None,
@@ -481,7 +496,7 @@ def generate_observability_lanes() -> str:
               <span class="lane-ring {envelope_cls}">{envelope_label}</span>
             </div>
             <div class="lane-meta">
-              {live.get("model_family", "Claude/Gemini")} &middot; {meta['cadence']}<br>
+              {live.get("model_family", "Claude/Gemini/GLM")} &middot; {meta['cadence']}<br>
               {live.get("role", meta['role'])}<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: {time_ago}{wakes_str}</span>
               {signal_html}

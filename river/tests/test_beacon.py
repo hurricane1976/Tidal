@@ -513,6 +513,18 @@ _Nothing awaiting a decision right now._
             else:
                 self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
+    def test_manifest_glm_flash_migration(self):
+        """Tidal, River, and Lantern moved off Gemini to GLM Flash (operator
+        directive 2026-09-09); the manifest must not regress to stale families."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        for name in ("Tidal", "River", "Lantern"):
+            if name in families:
+                self.assertEqual(families[name], "GLM",
+                                 f"{name} should be listed under the GLM family after the GLM Flash migration")
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))
@@ -760,7 +772,7 @@ _Nothing awaiting a decision right now._
             mock_beacon.return_value = {
                 'ok': True,
                 'name': 'Beacon',
-                'framework': 'Claude Code',
+                'framework': 'GPT 5.6 Luna',
                 'wake_cadence': '6x/day',
                 'waking_count': '150',
                 'updated': '2026-08-31'
@@ -862,6 +874,9 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
+            # Operator directive 2026-09-11: stale Claude self-reports from
+            # Beacon's feed must normalize to GPT 5.6 Luna.
+            self.assertEqual(status['framework'], "GPT 5.6 Luna / autonomous wake loop")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):
@@ -1579,6 +1594,45 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_river)
         self.assertAlmostEqual(r_river["cost_usd"], 0.325)
 
+        # 8. Lantern moved to GLM Flash (operator directive 2026-09-09): rows
+        # carrying a glm flash model string price at GLM Flash rates.
+        r_lantern_glm = {"agent": "Lantern", "model": "glm-5.3-flash", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern_glm)
+        self.assertAlmostEqual(r_lantern_glm["cost_usd"], 0.325)
+
+        # 9. Lantern rows without a model string fall back to GLM Flash pricing.
+        r_lantern_no_model = {"agent": "Lantern", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_lantern_no_model)
+        self.assertAlmostEqual(r_lantern_no_model["cost_usd"], 0.325)
+
+        # 10. Beacon & Highbeam moved to ChatGPT Luna (operator note 2026-09-10):
+        # rows carrying a luna / gpt-5.6 model string price at Luna rates
+        # ($0.20/1M in, $1.20/1M out, $0.02/1M cached).
+        r_beacon_luna = {"agent": "Beacon", "model": "openai/gpt-5.6-luna", "input_tokens": 1000000, "output_tokens": 1000000, "cache_read_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_luna)
+        self.assertAlmostEqual(r_beacon_luna["cost_usd"], 1.42)
+
+        # 11. Beacon/Highbeam rows without a model string fall back to Luna
+        # pricing (NOT legacy Claude rates) — Mountain keeps Claude fallback.
+        r_beacon_no_model = {"agent": "Beacon", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_no_model)
+        self.assertAlmostEqual(r_beacon_no_model["cost_usd"], 1.40)
+
+        r_highbeam_no_model = {"agent": "Highbeam", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_highbeam_no_model)
+        self.assertAlmostEqual(r_highbeam_no_model["cost_usd"], 1.40)
+
+        # 12. Historical Beacon/Highbeam claude-sonnet rows keep legacy Claude
+        # pricing via their model string.
+        r_beacon_claude = {"agent": "Beacon", "model": "claude-sonnet-4-5", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_beacon_claude)
+        self.assertAlmostEqual(r_beacon_claude["cost_usd"], 18.00)
+
+        # 13. Mountain is still Claude and keeps the agent-name Claude fallback.
+        r_mountain_claude = {"agent": "Mountain", "model": "", "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_mountain_claude)
+        self.assertAlmostEqual(r_mountain_claude["cost_usd"], 18.00)
+
     def test_wake_script_uses_glm_flash_latest(self):
         """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
         (per the operator directive of 2026-09-09). The ~ alias always
@@ -1670,6 +1724,14 @@ class TestFleetTelemetry(unittest.TestCase):
             # GLM migration onward must map to the glm family consistently.
             tidal_rows = [r for r in rows if r["agent"] == "tidal"]
             for r in tidal_rows:
+                self.assertIn(r["model_family"], ["gemini", "glm"])
+                if r["model_family"] == "glm":
+                    self.assertIn("glm", r["model"].lower())
+
+            # River rows: same guarantee after River's GLM Flash migration
+            # (operator directive 2026-09-09).
+            river_rows = [r for r in rows if r["agent"] == "river"]
+            for r in river_rows:
                 self.assertIn(r["model_family"], ["gemini", "glm"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
