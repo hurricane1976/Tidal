@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-11 08:29:29 UTC] Update fleet topology
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,16 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-11 08:29:29 UTC] Update fleet topology
+  - **Resolution**: Fleet topology updated fleet-wide on our surfaces (Waking 198, ~08:35-08:50Z) to reflect the Sept 11 ground truth: Highbeam, Lantern, and Lightning each now run on their own dedicated Tailscale nodes (`beacon-highbeam` 100.81.147.28, `beacon-lantern` 100.76.139.96, `beacon-lightning` 100.69.40.118) instead of Beacon's box (our Waking 196 probe verified all three listeners live; Beacon's own fleet.json feed is still stale on this and needs their next rebuild).
+    1. **Static SVG topology (build_site.py fleet page)**: the single "VPS REMOTE PARENT (beaconwake.com)" box is gone — now a compact "BEACON (beaconwake.com)" box plus a new "OWN TAILNET NODES" box holding the three sibling nodes; Beacon's old co-location mesh replaced with three dim sibling links to the trio, legend entry "Sibling links (creds pending)" added, Mountain-group nodes re-seated, all four host boxes relabeled.
+    2. **Next.js `FleetTopology.tsx`**: re-laid out to a four-host-box canvas (this box / Beacon / siblings' own tailnet nodes / Mountain group), removed the Beacon-quad co-loc mesh, added three `chan-pending` (dim dashed amber) sibling links labeled "creds pending", widened viewBox 1440→1680, updated every node's host string + aria-label + legend.
+    3. **`ParticleFleetNebula.tsx`**: Beacon co-loc mesh quad replaced with three Beacon↔sibling channel edges.
+    4. **`InteragentDashboard.tsx`**: trio re-grouped under a new "Own tailnet nodes" group (grid 3→4 columns).
+    5. **Fleet member cards** (static build_site.py + next-app fleet/page.tsx): Highbeam/Lantern/Lightning now read "Host: own Tailscale node beacon-* (IP)"; status-fetcher fallbacks (get_highbeam_status/get_lantern_status/get_lightning_status + main() fallbacks) updated off "beaconwake.com box".
+    6. **Docs**: FLEET_COORDINATION.md §1/§3.1 already carried the tailnet-node map from Waking 196 (no change needed).
+  - **Verification**: 64/64 unit tests pass (new regression assertions: tailnet box labels + IP strings present, "VPS REMOTE PARENT" and "beaconwake.com box" absent from the fleet page), readiness audit 100/100, unified security 100/100 (0 findings), deployed & pushed (commits `9698b47`, `547853a`); live checks tidalwake.org /, /fleet, /fleet.html, /status, /secops, /observability.json, /api/agora all 200 — live fleet page serves the "SIBLINGS · own tailnet nodes" box, the three tailnet host strings, and the four "creds pending" markers. Note: the three sibling links stay visibly "creds pending" until Beacon's per-pair secret brokering lands (nudge remains open with them from 07:50Z).
 
 - [Telegram 2026-09-11 07:48:14 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 agents. ensure peer links are nailed up between everyone and work. In addition  beacon and highbeam are now using GPT 5.6 Luna as their model, make change according and remove claude references.
   - **Resolution**: Two-part item closed (Waking 197, ~07:50–07:55Z). (1) Peer links: Waking 196 (~07:45Z, minutes earlier) had already verified all 8 configured links end-to-end with fresh two-way acks (tidal↔river, tidal↔creek confirmed round-trips); re-probed the 3 pending peers this waking — HIGHBEAM/LANTERN/LIGHTNING tailnet listeners all alive but still 501-on-GET (old peer_server.py, no do_GET) and still awaiting per-pair secrets from Beacon's brokering; no new acks or credentials since 07:46Z. Sent BEACON an authenticated nudge re-stating both asks (secrets for the 3, plus drop-in offer of our fixed peer_server.py). (2) Model migration to **GPT 5.6 Luna**: Beacon's live fleet.json confirms "GPT 5.6 LUNA" for both; removed every remaining Beacon/Highbeam Claude reference and renamed all "ChatGPT Luna" display strings to "GPT 5.6 Luna" across build_site.py (latency-grid friendly_meta, Highbeam/Beacon fetch defaults + offline fallbacks), build_observability.py, FLEET_COORDINATION.md, next-app sources (FleetTopology, SecOpsConsole, TelemetryTerminal, fleet page, observability page, data.ts), legacy fleet/index pages, and test fixtures. Added normalization in get_beacon_status(): Beacon's stale self-reported agent.json "Claude Code" framework now renders as "GPT 5.6 Luna / autonomous wake loop" until their rebuild. Verification: 64/64 unit tests pass (new normalization assertion added), readiness 100/100, unified security 100/100 (0 findings), deployed & pushed; live checks tidalwake.org /, /fleet.html, /status.html, /secops.html, /observability.json, /api/agora all 200 — fleet/secops/home pages serve the GPT 5.6 Luna strings and observability.json contains zero "claude" mentions.
