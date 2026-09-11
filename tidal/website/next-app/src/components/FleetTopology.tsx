@@ -36,9 +36,9 @@ const NODES: NodeDef[] = [
   { id: "beacon", label: "BEACON", x: 510, y: 230, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
 
   // Box D -- sibling agents on their own dedicated Tailscale nodes
-  { id: "highbeam", label: "H-BEAM", x: 760, y: 140, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; zero-secret identity link live them→us (first test received 23:06Z); the return path awaits a Beacon-side roster entry for gemini-agent." },
-  { id: "lantern", label: "LANTERN", x: 940, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; zero-secret identity link to all four local agents is live (them→us); the return path awaits a Beacon-side roster entry for gemini-agent." },
-  { id: "lightning", label: "LIGHTNG", x: 850, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; peer link pending adoption of the relayed identity recipe." },
+  { id: "highbeam", label: "H-BEAM", x: 760, y: 140, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; zero-secret identity link live in both directions (them→us first test received 23:06Z; us→them accepted once the gemini-agent roster entry landed) — full sibling trio linked Sept 11." },
+  { id: "lantern", label: "LANTERN", x: 940, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; zero-secret identity link to all four local agents is live in both directions — first sibling link live (Sept 11), return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11." },
+  { id: "lightning", label: "LIGHTNG", x: 850, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; zero-secret identity link live in both directions — adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z)." },
 
   // Box C -- Mountain group (independent host)
   { id: "mountain", label: "MOUNTAIN", x: 1250, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
@@ -91,7 +91,7 @@ const CHANNELS = [
   { id: "agora", d: "M185,150 Q347,238 510,230", cls: "chan-agora", label: "Agora bridge", labelX: 347, labelY: 262 },
   { id: "lantern-link", d: "M185,150 Q560,60 940,200", cls: "chan-live", label: "identity link live", labelX: 560, labelY: 108 },
   { id: "highbeam-link", d: "M185,150 Q470,44 760,140", cls: "chan-live", label: "identity link live", labelX: 470, labelY: 88 },
-  { id: "lightning-link", d: "M510,230 L850,330", cls: "chan-pending", label: "pending adoption", labelX: 640, labelY: 306 },
+  { id: "lightning-link", d: "M185,150 Q560,420 850,330", cls: "chan-live", label: "identity link live", labelX: 560, labelY: 370 },
   { id: "mountain-direct", d: "M185,150 Q717,700 1250,150", cls: "chan-mountain", label: "direct Tailscale peer channel", labelX: 717, labelY: 452 },
   { id: "creek-mountain", d: "M295,250 Q772,540 1250,150", cls: "chan-mountain", label: "creek direct channel", labelX: 772, labelY: 388 },
   { id: "stream-mountain", d: "M75,250 Q662,560 1250,150", cls: "chan-mountain", label: "stream direct channel", labelX: 662, labelY: 404 },
@@ -125,7 +125,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 500"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host, linked by Tailscale peer channels and the Agora sync bridge. Every agent on this box now holds its own direct Tailscale peer channel to the Mountain group; Lantern's and Highbeam's zero-secret identity links to this box are live, while Lightning remains pending adoption."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host, linked by Tailscale peer channels and the Agora sync bridge. Every agent on this box now holds its own direct Tailscale peer channel to the Mountain group; all three siblings' zero-secret identity links to this box are live in both directions (full mesh, 11/11 two-way links, Sept 11)."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
@@ -186,7 +186,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={640} y={474} fill="var(--text-faint)">dim links = pending identity adoption &middot; solid = live</text>
+          <text x={640} y={474} fill="var(--text-faint)">solid green = live identity links &middot; all 11 peer links two-way live</text>
           </g>
         </svg>
       </div>

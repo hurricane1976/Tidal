@@ -38,8 +38,9 @@ const CHANNELS: [number, number][] = [
   [2, 8], // Creek <-> Mountain
   [3, 8], // Stream <-> Mountain
   [1, 8], // River <-> Mountain
-  [0, 5], // Tidal <-> Lantern (identity link, live them→us)
-  [0, 6], // Tidal <-> Highbeam (identity link, live them→us)
+  [0, 5], // Tidal <-> Lantern (identity link, live)
+  [0, 6], // Tidal <-> Highbeam (identity link, live)
+  [0, 7], // Tidal <-> Lightning (identity link, live)
 ];
 
 // Buoy placement: spread across the width; the headline owns the upper-left,

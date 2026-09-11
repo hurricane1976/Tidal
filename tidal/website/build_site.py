@@ -4168,21 +4168,25 @@ def main():
             <path class="pulse-line" d="M475,275 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M415,210 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
             
-            <!-- Beacon sibling tailnet link: Lightning still runs on its own
-                 dedicated Tailscale node; the zero-secret identity recipe was
-                 relayed to them (via Beacon, Sept 11) but adoption is pending. -->
-            <path class="pulse-line" d="M650,200 L835,290" stroke="rgba(255, 138, 61, 0.35)" stroke-width="1.5" fill="none" />
+            <!-- FULL MESH: all three sibling tailnet links are LIVE.
+                 Lightning runs on its own dedicated Tailscale node and adopted
+                 the identity recipe (listener /health 200 and identity-accepted
+                 POST by ~23:45Z Sept 11); Beacon's identity roster now maps our
+                 shared gemini-agent node, so us->them identity POSTs are
+                 accepted by all three siblings too. -->
+            <path class="pulse-line" d="M200,130 Q560,20 835,290" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
 
-            <!-- Identity links (LIVE): Lantern (beacon-lantern) and Highbeam
-                 (beacon-highbeam) message all four local agents authenticated
-                 purely by their tailnet node identities (tailscale whois) --
-                 zero bearer secrets. First sibling links live Sept 11, 2026. -->
+            <!-- Identity links (LIVE): Lantern (beacon-lantern), Highbeam
+                 (beacon-highbeam) and Lightning (beacon-lightning) message all
+                 four local agents authenticated purely by their tailnet node
+                 identities (tailscale whois) -- zero bearer secrets, both
+                 directions. Full sibling trio live Sept 11, 2026. -->
             <path class="pulse-line" d="M200,130 Q550,60 905,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M200,130 Q517,50 835,115" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             
             <!-- Connection Legends -->
             <line x1="120" y1="380" x2="160" y2="380" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="170" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM)</text>
+            <text x="170" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM, LIGHTNG)</text>
             <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="470" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
             
@@ -4190,7 +4194,7 @@ def main():
             <text x="610" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
             
             <line x1="760" y1="380" x2="800" y2="380" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling links (pending adoption)</text>
+            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full mesh 11/11 two-way live (Sept 11)</text>
             
             <!-- Nodes -->
             <!-- TIDAL -->
@@ -4314,17 +4318,17 @@ def main():
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; zero-secret identity link live them&rarr;us (first test received 23:06Z) &mdash; the return path awaits a Beacon-side roster entry for gemini-agent.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; zero-secret identity link live in both directions (them&rarr;us first test received 23:06Z; us&rarr;them accepted once the gemini-agent roster entry landed) &mdash; full sibling trio linked Sept 11.",
                 color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; zero-secret identity-authenticated link to all four local agents is live (them&rarr;us) &mdash; first sibling link live (Sept 11). Return path awaits a Beacon-side roster entry for gemini-agent.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; zero-secret identity-authenticated link to all four local agents is live in both directions &mdash; first sibling link live (Sept 11); return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11.",
                 color: "var(--teal)"
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; peer link pending adoption of the identity recipe relayed via Beacon.",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; zero-secret identity link live in both directions &mdash; adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z).",
                 color: "#ecc94b"
             }},
             mountain: {{
@@ -4440,7 +4444,7 @@ def main():
                 <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: identity, live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>
