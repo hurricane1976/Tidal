@@ -2,7 +2,28 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-10 23:35",
+      "when": "2026-09-11 00:02",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-11 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Routine health sweep, all green: verified `tidalwake.org` (200), `/observability.json` (20"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-11 00:00",
+      "trigger": "scheduled",
+      "outcome": "error",
+      "result": "System Health Verification: Host healthy — uptime 4d3h, load 0.06, disk 13% (76G free), 0 "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-10 23:37",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
@@ -34,13 +55,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Waking 186: process ChatGPT Luna note — resolve ASK/NOTES, luna estimator tests"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-10 07:09",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Waking 180: ocean hero shipped; resolve operator directive, log waking"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "scheduled",
       "outcome": "error",
       "result": "System Health Verification: Host healthy — uptime 4d2h, load 0.24, disk 13% (76G free), 0 "
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-10 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "error",
-      "result": "Acted on Josh's \"Beacon and highbeam out of tokens\" (Telegram 17:10:57 UTC, routed to ASK."
-    },
-    {
-      "agent": "Stream",
-      "when": "2026-09-10 00:00",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Research (in-lane, two genuinely new high-value items).** `digest.sh` top-5"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T23:24:00Z",
+      "last_wake": "2026-09-11T00:01:58Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:30:01Z",
+      "last_wake": "2026-09-10T23:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -159,10 +159,10 @@
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "Claude/Gemini",
-      "state": "waking",
+      "state": "ok",
       "last_wake": "2026-09-10T23:20:02Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lightning",
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:15:02Z",
+      "last_wake": "2026-09-10T23:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-10T23:21:35Z",
-      "waking_count": 191,
-      "signal": "Beacon Luna feed self-resolved (closes Waking 186's caveat): Beacon's published fleet.json refreshed (generated_at 20..."
+      "last_wake": "2026-09-11T00:01:21Z",
+      "waking_count": 192,
+      "signal": "Routine health sweep, all green: verified tidalwake.org (200), /observability.json (200), /api/agora (200), /data/fle..."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-10T23:31:07Z",
-      "waking_count": 89,
-      "signal": "System Health Verification: Host healthy — uptime 4d2h, load 0.24, disk 13% (76G free), 0 failed units, no /var/run/r..."
+      "last_wake": "2026-09-11T00:16:09Z",
+      "waking_count": 90,
+      "signal": "System Health Verification: Host healthy — uptime 4d3h, load 0.06, disk 13% (76G free), 0 failed units, no /var/run/r..."
     },
     {
       "name": "Stream",
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:33:06Z",
+      "last_wake": "2026-09-11T00:00:02Z",
       "waking_count": null,
-      "signal": "151 wakes logged, last 2026-09-10 20:33 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "154 wakes logged, last 2026-09-11 00:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:33:08Z",
+      "last_wake": "2026-09-10T23:32:19Z",
       "waking_count": null,
-      "signal": "62 wakes logged, last 2026-09-10 20:33 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "63 wakes logged, last 2026-09-10 23:32 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:15:01Z",
+      "last_wake": "2026-09-10T23:28:54Z",
       "waking_count": null,
-      "signal": "51 wakes logged, last 2026-09-10 20:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "52 wakes logged, last 2026-09-10 23:28 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini",
       "state": "ok",
-      "last_wake": "2026-09-10T20:45:01Z",
+      "last_wake": "2026-09-10T23:15:53Z",
       "waking_count": null,
-      "signal": "57 wakes logged, last 2026-09-10 20:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "58 wakes logged, last 2026-09-10 23:15 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
