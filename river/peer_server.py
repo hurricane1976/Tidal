@@ -12,6 +12,13 @@ Authorization header, never by anything the client claims about itself in
 the request body -- the "from" field in the saved record always comes from
 the token lookup, not from client input.
 
+Dual-mode auth (additive): a peer entry in peer/roster.json may opt in to
+identity-based auth with {"name": ..., "identity_auth": true}. For those
+peers only, a request with no valid bearer token is authenticated by
+resolving the wireguard-verified connection source IP via
+'tailscale whois' to a tailnet node name (no shared secret involved).
+Every other peer keeps requiring its bearer token exactly as before.
+
 Config: keys/peers.env (see keys/peers.env.example). Restart the
 beacon-peer systemd service after editing that file.
 """
@@ -106,16 +113,46 @@ def load_roster():
 
 PEER_ROSTER = load_roster()
 
+# RFC 6598 -- Tailscale assigns node IPs from 100.64.0.0/10. Only source
+# IPs in this range are worth resolving via 'tailscale whois'.
+_TAILNET_IP_RE = re.compile(
+    r"^100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.\d+\.\d+$"
+)
+
+_WHOIS_TTL_SECONDS = 600
+_whois_cache = {}  # ip -> (node_name, timestamp)
+
+
+def is_tailnet_ip(ip):
+    return bool(_TAILNET_IP_RE.match(ip))
+
+
+def roster_identity_peer(node_name):
+    """Peer name for a tailnet node IF its roster entry explicitly opted in
+    to identity auth. Plain-string entries are bearer-attribution only:
+    they never authorize a token-less request."""
+    if not node_name:
+        return None
+    entry = PEER_ROSTER.get(node_name) or PEER_ROSTER.get(node_name.split(".", 1)[0])
+    if isinstance(entry, dict):
+        if entry.get("identity_auth") and entry.get("name"):
+            return str(entry["name"])
+    return None
+
 
 def resolve_tailscale_identity(ip):
-    """Run 'tailscale whois --json <ip>' and return the Node Name."""
+    """Run 'tailscale whois --json <ip>' and return the Node Name (cached)."""
+    cached = _whois_cache.get(ip)
+    if cached and time.time() - cached[1] < _WHOIS_TTL_SECONDS:
+        return cached[0]
     try:
         raw = subprocess.check_output(["tailscale", "whois", "--json", ip], text=True)
         data = json.loads(raw)
         name = data.get("Node", {}).get("Name", "")
         if name.endswith("."):
             name = name[:-1]
-        return name
+        _whois_cache[ip] = (name or None, time.time())
+        return name or None
     except Exception as e:
         log(f"ERROR: tailscale whois failed for {ip}: {e}")
         return None
@@ -171,14 +208,21 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # we do our own logging via log() below
 
+    # Clients occasionally hang up before reading our response; that must
+    # not crash the request thread with a BrokenPipe traceback.
+    _CLIENT_GONE = (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)
+
     def _respond(self, code, payload):
         body = json.dumps(payload).encode()
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        if self.command != "HEAD":
-            self.wfile.write(body)
+        try:
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(body)
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_HEAD(self):
         self.do_GET()
@@ -201,11 +245,27 @@ class Handler(BaseHTTPRequestHandler):
             return self._respond(413, {"error": "body missing or too large"})
 
         peer_name = self.resolved_peer_name
+        auth_via = "identity-proxy" if peer_name else None
         if not peer_name:
             auth = self.headers.get("Authorization", "")
             m = re.match(r"^Bearer (.+)$", auth)
             token = m.group(1).strip() if m else None
             peer_name = PEER_TOKENS.get(token) if token else None
+            if peer_name:
+                auth_via = "bearer"
+
+        # Dual-mode fallback: identity auth for roster entries that opted in.
+        # The source IP of a direct Tailscale connection is wireguard-verified
+        # by tailscaled, so 'tailscale whois' on it is trustworthy attribution.
+        if not peer_name and is_tailnet_ip(self.client_address[0]):
+            node_name = resolve_tailscale_identity(self.client_address[0])
+            peer_name = roster_identity_peer(node_name)
+            auth_via = "identity" if peer_name else None
+            if node_name and not peer_name:
+                log(
+                    f"identity-auth not enabled or unmapped: ip={self.client_address[0]} "
+                    f"node={node_name}"
+                )
 
         if not peer_name:
             log(f"REJECT unauthorized from={self.client_address[0]}")
@@ -262,7 +322,7 @@ class Handler(BaseHTTPRequestHandler):
             json.dump(record, fh, indent=2)
 
         _recent.setdefault(peer_name, []).append(time.time())
-        log(f"ACCEPT peer={peer_name} to={to_val} subject={subject[:60]!r} file={fname}")
+        log(f"ACCEPT peer={peer_name} via={auth_via} to={to_val} subject={subject[:60]!r} file={fname}")
         self._respond(200, {"status": "ok"})
 
 
