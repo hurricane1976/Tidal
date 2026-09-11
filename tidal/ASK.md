@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-11 02:12:02 UTC] Ensure fleet topology updated with new connections
 _Nothing open right now._
 
 ## On hold
