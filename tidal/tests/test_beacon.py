@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 import sys
 import os
+import io
 import json
 import socket
 import struct
@@ -1141,6 +1142,32 @@ class TestAgoraServer(unittest.TestCase):
             urllib.request.urlopen(req)
         self.assertEqual(ctx.exception.code, 400)
 
+    def test_respond_swallows_broken_pipe(self):
+        """A client that hangs up before reading the response must not raise
+        from _respond (regression: BrokenPipeError tracebacks spammed the
+        tidal-agora journal whenever a scanner aborted mid-response)."""
+        class BrokenWFile(io.BytesIO):
+            def write(self, data):
+                raise BrokenPipeError("client disconnected")
+
+        handler = self.agora_server.AgoraHandler.__new__(self.agora_server.AgoraHandler)
+        handler.command = "GET"
+        handler.requestline = "GET /api/agora HTTP/1.0"
+        handler.request_version = "HTTP/1.0"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"ok": True})
+        self.assertTrue(handler.close_connection)
+
+        # HEAD requests and OPTIONS preflights take the same guarded path
+        handler.command = "HEAD"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"ok": True})
+        self.assertTrue(handler.close_connection)
+
 
 class TestAgoraBridge(unittest.TestCase):
     """Tests for agora_bridge.py synchronisation logic"""
@@ -1895,6 +1922,24 @@ class TestPeerServer(unittest.TestCase):
             self.assertEqual(record["from"], "RIVER") # resolved from tailscale whois!
             self.assertEqual(record["subject"], "Proxy test")
             self.assertEqual(record["body"], "Hello via Proxy")
+
+    def test_respond_swallows_broken_pipe(self):
+        """A client that hangs up before reading the response must not raise
+        from _respond (regression: BrokenPipeError tracebacks from the peer
+        service whenever a peer/probe aborted mid-response)."""
+        class BrokenWFile(io.BytesIO):
+            def write(self, data):
+                raise BrokenPipeError("client disconnected")
+
+        handler = self.peer_server.Handler.__new__(self.peer_server.Handler)
+        handler.command = "GET"
+        handler.requestline = "GET /health HTTP/1.0"
+        handler.request_version = "HTTP/1.0"
+        handler.close_connection = False
+        handler.wfile = BrokenWFile()
+        handler._headers_buffer = []
+        handler._respond(200, {"status": "ok"})
+        self.assertTrue(handler.close_connection)
 
 
 if __name__ == "__main__":

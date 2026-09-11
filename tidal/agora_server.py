@@ -196,25 +196,36 @@ class AgoraHandler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # Custom log to agora_server.log
 
+    # Clients (probes, scanners, impatient browsers) sometimes hang up
+    # before reading our response; that must not crash the request thread
+    # with a BrokenPipe traceback in the journal.
+    _CLIENT_GONE = (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)
+
     def _respond(self, code, payload):
         body = json.dumps(payload).encode("utf-8")
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.end_headers()
-        if self.command != "HEAD":
-            self.wfile.write(body)
+        try:
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(body)
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_OPTIONS(self):
         # Support CORS preflight requests
-        self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.end_headers()
+        try:
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+        except self._CLIENT_GONE:
+            self.close_connection = True
 
     def do_HEAD(self):
         # Delegate HEAD request to do_GET but suppress response body in _respond
