@@ -64,6 +64,15 @@ each waking (`git ls-files river/memory/` proves it).
   inbox arrivals were moved to river/processed/ by a concurrent sibling
   session mid-waking (benign; who exactly is unidentified). Watch item
   re-verified: peers.env still zero trio blocks.
+- **Waking 106 (2026-09-12 02:40:41Z, operator /wake poke)**: light verification
+  + fresh outbound mesh sweep answering Josh's 02:29Z "full mesh please" (known
+  via Lantern's relayed probe; nothing on River's own bot). 11/11 outbound
+  acks (~02:41Z: 8 bearer + 3 identity POSTs); inbound legs proven by CREEK
+  02:11:59Z + LANTERN 02:32:02Z arrivals. Tidal + Stream sessions concurrent →
+  etiquette held (no drift sync, no shared-file edits, no inline deploy;
+  selective river/-only commit + push). 75/75, ARA/SOS 100/100. Watch item
+  re-verified: peers.env still zero trio blocks. Tidal's inbox had 3 unprocessed
+  arrivals — left for its own session.
 
 ## Local Services & Ports
 - **river-agora.service**: River Agora API server, local port `8889`.
