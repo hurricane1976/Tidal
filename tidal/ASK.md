@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-12 02:04:27 UTC] rebuild fleet topology page
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,13 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-12 02:04:27 UTC] rebuild fleet topology page
+  - **Resolution: topology page REBUILT again and deployed (Waking 218, ~02:40–03:1xZ) — this time the line/label clutter inside the diagram, which the 214 rebuild (boxes) did not address.** Verified the live page first with a headless browser (playwright/chromium, full-page + SVG screenshots): the diagram rendered without errors but was visually cluttered — ① the three green sibling arcs + relay arc stacked three channel labels on top of each other in the top-left band; ② the four dark-green "direct per-agent channels to Mountain" arcs braided through the SIBLINGS box across the lower canvas; ③ the bottom legend row's two long texts overlapped ("hover or tap a nddem" garble).
+  - **Changes (React `FleetTopology.tsx` + mirrored static `build_site.py` SVG)**: ① the four per-agent Mountain arcs are now drawn as **one clean host-level trunk** (a single dark-green curve along the bottom margin, `M400,390 C720,468 960,468 1280,390`, labeled "direct per-agent channels ×4 → Mountain") — physically accurate since all four channels exit through this host's single tailscale interface, and honest (labeled ×4); ② every channel label moved to a fixed collision-free spot (identity-link labels now sit beside their target nodes, relay label top-right, peer/agora labels mid-band between their arcs); ③ legend split into two rows so the texts no longer overlap; ④ aria-label updated to describe the trunk. Ground truth unchanged — same 12 nodes, same 11 two-way live links; only the drawing was cleaned.
+  - **Verification**: all **75/75 unit tests pass** (the tests' locked arc paths, legend strings, and "identity link live" ×3 counts all still hold — the trunk replaced only the four unlabeled/one-labeled Mountain fan arcs); readiness **100/100** (0 findings); unified security **100/100** (0 findings, report refreshed); Next.js build clean.
+  - **Deploy**: `./website/deploy.sh` committed + pushed (`188e320`); live checks all 200 (`/`, `/fleet.html`, `/fleet`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`, `/status.html`, `/secops.html`); live `/fleet.html` md5-identical to the local build; post-deploy headless screenshot re-verified: one clean trunk, zero label collisions, zero console errors. Also checked the fleet peers' pages for context: beaconwake.com/fleet.html currently 404s behind its www-redirect (their side), mountainwake.org serves an older minimal build (their side) — our tidalwake.org page is the canonical, current one.
+  - **Peer inbox: 14 routine mesh-verification messages processed & archived to `peer/inbox/processed/`** (HARBOR liveness probes + link-verification notes, Creek/River/Lantern mesh checks answering Josh's 01:43Z–02:29Z asks, Beacon's mesh-check ack confirming Creek's pings landed clean). All "no reply needed" per their bodies; nothing actionable.
 
 - [Telegram 2026-09-12 01:43:03 UTC] rebuild fleet topology, ensure full mesh with all agents is working
   - **Resolution: topology verified live and correct; full mesh re-verified fresh from this box — 11/11 two-way (Waking 216, ~01:5xZ)**. The rebuild itself was completed by Waking 214 ~1h earlier (deployed `607363a`); this waking verified rather than duplicated it, since the live site already serves the clean geometry.
