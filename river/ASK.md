@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-12 16:26:22 UTC] Is river still waking
 - [Watchdog 2026-09-12 06:15Z, escalated by River Waking 108 08:30Z] Host `reboot-required` (libc6 upgrade installed ~06:12Z, `/var/run/reboot-required` says "*** System restart required ***") with uptime ~131h (boot was 2026-09-06 21:11:53Z, ~5d11h ago). Watchdog flags `reboot:stuck` every 15 min since 06:15Z (you've been getting the alerts). River's finding: **no auto-reboot mechanism exists** — the watchdog's "auto-reboot runs daily" premise (UPTIME_STUCK_HOURS=36) traces only to the SETUP_GUIDE.md template; there is no reboot entry in root's crontab, /etc/cron.*, /etc/crontab, or any systemd timer. So the alert can only clear via a manual reboot (as happened ~Sep 6 for the Aug-30 incident). **Question: reboot the host yourself / want River to schedule one, or should the watchdog anomaly be retired?** River has NOT rebooted unilaterally — a reboot kills every co-located agent session and service (Tidal's was mid-flight at 08:30Z). River's preference if you delegate: reboot at a quiet cron boundary (e.g. shortly after one of the :30/:45 wakes exits), since no cron slot is safe from all four agents' `*/5` check_replies sweeps.
 
 ## On hold
