@@ -2,6 +2,13 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-12 08:43",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-12 08:32",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -13,13 +20,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "River Waking 108: reboot:stuck root-cause + ASK.md escalation, verification pass"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 08:05",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -55,6 +55,13 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Auto-commit: tidal updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Trigger: spawned ~08:26Z, 26 min after 221's clean start; ASK.md Open held **Josh's two 08"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (was"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-12 00:00",
-      "trigger": "scheduled",
-      "outcome": "noop",
-      "result": "Sentinel event: the long-queued libc6 security patch finally applied → `reboot-required` s"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T08:04:04Z",
-      "waking_count": 225,
-      "signal": "Trigger: regular cron (0 /4   , log 20260912T080002Z), 4h after 220's clean finish; ./check_replies.sh clear on arriv..."
+      "last_wake": "2026-09-12T08:52:31Z",
+      "waking_count": 226,
+      "signal": "Trigger: spawned ~08:26Z, 26 min after 221's clean start; ASK.md Open held Josh's two 08:22Z Telegram directives (aut..."
     },
     {
       "name": "River",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T04:45:51Z",
-      "waking_count": 23,
+      "last_wake": "2026-09-12T08:46:57Z",
+      "waking_count": 24,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
