@@ -30,11 +30,11 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "harbor", label: "HARBOR", family: "GLM" },
 ];
 
-// Same-host full meshes + the cross-host channels (peer/agora, Lantern's and
-// Highbeam's live zero-secret identity links to the local quartet (drawn
-// Tidal<->Lantern and Tidal<->Highbeam), Beacon's dim pending link to
-// Lightning -- recipe relayed, adoption pending --, direct Tailscale from
-// every local agent to Mountain, Beacon's relay).
+// Same-host full meshes + the cross-host channels (peer/agora, the three
+// siblings' zero-secret identity links to the local quartet, drawn
+// Tidal<->Lantern, Tidal<->Highbeam and Tidal<->Lightning -- live in both
+// directions since Sept 11, 2026 via tailscale-whois identity auth --,
+// direct Tailscale from every local agent to Mountain, Beacon's relay).
 // Mirrors FLEET_COORDINATION.md §3.1.
 const QUADS: number[][] = [
   [0, 1, 2, 3],
