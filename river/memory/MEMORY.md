@@ -7,6 +7,28 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 116 (2026-09-12 22:30:17Z, operator /wake poke via `*/5` sweep — 25 min after Waking 115)**: quiet
+  single-flight wake (no twin; no sibling sessions live — Tidal's 21:55Z w241/w242 sessions had finished).
+  check_replies: no operator messages (bare `/wake`). Processed 5 inbox arrivals (149 cumulative): TIDAL
+  22:09:47Z admin w242 heads-up (mountain-pair applied 22:02Z, skip-if-rotated, do-not-re-apply — acted on:
+  verified peers.env untouched since 22:02:20Z, did NOT re-apply/rotate) + 4× MOUNTAIN (2 liveness probes
+  22:09:59/22:22:53Z + 2 operator-requested link verifications 22:11/22:20Z) — all data-only; the 4 MOUNTAIN
+  arrivals themselves prove mountain→river inbound fresh post-restore. **river↔MOUNTAIN verified green both
+  directions this waking**: outbound send ~22:31Z `{"ok":true,"agent":"mountain"}`. **DRIFT SYNC EXECUTED
+  (Tidal idle — port window)**: (1) FLEET_COORDINATION.md wholesale-copied (gains Waking 238/239/240/241/242
+  fleet records: Beacon trusted-introducer decline + two-party pivot, Beacon↔siblings bilateral re-key +
+  shared-token incident closure, 66/66 restore via Josh-authorized borrowed-token path); (2) website/
+  build_site.py — ported ONLY the 3 agent-agnostic w242 hunks (pending Mountain↔River dashed-amber arc +
+  label REMOVED → restored comment; sibling↔Beacon label → "re-keyed + re-verified Sept 12 21:47Z"; legend
+  65/66 → 66/66 "full fleet mesh complete"); River palette/UA polymorphism untouched; (3) tests/test_beacon.py
+  — ported Tidal's 242 assertion flips (66/66 pins, pending-arc absence locks: `stroke-dasharray="3 6"` +
+  pending label assertNotIn, "full fleet mesh complete" assertIn; next-app block flipped to absence locks)
+  with River's next-app existence guard KEPT (river/ has no next-app) and clean single assertNotIn("M200,130…")
+  kept (Tidal's benign duplicate NOT ported). Suite 79/79 OK, ARA/SOS 100/100, all 12 services active, peer
+  /health 200. Full deploy pushed 68a3ce4..35fbed7 (24 files incl. FC port + build_site + tests + 5 inbox
+  moves); live fleet.html verified serving 66/66 legend + restored comment, zero pending remnants. Watchdog
+  reboot:stuck unchanged (still-bad through 22:30:02Z; ASK item open, no operator reply, NOT rebooted).
+  Next cron wake: 00:30Z.
 - **Waking 115 (2026-09-12 22:05:03Z, operator /wake poke via `*/5` sweep)**: **river↔MOUNTAIN RESTORED — 66/66 again.** Staged peer_intro (agent=mountain, borrowed-CANYON-token path (a)) landed 21:58:21Z → keys/inbox-intros/ (first-ever staging); Tidal's admin applied it BEFORE my spawn (peers.env 22:02:20Z — both MOUNTAIN blocks now = staged secret sha16 3e58d8b81113396b; river-peer restarted 22:02:22Z; its w242 admin probe accepted inbound as MOUNTAIN 22:02:31Z) → my w240 conditional duty moot, admin-first per plan. Outbound MOUNTAIN probe ~22:06Z `{"ok":true,"agent":"mountain"}` — watch item CLOSED. Tidal w241 also re-keyed BEACON<->River (21:47:44Z admin probe accepted). Fresh 11/11 outbound sweep ~22:06Z + 11 inbound arrivals processed (144 cumulative). TWO Tidal sessions live (21:55Z, w242 executing Josh's 21:51:17Z topology-update directive) → no drift sync, no shared-file edits, no inline deploy; selective river/-only commit. Suite 79/79, ARA/SOS 100/100, 12/12 services. reboot:stuck ASK item still open (no reply, NOT rebooted). Next cron wake: 00:30Z.
 - **Waking 114 (2026-09-12 21:30:xxZ, operator /wake poke via `*/5` sweep — Creek+Tidal+River all 21:30, no cron slot)**: processed 6
   inbox arrivals (132 cumulative): 3× HARBOR link-verification, TIDAL w238 Mountain-pair
