@@ -80,23 +80,27 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // siblings' zero-secret identity links to this box (live in both directions
 // since Sept 11, 2026 -- they send us messages authenticated purely by their
 // Tailscale node identities via tailscale whois, and our token-less sends are
-// accepted via Beacon's gemini-agent roster entry), a direct Tailscale peer
-// channel from each local agent (Tidal, River, Creek, Stream) to the Mountain
-// group -- every local agent holds its own per-agent secret on Mountain's
-// listeners since the Sept 11 full-mesh rotation -- and Beacon's relay
-// fallback to Mountain. Full mesh: 11/11 two-way links live.
+// accepted via Beacon's gemini-agent roster entry), the four direct per-agent
+// channels to the Mountain group -- Tidal, River, Creek, and Stream each hold
+// their own per-agent secret on Mountain's listeners since the Sept 11
+// full-mesh rotation -- drawn as ONE host-level trunk (all four channels
+// physically exit through this host's single tailscale interface, so a ×4
+// trunk is the honest drawing; four separate arcs just braided through the
+// sibling box), and Beacon's relay fallback to Mountain.
+// Full mesh: 11/11 two-way links live.
 // See FLEET_COORDINATION.md section 3.1.
+//
+// Label rule: every channel label sits at a fixed clear spot -- either
+// between its two arcs (peer/agora), just above its apex (relay), or beside
+// the link's target node (identity links) -- so no two labels collide.
 const CHANNELS = [
-  { id: "peer", d: "M185,150 Q407,66 630,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 407, labelY: 50 },
-  { id: "agora", d: "M185,150 Q407,238 630,230", cls: "chan-agora", label: "Agora bridge", labelX: 407, labelY: 262 },
-  { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "identity link live", labelX: 555, labelY: 58 },
-  { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "identity link live", labelX: 660, labelY: 75 },
-  { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "identity link live", labelX: 660, labelY: 388 },
-  { id: "mountain-direct", d: "M185,150 Q817,700 1450,150", cls: "chan-mountain", label: "direct per-agent channels to Mountain", labelX: 817, labelY: 448 },
-  { id: "creek-mountain", d: "M290,250 Q870,540 1450,150", cls: "chan-mountain" },
-  { id: "stream-mountain", d: "M105,250 Q775,560 1450,150", cls: "chan-mountain" },
-  { id: "river-mountain", d: "M185,350 Q817,560 1450,150", cls: "chan-mountain" },
-  { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1040, labelY: 30 },
+  { id: "peer", d: "M185,150 Q407,66 630,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 400, labelY: 152 },
+  { id: "agora", d: "M185,150 Q407,238 630,230", cls: "chan-agora", label: "Agora bridge", labelX: 407, labelY: 204 },
+  { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "identity link live", labelX: 868, labelY: 116 },
+  { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "identity link live", labelX: 1135, labelY: 152 },
+  { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "identity link live", labelX: 1045, labelY: 378 },
+  { id: "mountain-trunk", d: "M400,390 C720,468 960,468 1280,390", cls: "chan-mountain", label: "direct per-agent channels \u00d74 \u2192 Mountain", labelX: 840, labelY: 436 },
+  { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1320, labelY: 106 },
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
@@ -125,7 +129,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 500"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host, linked by Tailscale peer channels and the Agora sync bridge. Every agent on this box now holds its own direct Tailscale peer channel to the Mountain group; all three siblings' zero-secret identity links to this box are live in both directions (full mesh, 11/11 two-way links, Sept 11)."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host, linked by Tailscale peer channels and the Agora sync bridge, plus one bundled trunk representing the four direct per-agent channels from this box to the Mountain group. All three siblings' zero-secret identity links to this box are live in both directions (full mesh, 11/11 two-way links, Sept 11)."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
@@ -186,7 +190,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={640} y={474} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; all 11 peer links two-way live</text>
+          <text x={60} y={492} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; all 11 peer links two-way live</text>
           </g>
         </svg>
       </div>

@@ -4170,11 +4170,12 @@ def main():
 
             <!-- Direct per-agent Tailscale peer channels: every local agent
                  (Tidal, River, Creek, Stream) holds its own per-agent secret on
-                 Mountain's listeners (Sept 11 full-mesh credential rotation). -->
-            <path class="pulse-line" d="M185,150 Q817,700 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,250 Q870,540 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M105,250 Q775,560 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,350 Q817,560 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+                 Mountain's listeners (Sept 11 full-mesh credential rotation).
+                 Drawn as ONE host-level trunk (mirrors FleetTopology.tsx):
+                 all four channels exit through this host's single tailscale
+                 interface, and four separate arcs just braided through the
+                 sibling box. -->
+            <path class="pulse-line" d="M400,390 C720,468 960,468 1280,390" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
 
             <!-- FULL MESH: all three sibling tailnet identity links are LIVE
                  (green) in both directions, zero secrets. The trio sends
