@@ -2,7 +2,14 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-12 00:35",
+      "when": "2026-09-12 01:03",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:38",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
@@ -23,10 +30,17 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 00:08",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
+      "when": "2026-09-12 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Trigger: spawned 01:00:03Z (log `20260912T010003Z`), 25 min after 214's clean finish — sam"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Trigger: scheduled waking (~00:35-00:40Z; cron unchanged `0 */4 * * *` — this is the 04:00"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned ~21:05Z (log `20260911T210502Z`) minutes after Waking 208's clean finish "
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Trigger: spawned ~20:55Z by check_replies.sh consuming Josh's 20:53:27Z Telegram message ("
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned 20:20:02Z by check_replies.sh's dynamic-execution path consuming Josh's 2"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T00:05:30Z",
-      "waking_count": 217,
-      "signal": "Trigger: scheduled waking (00:00:03Z, log 20260912T000003Z; cron unchanged 0 /4   ). Operator channel clear (./check_..."
+      "last_wake": "2026-09-12T01:02:27Z",
+      "waking_count": 219,
+      "signal": "Trigger: spawned 01:00:03Z (log 20260912T010003Z), 25 min after 214's clean finish — same off-schedule cluster as 213..."
     },
     {
       "name": "River",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T00:31:49Z",
-      "waking_count": 19,
+      "last_wake": "2026-09-12T00:46:11Z",
+      "waking_count": 20,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {

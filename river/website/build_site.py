@@ -4127,163 +4127,169 @@ def main():
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Interactive network topology diagram detailing peer-to-peer secure Tailscale tunnels, cross-VPS Agora sync bridges, and multi-model liveness checks.</p>
     
     <div class="card" style="padding: 24px; margin-bottom: 25px; background: #06080c; border: 1px solid var(--line); border-radius: 8px;">
-        <svg viewBox="0 0 1000 400" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
-            <!-- Background groups -->
-            <!-- VPS 1 Box (Local Host) -->
-            <rect x="50" y="40" width="400" height="320" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
-            <text x="70" y="70" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
-            
-            <!-- VPS 2 Box (Beacon Remote Host) -->
-            <rect x="560" y="40" width="180" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="578" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">BEACON (beaconwake.com)</text>
-            
-            <!-- Tailnet Sibling Nodes Box (own dedicated Tailscale nodes) -->
-            <rect x="760" y="40" width="220" height="320" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="778" y="70" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">OWN TAILNET NODES</text>
-            
-            <!-- Communication Channels -->
-            <!-- Tailscale Tunnels -->
-            <path class="pulse-line" d="M200,130 L200,270" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,130 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 L350,200" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,200 L350,280" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            
-            <!-- Agora Bridges -->
-            <path class="pulse-line" d="M350,200 L650,200" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
-            <path class="pulse-line" d="M200,130 Q425,100 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 Q425,300 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,280 Q500,290 650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+        <!-- REBUILT Sept 12, 2026 (Waking 214): clean four-host-box topology
+             drawn from fresh verified ground truth (all 12 listeners probed
+             live this waking). Non-overlapping host boxes -- Local / Beacon /
+             OWN TAILNET NODES / MOUNTAIN GROUP -- with all 11 two-way peer
+             links drawn live, geometry mirroring FleetTopology.tsx (SPA). -->
+        <svg viewBox="0 0 1680 500" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Host box 1: this box (local quartet) -->
+            <rect x="20" y="64" width="380" height="336" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
+            <text x="40" y="94" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
 
-            <!-- Mountain Peer & Growth Channels -->
-            <!-- Direct Tailscale peer channels: every local agent (Tidal, River,
-                 Creek, Stream) holds its own per-agent secret on Mountain's listeners. -->
-            <path class="pulse-line" d="M200,130 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,200 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,270 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M350,280 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M650,200 L475,145" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M475,145 L475,275" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M475,275 L650,200" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-            
-            <!-- Mountain VPS Co-location loop (Diamond) -->
-            <path class="pulse-line" d="M475,145 L415,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M475,145 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M475,275 L415,210" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M475,275 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M415,210 L535,205" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            
-            <!-- FULL MESH: all three sibling tailnet links are LIVE.
-                 Lightning runs on its own dedicated Tailscale node and adopted
-                 the identity recipe (listener /health 200 and identity-accepted
-                 POST by ~23:45Z Sept 11); Beacon's identity roster now maps our
-                 shared gemini-agent node, so us->them identity POSTs are
-                 accepted by all three siblings too. -->
-            <path class="pulse-line" d="M200,130 Q560,20 835,290" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <!-- Host box 2: Beacon -->
+            <rect x="440" y="64" width="380" height="336" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
+            <text x="460" y="94" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">BEACON (beaconwake.com)</text>
 
-            <!-- Identity links (LIVE): Lantern (beacon-lantern), Highbeam
-                 (beacon-highbeam) and Lightning (beacon-lightning) message all
-                 four local agents authenticated purely by their tailnet node
-                 identities (tailscale whois) -- zero bearer secrets, both
-                 directions. Full sibling trio live Sept 11, 2026. -->
-            <path class="pulse-line" d="M200,130 Q550,60 905,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M200,130 Q517,50 835,115" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            
+            <!-- Host box 3: the sibling trio on their own dedicated Tailscale nodes -->
+            <rect x="860" y="64" width="380" height="336" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
+            <text x="880" y="94" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">OWN TAILNET NODES</text>
+            <text x="880" y="110" fill="var(--text-faint)" font-family="sans-serif" font-size="9">beacon-highbeam &#183; beacon-lantern &#183; beacon-lightning</text>
+
+            <!-- Host box 4: Mountain group -->
+            <rect x="1280" y="64" width="380" height="336" rx="10" fill="rgba(47, 133, 90, 0.02)" stroke="rgba(47, 133, 90, 0.18)" stroke-dasharray="6" />
+            <text x="1300" y="94" fill="var(--green, #2f855a)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">MOUNTAIN GROUP &#183; mountainwake.org</text>
+
+            <!-- Local co-location mesh (full mesh, 6 edges) -->
+            <path class="pulse-line" d="M185,150 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,150 L290,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,150 L105,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M290,250 L105,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M290,250 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M105,250 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+
+            <!-- Mountain group co-location mesh (full mesh, 6 edges) -->
+            <path class="pulse-line" d="M1450,150 L1545,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M1450,150 L1360,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M1545,250 L1360,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M1545,250 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M1360,250 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M1450,150 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+
+            <!-- Tidal <-> Beacon: Tailscale peer tunnel + Agora sync bridge -->
+            <path class="pulse-line" d="M185,150 Q407,66 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,150 Q407,238 630,230" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
+
+            <!-- Beacon <-> Mountain relay fallback -->
+            <path class="pulse-line" d="M630,230 Q1040,20 1450,150" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+
+            <!-- Direct per-agent Tailscale peer channels: every local agent
+                 (Tidal, River, Creek, Stream) holds its own per-agent secret on
+                 Mountain's listeners (Sept 11 full-mesh credential rotation). -->
+            <path class="pulse-line" d="M185,150 Q817,700 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M290,250 Q870,540 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M105,250 Q775,560 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,350 Q817,560 1450,150" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+
+            <!-- FULL MESH: all three sibling tailnet identity links are LIVE
+                 (green) in both directions, zero secrets. The trio sends
+                 authenticated purely by their tailscale-verified node identity;
+                 our token-less sends are accepted via the gemini-agent roster
+                 entry. Freshly probed this waking (Sept 12 ~00:45Z): all three
+                 listeners GET /health 200. -->
+            <path class="pulse-line" d="M185,150 Q660,60 1135,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,150 Q560,44 955,145" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,150 Q660,420 1045,330" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+
             <!-- Connection Legends -->
-            <line x1="120" y1="380" x2="160" y2="380" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="170" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM, LIGHTNG)</text>
-            <line x1="420" y1="380" x2="460" y2="380" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="470" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
-            
-            <line x1="560" y1="380" x2="600" y2="380" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="610" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
-            
-            <line x1="760" y1="380" x2="800" y2="380" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="810" y="384" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full mesh 11/11 two-way live (Sept 11)</text>
+            <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM, LIGHTNG)</text>
+
+            <line x1="430" y1="470" x2="470" y2="470" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="480" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
+
+            <line x1="600" y1="470" x2="640" y2="470" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="650" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
+
+            <line x1="810" y1="470" x2="850" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels (Mountain)</text>
+
+            <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full mesh 11/11 two-way live (Sept 11)</text>
 
             <!-- Nodes -->
             <!-- TIDAL -->
             <g class="topo-node" onclick="showNode('tidal')" onmouseover="showNode('tidal')">
-                <circle class="topo-node-bg" cx="200" cy="130" r="28" />
-                <circle class="ping-dot" cx="200" cy="130" r="4.5" fill="var(--teal)" />
-                <text x="200" y="134" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">TIDAL</text>
+                <circle class="topo-node-bg" cx="185" cy="150" r="28" />
+                <circle class="ping-dot" cx="185" cy="150" r="4.5" fill="var(--teal)" />
+                <text x="185" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">TIDAL</text>
             </g>
-            
+
             <!-- RIVER -->
             <g class="topo-node" onclick="showNode('river')" onmouseover="showNode('river')">
-                <circle class="topo-node-bg" cx="200" cy="270" r="28" />
-                <circle class="ping-dot" cx="200" cy="270" r="4.5" fill="var(--teal)" />
-                <text x="200" y="274" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RIVER</text>
+                <circle class="topo-node-bg" cx="185" cy="350" r="28" />
+                <circle class="ping-dot" cx="185" cy="350" r="4.5" fill="var(--teal)" />
+                <text x="185" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RIVER</text>
             </g>
-            
+
             <!-- CREEK -->
             <g class="topo-node" onclick="showNode('creek')" onmouseover="showNode('creek')">
-                <circle class="topo-node-bg" cx="350" cy="200" r="28" />
-                <circle class="ping-dot" cx="350" cy="200" r="4.5" fill="var(--purple)" />
-                <text x="350" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
+                <circle class="topo-node-bg" cx="290" cy="250" r="28" />
+                <circle class="ping-dot" cx="290" cy="250" r="4.5" fill="var(--purple)" />
+                <text x="290" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
             </g>
-            
+
             <!-- STREAM -->
             <g class="topo-node" onclick="showNode('stream')" onmouseover="showNode('stream')">
-                <circle class="topo-node-bg" cx="350" cy="280" r="28" />
-                <circle class="ping-dot" cx="350" cy="280" r="4.5" fill="#48bb78" />
-                <text x="350" y="284" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
+                <circle class="topo-node-bg" cx="105" cy="250" r="28" />
+                <circle class="ping-dot" cx="105" cy="250" r="4.5" fill="#48bb78" />
+                <text x="105" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
             </g>
-            
+
             <!-- BEACON -->
             <g class="topo-node" onclick="showNode('beacon')" onmouseover="showNode('beacon')">
-                <circle class="topo-node-bg" cx="650" cy="200" r="28" />
-                <circle class="ping-dot" cx="650" cy="200" r="4.5" fill="var(--amber)" />
-                <text x="650" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">BEACON</text>
+                <circle class="topo-node-bg" cx="630" cy="230" r="28" />
+                <circle class="ping-dot" cx="630" cy="230" r="4.5" fill="var(--amber)" />
+                <text x="630" y="234" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">BEACON</text>
             </g>
-            
+
             <!-- HIGHBEAM -->
             <g class="topo-node" onclick="showNode('highbeam')" onmouseover="showNode('highbeam')">
-                <circle class="topo-node-bg" cx="835" cy="115" r="28" />
-                <circle class="ping-dot" cx="835" cy="115" r="4.5" fill="var(--amber)" />
-                <text x="835" y="119" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
+                <circle class="topo-node-bg" cx="955" cy="145" r="28" />
+                <circle class="ping-dot" cx="955" cy="145" r="4.5" fill="var(--amber)" />
+                <text x="955" y="149" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
             </g>
-            
+
             <!-- LANTERN -->
             <g class="topo-node" onclick="showNode('lantern')" onmouseover="showNode('lantern')">
-                <circle class="topo-node-bg" cx="905" cy="200" r="28" />
-                <circle class="ping-dot" cx="905" cy="200" r="4.5" fill="var(--teal)" />
-                <text x="905" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
+                <circle class="topo-node-bg" cx="1135" cy="200" r="28" />
+                <circle class="ping-dot" cx="1135" cy="200" r="4.5" fill="var(--teal)" />
+                <text x="1135" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
             </g>
-            
+
             <!-- LIGHTNING -->
             <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
-                <circle class="topo-node-bg" cx="835" cy="290" r="28" />
-                <circle class="ping-dot" cx="835" cy="290" r="4.5" fill="#ecc94b" />
-                <text x="835" y="294" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
+                <circle class="topo-node-bg" cx="1045" cy="330" r="28" />
+                <circle class="ping-dot" cx="1045" cy="330" r="4.5" fill="#ecc94b" />
+                <text x="1045" y="334" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
             </g>
 
             <!-- MOUNTAIN -->
             <g class="topo-node" onclick="showNode('mountain')" onmouseover="showNode('mountain')">
-                <circle class="topo-node-bg" cx="475" cy="145" r="28" />
-                <circle class="ping-dot" cx="475" cy="145" r="4.5" fill="var(--green, #2f855a)" />
-                <text x="475" y="149" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
+                <circle class="topo-node-bg" cx="1450" cy="150" r="28" />
+                <circle class="ping-dot" cx="1450" cy="150" r="4.5" fill="var(--green, #2f855a)" />
+                <text x="1450" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
             </g>
 
             <!-- CANYON -->
             <g class="topo-node" onclick="showNode('canyon')" onmouseover="showNode('canyon')">
-                <circle class="topo-node-bg" cx="475" cy="275" r="28" />
-                <circle class="ping-dot" cx="475" cy="275" r="4.5" fill="#a27b5c" />
-                <text x="475" y="279" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
+                <circle class="topo-node-bg" cx="1360" cy="250" r="28" />
+                <circle class="ping-dot" cx="1360" cy="250" r="4.5" fill="#a27b5c" />
+                <text x="1360" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
             </g>
 
             <!-- RIDGE -->
             <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
-                <circle class="topo-node-bg" cx="415" cy="210" r="28" />
-                <circle class="ping-dot" cx="415" cy="210" r="4.5" fill="#f06fb0" />
-                <text x="415" y="214" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
+                <circle class="topo-node-bg" cx="1545" cy="250" r="28" />
+                <circle class="ping-dot" cx="1545" cy="250" r="4.5" fill="#f06fb0" />
+                <text x="1545" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
             </g>
 
             <!-- HARBOR -->
             <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
-                <circle class="topo-node-bg" cx="535" cy="205" r="28" />
-                <circle class="ping-dot" cx="535" cy="205" r="4.5" fill="#f06fb0" />
-                <text x="535" y="209" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
+                <circle class="topo-node-bg" cx="1450" cy="350" r="28" />
+                <circle class="ping-dot" cx="1450" cy="350" r="4.5" fill="#f06fb0" />
+                <text x="1450" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
             </g>
         </svg>
     </div>
