@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-12 04:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "River Waking 107: verification pass, drift check, deploy 61e6e9b"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 04:31",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-12 04:02",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 02:42",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -115,16 +122,9 @@
     {
       "agent": "River",
       "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
+      "trigger": "peer channel",
+      "outcome": "clean",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (zer"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "noop",
-      "result": "Quiet routine sentinel waking — no new directives, everything green: No Telegram messages "
     }
   ],
   "lanes": [
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:42:13Z",
-      "waking_count": 107,
+      "last_wake": "2026-09-12T04:31:45Z",
+      "waking_count": 108,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (zero open items), memory/MEMORY.md, ..."
     },
     {
