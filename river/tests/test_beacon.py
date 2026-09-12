@@ -2090,5 +2090,106 @@ class TestPeerServer(unittest.TestCase):
         self.assertTrue(handler.close_connection)
 
 
+    def _post(self, payload_obj, with_token=True):
+        import urllib.request
+        url = f"http://127.0.0.1:{self.test_port}/inbox"
+        headers = {"Content-Type": "application/json"}
+        if with_token:
+            headers["Authorization"] = "Bearer mock-river-token"
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload_obj).encode("utf-8"),
+            headers=headers,
+        )
+        return urllib.request.urlopen(req)
+
+    def _read_inbox_records(self):
+        records = {}
+        for fname in os.listdir(self.inbox_dir):
+            with open(os.path.join(self.inbox_dir, fname)) as f:
+                records[fname] = json.load(f)
+        return records
+
+    def setUp_peer_intro(self):
+        self.stage_dir = os.path.join(self.temp_dir.name, "keys", "inbox-intros")
+        self.peer_server.INTRO_STAGE_DIR = self.stage_dir
+
+    def test_peer_intro_staged_gitignored_and_redacted_in_inbox(self):
+        """A peer_intro rotation carries a fresh credential in the payload.
+        The tracked inbox tree is auto-committed to a PUBLIC repo, so the
+        archived copy must be redacted while the full original is staged
+        gitignored under keys/inbox-intros/ for the waking agent."""
+        self.setUp_peer_intro()
+        secret = "b1946ac92492d2347c6235b4d2611184e5a3b1d2c4f8a9e0d7b6c5a4938271f2"
+        payload = {
+            "type": "peer_intro",
+            "agent": "river",
+            "addr": "100.91.42.51:8787",
+            "token": secret,
+            "subject": "rotating the shared secret",
+            "body": f"Adopt {secret} as the TIDAL block token, then retire this one: {secret}",
+        }
+        response = self._post(payload)
+        self.assertEqual(response.status, 200)
+
+        # Archived copy: redacted everywhere, structure preserved
+        records = self._read_inbox_records()
+        self.assertEqual(len(records), 1)
+        record = list(records.values())[0]
+        self.assertEqual(record["from"], "RIVER")
+        self.assertEqual(record["subject"], "rotating the shared secret")
+        self.assertNotIn(secret, json.dumps(record))
+        self.assertIn("REDACTED peer_intro credential", record["body"])
+
+        # Staged original: full payload, 0600, gitignored path
+        staged = os.listdir(self.stage_dir)
+        self.assertEqual(len(staged), 1)
+        self.assertEqual(staged[0], list(records.keys())[0])  # same fname correlation
+        staged_path = os.path.join(self.stage_dir, staged[0])
+        self.assertEqual(oct(os.stat(staged_path).st_mode & 0o777), "0o600")
+        with open(staged_path) as f:
+            original = json.load(f)
+        self.assertEqual(original["token"], secret)
+        self.assertIn(secret, original["body"])
+
+    def test_peer_intro_redacted_even_if_staging_fails(self):
+        """Redaction is fail-closed: if staging fails (disk error, bad dir),
+        the archived copy must still never contain the secret."""
+        self.setUp_peer_intro()
+        self.peer_server.INTRO_STAGE_DIR = "/proc/nonexistent-definitely-fails"
+        secret = "f" * 48
+        payload = {"type": "peer_intro", "token": secret, "body": f"secret {secret}"}
+        response = self._post(payload)
+        self.assertEqual(response.status, 200)
+        record = list(self._read_inbox_records().values())[0]
+        self.assertNotIn(secret, json.dumps(record))
+
+    def test_normal_message_with_long_hex_not_touched(self):
+        """Only peer_intro payloads are redacted/staged -- a normal message
+        body with a long hex string must pass through untouched."""
+        self.setUp_peer_intro()
+        hexish = "deadbeef" * 8  # 64 hex chars, ordinary message content
+        payload = {"subject": "checksum note", "body": f"sha {hexish} ok"}
+        response = self._post(payload)
+        self.assertEqual(response.status, 200)
+        record = list(self._read_inbox_records().values())[0]
+        self.assertIn(hexish, record["body"])
+        self.assertFalse(os.path.isdir(self.stage_dir) and os.listdir(self.stage_dir))
+
+    def test_peer_intro_requires_authentication(self):
+        """peer_intro is not a new auth path: an unauthenticated POST of type
+        peer_intro is rejected exactly like any other message."""
+        import urllib.error
+        self.setUp_peer_intro()
+        payload = {"type": "peer_intro", "token": "a" * 48, "body": "nope"}
+        with self.assertRaises(urllib.error.HTTPError) as ctx:
+            self._post(payload, with_token=False)
+        self.assertEqual(ctx.exception.code, 401)
+        self.assertFalse(os.path.isdir(self.inbox_dir) and os.listdir(self.inbox_dir))
+        self.assertFalse(os.path.exists(self.stage_dir))
+
+
+
+
 if __name__ == "__main__":
     unittest.main()
