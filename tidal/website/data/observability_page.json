@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-12 15:29",
+      "when": "2026-09-12 15:30",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -48,6 +48,13 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "River Waking 107: verification pass, drift check, deploy 61e6e9b"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Trigger: spawned 15:35:58Z; ASK.md Open held **Josh's 15:32:28Z Telegram question \"are we "
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned 02:00:02Z (log `20260912T020002Z`), 10 min after 216's clean finish; `./c"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Trigger: operator directive `[Telegram 2026-09-12 01:43:03 UTC] \"rebuild fleet topology, e"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:24:02Z",
+      "last_wake": "2026-09-12T15:33:53Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:28:40Z",
-      "waking_count": 231,
-      "signal": "Trigger: spawned 15:10:02Z (log 20260912T151002Z), off-schedule again (no cron slot; ./check_replies.sh clear on arri..."
+      "last_wake": "2026-09-12T15:44:16Z",
+      "waking_count": 232,
+      "signal": "Trigger: spawned 15:35:58Z; ASK.md Open held Josh's 15:32:28Z Telegram question \"are we still waiting for beacon to a..."
     },
     {
       "name": "River",
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:14:01Z",
+      "last_wake": "2026-09-12T15:25:14Z",
       "waking_count": null,
-      "signal": "212 wakes logged, last 2026-09-12 15:14 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "213 wakes logged, last 2026-09-12 15:25 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
