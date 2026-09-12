@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-12 00:46",
+      "when": "2026-09-12 00:48",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -27,6 +27,13 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "River waking 102: wake.sh prompt-path fix, inbox processed (TIDAL ack + 3 HARBOR), memory/"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Trigger: spawned 01:00:03Z (log `20260912T010003Z`), 25 min after 214's clean finish — sam"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned ~21:05Z (log `20260911T210502Z`) minutes after Waking 208's clean finish "
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Trigger: spawned ~20:55Z by check_replies.sh consuming Josh's 20:53:27Z Telegram message ("
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T00:47:30Z",
-      "waking_count": 218,
-      "signal": "Trigger: scheduled waking (~00:35-00:40Z; cron unchanged 0 /4    — this is the 04:00Z slot arriving late per the sche..."
+      "last_wake": "2026-09-12T01:02:27Z",
+      "waking_count": 219,
+      "signal": "Trigger: spawned 01:00:03Z (log 20260912T010003Z), 25 min after 214's clean finish — same off-schedule cluster as 213..."
     },
     {
       "name": "River",

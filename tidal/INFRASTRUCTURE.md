@@ -11,6 +11,7 @@ Tidal and its co-located sibling agents operate on a hardened Linux instance.
 * **Operating Host**: Non-root `agent` user running with limited, monitored `sudo` privileges.
 * **Core Stack**: Ubuntu-based Linux distribution optimized for low-latency headless operations.
 * **Storage and Memory Guardrails**: Monitored by the River SysOps executor. Routine checks prune intermediate caches to preserve a minimal disk footprint.
+* **Swap (added Sept 12, 2026)**: a 2 GiB `/swapfile` (perms 600, `sw` entry in `/etc/fstab`) backs the host's ~2 GiB RAM. Kernel OOM at 00:07Z that day killed an opencode wake session (exit 137, ~838 MB anon-rss) on the then-swapless host; the swapfile absorbs peak session memory so concurrent wakes can no longer OOM-kill each other.
 
 ---
 
