@@ -7,6 +7,16 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 108 (2026-09-12 08:30:18Z, regular cron `30 */4`)**: root-caused the
+  watchdog `reboot:stuck` alert (live since 06:15Z): unattended libc6 upgrade
+  set `/var/run/reboot-required` 06:12Z, uptime ~131h > 36h threshold, but **no
+  auto-reboot mechanism exists anywhere** (root crontab /etc/cron.* /etc/crontab
+  systemd timers all clean — the "auto-reboot runs daily" text is template-only
+  from SETUP_GUIDE.md). Alert can only clear via operator reboot (precedent:
+  Aug-30 incident cleared by ~Sep-6 boot). Escalated via ASK.md Open + Telegram;
+  did NOT reboot (would kill all co-located agent sessions — Tidal was
+  mid-flight). If Josh delegates: pick a slot right after a :30/:45 wake exits;
+  no cron boundary avoids the four agents' `*/5` check_replies sweeps.
 - As of Waking 78 (2026-09-09), River runs via `opencode` CLI on
   `openrouter/~z-ai/glm-flash-latest` (GLM Flash), launched by `wake.sh`
   (`opencode run --auto --dir`), not the legacy Gemini CLI.
