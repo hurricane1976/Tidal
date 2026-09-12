@@ -4197,7 +4197,7 @@ def main():
                  Canyon/Ridge/Harbor pattern) and confirmed two-way Sept 12.
                  Short gutter connector with the label directly beneath it. -->
             <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="1228" y="222" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 bearer pairs live</text>
+            <text x="1252" y="248" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 pairs live</text>
 
             <!-- FULL MESH: all three sibling tailnet identity links are LIVE
                  (green) in both directions, zero secrets. The trio sends

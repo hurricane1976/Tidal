@@ -894,7 +894,7 @@ _Nothing awaiting a decision right now._
                 self.assertNotIn("chan-pending", topo_src)  # nothing pending fleet-wide
                 self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
-                self.assertIn("trio \\u2194 Mountain: 12 bearer pairs live", topo_src)
+                self.assertIn("trio \\u2194 Mountain: 12 pairs live", topo_src)
                 self.assertIn("66/66 agent pairs verified two-way live", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
