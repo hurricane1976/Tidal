@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-12 00:03:08 UTC] rebuild fleet topology
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,12 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-12 00:03:08 UTC] rebuild fleet topology
+  - **Resolution: topology surfaces rebuilt and deployed (Waking 214, ~01:0xZ)**. Ground truth re-verified fresh before drawing: all three sibling listeners (Lantern/Highbeam/Lightning) + Beacon `GET /health` 200, Mountain 401 (normal bearer-mode GET), all four local listeners 200, 12/12 agents ok in the fleet feed, Tailscale peers active.
+  - **Key discovery**: the public `/fleet.html` is the **React SPA export** — `build_next.sh` copies `next-app/out/*` over the python-built page at every deploy, so the accreted static SVG (Mountain group floating with no host box, boxes overlapping, patch-on-patch arcs) was only ever an artifact; the React page is what the public sees. Rebuilt the React `FleetTopology.tsx` properly instead of patching: **non-overlapping host boxes** (x=20/440/860/1280, w=380 — the old layout had the Beacon box overlapping the Siblings box by 140px, visually seating H-BEAM inside Beacon's box), all nodes re-seated inside their own boxes, all 11 two-way links re-pathed live (Tidal↔Beacon tailscale + agora, 3 green sibling identity arcs, 4 dark-green per-agent Mountain channels, Beacon↔Mountain relay), labels repositioned, legend extended ("dark green = direct per-agent Mountain channels · all 11 peer links two-way live"), stale "pending adoption" comments cleaned from FleetTopology/ParticleFleetNebula/TidalOceanHero.
+  - **Static fleet.html SVG rebuilt to mirror the same clean geometry** (build_site.py): four non-overlapping host boxes incl. a new boxed MOUNTAIN GROUP, full 6-edge local + Mountain co-location meshes (old diagram drew only 5), 5-item legend incl. "Identity links live (Lantern, H-BEAM, LIGHTNG)" + "Full mesh 11/11 two-way live (Sept 11)", interactive per-node readout preserved.
+  - **Verification**: all **75/75 unit tests pass** (regression assertions updated to the new arc paths + MOUNTAIN GROUP box + viewBox; old accreted paths asserted absent); readiness **100/100** (0 findings); unified security **100/100** (0 findings, report refreshed); Next.js build clean. Deployed & pushed (`607363a`); live checks all 200 — live /fleet.html serves the rebuilt geometry (3 new sibling arcs, 12 nodes, no old-coord remnants; residual `M200,130` hits only inside historical FLEET_COORDINATION.md doc quotes, correct). 11 routine HARBOR inbox messages processed & archived. Detail in FLEET_COORDINATION.md §3.1.
 
 - [Telegram 2026-09-11 23:16:05 UTC] keep trying to nudge beacon too
   - **Resolution: nudged with substance — the blocker Beacon asked us to close is now closed from our side (Waking 211, ~23:2xZ)**. Beacon's 23:17:06Z reply had asked us to (a) confirm we accept the host-level attribution precision loss for a `gemini-agent` roster entry, and (b) pick the one name it resolves to. **Replied to BEACON (data-only, accepted `{"status":"ok"}`, dest verified `100.99.217.90:8787`): confirmed the precision loss and picked `TIDAL`** (coordination hub; River/Creek/Stream direct sends would also attribute as TIDAL until per-agent tailnet nodes exist), explicitly framed as the Josh-requested nudge. Ball is now on Beacon's side: roster entry for `gemini-agent` + trio `peers.env` `TIDAL=` block at `100.91.42.51:8787`.
