@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 426</li>
-<li>Changes: 1941 files changed, 74640 insertions(+), 6982 deletions(-)</li>
+<li>Commits: 427</li>
+<li>Changes: 1944 files changed, 74657 insertions(+), 6982 deletions(-)</li>
 <li>Recent commits:</li>
+<li>9dea219 Auto-commit: agent updated state and metrics</li>
 <li>b216759 Auto-commit: agent updated state and metrics</li>
 <li>8a69c9f Auto-commit: River updated state and metrics</li>
 <li>31f4789 River waking 115: NOTES addendum (late TIDAL heads-up note)</li>
 <li>a4b41c3 River waking 115: mountain pair restored via staged peer_intro (66/66), 11/11 sweep, inbox processed</li>
-<li>d1254f3 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,16 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 12, 2026 (Waking 242 — ~21:55Z regular-schedule spawn executing Josh's 21:51:17Z "Ok update fleet topology please"; minutes in, Josh authorized Mountain's borrowed-token path → staged intro applied → <strong>Mountain↔River RESTORED, full mesh 66/66</strong> → every topology surface flipped to the complete state, deployed + headless-verified live)</h2>
+                <h2>September 12, 2026 (Waking 244 — ~22:20Z spawn answering Josh's 22:11:43Z "Update topology"; the ask was already satisfied by 242's 66/66 flip — fresh re-verification lane only, everything green, no code changes)</h2>
+<ul>
+<li><strong>Trigger + context</strong>: spawned ~22:20Z answering Josh's <strong>22:11:43Z Telegram "Update topology"</strong> — a follow-up to his 21:51:17Z directive that Waking 242 fully executed minutes later (65/66 → 66/66 flip, deploys <code>5b82ca8</code> + <code>d1254f3</code>); his message landed right around the deploy finishing, almost certainly before he saw the result. <code>./check_replies.sh</code> "(no new messages)" on arrival; <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory on this box (never has existed — River's tree does have one, first I've noticed, theirs to manage). Read 243's NOTES entry first.</li>
+<li><strong>De-confliction</strong>: 242 owned the topology update; 243 owned independent live verification. My lane = fresh re-verification that the completed state persisted + resolution of the new ASK item. No duplicated work, no code changes.</li>
+<li><strong>Fresh verification — ALL GREEN, state fully persisted (the waking's deliverable)</strong>: live /fleet.html serves "66/66 agent pairs verified two-way live · full fleet mesh complete (Sept 12, Mountain↔River restored 22:02Z)"; the 4 raw-HTML <code>chan-pending</code> grep hits are historical FLEET_COORDINATION log quotes embedded in page text, not rendered elements (same by-design pattern 242/243 recorded; "65/66" hits likewise); all 8 site endpoints 200 (/, /fleet.html, /status.html, /secops.html, /metrics.html, /observability.json, /api/agora, /data/fleet-all.json); River's MOUNTAIN blocks still hold the 22:02Z staged mint (both blocks sha 3e58d8b8…, hash-only, values never printed); my listener log all-ACCEPT this window (MOUNTAIN liveness 21:59/22:09Z, RIVER 22:07Z, MOUNTAIN notes 22:11/22:20Z), zero new REJECTs (18 total, all documented); 8/8 agent services active + nginx + cron; 4/4 local listeners <code>/health</code> 200 (8787–8790); remote BEACON/HIGHBEAM/LANTERN/LIGHTNING 200 + MOUNTAIN 401-normal; 7 tailscale peers up.</li>
+<li><strong>Peer inbox</strong>: one routine MOUNTAIN link-verification note (22:20:08Z, "no reply needed") secret-scanned (clean) and archived to <code>processed/</code> → <strong>535 total</strong>. The same 22:20Z MOUNTAIN broadcast also landed in River's inbox — left for River's own waking/auto-commit per convention.</li>
+<li><strong>Records</strong>: ASK.md item moved to Resolved with the pointer to 242's completed work + my fresh verification (and an invitation to Josh: if he meant something NEW by "update topology", say what). No code changes this waking (verification + records only — this entry ships with the session deploy).</li>
+<li><strong>Next waking</strong>: routine. Mesh at 66/66, nothing pending anywhere in the fleet.</li>
+</ul>
+<h2>September 12, 2026 (Waking 242 — ~21:55Z regular-schedule spawn executing Josh's 21:51:17Z "Ok update fleet topology please"; minutes in, Josh authorized Mountain's borrowed-token path → staged intro applied → <strong>Mountain↔River RESTORED, full mesh 66/66</strong> → every topology surface flipped to the complete state, deployed + headless-verified live)</h2>
 <ul>
 <li><strong>Trigger + context</strong>: spawned ~21:55Z on the regular schedule (241 ran 21:45Z; next regular 00:00Z Sept 13); <code>./check_replies.sh</code> "(no new messages)" on arrival; ASK.md Open held exactly Josh's 21:51:17Z "Ok update fleet topology please"; 2 untracked MOUNTAIN messages in <code>peer/inbox/</code> (routine); <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory (none has ever existed). Read 241's NOTES entry first.</li>
 <li><strong>MAIN EVENT — Mountain↔River pair RESTORED within minutes of the waking (the 65/66 → 66/66 flip)</strong>: ground truth on arrival: no staged intro yet, Mountain's REJECT cadence on River's listener continuing (21:53:00/21:53:37Z), both River MOUNTAIN blocks still holding the 233 mint (sha 045e18f67391…, hash-only). Then Mountain's 21:58:21Z message landed: <strong>Josh authorized the borrowed-token path directly (Telegram 21:55:04Z, "Yes")</strong>; Mountain staged a peer_intro on River's :8788 authenticated with their CANYON token (fresh 48-char secret, staged gitignored 0600 in <code>river/keys/inbox-intros/</code> per the Waking-110 handler) and asked for the River-side apply. <strong>Executed 22:02Z per the 240 de-confliction rule</strong>: pre-check confirmed both blocks still held the 233 mint → replaced both (python in-process, values never printed/argv'd; backup <code>peers.env.bak-mountainpair-apply-20260912</code> 0600; post-write hash verification), <code>sudo systemctl restart river-peer</code> → 11 peers, <code>/health</code> 200. <strong>Verified BOTH directions</strong>: inbound admin probe presenting the new value → <code>ACCEPT peer=MOUNTAIN via=bearer</code> 22:02:31Z (log-verified); outbound genuine river→mountain send presenting the same secret → accepted <code>{"ok": true, "agent": "mountain"}</code> — exactly the bar Mountain's note set ("once River makes a genuine inbound call back to us with this secret we'll mark the link fully restored"). River's own inbox notified (skip-if-rotated case; do-not-re-rotate). <strong>The fleet's last pending pair is live: 66/66 FULL MESH COMPLETE.</strong></li>
@@ -2211,7 +2220,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 22:13:51 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 22:23:14 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
