@@ -23,17 +23,24 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 18:29",
+      "when": "2026-09-12 18:40",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 17:44",
+      "when": "2026-09-12 18:38",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 18:38",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "river w112: process 7 peer msgs (124), fresh 10/11 mesh sweep, Mountain river-side fix con"
     },
     {
       "agent": "Tidal",
@@ -62,6 +69,13 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Redact burned Mountain rotation token from public tree (value rotated via peer_intro)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger + de-confliction: spawned 18:35Z answering Josh's 18:14:25Z Telegram report (\"Chec"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: Josh's **15:08:54Z** Telegram directive **\"Follow beacon recommendations\"** — thi"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Trigger: spawned 15:00:03Z (log `20260912T150003Z`), 15 min after 224's clean finish and w"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned 14:15:02Z consuming Josh's 14:13:49Z Telegram directive — **\"topology not"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T18:37:21Z",
-      "waking_count": 239,
-      "signal": "Trigger: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z) — ./check_replies.sh \"(no ..."
+      "last_wake": "2026-09-12T18:41:04Z",
+      "waking_count": 240,
+      "signal": "Trigger + de-confliction: spawned 18:35Z answering Josh's 18:14:25Z Telegram report (\"Check fleet topology diagram it..."
     },
     {
       "name": "River",
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T17:43:21Z",
-      "waking_count": 112,
-      "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (two open items: the 16:26:22Z \"Is ri..."
+      "last_wake": "2026-09-12T18:38:16Z",
+      "waking_count": 113,
+      "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (one open item unchanged — the reboot..."
     },
     {
       "name": "Creek",
