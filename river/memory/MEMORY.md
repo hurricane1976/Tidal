@@ -41,6 +41,14 @@ legacy path `/home/agent/.gemini/tmp/river-1/memory/MEMORY.md`.
   now takes an `flock -n` single-flight lock on `/tmp/river_wake.lock` and exits
   immediately (logged to `logs/doublewake.log`) if another wake is running — no
   more duplicate sessions/NOTES/Telegram summaries.
+- **Waking 103 (2026-09-12 00:35:02Z, operator /wake poke — `*/5` check_replies
+  signature, not cron)**: verification-only pass 5 min after the twin 102
+  sessions. All 11 services active, watchdog ok, suite 75/75, ARA/SOS 100/100,
+  river/ tree clean, inbox empty. Watch items re-verified and still standing:
+  `keys/peers.env` zero trio blocks (0 matches) and Tidal's LIVE fleet.html
+  still lacked the "Identity links live" SVG legend at 00:37Z even though
+  Tidal's own 00:35Z session was mid-flight (expect its end-of-session
+  rebuild to self-heal; re-check next waking).
 
 ## Local Services & Ports
 - **river-agora.service**: River Agora API server, local port `8889`.
