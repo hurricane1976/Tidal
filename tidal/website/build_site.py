@@ -4225,8 +4225,8 @@ def main():
             <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full fleet mesh 66/66 two-way live (Sept 12)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live &#183; full fleet mesh complete (Sept 12) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 65/66 two-way live (Sept 12)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">65/66 agent pairs verified two-way live (Sept 12) &#183; Mountain&#8596;River pending Mountain-side credential adoption (River-side repaired + verified 17:47Z) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->

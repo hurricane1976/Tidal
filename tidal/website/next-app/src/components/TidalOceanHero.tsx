@@ -46,8 +46,10 @@ const CHANNELS: [number, number][] = [
   [0, 7], // Tidal <-> Lightning (identity link, live)
 ];
 
-// The rest of the verified two-way mesh (Sept 12: FULL FLEET MESH COMPLETE,
-// 66/66 agent pairs live; mirrors FLEET_COORDINATION.md §3.1): the local
+// The rest of the mesh (Sept 12: 65/66 agent pairs verified two-way live --
+// full mesh minus the Mountain<->River pair, pending the Mountain side's
+// credential adoption with the River side repaired and verified 17:47Z;
+// mirrors FLEET_COORDINATION.md §3.1): the local
 // co-location mesh, the remaining 12 local <-> Mountain-group per-agent
 // channels (every local agent x every Mountain-group listener), the
 // remaining 9 local <-> sibling identity pairs, the 12 trio <-> Mountain
@@ -658,7 +660,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing every verified two-way peer link in the mesh (66 of 66 agent pairs live -- full fleet mesh complete), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (65 of 66 agent pairs verified two-way live -- the Mountain-River pair is pending the Mountain side's credential adoption, River side repaired Sept 12), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }
