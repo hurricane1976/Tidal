@@ -95,7 +95,9 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // Sept 12 as well -- Beacon bootstrapped them with per-agent bearer tokens
 // (mirroring the Canyon/Ridge/Harbor pattern) and confirmed two-way
 // (FLEET_COORDINATION.md section 3.1), drawn as the short gutter connector.
-// Live pairs fleet-wide: 66/66 -- full mesh complete.
+// Live pairs fleet-wide: 65/66 -- full mesh minus the Mountain<->River
+// pair, pending the Mountain side's credential adoption (River side
+// repaired and verified Sept 12 17:47Z; see FLEET_COORDINATION.md 3.1).
 // See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
@@ -151,7 +153,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (round-trip confirmed Sept 12), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live -- full fleet mesh complete."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (round-trip confirmed Sept 12), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. 65 of 66 agent pairs are verified two-way live -- the Mountain-River pair is pending the Mountain side's credential adoption (River side repaired and verified Sept 12), every other pair full mesh."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
@@ -214,7 +216,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12)</text>
+          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 65/66 agent pairs verified two-way live &middot; Mountain &harr; River pending Mountain-side credential adoption (Sept 12)</text>
           <text x={60} y={508} fill="var(--text-faint)">teal = bearer Tailscale channels (sibling &harr; Beacon round-trip confirmed; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>

@@ -845,7 +845,7 @@ _Nothing awaiting a decision right now._
             # (token-less POSTs accepted 200 by Lantern/Highbeam/Lightning;
             # Lightning /health 200 after adopting the recipe); 11/11 two-way.
             self.assertIn("Identity links live (Lantern, H-BEAM, LIGHTNG)", content)
-            self.assertIn("Full fleet mesh 66/66 two-way live (Sept 12)", content)
+            self.assertIn("Fleet mesh 65/66 two-way live (Sept 12)", content)
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -868,9 +868,9 @@ _Nothing awaiting a decision right now._
             # edge-to-edge trunk read as "not connected to Mountain"), 3 LIVE
             # sibling<->Beacon bearer channels (round-trip confirmed Sept 12),
             # the LIVE trio<->Mountain connector with its label directly
-            # beside it, and the 66/66 fleet-wide pair count in the legend.
+            # beside it, and the 65/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
-            self.assertIn("66/66 agent pairs verified two-way live", content)
+            self.assertIn("65/66 agent pairs verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
             self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", content)
             self.assertIn("12 pairs live", content)
@@ -896,7 +896,7 @@ _Nothing awaiting a decision right now._
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
                 self.assertIn("trio \\u2194 Mountain", topo_src)
                 self.assertIn("12 pairs live", topo_src)
-                self.assertIn("66/66 agent pairs verified two-way live", topo_src)
+                self.assertIn("65/66 agent pairs verified two-way live", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
                 self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc
