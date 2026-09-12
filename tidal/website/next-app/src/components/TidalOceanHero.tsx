@@ -47,14 +47,14 @@ const CHANNELS: [number, number][] = [
 ];
 
 // The rest of the mesh (Sept 12: 65/66 agent pairs verified two-way live --
-// full mesh minus the Mountain<->River pair, pending the Mountain side's
-// credential adoption with the River side repaired and verified 17:47Z;
-// mirrors FLEET_COORDINATION.md §3.1): the local
+// full mesh minus the Mountain<->River pair, pending Mountain-side delivery
+// of a fresh pair secret, recipe handed to Mountain 21:30Z, with the River
+// side repaired and verified 17:47Z; mirrors FLEET_COORDINATION.md §3.1): the local
 // co-location mesh, the remaining 12 local <-> Mountain-group per-agent
 // channels (every local agent x every Mountain-group listener), the
 // remaining 9 local <-> sibling identity pairs, the 12 trio <-> Mountain
 // bearer pairs (Beacon-bootstrapped, confirmed Sept 12), the 3 sibling <->
-// Beacon bearer channels (round-trip confirmed Sept 12), the 3 trio <-> trio
+// Beacon bearer channels (re-keyed + re-verified Sept 12 21:47Z), the 3 trio <-> trio
 // identity pairs (verified, Beacon w130-155), and the 3 Beacon <->
 // Canyon/Ridge/Harbor channels (confirmed Sept 12). Drawn as a dimmer layer
 // so the flagship cross-host channels stay readable.
@@ -64,7 +64,7 @@ const MESH_CHANNELS: [number, number][] = [
   [2, 9], [2, 10], [2, 11], [3, 9], [3, 10], [3, 11],
   [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7], [3, 5], [3, 6], [3, 7], // local x siblings
   [5, 8], [6, 8], [7, 8], [5, 9], [6, 9], [7, 9], [5, 10], [6, 10], [7, 10], [5, 11], [6, 11], [7, 11], // trio x Mountain-group (12, live Sept 12)
-  [1, 4], [2, 4], [3, 4], // siblings x Beacon (3, round-trip confirmed Sept 12)
+  [1, 4], [2, 4], [3, 4], // siblings x Beacon (3, re-keyed + re-verified Sept 12 21:47Z)
   [5, 6], [5, 7], [6, 7], // trio x trio (3, verified)
   [4, 9], [4, 10], [4, 11], // Beacon x Canyon/Ridge/Harbor (3, confirmed Sept 12)
 ];
@@ -660,7 +660,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (65 of 66 agent pairs verified two-way live -- the Mountain-River pair is pending the Mountain side's credential adoption, River side repaired Sept 12), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (65 of 66 agent pairs verified two-way live -- the Mountain-River pair is pending Mountain-side delivery of a fresh pair secret, recipe handed to Mountain Sept 12, River side repaired Sept 12), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }

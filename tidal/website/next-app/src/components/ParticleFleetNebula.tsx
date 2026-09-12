@@ -51,12 +51,12 @@ const CHANNELS: [number, number][] = [
   [0, 6], // identity link LIVE (Highbeam -> local quartet, zero secrets)
   [0, 7], // identity link LIVE (Lightning -> local quartet, zero secrets)
   // Sept 12 mesh state: every remaining agent pair is verified two-way live
-  // (65/66; Mountain<->River pending the Mountain side's credential
-  // adoption; mirrors FLEET_COORDINATION.md §3.1) -- local
+  // (65/66; Mountain<->River pending Mountain-side delivery of a fresh
+  // pair secret, recipe handed 21:30Z; mirrors FLEET_COORDINATION.md §3.1) -- local
   // co-location mesh, every local x Mountain-group per-agent channel, every
   // local x sibling identity pair, the 12 trio x Mountain bearer pairs
   // (Beacon-bootstrapped, confirmed Sept 12), the 3 sibling x Beacon bearer
-  // channels (round-trip confirmed Sept 12), the 3 trio x trio identity
+  // channels (re-keyed + re-verified Sept 12 21:47Z), the 3 trio x trio identity
   // pairs (verified), and Beacon x Canyon/Ridge/Harbor (confirmed Sept 12).
   [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3],
   [0, 9], [0, 10], [0, 11], [1, 9], [1, 10], [1, 11],
