@@ -68,9 +68,12 @@ const MESH_CHANNELS: [number, number][] = [
 ];
 
 // Buoy placement: spread across the width; the headline owns the upper-left,
-// the moon the upper-right, so buoys ride the water itself.
+// the moon the upper-right, so buoys ride the water itself. Buoys ride wave
+// layers 1-3: the front band (4) bases at 94% of canvas height, so at wave
+// troughs its buoys and labels clipped off the bottom edge (seen live Sept 12
+// on MOUNTAIN/H-BEAM) -- layer 3 tops out ~86% height, safely on-canvas.
 const BUOY_X = AGENTS.map((_, i) => 0.06 + (i / (AGENTS.length - 1)) * 0.88);
-const BUOY_LAYER = AGENTS.map((_, i) => 2 + (i % 3));
+const BUOY_LAYER = AGENTS.map((_, i) => 1 + (i % 3));
 
 // Deterministic hash in [0,1) -- stable starfields, glitter, motes.
 function hash(i: number): number {

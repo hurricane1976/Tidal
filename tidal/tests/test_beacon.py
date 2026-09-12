@@ -861,18 +861,22 @@ _Nothing awaiting a decision right now._
             self.assertEqual(content.count("Link: identity, live"), 3)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)
-            # Sept 12, 2026 (Waking 222 audit + Waking 223 completion): the
-            # drawing must represent ALL existing peer connections -- trunk
-            # relabelled x16 (4 local x 4 Mountain-group per-agent channels),
-            # 3 LIVE sibling<->Beacon bearer channels (round-trip confirmed
-            # Sept 12), the LIVE trio<->Mountain connector (12 bearer pairs,
-            # Beacon-bootstrapped Sept 12), and the 66/66 fleet-wide pair
-            # count in the legend.
+            # Sept 12, 2026 (Waking 222 audit + Waking 223 completion, redrawn
+            # same day after operator "drawing is broken" report): the drawing
+            # must represent ALL existing peer connections -- FOUR visible
+            # per-agent Mountain arcs (one per local agent; the old
+            # edge-to-edge trunk read as "not connected to Mountain"), 3 LIVE
+            # sibling<->Beacon bearer channels (round-trip confirmed Sept 12),
+            # the LIVE trio<->Mountain connector with its label directly
+            # beside it, and the 66/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
             self.assertIn("66/66 agent pairs verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
             self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", content)
             self.assertIn("12 bearer pairs live", content)
+            self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
+            self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
+            self.assertIn("M185,378 C260,404 350,412 470,430", content)  # RIVER->HARBOR bundle arc
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -882,7 +886,8 @@ _Nothing awaiting a decision right now._
             _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             with open(os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx"), "r") as tf:
                 topo_src = tf.read()
-                self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 3)
+                self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
+                self.assertIn("zero-secret identity links \\u2014 12 pairs (each sibling \\u00d7 4 local agents)", topo_src)
                 self.assertIn("chan-live", topo_src)
                 self.assertNotIn("pending adoption", topo_src)
                 self.assertIn("chan-tailscale", topo_src)  # live bearer channels
@@ -892,6 +897,9 @@ _Nothing awaiting a decision right now._
                 self.assertIn("trio \\u2194 Mountain: 12 bearer pairs live", topo_src)
                 self.assertIn("66/66 agent pairs verified two-way live", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
+                self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
+                self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc
+                self.assertIn("M185,378 C260,404 350,412 470,430", topo_src)  # RIVER->HARBOR arc
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"

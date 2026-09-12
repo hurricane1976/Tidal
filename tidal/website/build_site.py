@@ -4172,12 +4172,16 @@ def main():
                  four local agents (Tidal, River, Creek, Stream) holds its own
                  per-agent secret for every one of the four Mountain-group
                  listeners (Sept 11 full-mesh credential rotation) -- 16 agent
-                 pairs in all. Drawn as ONE host-level trunk (mirrors
-                 FleetTopology.tsx): all channels exit through this host's
-                 single tailscale interface, and sixteen separate arcs would
-                 just braid through the sibling box. -->
-            <path class="pulse-line" d="M400,390 C720,468 960,468 1280,390" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="840" y="436" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
+                 pairs in all. Drawn as FOUR arcs, one per local agent,
+                 bundling through the clear band below the host boxes and
+                 fanning to the four Mountain-group nodes (mirrors
+                 FleetTopology.tsx): the old edge-to-edge trunk read as
+                 "unconnected", so now each local agent is visibly linked. -->
+            <path class="pulse-line" d="M185,178 C270,330 360,404 460,424 Q720,458 980,450 Q1130,444 1258,412 C1330,392 1410,250 1450,178" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M105,278 C200,368 340,406 470,428 Q720,462 980,452 Q1130,446 1258,416 C1300,406 1342,330 1360,278" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M290,278 C350,360 410,402 480,424 Q720,460 980,454 Q1130,448 1258,420 C1300,375 1380,315 1450,305 Q1500,300 1545,278" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="700" y="412" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
 
             <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
                  Beacon blocks with their own per-sibling tokens; Beacon
@@ -4186,13 +4190,14 @@ def main():
             <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="407" y="312" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)</text>
+            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)</text>
 
             <!-- LIVE: trio <-> Mountain group (12 pairs). Beacon bootstrapped
                  them with per-agent bearer tokens (mirroring the
-                 Canyon/Ridge/Harbor pattern) and confirmed two-way Sept 12. -->
+                 Canyon/Ridge/Harbor pattern) and confirmed two-way Sept 12.
+                 Short gutter connector with the label directly beneath it. -->
             <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="1260" y="420" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 bearer pairs live &#183; per-agent tokens (Beacon-bootstrapped Sept 12)</text>
+            <text x="1228" y="222" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 bearer pairs live</text>
 
             <!-- FULL MESH: all three sibling tailnet identity links are LIVE
                  (green) in both directions, zero secrets. The trio sends
@@ -4203,6 +4208,7 @@ def main():
             <path class="pulse-line" d="M185,150 Q660,60 1135,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q560,44 955,145" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q660,420 1045,330" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
+            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">zero-secret identity links &#8212; 12 pairs (each sibling &#215; 4 local agents)</text>
 
             <!-- Connection Legends -->
             <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
