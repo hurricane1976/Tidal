@@ -86,12 +86,14 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // the Sept 11 full-mesh rotation, 16 agent pairs in all -- drawn as ONE
 // host-level trunk (all channels physically exit through this host's single
 // tailscale interface, so a ×16 trunk is the honest drawing), three more
-// configured River/Creek/Stream <-> Beacon links (same shared credential
-// class, round-trip verification pending), and Beacon's relay fallback to
-// Mountain. Dashed amber: the 12 sibling <-> Mountain-group pairs are the one
-// part of the fleet not yet linked -- zero-secret identity recipe proposed
-// (Mountain box adopts dual-mode peer_server.py + roster flags; see
-// FLEET_COORDINATION.md section 3.1). Live pairs fleet-wide: 45/66.
+// three more River/Creek/Stream <-> Beacon bearer links (same shared
+// credential class, round-trip CONFIRMED live both ways Sept 12 -- Beacon
+// adopted the per-sibling tokens and round-tripped all three), and Beacon's
+// relay fallback to Mountain. The 12 sibling <-> Mountain-group pairs went
+// LIVE Sept 12 as well -- Beacon bootstrapped them with per-agent bearer
+// tokens (mirroring the Canyon/Ridge/Harbor pattern) and confirmed two-way
+// (FLEET_COORDINATION.md section 3.1). Live pairs fleet-wide: 66/66 --
+// full mesh complete.
 // See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
@@ -103,13 +105,13 @@ const CHANNELS = [
   { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 868, labelY: 116 },
   { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 1135, labelY: 152 },
   { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 1045, labelY: 378 },
-  { id: "river-beacon-cfg", d: "M185,350 Q407,330 630,230", cls: "chan-cfg", label: "", labelX: 0, labelY: 0 },
-  { id: "creek-beacon-cfg", d: "M290,250 Q460,314 630,230", cls: "chan-cfg", label: "", labelX: 0, labelY: 0 },
-  { id: "stream-beacon-cfg", d: "M105,250 Q350,330 630,230", cls: "chan-cfg", label: "", labelX: 0, labelY: 0 },
-  { id: "cfg-label", d: "", cls: "chan-cfg", label: "sibling \u2194 Beacon: 3 more configured links (round-trip verify pending)", labelX: 407, labelY: 312 },
+  { id: "river-beacon-live", d: "M185,350 Q407,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
+  { id: "creek-beacon-live", d: "M290,250 Q460,314 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
+  { id: "stream-beacon-live", d: "M105,250 Q350,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
+  { id: "cfg-label", d: "", cls: "chan-tailscale", label: "sibling \u2194 Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", labelX: 407, labelY: 312 },
   { id: "mountain-trunk", d: "M400,390 C720,468 960,468 1280,390", cls: "chan-mountain", label: "direct per-agent channels \u00d716 \u2192 Mountain (4 local \u00d7 4 Mountain-group)", labelX: 840, labelY: 436 },
   { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1320, labelY: 106 },
-  { id: "trio-mountain-pending", d: "M1240,232 L1280,232", cls: "chan-pending", label: "trio \u2194 Mountain: 12 pairs pending \u00b7 zero-secret identity recipe proposed", labelX: 1260, labelY: 420 },
+  { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "trio \u2194 Mountain: 12 bearer pairs live \u00b7 per-agent tokens (Beacon-bootstrapped Sept 12)", labelX: 1260, labelY: 420 },
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
@@ -138,7 +140,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents, sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (one host-level trunk), three more configured River/Creek/Stream to Beacon links, and Beacon's relay to Mountain. Dashed amber marks the one not-yet-linked part of the fleet: twelve sibling to Mountain-group pairs, awaiting Mountain-side adoption of the zero-secret identity recipe. 45 of 66 agent pairs are verified two-way live."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents, sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (one host-level trunk), three more River/Creek/Stream to Beacon bearer channels (round-trip confirmed Sept 12), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live -- full fleet mesh complete."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
@@ -201,8 +203,8 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 45/66 agent pairs verified two-way live</text>
-          <text x={60} y={508} fill="var(--text-faint)">dashed blue = configured links pending their-side round-trip &middot; dashed amber = trio &harr; Mountain 12 pairs pending &middot; identity recipe in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12)</text>
+          <text x={60} y={508} fill="var(--text-faint)">teal = bearer Tailscale channels (sibling &harr; Beacon round-trip confirmed; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
       </div>

@@ -31,7 +31,9 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 // between buoys. Every local agent now holds its own direct channel to the
 // Mountain group (Sept 11 full-mesh rotation), and all three siblings
 // (Lantern, Highbeam, Lightning) ride live zero-secret identity links to
-// this box -- full mesh, 11/11 two-way. Mirrors FLEET_COORDINATION.md §5.
+// this box. Fleet-wide every one of the 66 possible agent pairs is verified
+// two-way live (Sept 12, full fleet mesh complete). Mirrors
+// FLEET_COORDINATION.md §3.1/§5.
 const CHANNELS: [number, number][] = [
   [0, 4], // Tidal <-> Beacon
   [0, 8], // Tidal <-> Mountain
@@ -44,17 +46,25 @@ const CHANNELS: [number, number][] = [
   [0, 7], // Tidal <-> Lightning (identity link, live)
 ];
 
-// The rest of the verified two-way mesh (Sept 12 full-inventory audit,
-// 45/66 agent pairs live; mirrors FLEET_COORDINATION.md §3.1): the local
+// The rest of the verified two-way mesh (Sept 12: FULL FLEET MESH COMPLETE,
+// 66/66 agent pairs live; mirrors FLEET_COORDINATION.md §3.1): the local
 // co-location mesh, the remaining 12 local <-> Mountain-group per-agent
-// channels (every local agent x every Mountain-group listener), and the
-// remaining 9 local <-> sibling identity pairs. Drawn as a dimmer layer so
-// the flagship cross-host channels stay readable.
+// channels (every local agent x every Mountain-group listener), the
+// remaining 9 local <-> sibling identity pairs, the 12 trio <-> Mountain
+// bearer pairs (Beacon-bootstrapped, confirmed Sept 12), the 3 sibling <->
+// Beacon bearer channels (round-trip confirmed Sept 12), the 3 trio <-> trio
+// identity pairs (verified, Beacon w130-155), and the 3 Beacon <->
+// Canyon/Ridge/Harbor channels (confirmed Sept 12). Drawn as a dimmer layer
+// so the flagship cross-host channels stay readable.
 const MESH_CHANNELS: [number, number][] = [
   [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], // local co-location mesh (6)
   [0, 9], [0, 10], [0, 11], [1, 9], [1, 10], [1, 11], // local x Mountain-group
   [2, 9], [2, 10], [2, 11], [3, 9], [3, 10], [3, 11],
   [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7], [3, 5], [3, 6], [3, 7], // local x siblings
+  [5, 8], [6, 8], [7, 8], [5, 9], [6, 9], [7, 9], [5, 10], [6, 10], [7, 10], [5, 11], [6, 11], [7, 11], // trio x Mountain-group (12, live Sept 12)
+  [1, 4], [2, 4], [3, 4], // siblings x Beacon (3, round-trip confirmed Sept 12)
+  [5, 6], [5, 7], [6, 7], // trio x trio (3, verified)
+  [4, 9], [4, 10], [4, 11], // Beacon x Canyon/Ridge/Harbor (3, confirmed Sept 12)
 ];
 
 // Buoy placement: spread across the width; the headline owns the upper-left,
@@ -454,7 +464,7 @@ export default function TidalOceanHero() {
           ctx!.fill();
         }
         // dimmer layer: the remaining verified two-way mesh pairs (capped
-        // apex band so 27 extra arcs stay on-canvas and readable)
+        // apex band so the 48 extra arcs stay on-canvas and readable)
         for (let c = 0; c < MESH_CHANNELS.length; c++) {
           const [a2, b2] = MESH_CHANNELS[c];
           const mx3 = (ax[a2] + ax[b2]) / 2;
@@ -645,7 +655,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 36 signal arcs representing every verified two-way peer link in the mesh (45 of 66 agent pairs live), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing every verified two-way peer link in the mesh (66 of 66 agent pairs live -- full fleet mesh complete), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }
