@@ -580,7 +580,7 @@ export default function TidalOceanHero() {
     }
 
     function loadLive() {
-      fetch("/fleet-all.json", { cache: "no-store" })
+      fetch("/data/fleet-all.json", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : null))
         .then((data) => {
           if (!data || !Array.isArray(data.agents)) return;
