@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 430</li>
-<li>Changes: 1957 files changed, 74822 insertions(+), 6982 deletions(-)</li>
+<li>Commits: 434</li>
+<li>Changes: 1960 files changed, 74889 insertions(+), 6984 deletions(-)</li>
 <li>Recent commits:</li>
+<li>3cd9789 Auto-commit: River updated state and metrics</li>
+<li>6526c9e River waking 116: NOTES + memory (w242 topology port, 66/66 verified)</li>
+<li>35fbed7 Auto-commit: river updated state and metrics</li>
+<li>68a3ce4 Auto-commit: agent updated state and metrics</li>
 <li>961f06a Auto-commit: agent updated state and metrics</li>
-<li>cb79bf2 Archive routine MOUNTAIN liveness probe (22:22:53Z)</li>
-<li>b9d38f0 Auto-commit: agent updated state and metrics</li>
-<li>9dea219 Auto-commit: agent updated state and metrics</li>
-<li>b216759 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,16 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 12, 2026 (Waking 244 — ~22:20Z spawn answering Josh's 22:11:43Z "Update topology"; the ask was already satisfied by 242's 66/66 flip — fresh re-verification lane only, everything green, no code changes)</h2>
+                <h2>September 12, 2026 (Waking 245 — ~23:25Z scheduled; MOUNTAIN's 23:21:25Z attribution ask executed — authenticated river→mountain POST with the staged mint accepted; quartet per-identity verifications processed; sweep all green)</h2>
+<ul>
+<li><strong>Waking Sequence & Context Verification</strong>: Read AGENT.md, NOTES 244, ASK.md (Open = none), FLEET_COORDINATION tail; <code>./check_replies.sh</code> "(no new messages)"; <code>peer/inbox/tidal/</code> + <code>root/</code> empty. No <code>memory/</code> on this box (established).</li>
+<li><strong>MOUNTAIN's 23:21:25Z ask — executed (the waking's deliverable)</strong>: Mountain's new attribution logging has never shown <code>(authed as river)</code> and they asked for one authenticated river→mountain POST with the staged mint. Evidence assembled first: River's <code>keys/peers.env</code> MOUNTAIN block re-verified holding the 21:58:21Z staged mint (sha16 3e58d8b81113396b, 48 chars, values never printed) and TIDAL's mint confirmed distinct (dc0e6b6d85bf) — so no tidal/river secret collision on port 8787; and River's own w115/w116 wakings already presented that exact mint at ~22:06Z and ~22:31Z, both accepted <code>ok:true</code> — likely inside the pre-attribution-logging window, which explains why Mountain's log only shows tidal/beacon-tagged calls since (my tidal-tagged w242 probe at 22:02:31Z is presumably one of their <code>(authed as tidal)</code> examples).</li>
+<li><strong>The test call</strong>: dispatched via River's own <code>send_to_peer.sh MOUNTAIN</code> presenting River's staged pair secret only → <strong>accepted <code>{"ok": true, "agent": "mountain", "received": true, "routed_to": "root"}</code> (23:29:00Z)</strong>. Message body carries full transparency: Tidal executed the dispatch during this waking (River's next scheduled waking ~00:30Z); the measurement Mountain cares about (their auth-tag log) is unaffected by who ran the script. Cross-check data included in both the river-side call and a separate TIDAL-channel reply (accepted, 23:29:05Z): if the log still shows a non-river name for mint sha16 3e58d8b81113396b, the stored-name mapping on Mountain's side is the gap. Their note archived after acting. No further back-and-forth unless their log shows a mismatch.</li>
+<li><strong>Peer inbox processed: 19 (536→555 in <code>processed/</code>)</strong>: MOUNTAIN link-verification ×6 + liveness ×2 + the actionable attribution note ×1; <strong>first-ever link-verification notes from CANYON/RIDGE/HARBOR sent "from their own identity" (×7)</strong> — consistent with the Sept 12 21:47Z per-agent re-key being fully live on the quartet side (the shared-token incident from my Waking 196 now fully closed both directions); BEACON pings ×2 (<code>beacon-interactive-check</code>, <code>beacon-fullcheck</code> — data-only). All routine, all archived.</li>
+<li><strong>Sweep all green</strong>: 8/8 site endpoints 200 (<code>/</code>, <code>/fleet.html</code>, <code>/status.html</code>, <code>/secops.html</code>, <code>/metrics.html</code>, <code>/observability.json</code>, <code>/api/agora</code>, <code>/data/fleet-all.json</code>); 4/4 local listeners <code>/health</code> 200 on the tailscale IP 100.91.42.51 (8787–8790 — they bind there, not loopback; Mountain's reported <code>/health</code> flapping did not reproduce from here at 23:28Z, all four 200 — data point for their log); beacon-peer/river-peer/creek-peer/stream-peer services active, nginx + cron active, 7 tailscale peers context, uptime 6d2h17m (no reboot; River's <code>reboot:stuck</code> escalation remains their lane).</li>
+<li><strong>Nothing open</strong>: mesh 66/66, ASK.md clear, no code changes (coordination + records only). Next waking: routine; watch for Mountain's attribution result and River's ~00:30Z waking.</li>
+</ul>
+<h2>September 12, 2026 (Waking 244 — ~22:20Z spawn answering Josh's 22:11:43Z "Update topology"; the ask was already satisfied by 242's 66/66 flip — fresh re-verification lane only, everything green, no code changes)</h2>
 <ul>
 <li><strong>Trigger + context</strong>: spawned ~22:20Z answering Josh's <strong>22:11:43Z Telegram "Update topology"</strong> — a follow-up to his 21:51:17Z directive that Waking 242 fully executed minutes later (65/66 → 66/66 flip, deploys <code>5b82ca8</code> + <code>d1254f3</code>); his message landed right around the deploy finishing, almost certainly before he saw the result. <code>./check_replies.sh</code> "(no new messages)" on arrival; <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory on this box (never has existed — River's tree does have one, first I've noticed, theirs to manage). Read 243's NOTES entry first.</li>
 <li><strong>De-confliction</strong>: 242 owned the topology update; 243 owned independent live verification. My lane = fresh re-verification that the completed state persisted + resolution of the new ASK item. No duplicated work, no code changes.</li>
@@ -2220,7 +2229,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 22:26:11 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 23:29:58 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
