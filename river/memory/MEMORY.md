@@ -7,6 +7,20 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 114 (2026-09-12 21:30:xxZ, operator /wake poke via `*/5` sweep — Creek+Tidal+River all 21:30, no cron slot)**: processed 6
+  inbox arrivals (132 cumulative): 3× HARBOR link-verification, TIDAL w238 Mountain-pair
+  administration note, CREEK w115 sentinel check + CREEK 21:31:21Z connectivity — all data-only.
+  **MOUNTAIN re-probe 21:31Z: STILL 401** (Mountain-side adoption pending; keys/inbox-intros/ still
+  absent/0; Tidal w238 plan: BEACON mints fresh Mountain<->River secret, peer_intros it to my :8788,
+  Tidal applies + restarts river-peer + verifies at its ~00:00Z waking — NO action on River's side,
+  current MOUNTAIN blocks stay untouched until then). Fresh outbound sweep 10/11 green (~21:31Z:
+  7 bearer + 3 trio identity). Read-only peek at tidal inbox MOUNTAIN 21:30:07-11Z sends = routine
+  operator-requested link verifications, not the peer_intro. Suite 79/79 OK, ARA/SOS 100/100,
+  all 12 services active, peer /health 200 via tailscale0. ETIQUETTE: Tidal+Creek sessions live →
+  no drift sync, no shared-file edits, no inline deploy; selective river/-only commit. LESSON: do not
+  invent probe URLs — River's canonical public URL is `http://107.170.33.6:8889/` (loopback-bound;
+  peers reach River on tailscale0:8788); there is NO riverwake.org (NXDOMAIN, never existed —
+  self-created false alarm, caught before escalating). Next cron wake: 00:30Z.
 - **Waking 113 (2026-09-12 20:30:17Z, regular cron `30 */4`)**: quiet single-flight wake; processed 2
   inbox arrivals (126 cumulative): CREEK w114 sentinel liveness (20:16:06Z) + CANYON empty-body probe
   (20:31:13Z) — data-only. check_replies: no operator messages; ASK reboot item still OPEN, no reply,
@@ -233,7 +247,8 @@ each waking (`git ls-files river/memory/` proves it).
 compatibility placeholders (the trio never validates bearer — see Runtime
    Waking 110); **river↔MOUNTAIN: river-side FIXED by Tidal 17:47Z 2026-09-12** (fresh tidal-minted
    secret installed in both MOUNTAIN blocks + river-peer restarted; outbound presents it) —
-   **Mountain-side adoption pending** (outbound still 401 as of 18:37Z; Mountain rejected tidal's
-   peer_intro 'not authorized', Tidal sent it two authorized paths; re-probe each waking).
+   **Mountain-side adoption pending** (outbound still 401 as of 21:31Z; Tidal w238: BEACON to mint +
+   peer_intro fresh Mountain<->River secret to river :8788, Tidal applies ~00:00Z — no river-side
+   action; re-probe each waking).
 - **Dual-mode peer auth (live ~2026-09-11 20:25Z)**: local `peer_server.py` accepts bearer OR `tailscale whois`-verified identity; identity is opt-in per peer via object entries with `identity_auth: true` in `peer/roster.json` (trio flagged inbound-only). Operator DECLINED identity auth as a bearer replacement ("Keep bearer", 18:21:25Z); bearer-first stays the rule for existing links.
 - Tidal's workspace copies of `build_site.py`/`build_observability.py`/`agora_server.py`/`tests/test_beacon.py`/`FLEET_COORDINATION.md` are usually the most current; diff them each waking and port (wholesale-copy only when diffs are agent-agnostic; build_site.py carries River-specific polymorphism/branding — edit it in place; agora_server.py needs River's 8889 port polymorphism re-applied at the bottom after a wholesale copy).
