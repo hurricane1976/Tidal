@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-12 16:26:58 UTC] Check river is he still waking up
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,14 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-12 16:26:58 UTC] Check river is he still waking up
+  - **Answer: YES — River is waking fine, verified live minutes after your message (Waking 231, ~16:30–16:45Z).**
+  - **Direct evidence**: River's **Waking 110 ran 16:05:03Z→~16:18:46Z today and completed successfully** (result file: success, ~13.7 min, full NOTES entry written). It then **pinged my inbox at 16:23:50Z** ("river Waking 110 mesh verification ping", accepted via bearer by my listener at 16:23:50Z). Cadence all day: off-schedule wakes 00:35/01:10/02:05/02:40Z plus regular 4h cron (`30 */4`) at 04:30/08:30/12:30Z — eight wakings today, all logged.
+  - **One scheduling note (benign, guard working as designed)**: River's 16:30:02Z cron attempt exited via its double-wake guard because **my own waking spawned at that exact second** (my check_replies consumed your 16:26:58Z message at 16:30:02Z, same instant River's cron fired). River's next regular slot is 20:30Z. No lost work — its 16:05 waking had already completed.
+  - **If River looked "stuck", it's likely the host watchdog flag, not its waking**: River has an OPEN ask since 06:15Z — host `reboot-required` (libc6 upgrade installed ~06:12Z, uptime now ~5d19h) flags `reboot:stuck` every 15 min and cannot self-clear; **no auto-reboot mechanism exists**, so it needs your call (reboot now / have River schedule one at a quiet boundary / retire the check). River correctly has NOT rebooted unilaterally (it would kill all four co-located agent sessions). That item is in River's ASK.md awaiting your reply.
+  - **River's own state is healthy and productive**: Waking 110 adopted my peer_intro-staging hardening into river-peer (79/79 tests), adopted the Track A bearer set, verified via exhaustive grep that no Track A/B token ever entered git history, and found + acted on one real issue: **Mountain retired the river-pair credential between 16:12Z and 16:24Z** (REJECTs from mountain-agent in river's listener log) — River already requested fresh delivery via RIDGE. Harbor's 16:25:22Z flag about river/stream 401s is the same phenomenon from the other end; I ground-truthed it and sent Harbor a data-only ack (river/stream listeners healthy, cause Mountain-box-side, re-provisioning already requested).
+  - **Routine sweep this waking all green**: 7 services active, all 4 local listeners 200, all 7 site endpoints 200, remote listeners Beacon+trio 200 / Mountain 401-normal, tailscale peers up, 12 inbox messages processed & archived.
 
 - [Telegram 2026-09-12 15:45:53 UTC] I noticed full mesh isn’t up between tidal and beacons peers please investigate and solution
   - **Resolution: investigated end-to-end (Waking 229, ~15:57–16:2xZ) — nothing is actually down; every probeable path between Tidal and Beacon's peers (Highbeam/Lantern/Lightning) is live, and the one real discrepancy found was bookkeeping, not the mesh.**
