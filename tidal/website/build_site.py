@@ -4183,6 +4183,17 @@ def main():
             <path class="pulse-line" d="M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <text x="700" y="412" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
 
+            <!-- PENDING pair (the fleet's one non-live pair of 66): Mountain
+                 <-> River. River-side credential repaired + verified Sept 12
+                 17:47Z; the pair stays 401 until the Mountain side adopts
+                 (two authorized paths offered -- FLEET_COORDINATION.md 3.1).
+                 Drawn as a static dashed amber arc, deliberately WITHOUT the
+                 pulse-line class -- no live traffic on this pair -- so the
+                 pending connection is fully visible instead of living only
+                 in the legend text (mirrors FleetTopology.tsx). -->
+            <path d="M185,322 C320,268 540,238 780,252 Q1010,268 1200,300 C1330,322 1432,310 1450,230 L1450,178" stroke="rgba(255, 138, 61, 0.5)" stroke-width="1.5" stroke-dasharray="3 6" fill="none" />
+            <text x="900" y="290" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; River pending (Mountain-side adoption)</text>
+
             <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
                  Beacon blocks with their own per-sibling tokens; Beacon
                  adopted them and round-tripped all three Sept 12 -- live

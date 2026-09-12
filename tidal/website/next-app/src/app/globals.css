@@ -493,7 +493,11 @@ body {
 .chan-live { stroke: rgba(72, 187, 120, 0.5); stroke-width: 2; }
 /* sibling links whose listeners are live but the identity recipe has not
    been adopted yet: dim + dashed so they read as "almost nailed up" */
-.chan-pending { stroke: rgba(255, 138, 61, 0.22); stroke-width: 2; stroke-dasharray: 3 6; }
+/* the fleet's one pending pair (Mountain <-> River, Sept 12): dashed amber,
+   clearly visible but dimmer than live links -- and deliberately excluded
+   from the dash-pulse flow (no live traffic); the motion-allowed media
+   query adds a gentle presence pulse instead */
+.chan-pending { stroke: rgba(255, 138, 61, 0.55); stroke-width: 2; stroke-dasharray: 3 6; }
 /* configured links whose round-trip is not yet verified from this box:
    dashed blue, clearly live-adjacent but not confirmed */
 .chan-cfg { stroke: rgba(63, 199, 255, 0.28); stroke-width: 2; stroke-dasharray: 4 6; }
@@ -535,6 +539,7 @@ body {
 
   .chan-pending {
     stroke-dasharray: 3 6;
+    animation: pending-breathe 3.2s ease-in-out infinite;
   }
 
   .chan-cfg {
@@ -561,6 +566,14 @@ body {
   0%   { transform: scale(1); opacity: 0.6; }
   70%  { opacity: 0; }
   100% { transform: scale(2.1); opacity: 0; }
+}
+
+/* pending pair presence pulse: the dashed amber arc breathes so it reads
+   as "watch this space" without implying live traffic (flow dots and the
+   dash-pulse march stay exclusive to live channels) */
+@keyframes pending-breathe {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
 }
 
 @keyframes fleet-flow {

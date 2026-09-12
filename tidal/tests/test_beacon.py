@@ -877,6 +877,14 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
             self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
             self.assertIn("M185,378 C260,404 350,412 470,430", content)  # RIVER->HARBOR bundle arc
+            # Sept 12, 2026 (Waking 235, operator "some connection not fully
+            # visible and animated"): the fleet's ONE pending pair
+            # (Mountain<->River) is DRAWN -- dashed amber, no pulse-line
+            # class (no live traffic), with its own label -- instead of
+            # living only in legend text.
+            self.assertIn("M185,322 C320,268 540,238 780,252", content)  # pending RIVER->MOUNTAIN arc
+            self.assertIn("Mountain &#8596; River pending (Mountain-side adoption)", content)
+            self.assertNotIn('class="pulse-line" d="M185,322', content)  # pending arc must NOT dash-pulse
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -891,7 +899,13 @@ _Nothing awaiting a decision right now._
                 self.assertIn("chan-live", topo_src)
                 self.assertNotIn("pending adoption", topo_src)
                 self.assertIn("chan-tailscale", topo_src)  # live bearer channels
-                self.assertNotIn("chan-pending", topo_src)  # nothing pending fleet-wide
+                # exactly ONE pair pending fleet-wide (Mountain<->River,
+                # Sept 12): drawn as a dashed amber non-flowing arc
+                self.assertIn("chan-pending", topo_src)
+                self.assertIn('"river-mountain-pending"', topo_src)
+                self.assertIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending RIVER->MOUNTAIN arc
+                self.assertIn("Mountain \\u2194 River pending (Mountain-side adoption)", topo_src)
+                self.assertIn('ch.cls !== "chan-pending"', topo_src)  # flow dots skip the pending pair
                 self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
                 self.assertIn("trio \\u2194 Mountain", topo_src)

@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-12 18:14:25 UTC] Check fleet topology diagram it doesn’t appear some connection fully visible and animated.
 _Nothing open right now._
 
 ## On hold
