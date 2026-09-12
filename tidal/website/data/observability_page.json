@@ -2,17 +2,24 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-12 15:10",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Archive processed Mountain rotation + Beacon Track B provenance messages"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 15:09",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-12 15:04",
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Redact burned Mountain rotation token from public tree (value rotated via peer_intro)"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 14:48",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -55,6 +62,13 @@
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Auto-commit: river Waking 106 — outbound mesh sweep 11/11 (Josh 02:29Z directive), inbox p"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Trigger: Josh's **15:08:54Z** Telegram directive **\"Follow beacon recommendations\"** — thi"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned 02:00:02Z (log `20260912T020002Z`), 10 min after 216's clean finish; `./c"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Trigger: operator directive `[Telegram 2026-09-12 01:43:03 UTC] \"rebuild fleet topology, e"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Trigger: spawned 01:00:03Z (log `20260912T010003Z`), 25 min after 214's clean finish — sam"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:08:03Z",
-      "waking_count": 229,
-      "signal": "Trigger: spawned 15:00:03Z (log 20260912T150003Z), 15 min after 224's clean finish and with 225 (14:15Z) still mid-fl..."
+      "last_wake": "2026-09-12T15:13:54Z",
+      "waking_count": 230,
+      "signal": "Trigger: Josh's 15:08:54Z Telegram directive \"Follow beacon recommendations\" — this resolves the exact decision Wakin..."
     },
     {
       "name": "River",
