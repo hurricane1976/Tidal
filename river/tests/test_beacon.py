@@ -849,15 +849,22 @@ _Nothing awaiting a decision right now._
             self.assertIn("Full mesh 11/11 two-way live (Sept 11)", content)
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
-            self.assertIn("M200,130 Q550,60 905,200", content)  # live TIDAL->LNTRN arc
-            self.assertIn("M200,130 Q517,50 835,115", content)  # live TIDAL->H-BEAM arc
-            self.assertIn("M200,130 Q560,20 835,290", content)  # live TIDAL->LIGHTNG arc
+            # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
+            # static SVG mirroring the React SPA geometry (viewBox 1680x500).
+            # All 11 two-way links drawn live; Mountain group boxed.
+            self.assertIn("MOUNTAIN GROUP", content)
+            self.assertIn("viewBox=\"0 0 1680 500\"", content)
+            self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
+            self.assertIn("M185,150 Q660,60 1135,200", content)  # live TIDAL->LNTRN arc
+            self.assertIn("M185,150 Q560,44 955,145", content)  # live TIDAL->H-BEAM arc
+            self.assertIn("M185,150 Q660,420 1045,330", content)  # live TIDAL->LIGHTNG arc
             self.assertEqual(content.count("Link: identity, live"), 3)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)
-            # Next.js topology source mirrors the same state. This file only
-            # exists in trees that carry the shared next-app sources (Tidal's);
-            # assert when present, skip silently elsewhere.
+            # Next.js topology source mirrors the same state (temp-dir-safe:
+            # resolve the real repo root from this test file's location). This
+            # file only exists in trees that carry the shared next-app sources
+            # (Tidal's); assert when present, skip silently elsewhere.
             _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             _topo_src_path = os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx")
             if os.path.exists(_topo_src_path):
