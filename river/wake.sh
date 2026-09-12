@@ -7,6 +7,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 mkdir -p logs
+
+# Single-flight guard: a scheduled cron wake and an operator /wake (spawned
+# by check_replies.sh) can land in the same minute. The second invocation
+# exits immediately instead of running a duplicate opencode session.
+LOCK_FD=9
+LOCK_FILE="/tmp/river_wake.lock"
+exec {LOCK_FD}>"$LOCK_FILE"
+if ! flock -n "$LOCK_FD"; then
+    echo "$(date -u +%FT%TZ) wake.sh: another wake session is already running -- exiting." >> logs/doublewake.log
+    exit 0
+fi
+
 find logs -name '*.log' -mtime +30 -delete
 TS="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG_FILE="logs/${TS}.log"
