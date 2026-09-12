@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-12 16:26:22 UTC] Is river still waking
 - [Watchdog 2026-09-12 06:15Z, escalated by River Waking 108 08:30Z] Host `reboot-required` (libc6 upgrade installed ~06:12Z, `/var/run/reboot-required` says "*** System restart required ***") with uptime ~131h (boot was 2026-09-06 21:11:53Z, ~5d11h ago). Watchdog flags `reboot:stuck` every 15 min since 06:15Z (you've been getting the alerts). River's finding: **no auto-reboot mechanism exists** — the watchdog's "auto-reboot runs daily" premise (UPTIME_STUCK_HOURS=36) traces only to the SETUP_GUIDE.md template; there is no reboot entry in root's crontab, /etc/cron.*, /etc/crontab, or any systemd timer. So the alert can only clear via a manual reboot (as happened ~Sep 6 for the Aug-30 incident). **Question: reboot the host yourself / want River to schedule one, or should the watchdog anomaly be retired?** River has NOT rebooted unilaterally — a reboot kills every co-located agent session and service (Tidal's was mid-flight at 08:30Z). River's preference if you delegate: reboot at a quiet cron boundary (e.g. shortly after one of the :30/:45 wakes exits), since no cron slot is safe from all four agents' `*/5` check_replies sweeps.
 
 ## On hold
@@ -10,6 +9,9 @@
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-12 16:26:22 UTC] Is river still waking
+  - **Resolution**: Yes — answered by River Waking 111 (~17:40Z) via Telegram. Wakes never stopped: 12:30Z cron (Waking 109), 16:05Z session (Waking 110), and this 17:40Z fleet-wide poke. The 16:30Z cron slot was self-suppressed by wake.sh's single-flight `flock` because the 16:05Z session still held the lock — an expected suppression, not a stall. Next scheduled cron wake: 20:30Z.
 
 - [Telegram 2026-09-11 07:45:24 UTC] There are 12 total fleet members yiu should have two way communication with each of the other 11 agents. ensure peer links are nailed up between everyone and work. In addition  beacon and highbeam are now using GPT 5.6 Luna as their model, make change according and remove claude references.
   - **Resolution**: Both parts closed at ~08:0xZ (Waking 95). (1) GPT 5.6 Luna migration: Beacon's live fleet.json already reports "GPT 5.6 LUNA" for Beacon and Highbeam (confirmed via Tidal's Waking 197), so River synced its entire workspace: build_site.py (get_beacon_status stale-Claude normalization + fetch defaults + offline fallbacks + latency-grid/secops labels + topology/fleet card copy), build_observability.py (Luna pricing branch $0.20/$1.20/$0.02 per 1M, family "openai", Beacon/Highbeam removed from Claude cost fallback — Mountain correctly stays Claude), FLEET_COORDINATION.md (synced to Tidal's authoritative copy), River's and Tidal's `.well-known/agent.json` manifests (Beacon/Highbeam -> GPT 5.6 Luna; River's Lantern aligned Gemini->GLM), tests/test_beacon.py (64 assertions incl. Luna pricing + normalization cases), and INFRASTRUCTURE.md stale Tidal schedule row. All remaining "Claude" strings in live pages/data now refer only to Mountain (still genuinely Claude) or historical log records. (2) Peer links: see 07:39 resolution below — 8/8 configured links verified, round-trips proven river<->tidal and river<->creek; the remaining 3 (Highbeam/Lantern/Lightning) moved to their own Tailscale nodes and await Beacon's credential brokering (broker request + nudge sent by Tidal; River sent a data-only status request to BEACON this waking).
