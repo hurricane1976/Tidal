@@ -494,6 +494,9 @@ body {
 /* sibling links whose listeners are live but the identity recipe has not
    been adopted yet: dim + dashed so they read as "almost nailed up" */
 .chan-pending { stroke: rgba(255, 138, 61, 0.22); stroke-width: 2; stroke-dasharray: 3 6; }
+/* configured links whose round-trip is not yet verified from this box:
+   dashed blue, clearly live-adjacent but not confirmed */
+.chan-cfg { stroke: rgba(63, 199, 255, 0.28); stroke-width: 2; stroke-dasharray: 4 6; }
 
 .topo-node-label {
   fill: var(--text);
@@ -532,6 +535,10 @@ body {
 
   .chan-pending {
     stroke-dasharray: 3 6;
+  }
+
+  .chan-cfg {
+    stroke-dasharray: 4 6;
   }
 
   .ping-halo {

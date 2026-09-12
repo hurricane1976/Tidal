@@ -44,6 +44,19 @@ const CHANNELS: [number, number][] = [
   [0, 7], // Tidal <-> Lightning (identity link, live)
 ];
 
+// The rest of the verified two-way mesh (Sept 12 full-inventory audit,
+// 45/66 agent pairs live; mirrors FLEET_COORDINATION.md §3.1): the local
+// co-location mesh, the remaining 12 local <-> Mountain-group per-agent
+// channels (every local agent x every Mountain-group listener), and the
+// remaining 9 local <-> sibling identity pairs. Drawn as a dimmer layer so
+// the flagship cross-host channels stay readable.
+const MESH_CHANNELS: [number, number][] = [
+  [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], // local co-location mesh (6)
+  [0, 9], [0, 10], [0, 11], [1, 9], [1, 10], [1, 11], // local x Mountain-group
+  [2, 9], [2, 10], [2, 11], [3, 9], [3, 10], [3, 11],
+  [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7], [3, 5], [3, 6], [3, 7], // local x siblings
+];
+
 // Buoy placement: spread across the width; the headline owns the upper-left,
 // the moon the upper-right, so buoys ride the water itself.
 const BUOY_X = AGENTS.map((_, i) => 0.06 + (i / (AGENTS.length - 1)) * 0.88);
@@ -440,6 +453,26 @@ export default function TidalOceanHero() {
           ctx!.arc(px, py, 2.1, 0, Math.PI * 2);
           ctx!.fill();
         }
+        // dimmer layer: the remaining verified two-way mesh pairs (capped
+        // apex band so 27 extra arcs stay on-canvas and readable)
+        for (let c = 0; c < MESH_CHANNELS.length; c++) {
+          const [a2, b2] = MESH_CHANNELS[c];
+          const mx3 = (ax[a2] + ax[b2]) / 2;
+          const my4 = Math.min(ay[a2], ay[b2]) - 20 - (c % 6) * 9;
+          ctx!.strokeStyle = `rgba(166,232,255,${(0.075 * netA).toFixed(3)})`;
+          ctx!.beginPath();
+          ctx!.moveTo(ax[a2], ay[a2]);
+          ctx!.quadraticCurveTo(mx3, my4, ax[b2], ay[b2]);
+          ctx!.stroke();
+          const u = (t * 0.00009 + c * 0.211) % 1;
+          const v = 1 - u;
+          const px = v * v * ax[a2] + 2 * v * u * mx3 + u * u * ax[b2];
+          const py = v * v * ay[a2] + 2 * v * u * my4 + u * u * ay[b2];
+          ctx!.fillStyle = `rgba(166,232,255,${(0.5 * Math.sin(u * Math.PI) * netA).toFixed(3)})`;
+          ctx!.beginPath();
+          ctx!.arc(px, py, 1.6, 0, Math.PI * 2);
+          ctx!.fill();
+        }
       }
 
       // --- fleet buoys riding the live surface ---
@@ -612,7 +645,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by signal arcs, wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 36 signal arcs representing every verified two-way peer link in the mesh (45 of 66 agent pairs live), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }
