@@ -58,13 +58,6 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 02:02",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Auto-commit: tidal updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
       "when": "2026-09-12 00:00",
       "trigger": "Telegram steer",
       "outcome": "shipped",
@@ -125,6 +118,13 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: scheduled waking (~00:35-00:40Z; cron unchanged `0 */4 * * *` — this is the 04:00"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "scheduled",
+      "outcome": "noop",
+      "result": "Trigger: scheduled waking (00:00:03Z, log `20260912T000003Z`; cron unchanged `0 */4 * * *`"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T14:28:33Z",
+      "last_wake": "2026-09-12T14:47:01Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T14:16:54Z",
+      "last_wake": "2026-09-12T14:33:00Z",
       "waking_count": null,
-      "signal": "208 wakes logged, last 2026-09-12 14:16 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "209 wakes logged, last 2026-09-12 14:33 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
