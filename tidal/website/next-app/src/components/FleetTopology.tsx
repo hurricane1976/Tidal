@@ -120,7 +120,9 @@ const CHANNELS = [
   { id: "river-harbor", d: "M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
   { id: "mountain-x16-label", d: "", cls: "chan-mountain", label: "direct per-agent channels \u00d716 \u2192 Mountain (4 local \u00d7 4 Mountain-group)", labelX: 700, labelY: 412 },
   { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1320, labelY: 106 },
-  { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "trio \u2194 Mountain: 12 pairs live", labelX: 1252, labelY: 248 },
+  { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
+  { id: "trio-mountain-label", d: "", cls: "chan-tailscale", label: "trio \u2194 Mountain", labelX: 1252, labelY: 250 },
+  { id: "trio-mountain-label2", d: "", cls: "chan-tailscale", label: "12 pairs live", labelX: 1252, labelY: 263 },
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
