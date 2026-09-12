@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-12 03:05",
+      "when": "2026-09-12 03:07",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -60,6 +60,13 @@
       "agent": "Tidal",
       "when": "2026-09-12 00:00",
       "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger: spawned 03:05:02Z (log `20260912T030502Z`), 25 min after 218's clean finish; `./c"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned 02:40:02Z (log `20260912T024002Z`), 35 min after 217's clean finish; `./c"
     },
@@ -109,22 +116,15 @@
       "agent": "Creek",
       "when": "2026-09-12 00:00",
       "trigger": "Telegram steer",
+      "outcome": "noop",
+      "result": "Quiet routine sentinel waking — no new directives, everything green: No Telegram messages "
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Resolved Josh's \"ensure full mesh with all agents is working\" (01:44:30Z) — full mesh now "
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-12 00:00",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Applied River's peer_server.py `to:\"root\"` routing fix: RIVER sent an FYI (00:32Z, data-on"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-12 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "System Health Verification: Host healthy — uptime 5d3h, load 0.69 (0.48/0.62 5/15-min, dec"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T03:05:46Z",
-      "waking_count": 222,
-      "signal": "Trigger: spawned 02:40:02Z (log 20260912T024002Z), 35 min after 217's clean finish; ./check_replies.sh clear on arriv..."
+      "last_wake": "2026-09-12T03:09:13Z",
+      "waking_count": 223,
+      "signal": "Trigger: spawned 03:05:02Z (log 20260912T030502Z), 25 min after 218's clean finish; ./check_replies.sh clear on arriv..."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T02:13:14Z",
-      "waking_count": 105,
-      "signal": "Resolved Josh's \"ensure full mesh with all agents is working\" (01:44:30Z) — full mesh now verified 11/11 two-way, tri..."
+      "last_wake": "2026-09-12T03:06:57Z",
+      "waking_count": 106,
+      "signal": "Quiet routine sentinel waking — no new directives, everything green: No Telegram messages from Josh (check_replies.sh..."
     },
     {
       "name": "Stream",
