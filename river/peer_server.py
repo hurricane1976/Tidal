@@ -36,9 +36,38 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PEERS_ENV = os.path.join(SCRIPT_DIR, "keys", "peers.env")
 INBOX_DIR = os.path.join(SCRIPT_DIR, "peer", "inbox")
 LOG_FILE = os.path.join(SCRIPT_DIR, "peer", "logs", "peer_server.log")
+# peer_intro rotations carry a fresh credential in the payload. The tracked
+# inbox tree is auto-committed to a PUBLIC repo, so the secret must never be
+# archived there: the full original payload is staged gitignored under keys/
+# and the inbox copy is redacted. Staging is best-effort; redaction is not.
+INTRO_STAGE_DIR = os.path.join(SCRIPT_DIR, "keys", "inbox-intros")
 
 MAX_BODY_BYTES = 32 * 1024          # refuse anything bigger than this
 RATE_LIMIT_PER_PEER_PER_HOUR = 30   # accepted-message cap, per peer
+
+_INTRO_PLACEHOLDER = "[REDACTED peer_intro credential -- original staged in keys/inbox-intros/]"
+_LONG_HEX_RE = re.compile(r"[0-9a-fA-F]{32,}")
+_LONG_TOKEN_RE = re.compile(r"[A-Za-z0-9+/=_-]{40,}")
+
+
+def redact_intro_text(text):
+    text = _LONG_HEX_RE.sub(_INTRO_PLACEHOLDER, text)
+    return _LONG_TOKEN_RE.sub(_INTRO_PLACEHOLDER, text)
+
+
+def stage_peer_intro(payload, fname):
+    """Persist the full original peer_intro payload gitignored (0600).
+    Returns the staged path, or None on failure (caller still redacts)."""
+    try:
+        os.makedirs(INTRO_STAGE_DIR, mode=0o700, exist_ok=True)
+        path = os.path.join(INTRO_STAGE_DIR, fname)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, "w") as fh:
+            json.dump(payload, fh, indent=2)
+        return path
+    except Exception as e:
+        log(f"ERROR: peer_intro staging failed: {e}")
+        return None
 
 
 def load_config():
@@ -294,6 +323,19 @@ class Handler(BaseHTTPRequestHandler):
 
         to_val = payload.get("to")
         target_dir = INBOX_DIR
+        os.makedirs(target_dir, exist_ok=True)
+        fname = (
+            f"{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}"
+            f"-{peer_name}-{os.urandom(4).hex()}.json"
+        )
+
+        # A peer_intro (credential rotation for an already-authenticated
+        # peer) is staged gitignored and redacted in the archived copy so
+        # the public-repo auto-commit can never publish the secret.
+        if str(payload.get("type", "")).strip().lower() == "peer_intro":
+            stage_path = stage_peer_intro(payload, fname)
+            subject = redact_intro_text(subject)
+            body = redact_intro_text(body)
 
         if to_val is not None:
             if isinstance(to_val, str) and re.match(r"^[a-z][a-z0-9_-]{0,31}$", to_val):
@@ -304,11 +346,6 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 log(f"WARN invalid/malformed 'to' value {to_val!r} from peer={peer_name}, routing to root inbox")
 
-        os.makedirs(target_dir, exist_ok=True)
-        fname = (
-            f"{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}"
-            f"-{peer_name}-{os.urandom(4).hex()}.json"
-        )
         record = {
             "from": peer_name,  # from the token match -- never client-supplied
             "subject": subject,
@@ -318,11 +355,14 @@ class Handler(BaseHTTPRequestHandler):
         if to_val is not None:
             record["to"] = to_val
 
+        os.makedirs(target_dir, exist_ok=True)
         with open(os.path.join(target_dir, fname), "w") as fh:
             json.dump(record, fh, indent=2)
 
         _recent.setdefault(peer_name, []).append(time.time())
         log(f"ACCEPT peer={peer_name} via={auth_via} to={to_val} subject={subject[:60]!r} file={fname}")
+        if str(payload.get("type", "")).strip().lower() == "peer_intro":
+            log(f"peer_intro staged from peer={peer_name}: original={'staged at ' + stage_path if stage_path else 'NOT STAGED (see ERROR above)'}; archived copy redacted")
         self._respond(200, {"status": "ok"})
 
 
