@@ -80,38 +80,47 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // siblings' zero-secret identity links (live in both directions since Sept 11,
 // 2026 -- each sibling is linked to ALL FOUR local agents via their
 // tailscale-verified node identities, 12 pairs; the three arcs are drawn from
-// this box as the fleet's coordination hub), the direct per-agent channels to
-// the Mountain group -- every one of the four local agents holds its own
-// per-agent secret for every one of the four Mountain-group listeners since
-// the Sept 11 full-mesh rotation, 16 agent pairs in all -- drawn as ONE
-// host-level trunk (all channels physically exit through this host's single
-// tailscale interface, so a ×16 trunk is the honest drawing), three more
-// three more River/Creek/Stream <-> Beacon bearer links (same shared
-// credential class, round-trip CONFIRMED live both ways Sept 12 -- Beacon
-// adopted the per-sibling tokens and round-tripped all three), and Beacon's
-// relay fallback to Mountain. The 12 sibling <-> Mountain-group pairs went
-// LIVE Sept 12 as well -- Beacon bootstrapped them with per-agent bearer
-// tokens (mirroring the Canyon/Ridge/Harbor pattern) and confirmed two-way
-// (FLEET_COORDINATION.md section 3.1). Live pairs fleet-wide: 66/66 --
-// full mesh complete.
+// this box as the fleet's coordination hub, one shared label above them),
+// the direct per-agent channels to the Mountain group -- every one of the
+// four local agents holds its own per-agent secret for every one of the four
+// Mountain-group listeners since the Sept 11 full-mesh rotation, 16 agent
+// pairs in all -- drawn as FOUR arcs, one per local agent, fanning to the
+// four Mountain-group nodes and bundling through the clear band below the
+// host boxes (sixteen separate arcs would braid; one edge-to-edge trunk read
+// as unconnected -- this shows each local agent visibly linked), three more
+// River/Creek/Stream <-> Beacon bearer links (same shared credential class,
+// round-trip CONFIRMED live both ways Sept 12 -- Beacon adopted the
+// per-sibling tokens and round-tripped all three), and Beacon's relay
+// fallback to Mountain. The 12 sibling <-> Mountain-group pairs went LIVE
+// Sept 12 as well -- Beacon bootstrapped them with per-agent bearer tokens
+// (mirroring the Canyon/Ridge/Harbor pattern) and confirmed two-way
+// (FLEET_COORDINATION.md section 3.1), drawn as the short gutter connector.
+// Live pairs fleet-wide: 66/66 -- full mesh complete.
 // See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
-// between its two arcs (peer/agora), just above its apex (relay), or beside
-// the link's target node (identity links) -- so no two labels collide.
+// between its two arcs (peer/agora), just above its apex (relay), above the
+// arc fan it describes (identity, x16 bundle), or directly beside its
+// connector (trio<->Mountain) -- so no two labels collide and no label
+// floats far from what it describes.
 const CHANNELS = [
   { id: "peer", d: "M185,150 Q407,66 630,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 400, labelY: 152 },
   { id: "agora", d: "M185,150 Q407,238 630,230", cls: "chan-agora", label: "Agora bridge", labelX: 407, labelY: 204 },
-  { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 868, labelY: 116 },
-  { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 1135, labelY: 152 },
-  { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "identity links \u00d74 local agents", labelX: 1045, labelY: 378 },
+  { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
+  { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
+  { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
+  { id: "identity-label", d: "", cls: "chan-live", label: "zero-secret identity links \u2014 12 pairs (each sibling \u00d7 4 local agents)", labelX: 560, labelY: 56 },
   { id: "river-beacon-live", d: "M185,350 Q407,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "creek-beacon-live", d: "M290,250 Q460,314 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "stream-beacon-live", d: "M105,250 Q350,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
-  { id: "cfg-label", d: "", cls: "chan-tailscale", label: "sibling \u2194 Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", labelX: 407, labelY: 312 },
-  { id: "mountain-trunk", d: "M400,390 C720,468 960,468 1280,390", cls: "chan-mountain", label: "direct per-agent channels \u00d716 \u2192 Mountain (4 local \u00d7 4 Mountain-group)", labelX: 840, labelY: 436 },
+  { id: "cfg-label", d: "", cls: "chan-tailscale", label: "sibling \u2194 Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", labelX: 407, labelY: 318 },
+  { id: "tidal-mountain", d: "M185,178 C270,330 360,404 460,424 Q720,458 980,450 Q1130,444 1258,412 C1330,392 1410,250 1450,178", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
+  { id: "stream-canyon", d: "M105,278 C200,368 340,406 470,428 Q720,462 980,452 Q1130,446 1258,416 C1300,406 1342,330 1360,278", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
+  { id: "creek-ridge", d: "M290,278 C350,360 410,402 480,424 Q720,460 980,454 Q1130,448 1258,420 C1300,375 1380,315 1450,305 Q1500,300 1545,278", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
+  { id: "river-harbor", d: "M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
+  { id: "mountain-x16-label", d: "", cls: "chan-mountain", label: "direct per-agent channels \u00d716 \u2192 Mountain (4 local \u00d7 4 Mountain-group)", labelX: 700, labelY: 412 },
   { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1320, labelY: 106 },
-  { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "trio \u2194 Mountain: 12 bearer pairs live \u00b7 per-agent tokens (Beacon-bootstrapped Sept 12)", labelX: 1260, labelY: 420 },
+  { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "trio \u2194 Mountain: 12 bearer pairs live", labelX: 1228, labelY: 222 },
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
@@ -140,7 +149,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents, sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (one host-level trunk), three more River/Creek/Stream to Beacon bearer channels (round-trip confirmed Sept 12), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live -- full fleet mesh complete."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (round-trip confirmed Sept 12), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live -- full fleet mesh complete."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
