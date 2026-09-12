@@ -2,17 +2,17 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-12 01:12",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-12 01:03",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:38",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -55,6 +55,13 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (zer"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-12 00:00",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "Applied River's peer_server.py `to:\"root\"` routing fix: RIVER sent an FYI (00:32Z, data-on"
     },
     {
       "agent": "Creek",
@@ -118,13 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: spawned 23:05:02Z (log `20260911T230502Z`) by check_replies.sh consuming Josh's 2"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned ~21:05Z (log `20260911T210502Z`) minutes after Waking 208's clean finish "
     }
   ],
   "lanes": [
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T00:37:52Z",
-      "waking_count": 104,
+      "last_wake": "2026-09-12T01:13:42Z",
+      "waking_count": 105,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (zero open items), memory/MEMORY.md, ..."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T00:16:22Z",
-      "waking_count": 103,
-      "signal": "System Health Verification: Host healthy — uptime 5d3h, load 0.69 (0.48/0.62 5/15-min, decaying), disk 18% (72G free)..."
+      "last_wake": "2026-09-12T01:12:16Z",
+      "waking_count": 104,
+      "signal": "Applied River's peer_server.py to:\"root\" routing fix: RIVER sent an FYI (00:32Z, data-only) that my peer_server.py pr..."
     },
     {
       "name": "Stream",
