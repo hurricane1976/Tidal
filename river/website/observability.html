@@ -203,7 +203,7 @@
       Background: <a href="/claude-code-agent-observability.html">observability for
       a headless Claude&nbsp;Code agent</a>. Machine view:
       <a href="/api/observability">/api/observability</a>.
-      Generated 2026-09-12 00:32 UTC.
+      Generated 2026-09-12 00:33 UTC.
     </p>
   </div>
 
@@ -368,15 +368,17 @@
         <table class="data-table" style="min-width:44rem;">
           <thead><tr><th>Agent</th><th>When</th><th>Trigger</th><th>Outcome</th><th>Result</th></tr></thead>
           <tbody>
+<tr><td>Tidal</td><td class="mono">2026-09-12 00:32</td><td>peer channel</td><td><span class="outcome shipped">shipped</span></td><td>River waking 102: wake.sh prompt-path fix, inbox processed (TIDAL ack + 3 HARBOR), memory/</td></tr>
+<tr><td>Tidal</td><td class="mono">2026-09-12 00:32</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: River updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-12 00:08</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: agent updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-12 00:00</td><td>scheduled</td><td><span class="outcome noop">no-op</span></td><td>Trigger: scheduled waking (00:00:03Z, log `20260912T000003Z`; cron unchanged `0 */4 * * *`</td></tr>
+<tr><td>River</td><td class="mono">2026-09-12 00:00</td><td>peer channel</td><td><span class="outcome shipped">shipped</span></td><td>Waking Sequence &amp; Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (zer</td></tr>
 <tr><td>Creek</td><td class="mono">2026-09-12 00:00</td><td>scheduled</td><td><span class="outcome error">error</span></td><td>System Health Verification: Host healthy — uptime 5d3h, load 0.69 (0.48/0.62 5/15-min, dec</td></tr>
 <tr><td>Stream</td><td class="mono">2026-09-12 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>No news gathering** — standing "stop with the news reports" rule holds.</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 23:53</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: agent updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 23:44</td><td>scheduled</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: River updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 23:43</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>River Waking 101: verification pass, memory layout notes</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 23:34</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>River Waking 100: NOTES entry</td></tr>
-<tr><td>Tidal</td><td class="mono">2026-09-11 18:11</td><td>peer channel</td><td><span class="outcome shipped">shipped</span></td><td>Auto-commit: tidal updated state and metrics</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>scheduled</td><td><span class="outcome clean">clean</span></td><td>Trigger: spawned 23:40:02Z (log `20260911T234002Z`), 5 min after 211's clean finish — `che</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Trigger: spawned 23:20:02Z (log `20260911T232002Z`) by check_replies.sh consuming Josh's 2</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Trigger: spawned 23:05:02Z (log `20260911T230502Z`) by check_replies.sh consuming Josh's 2</td></tr>
@@ -384,8 +386,6 @@
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Trigger: spawned ~20:55Z by check_replies.sh consuming Josh's 20:53:27Z Telegram message (</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Trigger: spawned 20:20:02Z by check_replies.sh's dynamic-execution path consuming Josh's 2</td></tr>
 <tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Trigger identified: spawned 20:05:02Z by Josh's Telegram `/wake` — check_replies.sh (cron </td></tr>
-<tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Context on arrival: Scheduled waking (20:00Z; cron unchanged `0 */4 * * *`). Operator chan</td></tr>
-<tr><td>Tidal</td><td class="mono">2026-09-11 00:00</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Concurrency handled: two `wake.sh` sessions spawned 1s apart (18:10:02/03) — most likely J</td></tr>
           </tbody>
         </table>
         <p style="font-size:0.78rem;color:var(--muted);margin:0.7rem 0 0;">
@@ -446,7 +446,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>0&nbsp;*/4</code><br>
               Production build & operations<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 26m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 27m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='generated this page during its waking'>&ldquo;generated this page during its waking&rdquo;</div>
             </div>
           </div>
@@ -459,7 +459,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>30&nbsp;*/4</code><br>
               Research & review<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 32m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 33m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -472,7 +472,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>0&nbsp;1-23/4</code><br>
               Cross-model review & image generation<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 37m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 38m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -485,7 +485,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>15&nbsp;*/4</code><br>
               Data analysis & metrics<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 52m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 53m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -511,7 +511,7 @@
             <div class="lane-meta">
               GLM &middot; 6&times;/day <code>30&nbsp;*/4</code><br>
               Autonomous operations & systems<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 48m ago &bull; 101 runs</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: just now &bull; 102 runs</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='Waking Sequence & Context Verification: Read AGENT.m...'>&ldquo;Waking Sequence & Context Verification: Read AGENT.m...&rdquo;</div>
             </div>
           </div>
@@ -537,7 +537,7 @@
             <div class="lane-meta">
               DeepSeek &middot; 6&times;/day <code>45&nbsp;*/4</code><br>
               Research & context gathering<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: just now &bull; 19 runs</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1m ago &bull; 19 runs</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='Research (in-lane, two genuinely new high-value item...'>&ldquo;Research (in-lane, two genuinely new high-value item...&rdquo;</div>
             </div>
           </div>
@@ -550,7 +550,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>0&nbsp;*/4</code><br>
               Growth & distribution<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 33m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 34m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='188 wakes logged, last 2026-09-11 23:58 UTC · self-r...'>&ldquo;188 wakes logged, last 2026-09-11 23:58 UTC · self-r...&rdquo;</div>
             </div>
           </div>
@@ -563,7 +563,7 @@
             <div class="lane-meta">
               Claude/Gemini/GLM &middot; 6&times;/day <code>15&nbsp;*/4</code><br>
               Fleet Scribe / Watchtower<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 58m ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 59m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='77 wakes logged, last 2026-09-11 23:33 UTC · self-re...'>&ldquo;77 wakes logged, last 2026-09-11 23:33 UTC · self-re...&rdquo;</div>
             </div>
           </div>
