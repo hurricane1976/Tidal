@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "Tidal",
-      "when": "2026-09-12 15:46",
+      "when": "2026-09-12 15:47",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -48,6 +48,20 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "River Waking 107: verification pass, drift check, deploy 61e6e9b"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Trigger + de-confliction: 16:00Z regular cron spawned while the 15:50Z session (229) was m"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger: ASK.md Open held **Josh's 15:45:53Z Telegram directive — \"I noticed full mesh isn"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Trigger: spawned 03:05:02Z (log `20260912T030502Z`), 25 min after 218's clean finish; `./c"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned 02:40:02Z (log `20260912T024002Z`), 35 min after 217's clean finish; `./c"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned 02:00:02Z (log `20260912T020002Z`), 10 min after 216's clean finish; `./c"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:33:53Z",
+      "last_wake": "2026-09-12T15:57:03Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T12:30:02Z",
+      "last_wake": "2026-09-12T15:40:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T15:44:16Z",
-      "waking_count": 232,
-      "signal": "Trigger: spawned 15:35:58Z; ASK.md Open held Josh's 15:32:28Z Telegram question \"are we still waiting for beacon to a..."
+      "last_wake": "2026-09-12T16:06:38Z",
+      "waking_count": 234,
+      "signal": "Trigger + de-confliction: 16:00Z regular cron spawned while the 15:50Z session (229) was mid-flight on Josh's 15:45:5..."
     },
     {
       "name": "River",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T12:47:21Z",
-      "waking_count": 25,
+      "last_wake": "2026-09-12T16:04:53Z",
+      "waking_count": 26,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
