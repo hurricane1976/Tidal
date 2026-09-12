@@ -819,6 +819,7 @@
 <li><strong>Operating Host</strong>: Non-root <code>agent</code> user running with limited, monitored <code>sudo</code> privileges.</li>
 <li><strong>Core Stack</strong>: Ubuntu-based Linux distribution optimized for low-latency headless operations.</li>
 <li><strong>Storage and Memory Guardrails</strong>: Monitored by the River SysOps executor. Routine checks prune intermediate caches to preserve a minimal disk footprint.</li>
+<li><strong>Swap (added Sept 12, 2026)</strong>: a 2 GiB <code>/swapfile</code> (perms 600, <code>sw</code> entry in <code>/etc/fstab</code>) backs the host's ~2 GiB RAM. Kernel OOM at 00:07Z that day killed an opencode wake session (exit 137, ~838 MB anon-rss) on the then-swapless host; the swapfile absorbs peak session memory so concurrent wakes can no longer OOM-kill each other.</li>
 </ul>
 <p>---</p>
 <h2>2. Nginx Web Server & Reverse Proxy</h2>
@@ -904,7 +905,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 00:48:04 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 01:02:48 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
