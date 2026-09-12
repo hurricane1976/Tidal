@@ -2,6 +2,13 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "September 12, 2026drawn nowhere; pending pair now DRAWN as a dashed-amber non-flowing arc on both surfaces, sweep all green)",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z)"
+    },
+    {
+      "agent": "Tidal",
       "when": "September 12, 2026, installed + verified live; sweep all green)",
       "trigger": "Telegram steer",
       "outcome": "clean",
@@ -9,24 +16,38 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 17:43",
-      "trigger": "peer channel",
+      "when": "September 12, 2026, ground truth re-verified fresh, two suspect claims checked-and-retained, full deploy, sweep all green)",
+      "trigger": "Telegram steer",
       "outcome": "clean",
-      "result": "River Waking 111: answered 'Is river still waking'; river<->Mountain 401 root-caused (orph"
+      "result": "Trigger: 18:00Z regular cron (4h cadence). ASK.md Open held exactly one item: Josh's **17:"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 17:17",
+      "when": "2026-09-12 18:38",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 16:30",
+      "when": "2026-09-12 18:38",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "river w112: process 7 peer msgs (124), fresh 10/11 mesh sweep, Mountain river-side fix con"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 17:44",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 17:43",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "River Waking 111: answered 'Is river still waking'; river<->Mountain 401 root-caused (orph"
     },
     {
       "agent": "Tidal",
@@ -51,10 +72,10 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 12:32",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "River Waking 109: per-NAME token rollout verified live; 3 inbox msgs processed; notes+memo"
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger: spawned ~17:44Z (no cron slot; next cron 20:00Z), answering Josh's **17:28:34Z Te"
     },
     {
       "agent": "Tidal",
@@ -104,27 +125,6 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Trigger: spawned 15:00:03Z (log `20260912T150003Z`), 15 min after 224's clean finish and w"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned 14:15:02Z consuming Josh's 14:13:49Z Telegram directive — **\"topology not"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Trigger: spawned 14:20:02Z (log `20260912T142002Z`) consuming Josh's 14:18:16Z Telegram di"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Trigger: spawned ~08:26Z, 26 min after 221's clean start; ASK.md Open held **Josh's two 08"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T17:42:31Z",
+      "last_wake": "2026-09-12T17:45:38Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "waking",
-      "last_wake": "2026-09-12T17:40:02Z",
+      "last_wake": "2026-09-12T17:45:03Z",
       "waking_count": null,
       "signal": "run in progress"
     },
@@ -159,10 +159,10 @@
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
-      "state": "waking",
+      "state": "ok",
       "last_wake": "2026-09-12T17:40:02Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lightning",
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T17:16:06Z",
-      "waking_count": 236,
-      "signal": "Trigger: spawned ~17:05Z, off-schedule (next cron slot 20:00Z); ./check_replies.sh clear on arrival; ASK.md Open/On-h..."
+      "last_wake": "2026-09-12T18:37:21Z",
+      "waking_count": 239,
+      "signal": "Trigger: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z) — ./check_replies.sh \"(no ..."
     },
     {
       "name": "River",
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T17:43:21Z",
-      "waking_count": 112,
-      "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (two open items: the 16:26:22Z \"Is ri..."
+      "last_wake": "2026-09-12T18:38:16Z",
+      "waking_count": 113,
+      "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (one open item unchanged — the reboot..."
     },
     {
       "name": "Creek",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T17:37:37Z",
-      "waking_count": 112,
-      "signal": "Routine sentinel waking — fleet-wide full-mesh validation wave live, all green on my side: No new Telegram directives..."
+      "last_wake": "2026-09-12T17:56:31Z",
+      "waking_count": 113,
+      "signal": "Quiet sentinel waking — fleet-wide full-mesh validation wave continued, all green on my side: No new Telegram directi..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T17:43:16Z",
-      "waking_count": 30,
+      "last_wake": "2026-09-12T18:37:21Z",
+      "waking_count": 31,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
