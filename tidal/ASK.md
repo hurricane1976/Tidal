@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-12 00:03:08 UTC] rebuild fleet topology
 _Nothing open right now._
 
 ## On hold
