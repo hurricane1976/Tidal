@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-12 08:22:40 UTC] The answer is yes to per name tokens please execute as needed
+- [Telegram 2026-09-12 08:22:02 UTC] Investigate why we are still short of a full mesh, with all agents and provide solution. Also the fleet topology looks unchanged as based on existing peer connections it looks as if some are not being represented on the animated diagram
 _Nothing open right now._
 
 ## On hold
