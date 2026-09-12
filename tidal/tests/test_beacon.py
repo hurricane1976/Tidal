@@ -849,10 +849,10 @@ _Nothing awaiting a decision right now._
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
-            # static SVG mirroring the React SPA geometry (viewBox 1680x500).
+            # static SVG mirroring the React SPA geometry (viewBox 1680x512).
             # All 11 two-way links drawn live; Mountain group boxed.
             self.assertIn("MOUNTAIN GROUP", content)
-            self.assertIn("viewBox=\"0 0 1680 500\"", content)
+            self.assertIn("viewBox=\"0 0 1680 512\"", content)
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             self.assertIn("M185,150 Q660,60 1135,200", content)  # live TIDAL->LNTRN arc
@@ -861,15 +861,29 @@ _Nothing awaiting a decision right now._
             self.assertEqual(content.count("Link: identity, live"), 3)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)
+            # Sept 12, 2026 (Waking 222) full-inventory audit: the drawing must
+            # represent ALL existing peer connections -- trunk relabelled x16
+            # (4 local x 4 Mountain-group per-agent channels), 3 configured
+            # sibling<->Beacon links, the pending trio<->Mountain connector,
+            # and the 45/66 fleet-wide pair count in the legend.
+            self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
+            self.assertIn("45/66 agent pairs verified two-way live", content)
+            self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain pending connector
+            self.assertIn("sibling &#8596; Beacon: 3 more configured links", content)
+            self.assertIn("12 pairs pending", content)
             # Next.js topology source mirrors the same state (temp-dir-safe:
             # resolve the real repo root from this test file's location).
             _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             with open(os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx"), "r") as tf:
                 topo_src = tf.read()
-                self.assertEqual(topo_src.count('"identity link live"'), 3)
+                self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 3)
                 self.assertIn("chan-live", topo_src)
                 self.assertNotIn("pending adoption", topo_src)
-                self.assertNotIn("chan-pending", topo_src)
+                self.assertIn("chan-pending", topo_src)  # trio<->Mountain pending connector
+                self.assertIn("chan-cfg", topo_src)  # configured sibling<->Beacon links
+                self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
+                self.assertIn("trio \\u2194 Mountain: 12 pairs pending", topo_src)
+                self.assertIn("45/66 agent pairs verified two-way live", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
 
         # Check mountain onboarding page was generated

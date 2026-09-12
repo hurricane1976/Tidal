@@ -4127,7 +4127,7 @@ def main():
              live this waking). Non-overlapping host boxes -- Local / Beacon /
              OWN TAILNET NODES / MOUNTAIN GROUP -- with all 11 two-way peer
              links drawn live, geometry mirroring FleetTopology.tsx (SPA). -->
-        <svg viewBox="0 0 1680 500" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1680 512" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
             <!-- Host box 1: this box (local quartet) -->
             <rect x="20" y="64" width="380" height="336" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
             <text x="40" y="94" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6)</text>
@@ -4168,14 +4168,31 @@ def main():
             <!-- Beacon <-> Mountain relay fallback -->
             <path class="pulse-line" d="M630,230 Q1040,20 1450,150" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
 
-            <!-- Direct per-agent Tailscale peer channels: every local agent
-                 (Tidal, River, Creek, Stream) holds its own per-agent secret on
-                 Mountain's listeners (Sept 11 full-mesh credential rotation).
-                 Drawn as ONE host-level trunk (mirrors FleetTopology.tsx):
-                 all four channels exit through this host's single tailscale
-                 interface, and four separate arcs just braided through the
-                 sibling box. -->
+            <!-- Direct per-agent Tailscale peer channels: every one of the
+                 four local agents (Tidal, River, Creek, Stream) holds its own
+                 per-agent secret for every one of the four Mountain-group
+                 listeners (Sept 11 full-mesh credential rotation) -- 16 agent
+                 pairs in all. Drawn as ONE host-level trunk (mirrors
+                 FleetTopology.tsx): all channels exit through this host's
+                 single tailscale interface, and sixteen separate arcs would
+                 just braid through the sibling box. -->
             <path class="pulse-line" d="M400,390 C720,468 960,468 1280,390" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="840" y="436" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
+
+            <!-- Configured sibling <-> Beacon links (River/Creek/Stream hold
+                 Beacon blocks with the shared credential class; round-trip
+                 verification pending their side). Dashed blue. -->
+            <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
+            <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
+            <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
+            <text x="407" y="312" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more configured links (round-trip verify pending)</text>
+
+            <!-- The one not-yet-linked part of the fleet: trio <-> Mountain
+                 group (12 pairs). Dashed amber; zero-secret identity recipe
+                 proposed (Mountain box adopts dual-mode peer_server.py +
+                 roster flags). -->
+            <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(255, 138, 61, 0.22)" stroke-width="1.5" stroke-dasharray="3 6" fill="none" />
+            <text x="1260" y="420" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 pairs pending &#183; zero-secret identity recipe proposed</text>
 
             <!-- FULL MESH: all three sibling tailnet identity links are LIVE
                  (green) in both directions, zero secrets. The trio sends
@@ -4198,10 +4215,12 @@ def main():
             <text x="650" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channel</text>
 
             <line x1="810" y1="470" x2="850" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels (Mountain)</text>
+            <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full mesh 11/11 two-way live (Sept 11)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">45/66 agent pairs verified two-way live &#183; 12 pending (trio &#8596; Mountain) &#183; 9 awaiting their-side confirmation (trio&#8596;trio, Beacon&#8596;trio, Beacon&#8596;Canyon/Ridge/Harbor)</text>
+            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">dashed blue = configured, round-trip pending &#183; dashed amber = not yet linked &#183; full inventory + solution: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
             <!-- TIDAL -->
