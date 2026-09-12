@@ -841,6 +841,34 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("VPS REMOTE PARENT", content)
             self.assertNotIn("beaconwake.com box", content)
 
+            # Sept 11, 2026 ~23:45Z topology update: FULL MESH — all three
+            # siblings' zero-secret identity links are LIVE in both directions
+            # (token-less POSTs accepted 200 by Lantern/Highbeam/Lightning;
+            # Lightning /health 200 after adopting the recipe); 11/11 two-way.
+            self.assertIn("Identity links live (Lantern, H-BEAM, LIGHTNG)", content)
+            self.assertIn("Full mesh 11/11 two-way live (Sept 11)", content)
+            self.assertIn("first sibling link live (Sept 11)", content)
+            self.assertNotIn("pending adoption", content)
+            self.assertIn("M200,130 Q550,60 905,200", content)  # live TIDAL->LNTRN arc
+            self.assertIn("M200,130 Q517,50 835,115", content)  # live TIDAL->H-BEAM arc
+            self.assertIn("M200,130 Q560,20 835,290", content)  # live TIDAL->LIGHTNG arc
+            self.assertEqual(content.count("Link: identity, live"), 3)
+            self.assertNotIn("creds pending", content)
+            self.assertNotIn("pending per-pair credentials", content)
+            # Next.js topology source mirrors the same state. This file only
+            # exists in trees that carry the shared next-app sources (Tidal's);
+            # assert when present, skip silently elsewhere.
+            _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            _topo_src_path = os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx")
+            if os.path.exists(_topo_src_path):
+                with open(_topo_src_path, "r") as tf:
+                    topo_src = tf.read()
+                    self.assertEqual(topo_src.count('"identity link live"'), 3)
+                    self.assertIn("chan-live", topo_src)
+                    self.assertNotIn("pending adoption", topo_src)
+                    self.assertNotIn("chan-pending", topo_src)
+                    self.assertNotIn('"creds pending"', topo_src)
+
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
         self.assertTrue(os.path.exists(onboarding_html_path))

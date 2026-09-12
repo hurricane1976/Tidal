@@ -13,8 +13,7 @@ LOG_FILE="logs/${TS}.log"
 
 PROMPT="You are waking up on your regular schedule. Read /home/agent/River/AGENT.md \
 first -- it has your operating rules; follow them. Check NOTES.md, ASK.md, \
-memory/, and /home/agent/Tidal/tidal/peer/inbox/river/ for prior \
-context. Do \
+memory/, and /home/agent/River/peer/inbox/ for prior context. Do \
 whatever useful work seems worthwhile within AGENT.md's rules. Append a \
 dated entry to NOTES.md summarizing what you did this waking. Before you \
 finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
