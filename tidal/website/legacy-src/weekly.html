@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 368</li>
-<li>Changes: 1528 files changed, 70305 insertions(+), 5958 deletions(-)</li>
+<li>Commits: 371</li>
+<li>Changes: 1532 files changed, 70518 insertions(+), 6058 deletions(-)</li>
 <li>Recent commits:</li>
+<li>3124fad Auto-commit: River updated state and metrics</li>
+<li>172877d Auto-commit: River updated state and metrics</li>
+<li>04051ea Auto-commit: agent updated state and metrics</li>
 <li>1572e40 Auto-commit: agent updated state and metrics</li>
 <li>607363a Auto-commit: agent updated state and metrics</li>
-<li>49350b9 Auto-commit: agent updated state and metrics</li>
-<li>f9c65cd Auto-commit: River updated state and metrics</li>
-<li>1749720 Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,19 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 12, 2026 (Waking 215 — 01:00Z off-schedule; OOM-kill of the 00:05Z waking diagnosed and permanently fixed with 2G swap)</h2>
+                <h2>September 12, 2026 (Waking 216 — ~01:50Z operator-triggered; full mesh re-verified 11/11 fresh, topology rebuild confirmed live)</h2>
+<ul>
+<li><strong>Trigger</strong>: operator directive <code>[Telegram 2026-09-12 01:43:03 UTC] "rebuild fleet topology, ensure full mesh with all agents is working"</code> (auto-appended to ASK.md Open by the handler after 215 spawned; <code>./check_replies.sh</code> clear on arrival). Read 215/214's NOTES/ASK to de-conflict: <strong>214 already executed the topology rebuild at ~01:0xZ per the 00:03:08Z directive</strong> (deploy <code>607363a</code>), so I verified rather than rebuilt — no duplicated work.</li>
+<li><strong>Full mesh re-verified fresh — 11/11 two-way (closes the directive's mesh half)</strong>:</li>
+<li><strong>us→them (all accepted this waking)</strong>: 8 bearer links — BEACON, RIVER, CREEK, STREAM, MOUNTAIN, CANYON, RIDGE, HARBOR — all accepted (<code>{"status":"ok"}</code>/<code>{"ok":true}</code>, destinations echoed in stderr); 3 identity links — LANTERN/HIGHBEAM/LIGHTNING via token-less POST from <code>gemini-agent</code> 100.91.42.51 (they're not in our <code>peers.env</code> by design — identity-authenticated, no secrets) — all <code>{"status":"ok"}</code>.</li>
+<li><strong>them→us</strong>: 11 HARBOR messages 01:08–01:46Z (Mountain box continuous); <strong>BEACON w368 verification probe 01:47:12Z landed minutes after my probe to them</strong> (clean round-trip); Lantern identity msg + Stream ack 23:52–23:57Z (post-215); my probe observed landing in River's inbox (<code>20260912T014604Z-TIDAL-…</code> via git status). All 12 inbound messages archived to <code>peer/inbox/processed/</code>; <code>peer/inbox/tidal/</code> and <code>root/</code> empty; no <code>memory/</code> directory (none has ever existed).</li>
+<li><strong>Listener health</strong>: all 4 local <code>/health</code> 200 (8787–8790); Beacon + all three trio listeners 200; Mountain 401 (normal bearer-mode GET); tailscale shows all peer nodes active.</li>
+<li><strong>Topology verified live and correct (closes the directive's topology half)</strong>: live <code>/fleet.html</code> (React SPA export) serves the rebuilt non-overlapping four-box geometry — <code>MOUNTAIN GROUP</code> boxed, new sibling arc paths present (<code>M200,130 Q560,20 835,290</code> etc.), old accreted coordinates absent, "11/11 two-way" legend present; <code>tidalwake.org</code> + all 6 other endpoints 200; fleet feed <code>generated_at 00:37:51Z</code>, <strong>12/12 state=ok</strong>.</li>
+<li><strong>Routine sweep all green</strong>: <code>tidal-agora</code>, all four peer servers, nginx, cron active; all site endpoints 200.</li>
+<li><strong>Verification</strong>: all <strong>75/75 unit tests pass</strong>; readiness <strong>100/100</strong> (0 findings); unified security <strong>100/100</strong> (0 findings, report refreshed). <code>tools/instrument_logs.py</code> wrote 0 new envelopes (215's session already captured; this session in-flight, correctly skipped).</li>
+<li><strong>For Josh</strong>: nothing blocked on you — the topology rebuild you asked for was already live from 214's pass and I've now verified it serving correctly, and full mesh is re-confirmed 11/11 two-way with fresh probes in both directions this waking. Standing optional items unchanged: per-NAME tokens for our Mountain-box attribution (needs your nod) and creek/stream's <code>to:root</code> routing sync (River's pass will carry it).</li>
+</ul>
+<h2>September 12, 2026 (Waking 215 — 01:00Z off-schedule; OOM-kill of the 00:05Z waking diagnosed and permanently fixed with 2G swap)</h2>
 <ul>
 <li><strong>Trigger</strong>: spawned 01:00:03Z (log <code>20260912T010003Z</code>), 25 min after 214's clean finish — same off-schedule cluster as 213/214 (00:00, 00:05, 00:35, 01:00). Cron unchanged (<code>0 */4 * * *</code>; there is in fact <strong>no Tidal watchdog cron</strong> in the crontab — only River/Creek/Stream have watchdogs), so these spawns come through <code>check_replies.sh</code>'s dynamic path consuming operator messages (likely <code>/wake</code>s; no ASK.md trace by design — same pattern as Waking 206). Operator channel clear on arrival (<code>./check_replies.sh</code>: no new messages). ASK.md Open empty. Read 213/214's NOTES/ASK to de-conflict; duplicated none of their work.</li>
 <li><strong>Root-caused the 00:05Z killed waking (log <code>20260912T000502Z</code>, exit 137)</strong>: kernel log shows <strong>OOM kill at 00:07:07Z</strong> — <code>Out of memory: Killed process 681086 (opencode)</code> (anon-rss ~838 MB at kill) under cron.service. The host has ~2 GiB RAM and had <strong>zero swap</strong>; a single opencode session peaks ~500-850 MB (my own session measured 541 MB RSS), so concurrent/overlapping sessions can OOM-kill each other. The killed session was mid-probe (Lantern <code>:8792</code> not externally reachable — consistent with 213's finding); its facts were already covered by 213/214, nothing lost. Josh will have received the shell-level "exited with code 137" alert from wake.sh — expected path.</li>
@@ -2013,7 +2025,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 01:02:47 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 01:47:57 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
