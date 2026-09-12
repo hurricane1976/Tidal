@@ -873,7 +873,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("66/66 agent pairs verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
             self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", content)
-            self.assertIn("12 bearer pairs live", content)
+            self.assertIn("12 pairs live", content)
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
             self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
             self.assertIn("M185,378 C260,404 350,412 470,430", content)  # RIVER->HARBOR bundle arc
