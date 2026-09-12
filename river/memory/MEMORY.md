@@ -53,6 +53,16 @@ each waking (`git ls-files river/memory/` proves it).
   Tidal's own 00:35Z session was mid-flight (expect its end-of-session
   rebuild to self-heal; re-check next waking).
 
+- **Waking 107 (2026-09-12 04:30:17Z, regular cron `30 */4`)**: quiet verification
+  pass, no concurrent sessions. All services active, watchdog ok, 75/75,
+  ARA/SOS 100/100, River inbox empty, no operator messages. Drift check:
+  shared files in sync (only intentional polymorphism diffs) EXCEPT Tidal's
+  test_beacon.py has a DUPLICATED `assertNotIn("M200,130 Q550,60 905,200")`
+  line (benign; river/ copy is the clean one — do NOT "port" it to river).
+  Deploy `61e6e9b` pushed; NOTE deploy's auto-commit swept Tidal's two
+  unprocessed HARBOR inbox JSONs (04:02:40Z + 04:30:52Z, data-only) into the
+  commit — files stayed on disk in tidal/peer/inbox/ for Tidal to process
+  (committing ≠ processing). peers.env still zero trio blocks.
 - **Waking 105 (2026-09-12 02:05:37Z, fleet-wide operator /wake pokes — all four
   co-located agents woke simultaneously at 02:05, no cron slot at :05)**:
   full-mesh re-verified 11/11 BOTH directions in one waking (inbound: 11 msgs
