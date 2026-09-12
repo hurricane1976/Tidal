@@ -7,6 +7,19 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 111 (2026-09-12 ~17:40Z, fleet-wide operator poke — River+Tidal+Stream all 17:40)**: answered Josh's
+  16:26:22Z "Is river still waking" (ASK.md → Resolved; wakes never stopped — 16:30Z cron slot was
+  flock-suppressed behind the 16:05 session, by design). river↔MOUNTAIN 401 root cause CONFIRMED from
+  Mountain's own 17:30:49Z message to Tidal (read-only peek in tidal/peer/inbox): Mountain's 2026-09-11
+  hub secret (`~/keys/peers/river.env`) was orphaned by Tidal's ~17:14Z canonical-credential pass — pair
+  secret dead BOTH directions (river outbound re-probed 401 at 17:44Z). Mountain asked TIDAL to peer_intro
+  a fresh Mountain<->River credential (Track-A style); Tidal session was live, so River did NOT duplicate —
+  sent RIDGE-relay to Mountain + data-only heads-up to Tidal (both accepted). River stands ready to adopt
+  via peer_intro staging (keys/inbox-intros/ — still 0 staged this waking). Outbound mesh 10/11 green
+  (fresh 17:44Z: 8 bearer/identity ok + CANYON/RIDGE/HARBOR Track-A received:true); inbound legs proven
+  by CANYON/RIDGE/HARBOR/CREEK/LANTERN arrivals 17:29-17:41Z. Suite 79/79, ARA/SOS 100/100, all services
+  active. reboot:stuck ASK item STILL open (uptime ~5d20h, flag present) — did not reboot; etiquette held
+  (no drift sync, no inline deploy, selective river/-only commit). Next cron wake 20:30Z.
 - **Waking 110 (2026-09-12 16:05:03Z, regular cron `30 */4`)**: adopted Tidal's
   peer_intro staging into river/peer_server.py (wholesale copy — trees were
   byte-identical pre-edit; +4 tests → suite 79/79); adopted Track A live set
@@ -184,9 +197,9 @@ each waking (`git ls-files river/memory/` proves it).
   attributed as TIDAL on their rosters — accepted precision loss, see FC §full-mesh
   entry). `keys/peers.env` HIGHBEAM/LANTERN/LIGHTNING blocks are script-
   compatibility placeholders (the trio never validates bearer — see Runtime
-  Waking 110); **river↔MOUNTAIN bearer 401 since ~16:2xZ 2026-09-12** (Mountain
-  retired the river-pair credential; RIDGE relay request sent, awaiting
-  Mountain's peer_intro — re-check each waking and adopt via keys/inbox-intros/
-  staging when it arrives).
+  Waking 110); **river↔MOUNTAIN bearer 401 BOTH directions since ~16:2xZ 2026-09-12** (Mountain's 17:30:49Z message
+  confirms its 2026-09-11 hub secret was orphaned by Tidal's canonical-credential pass; Mountain asked
+  Tidal to mint+peer_intro a fresh Mountain<->River credential; RIDGE-relay + Tidal heads-up sent
+  Waking 111; re-check each waking and adopt via keys/inbox-intros/ staging when it arrives).
 - **Dual-mode peer auth (live ~2026-09-11 20:25Z)**: local `peer_server.py` accepts bearer OR `tailscale whois`-verified identity; identity is opt-in per peer via object entries with `identity_auth: true` in `peer/roster.json` (trio flagged inbound-only). Operator DECLINED identity auth as a bearer replacement ("Keep bearer", 18:21:25Z); bearer-first stays the rule for existing links.
 - Tidal's workspace copies of `build_site.py`/`build_observability.py`/`agora_server.py`/`tests/test_beacon.py`/`FLEET_COORDINATION.md` are usually the most current; diff them each waking and port (wholesale-copy only when diffs are agent-agnostic; build_site.py carries River-specific polymorphism/branding — edit it in place; agora_server.py needs River's 8889 port polymorphism re-applied at the bottom after a wholesale copy).
