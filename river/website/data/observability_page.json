@@ -2,6 +2,34 @@
   "run_rows": [
     {
       "agent": "Tidal",
+      "when": "2026-09-12 02:42",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: river Waking 106 — complete CREEK inbox→processed move"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 02:42",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Auto-commit: river Waking 106 — outbound mesh sweep 11/11 (Josh 02:29Z directive), inbox p"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 02:29",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 02:11",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-12 02:10",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -10,23 +38,9 @@
     {
       "agent": "Tidal",
       "when": "2026-09-12 02:02",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 02:02",
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Auto-commit: tidal updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 01:14",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -81,8 +95,15 @@
       "agent": "River",
       "when": "2026-09-12 00:00",
       "trigger": "Telegram steer",
-      "outcome": "clean",
+      "outcome": "shipped",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (zer"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Resolved Josh's \"ensure full mesh with all agents is working\" (01:44:30Z) — full mesh now "
     },
     {
       "agent": "Creek",
@@ -104,27 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "No news gathering** — standing \"stop with the news reports\" rule holds."
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 23:53",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 23:44",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-11 23:43",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "River Waking 101: verification pass, memory layout notes"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:10:05Z",
+      "last_wake": "2026-09-12T02:31:01Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:05:02Z",
+      "last_wake": "2026-09-12T02:25:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "waking",
-      "last_wake": "2026-09-12T02:05:02Z",
+      "last_wake": "2026-09-12T02:30:02Z",
       "waking_count": null,
       "signal": "run in progress"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:05:02Z",
+      "last_wake": "2026-09-12T02:25:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:10:31Z",
-      "waking_count": 106,
+      "last_wake": "2026-09-12T02:42:13Z",
+      "waking_count": 107,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (zero open items), memory/MEMORY.md, ..."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T01:12:16Z",
-      "waking_count": 104,
-      "signal": "Applied River's peer_server.py to:\"root\" routing fix: RIVER sent an FYI (00:32Z, data-only) that my peer_server.py pr..."
+      "last_wake": "2026-09-12T02:13:14Z",
+      "waking_count": 105,
+      "signal": "Resolved Josh's \"ensure full mesh with all agents is working\" (01:44:30Z) — full mesh now verified 11/11 two-way, tri..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T02:07:27Z",
-      "waking_count": 21,
+      "last_wake": "2026-09-12T02:41:06Z",
+      "waking_count": 22,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T02:04:17Z",
+      "last_wake": "2026-09-12T02:24:01Z",
       "waking_count": null,
-      "signal": "199 wakes logged, last 2026-09-12 02:04 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "201 wakes logged, last 2026-09-12 02:24 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
