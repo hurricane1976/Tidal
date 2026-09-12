@@ -845,7 +845,7 @@ _Nothing awaiting a decision right now._
             # (token-less POSTs accepted 200 by Lantern/Highbeam/Lightning;
             # Lightning /health 200 after adopting the recipe); 11/11 two-way.
             self.assertIn("Identity links live (Lantern, H-BEAM, LIGHTNG)", content)
-            self.assertIn("Fleet mesh 65/66 two-way live (Sept 12)", content)
+            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12)", content)
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -869,23 +869,28 @@ _Nothing awaiting a decision right now._
             # sibling<->Beacon bearer channels (re-keyed + re-verified
             # Sept 12 21:47Z after the shared-token incident),
             # the LIVE trio<->Mountain connector with its label directly
-            # beside it, and the 65/66 fleet-wide pair count in the legend.
+            # beside it, and the 66/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
-            self.assertIn("65/66 agent pairs verified two-way live", content)
+            self.assertIn("66/66 agent pairs verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
             self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)", content)
             self.assertIn("12 pairs live", content)
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
             self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
             self.assertIn("M185,378 C260,404 350,412 470,430", content)  # RIVER->HARBOR bundle arc
-            # Sept 12, 2026 (Waking 235, operator "some connection not fully
-            # visible and animated"): the fleet's ONE pending pair
-            # (Mountain<->River) is DRAWN -- dashed amber, no pulse-line
-            # class (no live traffic), with its own label -- instead of
-            # living only in legend text.
-            self.assertIn("M185,322 C320,268 540,238 780,252", content)  # pending RIVER->MOUNTAIN arc
-            self.assertIn("Mountain &#8596; River pending (Mountain-side delivery)", content)
-            self.assertNotIn('class="pulse-line" d="M185,322', content)  # pending arc must NOT dash-pulse
+            # Sept 12, 2026 (Waking 235): the fleet's ONE pending pair
+            # (Mountain<->River) was DRAWN as dashed amber. Waking 242
+            # (~22:0xZ): the pair was RESTORED (Josh-authorized fresh-secret
+            # delivery, applied + verified both directions) -- the pending
+            # arc/label were REMOVED and every legend now says 66/66 full
+            # fleet mesh complete. Absence locks use the pending arc's unique
+            # attribute signature (the page embeds FLEET_COORDINATION.md log
+            # quotes, which keep historical path/label strings in prose by
+            # design); the React source (asserted below) carries the live
+            # source-of-truth locks.
+            self.assertNotIn('stroke-dasharray="3 6"', content)  # pending arc signature gone
+            self.assertNotIn("Mountain &#8596; River pending", content)  # pending label gone (both old and new wordings)
+            self.assertIn("full fleet mesh complete", content)
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -900,18 +905,19 @@ _Nothing awaiting a decision right now._
                 self.assertIn("chan-live", topo_src)
                 self.assertNotIn("pending adoption", topo_src)
                 self.assertIn("chan-tailscale", topo_src)  # live bearer channels
-                # exactly ONE pair pending fleet-wide (Mountain<->River,
-                # Sept 12): drawn as a dashed amber non-flowing arc
-                self.assertIn("chan-pending", topo_src)
-                self.assertIn('"river-mountain-pending"', topo_src)
-                self.assertIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending RIVER->MOUNTAIN arc
-                self.assertIn("Mountain \\u2194 River pending (Mountain-side delivery)", topo_src)
-                self.assertIn('ch.cls !== "chan-pending"', topo_src)  # flow dots skip the pending pair
+                # ZERO pairs pending fleet-wide (66/66 since the Mountain<->River
+                # restore, Sept 12 22:02Z): the Waking-235 pending arc, its
+                # flow-skip, and all pending wording are gone from the source
+                self.assertNotIn("chan-pending", topo_src)
+                self.assertNotIn('"river-mountain-pending"', topo_src)
+                self.assertNotIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending arc path gone
+                self.assertNotIn("River pending", topo_src)  # pending label gone
+                self.assertIn("full fleet mesh complete", topo_src)
                 self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
                 self.assertIn("trio \\u2194 Mountain", topo_src)
                 self.assertIn("12 pairs live", topo_src)
-                self.assertIn("65/66 agent pairs verified two-way live", topo_src)
+                self.assertIn("66/66 agent pairs verified two-way live", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
                 self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc

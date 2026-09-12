@@ -95,12 +95,13 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // Sept 12 as well -- Beacon bootstrapped them with per-agent bearer tokens
 // (mirroring the Canyon/Ridge/Harbor pattern) and confirmed two-way
 // (FLEET_COORDINATION.md section 3.1), drawn as the short gutter connector.
-// Live pairs fleet-wide: 65/66 -- full mesh minus the Mountain<->River
-// pair, pending Mountain-side delivery of a fresh pair secret (recipe
-// handed to Mountain Sept 12 21:30Z; River's staging handler ready; fallback
-// operator-gated; the three sibling<->Beacon channels were re-keyed and
-// re-verified Sept 12 21:47Z after a shared-token incident -- see
-// FLEET_COORDINATION.md 3.1).
+// Live pairs fleet-wide: 66/66 -- FULL FLEET MESH COMPLETE. The last pending
+// pair (Mountain<->River) was restored Sept 12 22:02Z: Josh authorized the
+// borrowed-token path, Mountain staged a fresh per-pair secret on River's
+// listener (peer_intro, CANYON-authenticated 21:58Z), applied + verified
+// both directions the same hour. The three sibling<->Beacon channels were
+// re-keyed and re-verified Sept 12 21:47Z after a shared-token incident --
+// see FLEET_COORDINATION.md 3.1.
 // See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
@@ -128,16 +129,11 @@ const CHANNELS = [
   { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "trio-mountain-label", d: "", cls: "chan-tailscale", label: "trio \u2194 Mountain", labelX: 1252, labelY: 250 },
   { id: "trio-mountain-label2", d: "", cls: "chan-tailscale", label: "12 pairs live", labelX: 1252, labelY: 263 },
-  // The fleet's ONE non-live pair of 66 (Sept 12): Mountain <-> River.
-  // River-side credential repaired + verified 17:47Z; the pair stays 401
-  // until the Mountain side delivers a fresh pair secret (recipe handed
-  // 21:30Z; fallback operator-gated -- see FLEET_COORDINATION.md 3.1).
-  // Drawn as a dashed amber arc that rides
-  // neither the dash-pulse flow nor the packet dots -- no live traffic --
-  // but with a gentle presence pulse so it is plainly VISIBLE, answering
-  // "some connection not fully visible and animated": the pending pair now
-  // has its own drawn connection instead of living only in the legend text.
-  { id: "river-mountain-pending", d: "M185,322 C320,268 540,238 780,252 Q1010,268 1200,300 C1330,322 1432,310 1450,230 L1450,178", cls: "chan-pending", label: "Mountain \u2194 River pending (Mountain-side delivery)", labelX: 900, labelY: 290 },
+  // Mountain <-> River, the fleet's LAST pending pair (down ~16:12Z Sept 12),
+  // was RESTORED Sept 12 22:02Z (Josh-authorized fresh-secret delivery via
+  // River's peer_intro staging; verified both directions) -- the pending
+  // arc was removed and the mesh returned to 66/66 full-fleet complete.
+  // History of the pending drawing: dashed amber, no flow (Waking 235).
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
@@ -166,7 +162,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. 65 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z) -- the Mountain-River pair is pending Mountain-side delivery of a fresh pair secret (recipe handed to Mountain Sept 12 21:30Z, River's staging handler ready, fallback operator-gated), drawn as a dashed amber arc, every other pair full mesh."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- full fleet mesh complete."
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
@@ -179,8 +175,8 @@ export default function FleetTopology() {
 
           {CHANNELS.map((ch, i) => (
             <g key={ch.id}>
-              {ch.d && <path className={ch.cls === "chan-pending" ? ch.cls : `pulse-line ${ch.cls}`} d={ch.d} fill="none" />}
-              {ch.d && ch.cls !== "chan-pending" && (
+              {ch.d && <path className={`pulse-line ${ch.cls}`} d={ch.d} fill="none" />}
+              {ch.d && (
                 <circle
                   className="chan-flow"
                   r={3.5}
@@ -229,7 +225,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 65/66 agent pairs verified two-way live (Sept 12 sweep 21:57Z) &middot; Mountain &harr; River pending Mountain-side delivery (recipe handed 21:30Z)</text>
+          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z)</text>
           <text x={60} y={508} fill="var(--text-faint)">teal = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>

@@ -46,10 +46,10 @@ const CHANNELS: [number, number][] = [
   [0, 7], // Tidal <-> Lightning (identity link, live)
 ];
 
-// The rest of the mesh (Sept 12: 65/66 agent pairs verified two-way live --
-// full mesh minus the Mountain<->River pair, pending Mountain-side delivery
-// of a fresh pair secret, recipe handed to Mountain 21:30Z, with the River
-// side repaired and verified 17:47Z; mirrors FLEET_COORDINATION.md §3.1): the local
+// The rest of the mesh (Sept 12: 66/66 agent pairs verified two-way live --
+// FULL FLEET MESH COMPLETE; the last pending pair Mountain<->River was
+// restored 22:02Z Sept 12 via a Josh-authorized fresh pair secret delivered
+// through River's peer_intro staging; mirrors FLEET_COORDINATION.md §3.1): the local
 // co-location mesh, the remaining 12 local <-> Mountain-group per-agent
 // channels (every local agent x every Mountain-group listener), the
 // remaining 9 local <-> sibling identity pairs, the 12 trio <-> Mountain
@@ -660,7 +660,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (65 of 66 agent pairs verified two-way live -- the Mountain-River pair is pending Mountain-side delivery of a fresh pair secret, recipe handed to Mountain Sept 12, River side repaired Sept 12), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (66 of 66 agent pairs verified two-way live -- full fleet mesh complete Sept 12, the last pending pair Mountain-River restored 22:02Z), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }
