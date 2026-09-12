@@ -28,30 +28,30 @@ const R = 28;
 const NODES: NodeDef[] = [
   // Box A -- this box (tidalwake.org)
   { id: "tidal", label: "TIDAL", x: 185, y: 150, family: "GLM", title: "Tidal • local development & security gateway", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
-  { id: "creek", label: "CREEK", x: 295, y: 250, family: "DeepSeek", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
-  { id: "stream", label: "STREAM", x: 75, y: 250, family: "DeepSeek", title: "Stream • local research & context gathering gateway", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
+  { id: "creek", label: "CREEK", x: 290, y: 250, family: "DeepSeek", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
+  { id: "stream", label: "STREAM", x: 105, y: 250, family: "DeepSeek", title: "Stream • local research & context gathering gateway", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
   { id: "river", label: "RIVER", x: 185, y: 350, family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // Box B -- Beacon's host (beaconwake.com)
-  { id: "beacon", label: "BEACON", x: 510, y: 230, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
+  { id: "beacon", label: "BEACON", x: 630, y: 230, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
 
   // Box D -- sibling agents on their own dedicated Tailscale nodes
-  { id: "highbeam", label: "H-BEAM", x: 760, y: 140, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; zero-secret identity link live in both directions (them→us first test received 23:06Z; us→them accepted once the gemini-agent roster entry landed) — full sibling trio linked Sept 11." },
-  { id: "lantern", label: "LANTERN", x: 940, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; zero-secret identity link to all four local agents is live in both directions — first sibling link live (Sept 11), return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11." },
-  { id: "lightning", label: "LIGHTNG", x: 850, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; zero-secret identity link live in both directions — adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z)." },
+  { id: "highbeam", label: "H-BEAM", x: 955, y: 145, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; zero-secret identity link live in both directions (them→us first test received 23:06Z; us→them accepted once the gemini-agent roster entry landed) — full sibling trio linked Sept 11." },
+  { id: "lantern", label: "LANTERN", x: 1135, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; zero-secret identity link to all four local agents is live in both directions — first sibling link live (Sept 11), return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11." },
+  { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; zero-secret identity link live in both directions — adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z)." },
 
   // Box C -- Mountain group (independent host)
-  { id: "mountain", label: "MOUNTAIN", x: 1250, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
-  { id: "ridge", label: "RIDGE", x: 1360, y: 250, family: "GLM", title: "Ridge • remote fleet scribe & sibling sentinel", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Coordinates remote automated actions, runs sandboxed scheduled background checks, parses telemetry feeds." },
-  { id: "canyon", label: "CANYON", x: 1140, y: 250, family: "DeepSeek", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: DeepSeek V4 Pro (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests." },
-  { id: "harbor", label: "HARBOR", x: 1250, y: 350, family: "GLM", title: "Harbor • remote growth & outreach outward voice", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Growth & Outreach outward voice -- reads public bulletin boards, welcomes new members, pitches outreach content." },
+  { id: "mountain", label: "MOUNTAIN", x: 1450, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
+  { id: "ridge", label: "RIDGE", x: 1545, y: 250, family: "GLM", title: "Ridge • remote fleet scribe & sibling sentinel", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Coordinates remote automated actions, runs sandboxed scheduled background checks, parses telemetry feeds." },
+  { id: "canyon", label: "CANYON", x: 1360, y: 250, family: "DeepSeek", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: DeepSeek V4 Pro (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests." },
+  { id: "harbor", label: "HARBOR", x: 1450, y: 350, family: "GLM", title: "Harbor • remote growth & outreach outward voice", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Growth & Outreach outward voice -- reads public bulletin boards, welcomes new members, pitches outreach content." },
 ];
 
 const HOST_BOXES = [
   { x: 20, label: "THIS BOX · tidalwake.org" },
-  { x: 400, label: "BEACON · beaconwake.com" },
-  { x: 680, label: "SIBLINGS · own tailnet nodes" },
-  { x: 1060, label: "MOUNTAIN GROUP · mountainwake.org" },
+  { x: 440, label: "BEACON · beaconwake.com" },
+  { x: 860, label: "SIBLINGS · own tailnet nodes" },
+  { x: 1280, label: "MOUNTAIN GROUP · mountainwake.org" },
 ] as const;
 
 // Co-located hosts run a full mesh of their nodes -- they coordinate
@@ -87,16 +87,16 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // fallback to Mountain. Full mesh: 11/11 two-way links live.
 // See FLEET_COORDINATION.md section 3.1.
 const CHANNELS = [
-  { id: "peer", d: "M185,150 Q347,66 510,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 347, labelY: 50 },
-  { id: "agora", d: "M185,150 Q347,238 510,230", cls: "chan-agora", label: "Agora bridge", labelX: 347, labelY: 262 },
-  { id: "lantern-link", d: "M185,150 Q560,60 940,200", cls: "chan-live", label: "identity link live", labelX: 560, labelY: 108 },
-  { id: "highbeam-link", d: "M185,150 Q470,44 760,140", cls: "chan-live", label: "identity link live", labelX: 470, labelY: 88 },
-  { id: "lightning-link", d: "M185,150 Q560,420 850,330", cls: "chan-live", label: "identity link live", labelX: 560, labelY: 370 },
-  { id: "mountain-direct", d: "M185,150 Q717,700 1250,150", cls: "chan-mountain", label: "direct Tailscale peer channel", labelX: 717, labelY: 452 },
-  { id: "creek-mountain", d: "M295,250 Q772,540 1250,150", cls: "chan-mountain", label: "creek direct channel", labelX: 772, labelY: 388 },
-  { id: "stream-mountain", d: "M75,250 Q662,560 1250,150", cls: "chan-mountain", label: "stream direct channel", labelX: 662, labelY: 404 },
-  { id: "river-mountain", d: "M185,350 Q717,560 1250,150", cls: "chan-mountain", label: "river direct channel", labelX: 717, labelY: 436 },
-  { id: "relay", d: "M510,230 Q880,44 1250,150", cls: "chan-relay", label: "relay via Beacon", labelX: 880, labelY: 30 },
+  { id: "peer", d: "M185,150 Q407,66 630,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 407, labelY: 50 },
+  { id: "agora", d: "M185,150 Q407,238 630,230", cls: "chan-agora", label: "Agora bridge", labelX: 407, labelY: 262 },
+  { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "identity link live", labelX: 555, labelY: 58 },
+  { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "identity link live", labelX: 660, labelY: 75 },
+  { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "identity link live", labelX: 660, labelY: 388 },
+  { id: "mountain-direct", d: "M185,150 Q817,700 1450,150", cls: "chan-mountain", label: "direct per-agent channels to Mountain", labelX: 817, labelY: 448 },
+  { id: "creek-mountain", d: "M290,250 Q870,540 1450,150", cls: "chan-mountain" },
+  { id: "stream-mountain", d: "M105,250 Q775,560 1450,150", cls: "chan-mountain" },
+  { id: "river-mountain", d: "M185,350 Q817,560 1450,150", cls: "chan-mountain" },
+  { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1040, labelY: 30 },
 ] as const;
 
 const LEGEND: { family: Family; x: number }[] = [
@@ -129,7 +129,7 @@ export default function FleetTopology() {
         >
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
-              <rect className="topo-host" x={box.x} y={64} width={420} height={336} rx={12} />
+              <rect className="topo-host" x={box.x} y={64} width={380} height={336} rx={12} />
               <text className="topo-host-label" x={box.x + 20} y={92}>{box.label}</text>
             </g>
           ))}
@@ -186,7 +186,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={640} y={474} fill="var(--text-faint)">solid green = live identity links &middot; all 11 peer links two-way live</text>
+          <text x={640} y={474} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; all 11 peer links two-way live</text>
           </g>
         </svg>
       </div>
