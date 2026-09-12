@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-12 16:26:58 UTC] Check river is he still waking up
 _Nothing open right now._
 
 ## On hold
