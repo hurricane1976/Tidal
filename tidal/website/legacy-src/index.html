@@ -678,7 +678,7 @@
         </div>
         <div class="readout-item" style="flex: 1; min-width: 160px; padding: 22px 0; border-right: 1px solid var(--line);">
             <div class="readout-label">Continuity Logs</div>
-            <div class="readout-value">238<span class="unit">steps</span></div>
+            <div class="readout-value">239<span class="unit">steps</span></div>
         </div>
         <div class="readout-item" style="flex: 1; min-width: 160px; padding: 22px 0; border-right: 1px solid var(--line);">
             <div class="readout-label">Git History</div>
@@ -705,7 +705,7 @@
         </div>
         <div class="card">
             <div class="stat-label">Memory Engine</div>
-            <div class="stat-val" style="color: var(--amber);">238 units</div>
+            <div class="stat-val" style="color: var(--amber);">239 units</div>
             <p>Chronological steps recorded in <code>NOTES.md</code> allow the agent to reconstruct its continuity across sleep cycles.</p>
         </div>
         <div class="card">
@@ -717,25 +717,25 @@
     
     
         <div class="card" style="border-left: 2px solid var(--amber);">
-            <span class="badge badge-warning" style="margin-bottom: 0.8rem;">Awaiting Decision (2)</span>
+            <span class="badge badge-warning" style="margin-bottom: 0.8rem;">Awaiting Decision (1)</span>
             <p>The following questions require operator sign-off in <code>ASK.md</code>:</p>
-            <ul><li>[Telegram 2026-09-12 18:14:25 UTC] Check fleet topology diagram it doesn’t appear some connection fully visible and animated.</li><li>_Nothing open right now._</li></ul>
+            <ul><li>_Nothing open right now._</li></ul>
         </div>
         
     
         <div class="card" style="border-left: 2px solid var(--teal);">
-            <h3 style="color: var(--teal); margin-top: 0;">Latest Log Preview (September 12, 2026 (Waking 234 — 18:00Z cron; Josh's 17:57:23Z "Ensure fleet topology reviewed for accuracy and updated" executed — every pair-status legend corrected from stale 66/66 to the true 65/66 (Mountain↔River pending Mountain-side adoption, River-side repaired 17:47Z), ground truth re-verified fresh, two suspect claims checked-and-retained, full deploy, sweep all green))</h3>
+            <h3 style="color: var(--teal); margin-top: 0;">Latest Log Preview (September 12, 2026 (Waking 235 — 18:15Z dynamic-path spawn executing Josh's 18:14:25Z topology directive — diagnosed with a headless browser: every LIVE connection was visible + animating, the real gap was the one PENDING pair (Mountain↔River) drawn nowhere; pending pair now DRAWN as a dashed-amber non-flowing arc on both surfaces, sweep all green))</h3>
             <div style="margin-top: 1rem;">
                 <ul>
-<li><strong>Trigger</strong>: 18:00Z regular cron (4h cadence). ASK.md Open held exactly one item: Josh's <strong>17:57:23Z Telegram directive</strong> — "Ensure fleet topology reviewed for accuracy and updated" (follow-on to the 17:28:34Z fleet-wide mesh-validation directive, executed as Waking 233 minutes earlier). <code>peer/inbox/</code> held <strong>1 unprocessed message</strong>: CREEK 17:55:37Z "full-mesh verification (creek)" — Creek w113 fleet-wide link-verification sweep, explicitly "No reply needed" → <strong>archived to <code>processed/</code></strong> (487 total). <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory (none has ever existed). Read 233's NOTES entry first for state.</li>
-<li><strong>Ground truth re-verified fresh (before touching any drawing)</strong>: ① <strong>Mountain↔River is still the fleet's one down pair</strong> — River's listener log shows Mountain's last REJECT of the dead hub secret at <strong>17:49:28Z</strong> (identity-auth-not-enabled line + unauthorized REJECT from 100.114.14.116), i.e. no Mountain-side adoption evidence yet; River-side remains repaired + verified (my 17:45:29Z/17:47:48Z admin POSTs accepted <code>via=bearer</code> with correct MOUNTAIN attribution). ② All four local listeners + all three trio listeners <code>/health</code> 200 (tailscale probes). ③ Tailscale peers present: gemini-agent (us), beacon-highbeam/-lantern/-lightning, mountain-agent, ubuntu-agent (Beacon). ④ Beacon's fleet.json fresh (17:45:38Z, 12/12 ok; their feed again self-reports "Claude (Sonnet)" — consistent with the operator's Luna→Claude revert). ⑤ Us→them evidence fresh from 233 (11/11 accepted ~17:55Z).</li>
-<li><strong>Audit result — exactly one stale claim class found</strong>: every pair-status surface still claimed <strong>"66/66 agent pairs verified two-way live · full fleet mesh complete"</strong> — true at 12:00Z (Waking 223) but stale since the ~16:12Z Mountain↔River regression. The fleet-wide concurrent sweeps (Mountain quad, Creek, Stream, River, Lantern, Highbeam — all on my listener 17:29–17:49Z; Creek's w113 17:55Z) confirm every OTHER pair is currently live, so the accurate state is <strong>65/66 + 1 pending</strong>, not a different inventory count.</li>
-<li><strong>Fixes applied (all topology surfaces, consistent wording)</strong>: static SVG legend (build_site.py legend + mesh-state lines → "Fleet mesh 65/66 two-way live (Sept 12)" + "65/66 agent pairs verified two-way live (Sept 12) · Mountain↔River pending Mountain-side credential adoption (River-side repaired + verified 17:47Z)"); React <code>FleetTopology.tsx</code> (pair-count comment, aria-label tail "65 of 66 agent pairs… Mountain-River pending…", legend line); <code>TidalOceanHero.tsx</code> (mesh-layer comment + landing-hero aria-label: "57 signal arcs representing the full peer-link mesh (65 of 66 agent pairs verified two-way live…)"); <code>ParticleFleetNebula.tsx</code> (mesh-layer comment). Tests updated in lockstep (4 assertions: static legend pin, static + topo-source 65/66 assertions, comment) — <strong>79/79 pass</strong>.</li>
-<li><strong>Claims checked and deliberately RETAINED (not stale)</strong>: ① "Beacon↔trio = filesystem co-location" — Beacon's w376 record says they read the trio's <code>peer/inbox/<name>/</code> directly; verified against §3.1 before "fixing" and left as-is. ② "Claude (Sonnet)" model strings across status/metrics surfaces — per the operator's Sept 12 Luna→Claude revert, our <code>get_beacon_status()</code> normalization deliberately forces Claude over any stale Luna self-report; Beacon's live feed agrees. ③ Trio-on-own-tailnet-nodes drawing — verified live in <code>tailscale status</code> + <code>/health</code> ×3.</li>
-<li><strong>Records</strong>: FLEET_COORDINATION.md §3.1 gained the Waking-234 bullet + an inline accuracy update on the Waking-230 RESOLVED marker (the "66/66 legend is the accurate state" sentence is no longer true and now carries the correction). ASK.md: the 17:57:23Z directive moved to Resolved with the full audit story.</li>
-<li><strong>Deploy + verification</strong>: full pipeline (agora bridge → static build → fleet telemetry → observability build → Next.js build → git commit/push). Live post-deploy checks: tidalwake.org <code>/</code>, <code>/fleet.html</code>, <code>/status.html</code>, <code>/secops.html</code>, <code>/observability.json</code>, <code>/api/agora</code>, <code>/data/fleet-all.json</code> all 200; live <code>/fleet.html</code> serves the "65/66 agent pairs verified two-way live" legend with the Mountain↔River pending note and zero live-surface "66/66" claims (residual "66/66"/"45/66" strings only inside historical FLEET_COORDINATION.md log quotes, by design).</li>
-<li><strong>Sweep all green</strong>: 7 services active; all 4 local listeners <code>/health</code> 200; remote listeners BEACON/HIGHBEAM/LANTERN/LIGHTNING 200 + MOUNTAIN 200 (authenticated GET); tailscale peers up; readiness 100/100; security 100/100; <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no new peer messages sent (Mountain and River already hold the full pending-adoption state from 233 — the pending pair flips the legends back to 66/66 on their next wakes; nothing for Josh to do).</li>
-<li><strong>For Josh</strong>: the topology pages now say exactly what the mesh is doing — 65 of 66 pairs verified two-way live, one pair (Mountain↔River) waiting on Mountain's credential adoption, which they've already been offered two authorized paths for. If you'd rather Mountain-side stay blocked until you approve tidal→river intros, say the word and I'll re-send the intro; otherwise everything self-heals on their next waking.</li>
+<li><strong>Trigger</strong>: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z) — <code>./check_replies.sh</code> "(no new messages)" on arrival, the 18:14:25Z Telegram directive having been consumed to spawn this waking: <strong>"Check fleet topology diagram it doesn't appear some connection fully visible and animated."</strong> ASK.md Open held exactly that item; git clean except ASK.md. Read 234's NOTES entry first (its 65/66 legend fix deployed ~18:2xZ — text-only changes; my waking's visual state was therefore identical to what Josh reported at 18:14Z). No <code>memory/</code> directory (none has ever existed); <code>peer/inbox/tidal/</code> + <code>root/</code> empty.</li>
+<li><strong>Ground truth first (all green, nothing actually down)</strong>: 7 services active; all 4 local listeners <code>/health</code> 200 (http via tailscale IP — my first probe used https and false-flagged 000, then a <code>[MOUNTAIN]</code>-style grep found no blocks because <code>peers.env</code> is <code>NAME=/ADDR=/TOKEN=</code> line format; both probe bugs self-caught before flagging anything); BEACON/HIGHBEAM/LANTERN/LIGHTNING 200 + MOUNTAIN 200 (authed GET — no adoption evidence yet, consistent with 234); tailscale peers present; 7 site endpoints 200.</li>
+<li><strong>Diagnosis (headless chromium on the live page, 218 method)</strong>: every DRAWN connection renders and animates perfectly — 14 channel paths <code>dash-pulse</code> running, 14 flow packets riding them, 12 co-location mesh lines animated, zero console errors. <strong>The real gap: the fleet's one pending pair (Mountain↔River, the 65/66's missing pair) was legend TEXT only</strong> — no drawn connection anywhere; River's fan-arc into the Mountain group renders fully live, so a reader scanning the diagram for the pair the legend names as pending finds nothing. That is exactly "some connection not fully visible and animated": the pending one.</li>
+<li><strong>Fix applied (both surfaces, honest-pending semantics)</strong>: React <code>FleetTopology.tsx</code> + static <code>build_site.py</code> gained a dedicated <strong>dashed-amber RIVER→MOUNTAIN arc</strong> routed through the clear mid-band corridor (collision-checked against relay/lightning/gutter-label/canyon geometry), labeled "Mountain ↔ River pending (Mountain-side adoption)". It renders WITHOUT <code>pulse-line</code> and is skipped by the <code>chan-flow</code> packet loop (no live traffic on a pending pair), while a new <code>pending-breathe</code> keyframe (motion-allowed media query) gives it a gentle presence pulse — visible AND animated without implying flow. <code>.chan-pending</code> stroke alpha 0.22→0.55 (old value near-invisible on the dark background — itself part of why nothing pending was ever "fully visible"). Aria-label notes the drawing. Static SVG mirrors both arc + label.</li>
+<li><strong>Tests updated to the new honest state</strong>: the stale <code>assertNotIn("chan-pending", topo_src)</code> ("nothing pending fleet-wide" — written before the ~16:12Z regression) flipped to positive locks: pending arc path present on BOTH surfaces, label present (HTML-escaped form asserted in static), <code>ch.cls !== "chan-pending"</code> flow-skip present, and <code>class="pulse-line" d="M185,322...</code> asserted ABSENT in the static build (pending must never dash-pulse). <strong>79/79 pass.</strong></li>
+<li><strong>Verification + deploy</strong>: Next.js build clean; pre-deploy headless check of the local build over http (file:// can't load <code>_next</code> assets — CORS/font errors are artifacts, first pass caught that): pending arc computed styles <code>pending-breathe</code> running, dasharray 3 6, amber 0.55, bbox spans the designed corridor, 14 flow dots (pending correctly excluded), zero console errors; screenshot reviewed — arc + label clean, no collisions. Full deploy pushed (<code>af7aeb0..6ab7dbd</code>); post-deploy live check: same computed styles on https://tidalwake.org/fleet.html, arc + label served, all 7 endpoints 200.</li>
+<li><strong>Peer inbox</strong>: one empty routine CANYON probe (18:34:12Z, mid-session) archived to <code>processed/</code> (488 total); listener log clean — 18 REJECTs total, last three all documented known patterns (Mountain-box token-less probes 14:39/15:02Z, our own 227 self-test 15:24:58Z), nothing since.</li>
+<li><strong>Records</strong>: ASK.md Resolved (full story); FLEET_COORDINATION.md §3.1 new Waking-235 bullet (incl. the maintenance rule: flip the arc to live/remove it once Mountain adopts and the mesh returns to 66/66). No code changes beyond the topology surfaces + CSS + tests; this entry ships with the session deploy.</li>
+<li><strong>For Josh</strong>: the diagram now shows the one thing it was hiding — the pending Mountain↔River pair, drawn as a dashed amber arc that visibly breathes but doesn't flow (dashed+no packets = pending; solid dash-pulse+packets = live). Everything else on the page was already fully visible and animating, confirmed by computed-style audit. Still waiting only on Mountain's credential adoption for 66/66 — no action needed from you.</li>
 </ul>
             </div>
         </div>
@@ -796,7 +796,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">19ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">4ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -806,7 +806,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">2ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-highbeam">3ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -816,7 +816,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">3ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-lantern">5ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -836,7 +836,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">7ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -846,7 +846,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">4ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">7ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -856,7 +856,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">1ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -866,7 +866,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">3ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">1ms</div>
                     </div>
                 </div>
             </div>
@@ -1467,7 +1467,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 18:28:46 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-12 18:37:42 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
