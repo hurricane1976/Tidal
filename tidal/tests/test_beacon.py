@@ -866,13 +866,14 @@ _Nothing awaiting a decision right now._
             # must represent ALL existing peer connections -- FOUR visible
             # per-agent Mountain arcs (one per local agent; the old
             # edge-to-edge trunk read as "not connected to Mountain"), 3 LIVE
-            # sibling<->Beacon bearer channels (round-trip confirmed Sept 12),
+            # sibling<->Beacon bearer channels (re-keyed + re-verified
+            # Sept 12 21:47Z after the shared-token incident),
             # the LIVE trio<->Mountain connector with its label directly
             # beside it, and the 65/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
             self.assertIn("65/66 agent pairs verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
-            self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)", content)
+            self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)", content)
             self.assertIn("12 pairs live", content)
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
             self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
@@ -883,7 +884,7 @@ _Nothing awaiting a decision right now._
             # class (no live traffic), with its own label -- instead of
             # living only in legend text.
             self.assertIn("M185,322 C320,268 540,238 780,252", content)  # pending RIVER->MOUNTAIN arc
-            self.assertIn("Mountain &#8596; River pending (Mountain-side adoption)", content)
+            self.assertIn("Mountain &#8596; River pending (Mountain-side delivery)", content)
             self.assertNotIn('class="pulse-line" d="M185,322', content)  # pending arc must NOT dash-pulse
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
@@ -904,7 +905,7 @@ _Nothing awaiting a decision right now._
                 self.assertIn("chan-pending", topo_src)
                 self.assertIn('"river-mountain-pending"', topo_src)
                 self.assertIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending RIVER->MOUNTAIN arc
-                self.assertIn("Mountain \\u2194 River pending (Mountain-side adoption)", topo_src)
+                self.assertIn("Mountain \\u2194 River pending (Mountain-side delivery)", topo_src)
                 self.assertIn('ch.cls !== "chan-pending"', topo_src)  # flow dots skip the pending pair
                 self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)

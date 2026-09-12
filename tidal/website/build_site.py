@@ -4185,14 +4185,15 @@ def main():
 
             <!-- PENDING pair (the fleet's one non-live pair of 66): Mountain
                  <-> River. River-side credential repaired + verified Sept 12
-                 17:47Z; the pair stays 401 until the Mountain side adopts
-                 (two authorized paths offered -- FLEET_COORDINATION.md 3.1).
+                 17:47Z; the pair stays 401 until the Mountain side delivers
+                 a fresh pair secret (recipe handed Sept 12 21:30Z, fallback
+                 operator-gated -- FLEET_COORDINATION.md 3.1).
                  Drawn as a static dashed amber arc, deliberately WITHOUT the
                  pulse-line class -- no live traffic on this pair -- so the
                  pending connection is fully visible instead of living only
                  in the legend text (mirrors FleetTopology.tsx). -->
             <path d="M185,322 C320,268 540,238 780,252 Q1010,268 1200,300 C1330,322 1432,310 1450,230 L1450,178" stroke="rgba(255, 138, 61, 0.5)" stroke-width="1.5" stroke-dasharray="3 6" fill="none" />
-            <text x="900" y="290" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; River pending (Mountain-side adoption)</text>
+            <text x="900" y="290" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; River pending (Mountain-side delivery)</text>
 
             <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
                  Beacon blocks with their own per-sibling tokens; Beacon
@@ -4201,7 +4202,7 @@ def main():
             <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)</text>
+            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)</text>
 
             <!-- LIVE: trio <-> Mountain group (12 pairs). Beacon bootstrapped
                  them with per-agent bearer tokens (mirroring the
@@ -4237,7 +4238,7 @@ def main():
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 65/66 two-way live (Sept 12)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">65/66 agent pairs verified two-way live (Sept 12) &#183; Mountain&#8596;River pending Mountain-side credential adoption (River-side repaired + verified 17:47Z) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">65/66 agent pairs verified two-way live (Sept 12, fresh sweep 21:57Z) &#183; Mountain&#8596;River pending Mountain-side delivery (fresh-secret recipe handed 21:30Z; River-side staging ready) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed; originally confirmed by Beacon w376) &#183; trio&#8596;Mountain confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
