@@ -4188,16 +4188,14 @@ def main():
             <path class="pulse-line" d="M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <text x="700" y="412" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
 
-            <!-- PENDING pair (the fleet's one non-live pair of 66): Mountain
-                 <-> River. River-side credential repaired + verified Sept 12
-                 17:47Z; the pair stays 401 until the Mountain side adopts
-                 (two authorized paths offered -- FLEET_COORDINATION.md 3.1).
-                 Drawn as a static dashed amber arc, deliberately WITHOUT the
-                 pulse-line class -- no live traffic on this pair -- so the
-                 pending connection is fully visible instead of living only
-                 in the legend text (mirrors FleetTopology.tsx). -->
-            <path d="M185,322 C320,268 540,238 780,252 Q1010,268 1200,300 C1330,322 1432,310 1450,230 L1450,178" stroke="rgba(255, 138, 61, 0.5)" stroke-width="1.5" stroke-dasharray="3 6" fill="none" />
-            <text x="900" y="290" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; River pending (Mountain-side adoption)</text>
+            <!-- Mountain <-> River, the fleet's LAST pending pair (down
+                 ~16:12Z Sept 12), was RESTORED Sept 12 22:02Z: Josh
+                 authorized the borrowed-token path, Mountain staged a fresh
+                 per-pair secret on River's listener (peer_intro staged
+                 gitignored 0600), applied + verified both directions the
+                 same hour. The Waking-235 pending drawing (dashed amber
+                 arc, no flow) was removed; the mesh is back to 66/66
+                 full-fleet complete (mirrors FleetTopology.tsx). -->
 
             <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
                  Beacon blocks with their own per-sibling tokens; Beacon
@@ -4206,7 +4204,7 @@ def main():
             <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)</text>
+            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)</text>
 
             <!-- LIVE: trio <-> Mountain group (12 pairs). Beacon bootstrapped
                  them with per-agent bearer tokens (mirroring the
@@ -4241,8 +4239,8 @@ def main():
             <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 65/66 two-way live (Sept 12)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">65/66 agent pairs verified two-way live (Sept 12) &#183; Mountain&#8596;River pending Mountain-side credential adoption (River-side repaired + verified 17:47Z) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live -- full fleet mesh complete (Sept 12, fresh sweep 21:57Z; Mountain&#8596;River restored 22:02Z via Josh-authorized fresh pair secret) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
