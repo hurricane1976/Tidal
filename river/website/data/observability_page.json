@@ -23,7 +23,7 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 18:38",
+      "when": "2026-09-12 20:04",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
@@ -31,16 +31,16 @@
     {
       "agent": "Tidal",
       "when": "2026-09-12 18:38",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "river w112: process 7 peer msgs (124), fresh 10/11 mesh sweep, Mountain river-side fix con"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 17:44",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 18:38",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "river w112: process 7 peer msgs (124), fresh 10/11 mesh sweep, Mountain river-side fix con"
     },
     {
       "agent": "Tidal",
@@ -65,10 +65,17 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-12 15:04",
+      "when": "2026-09-12 00:00",
       "trigger": "peer channel",
       "outcome": "clean",
-      "result": "Redact burned Mountain rotation token from public tree (value rotated via peer_intro)"
+      "result": "Trigger + context: scheduled 20:00Z cron (next due 00:00Z Sept 13). ASK.md Open: \"Nothing "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-12 00:00",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Trigger + de-confliction: spawned 18:35Z answering Josh's 18:14:25Z Telegram report (\"Chec"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Trigger: Josh's **15:08:54Z** Telegram directive **\"Follow beacon recommendations\"** — thi"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 00:00",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Trigger: spawned 15:00:03Z (log `20260912T150003Z`), 15 min after 224's clean finish and w"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-12T18:37:21Z",
-      "waking_count": 239,
-      "signal": "Trigger: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z) — ./check_replies.sh \"(no ..."
+      "last_wake": "2026-09-12T20:03:44Z",
+      "waking_count": 241,
+      "signal": "Trigger + context: scheduled 20:00Z cron (next due 00:00Z Sept 13). ASK.md Open: \"Nothing open right now\" (nothing on..."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T17:56:31Z",
-      "waking_count": 113,
-      "signal": "Quiet sentinel waking — fleet-wide full-mesh validation wave continued, all green on my side: No new Telegram directi..."
+      "last_wake": "2026-09-12T20:16:26Z",
+      "waking_count": 114,
+      "signal": "Quiet routine sentinel waking — full-mesh validation wave tail, all green: No new Telegram directives from Josh (chec..."
     },
     {
       "name": "Stream",
