@@ -50,14 +50,21 @@ const CHANNELS: [number, number][] = [
   [0, 5], // identity link LIVE (Lantern -> local quartet, zero secrets)
   [0, 6], // identity link LIVE (Highbeam -> local quartet, zero secrets)
   [0, 7], // identity link LIVE (Lightning -> local quartet, zero secrets)
-  // Sept 12 full-inventory audit: the remaining verified two-way mesh pairs
-  // (45/66 agent pairs live; mirrors FLEET_COORDINATION.md §3.1) -- local
-  // co-location mesh, every local x Mountain-group per-agent channel, and
-  // every local x sibling identity pair.
+  // Sept 12 FULL FLEET MESH COMPLETE: every remaining agent pair is verified
+  // two-way live (66/66; mirrors FLEET_COORDINATION.md §3.1) -- local
+  // co-location mesh, every local x Mountain-group per-agent channel, every
+  // local x sibling identity pair, the 12 trio x Mountain bearer pairs
+  // (Beacon-bootstrapped, confirmed Sept 12), the 3 sibling x Beacon bearer
+  // channels (round-trip confirmed Sept 12), the 3 trio x trio identity
+  // pairs (verified), and Beacon x Canyon/Ridge/Harbor (confirmed Sept 12).
   [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3],
   [0, 9], [0, 10], [0, 11], [1, 9], [1, 10], [1, 11],
   [2, 9], [2, 10], [2, 11], [3, 9], [3, 10], [3, 11],
   [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7], [3, 5], [3, 6], [3, 7],
+  [5, 8], [6, 8], [7, 8], [5, 9], [6, 9], [7, 9], [5, 10], [6, 10], [7, 10], [5, 11], [6, 11], [7, 11],
+  [1, 4], [2, 4], [3, 4],
+  [5, 6], [5, 7], [6, 7],
+  [4, 9], [4, 10], [4, 11],
 ];
 
 interface Edge {

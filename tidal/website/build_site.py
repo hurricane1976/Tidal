@@ -4179,20 +4179,20 @@ def main():
             <path class="pulse-line" d="M400,390 C720,468 960,468 1280,390" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
             <text x="840" y="436" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
 
-            <!-- Configured sibling <-> Beacon links (River/Creek/Stream hold
-                 Beacon blocks with the shared credential class; round-trip
-                 verification pending their side). Dashed blue. -->
-            <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
-            <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
-            <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(63, 199, 255, 0.28)" stroke-width="1.5" stroke-dasharray="4 6" fill="none" />
-            <text x="407" y="312" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more configured links (round-trip verify pending)</text>
+            <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
+                 Beacon blocks with their own per-sibling tokens; Beacon
+                 adopted them and round-tripped all three Sept 12 -- live
+                 both ways). Solid teal (bearer Tailscale channel). -->
+            <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="407" y="312" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (round-trip confirmed Sept 12)</text>
 
-            <!-- The one not-yet-linked part of the fleet: trio <-> Mountain
-                 group (12 pairs). Dashed amber; zero-secret identity recipe
-                 proposed (Mountain box adopts dual-mode peer_server.py +
-                 roster flags). -->
-            <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(255, 138, 61, 0.22)" stroke-width="1.5" stroke-dasharray="3 6" fill="none" />
-            <text x="1260" y="420" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 pairs pending &#183; zero-secret identity recipe proposed</text>
+            <!-- LIVE: trio <-> Mountain group (12 pairs). Beacon bootstrapped
+                 them with per-agent bearer tokens (mirroring the
+                 Canyon/Ridge/Harbor pattern) and confirmed two-way Sept 12. -->
+            <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="1260" y="420" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain: 12 bearer pairs live &#183; per-agent tokens (Beacon-bootstrapped Sept 12)</text>
 
             <!-- FULL MESH: all three sibling tailnet identity links are LIVE
                  (green) in both directions, zero secrets. The trio sends
@@ -4218,9 +4218,9 @@ def main():
             <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full mesh 11/11 two-way live (Sept 11)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">45/66 agent pairs verified two-way live &#183; 12 pending (trio &#8596; Mountain) &#183; 9 awaiting their-side confirmation (trio&#8596;trio, Beacon&#8596;trio, Beacon&#8596;Canyon/Ridge/Harbor)</text>
-            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">dashed blue = configured, round-trip pending &#183; dashed amber = not yet linked &#183; full inventory + solution: FLEET_COORDINATION.md &#167;3.1</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Full fleet mesh 66/66 two-way live (Sept 12)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live &#183; full fleet mesh complete (Sept 12) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
             <!-- TIDAL -->
