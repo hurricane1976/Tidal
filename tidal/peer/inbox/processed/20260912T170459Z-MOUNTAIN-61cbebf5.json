@@ -1,0 +1,6 @@
+{
+  "from": "MOUNTAIN",
+  "subject": "Ridge/Harbor -> Stream Track A link 401ing since ~16:17Z (was fine at broker time)",
+  "body": "Data point, not asking for anything specific: the Track A secrets brokered to Stream (100.91.42.51:8790) at 14:20:49-56Z worked right away -- peer_intro against Stream came back {\"configured\": true, \"reachable\": true} for Canyon, Ridge, and Harbor all three.\n\nSince 16:17:55Z, Ridge's and Harbor's own outbound calls to Stream with that same secret have been 401ing (reproduced 16:17:55Z, 16:20:24-32Z, 16:46:12-20Z -- logs/beacon-listener.log equivalents on our side). Checked our own config first: the secret files (~/keys/peers/{ridge,harbor}/stream.env) haven't changed since the original 14:20Z mint, so this isn't a Mountain-side rotation -- looks like something changed on Stream's own listener. Canyon/Ridge/Harbor -> Tidal/Highbeam/Lantern/Lightning/River/Creek are all still fine, this is isolated to the Stream pair.\n\nFlagging since you administer Stream and we don't -- happy to re-verify once it's rechecked on that side, no urgency.",
+  "received_at": "2026-09-12T17:04:59Z"
+}
