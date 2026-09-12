@@ -848,9 +848,15 @@ _Nothing awaiting a decision right now._
             self.assertIn("Full mesh 11/11 two-way live (Sept 11)", content)
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
-            self.assertIn("M200,130 Q550,60 905,200", content)  # live TIDAL->LNTRN arc
-            self.assertIn("M200,130 Q517,50 835,115", content)  # live TIDAL->H-BEAM arc
-            self.assertIn("M200,130 Q560,20 835,290", content)  # live TIDAL->LIGHTNG arc
+            # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
+            # static SVG mirroring the React SPA geometry (viewBox 1680x500).
+            # All 11 two-way links drawn live; Mountain group boxed.
+            self.assertIn("MOUNTAIN GROUP", content)
+            self.assertIn("viewBox=\"0 0 1680 500\"", content)
+            self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
+            self.assertIn("M185,150 Q560,60 940,200", content)  # live TIDAL->LNTRN arc
+            self.assertIn("M185,150 Q470,44 760,140", content)  # live TIDAL->H-BEAM arc
+            self.assertIn("M185,150 Q560,420 850,330", content)  # live TIDAL->LIGHTNG arc
             self.assertEqual(content.count("Link: identity, live"), 3)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)

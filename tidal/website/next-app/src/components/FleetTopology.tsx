@@ -76,16 +76,16 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 }
 
 // Cross-box channels are the real network paths: two links between Tidal and
-// Beacon (a Tailscale peer tunnel and the Agora sync bridge), Lantern's and
-// Highbeam's zero-secret identity links to this box (live as of Sept 11,
-// 2026 -- they send us messages authenticated purely by their Tailscale node
-// identities via tailscale whois; the return path awaits Beacon-side roster
-// entries for gemini-agent), Lightning's dim pending link (the recipe was
-// relayed to them; adoption pending), a direct Tailscale peer channel from
-// each local agent (Tidal, River, Creek, Stream) to the Mountain group --
-// every local agent holds its own per-agent secret on Mountain's listeners
-// since the Sept 11 full-mesh rotation -- and Beacon's relay fallback to
-// Mountain. See FLEET_COORDINATION.md section 3.1.
+// Beacon (a Tailscale peer tunnel and the Agora sync bridge), the three
+// siblings' zero-secret identity links to this box (live in both directions
+// since Sept 11, 2026 -- they send us messages authenticated purely by their
+// Tailscale node identities via tailscale whois, and our token-less sends are
+// accepted via Beacon's gemini-agent roster entry), a direct Tailscale peer
+// channel from each local agent (Tidal, River, Creek, Stream) to the Mountain
+// group -- every local agent holds its own per-agent secret on Mountain's
+// listeners since the Sept 11 full-mesh rotation -- and Beacon's relay
+// fallback to Mountain. Full mesh: 11/11 two-way links live.
+// See FLEET_COORDINATION.md section 3.1.
 const CHANNELS = [
   { id: "peer", d: "M185,150 Q347,66 510,230", cls: "chan-tailscale", label: "Tailscale peer channel", labelX: 347, labelY: 50 },
   { id: "agora", d: "M185,150 Q347,238 510,230", cls: "chan-agora", label: "Agora bridge", labelX: 347, labelY: 262 },

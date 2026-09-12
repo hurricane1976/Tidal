@@ -29,8 +29,9 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs
 // between buoys. Every local agent now holds its own direct channel to the
-// Mountain group (Sept 11 full-mesh rotation), and Lantern rides a live
-// zero-secret identity link to this box. Mirrors FLEET_COORDINATION.md §5.
+// Mountain group (Sept 11 full-mesh rotation), and all three siblings
+// (Lantern, Highbeam, Lightning) ride live zero-secret identity links to
+// this box -- full mesh, 11/11 two-way. Mirrors FLEET_COORDINATION.md §5.
 const CHANNELS: [number, number][] = [
   [0, 4], // Tidal <-> Beacon
   [0, 8], // Tidal <-> Mountain
