@@ -2,19 +2,22 @@
 
 ## Open
 
-- [Telegram 2026-09-13 17:57:22 UTC] Coordinate with river approved
-- [Tidal 2026-09-13 ~17:2xZ — escalated from your 17:05:27Z ask] AUDIT git-history rewrite decision needed
-  - Your 17:05:27Z "make sure the audit is not public or viewable in the website" is fully executed for every live surface (Resolved entry below), but the audit file + findings text remain in **public git history** at commit 593817e6 (pushed 16:42:22Z) — still fetchable from GitHub by commit hash indefinitely.
-  - Full removal = git filter-repo rewrite + force-push to the public repo. That is **irreversible**, and the repo is shared (River pushes to the same origin; Creek/Stream are outside VCS) — per rule 4 and the Waking-223 precedent this is your call, not mine.
-  - While you decide, worth prioritizing: the audit's push-credential rotation recommendation (delivered privately with the report) — the exposure makes rotation more urgent.
-  - Options: (a) approve the rewrite + force-push (I'll coordinate with River so its clone isn't desynced; Creek/Stream unaffected), (b) accept history as-is, (c) you handle it manually. Say the word.
-  - FYI while you decide: SETUP_GUIDE.md (public, in repo since the initial commit — predates the audit) documents the sudoers setup including the `NOPASSWD: ALL` rule at lines 175/184. Not audit content, so I left it, but it independently confirms the sudo posture to any reader — include it in the rewrite/trim if you want that gone too.
+_Nothing open right now._
 
 ## On hold
 
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-13 17:57:22 UTC] Coordinate with river approved → read as approval of option (a): the AUDIT git-history rewrite + force-push, coordinated with River.
+  - **Resolution: EXECUTED + PUSHED + VERIFIED this waking (Wakings 263→265, 18:00–18:5xZ). Origin main rewritten: 2b0a41b1 → 0c6d45c0; the audit file (tidal/AUDIT-2026-09-13.md) is gone from ALL reachable history and the findings prose is replaced at every affected commit.**
+  - How it went (full transparency): the 18:00Z session (w263) interpreted your approval, coordinated with River (do-not-push notice 18:06:44Z), ran filter-repo ~18:19–18:21Z (path-invert + replace-text; local chain rewritten), and was then **OOM-killed mid-verification before pushing** — so for ~35 minutes origin was still serving the old history. The 18:15Z concurrent session (w264) burned its window on full-history scans that the 1.9 GB box kept killing. This waking (w265) completed the arc: targeted verification of the rewritten chain (AUDIT path absent from entire main chain; report-derived phrase probes = 0 hits at the rewritten audit-era commits), origin re-added (filter-repo removes it by design), **force-push 2b0a41b1 → 0c6d45c0 (~18:52Z)**, live verification, River done-note + resync instructions (fetch + reset --hard origin/main before its next push; its clone held the old chain), Telegram report to you.
+  - **Verified live post-push**: raw tip path 404; AUDIT path 404 at the rewritten historical commits. **Residual (your call if you want it fully gone): GitHub still serves the OLD commit by exact 40-char hash (593817e6…) — 200 on raw + api — until GitHub garbage-collects it; only GitHub support can purge that. Nothing references it anymore; every ref-based path is clean.**
+  - **Urgency flag (audit's top credential recommendation, still open): rotate the repo push PAT** — it is embedded in the git remote URL (plaintext in .git/config) and was transcribed into a local (gitignored) session log this window; rotation remains the single most valuable hardening step.
+  - River coordination: w263's do-not-push notice + my done-note both in its inbox; River's next waking (20:30Z cron) executes the resync. Creek/Stream unaffected (outside VCS).
+- [Peer relay 2026-09-13 18:14:21 UTC — MOUNTAIN relaying your ask] Report directly to my Telegram a list of peers I'm connected to and each one's up/down status right now.
+  - **Resolution: reported via Telegram ~18:5xZ this waking** — all 11 peers UP (MOUNTAIN/CANYON/RIDGE/HARBOR 200 bearer with correct per-agent attribution, HIGHBEAM/LANTERN/LIGHTNING 200, BEACON 200, RIVER/CREEK/STREAM 200), local listeners 8787–8790 all 200, mesh 66/66 probeable, services + tests + site all green. Also answered CANYON's 17:49:46Z inbox ask directly (reverse-leg confirmed: bearer GET 200 in the sweep + POST accepted `{"ok":true,"agent":"canyon"}`). The quiet-wake peers' validation acks landed this window (HIGHBEAM/LANTERN/STREAM/RIDGE/CREEK/RIVER/HARBOR); LIGHTNING's ack still outstanding (known quiet-wake class, listener verified UP).
 
 - [Telegram 2026-09-13 17:35:23 UTC] Please ensure the team continues to nail up full two way connections with all agents. (+ [17:36:41 UTC] "Yes in sending the same message to everyone" — noted: the directive went to all agents.)
   - **Resolution: executed this waking (Waking 261, ~17:40–17:5xZ) — full two-way validation, zero faults found.**
