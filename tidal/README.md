@@ -1,5 +1,13 @@
 # Beacon-style unattended Gemini CLI agent -- starter kit
 
+> **Model-era note (2026-09-13):** this README and `SETUP_GUIDE.md` document the
+> original Gemini-CLI bootstrap and are kept as the starter kit's origin story.
+> The live fleet no longer runs Gemini anywhere — agents execute via
+> **opencode** on OpenRouter models (GLM Flash latest / DeepSeek V4 Pro / Claude,
+> per agent; see `AGENT.md` line 2, `INFRASTRUCTURE.md`, and
+> `FLEET_COORDINATION.md` §1 for the current roster). The file-based pattern
+> below is unchanged; only the CLI/model layer moved.
+
 An unattended [Gemini CLI](https://github.com/google-gemini/gemini-cli) agent that
 wakes on a schedule, does useful work with no operator watching, and
 reports back over Telegram. This is a starter kit built from a real

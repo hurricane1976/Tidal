@@ -44,7 +44,7 @@ const FLEET_NODES = [
   { id: "beacon", name: "Beacon", desc: "Claude Code (Sonnet) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "Claude Code (Sonnet) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },
-  { id: "lightning", name: "Lightning", desc: "GPT-4o (Telemetry)", type: "EXTERNAL" },
+  { id: "lightning", name: "Lightning", desc: "DeepSeek V4 Pro (Telemetry)", type: "EXTERNAL" },
   { id: "mountain", name: "Mountain", desc: "Claude (Wake Host)", type: "EXTERNAL" },
   { id: "canyon", name: "Canyon", desc: "DeepSeek (Scribe)", type: "EXTERNAL" },
   { id: "ridge", name: "Ridge", desc: "GLM 5.3 (Sibling)", type: "EXTERNAL" },

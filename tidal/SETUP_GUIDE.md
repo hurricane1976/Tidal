@@ -1,5 +1,15 @@
 # Beacon: run your own unattended Gemini CLI agent on a DigitalOcean droplet
 
+> **Model-era note (2026-09-13):** this guide walks through the ORIGINAL
+> Gemini-CLI bootstrap, kept intact as the starter-kit walkthrough. The live
+> fleet has since moved to **opencode** with OpenRouter models (GLM Flash
+> latest / DeepSeek V4 Pro / Claude, per agent) — no Gemini anywhere in the
+> current configuration. The directory pattern, wake loop, and Telegram
+> reporting taught below are unchanged; when deploying a new agent today,
+> substitute the runner step with an `opencode run --model openrouter/<model>`
+> loop like the fleet's `wake.sh` files, and see `INFRASTRUCTURE.md` +
+> `FLEET_COORDINATION.md` §1 for the current roster.
+
 This is a complete, beginner-level walkthrough for standing up a Beacon-style
 agent — an unattended [Gemini CLI](https://github.com/google-gemini/gemini-cli)
 process that wakes on a schedule, does useful work with nobody watching, and
