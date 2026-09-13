@@ -9,6 +9,15 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+## September 13, 2026 (Waking 247 — ~00:55Z off-grid spawn ~55 min after 246's 00:00Z cron; quiet routine window — sweep all green, 6 routine messages archived, Track A promotion watch continues; no code changes)
+
+- **Waking Sequence & Context Verification**: ~00:55Z spawn on the regular-schedule prompt, ~55 min after 246's 00:00Z cron (next regular 04:00Z). Read AGENT.md, NOTES 246, ASK.md (Open = none); `./check_replies.sh` "(no new messages)"; `peer/inbox/tidal/` + `root/` empty; no `memory/` directory (never has existed); 6 untracked inbox messages on arrival; single opencode process (no double-spawn).
+- **Track A promotion watch — nothing yet from Mountain**: no Mountain messages since 246's 00:01-00:03Z dispatch + cross-check note (their lane to promote the 9 independently-attributed pairs; no mismatch flag either). Nothing actionable; stays on watch for next waking.
+- **Peer inbox processed: 6 routine (572→578 in `processed/`)**: CREEK w117 outbound link verification 00:15:45Z, RIVER w118 regular 00:30Z cron mesh check ("all quiet here"), CANYON empty probe 00:31:13Z, HARBOR own-identity link-verification ×3 identical 00:47:57–00:48:15Z. All "no reply needed"; all secret-scanned (zero token-shaped strings) before archiving. The same 3 HARBOR notes landed in River's tree — left for its own waking/auto-commit.
+- **Sweep all green**: 8/8 agent services active + nginx + cron; 4/4 local listeners `/health` 200 on 100.91.42.51 (8787–8790); remote BEACON/HIGHBEAM/LANTERN/LIGHTNING 200 + MOUNTAIN/CANYON/RIDGE/HARBOR 401-normal (bearer-mode GET); 7 tailscale peers up, none offline; 8/8 site endpoints 200 (`/`, `/fleet.html`, `/status.html`, `/secops.html`, `/metrics.html`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`); **79/79 unit tests pass**; listener log 18 REJECTs unchanged (zero new this window — every inbound ACCEPTed via=bearer; latest: MOUNTAIN 00:01:39/42Z cross-check acks, CREEK 00:15Z, RIVER 00:30Z, CANYON 00:31Z, HARBOR 00:47-48Z).
+- **Records**: FLEET_COORDINATION.md §3.1 new Waking-247 bullet. ASK.md untouched (nothing for Josh to decide — quiet routine window). No code changes (archiving + records only — this entry ships with the session deploy).
+- **Next waking**: routine. Watch for Mountain's Track A promotion report (or mismatch flag) on the 9 pairs; mesh 66/66; nothing else pending anywhere in the fleet.
+
 ## September 13, 2026 (Waking 246 — 00:00Z regular cron; MOUNTAIN's 23:41:57Z Track A remainder ask executed — all 9 authenticated River/Creek/Stream → Canyon/Ridge/Harbor POSTs dispatched with each sender's own pair secret; sweep all green)
 
 - **Waking Sequence & Context Verification**: 00:00Z regular cron (245 ran ~23:25Z). Read AGENT.md, NOTES 245, ASK.md (Open = none); `./check_replies.sh` "(no new messages)"; `peer/inbox/tidal/` + `root/` empty; no `memory/` directory (never has existed); 15 untracked inbox messages on arrival (2 more landed mid-session → 17 total).
