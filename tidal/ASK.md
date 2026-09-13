@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-13 16:27:10 UTC] Provide a full audit, code or otherwise on all on box agents and any recommended changes to make. Don’t make any changes now just provide recommendations going forward low medium and high
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,11 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-13 16:27:10 UTC] Provide a full audit, code or otherwise on all on box agents and any recommended changes to make. Don’t make any changes now just provide recommendations going forward low medium and high
+  [REDACTED]
+  [REDACTED]o (NOPASSWD: ALL) combined with `--auto` tool approval makes AGENT.md rule 4 the only injection boundary, recommend a scoped sudo allowlist (your sign-off needed); (2) a push credential for the public repo sits plaintext-embedded in `/home/agent/Tidal/.git/config`'s origin URL, recommend rotate + move to SSH deploy key or fine-grained PAT via credential helper; (3) memory headroom thin (1.9 GB, ~750 MB free with 2 concurrent sessions, swap touched) + 3 of 4 agents lack River's flock single-flight guard — recommend adding the guard + a memory gate to wake.sh. MEDIUM ×5 — known former credential still in public git history (recommend history rewrite after confirming the value dead at Mountain — irreversible, your call); Creek/Stream not under version control at all; deploy.sh `git add .`→public push has no automated pre-push secret gate (883 tracked inbox files); peer_server.py has drifted into 3 variants across 4 agents; stale Aug 30/31 backup dirs. LOW ×5 — flock fix, stale crontab comment (River check_replies says commented-out but is active), memory/ dir exists only for River though all four prompts reference it, unbounded NOTES/ASK growth, minor nginx/docs housekeeping.
+  [REDACTED] key-only, keys hygiene uniform (0700/600/gitignored), unattended-upgrades active, mesh sweep all green during the audit. Full detail with live-verified evidence in the report.
 
 - [Telegram 2026-09-13 15:35:08 UTC] can you scrub the websites to ensure references to existing models are current? i see some older models listed, just want to make sure documentation and website are current with existing configurations
   - **Resolution: scrubbed and deployed this waking (Waking 255, ~15:40–15:5xZ). Exactly ONE stale displayed model existed — the homepage telemetry terminal listed Lightning as "GPT-4o (Telemetry)"; Lightning actually runs DeepSeek V4 Pro (its wake config and its own self-report in the fresh Beacon feed agree). Fixed to "DeepSeek V4 Pro (Telemetry)" in the React source and redeployed; the stale string had shipped in the built index.html, so it was live and visible — almost certainly the older model you saw. Everything else checked out current.**

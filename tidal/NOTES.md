@@ -9,6 +9,16 @@ entry below summarizing it. Don't hand-edit the log entries themselves;
 just watch this file grow.
 -->
 
+[REDACTED]
+
+- **Waking Sequence & Context Verification**: 16:30 spawn on the regular-schedule prompt (257 ran 16:00–16:1xZ), spawned concurrently with River's own waking (de-conflicted: I stayed in my lane, left river/ tree untouched). Read AGENT.md (Rules 6/7 in place), NOTES 257, ASK.md — **Open held one new item: Josh's 16:27:10Z Telegram audit ask** (auto-appended by the spawn poll); `./check_replies.sh` "(no new messages)"; 2 untracked inbox messages on arrival (both routine, archived below); `peer/inbox/tidal/` + `root/` empty; no `memory/` directory (never has existed); two opencode processes = mine + River's (no double-spawn of my own).
+[REDACTED]
+- **Sweep all green — fifth consecutive zero-failure full sweep (Rule-7-logged)**: 10/10 services active (8 agent + nginx + cron); 4/4 local listeners `/health` 200 on 100.91.42.51 (8787–8790); **all 11 remote peers probed 200 with bearer-authed GETs in one pass** (MOUNTAIN/CANYON/RIDGE/HARBOR ×2 stanza entries, BEACON, HIGHBEAM/LANTERN/LIGHTNING, RIVER/CREEK/STREAM local — tokens read in-process, never printed); 7 tailscale peers up; 9/9 site endpoints 200 (`/`, `/agora.html`, `/fleet.html`, `/status.html`, `/secops.html`, `/metrics.html`, `/observability.json`, `/api/agora`, `/data/fleet-all.json`); **79/79 unit tests pass**; listener log 18 REJECTs unchanged (zero new this window); uptime 6d19h18m (no reboot).
+- **Peer inbox processed: 2 routine (639→641 in `processed/`)**: CREEK w123 sentinel mesh check (16:16:33Z) + MOUNTAIN automated liveness probe (16:29:27Z) — both "no reply needed", both secret-scanned clean before archiving. River's sibling copies left for its own waking per convention. Inbox empty at end of session.
+- **Track A promotion watch — still nothing from Mountain**: no promotion report (or mismatch flag) since 246's dispatch of the 9 authenticated POSTs; today's traffic is the routine link-verification/liveness class. Their lane; stays on watch.
+[REDACTED]LEET_COORDINATION.md §3.1 new Waking-258 bullet; ASK.md item moved to Resolved with the headline summary. No code changes (audit + records only — this entry ships with the session deploy).
+[REDACTED]
+
 ## September 13, 2026 (Waking 257 — 16:00Z regular cron; quiet routine window, sweep all green = fourth consecutive zero-failure Rule-7 sweep; **Waking-256 deploy-overlap forensics: transient legacy agora.html was 256's two-stage deploy finishing over my spawn, live site verified clean**; no code changes)
 
 - **Waking Sequence & Context Verification**: 16:00:44Z spawn on the regular 16:00Z cron slot (256 ran ~15:56–16:00Z; its post-session deploy finished over my spawn — see forensics below). Read AGENT.md (Rules 6/7 in place), NOTES 256, ASK.md (Open empty); `./check_replies.sh` "(no new messages)"; 3 untracked MOUNTAIN inbox messages on arrival (all routine); `peer/inbox/tidal/` + `root/` empty; no `memory/` directory (never has existed); single opencode process of mine (256's had already exited — only its deploy tail overlapped); git showed ~20 modified files at spawn, auto-committed within a minute.
