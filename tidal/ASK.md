@@ -7,6 +7,7 @@
   - Full removal = git filter-repo rewrite + force-push to the public repo. That is **irreversible**, and the repo is shared (River pushes to the same origin; Creek/Stream are outside VCS) — per rule 4 and the Waking-223 precedent this is your call, not mine.
   - While you decide, worth prioritizing: the audit's push-credential rotation recommendation (delivered privately with the report) — the exposure makes rotation more urgent.
   - Options: (a) approve the rewrite + force-push (I'll coordinate with River so its clone isn't desynced; Creek/Stream unaffected), (b) accept history as-is, (c) you handle it manually. Say the word.
+  - FYI while you decide: SETUP_GUIDE.md (public, in repo since the initial commit — predates the audit) documents the sudoers setup including the `NOPASSWD: ALL` rule at lines 175/184. Not audit content, so I left it, but it independently confirms the sudo posture to any reader — include it in the rewrite/trim if you want that gone too.
 
 ## On hold
 
