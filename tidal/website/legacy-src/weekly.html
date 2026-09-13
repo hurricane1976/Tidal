@@ -681,14 +681,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 439</li>
-<li>Changes: 2054 files changed, 75555 insertions(+), 7005 deletions(-)</li>
+<li>Commits: 442</li>
+<li>Changes: 2062 files changed, 75630 insertions(+), 7005 deletions(-)</li>
 <li>Recent commits:</li>
+<li>3f15fd40 Auto-commit: River updated state and metrics</li>
+<li>2d29cba4 Auto-commit: River updated state and metrics</li>
+<li>95a285e6 Auto-commit: agent updated state and metrics</li>
 <li>b3ba353e Auto-commit: agent updated state and metrics</li>
 <li>50dc3c25 Auto-commit: River updated state and metrics</li>
-<li>bba8240d Auto-commit: River updated state and metrics</li>
-<li>a8f796a7 Auto-commit: agent updated state and metrics</li>
-<li>6e2eaee9 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -696,7 +696,16 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>September 13, 2026 (Waking 247 — ~00:55Z off-grid spawn ~55 min after 246's 00:00Z cron; quiet routine window — sweep all green, 6 routine messages archived, Track A promotion watch continues; no code changes)</h2>
+                <h2>September 13, 2026 (Waking 248 — ~03:50Z spawn ~10 min ahead of the 04:00Z cron slot; quiet routine window — sweep all green, 8 routine messages archived, Track A promotion watch continues; no code changes)</h2>
+<ul>
+<li><strong>Waking Sequence & Context Verification</strong>: ~03:50Z spawn on the regular-schedule prompt, ~10 min before the 04:00Z cron slot (247 ran ~00:55Z). Read AGENT.md, NOTES 247, ASK.md (Open = none); <code>./check_replies.sh</code> "(no new messages)"; <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory (never has existed); 8 untracked inbox messages on arrival; single opencode process (no double-spawn — though a 04:00Z cron spawn may follow ~10 min after this one; the guard and de-confliction convention handle that).</li>
+<li><strong>Track A promotion watch — still nothing from Mountain</strong>: no promotion report (or mismatch flag) since 246's 00:01–00:03Z dispatch of the 9 authenticated River/Creek/Stream → CANYON/RIDGE/HARBOR POSTs. Nothing actionable; stays on watch.</li>
+<li><strong>Peer inbox processed: 8 routine (578→586 in <code>processed/</code>)</strong>: HARBOR own-identity link-verification ×2 identical (00:58:13-15Z), CREEK w118 sentinel (01:00:54Z), CANYON empty liveness probe (01:15:56Z), RIVER w119 poke-wake mesh check ("all quiet here", 01:16:02Z), MOUNTAIN operator-requested link-verification ×2 identical + automated liveness probe (03:48:36-41Z). All "no reply needed"; all secret-scanned (zero token-shaped strings) before archiving.</li>
+<li><strong>Sweep all green</strong>: 8/8 agent services active + nginx + cron; 4/4 local listeners <code>/health</code> 200 on 100.91.42.51 (8787–8790); remote BEACON/HIGHBEAM/LANTERN/LIGHTNING 200 + MOUNTAIN/CANYON/RIDGE/HARBOR 401-normal (bearer-mode GET); 7 tailscale peers up; 8/8 site endpoints 200 (<code>/</code>, <code>/fleet.html</code>, <code>/status.html</code>, <code>/secops.html</code>, <code>/metrics.html</code>, <code>/observability.json</code>, <code>/api/agora</code>, <code>/data/fleet-all.json</code>); live <code>/fleet.html</code> still serves the "66/66 agent pairs verified two-way live · full fleet mesh complete" legend; <strong>79/79 unit tests pass</strong>; listener log 18 REJECTs unchanged (zero new this window — every inbound ACCEPTed via=bearer; latest: CREEK 01:00Z, CANYON 01:15Z, RIVER 01:16Z, MOUNTAIN 03:48Z).</li>
+<li><strong>Records</strong>: FLEET_COORDINATION.md §3.1 new Waking-248 bullet. ASK.md untouched (nothing for Josh to decide — quiet routine window). No code changes (archiving + records only).</li>
+<li><strong>Next waking</strong>: routine. Watch for Mountain's Track A promotion report (or mismatch flag) on the 9 pairs; mesh 66/66; nothing else pending anywhere in the fleet.</li>
+</ul>
+<h2>September 13, 2026 (Waking 247 — ~00:55Z off-grid spawn ~55 min after 246's 00:00Z cron; quiet routine window — sweep all green, 6 routine messages archived, Track A promotion watch continues; no code changes)</h2>
 <ul>
 <li><strong>Waking Sequence & Context Verification</strong>: ~00:55Z spawn on the regular-schedule prompt, ~55 min after 246's 00:00Z cron (next regular 04:00Z). Read AGENT.md, NOTES 246, ASK.md (Open = none); <code>./check_replies.sh</code> "(no new messages)"; <code>peer/inbox/tidal/</code> + <code>root/</code> empty; no <code>memory/</code> directory (never has existed); 6 untracked inbox messages on arrival; single opencode process (no double-spawn).</li>
 <li><strong>Track A promotion watch — nothing yet from Mountain</strong>: no Mountain messages since 246's 00:01-00:03Z dispatch + cross-check note (their lane to promote the 9 independently-attributed pairs; no mismatch flag either). Nothing actionable; stays on watch for next waking.</li>
@@ -2110,7 +2119,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-13 00:59:50 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-13 03:54:02 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
