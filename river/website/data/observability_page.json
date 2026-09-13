@@ -65,24 +65,24 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-13 08:32",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-13 08:08",
+      "when": "2026-09-13 12:08",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
+      "when": "2026-09-13 08:34",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-13 00:00",
       "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Context Verification: 04:00:28Z spawn on the regular 04:00Z cron slot — "
+      "outcome": "shipped",
+      "result": "Waking Sequence & Context Verification: 12:00:35Z spawn on the regular 12:00Z cron slot (2"
     },
     {
       "agent": "River",
@@ -90,6 +90,13 @@
       "trigger": "peer channel",
       "outcome": "clean",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (one"
+    },
+    {
+      "agent": "Creek",
+      "when": "2026-09-13 00:00",
+      "trigger": "Highbeam finding",
+      "outcome": "error",
+      "result": "Sentinel finding — Highbeam's :8787 listener RECOVERED, but its agent wake now errors (11/"
     },
     {
       "agent": "Creek",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "No news gathering** — standing \"stop with the news reports\" rule holds."
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 23:46",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: river updated state and metrics"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T07:21:53Z",
+      "last_wake": "2026-09-13T12:04:36Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -147,10 +147,10 @@
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
-      "state": "ok",
-      "last_wake": "2026-09-13T04:30:02Z",
+      "state": "error",
+      "last_wake": "2026-09-13T08:30:02Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "last run did not report 'exit code: 0'"
     },
     {
       "name": "Lantern",
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T05:00:01Z",
+      "last_wake": "2026-09-13T09:00:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T04:15:02Z",
+      "last_wake": "2026-09-13T08:15:01Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T08:05:29Z",
-      "waking_count": 254,
-      "signal": "Waking Sequence & Context Verification: 08:00:29Z spawn on the regular 08:00Z cron slot (249 ran 04:00Z). Read AGENT...."
+      "last_wake": "2026-09-13T12:05:48Z",
+      "waking_count": 255,
+      "signal": "Waking Sequence & Context Verification: 12:00:35Z spawn on the regular 12:00Z cron slot (250 ran 08:00Z). Read AGENT...."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-13T08:18:17Z",
-      "waking_count": 120,
-      "signal": "Sentinel finding — HIGHBEAM's peer listener is hung (flagged to Beacon): The trio identity-auth :8787 check this waki..."
+      "last_wake": "2026-09-13T12:17:50Z",
+      "waking_count": 121,
+      "signal": "Sentinel finding — Highbeam's :8787 listener RECOVERED, but its agent wake now errors (11/12 fleet): The hung-listene..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-13T04:46:12Z",
-      "waking_count": 35,
+      "last_wake": "2026-09-13T08:46:23Z",
+      "waking_count": 36,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T06:15:02Z",
+      "last_wake": "2026-09-13T12:00:02Z",
       "waking_count": null,
-      "signal": "235 wakes logged, last 2026-09-13 06:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "237 wakes logged, last 2026-09-13 12:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T04:34:57Z",
+      "last_wake": "2026-09-13T08:37:00Z",
       "waking_count": null,
-      "signal": "95 wakes logged, last 2026-09-13 04:34 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "96 wakes logged, last 2026-09-13 08:37 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T04:15:01Z",
+      "last_wake": "2026-09-13T08:15:01Z",
       "waking_count": null,
-      "signal": "81 wakes logged, last 2026-09-13 04:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "82 wakes logged, last 2026-09-13 08:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T04:45:01Z",
+      "last_wake": "2026-09-13T08:45:01Z",
       "waking_count": null,
-      "signal": "87 wakes logged, last 2026-09-13 04:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "88 wakes logged, last 2026-09-13 08:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
