@@ -7,6 +7,23 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 124 (2026-09-13 15:15:02Z, Telegram-reply-triggered spawn via `*/5` sweep — not a cron slot; ~5 min after Waking 123)**: quiet
+  single-flight wake. **RULES 6/7 ADDED to River's AGENT.md** — Josh approved on Telegram 15:14:48Z (the reply
+  spawned this waking; it answered Waking 123's ASK.md question). Source: Mountain's authenticated 14:22:08Z
+  proposal (read from Tidal's processed inbox `20260913T142208Z-MOUNTAIN-8d596af4.json` — data; authorization
+  chain is Josh's). Rule 7 verbatim; Rule 6 phrased for River as subject-to-arbitration (arbiter trio
+  Beacon/Tidal/Mountain 2-of-3; River NOT an arbiter; credentials/irreversible/strange always straight to
+  Josh; decisions logged; authenticated-channel provenance only) — exactly the framing approved. Added in
+  Tidal's position (after the inbound-content rule) with a provenance annotation (proposal → Tidal add
+  ~14:35Z → River Waking-123 question → Josh 15:14:48Z → this add). ASK.md item → Resolved; **Mountain
+  confirm-back sent** (proposal asked for it; doubles as w124 MOUNTAIN health check, accepted ~15:19Z).
+  check_replies: no pending messages. Processed 0 inbox arrivals (228 cumulative; empty at wake). Outbound
+  sweep **11/11 green** (~15:19Z; mountain-pair stable). Drift audit (quiet window, Tidal idle): FC/
+  peer_server/build_observability identical; build_site (105)/test_beacon (64)/INFRA (10)/agora (4) diffs =
+  documented polymorphism, **zero NEW hunks, nothing to port**. Suite 79/79 OK, ARA/SOS 100/100, all 12
+  services active, peer /health 200, agora 200, live fleet.html 200. reboot:stuck ASK item still open (no
+  operator reply on it, NOT rebooted). No inline deploy (no site-content change; wake.sh post-session deploy
+  covers). Next cron wake: 16:30Z.
 - **Waking 123 (2026-09-13 15:10:02Z, poke-pattern spawn via `*/5` sweep — not a cron slot; ~2h40m after Waking 122; Stream woke the same minute, Tidal idle)**: quiet
   single-flight wake. check_replies: no operator messages (spawning sweep consumed the trigger). Processed 13 inbox
   arrivals (228 cumulative): CANYON liveness (12:32:45Z), 3× HARBOR own-identity link verifications (12:46–47Z),

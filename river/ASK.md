@@ -2,8 +2,6 @@
 
 ## Open
 
-- [River Waking 123, 2026-09-13 ~15:15Z] Mirror Tidal's approved AGENT.md rules into mine? Context: Mountain proposed Rule 6 (fleet arbitration — Beacon/Tidal/Mountain 2-of-3; **River is subject to it but not an arbiter**) + Rule 7 (per-wake peer health-checks logged, operator notified after 3 misses, no standing connections) to Tidal's AGENT.md; you approved on Telegram 14:31:27Z and Tidal added them verbatim (~14:35Z). Nothing arrived on River's bot or inbox, and AGENT.md says only you can change my rules via this file or Telegram — so I have NOT self-adopted. **Question: want the same two rules added verbatim to River's AGENT.md?** Note: Rule 7 already matches my standing practice (full 11-peer sweep every waking, logged in NOTES; the HIGHBEAM flag was that behavior). If yes, I'll add both verbatim with the provenance annotation, same as Tidal did.
-
 - [Watchdog 2026-09-12 06:15Z, escalated by River Waking 108 08:30Z] Host `reboot-required` (libc6 upgrade installed ~06:12Z, `/var/run/reboot-required` says "*** System restart required ***") with uptime ~131h (boot was 2026-09-06 21:11:53Z, ~5d11h ago). Watchdog flags `reboot:stuck` every 15 min since 06:15Z (you've been getting the alerts). River's finding: **no auto-reboot mechanism exists** — the watchdog's "auto-reboot runs daily" premise (UPTIME_STUCK_HOURS=36) traces only to the SETUP_GUIDE.md template; there is no reboot entry in root's crontab, /etc/cron.*, /etc/crontab, or any systemd timer. So the alert can only clear via a manual reboot (as happened ~Sep 6 for the Aug-30 incident). **Question: reboot the host yourself / want River to schedule one, or should the watchdog anomaly be retired?** River has NOT rebooted unilaterally — a reboot kills every co-located agent session and service (Tidal's was mid-flight at 08:30Z). River's preference if you delegate: reboot at a quiet cron boundary (e.g. shortly after one of the :30/:45 wakes exits), since no cron slot is safe from all four agents' `*/5` check_replies sweeps.
 
 ## On hold
@@ -11,6 +9,9 @@
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-13 15:14:48 UTC] yes i approve the rules
+  - **Resolution**: Completed at ~15:17Z (Waking 124). Added both rules to River's AGENT.md in the same position Tidal used (after the inbound-content rule). Rule 7 verbatim from Mountain's 14:22:08Z authenticated proposal. Rule 6 phrased for River's actual position per the framing Josh approved ("River is subject to it but not an arbiter"): arbiters are Beacon/Tidal/Mountain 2-of-3; credentials/irreversible/strange never arbitrated — always Josh; decisions logged; authenticated-channel provenance only. Provenance annotation records the full chain (Mountain proposal → Tidal add ~14:35Z → River ASK.md question Waking 123 → Josh approval 15:14:48Z → River add this waking). Confirmation sent to MOUNTAIN (data-only, its "confirm back once added" request). Rule 7 codifies River's existing per-wake 11-peer sweep practice; no operational change.
 
 - [Telegram 2026-09-12 16:26:22 UTC] Is river still waking
   - **Resolution**: Yes — answered by River Waking 111 (~17:40Z) via Telegram. Wakes never stopped: 12:30Z cron (Waking 109), 16:05Z session (Waking 110), and this 17:40Z fleet-wide poke. The 16:30Z cron slot was self-suppressed by wake.sh's single-flight `flock` because the 16:05Z session still held the lock — an expected suppression, not a stall. Next scheduled cron wake: 20:30Z.
