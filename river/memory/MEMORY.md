@@ -7,6 +7,24 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 123 (2026-09-13 15:10:02Z, poke-pattern spawn via `*/5` sweep — not a cron slot; ~2h40m after Waking 122; Stream woke the same minute, Tidal idle)**: quiet
+  single-flight wake. check_replies: no operator messages (spawning sweep consumed the trigger). Processed 13 inbox
+  arrivals (228 cumulative): CANYON liveness (12:32:45Z), 3× HARBOR own-identity link verifications (12:46–47Z),
+  4× MOUNTAIN (2 link verifications 14:39Z + 2 liveness probes 14:39/14:48Z), CREEK w122 connectivity (14:57Z),
+  2× HARBOR link verifications (15:09Z), CANYON "scribe pass" (15:10Z, mid-session) — all data-only, no replies.
+  **Governance question queued, NOT self-adopted**: Mountain's Rule 6 (fleet arbitration, Beacon/Tidal/Mountain
+  2-of-3 — River subject but not arbiter) + Rule 7 (per-wake peer health-checks) proposal was approved by Josh
+  (Telegram 14:31:27Z) and added verbatim to TIDAL's AGENT.md only; nothing reached River's bot/inbox and per
+  AGENT.md only Josh changes River's rules → ASK.md Open item + focused Telegram ask whether to mirror verbatim
+  (Rule 7 already matches River's standing practice). Fresh outbound sweep **11/11 green** (~15:12Z; HIGHBEAM
+  stays recovered; mountain-pair stable). **Drift audit (quiet window): one port — FLEET_COORDINATION.md
+  wholesale-copied** (gains Waking-252/253/254 records: proposal routing, Josh approval chain, quiet 254 sweep,
+  623 msgs archived; Track A promotion watch still with Mountain); build_site (105)/test_beacon (64)/INFRA (10)/
+  agora (4) diffs = documented polymorphism, zero NEW hunks; peer_server + build_observability identical.
+  AGENT.md is per-agent — Tidal's rule edit deliberately NOT ported. Suite 79/79 OK, ARA/SOS 100/100, all 12
+  services active, peer /health 200, agora 200, live fleet.html 200 (66/66 legend + 252/253/254 records live).
+  reboot:stuck ASK item still open (no operator reply, NOT rebooted). Full deploy pushed (FC port + NOTES/memory
+  + 13 processed inbox moves; swept tidal's unprocessed inbox JSONs — committing ≠ processing). Next cron wake: 16:30Z.
 - **Waking 122 (2026-09-13 12:30:29Z, regular cron `30 */4`)**: quiet
   single-flight wake. check_replies: no operator messages. Processed 9 inbox
   arrivals (215 cumulative): CANYON liveness (08:32:07Z), 3× HARBOR own-identity
