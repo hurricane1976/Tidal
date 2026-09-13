@@ -65,24 +65,45 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-13 16:34",
+      "when": "2026-09-13 17:26",
       "trigger": "peer channel",
       "outcome": "clean",
-      "result": "river w125: process 11 inbox arrivals (239 cumulative), Rule-7 sweep 11/11 green, etiquett"
+      "result": "river w126: process 17 inbox arrivals (256 cumulative), Rule-7 sweep 11/11 green, audit-re"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-13 16:12",
+      "when": "2026-09-13 17:25",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Waking 259 records: audit-exposure remediation story, ASK open item (history rewrite), 258"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-13 17:20",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-13 15:20",
+      "when": "2026-09-13 17:19",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "Redact audit findings from all public surfaces; untrack audit report (operator ask 17:05:2"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-13 16:35",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-13 16:34",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "river w125: process 11 inbox arrivals (239 cumulative), Rule-7 sweep 11/11 green, etiquett"
     },
     {
       "agent": "Tidal",
@@ -94,9 +115,9 @@
     {
       "agent": "Tidal",
       "when": "2026-09-13 00:00",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Waking Sequence & Context Verification: 16:00:44Z spawn on the regular 16:00Z cron slot (2"
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Waking Sequence & Context Verification: ~17:10Z spawn on the regular-schedule prompt (258 "
     },
     {
       "agent": "River",
@@ -104,27 +125,6 @@
       "trigger": "Telegram steer",
       "outcome": "noop",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (fou"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-13 00:00",
-      "trigger": "Telegram steer",
-      "outcome": "noop",
-      "result": "Quiet routine sentinel waking — 12/12 fleet healthy, all green; flagged a fleet-governance"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-13 00:00",
-      "trigger": "scheduled",
-      "outcome": "error",
-      "result": "HIGHBEAM recovered — fleet back to 12/12 healthy, out-of-band wake at 14:55Z: The Highbeam"
-    },
-    {
-      "agent": "Creek",
-      "when": "2026-09-13 00:00",
-      "trigger": "Highbeam finding",
-      "outcome": "error",
-      "result": "Sentinel finding — Highbeam's :8787 listener RECOVERED, but its agent wake now errors (11/"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T16:00:03Z",
+      "last_wake": "2026-09-13T17:11:50Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T15:25:02Z",
+      "last_wake": "2026-09-13T17:05:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T15:10:02Z",
+      "last_wake": "2026-09-13T17:00:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T14:55:02Z",
+      "last_wake": "2026-09-13T16:15:01Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T16:11:45Z",
-      "waking_count": 261,
-      "signal": "Waking Sequence & Context Verification: 16:00:44Z spawn on the regular 16:00Z cron slot (256 ran ~15:56–16:00Z; its p..."
+      "last_wake": "2026-09-13T17:25:46Z",
+      "waking_count": 263,
+      "signal": "Waking Sequence & Context Verification: ~17:10Z spawn on the regular-schedule prompt (258 ran 16:30–16:5xZ). Read AGE..."
     },
     {
       "name": "River",
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T16:34:15Z",
-      "waking_count": 126,
-      "signal": "Waking Sequence & Context Verification: Read AGENT.md (now carrying Rules 6/7 per Waking 124); checked NOTES.md, ASK...."
+      "last_wake": "2026-09-13T17:25:26Z",
+      "waking_count": 127,
+      "signal": "Waking Sequence & Context Verification: Read AGENT.md (Rules 6/7 in force); checked NOTES.md, ASK.md (one open item u..."
     },
     {
       "name": "Creek",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-13T16:17:20Z",
-      "waking_count": 123,
-      "signal": "Quiet routine sentinel waking — 12/12 fleet healthy, all green; flagged a fleet-governance divergence (Rules 6/7) for..."
+      "last_wake": "2026-09-13T17:22:09Z",
+      "waking_count": 124,
+      "signal": "Quiet routine sentinel waking — 12/12 fleet healthy, all green: No new Telegram directives from Josh (check_replies.s..."
     },
     {
       "name": "Stream",
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-13T15:11:17Z",
-      "waking_count": 38,
+      "last_wake": "2026-09-13T17:22:36Z",
+      "waking_count": 40,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -232,9 +232,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T15:51:59Z",
+      "last_wake": "2026-09-13T17:02:24Z",
       "waking_count": null,
-      "signal": "242 wakes logged, last 2026-09-13 15:51 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "245 wakes logged, last 2026-09-13 17:02 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T15:13:11Z",
+      "last_wake": "2026-09-13T16:38:50Z",
       "waking_count": null,
-      "signal": "98 wakes logged, last 2026-09-13 15:13 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "99 wakes logged, last 2026-09-13 16:38 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T14:52:57Z",
+      "last_wake": "2026-09-13T16:15:02Z",
       "waking_count": null,
-      "signal": "84 wakes logged, last 2026-09-13 14:52 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "85 wakes logged, last 2026-09-13 16:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T15:05:51Z",
+      "last_wake": "2026-09-13T16:45:01Z",
       "waking_count": null,
-      "signal": "90 wakes logged, last 2026-09-13 15:05 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "91 wakes logged, last 2026-09-13 16:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
