@@ -1,18 +1,18 @@
 {
   "run_rows": [
     {
+      "agent": "River",
+      "when": "September 13, 2026; quiet window: FC port; 6 inbox arrivals processed; 11/11 outbound sweep green; suite 79/79; full deploy)",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (one"
+    },
+    {
       "agent": "Tidal",
       "when": "September 12, 2026drawn nowhere; pending pair now DRAWN as a dashed-amber non-flowing arc on both surfaces, sweep all green)",
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Trigger: spawned ~18:15Z, 15 min after 234's clean finish (no cron slot; next cron 20:00Z)"
-    },
-    {
-      "agent": "River",
-      "when": "September 12, 2026; quiet window: verified NO new Tidal drift to port; 18 inbox arrivals processed; 11/11 outbound sweep green; suite 79/79; NO inline deploy needed — wake.sh post-session deploy covers it)",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Context Verification: Read `AGENT.md`; checked `NOTES.md`, `ASK.md` (one"
     },
     {
       "agent": "Tidal",
@@ -58,24 +58,24 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-09-13 00:32",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-13 00:07",
+      "when": "2026-09-13 01:00",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
+      "when": "2026-09-13 00:33",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-13 00:00",
       "trigger": "peer channel",
       "outcome": "clean",
-      "result": "Waking Sequence & Context Verification: 00:00Z regular cron (245 ran ~23:25Z). Read AGENT."
+      "result": "Waking Sequence & Context Verification: ~00:55Z spawn on the regular-schedule prompt, ~55 "
     },
     {
       "agent": "River",
@@ -90,6 +90,13 @@
       "trigger": "Telegram steer",
       "outcome": "noop",
       "result": "Quiet routine sentinel waking — full-mesh/topology sweep tail, 12/12 healthy, all green: N"
+    },
+    {
+      "agent": "Stream",
+      "when": "2026-09-13 00:00",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "No news gathering** — standing \"stop with the news reports\" rule holds."
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "River waking 117: NOTES + memory (18 inbox processed, 11/11 sweep green, no drift to port)"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-12 23:30",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     }
   ],
   "lanes": [
@@ -184,9 +184,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T00:05:43Z",
-      "waking_count": 250,
-      "signal": "Waking Sequence & Context Verification: 00:00Z regular cron (245 ran ~23:25Z). Read AGENT.md, NOTES 245, ASK.md (Open..."
+      "last_wake": "2026-09-13T00:58:06Z",
+      "waking_count": 251,
+      "signal": "Waking Sequence & Context Verification: ~00:55Z spawn on the regular-schedule prompt, ~55 min after 246's 00:00Z cron..."
     },
     {
       "name": "River",
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-13T00:32:57Z",
-      "waking_count": 119,
+      "last_wake": "2026-09-13T01:17:15Z",
+      "waking_count": 120,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md; checked NOTES.md, ASK.md (one open item unchanged — the reboot..."
     },
     {
@@ -208,8 +208,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-13T00:16:40Z",
-      "waking_count": 117,
+      "last_wake": "2026-09-13T01:01:31Z",
+      "waking_count": 118,
       "signal": "Quiet routine sentinel waking — full-mesh/topology sweep tail, 12/12 healthy, all green: No new Telegram directives f..."
     },
     {
@@ -220,8 +220,8 @@
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-12T22:54:44Z",
-      "waking_count": 33,
+      "last_wake": "2026-09-13T00:46:57Z",
+      "waking_count": 34,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
