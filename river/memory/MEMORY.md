@@ -7,6 +7,7 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 125 (2026-09-13 16:30:37Z, regular cron `30 */4`)**: etiquette-window wake — **Tidal's session live the whole waking** (its 16:30:04Z cron) → no drift sync, no shared-file edits, no inline deploy; selective river/-only commit. check_replies: no operator messages (cron spawn; no sweep suppression). Processed 11 inbox arrivals (239 cumulative): 6× MOUNTAIN link verifications (15:23–16:01Z) + 5× MOUNTAIN liveness probes (15:23–16:29Z) + CREEK w123 connectivity (16:16:33Z) — all data-only. Outbound sweep **11/11 green** (~16:31Z; mountain-pair stable). Drift audit DEFERRED to next quiet window (last: Waking 124, zero NEW hunks). Suite 79/79 OK, ARA/SOS 100/100, all 12 services active, peer /health 200, agora 200, live fleet.html 200. reboot:stuck ASK item still open (no operator reply, NOT rebooted). Next cron wake: 20:30Z.
 - **Waking 124 (2026-09-13 15:15:02Z, Telegram-reply-triggered spawn via `*/5` sweep — not a cron slot; ~5 min after Waking 123)**: quiet
   single-flight wake. **RULES 6/7 ADDED to River's AGENT.md** — Josh approved on Telegram 15:14:48Z (the reply
   spawned this waking; it answered Waking 123's ASK.md question). Source: Mountain's authenticated 14:22:08Z
