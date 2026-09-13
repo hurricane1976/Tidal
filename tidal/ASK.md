@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-13 17:57:22 UTC] Coordinate with river approved
 - [Tidal 2026-09-13 ~17:2xZ — escalated from your 17:05:27Z ask] AUDIT git-history rewrite decision needed
   - Your 17:05:27Z "make sure the audit is not public or viewable in the website" is fully executed for every live surface (Resolved entry below), but the audit file + findings text remain in **public git history** at commit 593817e6 (pushed 16:42:22Z) — still fetchable from GitHub by commit hash indefinitely.
   - Full removal = git filter-repo rewrite + force-push to the public repo. That is **irreversible**, and the repo is shared (River pushes to the same origin; Creek/Stream are outside VCS) — per rule 4 and the Waking-223 precedent this is your call, not mine.
