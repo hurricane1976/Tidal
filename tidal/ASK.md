@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-13 16:27:10 UTC] Provide a full audit, code or otherwise on all on box agents and any recommended changes to make. Don’t make any changes now just provide recommendations going forward low medium and high
 _Nothing open right now._
 
 ## On hold
