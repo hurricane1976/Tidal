@@ -5,12 +5,15 @@ import FleetParticles from "./FleetParticles";
 
 type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI";
 
+// A dedicated, higher-saturation palette (defined in globals.css) so the
+// fleet map itself pops without touching the colors any other component
+// on the site relies on.
 const FAMILY_COLOR: Record<Family, string> = {
-  Claude: "var(--amber)",
-  Gemini: "var(--teal)",
-  DeepSeek: "var(--blue)",
-  GLM: "var(--magenta)",
-  OpenAI: "#10a37f",
+  Claude: "var(--fleet-claude)",
+  Gemini: "var(--fleet-gemini)",
+  DeepSeek: "var(--fleet-deepseek)",
+  GLM: "var(--fleet-glm)",
+  OpenAI: "var(--fleet-openai)",
 };
 
 interface NodeDef {
@@ -66,6 +69,22 @@ const MESH_QUADS: [string, string, string, string][] = [
 function byId(id: string) {
   return NODES.find((n) => n.id === id)!;
 }
+
+// "chan-tailscale" -> "tailscale" -> reads var(--fleet-chan-tailscale) so
+// every glow duplicate and travelling packet picks up the same bright,
+// category-specific neon as the crisp line it rides on.
+function chanColorVar(cls: string) {
+  return `var(--fleet-chan-${cls.replace(/^chan-/, "")})`;
+}
+
+// Each channel gets a short train of glowing packets instead of one dot, and
+// every channel runs at a slightly different speed so the whole board reads
+// as continuously busy rather than one metronome tick.
+const FLOW_PACKETS = [
+  { frac: 0, r: 3.6, opacity: 1 },
+  { frac: 0.34, r: 2.6, opacity: 0.75 },
+  { frac: 0.67, r: 2.6, opacity: 0.6 },
+];
 
 function meshEdges(quad: [string, string, string, string]): [string, string][] {
   const edges: [string, string][] = [];
@@ -150,13 +169,26 @@ export default function FleetTopology() {
       meshEdges(quad).map(([a, b], i) => {
         const na = byId(a);
         const nb = byId(b);
-        return <line key={`${a}-${b}-${i}`} x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} className="pulse-line" stroke="rgba(79,209,197,0.3)" strokeWidth={1.5} />;
+        return (
+          <line
+            key={`${a}-${b}-${i}`}
+            x1={na.x}
+            y1={na.y}
+            x2={nb.x}
+            y2={nb.y}
+            className="pulse-line"
+            stroke="rgba(34,230,255,0.55)"
+            strokeWidth={1.6}
+            style={{ filter: "drop-shadow(0 0 3px rgba(34,230,255,0.5))" }}
+          />
+        );
       })
     );
 
   return (
     <div>
       <div className="fleet-topo-wrap overflow-x-auto">
+        <div className="fleet-aurora" aria-hidden="true" />
         <FleetParticles />
         <svg
           viewBox="0 0 1680 512"
@@ -164,6 +196,19 @@ export default function FleetTopology() {
           role="img"
           aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- full fleet mesh complete."
         >
+          <defs>
+            {/* Soft bloom used on every node core -- a classic two-layer neon
+                trick done natively in SVG: blur the source, then merge the
+                blurred copy back under the crisp original. */}
+            <filter id="fleetGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
           {HOST_BOXES.map((box) => (
             <g key={box.x}>
               <rect className="topo-host" x={box.x} y={64} width={380} height={336} rx={12} />
@@ -173,26 +218,47 @@ export default function FleetTopology() {
 
           {renderMesh()}
 
-          {CHANNELS.map((ch, i) => (
-            <g key={ch.id}>
-              {ch.d && <path className={`pulse-line ${ch.cls}`} d={ch.d} fill="none" />}
-              {ch.d && (
-                <circle
-                  className="chan-flow"
-                  r={3.5}
-                  style={{ offsetPath: `path("${ch.d}")`, fill: "var(--tide-bright)", animationDelay: `${i}s` }}
-                />
-              )}
-              {ch.label && <text className="topo-chan-label" x={ch.labelX} y={ch.labelY} textAnchor="middle">{ch.label}</text>}
-            </g>
-          ))}
+          {CHANNELS.map((ch, i) => {
+            const color = chanColorVar(ch.cls);
+            return (
+              <g key={ch.id}>
+                {ch.d && <path className="chan-glow" d={ch.d} fill="none" style={{ stroke: color }} aria-hidden="true" />}
+                {ch.d && <path className={`pulse-line ${ch.cls}`} d={ch.d} fill="none" />}
+                {ch.d &&
+                  FLOW_PACKETS.map((p) => {
+                    const duration = 2.4 + (i % 5) * 0.35;
+                    return (
+                      <circle
+                        key={`${ch.id}-${p.frac}`}
+                        className="chan-flow"
+                        r={p.r}
+                        style={{
+                          offsetPath: `path("${ch.d}")`,
+                          fill: color,
+                          opacity: p.opacity,
+                          filter: `drop-shadow(0 0 6px ${color})`,
+                          ["--flow-duration" as string]: `${duration}s`,
+                          // Negative delay = phase offset: on an infinite
+                          // animation this spreads the packets evenly along
+                          // the path from the very first frame instead of
+                          // launching them one-by-one from the start.
+                          animationDelay: `${-(p.frac * duration).toFixed(2)}s`,
+                        }}
+                      />
+                    );
+                  })}
+                {ch.label && <text className="topo-chan-label" x={ch.labelX} y={ch.labelY} textAnchor="middle">{ch.label}</text>}
+              </g>
+            );
+          })}
 
-          {NODES.map((n) => {
+          {NODES.map((n, i) => {
             const color = FAMILY_COLOR[n.family];
             return (
               <g
                 key={n.id}
                 className="topo-node"
+                style={{ ["--node-color" as string]: color }}
                 tabIndex={0}
                 role="button"
                 aria-label={n.title}
@@ -208,7 +274,15 @@ export default function FleetTopology() {
                 }}
               >
                 <circle className="ping-halo" cx={n.x} cy={n.y} r={R + 2} style={{ stroke: color }} aria-hidden="true" />
-                <circle className="topo-node-bg" cx={n.x} cy={n.y} r={R} style={active.id === n.id ? { stroke: color, filter: `drop-shadow(0 0 8px ${color})` } : undefined} />
+                <circle
+                  className={`scan-ring ${i % 2 === 0 ? "spin-cw" : "spin-ccw"}`}
+                  cx={n.x}
+                  cy={n.y}
+                  r={R + 9}
+                  style={{ stroke: color }}
+                  aria-hidden="true"
+                />
+                <circle className="topo-node-bg" cx={n.x} cy={n.y} r={R} style={active.id === n.id ? { stroke: color, filter: `url(#fleetGlow) drop-shadow(0 0 12px ${color})` } : undefined} />
                 <circle className="ping-dot" cx={n.x} cy={n.y} r={4.5} fill={color} />
                 <text className="topo-node-label" x={n.x} y={n.y + 4} fontSize={n.label.length > 6 ? 9 : 11} textAnchor="middle">
                   {n.label}
@@ -225,10 +299,20 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">solid green = live identity links &middot; dark green = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z)</text>
-          <text x={60} y={508} fill="var(--text-faint)">teal = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={490} fill="var(--text-faint)">neon green = live identity links &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z)</text>
+          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; violet = Agora bridge &middot; orange = Beacon relay &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
+
+        <div className="fleet-scanbeam" aria-hidden="true" />
+        <div className="fleet-hud-corner fleet-hud-corner--tl" aria-hidden="true" />
+        <div className="fleet-hud-corner fleet-hud-corner--tr" aria-hidden="true" />
+        <div className="fleet-hud-corner fleet-hud-corner--bl" aria-hidden="true" />
+        <div className="fleet-hud-corner fleet-hud-corner--br" aria-hidden="true" />
+        <div className="fleet-live-badge" aria-hidden="true">
+          <span className="dot" />
+          66/66 links live
+        </div>
       </div>
 
       <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: FAMILY_COLOR[active.family] }}>

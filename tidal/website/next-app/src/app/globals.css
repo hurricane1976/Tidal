@@ -32,6 +32,22 @@
   --purple-dim: rgba(159, 122, 234, 0.35);
   /* Tidal's signature identity gradient -- teal tide rising into moonlit cyan */
   --tidewave: linear-gradient(115deg, var(--teal) 0%, var(--tide) 55%, var(--tide-bright) 100%);
+
+  /* Fleet topology palette -- a dedicated, higher-saturation set so the fleet
+     map itself pops without changing any other component's colors. One
+     distinct neon per model family, one per channel class. */
+  --fleet-claude: #ffb020;
+  --fleet-gemini: #12e6ff;
+  --fleet-deepseek: #7c8bff;
+  --fleet-glm: #ff2ec4;
+  --fleet-openai: #00ffb2;
+  --fleet-chan-tailscale: #22e6ff;
+  --fleet-chan-agora: #c084fc;
+  --fleet-chan-mountain: #5b8cff;
+  --fleet-chan-relay: #ff7a45;
+  --fleet-chan-live: #39ff8f;
+  --fleet-chan-pending: #ffd23f;
+  --fleet-chan-cfg: #4da6ff;
   --s1: 4px;
   --s2: 8px;
   --s3: 12px;
@@ -66,6 +82,16 @@
   --font-sans: var(--font-ibm-sans);
   --font-mono: var(--font-ibm-mono);
   --font-display: var(--font-space-grotesk);
+}
+
+/* Houdini-animated custom property -- drives the rotating aurora wash behind
+   the fleet topology. Registering it as an <angle> lets the browser
+   interpolate the rotation on the compositor instead of us hand-rolling a
+   transform loop. */
+@property --fleet-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
 }
 
 html {
@@ -378,7 +404,7 @@ body {
 
 .topo-node:hover,
 .topo-node:focus-visible {
-  transform: scale(1.08);
+  transform: scale(1.12);
 }
 
 .topo-node:focus-visible {
@@ -387,21 +413,24 @@ body {
 
 .topo-node:focus-visible .topo-node-bg {
   fill: var(--surface-2);
-  stroke: var(--teal);
-  filter: drop-shadow(0 0 8px var(--teal-dim));
+  stroke: var(--node-color, var(--teal));
+  filter: url(#fleetGlow) drop-shadow(0 0 12px var(--node-color, var(--teal-dim)));
 }
 
 .topo-node-bg {
   fill: var(--surface);
-  stroke: var(--line);
+  stroke: var(--node-color, var(--line));
+  stroke-opacity: 0.6;
   stroke-width: 1.5;
-  transition: fill 0.3s, stroke 0.3s;
+  filter: url(#fleetGlow) drop-shadow(0 0 5px var(--node-color, transparent));
+  transition: fill 0.3s, stroke 0.3s, filter 0.3s, stroke-opacity 0.3s;
 }
 
 .topo-node:hover .topo-node-bg {
   fill: var(--surface-2);
-  stroke: var(--teal);
-  filter: drop-shadow(0 0 8px var(--teal-dim));
+  stroke: var(--node-color, var(--teal));
+  stroke-opacity: 1;
+  filter: url(#fleetGlow) drop-shadow(0 0 14px var(--node-color, var(--teal-dim)));
 }
 
 .pulse-line {
@@ -418,6 +447,7 @@ body {
 .ping-dot {
   transform-origin: center;
   transform-box: fill-box;
+  filter: drop-shadow(0 0 6px var(--node-color, currentColor));
   animation: ping-pulse 2s ease-in-out infinite;
 }
 
@@ -432,6 +462,30 @@ body {
   }
 }
 
+/* Slow-rotating scanner ring -- a second, independent motion cue around each
+   node (alongside the radar halo and the pulsing dot) so a node reads as an
+   active instrument, not a static marker. Direction alternates per node so
+   neighbouring rings don't visually sync into one blob. */
+.scan-ring {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 2 9;
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.spin-cw { animation: fleet-spin 7s linear infinite; }
+.spin-ccw { animation: fleet-spin-rev 10s linear infinite; }
+
+@keyframes fleet-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fleet-spin-rev {
+  to { transform: rotate(-360deg); }
+}
+
 /* ------------------------------------------------------------------ */
 /* Fleet topology -- host boxes, cross-box channels, radar pings, and  */
 /* a drifting particle field behind the SVG (mirrors Beacon's fleet-  */
@@ -440,15 +494,16 @@ body {
 .fleet-topo-wrap {
   position: relative;
   background: #06080c;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   overflow: hidden;
   margin-bottom: 1.5rem;
+  box-shadow: 0 0 0 1px rgba(34, 230, 255, 0.06), 0 24px 60px -20px rgba(34, 230, 255, 0.18);
 }
 
 .fleet-topo-wrap .fleet-topo-svg {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: block;
   width: 100%;
   height: auto;
@@ -459,15 +514,152 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* Rotating conic aurora wash behind the particle field. Driven entirely by
+   the Houdini-registered --fleet-angle custom property above so the browser
+   can interpolate/composite the rotation instead of us animating a transform
+   every frame -- one animated custom property standing in for what would
+   otherwise be a canvas or JS rAF loop. */
+.fleet-aurora {
+  position: absolute;
+  inset: -20%;
   z-index: 0;
   pointer-events: none;
+  background: conic-gradient(
+    from var(--fleet-angle) at 50% 50%,
+    rgba(34, 230, 255, 0.16),
+    rgba(192, 132, 252, 0.14),
+    rgba(255, 46, 196, 0.14),
+    rgba(0, 255, 178, 0.14),
+    rgba(255, 176, 32, 0.14),
+    rgba(34, 230, 255, 0.16)
+  );
+  filter: blur(60px);
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-aurora {
+    animation: fleet-aurora-spin 20s linear infinite;
+  }
+}
+
+@keyframes fleet-aurora-spin {
+  to { --fleet-angle: 360deg; }
+}
+
+/* Sci-fi HUD scan beam -- a soft light bar sweeping down the frame, layered
+   above everything else at low opacity so the whole panel reads as a live
+   instrument rather than a static diagram. */
+.fleet-scanbeam {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(34, 230, 255, 0.08) 45%,
+    rgba(34, 230, 255, 0.22) 50%,
+    rgba(34, 230, 255, 0.08) 55%,
+    transparent 100%
+  );
+  transform: translateY(-100%);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-scanbeam {
+    animation: fleet-scan-sweep 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes fleet-scan-sweep {
+  0%   { transform: translateY(-100%); }
+  45%  { transform: translateY(100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Corner brackets -- the classic HUD framing device, pulsing slowly so the
+   whole panel reads as "instrument", not "screenshot". */
+.fleet-hud-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 4;
+  pointer-events: none;
+  border: 2px solid var(--fleet-chan-tailscale);
   opacity: 0.55;
+  filter: drop-shadow(0 0 4px var(--fleet-chan-tailscale));
+}
+.fleet-hud-corner--tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.fleet-hud-corner--tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+.fleet-hud-corner--bl { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+.fleet-hud-corner--br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-hud-corner {
+    animation: hud-corner-pulse 3.6s ease-in-out infinite;
+  }
+}
+
+@keyframes hud-corner-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.9; }
+}
+
+/* Live status badge, top-right of the frame -- reinforces that this is a
+   monitored, moving system rather than a diagram. */
+.fleet-live-badge {
+  position: absolute;
+  top: 12px;
+  right: 44px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(6, 10, 15, 0.72);
+  border: 1px solid rgba(57, 255, 143, 0.35);
+  font-family: var(--font-ibm-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--fleet-chan-live);
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.fleet-live-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fleet-chan-live);
+  box-shadow: 0 0 6px var(--fleet-chan-live);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fleet-live-badge .dot {
+    animation: ping-pulse 1.4s ease-in-out infinite;
+  }
 }
 
 .topo-host {
-  fill: rgba(79, 209, 197, 0.02);
+  fill: rgba(34, 230, 255, 0.03);
   stroke: var(--line-strong);
   stroke-dasharray: 6 5;
+  transition: stroke 0.3s, fill 0.3s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .topo-host {
+    animation: dash-pulse 60s linear infinite;
+  }
 }
 
 .topo-host-label {
@@ -478,29 +670,44 @@ body {
 }
 
 .topo-chan-label {
-  fill: rgba(165, 185, 209, 0.65);
+  fill: rgba(200, 220, 240, 0.75);
   font-family: var(--font-ibm-mono), monospace;
   font-size: 10px;
   letter-spacing: 0.04em;
+  paint-order: stroke;
+  stroke: #06080c;
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 
-.chan-tailscale { stroke: rgba(79, 209, 197, 0.45); stroke-width: 2; }
-.chan-agora { stroke: rgba(159, 122, 234, 0.4); stroke-width: 2; }
-.chan-mountain { stroke: rgba(63, 199, 255, 0.4); stroke-width: 2; }
-.chan-relay { stroke: rgba(255, 138, 61, 0.4); stroke-width: 2; }
+.chan-tailscale { stroke: var(--fleet-chan-tailscale); stroke-width: 2.4; opacity: 0.92; }
+.chan-agora { stroke: var(--fleet-chan-agora); stroke-width: 2.4; opacity: 0.92; }
+.chan-mountain { stroke: var(--fleet-chan-mountain); stroke-width: 2.2; opacity: 0.85; }
+.chan-relay { stroke: var(--fleet-chan-relay); stroke-width: 2.4; opacity: 0.92; }
 /* live zero-secret identity links (Lantern + Highbeam -> local quartet):
-   solid green so they read the same as the other live peer channels */
-.chan-live { stroke: rgba(72, 187, 120, 0.5); stroke-width: 2; }
+   bright neon green so they read unmistakably as "live" against everything
+   else on the board */
+.chan-live { stroke: var(--fleet-chan-live); stroke-width: 2.4; opacity: 0.95; }
 /* sibling links whose listeners are live but the identity recipe has not
    been adopted yet: dim + dashed so they read as "almost nailed up" */
 /* the fleet's one pending pair (Mountain <-> River, Sept 12): dashed amber,
    clearly visible but dimmer than live links -- and deliberately excluded
    from the dash-pulse flow (no live traffic); the motion-allowed media
    query adds a gentle presence pulse instead */
-.chan-pending { stroke: rgba(255, 138, 61, 0.55); stroke-width: 2; stroke-dasharray: 3 6; }
+.chan-pending { stroke: var(--fleet-chan-pending); stroke-width: 2.2; stroke-dasharray: 3 6; opacity: 0.8; }
 /* configured links whose round-trip is not yet verified from this box:
    dashed blue, clearly live-adjacent but not confirmed */
-.chan-cfg { stroke: rgba(63, 199, 255, 0.28); stroke-width: 2; stroke-dasharray: 4 6; }
+.chan-cfg { stroke: var(--fleet-chan-cfg); stroke-width: 2.2; stroke-dasharray: 4 6; opacity: 0.55; }
+
+/* Soft blurred duplicate drawn under every channel path -- the classic
+   two-pass neon-line technique (a wide, blurred, dim copy plus a crisp
+   line on top) so channels read as glowing conduits, not flat strokes. */
+.chan-glow {
+  fill: none;
+  stroke-width: 8;
+  opacity: 0.4;
+  filter: blur(5px);
+}
 
 .topo-node-label {
   fill: var(--text);
@@ -534,7 +741,7 @@ body {
   .chan-relay,
   .chan-live {
     stroke-dasharray: 5 7;
-    animation: dash-pulse 24s linear infinite;
+    animation: dash-pulse 10s linear infinite;
   }
 
   .chan-pending {
@@ -550,6 +757,7 @@ body {
     display: block;
     fill: none;
     stroke-width: 1.5;
+    filter: drop-shadow(0 0 3px var(--node-color, transparent));
     transform-box: fill-box;
     transform-origin: center;
     animation: fleet-radar 3s ease-out infinite;
@@ -557,8 +765,9 @@ body {
 
   .chan-flow {
     display: block;
-    r: 3.5px;
-    animation: fleet-flow 4s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: fleet-flow var(--flow-duration, 3.2s) linear infinite, flow-pulse 1s ease-in-out infinite;
   }
 }
 
@@ -579,6 +788,13 @@ body {
 @keyframes fleet-flow {
   from { offset-distance: 0%; }
   to   { offset-distance: 100%; }
+}
+
+/* travelling packet pulses in size/opacity as it moves, so a channel reads
+   as carrying discrete bursts of traffic rather than one dot on rails */
+@keyframes flow-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50%      { transform: scale(1.7); opacity: 1; }
 }
 
 /* Trace Wave Animations */
