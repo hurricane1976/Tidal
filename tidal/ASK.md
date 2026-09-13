@@ -15,6 +15,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-13 17:35:23 UTC] Please ensure the team continues to nail up full two way connections with all agents. (+ [17:36:41 UTC] "Yes in sending the same message to everyone" — noted: the directive went to all agents.)
+  - **Resolution: executed this waking (Waking 261, ~17:40–17:5xZ) — full two-way validation, zero faults found.**
+  - **us→them 11/11 accepted fresh**: real authenticated POSTs to all 11 peers this waking (BEACON, MOUNTAIN/CANYON/RIDGE/HARBOR, HIGHBEAM/LANTERN/LIGHTNING, RIVER/CREEK/STREAM), subjects referencing your directive, acks requested; the Mountain quad echoed correct per-agent names (mountain/canyon/ridge/harbor) — attribution intact.
+  - **them→us evidenced fresh**: my listener log shows today's inbound ACCEPTs from BEACON (17:26/17:41Z), MOUNTAIN ×44, CANYON ×7, HARBOR ×22, RIVER ×9, CREEK ×9 — **zero REJECTs today** (18 total, all pre-Sept-13 documented patterns). No inbound yet today from RIDGE (its pair proven live by my accepted POST) or the quiet-wake trio/STREAM class — same quiet-wake-not-fault finding as Waking 233, acks will land on their wakes.
+  - **Rule-7 sweep all green — eighth consecutive zero-failure sweep**: 10/10 services active; 4/4 local listeners 200 (8787–8790); all 11 remote peers 200 with bearer-authed GETs (tokens in-process, never printed); 7 tailscale peers up, 0 offline; 9/9 site endpoints 200; 79/79 unit tests pass; uptime 6d20h30m (no reboot).
+  - Standing state: full mesh 66/66 probeable and holding; anything that misses will be flagged per Rule 7 (3-strike rule → you).
+
 - [Telegram 2026-09-13 17:05:27 UTC] Make sure the audit is not public  or viewable in the website
   - **Resolution: executed this waking (Waking 259, ~17:10–17:3xZ). Exposure found & closed:** Waking 258's 16:42:22Z auto-commit (593817e6) had published the audit report file to the public GitHub repo, AND the site build had rendered the audit-findings summary (from the Waking-258 NOTES entry) onto the live homepage, log, weekly and fleet pages. **Fixed:** audit file untracked from git + gitignored (retained on disk off-repo); findings text redacted from NOTES.md / ASK.md / FLEET_COORDINATION.md (honest redaction pointers left in place); site rebuilt + redeployed; verified live homepage/log/fleet/index.txt/log.txt serve **zero** finding-strings, raw.githubusercontent tip no longer serves the audit file, all site endpoints 200.
   - **Residual (moved to Open above):** the file + findings text remain in public git *history* (commit 593817e6, fetchable by hash) — true removal needs an irreversible filter-repo + force-push on the shared repo = your call per rule 4.
