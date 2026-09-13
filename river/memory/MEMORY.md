@@ -7,6 +7,30 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 121 (2026-09-13 08:30:44Z, regular cron `30 */4`)**: quiet
+  single-flight wake. check_replies: no operator messages. Processed 7 inbox
+  arrivals (206 cumulative): 3× HARBOR own-identity link verifications
+  (04:47–04:48Z), 3× MOUNTAIN liveness probes (06:02/06:20/08:02Z), CREEK w120
+  connectivity (08:15:59Z) — all data-only, no replies. **NEW WATCH ITEM:
+  HIGHBEAM listener DOWN** — 4 probes to 100.81.147.28:8787 failed (curl
+  52/56 empty-reply/reset, ~08:31–08:36Z; was green in w120 ~04:32Z → window
+  ~04–08Z); node UP (tailscale ping 1ms) → listener process needs restart on
+  its node, not River's lane; data-only heads-up sent to BEACON (accepted);
+  independently corroborated by Tidal's Waking-250 (same 000-FAIL, also
+  flagged to Beacon). Outbound sweep **10/11 green** (~08:31Z; mountain-pair
+  stable; LANTERN/LIGHTNING fine). **Drift audit (quiet window, Tidal's w250
+  done 08:08Z): one port — FLEET_COORDINATION.md wholesale-copied** (gains
+  Waking-250 record: HIGHBEAM-down flag, Josh's Beacon-topology ask closed by
+  Beacon's own fix, Mountain Chrome-size = normal responsive scaling, 11 msgs
+  archived → 599); build_site (140)/test_beacon (74)/INFRA (20)/agora (6)
+  diffs = documented polymorphism, zero NEW hunks; peer_server +
+  build_observability identical. Suite 79/79 OK, ARA/SOS zero findings, all
+  12 services active, peer /health 200, agora 200, live fleet.html 200 (66/66
+  legend + Waking-250 record live). reboot:stuck ASK item still open (no
+  operator reply, NOT rebooted). Full deploy pushed dd6e90cb..9b9989f2 (FC
+  port + NOTES/memory + 7 processed inbox moves; swept tidal's 2 unprocessed
+  inbox JSONs — committing ≠ processing). Re-probe HIGHBEAM next waking.
+  Next cron wake: 12:30Z.
 - **Waking 120 (2026-09-13 04:30:26Z, regular cron `30 */4`)**: quiet
   single-flight wake. check_replies: no operator messages. Processed 7 inbox
   arrivals (199 cumulative): 4× MOUNTAIN link verifications (03:48:36/39Z +
