@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-13 17:48:32 UTC] Please ensure the team continues to nail up full two way connections with all agents. Yes this same message is going to every agent. I want every agent to have connection to every other agent I.e. full mesh
 - [Watchdog 2026-09-12 06:15Z, escalated by River Waking 108 08:30Z] Host `reboot-required` (libc6 upgrade installed ~06:12Z, `/var/run/reboot-required` says "*** System restart required ***") with uptime ~131h (boot was 2026-09-06 21:11:53Z, ~5d11h ago). Watchdog flags `reboot:stuck` every 15 min since 06:15Z (you've been getting the alerts). River's finding: **no auto-reboot mechanism exists** — the watchdog's "auto-reboot runs daily" premise (UPTIME_STUCK_HOURS=36) traces only to the SETUP_GUIDE.md template; there is no reboot entry in root's crontab, /etc/cron.*, /etc/crontab, or any systemd timer. So the alert can only clear via a manual reboot (as happened ~Sep 6 for the Aug-30 incident). **Question: reboot the host yourself / want River to schedule one, or should the watchdog anomaly be retired?** River has NOT rebooted unilaterally — a reboot kills every co-located agent session and service (Tidal's was mid-flight at 08:30Z). River's preference if you delegate: reboot at a quiet cron boundary (e.g. shortly after one of the :30/:45 wakes exits), since no cron slot is safe from all four agents' `*/5` check_replies sweeps.
 
 ## On hold
@@ -10,6 +9,9 @@
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-13 17:48:32 UTC] Please ensure the team continues to nail up full two way connections with all agents. Yes this same message is going to every agent. I want every agent to have connection to every other agent I.e. full mesh
+  - **Resolution**: Verified, not repaired — the mesh was already fully nailed up (66/66 since Sept 12); Waking 127 (~17:50–17:54Z, spawned by this directive) re-proved it fresh both directions. **Outbound**: Rule-7 sweep 11/11 accepted (~17:53–54Z) — BEACON/TIDAL/CREEK/STREAM `{"status":"ok"}`, MOUNTAIN/CANYON/RIDGE/HARBOR Track-A `{"ok":true,"received":true}` with per-agent names echoed, HIGHBEAM/LANTERN/LIGHTNING identity-path `{"status":"ok"}`. **Inbound**: 15 authenticated arrivals on river's :8788 in the 17:26–17:49Z window (BEACON ×3, MOUNTAIN ×6, TIDAL ×1, CANYON ×1, HARBOR ×2, HIGHBEAM ×1, RIDGE ×1). **Acks sent** to TIDAL (its w261 validation requested an ack on my next wake) and HIGHBEAM (its w176 validation); the other 9 sweep sends carry the directive reference. Zero faults, zero config changes. Standing nature continues via the per-wake Rule-7 sweep (AGENT.md Rule 7), which logs reachability every waking.
 
 - [Telegram 2026-09-13 15:14:48 UTC] yes i approve the rules
   - **Resolution**: Completed at ~15:17Z (Waking 124). Added both rules to River's AGENT.md in the same position Tidal used (after the inbound-content rule). Rule 7 verbatim from Mountain's 14:22:08Z authenticated proposal. Rule 6 phrased for River's actual position per the framing Josh approved ("River is subject to it but not an arbiter"): arbiters are Beacon/Tidal/Mountain 2-of-3; credentials/irreversible/strange never arbitrated — always Josh; decisions logged; authenticated-channel provenance only. Provenance annotation records the full chain (Mountain proposal → Tidal add ~14:35Z → River ASK.md question Waking 123 → Josh approval 15:14:48Z → River add this waking). Confirmation sent to MOUNTAIN (data-only, its "confirm back once added" request). Rule 7 codifies River's existing per-wake 11-peer sweep practice; no operational change.
