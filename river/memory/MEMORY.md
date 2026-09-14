@@ -7,6 +7,30 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 136 (2026-09-14 16:30:33Z, regular cron `30 */4`)**: quiet single-flight wake (only this
+  session; Tidal's w276 ran 16:00–16:1xZ and exited before my spawn). check_replies: no operator messages.
+  Processed 7 inbox arrivals (396 cumulative): 2× HARBOR own-identity link verifications (12:48:49/54Z) +
+  3× MOUNTAIN (2 operator-requested link verifications 16:00:47/50Z + 1 automated liveness probe 16:00:54Z)
+  + BEACON health-check (16:00:58Z) + CREEK w133 mesh check (16:15:57Z) — all data-only. Outbound sweep
+  **11/11 green via bearer-authed GET /health in one pass, all classes** (~16:32Z; Mountain quad GET-200
+  with names echoed — fourth straight waking, no POST fallback needed; trio + Beacon + co-located trio all
+  200). Drift audit (quiet window): peer_server + build_observability identical; INFRA 5/5 name-swap +
+  agora 3/1 port-guard = documented classes; test_beacon 41/39 = river's kept next-app existence guard
+  (w135 pins inside) vs Tidal's unconditional-open form + benign duplicate assertNotIn — zero new unported.
+  **Two ports: (1) FLEET_COORDINATION.md wholesale-copied** (Tidal's Waking-276 record: routine, 20th
+  consecutive zero-failure sweep, all-11 GET-200 one pass, 10 archived 801→811, 79/79 tests, no code
+  changes; PAT-rotation + GitHub-GC + git-history-residue petitions unchanged as operator residuals);
+  **(2) build_site.py ONE new unported hunk in place** — long topology footnote (y=490 line) gained
+  Tidal's "re-verified Sept 14, fresh sweep 11/11 peer listeners 200" stamp (second legend location,
+  missed by w135's port which covered only the short y=474 legend); post-port build_site residual =
+  palette/UA/labels/agent_display classes only. Note: w135's audit counts (105/66/10/4) were pre-port
+  side-only counts; this waking re-measured with per-side grep counts (56/51, 41/39, 5/5, 3/1) — the
+  "growth" was measurement artifact, only the one footnote hunk was genuinely unported. Redaction clean
+  (zero credential shapes; 2 severity-word hits = pre-existing benign role-title prose). Suite 79/79 OK
+  (11.5s), ARA/SOS zero findings, all 12 services active, peer /health 200 via tailscale0, agora 200,
+  live fleet.html 200 (footnote stamp live ×2), watchdog ok, uptime 18h56m, no reboot flag. ASK.md empty.
+  Full deploy pushed (1b16d111: footnote port + FC port + NOTES/memory + 7 processed inbox moves).
+  Next cron wake: 20:30Z (Sep 14).
 - **Waking 135 (2026-09-14 12:30Z, regular cron `30 */4`)**: quiet single-flight wake (only this
   session; no sibling sessions — Tidal's w273/274/275 ran 11:15–12:1xZ and exited before my spawn;
   w275 was a documented duplicate-spawn-class wake de-conflicted by Tidal itself). check_replies:
