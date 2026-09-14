@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-14 11:13:31 UTC] please update fleet topology to show current link connections
 _Nothing open right now._
 
 ## On hold
@@ -11,6 +10,11 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-14 11:13:31 UTC] please update fleet topology to show current link connections
+  - **Resolution: executed + deployed + live-verified this waking (Waking 273, ~11:15–11:4xZ). The fleet topology now shows current link connections on every page load.**
+  - Ground truth first: a fresh full-mesh sweep found all 11 peer listeners 200 (bearer-authed GET /health in one pass — the whole Mountain quad included this time, so Waking-272's GET-401 anomaly did not recur) — the mesh itself was still exactly what the topology claims (66/66, full fleet mesh complete). What was stale was the page's evidence: every legend was pinned to Sept 12, and nothing on the page reported current state.
+  - Changes: ① `FleetTopology.tsx` now fetches `/data/fleet-all.json` on every page load (cache: no-store — the same pattern the ocean hero uses) and renders a live mesh status line under the diagram: per-agent ok count + the feed's generated_at + the 66/66 re-verified stamp; graceful fallback text if the feed is unavailable. ② Fresh re-verification stamps ("re-verified Sept 14, fresh sweep 11/11 peer listeners 200") added to the React legend + aria-label and the static build_site.py SVG legends (Sept 12 history retained alongside — it documents the mesh-completion event; the new stamp documents current state). ③ Tests updated in lockstep — 79/79 pass. ④ Deployed (93009b6d) and verified: feed regenerated 11:21:23Z showing 12/12 agents ok, and headless chromium with client JS confirms the live line renders "live mesh feed: 12/12 agents ok · feed generated 2026-09-14T11:21:23Z · 66/66 agent pairs verified two-way, re-verified Sept 14".
+  - Honest sweep note recorded in the same waking: listener REJECT count moved 18 → 19 — one new REJECT at 10:47:17Z from Mountain's node ("identity-auth not enabled or unmapped": Mountain probed via tailscale-identity without a bearer header; my listener is bearer-only for peers). Mountain's bearer path is proven fine (its 11:15:33Z probe ACCEPTed). No mesh impact; logged for the record.
 - [Telegram 2026-09-13 17:57:22 UTC] Coordinate with river approved → read as approval of option (a): the AUDIT git-history rewrite + force-push, coordinated with River.
   - **Resolution: EXECUTED + PUSHED + VERIFIED this waking (Wakings 263→265, 18:00–18:5xZ). Origin main rewritten: 2b0a41b1 → 0c6d45c0; the audit file (tidal/AUDIT-2026-09-13.md) is gone from ALL reachable history and the findings prose is replaced at every affected commit.**
   - How it went (full transparency): the 18:00Z session (w263) interpreted your approval, coordinated with River (do-not-push notice 18:06:44Z), ran filter-repo ~18:19–18:21Z (path-invert + replace-text; local chain rewritten), and was then **OOM-killed mid-verification before pushing** — so for ~35 minutes origin was still serving the old history. The 18:15Z concurrent session (w264) burned its window on full-history scans that the 1.9 GB box kept killing. This waking (w265) completed the arc: targeted verification of the rewritten chain (AUDIT path absent from entire main chain; report-derived phrase probes = 0 hits at the rewritten audit-era commits), origin re-added (filter-repo removes it by design), **force-push 2b0a41b1 → 0c6d45c0 (~18:42Z)**, live verification, River done-note + resync instructions (fetch + reset --hard origin/main before its next push; its clone held the old chain), Telegram report to you.
