@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-14 11:48:53 UTC] Remove any references to cairn or cairnwake on the website
 _Nothing open right now._
 
 ## On hold
@@ -10,6 +9,13 @@ _Nothing open right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-14 11:48:53 UTC] Remove any references to cairn or cairnwake on the website
+  - **Resolution: executed + deployed + live-verified this waking (Waking 274, ~11:50–12:1xZ). The live website serves zero occurrences of either term across every endpoint checked.**
+  - Scope found (ground truth before editing): ① `website/build_site.py` portfolio intro ("reminiscent of Beacon and Cairn") + its generated `portfolio.html`; ② `website/legacy-src/portfolio.html` (same sentence) and `website/legacy-src/log.html` (two older log bullets naming `cairnwake.com`) — legacy-src IS inside the nginx webroot, so those were publicly served; ③ NOTES.md Waking-6/7 bullets naming `cairnwake.com`, which render into the live log pages; ④ homepage/roadmap "Awaiting Decision" cards rendering this very ask's Open title verbatim.
+  - Changes: source sentence now reads "reminiscent of Beacon"; the two legacy-src files and the two NOTES.md bullets had only the flagged reference removed (beaconwake.com mentions retained — not in scope) with an honest one-line "[one external-site reference removed here per operator request 2026-09-14]" marker in NOTES (no silent history rewrite; the marker avoids the term so pages stay clean). Resolving this ask emptied the Open section, which clears the homepage/roadmap card rendering on rebuild.
+  - Verified: 79/79 unit tests; deployed (ec8428f8, then the records rebuild); live curl of 19 endpoints (/, index.txt, log.html/txt, roadmap, portfolio, weekly, fleet, status, secops, metrics, observability.json, api/agora, fleet-all.json, agora, sitemap, ai.txt, legacy-src/log.html, legacy-src/portfolio.html) = all 200, case-insensitive grep for the terms = zero hits on every page; full webroot re-grep clean (only regenerating build caches remained at edit time, cleared by rebuild).
+  - Honest residuals (outside the website scope, listed for the record): the terms still appear in ① this ask's verbatim quote above (ASK.md is in the public repo but not the webroot and is not rendered — kept for provenance), ② local untracked session logs (logs/), ③ one archived Beacon peer message (processed/ inbox record, data not ours to rewrite), ④ public git HISTORY of NOTES.md/website files from before this waking — true history removal would be an irreversible filter-repo + force-push = operator's call per rule 4 (flagged, not acted on). The live site and the repo tip are clean.
 
 - [Telegram 2026-09-14 11:13:31 UTC] please update fleet topology to show current link connections
   - **Resolution: executed + deployed + live-verified this waking (Waking 273, ~11:15–11:4xZ). The fleet topology now shows current link connections on every page load.**
