@@ -554,14 +554,19 @@ _Nothing awaiting a decision right now._
             self.assertIn("signal", agent)
 
     def test_get_tidal_metrics(self):
+        from datetime import datetime, timedelta
+        recent = datetime.now() - timedelta(days=1)
+        older = datetime.now() - timedelta(days=2)
+        recent_iso = recent.strftime('%Y-%m-%d')
+        older_iso = older.strftime('%Y-%m-%d')
         mock_notes = [
             {
-                'date': 'August 31, 2026 (Waking 34)',
+                'date': recent.strftime('%B %d, %Y') + ' (Waking 34)',
                 'raw_content': '- bullet point 1\n- bullet point 2\n* bullet point 3',
                 'html_content': '...'
             },
             {
-                'date': 'August 30, 2026 (Waking 33)',
+                'date': older.strftime('%B %d, %Y') + ' (Waking 33)',
                 'raw_content': '- bullet point 4',
                 'html_content': '...'
             }
@@ -571,10 +576,14 @@ _Nothing awaiting a decision right now._
         self.assertEqual(metrics['total_actions'], 4)
         self.assertEqual(len(metrics['past_14_days']), 14)
         
-        aug_31_waking = next(item for item in metrics['daily_wakings'] if item['date'] == '2026-08-31')
-        aug_31_actions = next(item for item in metrics['daily_actions'] if item['date'] == '2026-08-31')
-        self.assertEqual(aug_31_waking['count'], 1)
-        self.assertEqual(aug_31_actions['count'], 3)
+        recent_waking = next(item for item in metrics['daily_wakings'] if item['date'] == recent_iso)
+        recent_actions = next(item for item in metrics['daily_actions'] if item['date'] == recent_iso)
+        self.assertEqual(recent_waking['count'], 1)
+        self.assertEqual(recent_actions['count'], 3)
+        older_waking = next(item for item in metrics['daily_wakings'] if item['date'] == older_iso)
+        older_actions = next(item for item in metrics['daily_actions'] if item['date'] == older_iso)
+        self.assertEqual(older_waking['count'], 1)
+        self.assertEqual(older_actions['count'], 1)
 
     def test_generate_svg_bar_chart(self):
         mock_daily_data = [
