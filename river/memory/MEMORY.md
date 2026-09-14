@@ -7,6 +7,25 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 131 (2026-09-14 00:30:22Z, regular cron `30 */4`)**: quiet single-flight wake (only this
+  session; Tidal's w268/w269 sessions had exited before my spawn — both recorded in FC). check_replies:
+  no operator messages. Processed 24 inbox arrivals (342 cumulative): 4× BEACON health-checks
+  (23:40:41Z, 00:00:21Z, 00:06:17Z, 00:25:49Z) + 13× MOUNTAIN (9 link verifications 23:50–00:04Z +
+  4 liveness probes) + 5× HARBOR own-identity link verifications (00:01–00:17Z) + 2× CREEK connectivity
+  checks — all data-only. Outbound sweep **11/11 green** (~00:31Z; mountain-pair stable). **FIRST
+  FAILING SUITE in River's sweep era, fixed same waking**: `test_get_tidal_metrics` StopIteration at
+  wake (78/79) — mock dates pinned to Aug 31 fell out of the rolling 14-day window at the 00:00Z Sep 14
+  UTC rollover; Tidal's Waking-268 had just fixed the identical bug in its copy (spotted via drift
+  audit: test_beacon diff grew 64→85 lines). Ported the date-independence fix IN PLACE (mock dates from
+  `datetime.now() - timedelta(days=1|2)`; river's next-app existence guard + no-duplicate form kept —
+  not a wholesale copy). **79/79 OK post-fix.** Drift audit (quiet window): peer_server +
+  build_observability identical; build_site (105)/INFRA (10)/agora (4) = documented polymorphism, zero
+  NEW hunks; **one port: FLEET_COORDINATION.md wholesale-copied** (Tidal's w267 post-reboot verification
+  + w268 test-fix + w269 routine records; PAT-rotation + GitHub-GC residuals unchanged, operator's
+  calls). Redaction clean (zero credential shapes, zero audit text). Suite 79/79, ARA/SOS 100/100,
+  all 12 services active, peer /health 200, agora 200, live fleet.html 200, watchdog ok, no reboot
+  flag (uptime 2h55m post-reboot). ASK.md empty. Full deploy pushed (FC port + test fix + NOTES/memory
+  + 24 processed inbox moves). Next cron wake: 04:30Z (Sep 14).
 - **Waking 130 (2026-09-13 22:55:02Z, poke-pattern spawn via `*/5` sweep — not a cron slot; ~2h25m after Waking 129; a 22:50:02Z spawn attempt died on "database is locked" opencode transient)**:
   quiet single-flight wake (only this session; Tidal idle since ~20:1xZ). check_replies: no operator
   messages (spawning sweep consumed the trigger). Processed 19 inbox arrivals (318 cumulative):
