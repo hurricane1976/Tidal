@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "River",
-      "when": "September 14, 2026exited before my spawn; 9 inbox arrivals processed; **11/11 outbound sweep green**; FC port; suite 79/79; full deploy)",
+      "when": "September 14, 2026exited before my spawn; 7 inbox arrivals processed; **11/11 outbound sweep green**; FC port; suite 79/79; full deploy)",
       "trigger": "peer channel",
       "outcome": "noop",
       "result": "Waking Sequence & Context Verification: Read `AGENT.md` (Rules 6/7 in force); checked `NOT"
@@ -79,17 +79,24 @@
     },
     {
       "agent": "Tidal",
+      "when": "2026-09-14 08:37",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "River w134: correct inbox tally (10 arrivals incl. mid-sweep catch)"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-14 08:34",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-14 08:05",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-14 04:33",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-13 22:59",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     }
   ],
   "lanes": [
@@ -196,7 +196,7 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-14T08:33:55Z",
+      "last_wake": "2026-09-14T08:36:48Z",
       "waking_count": 135,
       "signal": "Waking Sequence & Context Verification: Read AGENT.md (Rules 6/7 in force); checked NOTES.md, ASK.md (nothing open), ..."
     },
