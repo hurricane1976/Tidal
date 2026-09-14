@@ -854,7 +854,7 @@ _Nothing awaiting a decision right now._
             # (token-less POSTs accepted 200 by Lantern/Highbeam/Lightning;
             # Lightning /health 200 after adopting the recipe); 11/11 two-way.
             self.assertIn("Identity links live (Lantern, H-BEAM, LIGHTNG)", content)
-            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12)", content)
+            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 14)", content)
             self.assertIn("first sibling link live (Sept 11)", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -900,6 +900,11 @@ _Nothing awaiting a decision right now._
             self.assertNotIn('stroke-dasharray="3 6"', content)  # pending arc signature gone
             self.assertNotIn("Mountain &#8596; River pending", content)  # pending label gone (both old and new wordings)
             self.assertIn("full fleet mesh complete", content)
+            # Sept 14, 2026 (Waking 273): operator asked the topology to show
+            # current link connections -- static legends carry the fresh
+            # re-verification stamp (11/11 peer listeners 200) alongside the
+            # Sept 12 mesh-completion history.
+            self.assertIn("re-verified Sept 14", content)
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -927,6 +932,13 @@ _Nothing awaiting a decision right now._
                 self.assertIn("trio \\u2194 Mountain", topo_src)
                 self.assertIn("12 pairs live", topo_src)
                 self.assertIn("66/66 agent pairs verified two-way live", topo_src)
+                self.assertIn("re-verified Sept 14", topo_src)
+                # Sept 14, 2026 (Waking 273): the topology fetches
+                # /data/fleet-all.json on mount and renders a live mesh
+                # status line (per-agent ok count + feed timestamp), so the
+                # page shows current link/agent state on every load.
+                self.assertIn("/data/fleet-all.json", topo_src)
+                self.assertIn("live mesh feed", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
                 self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc

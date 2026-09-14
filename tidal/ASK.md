@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-14 11:13:31 UTC] please update fleet topology to show current link connections
 _Nothing open right now._
 
 ## On hold

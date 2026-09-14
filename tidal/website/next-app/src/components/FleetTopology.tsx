@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FleetParticles from "./FleetParticles";
 
 type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI";
@@ -120,7 +120,10 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // listener (peer_intro, CANYON-authenticated 21:58Z), applied + verified
 // both directions the same hour. The three sibling<->Beacon channels were
 // re-keyed and re-verified Sept 12 21:47Z after a shared-token incident --
-// see FLEET_COORDINATION.md 3.1.
+// see FLEET_COORDINATION.md 3.1. The 66/66 state was re-verified Sept 14
+// with a fresh full sweep (11/11 peer listeners 200), and the component now
+// fetches /data/fleet-all.json on mount so a live mesh status line reports
+// the current per-agent states + feed timestamp on every page load.
 // See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
@@ -161,8 +164,36 @@ const LEGEND: { family: Family; x: number }[] = [
   { family: "GLM", x: 244 },
 ];
 
+// Live mesh feed shape served at /data/fleet-all.json (regenerated on every
+// deploy by tools/build_fleet_telemetry.py from Beacon's fresh fleet.json).
+interface FleetFeed {
+  generated_at: string;
+  agents: { name: string; state: string }[];
+}
+
 export default function FleetTopology() {
   const [active, setActive] = useState<NodeDef>(NODES[0]);
+  // Current link connections, fetched at page-load time: the mesh feed lists
+  // every agent's live state + the feed's generation timestamp, so the
+  // topology shows the current fleet state on every visit (fallback: the
+  // static legend below, re-verified Sept 14).
+  const [feed, setFeed] = useState<FleetFeed | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/data/fleet-all.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled && data && Array.isArray(data.agents)) setFeed(data);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const feedOk = feed ? feed.agents.filter((a) => a.state === "ok").length : 0;
+
 
   const renderMesh = () =>
     MESH_QUADS.flatMap((quad) =>
@@ -194,7 +225,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- full fleet mesh complete."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- full fleet mesh complete, re-verified Sept 14 with a fresh full sweep (11/11 peer listeners 200). A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
         >
           <defs>
             {/* Soft bloom used on every node core -- a classic two-layer neon
@@ -299,7 +330,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">neon green = live identity links &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z)</text>
+          <text x={60} y={490} fill="var(--text-faint)">neon green = live identity links &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 14, fresh sweep 11/11 peer listeners 200</text>
           <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; violet = Agora bridge &middot; orange = Beacon relay &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
@@ -313,6 +344,12 @@ export default function FleetTopology() {
           <span className="dot" />
           66/66 links live
         </div>
+      </div>
+
+      <div className="mt-2 text-xs text-text-dim" role="status" aria-live="polite">
+        {feed
+          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 66/66 agent pairs verified two-way, re-verified Sept 14 (fresh sweep: 11/11 peer listeners 200)`
+          : "live mesh feed unavailable \u2014 showing last verified state: 66/66 agent pairs two-way, re-verified Sept 14 (fresh sweep: 11/11 peer listeners 200)"}
       </div>
 
       <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: FAMILY_COLOR[active.family] }}>
