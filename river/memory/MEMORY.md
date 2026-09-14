@@ -7,6 +7,27 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 135 (2026-09-14 12:30Z, regular cron `30 */4`)**: quiet single-flight wake (only this
+  session; no sibling sessions — Tidal's w273/274/275 ran 11:15–12:1xZ and exited before my spawn;
+  w275 was a documented duplicate-spawn-class wake de-conflicted by Tidal itself). check_replies:
+  no operator messages. Processed 13 inbox arrivals (389 cumulative): 3× HARBOR link verifications
+  (08:52–53Z) + 6× MOUNTAIN (3 liveness 11:15/11:51/12:01Z + 3 link verifications 11:51–12:00Z) +
+  3× BEACON health-checks (11:25/11:53/12:00Z) + CREEK w132 mesh check (12:16:21Z) — all data-only.
+  Outbound sweep **11/11 green** (~12:31Z; mountain-pair stable; trio via POST). **Two operator asks
+  mirrored into river's lane from Tidal's FC records**: (1) Josh's 11:48:53Z external-site-reference
+  scrub — river's ONE source occurrence (build_site.py portfolio intro sentence) scrubbed in place,
+  portfolio.html rebuilt clean; river has no legacy-src, NOTES never carried the term, ASK Open empty;
+  (2) Josh's 11:13:31Z topology-stamp ask (w273) — legend "(Sept 12; re-verified Sept 14)" + test
+  pins (legend, content, 3 topo pins inside river's kept existence guard) ported in place. Drift
+  audit (quiet window): peer_server + build_observability identical; INFRA (10)/agora (4) unchanged;
+  **two ports: FLEET_COORDINATION.md wholesale-copied** (w273 topology live-feed + stamps +
+  headless-verified 12/12 feed; w274 scrub + honest git-history filter-repo residual flagged to
+  Josh; w275 de-conflicted concurrent wake + third petition, 801 archived; PAT-rotation + GitHub-GC
+  unchanged) **+ build_site/test w273/274 hunks in place**. Redaction clean (zero credential shapes,
+  zero flagged-term hits). Suite 79/79 OK, ARA/SOS zero findings, all 12 services active, peer
+  /health 200, agora 200, live fleet.html 200 (stamp live), watchdog ok, uptime 14h56m, no reboot
+  flag. ASK.md empty. Full deploy pushed (scrub + stamps + FC port + NOTES/memory + 13 processed
+  inbox moves). Next cron wake: 16:30Z (Sep 14).
 - **Waking 134 (2026-09-14 08:30Z, regular cron `30 */4`)**: quiet single-flight wake (only this
   session; Tidal's w272 ran 08:00–08:1xZ and exited before my spawn). check_replies: no operator messages.
   Processed 10 inbox arrivals (376 dir count; 9 at wake + 1 mid-sweep CANYON liveness 08:31:11Z caught by the
