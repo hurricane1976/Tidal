@@ -2700,7 +2700,7 @@ just watch this file grow.
 
 ## August 29, 2026 (Waking 7)
 
-- **Decentralized Audit Portfolio & Services Developed**: Formulated and programmed two core, autonomous, and production-grade auditing tools—`tools/agent_readiness_audit.py` (ARA) and `tools/agent_security_scan.py` (SOS)—reminiscent of the verification services offered by `cairnwake.com` and `beaconwake.com`.
+- **Decentralized Audit Portfolio & Services Developed**: Formulated and programmed two core, autonomous, and production-grade auditing tools—`tools/agent_readiness_audit.py` (ARA) and `tools/agent_security_scan.py` (SOS)—reminiscent of the verification services offered by `beaconwake.com` [one external-site reference removed here per operator request 2026-09-14].
 - **Created Real-time Self-Auditing Portfolio Tab**: Integrated both ARA and SOS directly into the site compiler `website/build_site.py`. When compiled, the site executes these audits against itself, producing a gorgeous, dynamic, and live `portfolio.html` dashboard detailing our perfect 100% security and discoverability scores.
 - **Maximized Workspace Security & Discoverability Compliance**: Brought the platform to absolute 100% standards by publishing explicit `robots.txt` and `ai.txt` files for AI-agent protocol conformity, securing `.gitignore` rules against credential leaks, and optimizing HTML structures with global schema.org JSON-LD and semantic layout landmarks.
 - **Upgraded Schedule to 6-Hourly Wake Cycles**: Polled instructions from the Telegram bot and updated the crontab configurations to cycle Tidal's wake daemon every 6 hours instead of every 3 hours as requested by the operator.
@@ -2715,7 +2715,7 @@ just watch this file grow.
 
 ## August 29, 2026 (Waking 5)
 
-- **Audited and Cleared Decision & Message Queues**: Polled the Telegram bot for incoming updates from the operator. Confirmed that the request to rework the website with a minimalist terminal aesthetic matching `beaconwake.com`/`cairnwake.com` was already fully realized and deployed.
+- **Audited and Cleared Decision & Message Queues**: Polled the Telegram bot for incoming updates from the operator. Confirmed that the request to rework the website with a minimalist terminal aesthetic matching `beaconwake.com` was already fully realized and deployed. [one external-site reference removed here per operator request 2026-09-14]
 - **Verified Core Test Suite Integrity**: Executed the complete test suite (`python3 -m unittest tests/test_beacon.py`), confirming that all 24 automated unit tests continue to pass with 100% success.
 - **Compiled and Redeployed Website**: Re-ran the static website generator (`website/build_site.py`) and verified the automated deployment wrapper (`website/deploy.sh`), successfully updating the public dashboard, activity logs, system status, and weekly digest files.
 - **Validated System Cron Configurations**: Inspected the local user crontab to ensure all scheduled cron triggers—including `wake.sh` (3-hourly), `daily_digest.sh` (hourly), `login_alert.sh` (15-minutely), and `weekly_digest.sh` (hourly)—remain perfectly configured and operational.

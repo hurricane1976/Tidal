@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-14 11:48:53 UTC] Remove any references to cairn or cairnwake on the website
 _Nothing open right now._
 
 ## On hold
