@@ -48,6 +48,10 @@
   --fleet-chan-live: #39ff8f;
   --fleet-chan-pending: #ffd23f;
   --fleet-chan-cfg: #4da6ff;
+  /* Same amber as the legacy "pending" channel color, under its own name --
+     used for a node/channel the live feed currently reports unreachable,
+     which is a different condition from a link never having been verified. */
+  --fleet-down: #ffd23f;
   --s1: 4px;
   --s2: 8px;
   --s3: 12px;
@@ -647,6 +651,34 @@ body {
   .fleet-live-badge .dot {
     animation: ping-pulse 1.4s ease-in-out infinite;
   }
+}
+
+/* Degraded state: the live feed found at least one agent whose state isn't
+   "ok". Reuses the existing amber "pending" channel color rather than
+   introducing a new hue. */
+.fleet-live-badge--degraded {
+  border-color: rgba(255, 210, 63, 0.45);
+  color: var(--fleet-down);
+}
+
+.fleet-live-badge--degraded .dot {
+  background: var(--fleet-down);
+  box-shadow: 0 0 6px var(--fleet-down);
+}
+
+/* A node or channel currently marked unreachable in the live feed: freeze
+   its motion cues and let the amber "pending" color (already used for
+   not-yet-confirmed links) read as "down" too. */
+.is-down {
+  animation: none !important;
+}
+
+.topo-node--down .topo-node-label {
+  opacity: 0.6;
+}
+
+.chan-degraded .chan-flow {
+  display: none;
 }
 
 .topo-host {

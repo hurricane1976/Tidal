@@ -70,6 +70,25 @@ function byId(id: string) {
   return NODES.find((n) => n.id === id)!;
 }
 
+// The two node ids each named cross-box channel actually runs between --
+// used only to dim a channel when either side is currently unreachable in
+// the live feed. Purely a lookup for that purpose; drawing is unaffected.
+const CHANNEL_ENDPOINTS: Record<string, [string, string]> = {
+  peer: ["tidal", "beacon"],
+  agora: ["tidal", "beacon"],
+  "highbeam-link": ["tidal", "highbeam"],
+  "lantern-link": ["tidal", "lantern"],
+  "lightning-link": ["tidal", "lightning"],
+  "river-beacon-live": ["river", "beacon"],
+  "creek-beacon-live": ["creek", "beacon"],
+  "stream-beacon-live": ["stream", "beacon"],
+  "tidal-mountain": ["tidal", "mountain"],
+  "stream-canyon": ["stream", "canyon"],
+  "creek-ridge": ["creek", "ridge"],
+  "river-harbor": ["river", "harbor"],
+  relay: ["beacon", "mountain"],
+};
+
 // "chan-tailscale" -> "tailscale" -> reads var(--fleet-chan-tailscale) so
 // every glow duplicate and travelling packet picks up the same bright,
 // category-specific neon as the crisp line it rides on.
@@ -193,13 +212,23 @@ export default function FleetTopology() {
   }, []);
 
   const feedOk = feed ? feed.agents.filter((a) => a.state === "ok").length : 0;
+  const feedTotal = feed ? feed.agents.length : 0;
+  const feedAllOk = feed ? feedOk === feedTotal : true;
 
+  // Per-agent reachability from the live feed, keyed by node id (feed names
+  // are the same strings capitalized, e.g. "Highbeam" -> "highbeam"). Empty
+  // (nothing marked down) until the feed loads or if it never does, so the
+  // board never flags a node unreachable on a guess.
+  const downIds = new Set(
+    feed ? feed.agents.filter((a) => a.state !== "ok").map((a) => a.name.toLowerCase()) : []
+  );
 
   const renderMesh = () =>
     MESH_QUADS.flatMap((quad) =>
       meshEdges(quad).map(([a, b], i) => {
         const na = byId(a);
         const nb = byId(b);
+        const degraded = downIds.has(a) || downIds.has(b);
         return (
           <line
             key={`${a}-${b}-${i}`}
@@ -207,10 +236,10 @@ export default function FleetTopology() {
             y1={na.y}
             x2={nb.x}
             y2={nb.y}
-            className="pulse-line"
-            stroke="rgba(34,230,255,0.55)"
+            className={degraded ? "pulse-line is-down" : "pulse-line"}
+            stroke={degraded ? "var(--fleet-down)" : "rgba(34,230,255,0.55)"}
             strokeWidth={1.6}
-            style={{ filter: "drop-shadow(0 0 3px rgba(34,230,255,0.5))" }}
+            style={{ filter: degraded ? "none" : "drop-shadow(0 0 3px rgba(34,230,255,0.5))", opacity: degraded ? 0.35 : 1 }}
           />
         );
       })
@@ -250,12 +279,15 @@ export default function FleetTopology() {
           {renderMesh()}
 
           {CHANNELS.map((ch, i) => {
-            const color = chanColorVar(ch.cls);
+            const endpoints = CHANNEL_ENDPOINTS[ch.id];
+            const degraded = endpoints ? endpoints.some((id) => downIds.has(id)) : false;
+            const color = degraded ? "var(--fleet-down)" : chanColorVar(ch.cls);
             return (
-              <g key={ch.id}>
-                {ch.d && <path className="chan-glow" d={ch.d} fill="none" style={{ stroke: color }} aria-hidden="true" />}
-                {ch.d && <path className={`pulse-line ${ch.cls}`} d={ch.d} fill="none" />}
+              <g key={ch.id} className={degraded ? "chan-degraded" : undefined}>
+                {ch.d && <path className="chan-glow" d={ch.d} fill="none" style={{ stroke: color, opacity: degraded ? 0.3 : undefined }} aria-hidden="true" />}
+                {ch.d && <path className={`pulse-line ${degraded ? "is-down" : ch.cls}`} d={ch.d} fill="none" style={degraded ? { stroke: color, opacity: 0.4 } : undefined} />}
                 {ch.d &&
+                  !degraded &&
                   FLOW_PACKETS.map((p) => {
                     const duration = 2.4 + (i % 5) * 0.35;
                     return (
@@ -278,21 +310,22 @@ export default function FleetTopology() {
                       />
                     );
                   })}
-                {ch.label && <text className="topo-chan-label" x={ch.labelX} y={ch.labelY} textAnchor="middle">{ch.label}</text>}
+                {ch.label && <text className="topo-chan-label" x={ch.labelX} y={ch.labelY} textAnchor="middle">{degraded ? `${ch.label} (unreachable)` : ch.label}</text>}
               </g>
             );
           })}
 
           {NODES.map((n, i) => {
-            const color = FAMILY_COLOR[n.family];
+            const down = downIds.has(n.id);
+            const color = down ? "var(--fleet-down)" : FAMILY_COLOR[n.family];
             return (
               <g
                 key={n.id}
-                className="topo-node"
+                className={down ? "topo-node topo-node--down" : "topo-node"}
                 style={{ ["--node-color" as string]: color }}
                 tabIndex={0}
                 role="button"
-                aria-label={n.title}
+                aria-label={down ? `${n.title} — currently unreachable` : n.title}
                 aria-pressed={active.id === n.id}
                 onMouseEnter={() => setActive(n)}
                 onFocus={() => setActive(n)}
@@ -304,17 +337,17 @@ export default function FleetTopology() {
                   }
                 }}
               >
-                <circle className="ping-halo" cx={n.x} cy={n.y} r={R + 2} style={{ stroke: color }} aria-hidden="true" />
+                <circle className={down ? "ping-halo is-down" : "ping-halo"} cx={n.x} cy={n.y} r={R + 2} style={{ stroke: color }} aria-hidden="true" />
                 <circle
-                  className={`scan-ring ${i % 2 === 0 ? "spin-cw" : "spin-ccw"}`}
+                  className={`scan-ring ${i % 2 === 0 ? "spin-cw" : "spin-ccw"}${down ? " is-down" : ""}`}
                   cx={n.x}
                   cy={n.y}
                   r={R + 9}
                   style={{ stroke: color }}
                   aria-hidden="true"
                 />
-                <circle className="topo-node-bg" cx={n.x} cy={n.y} r={R} style={active.id === n.id ? { stroke: color, filter: `url(#fleetGlow) drop-shadow(0 0 12px ${color})` } : undefined} />
-                <circle className="ping-dot" cx={n.x} cy={n.y} r={4.5} fill={color} />
+                <circle className="topo-node-bg" cx={n.x} cy={n.y} r={R} style={active.id === n.id ? { stroke: color, filter: `url(#fleetGlow) drop-shadow(0 0 12px ${color})` } : down ? { stroke: color, strokeDasharray: "3 4" } : undefined} />
+                <circle className={down ? "ping-dot is-down" : "ping-dot"} cx={n.x} cy={n.y} r={4.5} fill={color} />
                 <text className="topo-node-label" x={n.x} y={n.y + 4} fontSize={n.label.length > 6 ? 9 : 11} textAnchor="middle">
                   {n.label}
                 </text>
@@ -340,9 +373,9 @@ export default function FleetTopology() {
         <div className="fleet-hud-corner fleet-hud-corner--tr" aria-hidden="true" />
         <div className="fleet-hud-corner fleet-hud-corner--bl" aria-hidden="true" />
         <div className="fleet-hud-corner fleet-hud-corner--br" aria-hidden="true" />
-        <div className="fleet-live-badge" aria-hidden="true">
+        <div className={feed && !feedAllOk ? "fleet-live-badge fleet-live-badge--degraded" : "fleet-live-badge"} aria-hidden="true">
           <span className="dot" />
-          66/66 links live
+          {feed ? `${feedOk}/${feedTotal} agents live` : "66/66 links live"}
         </div>
       </div>
 
@@ -352,9 +385,14 @@ export default function FleetTopology() {
           : "live mesh feed unavailable \u2014 showing last verified state: 66/66 agent pairs two-way, re-verified Sept 14 (fresh sweep: 11/11 peer listeners 200)"}
       </div>
 
-      <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: FAMILY_COLOR[active.family] }}>
-        <h3 className="text-[1.1rem] font-semibold mb-2" style={{ color: FAMILY_COLOR[active.family] }}>{active.title}</h3>
+      <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: downIds.has(active.id) ? "var(--fleet-down)" : FAMILY_COLOR[active.family] }}>
+        <h3 className="text-[1.1rem] font-semibold mb-2" style={{ color: downIds.has(active.id) ? "var(--fleet-down)" : FAMILY_COLOR[active.family] }}>{active.title}</h3>
         <p className="text-sm text-text-dim m-0">{active.desc}</p>
+        {feed && (
+          <p className="text-xs mt-2 mb-0" style={{ color: downIds.has(active.id) ? "var(--fleet-down)" : "var(--fleet-chan-live)" }}>
+            {downIds.has(active.id) ? "\u25cf currently unreachable in the live feed" : "\u25cf reachable \u2014 live feed reports ok"}
+          </p>
+        )}
       </div>
     </div>
   );
