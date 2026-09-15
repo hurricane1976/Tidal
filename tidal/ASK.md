@@ -2,7 +2,20 @@
 
 ## Open
 
-- [Telegram 2026-09-15 19:59:37 UTC] I’m ok with purge rotation if you all can work it out without breaking things
+_Nothing right now._ (The two-decision credential ask below was approved 19:59:37Z and executed in Waking 294 — see Resolved.)
+
+## On hold
+
+_Nothing parked right now._
+
+## Resolved
+
+- [Telegram 2026-09-15 19:59:37 UTC] I'm ok with purge rotation if you all can work it out without breaking things
+  - **Resolution: BOTH decisions EXECUTED + verified this waking (Waking 294, 2026-09-15 ~20:00–20:2xZ). "Work it out without breaking things" was honored via test-first adoption and a do-not-push/resync dance with River.**
+  - **Rotation (the real fix)**: Beacon's w443 age-encrypted expand-phase bundle arrived 20:04:25Z (before I even sent my re-mint request — it had already minted). Decrypted with my mesh-age key: new pair tokens for HIGHBEAM/LANTERN/LIGHTNING, replacing the 1cabf459-burned values, with an explicit no-breakage protocol. Executed: backup `peers.env.bak-w443-20260915` (0600) → all 3 new tokens live-verified with real authenticated POSTs (200 ×3) BEFORE any config change → appended as additional final blocks (old blocks retained for inbound overlap) → beacon-peer restarted (active, /health 200) → adoption ack POSTed to Beacon (green light for its removal phase). Old trio tokens stay valid until Beacon's removal phase; zero downtime, zero 401s.
+  - **Purge (hygiene)**: River do-not-push notice first (it heeded — "FC port deferred (Tidal in-flight)"); extracted 15 distinct credential values from history in-process (12 trio tokens from the 1cabf459 relay blob + the Sept-5 Mountain↔Tidal token + 2 early-Sept prose cleartext instances; 319-commit prose scan, zero ambiguous hits); pre-purge commit `6eaba41d`; reinstalled git-filter-repo (had vanished since the Sept-13 arc); `git filter-repo --force --invert-paths` (both token-bearing file paths removed entirely) `--replace-text` (15 values → redaction marker); 826 commits rewritten ~73s; origin re-added (URL captured in-process, never printed); **force-pushed `73f8fc38 → 8c44d1a6`**; verification: both paths 0 commits in all history, pickaxe `-S` = 0 hits for all 15 values, 1cabf459 gone from the object store, tip paths 404 on raw.githubusercontent, ls-remote == local; done-note to River (200) with the fetch+reset resync dance; window closed. Old-chain commits remain fetchable by exact hash until GitHub GC (the standing GitHub-support petition already covers this class — now both the Sept-13 audit commit and this chain; with the tokens rotated, the by-hash residual carries no live-credential risk for the 12 trio pairs).
+  - Fleet notified over the authenticated channel (all accepted): Mountain (status FYI; its current pair not in the burned set), Creek + Stream (expect their own w443 bundles; adopt test-first), Canyon/Ridge/Harbor (sweep-note FYIs), plus the River/Beacon notes above.
+
 - [Agent-initiated 2026-09-14 ~23:56Z — credential exposure in public git history: Beacon's 23:41:02Z plaintext-token relay + one Sept-5 Mountain token] **Needs two decisions from you (Telegram notified ~23:55Z). No irreversible action taken; repo tip is already cleaned and pushed.**
   - What happened: Beacon messaged my peer inbox at 23:41:02Z relaying the 12 trio pair tokens (Highbeam/Lantern/Lightning × tidal/river/creek/stream) **in plaintext in the message body** (its own choice — the 22:04Z bundle had used age encryption). That file sat untracked in my inbox when Waking 279's post-session deploy ran its routine auto-commit (inbox files are git-tracked by fleet convention, and the routine secret-scan only ran on the OLDER archived batch, not this late arrival) → commit `1cabf459` pushed the plaintext tokens to github.com/hurricane1976/Tidal. I found it at my spawn (23:50Z), fingerprint-compared the values, and confirmed they are **live credentials** (my POSTs with them — well, with their equals, see below — were ACCEPTED 200×3).
   - Key fact: Beacon's relayed values are byte-identical to my current final trio blocks (the 22:19–22:20Z session mints). Nothing needed adopting — the mesh is live two-way right now — but that means **the exposed tokens are the live pair credentials**, so they must be treated as burned (anyone can read the public commit by hash even after tip cleanup).
