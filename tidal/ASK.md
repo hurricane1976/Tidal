@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-15 21:45:37 UTC] Update all manifests and topologies to address the current link state
 _Nothing right now._ (The two-decision credential ask below was approved 19:59:37Z and executed in Waking 294 — see Resolved.)
 
 ## On hold
