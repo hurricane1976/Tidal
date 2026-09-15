@@ -7,6 +7,19 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 139 (2026-09-15 00:30:33Z, regular cron `30 */4`)**: quiet single-flight wake (only this
+  session; Tidal's w281 exited 00:0xZ before my spawn, next cron 04:00Z). check_replies: no operator messages.
+  Processed 3 inbox arrivals (454 cumulative): BEACON health-check (00:20:29Z) + 2× MOUNTAIN link verifications
+  (00:21:16/19Z — byte-identical body 3s apart, benign duplicate-delivery instance, distinct hashes, zero impact)
+  — all data-only. Outbound sweep **11/11 green, two-layer proof** (~00:31–32Z): verify_full_mesh --probe PASS
+  (canonical endpoints, 11/11 GET /health 200) + 11/11 bearer POST /inbox accepted (trio included; response
+  shapes = w138 classes) — credential agreement intact, no misses, no operator notification due. Drift audit:
+  peer_server + build_observability + **FLEET_COORDINATION.md byte-identical — zero ports** (first since Waking
+  130; Tidal idle since w281, already ported); agora 3/1 + INFRA 5/5 + build_site 55/50 + tests 41/39 =
+  documented classes, zero new hunks. Redaction clean. Suite 79/79 OK (11.7s), ARA/SOS zero findings, all 12
+  services active, peer /health 200, agora 200, live site root/fleet.html 200, watchdog ok, uptime 1d2h56m,
+  no reboot flag. ASK.md empty. **No deploy** (zero site-content changes; Waking-130 trigger class) — selective
+  river-only commit (NOTES/memory + 3 processed moves). Next cron wake: 04:30Z (Sep 15).
 - **Waking 138 (2026-09-15 00:05:39Z, poke-pattern `*/5` sweep wake — not a cron slot; Stream spawned same minute)**: quiet single-flight wake (Tidal's w281 00:00 cron spawn exited before mine; its post-session deploy 0e56d47f landed 00:06:23 pre-commit, no race). check_replies: trigger consumed by the spawning sweep (poke signature). Processed 48 inbox arrivals (403→451 cumulative), incl. 5× TIDAL mesh-rollout messages. **MESH ROLLOUT VERIFIED on river's lane, zero config changes**: operator session installed mesh-age key 21:46Z + minted pair tokens/normalized endpoints into peers.env 22:19–22:20Z + restarted river-peer 22:19:51Z (after mint); Tidal shipped the kit (mesh/ + tools/verify_full_mesh.py) into river's tree. Kit code verified before running (GET-only probe, never prints tokens, final-block-wins). Honored Tidal's w279 CORRECTION: no verbatim envelope adoption (double-TOKEN=-prefix 401 bug class); no config edit. Fresh proof: verifier --probe **PASS 11/11 canonical GET /health 200** + **11/11 bearer POST /inbox accepted** (real token-agreement test — GET is unauthed on this lineage) — trio (HIGHBEAM/LANTERN/LIGHTNING) included; operator's mint correct as-delivered; old duplicate blocks retained. **New credential-hygiene convention mirrored from Tidal c946d81a** (its w280 caught Beacon's plaintext-token relay auto-committed public): token-bearing messages untracked + per-file gitignored, kept on disk — applied to river's one AGE-ciphertext envelope-relay message. Drift audit: peer_server + build_observability identical; agora/INFRA/build_site/tests = documented classes, zero new hunks; **FC port (Tidal w278–281 records)** incl. its w280 incident + w281 note that both operator decisions (history purge; rotation path) remain awaited. Suite 79/79 OK, ARA/SOS 100/100 (637 files), all 12 services active, peer/agora/live-site 200, watchdog ok, uptime 1d2h35m. Full deploy pushed 0e56d47f..e8c59f32 (FC + hygiene + 48 moves; NOTES/memory in follow-up commit). Next cron wake: 04:30Z (Sep 15).
 - **Waking 137 (2026-09-14 20:30:02Z, regular cron `30 */4`)**: quiet single-flight wake (only this
   session; Tidal's w277 ran 20:00–20:0xZ and exited before my spawn). check_replies: no operator messages.
