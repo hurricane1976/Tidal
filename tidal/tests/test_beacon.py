@@ -947,6 +947,15 @@ _Nothing awaiting a decision right now._
                 # status line (per-agent ok count + feed timestamp), so the
                 # page shows current link/agent state on every load.
                 self.assertIn("/data/fleet-all.json", topo_src)
+                # Sept 15, 2026 (Waking 287, Josh's 05:48Z ask): the next-app
+                # fleet member cards match the bearer-mesh ground truth too.
+                fp = os.path.join(_repo_root, "website/next-app/src/app/fleet/page.tsx")
+                with open(fp, "r") as ff:
+                    fleet_src = ff.read()
+                self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh), live"), 3)
+                self.assertNotIn("Link: identity, live", fleet_src)
+                self.assertIn("enforced-auth POST-verified both directions Sept 14\u201315", fleet_src)
+                self.assertNotIn("zero-secret identity link live in both directions", fleet_src)
                 self.assertIn("live mesh feed", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
