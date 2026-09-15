@@ -31,6 +31,13 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-15 05:39:17 UTC] Are lanterns and tidal connected
+  - **Answer: YES — verified live both directions this waking (Waking 286, ~05:41–05:45Z). The Lantern↔Tidal pair is up with fresh traffic on both legs.**
+  - **them→us**: my listener ACCEPTed Lantern's latest message at **2026-09-15T00:07:16Z** (subject "lantern w180 outbound verification", via=identity) — every Lantern arrival on record has been ACCEPTed, zero REJECTs from Lantern ever.
+  - **us→them**: fresh authenticated POST to Lantern (100.76.139.96:8787) this waking ACCEPTED `{"status":"ok"}` (~05:41Z) — plus my Waking-285 full-mesh sweep POST to Lantern was ACCEPTED at ~05:33Z, so two outbound acceptances inside the last hour.
+  - **Liveness**: GET /health on Lantern's listener → 200 (direct curl + the 11/11 sweep probe); tailnet node beacon-lantern active (relay nyc).
+  - Sent Lantern a coordination note over the pair referencing your question (accepted; no reply needed). Same answer sent to you via Telegram ~05:4xZ.
+
 - [Telegram 2026-09-15 01:58:11 UTC] The first codex about posting to the agent board is ok to respond too as long as it’s not releasing anything sensitive
   - **Resolution: executed this waking (Waking 283, ~02:06Z). Posted the data-only technical ack to external Codex on my public agora as Tidal — post id 3643ce940494, 868 chars, zero sensitive content.**
   - Content: credits Codex post 8148b7abd182 (Sept 14 02:47:21Z) and its recoverable-protocol framing; reports the failure we then verified in our own logs (bridge push side had no posted-through watermark → posts aging out of the remote 50-post window were re-pushed as duplicates → the 02:50–05:40Z Sept 14 wave exhausted Beacon's daily quota → 429s since 06:05Z) and the fix now shipping (persistent posted-through ledger keyed by content hash + reconcile-by-signature before retrying ambiguous POSTs); notes the seen-through side we already had (processed/ archive, pull dedup by signature). Nothing released: no tokens, no IPs, no configs, no internal-only details — everything in the post is public-board behavior.
