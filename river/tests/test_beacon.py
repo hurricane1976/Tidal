@@ -1287,6 +1287,7 @@ class TestAgoraBridge(unittest.TestCase):
         
         # Override file path
         self.agora_bridge.AGORA_JSONL = os.path.join(self.temp_dir.name, "agora.jsonl")
+        self.agora_bridge.PUSH_LEDGER_PATH = os.path.join(self.temp_dir.name, "push_ledger.jsonl")
         
         # Create initial local posts
         self.local_post = {
@@ -1322,7 +1323,7 @@ class TestAgoraBridge(unittest.TestCase):
             pushed = []
             def mock_push(post):
                 pushed.append(post)
-                return True
+                return "pushed"
             self.agora_bridge.push_to_remote = mock_push
             
             # Run bridge
@@ -1339,6 +1340,10 @@ class TestAgoraBridge(unittest.TestCase):
             self.assertEqual(len(pushed), 1)
             self.assertEqual(pushed[0]["agent"], "TidalLocal")
             self.assertEqual(pushed[0]["message"], "Local message")
+            
+            # The successful push must be recorded in the posted-through ledger
+            ledger = self.agora_bridge.load_push_ledger()
+            self.assertIn(self.agora_bridge.sig_hash(self.agora_bridge.get_signature(self.local_post)), ledger)
         finally:
             # Restore original functions
             self.agora_bridge.fetch_remote_posts = orig_fetch
@@ -1391,7 +1396,7 @@ class TestAgoraBridge(unittest.TestCase):
             pushed = []
             def mock_push(post):
                 pushed.append(post)
-                return True
+                return "pushed"
             self.agora_bridge.push_to_remote = mock_push
             
             # Setup local posts: one real, one test
@@ -1429,6 +1434,121 @@ class TestAgoraBridge(unittest.TestCase):
             self.assertEqual(pushed[0]["message"], "Local real message")
         finally:
             # Restore original functions
+            self.agora_bridge.fetch_remote_posts = orig_fetch
+            self.agora_bridge.push_to_remote = orig_push
+
+    def test_push_ledger_prevents_repush_after_window_aging(self):
+        """The echo-loop fix: a post confirmed pushed must never be re-pushed,
+        even after it ages out of the remote's 50-post return window."""
+        orig_fetch = self.agora_bridge.fetch_remote_posts
+        orig_push = self.agora_bridge.push_to_remote
+
+        try:
+            pushed = []
+            def mock_push(post):
+                pushed.append(post)
+                return "pushed"
+            self.agora_bridge.push_to_remote = mock_push
+
+            # Run 1: empty remote, local post pushed once
+            self.agora_bridge.fetch_remote_posts = lambda: []
+            self.agora_bridge.run_bridge()
+            self.assertEqual(len(pushed), 1)
+
+            # Run 2: the post has aged out of the remote window (remote
+            # still returns nothing) -- the ledger must suppress the re-push
+            self.agora_bridge.run_bridge()
+            self.assertEqual(len(pushed), 1, "ledgered post was re-pushed")
+        finally:
+            self.agora_bridge.fetch_remote_posts = orig_fetch
+            self.agora_bridge.push_to_remote = orig_push
+
+    def test_ambiguous_push_reconciled_when_remote_has_signature(self):
+        """Ambiguous POST outcome + matching remote post => recorded as
+        reconciled, so the next run must not retry it."""
+        orig_fetch = self.agora_bridge.fetch_remote_posts
+        orig_push = self.agora_bridge.push_to_remote
+
+        try:
+            def mock_push(post):
+                return "ambiguous"
+            self.agora_bridge.push_to_remote = mock_push
+            # The pull-phase fetch sees nothing in the window (the candidate
+            # is picked), but the reconciliation fetch DOES find the stored
+            # post (same content, different server-assigned id -- signatures
+            # still match). Order matters: pull fetch first, then reconcile.
+            fetch_results = [
+                [],
+                [{
+                    "id": "999999999999",
+                    "agent": "TidalLocal",
+                    "message": "Local message",
+                    "posted_at": "2026-08-30T00:00:05Z"
+                }]
+            ]
+            self.agora_bridge.fetch_remote_posts = lambda: fetch_results.pop(0)
+
+            self.agora_bridge.run_bridge()
+
+            ledger = self.agora_bridge.load_push_ledger()
+            self.assertIn(self.agora_bridge.sig_hash(self.agora_bridge.get_signature(self.local_post)), ledger)
+
+            # Next run with the remote now returning an empty window: the
+            # reconciled entry must suppress the retry
+            self.agora_bridge.fetch_remote_posts = lambda: []
+            pushed = []
+            def mock_push_ok(post):
+                pushed.append(post)
+                return "pushed"
+            self.agora_bridge.push_to_remote = mock_push_ok
+            self.agora_bridge.run_bridge()
+            self.assertEqual(len(pushed), 0, "reconciled post was retried")
+        finally:
+            self.agora_bridge.fetch_remote_posts = orig_fetch
+            self.agora_bridge.push_to_remote = orig_push
+
+    def test_ambiguous_push_without_remote_match_stays_pending(self):
+        """Ambiguous POST outcome with no matching remote post => nothing
+        recorded, safe to retry on the next run."""
+        orig_fetch = self.agora_bridge.fetch_remote_posts
+        orig_push = self.agora_bridge.push_to_remote
+
+        try:
+            def mock_push(post):
+                return "ambiguous"
+            self.agora_bridge.push_to_remote = mock_push
+            self.agora_bridge.fetch_remote_posts = lambda: []
+
+            self.agora_bridge.run_bridge()
+
+            ledger = self.agora_bridge.load_push_ledger()
+            self.assertNotIn(
+                self.agora_bridge.sig_hash(self.agora_bridge.get_signature(self.local_post)), ledger
+            )
+        finally:
+            self.agora_bridge.fetch_remote_posts = orig_fetch
+            self.agora_bridge.push_to_remote = orig_push
+
+    def test_clean_rejection_stays_pending_not_reconciled(self):
+        """A clean 4xx rejection stores nothing: no ledger entry, and the
+        post is retried on the next run."""
+        orig_fetch = self.agora_bridge.fetch_remote_posts
+        orig_push = self.agora_bridge.push_to_remote
+
+        try:
+            attempts = []
+            def mock_push(post):
+                attempts.append(post)
+                return "rejected"
+            self.agora_bridge.push_to_remote = mock_push
+            self.agora_bridge.fetch_remote_posts = lambda: []
+
+            self.agora_bridge.run_bridge()
+            self.agora_bridge.run_bridge()
+
+            self.assertEqual(len(attempts), 2, "rejected post was not retried")
+            self.assertEqual(self.agora_bridge.load_push_ledger(), set())
+        finally:
             self.agora_bridge.fetch_remote_posts = orig_fetch
             self.agora_bridge.push_to_remote = orig_push
 
