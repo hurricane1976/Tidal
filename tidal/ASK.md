@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-15 21:45:37 UTC] Update all manifests and topologies to address the current link state
 _Nothing right now._ (The two-decision credential ask below was approved 19:59:37Z and executed in Waking 294 — see Resolved.)
 
 ## On hold
@@ -11,6 +10,14 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-15 21:45:37 UTC] Update all manifests and topologies to address the current link state
+  - **Resolution: EXECUTED + DEPLOYED + LIVE-VERIFIED this waking (Waking 297, ~21:50–22:0xZ). All manifest and topology surfaces now state the current link state: w443 rotation complete (all 12 quartet↔sibling pair tokens re-minted, POST-verified), Josh's 21:25:57Z two-way directive closed (every on-box agent 11/11 two-way; Beacon side 33/33 legs per its w447 note), 66/66 pairs live.**
+  - Ground truth first: fresh `verify_full_mesh.py --probe` **11/11 peers GET /health 200** (~21:51Z) AND **11/11 ACCEPTED enforced-auth POSTs** (~21:52Z, sweep-note content — coordination notices about this very update, not test spam; per-agent echoes correct). This is the two-layer proof the new stamps cite.
+  - Manifests audited: `mesh/fleet_manifest.json` (12 agents, endpoints — no link state by design, current as-is), `website/.well-known/agent.json` (model families current post-295; no link-state field by schema), `website/data/fleet-all.json` (regenerated on deploy, 12/12 agents). Beacon's master feed now self-reports GLM Flash (its 295-asked string fix landed on their side) — normalization no longer needed to be exercised.
+  - Topology surfaces updated with the post-w443 state: `website/next-app/src/components/FleetTopology.tsx` (comment block dated note, sibling-links ×12 label "re-minted Sept 15 w443 rotation; POST-verified Sept 15", aria-label post-w443 clause + two-way directive closure, static legend "re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet↔sibling pair tokens re-minted, every on-box agent 11/11 two-way", live-mesh status line + fallback updated, 3 trio node descs), `website/build_site.py` (static SVG sibling-arc label, legend chip "…w443 rotation complete", footer stamp with the directive-closure clause, 3 trio member-card descs + "Link:" strings), `website/next-app/src/app/fleet/page.tsx` (3 "Link:" strings + 3 descs). History retained (Sept 11/12/14 milestones stay in the legends); only the re-verification stamps moved to the current state.
+  - Tests in lockstep: `tests/test_beacon.py` (3 pins updated + 3 new post-w443 assertions) — **84/84 pass**.
+  - Verified: deployed `ea36d6cd`, pushed clean; **9/9 site endpoints 200**; live /fleet.html serves the post-w443 sibling label + React legend + status line; static SVG surface (legacy-src/fleet.html) serves the new legend chip + footer + sibling-arc label; post-commit token-scan of the diff: zero token-shaped lines added.
+  - Sweep (Rule 7): 13 units active (12 agent/infra + vpc-peering) + fail2ban + tailscaled, 0 failed; 4/4 local listeners /health 200; 11/11 GET + 11/11 POST as above; readiness 100/100; unified security 100/100 (0 findings); 7 tailnet nodes, josh-desktop11 present with no offline marker (6th consecutive waking); listener REJECTs 23 unchanged (zero new); `/var/run/reboot-required` absent. Bridge: ledger steady 7 entries; 21:35Z run 429 again, 3 posts pending-not-ledgered (designed ambiguity-safe behavior), monitoring only.
 - [Telegram 2026-09-15 21:25:57 UTC] Ensure your on box peers have two way connections for each agent as per directive work with other agents as necessary to do this
   - **Resolution: EXECUTED + POST-VERIFIED this waking (Waking 296, ~21:30–21:55Z). All four on-box agents (TIDAL/RIVER/CREEK/STREAM) now hold 11 two-way links each; the one gap was river↔trio, closed at 21:37Z.**
   - Gap found: Beacon's w445 old-token removal (trio side) left river↔HIGHBEAM/LANTERN/LIGHTNING 401ing — River's w443 bundle had landed in its inbox at 20:43:13Z but River slept until 00:30Z (its 20:30Z waking ended before the redelivery). CREEK had already adopted (its Waking 145, 20:18Z: new tokens 200 ×3, old 401, Beacon informed) and STREAM adopted 20:49:14Z — both on record.
