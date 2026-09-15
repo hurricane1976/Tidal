@@ -529,6 +529,19 @@ _Nothing awaiting a decision right now._
                 self.assertEqual(families[name], "GLM",
                                  f"{name} should be listed under the GLM family after the GLM Flash migration")
 
+    def test_manifest_claude_code_removal_migration(self):
+        """Beacon, Highbeam, and Mountain moved off Claude to GLM Flash via
+        opencode (operator directive 2026-09-15, Telegram 20:54:47Z: Claude Code
+        removed from the fleet); the manifest must not regress to stale families."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        for name in ("Beacon", "Highbeam", "Mountain"):
+            if name in families:
+                self.assertEqual(families[name], "GLM",
+                                 f"{name} should be listed under the GLM family after the Sept-15 Claude Code removal")
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))
@@ -857,7 +870,7 @@ _Nothing awaiting a decision right now._
             # 287): labels/readouts refreshed to the Sept 14 12-agent
             # bearer-mesh ground truth (per-pair tokens) per Josh's 05:48Z ask.
             self.assertIn("Sibling bearer-pair links live (Highbeam, Lantern, Lightning)", content)
-            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15)", content)
+            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete)", content)
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -866,10 +879,11 @@ _Nothing awaiting a decision right now._
             self.assertIn("MOUNTAIN GROUP", content)
             self.assertIn("viewBox=\"0 0 1680 512\"", content)
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
+            self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             self.assertIn("M185,150 Q660,60 1135,200", content)  # live TIDAL->LNTRN arc
             self.assertIn("M185,150 Q560,44 955,145", content)  # live TIDAL->H-BEAM arc
             self.assertIn("M185,150 Q660,420 1045,330", content)  # live TIDAL->LIGHTNG arc
-            self.assertEqual(content.count("Link: bearer pair tokens (Sept 14 mesh), live"), 3)
+            self.assertEqual(content.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
             self.assertNotIn("Link: identity, live", content)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)
@@ -910,8 +924,13 @@ _Nothing awaiting a decision right now._
             # Josh's 05:48Z ask): stamps moved to the two-layer Sept 15 proof
             # (11/11 GET liveness + 11/11 enforced-auth POST credential layer)
             # and the sibling links re-labeled per-pair bearer tokens.
+            # Sept 15, 2026 (Waking 297, Josh's 21:45:37Z ask): stamps moved to
+            # the post-w443 link state (rotation complete, all 12
+            # quartet<->sibling pair tokens re-minted, two-way directive
+            # closed with every on-box agent 11/11 two-way).
             self.assertIn("re-verified Sept 15", content)
-            self.assertIn("sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)", content)
+            self.assertIn("sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)", content)
+            self.assertIn("post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST", content)
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -926,7 +945,8 @@ _Nothing awaiting a decision right now._
                 with open(_topo_src_path, "r") as tf:
                     topo_src = tf.read()
                     self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
-                    self.assertIn("sibling links \\u00d712 \\u2014 per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)", topo_src)
+                    self.assertIn("sibling links \\u00d712 \\u2014 per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)", topo_src)
+                    self.assertIn("post-w443 rotation: 11/11 GET + 11/11 POST", topo_src)
                     self.assertNotIn("zero-secret identity links \\u2014 12 pairs", topo_src)
                     self.assertIn("chan-live", topo_src)
                     self.assertNotIn("pending adoption", topo_src)
@@ -953,12 +973,15 @@ _Nothing awaiting a decision right now._
                     self.assertIn("/data/fleet-all.json", topo_src)
                     # Sept 15, 2026 (Waking 287, Josh's 05:48Z ask): the next-app
                     # fleet member cards match the bearer-mesh ground truth too.
+                    # Waking 297 (21:45:37Z ask): pins moved to the post-w443
+                    # state (re-minted tokens, two-way directive closed).
                     fp = os.path.join(_repo_root, "website/next-app/src/app/fleet/page.tsx")
                     with open(fp, "r") as ff:
                         fleet_src = ff.read()
-                    self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh), live"), 3)
+                    self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
                     self.assertNotIn("Link: identity, live", fleet_src)
                     self.assertIn("enforced-auth POST-verified both directions Sept 14\u201315", fleet_src)
+                    self.assertEqual(fleet_src.count("re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions"), 3)
                     self.assertNotIn("zero-secret identity link live in both directions", fleet_src)
                     self.assertIn("live mesh feed", topo_src)
                     self.assertNotIn('"creds pending"', topo_src)
@@ -1012,9 +1035,11 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
-            # Operator directive 2026-09-11: stale Luna self-reports from
-            # Beacon's feed must normalize to Claude Code (Sonnet).
-            self.assertEqual(status['framework'], "Claude Code (Sonnet) / autonomous wake loop")
+            # Operator directives 2026-09-11 + 2026-09-15: stale Luna self-reports
+            # (and any stale Claude string) from Beacon's feed must normalize to
+            # the current fleet standard, GLM Flash via opencode (Claude Code
+            # removed from the fleet, operator Telegram 20:54:47Z Sept 15).
+            self.assertEqual(status['framework'], "GLM Flash (via opencode) / autonomous wake loop")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):

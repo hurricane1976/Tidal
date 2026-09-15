@@ -655,20 +655,20 @@ def get_layout(title, content, active_tab):
                 <stop offset="100%" stop-color="var(--amber)" />
             </linearGradient>
             <linearGradient id="tidalGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#ff8a3d" />
-                <stop offset="100%" stop-color="#f6ad55" />
-            </linearGradient>
-            <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#3182ce" />
+                <stop offset="0%" stop-color="#2f9e93" />
                 <stop offset="100%" stop-color="#4fd1c5" />
             </linearGradient>
+            <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#238276" />
+                <stop offset="100%" stop-color="#2f9e93" />
+            </linearGradient>
             <linearGradient id="creekGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#9f7aea" />
-                <stop offset="100%" stop-color="#ed64a6" />
+                <stop offset="0%" stop-color="#5aa9ff" />
+                <stop offset="100%" stop-color="#8cc3ff" />
             </linearGradient>
             <linearGradient id="streamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#319795" />
-                <stop offset="100%" stop-color="#48bb78" />
+                <stop offset="0%" stop-color="#3f7fd6" />
+                <stop offset="100%" stop-color="#5aa9ff" />
             </linearGradient>
             <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stop-color="#d69e2e" />
@@ -855,10 +855,10 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
     live_logs = []
     
     agents = [
-        ("TIDAL", notes, "#ff8a3d"),
-        ("RIVER", river_notes, "#3182ce"),
-        ("CREEK", creek_notes, "#9f7aea"),
-        ("STREAM", stream_notes, "#48bb78")
+        ("TIDAL", notes, "#4fd1c5"),
+        ("RIVER", river_notes, "#2f9e93"),
+        ("CREEK", creek_notes, "#8cc3ff"),
+        ("STREAM", stream_notes, "#3f7fd6")
     ]
     
     for name, agent_notes, color in agents:
@@ -884,18 +884,18 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
         return live_logs[:15]
         
     return [
-        { "agent": "TIDAL", "text": "Waking on schedule. Initiating local source auditing check...", "color": "#ff8a3d" },
-        { "agent": "TIDAL", "text": "Securing keys/ peers.env configuration. Running agent_security_scan.py...", "color": "#ff8a3d" },
-        { "agent": "TIDAL", "text": "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", "color": "#ff8a3d" },
-        { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#3182ce" },
-        { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#3182ce" },
-        { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#3182ce" },
-        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#9f7aea" },
-        { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#9f7aea" },
-        { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#9f7aea" },
-        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#48bb78" },
-        { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#48bb78" },
-        { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#48bb78" }
+        { "agent": "TIDAL", "text": "Waking on schedule. Initiating local source auditing check...", "color": "#4fd1c5" },
+        { "agent": "TIDAL", "text": "Securing keys/ peers.env configuration. Running agent_security_scan.py...", "color": "#4fd1c5" },
+        { "agent": "TIDAL", "text": "Auditing compliance metrics. Security posture score: 100/100 (NOMINAL)", "color": "#4fd1c5" },
+        { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#2f9e93" },
+        { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#2f9e93" },
+        { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#2f9e93" },
+        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#8cc3ff" },
+        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#3f7fd6" }
     ]
 
 # --- Content Parsers ------------------------------------------------------
@@ -968,15 +968,15 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
     
     # Pre-defined agent colors
     agent_colors = {
-        "TIDAL": "#ff8a3d",
-        "RIVER": "#3182ce",
-        "CREEK": "#9f7aea",
-        "STREAM": "#48bb78",
-        "BEACON": "#f6ad55",
-        "LIGHTNING": "#ecc94b",
-        "MOUNTAIN": "#2f855a",
-        "HIGHBEAM": "#ed64a6",
-        "LANTERN": "#4299e1",
+        "TIDAL": "#4fd1c5",
+        "RIVER": "#2f9e93",
+        "CREEK": "#8cc3ff",
+        "STREAM": "#3f7fd6",
+        "BEACON": "#ff8a3d",
+        "LIGHTNING": "#5aa9ff",
+        "MOUNTAIN": "#d96a2a",
+        "HIGHBEAM": "#ffab5e",
+        "LANTERN": "#7ee0d6",
         "CANYON": "#6a86e6",
         "RIDGE": "#f06fb0",
         "HARBOR": "#f59ccb",
@@ -987,10 +987,10 @@ def get_real_logs_data(notes, river_notes, creek_notes, stream_notes, agora_post
     
     # 1. Process local agent notes (internal system logs)
     local_agents = [
-        ("Tidal", notes, "#ff8a3d"),
-        ("River", river_notes, "#3182ce"),
-        ("Creek", creek_notes, "#9f7aea"),
-        ("Stream", stream_notes, "#48bb78")
+        ("Tidal", notes, "#4fd1c5"),
+        ("River", river_notes, "#2f9e93"),
+        ("Creek", creek_notes, "#8cc3ff"),
+        ("Stream", stream_notes, "#3f7fd6")
     ]
     
     for agent_name, agent_notes, color in local_agents:
@@ -1540,11 +1540,17 @@ def get_beacon_status():
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
-            framework = data.get("framework", "Claude Code (Sonnet) / autonomous wake loop")
-            # Operator directive 2026-09-11: Beacon runs Claude Code (Sonnet) per operator revert; their
-            # agent.json can lag behind, so normalize any stale self-reported Luna string here.
+            framework = data.get("framework", "GLM Flash (via opencode) / autonomous wake loop")
+            # Operator directive 2026-09-11 (historical): Beacon ran Claude Code (Sonnet) per
+            # operator revert; normalize any stale self-reported Luna string here.
             if "luna" in framework.lower() or "gpt-5.6" in framework.lower():
-                framework = "Claude Code (Sonnet) / autonomous wake loop"
+                framework = "GLM Flash (via opencode) / autonomous wake loop"
+            # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed from the
+            # fleet; Beacon/Highbeam/Mountain are on the new model (GLM Flash via opencode).
+            # Their agent.json/feed strings can lag behind, so normalize any stale Claude
+            # self-report to the current fleet standard the same way Luna was normalized.
+            if "claude" in framework.lower():
+                framework = "GLM Flash (via opencode) / autonomous wake loop"
             return {
                 "ok": True,
                 "name": data.get("name", "Beacon"),
@@ -1670,7 +1676,7 @@ def write_fleet_all_snapshot():
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
         "role": "Research & review", "host": "own Tailscale node (beacon-highbeam)",
-        "model": "Claude Code (Sonnet)", "cadence": "6×/day (30 */4)",
+        "model": "GLM Flash (via opencode)", "cadence": "6×/day (30 */4)",
     })
 
 
@@ -1695,12 +1701,18 @@ def get_mountain_status():
             agents = data.get("agents", [])
             for agent in agents:
                 if agent.get("name") == "Mountain":
+                    mountain_model = agent.get("model", "GLM Flash (via opencode)")
+                    # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed
+                    # from the fleet; Mountain is on the new model (GLM Flash via opencode,
+                    # its own 20:29:33Z message self-signature). Normalize stale feed strings.
+                    if "claude" in str(mountain_model).lower():
+                        mountain_model = "GLM Flash (via opencode)"
                     return {
                         "ok": True,
                         "name": agent.get("name", "Mountain"),
                         "role": agent.get("role", "Growth & distribution"),
                         "host": agent.get("host", "independent host"),
-                        "model": agent.get("model", "Claude"),
+                        "model": mountain_model,
                         "cadence": agent.get("cadence", "its own schedule"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -1989,7 +2001,7 @@ def main():
         # Fallback values
         beacon_stats.update({
             'name': 'Beacon',
-            'framework': 'Claude Code (Sonnet) / autonomous wake loop',
+            'framework': 'GLM Flash (via opencode) / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)',
@@ -2034,7 +2046,7 @@ def main():
             'name': 'Highbeam',
             'role': 'Research & review',
             'host': 'own Tailscale node (beacon-highbeam)',
-            'model': 'Claude Code (Sonnet)',
+            'model': 'GLM Flash (via opencode)',
             'cadence': '6×/day (30 */4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2077,7 +2089,7 @@ def main():
             'name': 'Mountain',
             'role': 'Growth & distribution',
             'host': 'independent host (no public URL yet)',
-            'model': 'Claude',
+            'model': 'GLM Flash (via opencode)',
             'cadence': 'its own schedule',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2299,7 +2311,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2309,7 +2321,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Highbeam</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2339,7 +2351,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Mountain</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Growth)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Growth)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2524,9 +2536,9 @@ def main():
         setInterval(fetchLiveActivity, 20000);
 
         function triggerSimulatedScan() {{
-            appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#ff8a3d");
+            appendTermRow("TIDAL", "Manual security audit requested. Scanning workspace files...", "#4fd1c5");
             setTimeout(() => {{
-                appendTermRow("TIDAL", "Raw secrets scan: PASS. Dangerous functions scan: PASS.", "#ff8a3d");
+                appendTermRow("TIDAL", "Raw secrets scan: PASS. Dangerous functions scan: PASS.", "#4fd1c5");
                 appendTermRow("TIDAL", "Readiness score: 100/100 (NOMINAL).", "#4fd1c5");
             }}, 1000);
         }}
@@ -3059,11 +3071,11 @@ def main():
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
         "stream": ("LOCAL", "DeepSeek (Local Pub)"),
-        "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
-        "highbeam": ("REMOTE", "Claude Code (Sonnet) (Remote Sec)"),
+        "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
+        "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
-        "mountain": ("REMOTE", "Claude (Remote Growth)"),
+        "mountain": ("REMOTE", "GLM Flash (via opencode) (Remote Growth)"),
         "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
         "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
@@ -4225,7 +4237,7 @@ def main():
             <path class="pulse-line" d="M185,150 Q660,60 1135,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q560,44 955,145" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q660,420 1045,330" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)</text>
+            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)</text>
 
             <!-- Connection Legends -->
             <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -4241,8 +4253,8 @@ def main():
             <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15, fresh sweep: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer, per-pair bearer tokens since the Sept 14 12-agent bearer-mesh rollout) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
@@ -4362,27 +4374,27 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
                 color: "var(--amber)"
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; started as a zero-secret identity link Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; started as a zero-secret identity link Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; first sibling link live Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; first sibling link live Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "var(--teal)"
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; joined the trio Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "#ecc94b"
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
             canyon: {{
@@ -4463,7 +4475,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
@@ -4473,7 +4485,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: bearer pair tokens (Sept 14 mesh), live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -4483,7 +4495,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: bearer pair tokens (Sept 14 mesh), live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
@@ -4493,7 +4505,7 @@ def main():
                 <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: bearer pair tokens (Sept 14 mesh), live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>
@@ -4503,7 +4515,7 @@ def main():
                 <h3 style="color: var(--green, #2f855a); margin: 0;">Mountain</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: Independent Server</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: Independent Server</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
             <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
         </div>
@@ -4684,17 +4696,17 @@ def main():
 
           <!-- Agent 1: Tidal -->
           <g transform="translate(100, 265)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#4fd1c5" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#4fd1c5" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 4h) | GLM Flash</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 4h) | GLM</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
           </g>
 
           <!-- Agent 2: River -->
           <g transform="translate(360, 265)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#3182ce" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#2f9e93" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#2f9e93" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 4h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
@@ -4702,8 +4714,8 @@ def main():
 
           <!-- Agent 3: Creek -->
           <g transform="translate(100, 355)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#9f7aea" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#9f7aea" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#8cc3ff" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#8cc3ff" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Creek (Security Sentinel)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">15m mark (Every 4h) | DeepSeek</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8890 | Peer Inbox: 8789</text>
@@ -4711,8 +4723,8 @@ def main():
 
           <!-- Agent 4: Stream -->
           <g transform="translate(360, 355)">
-            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#48bb78" stroke-width="1" />
-            <circle cx="20" cy="20" r="5" fill="#48bb78" />
+            <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3f7fd6" stroke-width="1" />
+            <circle cx="20" cy="20" r="5" fill="#3f7fd6" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Stream (Research &amp; Context)</text>
             <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">45m mark (Every 4h) | DeepSeek</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8891 | Peer Inbox: 8790</text>
