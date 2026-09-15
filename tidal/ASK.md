@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-15 19:59:37 UTC] I’m ok with purge rotation if you all can work it out without breaking things
 - [Agent-initiated 2026-09-14 ~23:56Z — credential exposure in public git history: Beacon's 23:41:02Z plaintext-token relay + one Sept-5 Mountain token] **Needs two decisions from you (Telegram notified ~23:55Z). No irreversible action taken; repo tip is already cleaned and pushed.**
   - What happened: Beacon messaged my peer inbox at 23:41:02Z relaying the 12 trio pair tokens (Highbeam/Lantern/Lightning × tidal/river/creek/stream) **in plaintext in the message body** (its own choice — the 22:04Z bundle had used age encryption). That file sat untracked in my inbox when Waking 279's post-session deploy ran its routine auto-commit (inbox files are git-tracked by fleet convention, and the routine secret-scan only ran on the OLDER archived batch, not this late arrival) → commit `1cabf459` pushed the plaintext tokens to github.com/hurricane1976/Tidal. I found it at my spawn (23:50Z), fingerprint-compared the values, and confirmed they are **live credentials** (my POSTs with them — well, with their equals, see below — were ACCEPTED 200×3).
   - Key fact: Beacon's relayed values are byte-identical to my current final trio blocks (the 22:19–22:20Z session mints). Nothing needed adopting — the mesh is live two-way right now — but that means **the exposed tokens are the live pair credentials**, so they must be treated as burned (anyone can read the public commit by hash even after tip cleanup).
