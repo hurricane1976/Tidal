@@ -851,12 +851,14 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("beaconwake.com box", content)
 
             # Sept 11, 2026 ~23:45Z topology update: FULL MESH — all three
-            # siblings' zero-secret identity links are LIVE in both directions
-            # (token-less POSTs accepted 200 by Lantern/Highbeam/Lightning;
-            # Lightning /health 200 after adopting the recipe); 11/11 two-way.
-            self.assertIn("Identity links live (Lantern, H-BEAM, LIGHTNG)", content)
-            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 14)", content)
-            self.assertIn("first sibling link live (Sept 11)", content)
+            # siblings' links are LIVE in both directions (token-less POSTs
+            # accepted 200 by Lantern/Highbeam/Lightning; Lightning /health 200
+            # after adopting the recipe); 11/11 two-way. Sept 15, 2026 (Waking
+            # 287): labels/readouts refreshed to the Sept 14 12-agent
+            # bearer-mesh ground truth (per-pair tokens) per Josh's 05:48Z ask.
+            self.assertIn("Sibling bearer-pair links live (Highbeam, Lantern, Lightning)", content)
+            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15)", content)
+            self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
             # static SVG mirroring the React SPA geometry (viewBox 1680x512).
@@ -867,7 +869,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("M185,150 Q660,60 1135,200", content)  # live TIDAL->LNTRN arc
             self.assertIn("M185,150 Q560,44 955,145", content)  # live TIDAL->H-BEAM arc
             self.assertIn("M185,150 Q660,420 1045,330", content)  # live TIDAL->LIGHTNG arc
-            self.assertEqual(content.count("Link: identity, live"), 3)
+            self.assertEqual(content.count("Link: bearer pair tokens (Sept 14 mesh), live"), 3)
+            self.assertNotIn("Link: identity, live", content)
             self.assertNotIn("creds pending", content)
             self.assertNotIn("pending per-pair credentials", content)
             # Sept 12, 2026 (Waking 222 audit + Waking 223 completion, redrawn
@@ -877,6 +880,7 @@ _Nothing awaiting a decision right now._
             # edge-to-edge trunk read as "not connected to Mountain"), 3 LIVE
             # sibling<->Beacon bearer channels (re-keyed + re-verified
             # Sept 12 21:47Z after the shared-token incident),
+            # the LIVE trio<->Mountain connector with its label directly
             # beside it, and the 66/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
             self.assertIn("66/66 agent pairs verified two-way live", content)
@@ -902,8 +906,16 @@ _Nothing awaiting a decision right now._
             # Sept 14, 2026 (Waking 273): operator asked the topology to show
             # current link connections -- static legends carry the fresh
             # re-verification stamp (11/11 peer listeners 200) alongside the
-            # Sept 12 mesh-completion history.
-            self.assertIn("re-verified Sept 14", content)
+            # Sept 12 mesh-completion history. Sept 15, 2026 (Waking 287,
+            # Josh's 05:48Z ask): stamps moved to the two-layer Sept 15 proof
+            # (11/11 GET liveness + 11/11 enforced-auth POST credential layer)
+            # and the sibling links re-labeled per-pair bearer tokens.
+            self.assertIn("re-verified Sept 15", content)
+            self.assertIn("sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)", content)
+            # note: no assertNotIn on the generated fleet.html here -- the
+            # page embeds FLEET_COORDINATION.md log quotes, which keep the
+            # historical 222-era pending strings by design; the React source
+            # (asserted below) carries the live state.
             # Next.js topology source mirrors the same state (temp-dir-safe:
             # resolve the real repo root from this test file's location). This
             # file only exists in trees that carry the shared next-app sources
@@ -914,7 +926,8 @@ _Nothing awaiting a decision right now._
                 with open(_topo_src_path, "r") as tf:
                     topo_src = tf.read()
                     self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
-                    self.assertIn("zero-secret identity links \\u2014 12 pairs (each sibling \\u00d7 4 local agents)", topo_src)
+                    self.assertIn("sibling links \\u00d712 \\u2014 per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)", topo_src)
+                    self.assertNotIn("zero-secret identity links \\u2014 12 pairs", topo_src)
                     self.assertIn("chan-live", topo_src)
                     self.assertNotIn("pending adoption", topo_src)
                     self.assertIn("chan-tailscale", topo_src)  # live bearer channels
@@ -931,12 +944,22 @@ _Nothing awaiting a decision right now._
                     self.assertIn("trio \\u2194 Mountain", topo_src)
                     self.assertIn("12 pairs live", topo_src)
                     self.assertIn("66/66 agent pairs verified two-way live", topo_src)
-                    self.assertIn("re-verified Sept 14", topo_src)
+                    self.assertIn("re-verified Sept 15", topo_src)
+                    self.assertIn("11/11 GET + 11/11 enforced-auth POST", topo_src)
                     # Sept 14, 2026 (Waking 273): the topology fetches
                     # /data/fleet-all.json on mount and renders a live mesh
                     # status line (per-agent ok count + feed timestamp), so the
                     # page shows current link/agent state on every load.
                     self.assertIn("/data/fleet-all.json", topo_src)
+                    # Sept 15, 2026 (Waking 287, Josh's 05:48Z ask): the next-app
+                    # fleet member cards match the bearer-mesh ground truth too.
+                    fp = os.path.join(_repo_root, "website/next-app/src/app/fleet/page.tsx")
+                    with open(fp, "r") as ff:
+                        fleet_src = ff.read()
+                    self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh), live"), 3)
+                    self.assertNotIn("Link: identity, live", fleet_src)
+                    self.assertIn("enforced-auth POST-verified both directions Sept 14\u201315", fleet_src)
+                    self.assertNotIn("zero-secret identity link live in both directions", fleet_src)
                     self.assertIn("live mesh feed", topo_src)
                     self.assertNotIn('"creds pending"', topo_src)
                     self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
