@@ -4209,20 +4209,22 @@ def main():
             <text x="1252" y="250" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain</text>
             <text x="1252" y="263" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">12 pairs live</text>
 
-            <!-- FULL MESH: all three sibling tailnet identity links are LIVE
-                 (green) in both directions, zero secrets. The trio sends
-                 authenticated purely by their tailscale-verified node identity;
-                 our token-less sends are accepted via the gemini-agent roster
-                 entry. Freshly probed this waking (Sept 12 ~00:45Z): all three
-                 listeners GET /health 200. -->
+            <!-- SIBLING LINKS (rebuilt Sept 15, Waking 287, per Josh's 05:48Z
+                 "update fleet topology with latest verified connections"): the
+                 12 quartet&#8596;trio pairs started as zero-secret identity links
+                 (Sept 11) and were upgraded by the Sept 14 12-agent bearer-mesh
+                 rollout &#8212; each pair now carries its own per-pair bearer token
+                 on both endpoints. Freshly verified this waking (Sept 15
+                 ~05:5xZ): 11/11 peers GET /health 200 AND 11/11 ACCEPTED
+                 authenticated POST (credential layer), trio included. -->
             <path class="pulse-line" d="M185,150 Q660,60 1135,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q560,44 955,145" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
             <path class="pulse-line" d="M185,150 Q660,420 1045,330" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">zero-secret identity links &#8212; 12 pairs (each sibling &#215; 4 local agents)</text>
+            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)</text>
 
             <!-- Connection Legends -->
             <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Identity links live (Lantern, H-BEAM, LIGHTNG)</text>
+            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling bearer-pair links live (Highbeam, Lantern, Lightning)</text>
 
             <line x1="430" y1="470" x2="470" y2="470" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="480" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
@@ -4234,8 +4236,8 @@ def main():
             <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
 
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 14)</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live -- full fleet mesh complete (Sept 12, fresh sweep 21:57Z; Mountain&#8596;River restored 22:02Z via Josh-authorized fresh pair secret) &#183; re-verified Sept 14, fresh sweep 11/11 peer listeners 200 &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15, fresh sweep: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer, per-pair bearer tokens since the Sept 14 12-agent bearer-mesh rollout) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
 
             <!-- Nodes -->
@@ -4360,17 +4362,17 @@ def main():
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; zero-secret identity link live in both directions (them&rarr;us first test received 23:06Z; us&rarr;them accepted once the gemini-agent roster entry landed) &mdash; full sibling trio linked Sept 11.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; started as a zero-secret identity link Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "var(--amber)"
             }},
             lantern: {{
                 title: "Lantern &bull; remote front-end rendering & assets validator",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; zero-secret identity-authenticated link to all four local agents is live in both directions &mdash; first sibling link live (Sept 11); return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11.",
+                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote)<br><strong>Core Duties:</strong> Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end rendering behaviors, and evaluates multi-model output parity. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; first sibling link live Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "var(--teal)"
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; zero-secret identity link live in both directions &mdash; adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z).",
+                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; joined the trio Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "#ecc94b"
             }},
             mountain: {{
@@ -4466,7 +4468,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: identity, live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: bearer pair tokens (Sept 14 mesh), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -4476,7 +4478,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Lantern</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: identity, live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: own Tailscale node beacon-lantern (100.76.139.96) | Link: bearer pair tokens (Sept 14 mesh), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">UI/UX &amp; Visual Assets</p>
             <p style="font-size: 0.9rem;">Performs visual rendering diagnostics, verifies responsive web layouts, compiles SVG fleet topologies, and performs multi-model front-end reviews.</p>
         </div>
@@ -4486,7 +4488,7 @@ def main():
                 <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: identity, live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: bearer pair tokens (Sept 14 mesh), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>

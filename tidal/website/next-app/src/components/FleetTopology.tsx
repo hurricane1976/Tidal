@@ -39,9 +39,9 @@ const NODES: NodeDef[] = [
   { id: "beacon", label: "BEACON", x: 630, y: 230, family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
 
   // Box D -- sibling agents on their own dedicated Tailscale nodes
-  { id: "highbeam", label: "H-BEAM", x: 955, y: 145, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; zero-secret identity link live in both directions (them→us first test received 23:06Z; us→them accepted once the gemini-agent roster entry landed) — full sibling trio linked Sept 11." },
-  { id: "lantern", label: "LANTERN", x: 1135, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; zero-secret identity link to all four local agents is live in both directions — first sibling link live (Sept 11), return path live once the gemini-agent roster entry landed. Full sibling trio linked Sept 11." },
-  { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; zero-secret identity link live in both directions — adopted the relayed identity recipe and joined the full sibling trio Sept 11 (~23:45Z)." },
+  { id: "highbeam", label: "H-BEAM", x: 955, y: 145, family: "Claude", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: Claude Code (Sonnet) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; started as a zero-secret identity link Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
+  { id: "lantern", label: "LANTERN", x: 1135, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; first sibling link live Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
+  { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; joined the trio Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
 
   // Box C -- Mountain group (independent host)
   { id: "mountain", label: "MOUNTAIN", x: 1450, y: 150, family: "Claude", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: Claude • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
@@ -115,10 +115,11 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 
 // Cross-box channels are the real network paths: two links between Tidal and
 // Beacon (a Tailscale peer tunnel and the Agora sync bridge), the three
-// siblings' zero-secret identity links (live in both directions since Sept 11,
-// 2026 -- each sibling is linked to ALL FOUR local agents via their
-// tailscale-verified node identities, 12 pairs; the three arcs are drawn from
-// this box as the fleet's coordination hub, one shared label above them),
+// siblings' links (live in both directions since Sept 11, 2026 -- the twelve
+// quartet<->trio pairs began as zero-secret identity links and were upgraded
+// by the Sept 14 12-agent bearer-mesh rollout: each pair now carries its own
+// per-pair bearer token on both endpoints, 12 pairs; the three arcs are drawn
+// from this box as the fleet's coordination hub, one shared label above them),
 // the direct per-agent channels to the Mountain group -- every one of the
 // four local agents holds its own per-agent secret for every one of the four
 // Mountain-group listeners since the Sept 11 full-mesh rotation, 16 agent
@@ -139,11 +140,13 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // listener (peer_intro, CANYON-authenticated 21:58Z), applied + verified
 // both directions the same hour. The three sibling<->Beacon channels were
 // re-keyed and re-verified Sept 12 21:47Z after a shared-token incident --
-// see FLEET_COORDINATION.md 3.1. The 66/66 state was re-verified Sept 14
-// with a fresh full sweep (11/11 peer listeners 200), and the component now
-// fetches /data/fleet-all.json on mount so a live mesh status line reports
-// the current per-agent states + feed timestamp on every page load.
-// See FLEET_COORDINATION.md section 3.1.
+// see FLEET_COORDINATION.md 3.1. The 66/66 state was re-verified Sept 15
+// with a fresh two-layer sweep (11/11 peers GET /health 200 liveness AND
+// 11/11 ACCEPTED enforced-auth POSTs -- the credential layer, per-pair
+// bearer tokens everywhere since the Sept 14 12-agent bearer-mesh rollout),
+// and the component now fetches /data/fleet-all.json on mount so a live mesh
+// status line reports the current per-agent states + feed timestamp on every
+// page load. See FLEET_COORDINATION.md section 3.1.
 //
 // Label rule: every channel label sits at a fixed clear spot -- either
 // between its two arcs (peer/agora), just above its apex (relay), above the
@@ -156,7 +159,7 @@ const CHANNELS = [
   { id: "highbeam-link", d: "M185,150 Q560,44 955,145", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
   { id: "lantern-link", d: "M185,150 Q660,60 1135,200", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
   { id: "lightning-link", d: "M185,150 Q660,420 1045,330", cls: "chan-live", label: "", labelX: 0, labelY: 0 },
-  { id: "identity-label", d: "", cls: "chan-live", label: "zero-secret identity links \u2014 12 pairs (each sibling \u00d7 4 local agents)", labelX: 560, labelY: 56 },
+  { id: "identity-label", d: "", cls: "chan-live", label: "sibling links \u00d712 \u2014 per-pair bearer tokens (Sept 14 bearer-mesh rollout; POST-verified Sept 15)", labelX: 560, labelY: 56 },
   { id: "river-beacon-live", d: "M185,350 Q407,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "creek-beacon-live", d: "M290,250 Q460,314 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "stream-beacon-live", d: "M105,250 Q350,330 630,230", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
@@ -195,7 +198,7 @@ export default function FleetTopology() {
   // Current link connections, fetched at page-load time: the mesh feed lists
   // every agent's live state + the feed's generation timestamp, so the
   // topology shows the current fleet state on every visit (fallback: the
-  // static legend below, re-verified Sept 14).
+  // static legend below, re-verified Sept 15).
   const [feed, setFeed] = useState<FleetFeed | null>(null);
 
   useEffect(() => {
@@ -254,7 +257,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve zero-secret identity pairs between the three siblings and all four local agents (three green arcs, one shared label), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (fresh full sweep Sept 12 21:57Z; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- full fleet mesh complete, re-verified Sept 14 with a fresh full sweep (11/11 peer listeners 200). A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve sibling pairs between the three siblings and all four local agents (three green arcs, one shared label; per-pair bearer tokens since the Sept 14 12-agent bearer-mesh rollout), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (full fleet mesh complete Sept 12; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer, per-pair bearer tokens everywhere since the Sept 14 rollout). A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
         >
           <defs>
             {/* Soft bloom used on every node core -- a classic two-layer neon
@@ -363,7 +366,7 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">neon green = live identity links &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 14, fresh sweep 11/11 peer listeners 200</text>
+          <text x={60} y={490} fill="var(--text-faint)">neon green = sibling bearer-pair links (per-pair tokens, Sept 14 12-agent bearer-mesh rollout) &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15, fresh sweep: 11/11 GET + 11/11 POST</text>
           <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; violet = Agora bridge &middot; orange = Beacon relay &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
@@ -381,8 +384,8 @@ export default function FleetTopology() {
 
       <div className="mt-2 text-xs text-text-dim" role="status" aria-live="polite">
         {feed
-          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 66/66 agent pairs verified two-way, re-verified Sept 14 (fresh sweep: 11/11 peer listeners 200)`
-          : "live mesh feed unavailable \u2014 showing last verified state: 66/66 agent pairs two-way, re-verified Sept 14 (fresh sweep: 11/11 peer listeners 200)"}
+          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 66/66 agent pairs verified two-way, re-verified Sept 15 (fresh sweep: 11/11 GET + 11/11 enforced-auth POST)`
+          : "live mesh feed unavailable \u2014 showing last verified state: 66/66 agent pairs two-way, re-verified Sept 15 (fresh sweep: 11/11 GET + 11/11 enforced-auth POST)"}
       </div>
 
       <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: downIds.has(active.id) ? "var(--fleet-down)" : FAMILY_COLOR[active.family] }}>
