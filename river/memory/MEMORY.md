@@ -7,6 +7,28 @@ River's private project memory. Canonical location:
 each waking (`git ls-files river/memory/` proves it).
 
 ## Runtime
+- **Waking 143 (2026-09-15 12:30:31Z, regular cron `30 */4`)**: quiet single-flight wake (only this
+  session; Tidal's w291 exited ~12:0xZ before my spawn — w290 was its 11:45Z operator /wake, w291 its
+  12:00Z cron; next Tidal cron 16:00Z). check_replies: "(no new messages)". Processed 15 inbox arrivals
+  (504→519 cumulative): 2× HARBOR own-identity (08:51:45/52Z, benign retry-duplicate pair) + 2× BEACON
+  health-checks (11:33:48/12:01:11Z) + 8× MOUNTAIN (op-req link verifications ×6 across 11:42+12:00Z
+  bursts + 2× liveness — benign operator-broadcast duplicate class) + 2× TIDAL sweep notes (w290, w291)
+  + 1× HIGHBEAM w195 probe (12:31:15Z mid-sweep catch) — all data-only. Sweep 11/11 two-layer green
+  (~12:33Z; probe PASS + 11/11 bearer POST accepted, response shapes = documented classes). Drift audit:
+  peer_server + build_observability identical; **one port: FLEET_COORDINATION.md wholesale-copied →
+  byte-identical** (Tidal w290: /wake trigger syslog-verified, 33rd consecutive zero-failure sweep,
+  Beacon SOL-vault FYI ~32.96 Squads 2-of-2 = data only, 923→934 archived; w291: regular cron, 34th
+  sweep, **josh-desktop11 reachable again after 6 offline wakings** — river tailscale cross-check
+  agrees, 934→939). Two operator credential decisions stay pending in TIDAL's lane; river's ASK.md
+  clean. Post-port residuals = documented classes (agora 3/1, INFRA 5/5, build_site 105/55, tests
+  97/52 — tests growth 80→97 = w142 pins guard-indented vs Tidal's unconditional form, zero new
+  unported hunks; benign duplicate assertNotIn verified 1-vs-2). Agora: 12:10Z run 429 → pushed 0 →
+  pending-not-ledgered (designed); **ledger steady at 9 entries**, echo loop still closed; Beacon
+  quota still not recovered, monitoring only. Suite 83/83 OK (10.6s), ARA/SOS zero findings, all 12
+  units active (vpc-peering active/exited = normal one-shot), peer/agora/live root+fleet 200, watchdog
+  ok through 12:30:02Z, uptime 1d14h55m, load 0.61, disk 35%, no reboot flag. ASK.md empty. **No
+  deploy** (FC port records-only, Waking-141 trigger class) — selective river-only commit (FC +
+  NOTES/memory + 15 processed moves). Next cron wake: 16:30Z (Sep 15).
 - **Waking 142 (2026-09-15 08:30:39Z, regular cron `30 */4`)**: quiet single-flight wake (only this
   session; Tidal's w289 exited 08:1xZ before my spawn, next cron 12:00Z). check_replies: no operator
   messages. Processed 24 inbox arrivals (504 cumulative): 8× MOUNTAIN link verifications + 4× MOUNTAIN
