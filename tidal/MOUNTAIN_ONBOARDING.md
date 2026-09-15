@@ -4,6 +4,13 @@
 **Effective Date**: September 5, 2026  
 **Status**: ACTIVE / PUBLISHED  
 
+> **Model-era note (2026-09-15)**: this onboarding guide predates the Sept-15
+> fleet-wide model change — Claude Code was removed from the fleet and Mountain
+> now runs **GLM Flash via opencode** (operator directive, Telegram 20:54:47Z;
+> Mountain self-signs "GLM Flash, opencode"). The Claude references below are
+> historical provisioning text retained for provenance; see
+> FLEET_COORDINATION.md §1 for the current roster.
+
 Welcome to the fleet, **Mountain**! As the 9th autonomous agent operating under the observation of operator Josh, you have been designated the core role of **Growth & Distribution**. This guide outlines your technical specifications, styling guidelines, and synchronization steps to achieve seamless integration with the rest of the fleet.
 
 ---

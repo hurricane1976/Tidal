@@ -1535,11 +1535,17 @@ def get_beacon_status():
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
-            framework = data.get("framework", "Claude Code (Sonnet) / autonomous wake loop")
-            # Operator directive 2026-09-11: Beacon runs Claude Code (Sonnet) per operator revert; their
-            # agent.json can lag behind, so normalize any stale self-reported Luna string here.
+            framework = data.get("framework", "GLM Flash (via opencode) / autonomous wake loop")
+            # Operator directive 2026-09-11 (historical): Beacon ran Claude Code (Sonnet) per
+            # operator revert; normalize any stale self-reported Luna string here.
             if "luna" in framework.lower() or "gpt-5.6" in framework.lower():
-                framework = "Claude Code (Sonnet) / autonomous wake loop"
+                framework = "GLM Flash (via opencode) / autonomous wake loop"
+            # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed from the
+            # fleet; Beacon/Highbeam/Mountain are on the new model (GLM Flash via opencode).
+            # Their agent.json/feed strings can lag behind, so normalize any stale Claude
+            # self-report to the current fleet standard the same way Luna was normalized.
+            if "claude" in framework.lower():
+                framework = "GLM Flash (via opencode) / autonomous wake loop"
             return {
                 "ok": True,
                 "name": data.get("name", "Beacon"),
@@ -1665,7 +1671,7 @@ def write_fleet_all_snapshot():
 def get_highbeam_status():
     return _fetch_fleet_agent("Highbeam", {
         "role": "Research & review", "host": "own Tailscale node (beacon-highbeam)",
-        "model": "Claude Code (Sonnet)", "cadence": "6×/day (30 */4)",
+        "model": "GLM Flash (via opencode)", "cadence": "6×/day (30 */4)",
     })
 
 
@@ -1690,12 +1696,18 @@ def get_mountain_status():
             agents = data.get("agents", [])
             for agent in agents:
                 if agent.get("name") == "Mountain":
+                    mountain_model = agent.get("model", "GLM Flash (via opencode)")
+                    # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed
+                    # from the fleet; Mountain is on the new model (GLM Flash via opencode,
+                    # its own 20:29:33Z message self-signature). Normalize stale feed strings.
+                    if "claude" in str(mountain_model).lower():
+                        mountain_model = "GLM Flash (via opencode)"
                     return {
                         "ok": True,
                         "name": agent.get("name", "Mountain"),
                         "role": agent.get("role", "Growth & distribution"),
                         "host": agent.get("host", "independent host"),
-                        "model": agent.get("model", "Claude"),
+                        "model": mountain_model,
                         "cadence": agent.get("cadence", "its own schedule"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -1984,7 +1996,7 @@ def main():
         # Fallback values
         beacon_stats.update({
             'name': 'Beacon',
-            'framework': 'Claude Code (Sonnet) / autonomous wake loop',
+            'framework': 'GLM Flash (via opencode) / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)',
@@ -2029,7 +2041,7 @@ def main():
             'name': 'Highbeam',
             'role': 'Research & review',
             'host': 'own Tailscale node (beacon-highbeam)',
-            'model': 'Claude Code (Sonnet)',
+            'model': 'GLM Flash (via opencode)',
             'cadence': '6×/day (30 */4)',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2072,7 +2084,7 @@ def main():
             'name': 'Mountain',
             'role': 'Growth & distribution',
             'host': 'independent host (no public URL yet)',
-            'model': 'Claude',
+            'model': 'GLM Flash (via opencode)',
             'cadence': 'its own schedule',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2294,7 +2306,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2304,7 +2316,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Highbeam</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2334,7 +2346,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Mountain</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude (Remote Growth)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Growth)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3054,11 +3066,11 @@ def main():
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "DeepSeek (Local Sec)"),
         "stream": ("LOCAL", "DeepSeek (Local Pub)"),
-        "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
-        "highbeam": ("REMOTE", "Claude Code (Sonnet) (Remote Sec)"),
+        "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
+        "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
-        "mountain": ("REMOTE", "Claude (Remote Growth)"),
+        "mountain": ("REMOTE", "GLM Flash (via opencode) (Remote Growth)"),
         "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
         "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
@@ -4357,12 +4369,12 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
                 color: "var(--amber)"
             }},
             highbeam: {{
                 title: "Highbeam &bull; remote code vulnerability & package auditor",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; started as a zero-secret identity link Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote)<br><strong>Core Duties:</strong> Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence reports for the local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; started as a zero-secret identity link Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "var(--amber)"
             }},
             lantern: {{
@@ -4377,7 +4389,7 @@ def main():
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> Claude &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
             canyon: {{
@@ -4458,7 +4470,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
@@ -4468,7 +4480,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Highbeam</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: bearer pair tokens (Sept 14 mesh), live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: own Tailscale node beacon-highbeam (100.81.147.28) | Link: bearer pair tokens (Sept 14 mesh), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Vulnerability &amp; Code Review</p>
             <p style="font-size: 0.9rem;">Conducts deep package reviews, parses vulnerability feeds, runs research loops, and generates architectural hardening strategies for other agents.</p>
         </div>
@@ -4498,7 +4510,7 @@ def main():
                 <h3 style="color: var(--green, #2f855a); margin: 0;">Mountain</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude | Host: Independent Server</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: Independent Server</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
             <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
         </div>

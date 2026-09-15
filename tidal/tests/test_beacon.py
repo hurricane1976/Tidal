@@ -529,6 +529,19 @@ _Nothing awaiting a decision right now._
                 self.assertEqual(families[name], "GLM",
                                  f"{name} should be listed under the GLM family after the GLM Flash migration")
 
+    def test_manifest_claude_code_removal_migration(self):
+        """Beacon, Highbeam, and Mountain moved off Claude to GLM Flash via
+        opencode (operator directive 2026-09-15, Telegram 20:54:47Z: Claude Code
+        removed from the fleet); the manifest must not regress to stale families."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        for name in ("Beacon", "Highbeam", "Mountain"):
+            if name in families:
+                self.assertEqual(families[name], "GLM",
+                                 f"{name} should be listed under the GLM family after the Sept-15 Claude Code removal")
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))
@@ -1008,9 +1021,11 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
-            # Operator directive 2026-09-11: stale Luna self-reports from
-            # Beacon's feed must normalize to Claude Code (Sonnet).
-            self.assertEqual(status['framework'], "Claude Code (Sonnet) / autonomous wake loop")
+            # Operator directives 2026-09-11 + 2026-09-15: stale Luna self-reports
+            # (and any stale Claude string) from Beacon's feed must normalize to
+            # the current fleet standard, GLM Flash via opencode (Claude Code
+            # removed from the fleet, operator Telegram 20:54:47Z Sept 15).
+            self.assertEqual(status['framework'], "GLM Flash (via opencode) / autonomous wake loop")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):
