@@ -604,7 +604,11 @@ _Nothing awaiting a decision right now._
         for name, pattern in (("Tidal", "5&times;/day <code>0&nbsp;*/5</code>"),
                               ("River", "5&times;/day <code>30&nbsp;*/5</code>"),
                               ("Creek", "5&times;/day <code>15&nbsp;*/5</code>"),
-                              ("Stream", "5&times;/day <code>45&nbsp;*/5</code>")):
+                              ("Stream", "5&times;/day <code>45&nbsp;*/5</code>"),
+                              ("Beacon", "5&times;/day <code>0&nbsp;*/5</code>"),
+                              ("Highbeam", "5&times;/day <code>30&nbsp;*/5</code>"),
+                              ("Lantern", "5&times;/day <code>0&nbsp;1-23/5</code>"),
+                              ("Lightning", "5&times;/day <code>15&nbsp;*/5</code>")):
             self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-5h cadence")
 
