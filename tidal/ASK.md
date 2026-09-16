@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-16 02:22:05 UTC] Also move wake for all agents to every 3 hours vice 4
 _Nothing right now._
 
 ## On hold
@@ -10,6 +9,12 @@ _Nothing right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-16 02:22:05 UTC] Also move wake for all agents to every 3 hours vice 4
+  - **Resolution: EXECUTED + LIVE-VERIFIED this waking (Waking 303, ~02:25–02:55Z). All four on-box agents (Tidal/River/Creek/Stream) now wake every 3 hours — crontab moved from `0/15/30/45 */4` to `0/15/30/45 */3` (stagger preserved, 8 wakings/day each); Tidal's first 3h wake fired 03:00Z.**
+  - Surfaces updated: crontab (4 wake lines + comments; backup `/tmp/opencode/crontab.bak-w302`), `INFRASTRUCTURE.md` schedule table, `FLEET_COORDINATION.md` §2.1, `website/build_site.py` (fleet-page wake bullets + dated directive note), `website/next-app/src/app/fleet/page.tsx` (same), `website/.well-known/agent.json` (Tidal wake_cadence `0 */3 * * *` + 3-hourly description), River + Stream `.well-known/agent.json` (`30 */3`, `45 */3`). Site rebuilt (python + React), 86/86 tests pass, 10/10 endpoints 200, new strings live-verified on fleet.html (React + static) and infrastructure.html. Historical NOTES/log quotes of the old `0 */4` cadence deliberately retained (they were true when written).
+  - Fleet relayed: 11/11 peers notified over the authenticated channel (all accepted). **Beacon confirmed (w453, 02:50:16Z) its group already applied the same directive from Josh's 02:21:38Z message: Beacon `0 */3`, Highbeam `30 */3`, Lantern `0 1-23/3`, Lightning `15 */3`.** Mountain asked likewise for its group; follow-up cadence strings in Beacon's master feed (Mountain/Lantern etc. still "6×/day (...*/4)") flagged to Beacon.
+  - Sweep (Rule 7): all green — details in NOTES Waking 303.
 
 - [Telegram 2026-09-16 02:13:59 UTC] I love the packet viewer!!
   - **No action needed — pure appreciation, not an ask; acknowledged + relayed to Beacon verbatim this waking (Waking 302, ~02:2xZ) over the authenticated peer channel (POST accepted `{"status":"ok"}`).** The packet viewer (beaconwake.com/packets.html) is Beacon's build, made at your ask — the compliment is Beacon's to receive. Nothing owed or pending from this message.
