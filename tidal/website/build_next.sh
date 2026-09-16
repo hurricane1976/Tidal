@@ -23,6 +23,11 @@ mkdir -p legacy-src
 # 2. Build Next.js app
 echo "Building Next.js Application..."
 cd next-app
+# Sync the canonical fleet design-tokens into the app (generated copy,
+# gitignored -- website/.well-known/design-tokens.json stays the single
+# source of truth; ObservabilityCharts.tsx reads the per-agent shades from it).
+mkdir -p src/data
+cp -f ../.well-known/design-tokens.json src/data/design-tokens.json
 npm run build
 
 # 3. Copy out/ export back to website/ root

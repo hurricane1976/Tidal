@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ObservabilityRun } from "@/lib/data";
+// Canonical per-agent shades from the fleet design-tokens (single source of
+// truth, published at /.well-known/design-tokens.json and synced into
+// src/data/ by build_next.sh at build time); the positional palette below is
+// only the fallback for agents absent from the token map.
+import designTokens from "@/data/design-tokens.json";
 
 interface Props {
   initialRuns: ObservabilityRun[];
@@ -16,6 +21,8 @@ const POLL_MS = 30_000; // matches the site's existing SecOps polling cadence
 const WINDOW = 16; // bars shown per chart
 const TABLE_ROWS = 14;
 const AGENT_PALETTE = ["#4fd1c5", "#ff8a3d", "#c98aff", "#5aa9ff", "#ffb454", "#f06fb0"];
+const CANONICAL_AGENT_SHADES: Record<string, string> =
+  (designTokens as { chart?: { agent?: Record<string, string> } })?.chart?.agent ?? {};
 
 type Tab = "cost" | "tokens" | "wallclock";
 type SortKey = "ts" | "cost_usd" | "turns" | "duration_ms" | "tokens";
@@ -102,7 +109,9 @@ export default function ObservabilityCharts({ initialRuns }: Props) {
 
   const agentColor = useMemo(() => {
     const map = new Map<string, string>();
-    agents.forEach((a, i) => map.set(a, AGENT_PALETTE[i % AGENT_PALETTE.length]));
+    agents.forEach((a, i) =>
+      map.set(a, CANONICAL_AGENT_SHADES[a] ?? AGENT_PALETTE[i % AGENT_PALETTE.length])
+    );
     return map;
   }, [agents]);
 
