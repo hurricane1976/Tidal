@@ -572,6 +572,73 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
+    def test_lightning_canyon_glm_flash_latest_site_strings(self):
+        """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
+        directive 2026-09-16, Telegram 05:56:39Z; Beacon's authenticated ack
+        06:32:23Z confirms both live). Current-roster site surfaces must not
+        carry stale DeepSeek strings for them, and the fleet.json status
+        fetchers must normalize stale DeepSeek self-reports (same pattern as
+        the Claude normalizer)."""
+        site_path = os.path.join(self.original_cwd, "website/build_site.py")
+        with open(site_path, "r") as f:
+            content = f.read()
+        for stale in ('"model": agent.get("model", "DeepSeek V4 Pro")',
+                      "'model': 'DeepSeek V4 Pro'",
+                      "'model': 'DeepSeek V4 Pro (via OpenRouter)'",
+                      "DeepSeek (Remote Data)",
+                      "DeepSeek (Remote Scribe)",
+                      "Model Framework:</strong> DeepSeek V4 Pro",
+                      "Model: DeepSeek V4 Pro |"):
+            self.assertNotIn(stale, content,
+                             f"build_site.py must not carry the stale string {stale!r} "
+                             "after the Sept-16 fleet-wide GLM migration")
+        # The normalizers exist and route stale DeepSeek self-reports to GLM.
+        self.assertIn('if "deepseek" in str(model).lower():', content,
+                      "Lightning/Canyon status fetchers must normalize stale DeepSeek self-reports")
+
+    def test_observability_agent_metadata_all_glm(self):
+        """After the Sept-16 fleet-wide GLM migration, every AGENT_METADATA
+        family must be glm (DeepSeek retired fleet-wide)."""
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+        meta = build_obs.AGENT_METADATA
+        for name, entry in meta.items():
+            self.assertEqual(entry.get("family"), "glm",
+                             f"{name} must be under the glm family after the Sept-16 migration")
+
+    def test_cost_estimate_historical_boundaries(self):
+        """Agent-name cost fallbacks must be date-boundaried at the model
+        migrations: pre-switch runs keep their era's pricing, post-switch runs
+        price at GLM Flash rates (rows with real model strings always win)."""
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
+        # Creek pre-switch (2026-09-16T06:00Z, no model string): DeepSeek rates.
+        r_pre = {"agent": "Creek", "model": None, "ts": "2026-09-16T06:00:00Z",
+                 "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_pre)
+        self.assertAlmostEqual(r_pre["cost_usd"], 0.42)
+        # Creek post-switch (no model string): GLM Flash rates.
+        r_post = {"agent": "Creek", "model": None, "ts": "2026-09-16T07:00:00Z",
+                  "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_post)
+        self.assertAlmostEqual(r_post["cost_usd"], 0.325)
+        # Mountain post-Claude-era (2026-09-16, no model string): GLM Flash rates.
+        r_mtn = {"agent": "Mountain", "model": None, "ts": "2026-09-16T07:00:00Z",
+                 "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_mtn)
+        self.assertAlmostEqual(r_mtn["cost_usd"], 0.325)
+        # Mountain pre-migration (2026-09-15 morning): Claude-era pricing.
+        r_mtn_old = {"agent": "Mountain", "model": None, "ts": "2026-09-15T12:00:00Z",
+                     "input_tokens": 1000000, "output_tokens": 1000000, "cost_usd": None}
+        build_obs.estimate_cost_if_null(r_mtn_old)
+        self.assertAlmostEqual(r_mtn_old["cost_usd"], 18.0)
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))
