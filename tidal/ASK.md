@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-16 02:22:05 UTC] Also move wake for all agents to every 3 hours vice 4
 _Nothing right now._
 
 ## On hold
