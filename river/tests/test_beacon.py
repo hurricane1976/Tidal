@@ -1808,6 +1808,44 @@ class TestDesignTokens(unittest.TestCase):
         self.assertIn("teal", tokens)
         self.assertIn("blue", tokens)
 
+    def test_observability_charts_consume_canonical_agent_shades(self):
+        """Waking 307 (2026-09-16): ObservabilityCharts.tsx colors agents by the
+        canonical chart.agent shades from the fleet design-tokens (single source
+        of truth), with the positional palette only as fallback; build_next.sh
+        syncs the canonical file into the app at build time."""
+        import os
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        repo = os.path.abspath(os.path.join(test_dir, ".."))
+
+        # Tidal's Waking-307 chart.agent adoption lives in trees that carry the
+        # shared next-app sources (Tidal's); assert when present, skip silently
+        # elsewhere. The canonical token file below exists in BOTH trees, so the
+        # 12-agent shade-coverage assertions run unconditionally.
+        comp_path = os.path.join(repo, "website", "next-app", "src", "components", "ObservabilityCharts.tsx")
+        build_path = os.path.join(repo, "website", "build_next.sh")
+        if os.path.exists(comp_path):
+            with open(comp_path, "r") as f:
+                comp = f.read()
+            self.assertIn('@/data/design-tokens.json', comp,
+                          "ObservabilityCharts must import the build-time-synced canonical token file")
+            self.assertIn("CANONICAL_AGENT_SHADES", comp)
+            self.assertIn("CANONICAL_AGENT_SHADES[a] ?? AGENT_PALETTE", comp,
+                          "canonical shade lookup must take precedence, positional palette only fallback")
+
+            with open(build_path, "r") as f:
+                build = f.read()
+            self.assertIn("cp -f ../.well-known/design-tokens.json src/data/design-tokens.json", build,
+                          "build_next.sh must sync the canonical tokens into the app before npm build")
+
+        with open(os.path.join(repo, "website", ".well-known", "design-tokens.json"), "r") as f:
+            import json
+            tokens = json.load(f)
+        agent_shades = tokens.get("chart", {}).get("agent", {})
+        for agent in ("Beacon", "Highbeam", "Mountain", "Lightning", "Creek",
+                      "Stream", "Canyon", "River", "Tidal", "Ridge", "Harbor", "Lantern"):
+            self.assertIn(agent, agent_shades,
+                          f"canonical chart.agent shades must cover current-roster agent {agent}")
+
 
 class TestDynamicLogs(unittest.TestCase):
     """Tests the real-time dynamic logs pipeline in website/build_site.py."""
