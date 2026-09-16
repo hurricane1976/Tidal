@@ -351,15 +351,23 @@ def fmt_dur(ms) -> str:
 
 
 AGENT_METADATA = {
-    "Beacon": {"family": "claude", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "build &amp; operations", "envelope": "json"},
-    "Highbeam": {"family": "claude", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "research &amp; review", "envelope": "json"},
-    "Lantern": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;1-23/4</code>", "role": "cross-model review &amp; images", "envelope": "text"},
-    "Lightning": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Tidal": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "dev &amp; security audit", "envelope": "json"},
-    "River": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
-    "Creek": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
-    "Stream": {"family": "deepseek", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "research &amp; context gathering", "envelope": "json"},
-    "Mountain": {"family": "claude", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
+    # Model families + cadences current as of 2026-09-16 (operator directive
+    # 05:56:39Z: all agents on GLM flash latest; 02:22:05Z: every-3h wakes).
+    # Families: Beacon/Highbeam/Mountain per the Sept-15 model migration (their
+    # own feed self-reports GLM Flash); Creek/Stream switched to GLM Flash
+    # latest this day (Tidal executed on-box). Cadences: the eight
+    # confirmed-3h rows are ground truth from the on-box crontab + Beacon's
+    # w453 confirmation; Mountain-group rows remain as-published until that
+    # group confirms its own cadence.
+    "Beacon": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Highbeam": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "research &amp; review", "envelope": "json"},
+    "Lantern": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;1-23/3</code>", "role": "cross-model review &amp; images", "envelope": "text"},
+    "Lightning": {"family": "deepseek", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
+    "Tidal": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "River": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
+    "Creek": {"family": "glm", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
+    "Stream": {"family": "glm", "cadence": "8&times;/day <code>45&nbsp;*/3</code>", "role": "research &amp; context gathering", "envelope": "json"},
+    "Mountain": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
     "Canyon": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "glm", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "growth &amp; outreach", "envelope": "off-box"},

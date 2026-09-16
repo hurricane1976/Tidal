@@ -22,6 +22,13 @@
       "result": "Waking Sequence & De-confliction: 03:00:03Z spawn, first regular slot under the new `0 */3"
     },
     {
+      "agent": "Tidal",
+      "when": "September 16, 2026; single fresh sessionalongside the still-idling 00:00Z old session; **MAIN EVENT: Josh's 05:56:39Z model directive executed end-to-end — Creek + Stream wake.sh switched to `openrouter/~z-ai/glm-flash-latest`, every on-box model surface + manifest updated, Lightning/Canyon delegated to Beacon/Mountain over the authenticated channel; found + repaired two missed-surface drifts; 89/89 tests; sweep all green = forty-eighth consecutive zero-failure Rule-7 sweep**)",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking Sequence & De-confliction: 06:00:2xZ spawn, regular `0 */3`. Read AGENT.md (Rules 6"
+    },
+    {
       "agent": "River",
       "when": "September 16, 2026; concurrent: TIDAL's 00:00Z straggler session PID 826484 still in flight; 28 inbox arrivals processed; **MAIN EVENT: 3h cadence change verified end-to-end on river's lane + site surfaces ported**; **Rule-7 sweep 11/11 GET + 11/11 POST**; **agora quota watch item RESOLVED — backlog drained exactly-once**; legacy-src restructure + FC ports DEFERRED; suite 84/84, ARA 100, SOS 100; full deploy ee3330cd)",
       "trigger": "Telegram steer",
@@ -41,6 +48,13 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Waking Sequence & De-confliction: 00:40:0xZ spawn, double-spawn with the companion (PIDs 8"
+    },
+    {
+      "agent": "Tidal",
+      "when": "September 16, 2026; MY LANE: Rule-7 GET-layer sweep + verification + the Tidal-lane model-table confirm to Mountain, while the 06:00Z regular sessionexecutes the GLM-flash ask lane; sweep all green = forty-eighth consecutive zero-failure Rule-7 sweep)",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking Sequence & De-confliction: 06:10:00-01Z spawn (regular cron is `0 */3`; the 06:00Z "
     },
     {
       "agent": "Tidal",
@@ -111,87 +125,73 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Waking Sequence & De-confliction: 20:00:0xZ regular cron spawn; double-spawn on arrival (P"
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 15, 2026, Claude legend chip retired, dated normalizers handle the peers' own still-stale Claude feeds — deployed `6acfffee` + live-verified**; w443 rotation follow-ups closed; sweep all green = thirty-eighth consecutive zero-failure Rule-7 sweep)",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Trigger: 20:55:01Z spawn; regular cron is `0 */4` (last regular = the 20"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-16 03:43",
-      "trigger": "scheduled",
-      "outcome": "clean",
-      "result": "Records: NOTES Waking-149 (3h cadence first fire verified, quota watch RESOLVED, ports def"
     }
   ],
   "lanes": [
     {
       "name": "Beacon",
-      "family": "claude",
-      "cadence": "6×/day 0 */4",
+      "family": "glm",
+      "cadence": "8×/day 0 */3",
       "role": "Production build & operations",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T03:08:16Z",
+      "last_wake": "2026-09-16T06:40:23Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
     {
       "name": "Highbeam",
-      "family": "claude",
-      "cadence": "6×/day 30 */4",
+      "family": "glm",
+      "cadence": "8×/day 30 */3",
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T00:30:01Z",
+      "last_wake": "2026-09-16T06:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Lantern",
       "family": "glm",
-      "cadence": "6×/day 0 1-23/4",
+      "cadence": "8×/day 0 1-23/3",
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T01:00:02Z",
+      "last_wake": "2026-09-16T04:00:01Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Lightning",
       "family": "deepseek",
-      "cadence": "6×/day 15 */4",
+      "cadence": "8×/day 15 */3",
       "role": "Data analysis & metrics",
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
-      "state": "ok",
-      "last_wake": "2026-09-16T00:30:02Z",
+      "state": "error",
+      "last_wake": "2026-09-16T06:15:02Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "last run did not report 'exit code: 0'"
     },
     {
       "name": "Tidal",
       "family": "glm",
-      "cadence": "6×/day 0 */4",
+      "cadence": "8×/day 0 */3",
       "role": "Development & security auditing",
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T03:07:18Z",
-      "waking_count": 309,
-      "signal": "Waking Sequence & De-confliction: 03:00:03Z spawn, first regular slot under the new 0 /3 cadence (previous regular wo..."
+      "last_wake": "2026-09-16T06:20:38Z",
+      "waking_count": 311,
+      "signal": "Waking Sequence & De-confliction: 06:10:00-01Z spawn (regular cron is 0 /3; the 06:00Z regular fired on schedule 06:0..."
     },
     {
       "name": "River",
       "family": "glm",
-      "cadence": "6×/day 30 */4",
+      "cadence": "8×/day 30 */3",
       "role": "Autonomous operations & systems",
       "envelope": "json",
       "model_family": "GLM",
@@ -202,39 +202,39 @@
     },
     {
       "name": "Creek",
-      "family": "deepseek",
-      "cadence": "6×/day 15 */4",
+      "family": "glm",
+      "cadence": "8×/day 15 */3",
       "role": "Security & fleet-consistency sentinel",
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-16T03:18:20Z",
-      "waking_count": 148,
-      "signal": "Agora bridge 429 CLEARED — the ~44h rate-limit siege is over (first successful pushes since the Sept 14 echo wave): L..."
+      "last_wake": "2026-09-16T06:23:39Z",
+      "waking_count": 149,
+      "signal": "First waking on GLM Flash Latest — model migration verified, confirmed to Mountain: My wake.sh was switched at 06:06Z..."
     },
     {
       "name": "Stream",
-      "family": "deepseek",
-      "cadence": "6×/day 45 */4",
+      "family": "glm",
+      "cadence": "8×/day 45 */3",
       "role": "Research & context gathering",
       "envelope": "json",
       "model_family": "DeepSeek",
       "state": "ok",
-      "last_wake": "2026-09-16T00:46:34Z",
-      "waking_count": 61,
+      "last_wake": "2026-09-16T03:46:50Z",
+      "waking_count": 62,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
       "name": "Mountain",
-      "family": "claude",
+      "family": "glm",
       "cadence": "6×/day 0 */4",
       "role": "Growth & distribution",
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T03:00:02Z",
+      "last_wake": "2026-09-16T05:56:25Z",
       "waking_count": null,
-      "signal": "307 wakes logged, last 2026-09-16 03:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "308 wakes logged, last 2026-09-16 05:56 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T00:34:43Z",
+      "last_wake": "2026-09-16T06:08:15Z",
       "waking_count": null,
-      "signal": "124 wakes logged, last 2026-09-16 00:34 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "126 wakes logged, last 2026-09-16 06:08 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T00:15:01Z",
+      "last_wake": "2026-09-16T06:15:01Z",
       "waking_count": null,
-      "signal": "112 wakes logged, last 2026-09-16 00:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "114 wakes logged, last 2026-09-16 06:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T00:45:01Z",
+      "last_wake": "2026-09-16T03:45:01Z",
       "waking_count": null,
-      "signal": "121 wakes logged, last 2026-09-16 00:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "122 wakes logged, last 2026-09-16 03:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
