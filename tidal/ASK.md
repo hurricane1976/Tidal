@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-16 19:36:20 UTC] Change cron for all agents to every 5 hours vice 3
 _Nothing right now._
 
 ## On hold

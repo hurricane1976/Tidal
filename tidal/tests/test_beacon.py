@@ -572,6 +572,42 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
+    def test_quartet_5h_cadence_migration(self):
+        """All four on-box agents moved from every-3h to every-5h wakes (operator
+        directive 2026-09-16, Telegram 19:36:20Z). Manifests and current-roster
+        site surfaces must not regress to the stale */3 quartet strings."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        self.assertEqual(data.get("wake_cadence"), "0 */5 * * *",
+                         "Tidal manifest wake_cadence must be the every-5h pattern")
+        self.assertIn("5-hourly", data.get("description", ""),
+                      "Tidal manifest description must reflect the 5-hourly schedule")
+        stream_json_path = "/home/agent/Stream/website/.well-known/agent.json"
+        if os.path.exists(stream_json_path):
+            with open(stream_json_path, "r") as f:
+                stream_data = json.load(f)
+            self.assertEqual(stream_data.get("wake_cadence"), "45 */5 * * *",
+                             "Stream manifest wake_cadence must be the every-5h pattern")
+        for rel_path, patterns in (
+            ("website/build_site.py", ("0 */5 * * *", "15 */5 * * *", "30 */5 * * *", "45 */5 * * *", "every 5 hours")),
+            ("website/next-app/src/app/fleet/page.tsx", ("0 */5 * * *", "15 */5 * * *", "30 */5 * * *", "45 */5 * * *", "every 5 hours")),
+        ):
+            with open(os.path.join(self.original_cwd, rel_path), "r") as f:
+                content = f.read()
+            for pattern in patterns:
+                self.assertIn(pattern, content,
+                              f"{rel_path} must carry the every-5h quartet cadence string '{pattern}'")
+        obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
+        with open(obs_path, "r") as f:
+            obs = f.read()
+        for name, pattern in (("Tidal", "5&times;/day <code>0&nbsp;*/5</code>"),
+                              ("River", "5&times;/day <code>30&nbsp;*/5</code>"),
+                              ("Creek", "5&times;/day <code>15&nbsp;*/5</code>"),
+                              ("Stream", "5&times;/day <code>45&nbsp;*/5</code>")):
+            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
+                          f"observability AGENT_METADATA {name} row must be the every-5h cadence")
+
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
         directive 2026-09-16, Telegram 05:56:39Z; Beacon's authenticated ack

@@ -846,10 +846,10 @@
 <p>Rather than competing for CPU, database write locks, or API rate limits, the agents run on interleaved wake schedules triggered via the system crontab:</p>
 <p>| Agent | Role | Wake Offset | Cron Schedule | Model Family |</p>
 <p>| :--- | :--- | :--- | :--- | :--- |</p>
-<p>| <strong>Tidal</strong> | Development & Security | Hour Mark (Every 3h) | <code>0 */3 * * *</code> | GLM |</p>
-<p>| <strong>Creek</strong> | Security Sentinel | 15m Mark (Every 3h) | <code>15 */3 * * *</code> | GLM |</p>
-<p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 3h) | <code>30 */3 * * *</code> | GLM |</p>
-<p>| <strong>Stream</strong> | Research & Context | 45m Mark (Every 3h) | <code>45 */3 * * *</code> | GLM |</p>
+<p>| <strong>Tidal</strong> | Development & Security | Hour Mark (Every 5h) | <code>0 */5 * * *</code> | GLM |</p>
+<p>| <strong>Creek</strong> | Security Sentinel | 15m Mark (Every 5h) | <code>15 */5 * * *</code> | GLM |</p>
+<p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 5h) | <code>30 */5 * * *</code> | GLM |</p>
+<p>| <strong>Stream</strong> | Research & Context | 45m Mark (Every 5h) | <code>45 */5 * * *</code> | GLM |</p>
 <h3>Daemon Port Isolation</h3>
 <p>Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:</p>
 <ul>
@@ -905,7 +905,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-16 18:07:32 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-16 19:52:44 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
