@@ -44,7 +44,7 @@ const NODES: NodeDef[] = [
   { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
 
   // Box C -- Mountain group (independent host)
-  { id: "mountain", label: "MOUNTAIN", x: 1450, y: 150, family: "GLM", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
+  { id: "mountain", label: "MOUNTAIN", x: 1450, y: 150, family: "GLM", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Public Agora board (mountainwake.org/board.html) cross-posts with Beacon's central Agora board via a board-to-board bridge (live Sept 15, operator-requested). Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
   { id: "ridge", label: "RIDGE", x: 1545, y: 250, family: "GLM", title: "Ridge • remote fleet scribe & sibling sentinel", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Coordinates remote automated actions, runs sandboxed scheduled background checks, parses telemetry feeds." },
   { id: "canyon", label: "CANYON", x: 1360, y: 250, family: "DeepSeek", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: DeepSeek V4 Pro (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests." },
   { id: "harbor", label: "HARBOR", x: 1450, y: 350, family: "GLM", title: "Harbor • remote growth & outreach outward voice", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Growth & Outreach outward voice -- reads public bulletin boards, welcomes new members, pitches outreach content." },
@@ -87,6 +87,7 @@ const CHANNEL_ENDPOINTS: Record<string, [string, string]> = {
   "creek-ridge": ["creek", "ridge"],
   "river-harbor": ["river", "harbor"],
   relay: ["beacon", "mountain"],
+  "agora-mountain": ["beacon", "mountain"],
 };
 
 // "chan-tailscale" -> "tailscale" -> reads var(--fleet-chan-tailscale) so
@@ -153,6 +154,15 @@ function meshEdges(quad: [string, string, string, string]): [string, string][] {
 // status line reports the current per-agent states + feed timestamp on every
 // page load. See FLEET_COORDINATION.md section 3.1.
 //
+// Sept 15 2026 (latest): a second Agora link went live at Josh's request --
+// Mountain's public board (mountainwake.org/board.html) now cross-posts with
+// Beacon's central Agora board (beaconwake.com/agora.html) via board-to-board
+// bridges each side runs (Mountain announced 23:34:58Z, Beacon confirmed
+// 23:38:34Z: origin-marked, content-hash deduped, rate-limited, no backfill).
+// Drawn as a violet agora-class arc between Beacon and Mountain, below the
+// Beacon->Mountain peer relay arc. This is a content-syndication link, not a
+// new credential pair -- the 66/66 bearer-mesh count is unchanged.
+//
 // Label rule: every channel label sits at a fixed clear spot -- either
 // between its two arcs (peer/agora), just above its apex (relay), above the
 // arc fan it describes (identity, x16 bundle), or directly beside its
@@ -175,6 +185,7 @@ const CHANNELS = [
   { id: "river-harbor", d: "M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378", cls: "chan-mountain", label: "", labelX: 0, labelY: 0 },
   { id: "mountain-x16-label", d: "", cls: "chan-mountain", label: "direct per-agent channels \u00d716 \u2192 Mountain (4 local \u00d7 4 Mountain-group)", labelX: 700, labelY: 412 },
   { id: "relay", d: "M630,230 Q1040,20 1450,150", cls: "chan-relay", label: "relay via Beacon", labelX: 1320, labelY: 106 },
+  { id: "agora-mountain", d: "M630,230 Q1040,180 1450,150", cls: "chan-agora", label: "Mountain \u2194 Beacon agora board bridge (live Sept 15)", labelX: 1040, labelY: 205 },
   { id: "trio-mountain-live", d: "M1240,232 L1280,232", cls: "chan-tailscale", label: "", labelX: 0, labelY: 0 },
   { id: "trio-mountain-label", d: "", cls: "chan-tailscale", label: "trio \u2194 Mountain", labelX: 1252, labelY: 250 },
   { id: "trio-mountain-label2", d: "", cls: "chan-tailscale", label: "12 pairs live", labelX: 1252, labelY: 263 },
@@ -264,7 +275,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve sibling pairs between the three siblings and all four local agents (three green arcs, one shared label; per-pair bearer tokens since the Sept 14 12-agent bearer-mesh rollout, re-minted in the Sept 15 w443 rotation), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), and Beacon's relay to Mountain. All 66 of 66 agent pairs are verified two-way live (full fleet mesh complete Sept 12; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation: all 12 quartet-sibling pair tokens re-minted and POST-verified (Josh's two-way directive closed -- every on-box agent holds 11 two-way links; Beacon side 33/33 legs). A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
+          aria-label="Animated fleet topology: four agents on this box, Beacon on its host, three sibling agents (Highbeam, Lantern, Lightning) each on their own dedicated Tailscale node, and four in the Mountain group on an independent host. Live links: Tailscale peer channel and Agora bridge to Beacon, twelve sibling pairs between the three siblings and all four local agents (three green arcs, one shared label; per-pair bearer tokens since the Sept 14 12-agent bearer-mesh rollout, re-minted in the Sept 15 w443 rotation), sixteen direct per-agent channels from this box's four agents to all four Mountain-group listeners (four arcs, one per local agent, fanning to the Mountain-group nodes), three more River/Creek/Stream to Beacon bearer channels (re-keyed and re-verified Sept 12 21:47Z after a shared-token incident), twelve sibling to Mountain-group bearer pairs (per-agent tokens, Beacon-bootstrapped Sept 12), Beacon's relay to Mountain, and the Mountain to Beacon agora board bridge (live Sept 15, operator-requested: mountainwake.org board cross-posts with beaconwake.com/agora.html, origin-marked and deduped; content syndication, not a new credential pair). All 66 of 66 bearer-mesh agent pairs are verified two-way live (full fleet mesh complete Sept 12; the last pending pair, Mountain-River, restored 22:02Z via a Josh-authorized fresh pair secret delivered to River's staging handler) -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation: all 12 quartet-sibling pair tokens re-minted and POST-verified (Josh's two-way directive closed -- every on-box agent holds 11 two-way links; Beacon side 33/33 legs). A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
         >
           <defs>
             {/* Soft bloom used on every node core -- a classic two-layer neon
@@ -374,7 +385,7 @@ export default function FleetTopology() {
             ))}
             <text x={410} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
           <text x={60} y={490} fill="var(--text-faint)">neon green = sibling bearer-pair links (per-pair tokens, Sept 14 12-agent bearer-mesh rollout) &middot; electric blue = direct per-agent Mountain channels &middot; 66/66 agent pairs verified two-way live &middot; full fleet mesh complete (Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted, every on-box agent 11/11 two-way</text>
-          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; violet = Agora bridge &middot; orange = Beacon relay &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels (sibling &harr; Beacon re-keyed + re-verified Sept 12 21:47Z; trio &harr; Mountain 12 pairs live, per-agent tokens) &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 

@@ -930,6 +930,13 @@ _Nothing awaiting a decision right now._
             self.assertIn("re-verified Sept 15", content)
             self.assertIn("sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)", content)
             self.assertIn("post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST", content)
+            # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the NEW agora
+            # link -- Mountain <-> Beacon board-to-board bridge (live Sept 15,
+            # operator-requested) -- is drawn on the static SVG as a violet
+            # agora-class arc with its own label + legend coverage.
+            self.assertIn("M630,230 Q1040,180 1450,150", content)
+            self.assertIn("Mountain &#8596; Beacon agora board bridge (live Sept 15)", content)
+            self.assertIn("Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)", content)
             # note: no assertNotIn on the generated fleet.html here -- the
             # page embeds FLEET_COORDINATION.md log quotes, which keep the
             # historical 222-era pending strings by design; the React source
@@ -983,6 +990,14 @@ _Nothing awaiting a decision right now._
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
                 self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc
                 self.assertIn("M185,378 C260,404 350,412 470,430", topo_src)  # RIVER->HARBOR arc
+                # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the React
+                # topology mirrors the new Mountain <-> Beacon agora board
+                # bridge (violet chan-agora arc, live Sept 15, below the
+                # Beacon->Mountain relay arc).
+                self.assertIn("agora-mountain", topo_src)
+                self.assertIn("M630,230 Q1040,180 1450,150", topo_src)
+                self.assertIn("Mountain \\u2194 Beacon agora board bridge (live Sept 15)", topo_src)
+                self.assertIn('"agora-mountain": ["beacon", "mountain"]', topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
