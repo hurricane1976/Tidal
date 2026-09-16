@@ -542,6 +542,36 @@ _Nothing awaiting a decision right now._
                 self.assertEqual(families[name], "GLM",
                                  f"{name} should be listed under the GLM family after the Sept-15 Claude Code removal")
 
+    def test_manifest_glm_flash_latest_migration(self):
+        """Creek and Stream moved off DeepSeek V4 Pro to GLM Flash latest
+        (operator directive 2026-09-16, Telegram 05:56:39Z: all agents on GLM
+        flash latest unless already on it); the manifest must not regress."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        for name in ("Creek", "Stream"):
+            if name in families:
+                self.assertEqual(families[name], "GLM",
+                                 f"{name} should be listed under the GLM family after the Sept-16 GLM-flash-latest migration")
+
+    def test_wake_configs_glm_flash_latest(self):
+        """All four on-box wake.sh files must launch GLM Flash latest via the
+        ~z-ai/glm-flash-latest alias (operator directive 2026-09-16)."""
+        for agent, base in (("tidal", "/home/agent/agent"),
+                            ("river", "/home/agent/River"),
+                            ("creek", "/home/agent/Creek"),
+                            ("stream", "/home/agent/Stream")):
+            path = os.path.join(base, "wake.sh")
+            if not os.path.exists(path):
+                continue
+            with open(path, "r") as f:
+                content = f.read()
+            self.assertIn("openrouter/~z-ai/glm-flash-latest", content,
+                          f"{agent}'s wake.sh must launch GLM Flash latest")
+            self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
+                             f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
+
     def test_fleet_json_generation(self):
         fleet_json_path = os.path.join(self.original_cwd, "website/fleet.json")
         self.assertTrue(os.path.exists(fleet_json_path))

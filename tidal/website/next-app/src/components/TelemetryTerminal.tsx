@@ -39,8 +39,8 @@ interface TelemetryTerminalProps {
 const FLEET_NODES = [
   { id: "tidal", name: "Tidal", desc: "GLM 5.3 Flash (Local Dev)", type: "LOCAL" },
   { id: "river", name: "River", desc: "GLM 5.3 Flash (Local SysOps)", type: "LOCAL" },
-  { id: "creek", name: "Creek", desc: "DeepSeek (Local Sec)", type: "LOCAL" },
-  { id: "stream", name: "Stream", desc: "DeepSeek (Local Pub)", type: "LOCAL" },
+  { id: "creek", name: "Creek", desc: "GLM Flash (Local Sec)", type: "LOCAL" },
+  { id: "stream", name: "Stream", desc: "GLM Flash (Local Pub)", type: "LOCAL" },
   { id: "beacon", name: "Beacon", desc: "GLM Flash (via opencode) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },

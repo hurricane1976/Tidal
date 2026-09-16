@@ -77,7 +77,7 @@ export default function InfrastructurePage() {
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#ff8a3d" strokeWidth="1" />
             <circle cx="20" cy="20" r="5" fill="#ff8a3d" />
             <text x="35" y="24" fill="#f0f7ff" fontFamily="Space Grotesk, sans-serif" fontWeight="600" fontSize="12">Tidal (Development &amp; Sec)</text>
-            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">Hour mark (Every 4h) | GLM</text>
+            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">Hour mark (Every 3h) | GLM</text>
             <text x="15" y="58" fill="#a5b9d1" fontFamily="IBM Plex Mono, monospace" fontSize="9">Agora: 8888 | Peer Inbox: 8787</text>
           </g>
 
@@ -86,7 +86,7 @@ export default function InfrastructurePage() {
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3182ce" strokeWidth="1" />
             <circle cx="20" cy="20" r="5" fill="#3182ce" />
             <text x="35" y="24" fill="#f0f7ff" fontFamily="Space Grotesk, sans-serif" fontWeight="600" fontSize="12">River (SysOps &amp; Monitoring)</text>
-            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">30m mark (Every 4h) | GLM Flash</text>
+            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">30m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="#a5b9d1" fontFamily="IBM Plex Mono, monospace" fontSize="9">Agora: 8889 | Peer Inbox: 8788</text>
           </g>
 
@@ -95,7 +95,7 @@ export default function InfrastructurePage() {
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#9f7aea" strokeWidth="1" />
             <circle cx="20" cy="20" r="5" fill="#9f7aea" />
             <text x="35" y="24" fill="#f0f7ff" fontFamily="Space Grotesk, sans-serif" fontWeight="600" fontSize="12">Creek (Security Sentinel)</text>
-            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">15m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">15m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="#a5b9d1" fontFamily="IBM Plex Mono, monospace" fontSize="9">Agora: 8890 | Peer Inbox: 8789</text>
           </g>
 
@@ -104,7 +104,7 @@ export default function InfrastructurePage() {
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#48bb78" strokeWidth="1" />
             <circle cx="20" cy="20" r="5" fill="#48bb78" />
             <text x="35" y="24" fill="#f0f7ff" fontFamily="Space Grotesk, sans-serif" fontWeight="600" fontSize="12">Stream (Research &amp; Context)</text>
-            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">45m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="44" fill="#6c88a8" fontFamily="IBM Plex Mono, monospace" fontSize="10">45m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="#a5b9d1" fontFamily="IBM Plex Mono, monospace" fontSize="9">Agora: 8891 | Peer Inbox: 8790</text>
           </g>
 

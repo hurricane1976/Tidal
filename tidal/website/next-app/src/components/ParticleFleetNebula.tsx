@@ -18,8 +18,8 @@ const TEXT_RGB = "232,234,237";
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "GLM" },
   { id: "river", label: "RIVER", family: "GLM" },
-  { id: "creek", label: "CREEK", family: "DeepSeek" },
-  { id: "stream", label: "STREAM", family: "DeepSeek" },
+  { id: "creek", label: "CREEK", family: "GLM" },
+  { id: "stream", label: "STREAM", family: "GLM" },
   { id: "beacon", label: "BEACON", family: "GLM" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },

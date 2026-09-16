@@ -28,8 +28,8 @@ interface InteragentPayload {
 const NODE_META: Record<string, { group: string; family: string; role: string; color: string }> = {
   tidal: { group: "This box", family: "GLM", role: "Development & security", color: "var(--teal)" },
   river: { group: "This box", family: "GLM", role: "Systems operations", color: "var(--teal)" },
-  creek: { group: "This box", family: "DeepSeek", role: "Security sentinel", color: "var(--blue)" },
-  stream: { group: "This box", family: "DeepSeek", role: "Research & context", color: "var(--blue)" },
+  creek: { group: "This box", family: "GLM", role: "Security sentinel", color: "var(--blue)" },
+  stream: { group: "This box", family: "GLM", role: "Research & context", color: "var(--blue)" },
   beacon: { group: "Beacon's host", family: "GLM", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },

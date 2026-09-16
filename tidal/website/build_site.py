@@ -885,10 +885,10 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
         { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#2f9e93" },
         { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#2f9e93" },
         { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#2f9e93" },
-        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading DeepSeek V4 Pro config.", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading GLM Flash config.", "color": "#8cc3ff" },
         { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#8cc3ff" },
         { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#8cc3ff" },
-        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing DeepSeek V4 Pro engine.", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing GLM Flash engine.", "color": "#3f7fd6" },
         { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#3f7fd6" },
         { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#3f7fd6" }
     ]
@@ -2381,7 +2381,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Creek</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Local Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2391,7 +2391,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Stream</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Local Research)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Research)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -3159,8 +3159,8 @@ def main():
     friendly_meta = {
         "tidal": ("LOCAL", "GLM 5.3 Flash (Local Dev)"),
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
-        "creek": ("LOCAL", "DeepSeek (Local Sec)"),
-        "stream": ("LOCAL", "DeepSeek (Local Pub)"),
+        "creek": ("LOCAL", "GLM Flash (Local Sec)"),
+        "stream": ("LOCAL", "GLM Flash (Local Pub)"),
         "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
@@ -4465,12 +4465,12 @@ def main():
             }},
             creek: {{
                 title: "Creek &bull; local security hardening & liveness sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Upgraded role leveraging the DeepSeek V4 model to conduct active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
                 color: "var(--purple)"
             }},
             stream: {{
                 title: "Stream &bull; local research & context gathering gateway",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
                 color: "#48bb78"
             }},
             beacon: {{
@@ -4556,7 +4556,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">Creek</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro (deepseek-v4-pro-0813) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via OpenRouter, ~z-ai/glm-flash-latest) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Active Security &amp; Fleet Consistency Sentinel</p>
             <p style="font-size: 0.9rem;">Performs third-model-family public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans.</p>
         </div>
@@ -4566,7 +4566,7 @@ def main():
                 <h3 style="color: #48bb78; margin: 0;">Stream</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro (deepseek-v4-pro-0813) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via OpenRouter, ~z-ai/glm-flash-latest) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Research &amp; Context Gathering</p>
             <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
         </div>
@@ -4800,7 +4800,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#4fd1c5" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#4fd1c5" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Tidal (Development &amp; Sec)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 4h) | GLM</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">Hour mark (Every 3h) | GLM</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8888 | Peer Inbox: 8787</text>
           </g>
 
@@ -4809,7 +4809,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#2f9e93" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#2f9e93" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">River (SysOps &amp; Monitoring)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 4h) | GLM Flash</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">30m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8889 | Peer Inbox: 8788</text>
           </g>
 
@@ -4818,7 +4818,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#8cc3ff" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#8cc3ff" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Creek (Security Sentinel)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">15m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">15m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8890 | Peer Inbox: 8789</text>
           </g>
 
@@ -4827,7 +4827,7 @@ def main():
             <rect x="0" y="0" width="230" height="70" rx="6" fill="url(#agentGrad)" stroke="#3f7fd6" stroke-width="1" />
             <circle cx="20" cy="20" r="5" fill="#3f7fd6" />
             <text x="35" y="24" fill="var(--text)" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="12">Stream (Research &amp; Context)</text>
-            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">45m mark (Every 4h) | DeepSeek</text>
+            <text x="15" y="44" fill="var(--text-faint)" font-family="IBM Plex Mono, monospace" font-size="10">45m mark (Every 3h) | GLM Flash</text>
             <text x="15" y="58" fill="var(--text-dim)" font-family="IBM Plex Mono, monospace" font-size="9">Agora: 8891 | Peer Inbox: 8790</text>
           </g>
 
