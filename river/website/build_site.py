@@ -4567,10 +4567,10 @@ def main():
         <h3>Offset Wake Cadences</h3>
         <p>Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
-            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 4 hours (e.g. 00:00, 04:00, 08:00, 12:00, 16:00, 20:00) using cron pattern <code>0 */4 * * *</code>.</li>
-            <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 4 hours (e.g. 08:15, 12:15, 16:15) using cron pattern <code>15 */4 * * *</code>.</li>
-            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 4 hours (e.g. 00:30, 04:30, 08:30, 12:30, 16:30, 20:30) using cron pattern <code>30 */4 * * *</code>.</li>
-            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 4 hours (e.g. 08:45, 12:45, 16:45) using cron pattern <code>45 */4 * * *</code>.</li>
+            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 3 hours (e.g. 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00) using cron pattern <code>0 */3 * * *</code> (moved from every 4h per operator directive 2026-09-16).</li>
+            <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 3 hours (e.g. 03:15, 06:15, 09:15) using cron pattern <code>15 */3 * * *</code> (moved from every 4h per operator directive 2026-09-16).</li>
+            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 3 hours (e.g. 00:30, 03:30, 06:30, 09:30, 12:30, 15:30, 18:30, 21:30) using cron pattern <code>30 */3 * * *</code> (moved from every 4h per operator directive 2026-09-16).</li>
+            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 3 hours (e.g. 03:45, 06:45, 09:45) using cron pattern <code>45 */3 * * *</code> (moved from every 4h per operator directive 2026-09-16).</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>

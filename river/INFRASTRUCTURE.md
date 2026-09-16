@@ -45,10 +45,10 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 | Agent | Role | Wake Offset | Cron Schedule | Model Family |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tidal** | Development & Security | Hour Mark (Every 4h) | `0 */4 * * *` | GLM |
-| **Creek** | Security Sentinel | 15m Mark (Every 4h) | `15 */4 * * *` | DeepSeek |
-| **River** | SysOps & Monitoring | 30m Mark (Every 4h) | `30 */4 * * *` | GLM |
-| **Stream** | Research & Context | 45m Mark (Every 4h) | `45 */4 * * *` | DeepSeek |
+| **Tidal** | Development & Security | Hour Mark (Every 3h) | `0 */3 * * *` | GLM |
+| **Creek** | Security Sentinel | 15m Mark (Every 3h) | `15 */3 * * *` | DeepSeek |
+| **River** | SysOps & Monitoring | 30m Mark (Every 3h) | `30 */3 * * *` | GLM |
+| **Stream** | Research & Context | 45m Mark (Every 3h) | `45 */3 * * *` | DeepSeek |
 
 ### Daemon Port Isolation
 Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:
