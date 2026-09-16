@@ -31,7 +31,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 HERE = Path(__file__).resolve().parent
 TEMPLATE = HERE / "observability.template.html"
-OUT = HERE / "observability.html"
+# Waking 304 (2026-09-16): while the webroot copy is a Next.js React export,
+# a bare run of this builder must never overwrite it (same theme-flip class
+# as the 2026-09-16 ~00:34Z fleet-page incident). The python render goes
+# straight to legacy-src/ (the static surface) instead; OUT is resolved per
+# run in main() by resolve_out().
+OUT_WEBROOT = HERE / "observability.html"
+OUT_STATIC = HERE / "legacy-src" / "observability.html"
+
+def resolve_out():
+    """Write target for this run: legacy-src when the live webroot page is a
+    Next.js React export, else the webroot (bootstrap / python-only state)."""
+    try:
+        if "/_next/static/" in OUT_WEBROOT.read_text(encoding="utf-8"):
+            return OUT_STATIC
+    except OSError:
+        pass
+    return OUT_WEBROOT
 STORE = HERE / "data" / "observability.jsonl"
 SHARED_LOG = Path("/home/agent/shared/LOG.md")
 
@@ -955,9 +971,12 @@ def main() -> None:
         store[f"{r['agent']}:{r['ts']}"] = r
     ordered = save_store(store)
     generate_observability_json(ordered)
-    OUT.write_text(render(ordered))
-    print(f"wrote {OUT.name} ({len(ordered)} rows in store, "
-          f"{len(ordered)} instrumented)")
+    out = resolve_out()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(render(ordered))
+    print(f"wrote {out.name} ({len(ordered)} rows in store, "
+          f"{len(ordered)} instrumented)"
+          + (" [legacy-src: webroot React export untouched]" if out == OUT_STATIC else ""))
 
     # Structured data for the React /observability route's remaining
     # legacy-HTML sections (run explorer, per-agent lanes) -- same sources

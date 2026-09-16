@@ -1055,6 +1055,59 @@ _Nothing awaiting a decision right now._
         self.assertNotIn("/_next/static/", legacy)
         self.assertNotIn("STALE PRE-EXISTING STATIC SURFACE", legacy)
 
+    def test_python_pages_write_straight_to_legacy_src(self):
+        """Waking 304 (2026-09-16): hardening of the Waking-300 protection.
+        While the live webroot copy of a page carries the Next.js export
+        signature, the python builder writes that page straight to
+        website/legacy-src/ and never touches the webroot at all -- no
+        snapshot/restore round-trip, so the ~build-duration window where a
+        raw python page sat live at the webroot (the residual flip window
+        flagged in Waking 300b) is gone entirely. Pages with no React export
+        at the webroot (bootstrap / python-only) still write the webroot and
+        are mirrored to legacy-src as before."""
+        from unittest.mock import patch
+        os.makedirs("website", exist_ok=True)
+        os.makedirs("website/legacy-src", exist_ok=True)
+        with open("MOUNTAIN_ONBOARDING.md", "w") as f:
+            f.write("# Mountain Onboarding & Integration Specifications")
+        react_marker = ('<!DOCTYPE html><!--test-build-id-->'
+                        '<link href="/_next/static/chunks/test.js"/>'
+                        '<title>Fleet | Tidal Agent</title>')
+        with open("website/fleet.html", "w") as f:
+            f.write(react_marker)
+        # mountain-onboarding.html has NO React export at the webroot: the
+        # bootstrap/python-only path must still refresh it at the webroot.
+        with open("website/mountain-onboarding.html", "w") as f:
+            f.write("STALE PYTHON-ONLY PAGE")
+        with open("website/legacy-src/fleet.html", "w") as f:
+            f.write("STALE PRE-EXISTING STATIC SURFACE")
+        with patch('website.build_site.parse_notes', side_effect=lambda notes_path="NOTES.md": []):
+            build_site.main()
+        # React-exported page: webroot byte-identical, fresh python build at
+        # the static surface, routing recorded for the run.
+        with open("website/fleet.html") as f:
+            self.assertEqual(f.read(), react_marker)
+        with open("website/legacy-src/fleet.html") as f:
+            legacy = f.read()
+        self.assertIn("Fleet Coordination", legacy)
+        self.assertNotIn("/_next/static/", legacy)
+        self.assertNotIn("STALE PRE-EXISTING STATIC SURFACE", legacy)
+        self.assertEqual(build_site.PAGE_OUT_DIRS.get("fleet.html"),
+                         "website/legacy-src")
+        # Python-only page: webroot refreshed + mirrored to legacy-src.
+        with open("website/mountain-onboarding.html") as f:
+            self.assertIn("Mountain Onboarding &amp; Integration Specifications",
+                          f.read())
+        with open("website/legacy-src/mountain-onboarding.html") as f:
+            self.assertIn("Mountain Onboarding &amp; Integration Specifications",
+                          f.read())
+        self.assertIsNone(build_site.PAGE_OUT_DIRS.get("mountain-onboarding.html"))
+        # finalize_pages must not mirror React-routed pages over their fresh
+        # python builds (the stale webroot export would clobber them).
+        build_site.finalize_pages({"fleet.html": react_marker})
+        with open("website/legacy-src/fleet.html") as f:
+            self.assertNotIn("/_next/static/", f.read())
+
     def test_react_export_protection_fresh_webroot(self):
         """Same protection on a fresh webroot with no React exports yet: the
         python pages must stay live at the webroot (bootstrap state) AND be
