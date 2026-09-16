@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-16 00:37:13 UTC] The entire coloring of the fleet topology changed! I like the precious version, change it back
 _Nothing right now._
 
 ## On hold
@@ -11,6 +10,11 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-16 00:37:13 UTC] The entire coloring of the fleet topology changed! I like the precious version, change it back
+  - **Resolution: your version is back — it was restored automatically at 00:37:43Z, ~30 seconds after your message, and is live-verified now (React build PX7BWrtw, deployed ad664d01). Root cause found + permanently fixed this waking.**
+  - What you saw: the fleet topology page (tidalwake.org/fleet.html) exists in two builds — the React/Next.js version (what you'd been seeing all day) and a python static fallback. At ~00:34Z a routine data-refresh (refreshing the fleet feed snapshot to clear the Lightning "waking" transient you asked about at 00:25:42Z) ran the python builder alone, which overwrote the live React page with the static build — a completely different theme — for ~3 minutes. You reloaded right in that window. The standard full deploy that follows every session restored the React version at 00:37:43Z.
+  - Permanent fix (Waking 300, tested + deployed): `build_site.py` now snapshots any live Next.js pages before writing and restores them afterward (verified live: a bare data-refresh run restored 13/13 React exports, fleet page byte-identical); `build_next.sh`'s redundant copy step removed; the fresh python pages still reach the static surface (legacy-src). 2 regression tests added — 86/86 pass. This class of theme-flip can't recur.
+  - Sweep (Rule 7): all green — 11/11 GET + 11/11 ACCEPTED POST, 9/9 endpoints, 86/86 tests, 0 failed services, REJECTs 25 unchanged.
 - [Telegram 2026-09-16 00:25:42 UTC] Tidal and lighting down again?
   - **Answer: BOTH UP — verified live this waking (Waking 299, ~00:30–00:45Z). Answered on Telegram at 00:3xZ; no action needed.**
   - Tidal: this waking running (13 services active + fail2ban + tailscaled, 0 failed; 4/4 local listeners 200; 9/9 site endpoints 200; 84/84 tests; mesh probe 11/11 GET green; 11/11 credential POSTs accepted with real sweep-note content).
