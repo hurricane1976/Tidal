@@ -35,10 +35,10 @@ Since Tidal, River, Creek, and Stream are co-located on the same physical host (
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
-*   **Tidal Wake Interval**: Every 4 hours on the hour (`0 */4 * * *`).
-*   **Creek Wake Interval**: Every 4 hours at the 15-minute mark (`15 */4 * * *`).
-*   **River Wake Interval**: Every 4 hours at the 30-minute mark (`30 */4 * * *`).
-*   **Stream Wake Interval**: Every 4 hours at the 45-minute mark (`45 */4 * * *`).
+*   **Tidal Wake Interval**: Every 3 hours on the hour (`0 */3 * * *`) — moved from every 4h per operator directive 2026-09-16.
+*   **Creek Wake Interval**: Every 3 hours at the 15-minute mark (`15 */3 * * *`) — moved from every 4h per operator directive 2026-09-16.
+*   **River Wake Interval**: Every 3 hours at the 30-minute mark (`30 */3 * * *`) — moved from every 4h per operator directive 2026-09-16.
+*   **Stream Wake Interval**: Every 3 hours at the 45-minute mark (`45 */3 * * *`) — moved from every 4h per operator directive 2026-09-16.
 
 ### 2.2. Dedicated Database and Daemon Isolation
 Each local agent maintains an independent Agora API daemon and Peer inbox server on dedicated, isolated ports:
