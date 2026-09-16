@@ -1974,9 +1974,104 @@ milestones = [
 ]
 
 # --- Static Site Generation -----------------------------------------------
+# --- React-export protection (added 2026-09-16, Waking 300; hardened 2026-09-16,
+# --- Waking 304: python pages now write straight to legacy-src/) ---
+# The Next.js layer (build_next.sh) overwrites these pages at the webroot on
+# every full deploy. A bare `python3 website/build_site.py` data-refresh used
+# to leave the raw python versions live at the webroot, silently swapping the
+# site theme until the next full deploy (the 2026-09-16 ~00:34Z incident: the
+# live fleet topology page flipped from the React version to the static build
+# and the operator noticed the changed coloring). Waking 300 restored React
+# exports after writing, which still left a ~build-duration window where the
+# raw python page was live at the webroot. Waking 304 kills the window
+# entirely: while the webroot copy of a page carries the Next.js export
+# signature, the python builder writes that page straight to
+# website/legacy-src/ (the static surface) and never touches the webroot at
+# all. Only bootstrap/python-only pages (no React export at the webroot) are
+# still written at the webroot and mirrored, as before.
+PYTHON_BUILT_PAGES = (
+    "agora.html", "fleet.html", "index.html", "infrastructure.html",
+    "log.html", "metrics.html", "mountain-onboarding.html",
+    "opportunities.html", "portfolio.html", "roadmap.html",
+    "secops.html", "status.html", "weekly.html",
+)
+
+# Per-page write destination, populated at the start of main(): pages whose
+# live webroot copy is a Next.js export get "website/legacy-src" (write the
+# python build straight to the static surface, never the webroot); everything
+# else defaults to "website" (bootstrap / python-only pages).
+PAGE_OUT_DIRS = {}
+
+def page_out_path(name):
+    """Where the python builder writes this page (Waking 304 hardening)."""
+    return os.path.join(PAGE_OUT_DIRS.get(name, "website"), name)
+
+def snapshot_react_exports():
+    """Detect Next.js-exported versions of the python-built pages at the webroot.
+
+    The returned dict is now used only as the per-page routing decision (write
+    straight to legacy-src instead of the webroot); the webroot is never
+    modified for these pages, so no snapshot/restore round-trip is needed."""
+    snapshots = {}
+    for name in PYTHON_BUILT_PAGES:
+        path = os.path.join("website", name)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+        except OSError:
+            continue
+        if "/_next/static/" in content:
+            snapshots[name] = content
+    return snapshots
+
+def finalize_pages(snapshots):
+    """Mirror bootstrap/python-only pages to legacy-src.
+
+    Pages routed to legacy-src by PAGE_OUT_DIRS were already written straight
+    to the static surface by the page writers and must NOT be mirrored here:
+    copying the webroot copy over them would clobber the fresh python build
+    with the stale React export."""
+    os.makedirs("website/legacy-src", exist_ok=True)
+    mirrored, direct = [], []
+    for name in PYTHON_BUILT_PAGES:
+        if PAGE_OUT_DIRS.get(name) == "website/legacy-src":
+            direct.append(name)
+            continue
+        src = os.path.join("website", name)
+        if not os.path.exists(src):
+            continue
+        try:
+            shutil.copy2(src, os.path.join("website", "legacy-src", name))
+            mirrored.append(name)
+        except OSError as e:
+            print(f"Warning: could not mirror {name} to legacy-src: {e}")
+    if direct and not mirrored:
+        print(f"React-export protection: {len(direct)}/{len(PYTHON_BUILT_PAGES)} "
+              "python pages written straight to legacy-src; webroot untouched")
+    elif direct:
+        print(f"React-export protection: {len(direct)} python pages written "
+              f"straight to legacy-src; {len(mirrored)} bootstrap/python-only "
+              "pages written at the webroot and mirrored")
+    else:
+        print("React-export protection: no Next.js exports at webroot; "
+              "python pages live at webroot + legacy-src")
+
 def main():
     os.makedirs("website/api", exist_ok=True)
     os.makedirs("website/stream/.well-known", exist_ok=True)
+
+    # Snapshot any Next.js-exported pages before the python writers touch them
+    react_snapshots = snapshot_react_exports()
+
+    # Waking 304: route every page whose live webroot copy is a React export
+    # straight to legacy-src -- the python builder must never write the webroot
+    # while the React export is the live surface (kills the residual flip
+    # window between a page write and finalize_pages()). Reset first: routing
+    # reflects THIS run's webroot state only (matters when main() runs more
+    # than once per process, e.g. the test suite).
+    PAGE_OUT_DIRS.clear()
+    for name in react_snapshots:
+        PAGE_OUT_DIRS[name] = "website/legacy-src"
 
     # Refresh the 12-agent fleet snapshot consumed by the landing-page hero
     write_fleet_all_snapshot()
@@ -2576,7 +2671,7 @@ def main():
         <a href="log.html" class="btn-ghost">View Activity Log &rarr;</a>
     </div>
     """
-    with open("website/index.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("index.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Dashboard", index_content, "home"))
         
     # 2. BUILD log.html (Activity Log)
@@ -2601,7 +2696,7 @@ def main():
         </div>
         """
     log_content += "</div>"
-    with open("website/log.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("log.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Activity Log", log_content, "log"))
         
     # 3. BUILD roadmap.html (Roadmap)
@@ -2650,7 +2745,7 @@ def main():
         {roadmap_list_html}
     </div>
     """
-    with open("website/roadmap.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("roadmap.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Roadmap", roadmap_content, "roadmap"))
         
     # 4. BUILD status.html (System Status)
@@ -2927,7 +3022,7 @@ def main():
     <h2>Watchdog Integration</h2>
     <p>The <code>watchdog.sh</code> script executes independently from LLM loops. It performs curl validation checks on <code>/status.html</code> and the <code>/api/</code> endpoint. Any deviation from 200 OK immediately alerts the operator via Telegram.</p>
     """
-    with open("website/status.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("status.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("System Status", status_content, "status"))
         
     # 4.1. BUILD secops.html (SecOps Telemetry)
@@ -3468,7 +3563,7 @@ def main():
     }})();
     </script>
     """
-    with open("website/secops.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("secops.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("SecOps Telemetry", secops_content, "secops"))
         
     # 4.2. BUILD metrics.html (Telemetry & Charts)
@@ -3743,7 +3838,7 @@ def main():
         </div>
     </div>
     """
-    with open("website/metrics.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("metrics.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Telemetry Metrics", metrics_content, "metrics"))
         
     # 4.5. BUILD portfolio.html (Services & Portfolio)
@@ -3879,7 +3974,7 @@ def main():
         
     </div>
     """
-    with open("website/portfolio.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("portfolio.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Portfolio", portfolio_content, "portfolio"))
         
     # 5. BUILD weekly.html (Weekly Digest)
@@ -3925,7 +4020,7 @@ def main():
     
     {weekly_html_body}
     """
-    with open("website/weekly.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("weekly.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Weekly Digest", weekly_content, "weekly"))
         
     # 5.5. BUILD agora.html (Agora Board)
@@ -4118,7 +4213,7 @@ def main():
         setInterval(fetchPosts, 30000);
     </script>
     """
-    with open("website/agora.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("agora.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Agora Board", agora_content, "agora"))
 
     # 5.7. BUILD fleet.html (Fleet Coordination)
@@ -4617,7 +4712,7 @@ def main():
 {fleet_coordination_text}</pre>
     </div>
     """
-    with open("website/fleet.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("fleet.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Fleet Coordination", fleet_content, "fleet"))
 
     # 5.7.5. BUILD mountain-onboarding.html (Mountain Onboarding Portal)
@@ -4647,7 +4742,7 @@ def main():
         </div>
     </div>
     """
-    with open("website/mountain-onboarding.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("mountain-onboarding.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Mountain Onboarding", onboarding_content, "fleet"))
 
     # 5.7.8. BUILD infrastructure.html (Production Systems & Mesh Network Portal)
@@ -4808,7 +4903,7 @@ def main():
         </div>
     </div>
     """
-    with open("website/infrastructure.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("infrastructure.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Systems & Security Infrastructure", infrastructure_content, "infrastructure"))
 
     # 5.8. BUILD opportunities.html (Business Opportunities & ROI Calculator)
@@ -5141,7 +5236,7 @@ def main():
         calculateROI();
     </script>
     """
-    with open("website/opportunities.html", "w", encoding="utf-8") as f:
+    with open(page_out_path("opportunities.html"), "w", encoding="utf-8") as f:
         f.write(get_layout("Strategic Opportunities", opportunities_content, "opportunities"))
 
     # 6. BUILD feed.atom
@@ -5367,6 +5462,9 @@ def main():
         print("Wrote website/data/site_status.json")
     except Exception as e:
         print(f"ERROR: Failed to write website/data/site_status.json: {e}")
+
+    # Mirror python pages to legacy-src + restore React exports at the webroot
+    finalize_pages(react_snapshots)
 
     print("Static website successfully built inside website/ folder!")
 
