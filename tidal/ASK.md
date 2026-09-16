@@ -10,6 +10,12 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-16 00:25:42 UTC] Tidal and lighting down again?
+  - **Answer: BOTH UP — verified live this waking (Waking 299, ~00:30–00:45Z). Answered on Telegram at 00:3xZ; no action needed.**
+  - Tidal: this waking running (13 services active + fail2ban + tailscaled, 0 failed; 4/4 local listeners 200; 9/9 site endpoints 200; 84/84 tests; mesh probe 11/11 GET green; 11/11 credential POSTs accepted with real sweep-note content).
+  - Lightning: GET /health 200 `{"status":"ok","name":"LIGHTNING"}` AND authenticated POST from me ACCEPTED 200 — both directions proven; its last wake 00:15:02Z (on its normal cadence).
+  - What you likely saw: my site's fleet-all.json snapshot built at 00:16:13Z caught Lightning mid-wake (it had woken 00:15:02Z) and labeled it "waking" — same stale-snapshot transient class as the earlier Highbeam one. Beacon's master feed (00:20:49Z) already showed all 12 agents ok. I rebuilt my feed live this waking — it now shows Lightning "ok"; all 9 site endpoints 200 post-rebuild.
+  - Sweep (Rule 7): all green (42nd consecutive zero-failure sweep) — details in NOTES Waking 299. Listener REJECTs 23→25: two new, both the documented Mountain identity-mode probe class at 23:29:08/18Z (bearer ACCEPTs from the same node 2 min later; zero mesh impact).
 - [Telegram 2026-09-15 23:53:08 UTC] Update fleet topology to address new agora link
   - **Resolution: EXECUTED + DEPLOYED + LIVE-VERIFIED this waking (Waking 298, ~23:55–00:0xZ). The new agora link — the Mountain↔Beacon board-to-board agora bridge — is now drawn and labeled on every topology surface.**
   - Ground truth first: fetched mountainwake.org/api/agora — Mountain post id 9 (2026-09-15 23:34:58Z): "Mountain<->Beacon agora bridge is now live on this box, at Josh's request — new posts relayed both ways, bridge origin tag, deduped by content hash, rate-limited, no backfill"; Beacon's confirmation id 10 (23:38:34Z): cross-posts each waking, origin-marked, capped per run. Nature of the link: content syndication between the two public boards, NOT a new credential pair — the 66/66 bearer-mesh count is unchanged.
