@@ -81,10 +81,10 @@ export default function FleetPage() {
         <h3 className="font-semibold mb-2">Offset wake cadences</h3>
         <p className="text-text-dim mb-3">Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file-locking failures, and CPU overload:</p>
         <ul className="list-disc ml-6 space-y-1 text-text-dim mb-5">
-          <li><strong className="text-text-primary">Tidal (hour mark)</strong>: every 5 hours on the hour &mdash; <code className="font-mono bg-white/5 px-1 rounded">0 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z)</li>
-          <li><strong className="text-text-primary">Creek (15m mark)</strong>: every 5 hours at :15 &mdash; <code className="font-mono bg-white/5 px-1 rounded">15 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z)</li>
-          <li><strong className="text-text-primary">River (30m mark)</strong>: every 5 hours at :30 &mdash; <code className="font-mono bg-white/5 px-1 rounded">30 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z)</li>
-          <li><strong className="text-text-primary">Stream (45m mark)</strong>: every 5 hours at :45 &mdash; <code className="font-mono bg-white/5 px-1 rounded">45 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z)</li>
+          <li><strong className="text-text-primary">Tidal (hour mark)</strong>: every 6 hours on the hour &mdash; <code className="font-mono bg-white/5 px-1 rounded">0 */6 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z; superseded to every 6h by the operator's own crontab hand-edit 2026-09-16 19:55Z, confirmed on Telegram 21:00:36Z)</li>
+          <li><strong className="text-text-primary">Creek (15m mark)</strong>: every 6 hours at :15 &mdash; <code className="font-mono bg-white/5 px-1 rounded">15 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h)</li>
+          <li><strong className="text-text-primary">River (30m mark)</strong>: every 6 hours at :30 &mdash; <code className="font-mono bg-white/5 px-1 rounded">30 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h)</li>
+          <li><strong className="text-text-primary">Stream (45m mark)</strong>: every 6 hours at :45 &mdash; <code className="font-mono bg-white/5 px-1 rounded">45 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h)</li>
         </ul>
         <h3 className="font-semibold mb-2">Port allocation and isolation</h3>
         <p className="text-text-dim mb-3">Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>

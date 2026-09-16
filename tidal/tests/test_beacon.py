@@ -572,45 +572,57 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
-    def test_quartet_5h_cadence_migration(self):
-        """All four on-box agents moved from every-3h to every-5h wakes (operator
-        directive 2026-09-16, Telegram 19:36:20Z). Manifests and current-roster
-        site surfaces must not regress to the stale */3 quartet strings."""
+    def test_cadence_6h_supersede(self):
+        """Cadence supersede (2026-09-16): the operator's every-5h directive
+        (Telegram 19:36:20Z) was superseded the same day by his own root
+        crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z, documented IP) to
+        every-6h, confirmed intentional on Telegram 21:00:36Z and relayed by
+        Mountain's authenticated note 21:05:42Z. The crontab itself is the
+        operator's lane; these pins hold the manifests + current-roster site
+        surfaces at the 6h ground truth. Beacon-group observability rows stay
+        at their last confirmed 5h state (Beacon's 19:54:40Z on-box report)
+        until that group confirms the 6h move -- represent-from-manifest."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
-        self.assertEqual(data.get("wake_cadence"), "0 */5 * * *",
-                         "Tidal manifest wake_cadence must be the every-5h pattern")
-        self.assertIn("5-hourly", data.get("description", ""),
-                      "Tidal manifest description must reflect the 5-hourly schedule")
+        self.assertEqual(data.get("wake_cadence"), "0 */6 * * *",
+                         "Tidal manifest wake_cadence must be the every-6h pattern")
+        self.assertIn("6-hourly", data.get("description", ""),
+                      "Tidal manifest description must reflect the 6-hourly schedule")
         stream_json_path = "/home/agent/Stream/website/.well-known/agent.json"
         if os.path.exists(stream_json_path):
             with open(stream_json_path, "r") as f:
                 stream_data = json.load(f)
-            self.assertEqual(stream_data.get("wake_cadence"), "45 */5 * * *",
-                             "Stream manifest wake_cadence must be the every-5h pattern")
+            self.assertEqual(stream_data.get("wake_cadence"), "45 */6 * * *",
+                             "Stream manifest wake_cadence must be the every-6h pattern")
         for rel_path, patterns in (
-            ("website/build_site.py", ("0 */5 * * *", "15 */5 * * *", "30 */5 * * *", "45 */5 * * *", "every 5 hours")),
-            ("website/next-app/src/app/fleet/page.tsx", ("0 */5 * * *", "15 */5 * * *", "30 */5 * * *", "45 */5 * * *", "every 5 hours")),
+            ("website/build_site.py", ("0 */6 * * *", "15 */6 * * *", "30 */6 * * *", "45 */6 * * *", "every 6 hours")),
+            ("website/next-app/src/app/fleet/page.tsx", ("0 */6 * * *", "15 */6 * * *", "30 */6 * * *", "45 */6 * * *", "every 6 hours")),
         ):
             with open(os.path.join(self.original_cwd, rel_path), "r") as f:
                 content = f.read()
             for pattern in patterns:
                 self.assertIn(pattern, content,
-                              f"{rel_path} must carry the every-5h quartet cadence string '{pattern}'")
+                              f"{rel_path} must carry the every-6h quartet cadence string '{pattern}'")
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()
-        for name, pattern in (("Tidal", "5&times;/day <code>0&nbsp;*/5</code>"),
-                              ("River", "5&times;/day <code>30&nbsp;*/5</code>"),
-                              ("Creek", "5&times;/day <code>15&nbsp;*/5</code>"),
-                              ("Stream", "5&times;/day <code>45&nbsp;*/5</code>"),
-                              ("Beacon", "5&times;/day <code>0&nbsp;*/5</code>"),
+        for name, pattern in (("Tidal", "4&times;/day <code>0&nbsp;*/6</code>"),
+                              ("River", "4&times;/day <code>30&nbsp;*/6</code>"),
+                              ("Creek", "4&times;/day <code>15&nbsp;*/6</code>"),
+                              ("Stream", "4&times;/day <code>45&nbsp;*/6</code>"),
+                              ("Mountain", "4&times;/day <code>0&nbsp;*/6</code>"),
+                              ("Canyon", "4&times;/day <code>15&nbsp;*/6</code>"),
+                              ("Ridge", "4&times;/day <code>30&nbsp;*/6</code>"),
+                              ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
+            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
+                          f"observability AGENT_METADATA {name} row must be the every-6h cadence")
+        for name, pattern in (("Beacon", "5&times;/day <code>0&nbsp;*/5</code>"),
                               ("Highbeam", "5&times;/day <code>30&nbsp;*/5</code>"),
                               ("Lantern", "5&times;/day <code>0&nbsp;1-23/5</code>"),
                               ("Lightning", "5&times;/day <code>15&nbsp;*/5</code>")):
             self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
-                          f"observability AGENT_METADATA {name} row must be the every-5h cadence")
+                          f"observability AGENT_METADATA {name} row must stay at Beacon-group's last confirmed 5h state until its group confirms 6h")
 
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator

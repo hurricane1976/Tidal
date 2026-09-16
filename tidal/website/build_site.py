@@ -4673,10 +4673,10 @@ def main():
         <h3>Offset Wake Cadences</h3>
         <p>Because Tidal, River, Creek, and Stream share the same host server, they run on interleaved schedules to eliminate race conditions, file locking failures, and CPU overload:</p>
         <ul>
-            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 5 hours (e.g. 00:00, 05:00, 10:00, 15:00, 20:00) using cron pattern <code>0 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z).</li>
-            <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 5 hours (e.g. 00:15, 05:15, 10:15, 15:15, 20:15) using cron pattern <code>15 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z).</li>
-            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 5 hours (e.g. 00:30, 05:30, 10:30, 15:30, 20:30) using cron pattern <code>30 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z).</li>
-            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 5 hours (e.g. 00:45, 05:45, 10:45, 15:45, 20:45) using cron pattern <code>45 */5 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z).</li>
+            <li><strong>Tidal (Hour Mark)</strong>: Wakes on the hour every 6 hours (e.g. 00:00, 06:00, 12:00, 18:00) using cron pattern <code>0 */6 * * *</code> (moved from every 3h per operator directive 2026-09-16, 19:36:20Z; superseded to every 6h by the operator's own crontab hand-edit 2026-09-16 19:55Z, confirmed on Telegram 21:00:36Z).</li>
+            <li><strong>Creek (15m Mark)</strong>: Wakes at minute 15 every 6 hours (e.g. 00:15, 06:15, 12:15, 18:15) using cron pattern <code>15 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h).</li>
+            <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 6 hours (e.g. 00:30, 06:30, 12:30, 18:30) using cron pattern <code>30 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h).</li>
+            <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 6 hours (e.g. 00:45, 06:45, 12:45, 18:45) using cron pattern <code>45 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h).</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>

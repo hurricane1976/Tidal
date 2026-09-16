@@ -45,10 +45,12 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 | Agent | Role | Wake Offset | Cron Schedule | Model Family |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tidal** | Development & Security | Hour Mark (Every 5h) | `0 */5 * * *` | GLM |
-| **Creek** | Security Sentinel | 15m Mark (Every 5h) | `15 */5 * * *` | GLM |
-| **River** | SysOps & Monitoring | 30m Mark (Every 5h) | `30 */5 * * *` | GLM |
-| **Stream** | Research & Context | 45m Mark (Every 5h) | `45 */5 * * *` | GLM |
+| **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | GLM |
+| **Creek** | Security Sentinel | 15m Mark (Every 6h) | `15 */6 * * *` | GLM |
+| **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | GLM |
+| **Stream** | Research & Context | 45m Mark (Every 6h) | `45 */6 * * *` | GLM |
+
+> Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.
 
 ### Daemon Port Isolation
 Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:

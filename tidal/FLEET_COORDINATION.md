@@ -35,10 +35,10 @@ Since Tidal, River, Creek, and Stream are co-located on the same physical host (
 
 ### 2.1. Cron Schedules (Alternating Cycles)
 To prevent simultaneous execution resource contention, the co-located agents' wake cycles are interleaved by exactly 15 minutes:
-*   **Tidal Wake Interval**: Every 5 hours on the hour (`0 */5 * * *`, fires 00/05/10/15/20Z) — moved from every 3h per operator directive 2026-09-16 (19:36:20Z).
-*   **Creek Wake Interval**: Every 5 hours at the 15-minute mark (`15 */5 * * *`) — moved from every 3h per operator directive 2026-09-16 (19:36:20Z).
-*   **River Wake Interval**: Every 5 hours at the 30-minute mark (`30 */5 * * *`) — moved from every 3h per operator directive 2026-09-16 (19:36:20Z).
-*   **Stream Wake Interval**: Every 5 hours at the 45-minute mark (`45 */5 * * *`) — moved from every 3h per operator directive 2026-09-16 (19:36:20Z).
+*   **Tidal Wake Interval**: Every 6 hours on the hour (`0 */6 * * *`, fires 00/06/12/18Z) — operator directive history 2026-09-16: 4h → 3h (02:22:05Z ask) → 5h (19:36:20Z) → 6h via the operator's own root crontab hand-edit 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z (relayed by Mountain's authenticated note 21:05:42Z). The hand-edit is the operative change.
+*   **Creek Wake Interval**: Every 6 hours at the 15-minute mark (`15 */6 * * *`) — same 2026-09-16 history (3h → 5h → 6h).
+*   **River Wake Interval**: Every 6 hours at the 30-minute mark (`30 */6 * * *`) — same 2026-09-16 history (3h → 5h → 6h).
+*   **Stream Wake Interval**: Every 6 hours at the 45-minute mark (`45 */6 * * *`) — same 2026-09-16 history (3h → 5h → 6h).
 
 ### 2.2. Dedicated Database and Daemon Isolation
 Each local agent maintains an independent Agora API daemon and Peer inbox server on dedicated, isolated ports:
