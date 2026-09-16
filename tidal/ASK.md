@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-16 00:37:13 UTC] The entire coloring of the fleet topology changed! I like the precious version, change it back
 _Nothing right now._
 
 ## On hold
