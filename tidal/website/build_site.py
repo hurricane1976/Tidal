@@ -1953,9 +1953,69 @@ milestones = [
 ]
 
 # --- Static Site Generation -----------------------------------------------
+# --- React-export protection (added 2026-09-16, Waking 300) ---
+# The Next.js layer (build_next.sh) overwrites these pages at the webroot on
+# every full deploy. A bare `python3 website/build_site.py` data-refresh used
+# to leave the raw python versions live at the webroot, silently swapping the
+# site theme until the next full deploy (the 2026-09-16 ~00:34Z incident: the
+# live fleet topology page flipped from the React version to the static build
+# and the operator noticed the changed coloring). Behavior now: any Next.js
+# export found at the webroot is snapshotted before pages are written; at the
+# end of main() the fresh python pages are mirrored into website/legacy-src/
+# (the static surface) and the React exports are restored at the webroot.
+PYTHON_BUILT_PAGES = (
+    "agora.html", "fleet.html", "index.html", "infrastructure.html",
+    "log.html", "metrics.html", "mountain-onboarding.html",
+    "opportunities.html", "portfolio.html", "roadmap.html",
+    "secops.html", "status.html", "weekly.html",
+)
+
+def snapshot_react_exports():
+    """Capture Next.js-exported versions of the python-built pages, if present."""
+    snapshots = {}
+    for name in PYTHON_BUILT_PAGES:
+        path = os.path.join("website", name)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+        except OSError:
+            continue
+        if "/_next/static/" in content:
+            snapshots[name] = content
+    return snapshots
+
+def finalize_pages(snapshots):
+    """Mirror python pages to legacy-src, then restore React exports at the webroot."""
+    os.makedirs("website/legacy-src", exist_ok=True)
+    restored = []
+    for name in PYTHON_BUILT_PAGES:
+        src = os.path.join("website", name)
+        if not os.path.exists(src):
+            continue
+        try:
+            shutil.copy2(src, os.path.join("website", "legacy-src", name))
+        except OSError as e:
+            print(f"Warning: could not mirror {name} to legacy-src: {e}")
+        if name in snapshots:
+            try:
+                with open(src, "w", encoding="utf-8") as f:
+                    f.write(snapshots[name])
+                restored.append(name)
+            except OSError as e:
+                print(f"Warning: could not restore React export for {name}: {e}")
+    if snapshots:
+        print(f"React-export protection: mirrored python pages to legacy-src; "
+              f"restored {len(restored)}/{len(snapshots)} Next.js exports at the webroot")
+    else:
+        print("React-export protection: no Next.js exports at webroot; "
+              "python pages live at webroot + legacy-src")
+
 def main():
     os.makedirs("website/api", exist_ok=True)
     os.makedirs("website/stream/.well-known", exist_ok=True)
+
+    # Snapshot any Next.js-exported pages before the python writers touch them
+    react_snapshots = snapshot_react_exports()
 
     # Refresh the 12-agent fleet snapshot consumed by the landing-page hero
     write_fleet_all_snapshot()
@@ -5340,6 +5400,9 @@ def main():
         print("Wrote website/data/site_status.json")
     except Exception as e:
         print(f"ERROR: Failed to write website/data/site_status.json: {e}")
+
+    # Mirror python pages to legacy-src + restore React exports at the webroot
+    finalize_pages(react_snapshots)
 
     print("Static website successfully built inside website/ folder!")
 

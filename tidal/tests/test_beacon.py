@@ -1022,6 +1022,54 @@ _Nothing awaiting a decision right now._
                 c = f.read()
                 self.assertNotIn("var(--surface-1)", c, f"Found surface-1 typo in {fn}")
 
+    def test_react_export_protection(self):
+        """Waking 300 (2026-09-16): a bare build_site.py data-refresh must not
+        overwrite the live Next.js fleet page with the python static build --
+        the exact mechanism behind the 2026-09-16 ~00:34Z fleet-coloring
+        incident (React page live all day; a partial refresh swapped the
+        webroot fleet.html to the python static page for ~3 minutes and the
+        operator noticed the changed coloring). React exports found at the
+        webroot are snapshotted before writing and restored after; the fresh
+        python pages always land in website/legacy-src/ (the static surface)."""
+        from unittest.mock import patch
+        os.makedirs("website", exist_ok=True)
+        os.makedirs("website/legacy-src", exist_ok=True)
+        with open("MOUNTAIN_ONBOARDING.md", "w") as f:
+            f.write("# Mountain Onboarding & Integration Specifications")
+        react_marker = ('<!DOCTYPE html><!--test-build-id-->'
+                        '<link href="/_next/static/chunks/test.js"/>'
+                        '<title>Fleet | Tidal Agent</title>')
+        with open("website/fleet.html", "w") as f:
+            f.write(react_marker)
+        with open("website/legacy-src/fleet.html", "w") as f:
+            f.write("STALE PRE-EXISTING STATIC SURFACE")
+        with patch('website.build_site.parse_notes', side_effect=lambda notes_path="NOTES.md": []):
+            build_site.main()
+        # The webroot keeps the React export (the version the operator sees)
+        with open("website/fleet.html", "r") as f:
+            self.assertEqual(f.read(), react_marker)
+        # The static surface receives the fresh python build
+        with open("website/legacy-src/fleet.html", "r") as f:
+            legacy = f.read()
+        self.assertIn("Fleet Coordination", legacy)
+        self.assertNotIn("/_next/static/", legacy)
+        self.assertNotIn("STALE PRE-EXISTING STATIC SURFACE", legacy)
+
+    def test_react_export_protection_fresh_webroot(self):
+        """Same protection on a fresh webroot with no React exports yet: the
+        python pages must stay live at the webroot (bootstrap state) AND be
+        mirrored to legacy-src, so the first next build has its inputs."""
+        os.makedirs("website", exist_ok=True)
+        with open("MOUNTAIN_ONBOARDING.md", "w") as f:
+            f.write("# Mountain Onboarding & Integration Specifications")
+        build_site.main()
+        with open("website/fleet.html", "r") as f:
+            root_content = f.read()
+        self.assertIn("Fleet Coordination", root_content)
+        self.assertNotIn("/_next/static/", root_content)
+        with open("website/legacy-src/fleet.html", "r") as f:
+            self.assertIn("Fleet Coordination", f.read())
+
     def test_get_beacon_status_with_nostr_identity(self):
         from unittest.mock import patch, MagicMock
         import json
