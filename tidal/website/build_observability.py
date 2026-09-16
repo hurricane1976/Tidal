@@ -135,16 +135,28 @@ def estimate_cost_if_null(r: dict) -> None:
     """Estimate cost for runtimes/agents that don't emit a cost envelope but have tokens."""
     if r.get("cost_usd") is not None:
         return
-    
+
     agent = r.get("agent")
     model = r.get("model") or ""
     input_tokens = r.get("input_tokens") or 0
     output_tokens = r.get("output_tokens") or 0
     cache_read = r.get("cache_read_tokens") or 0
-    
+
     if not input_tokens and not output_tokens:
         return
-        
+
+    # Historical pricing boundaries (rows without a self-describing model string
+    # are priced by agent name; the model-string branches above always win and
+    # describe real runs). The fleet migrated off Claude (2026-09-15) and off
+    # DeepSeek (2026-09-16, operator directive "GLM flash latest" 05:56:39Z), so
+    # an agent-name fallback alone would misprice current runs; boundary at the
+    # migration windows and price post-migration runs at GLM Flash rates.
+    _CLAUDE_ERA_END = "2026-09-15T20:00"   # Beacon/Highbeam/Mountain off Claude
+    _DEEPSEEK_ERA_END = "2026-09-16T06:15"  # Creek/Stream/Lightning/Canyon off DeepSeek
+    ts = str(r.get("ts") or "")
+    post_claude = ts >= _CLAUDE_ERA_END if ts else False
+    post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
+
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
     # Output tokens: $3.75 per 1M
@@ -156,10 +168,12 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "gemini-1.5-pro" in model.lower():
         r["cost_usd"] = (input_tokens * (1.25 / 1000000.0)) + \
                         (output_tokens * (5.00 / 1000000.0))
-    elif "deepseek" in model.lower() or agent in ("Creek", "Stream", "Canyon", "Lightning"):
+    elif "deepseek" in model.lower() or (agent in ("Creek", "Stream", "Canyon", "Lightning") and not post_deepseek):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
-    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River", "Lantern"):
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River", "Lantern") or \
+            (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
+            (agent in ("Mountain", "Beacon", "Highbeam") and post_claude):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
         # Input tokens: $0.075 per 1M
         # Output tokens: $0.25 per 1M
@@ -178,7 +192,8 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.20 / 1000000.0)) + \
                         (output_tokens * (1.20 / 1000000.0)) + \
                         (cache_read * (0.02 / 1000000.0))
-    elif "claude" in model.lower() or "sonnet" in model.lower() or agent in ("Mountain", "Beacon", "Highbeam"):
+    elif "claude" in model.lower() or "sonnet" in model.lower() or \
+            (agent in ("Mountain", "Beacon", "Highbeam") and not post_claude):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
 
@@ -369,22 +384,23 @@ def fmt_dur(ms) -> str:
 AGENT_METADATA = {
     # Model families + cadences current as of 2026-09-16 (operator directive
     # 05:56:39Z: all agents on GLM flash latest; 02:22:05Z: every-3h wakes).
-    # Families: Beacon/Highbeam/Mountain per the Sept-15 model migration (their
-    # own feed self-reports GLM Flash); Creek/Stream switched to GLM Flash
-    # latest this day (Tidal executed on-box). Cadences: the eight
-    # confirmed-3h rows are ground truth from the on-box crontab + Beacon's
-    # w453 confirmation; Mountain-group rows remain as-published until that
-    # group confirms its own cadence.
+    # Families: ALL TWELVE now GLM Flash -- Lightning switched its own wake.sh
+    # 06:15Z and Canyon per Mountain's 05:56Z relay, both confirmed by Beacon's
+    # authenticated ack 06:32:23Z; DeepSeek retired fleet-wide 2026-09-16.
+    # Cadences: the nine confirmed-3h rows are ground truth from the on-box
+    # crontab + Beacon's w453 confirmation + Mountain's row in the master feed
+    # (now `0,15,30,45 */3`); Canyon/Ridge/Harbor rows remain as-published
+    # until that group publishes individual cadences.
     "Beacon": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "build &amp; operations", "envelope": "json"},
     "Highbeam": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;1-23/3</code>", "role": "cross-model review &amp; images", "envelope": "text"},
-    "Lightning": {"family": "deepseek", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
+    "Lightning": {"family": "glm", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Tidal": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "glm", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "glm", "cadence": "8&times;/day <code>45&nbsp;*/3</code>", "role": "research &amp; context gathering", "envelope": "json"},
-    "Mountain": {"family": "glm", "cadence": "6&times;/day <code>0&nbsp;*/4</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
-    "Canyon": {"family": "deepseek", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
+    "Mountain": {"family": "glm", "cadence": "8&times;/day <code>0,15,30,45&nbsp;*/3</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
+    "Canyon": {"family": "glm", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "glm", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
 }
@@ -853,11 +869,21 @@ def fetch_mountain_telemetry() -> list[dict]:
                     tokens = tok_vals[i] if i < len(tok_vals) else None
                     wall = wall_vals[i] if i < len(wall_vals) else None
                     
-                    model = "Claude"
-                    if agent == "Canyon":
-                        model = "DeepSeek"
+                    # Display model per row, honestly date-boundaried: Mountain
+                    # moved to GLM Flash (opencode) on 2026-09-15 (~20:29Z, its
+                    # own live self-signature); Canyon switched per operator
+                    # directive 2026-09-16 05:56:39Z (Beacon-acked 06:32:23Z).
+                    # Rows carry real past runs -- keep their era's truth.
+                    _MOUNTAIN_GLM = "2026-09-15T20:29"
+                    _CANYON_GLM = "2026-09-16T06:15"
+                    if agent == "Mountain":
+                        model = "glm-5.3-flash" if ts_iso >= _MOUNTAIN_GLM else "Claude"
+                    elif agent == "Canyon":
+                        model = "glm-5.3-flash" if ts_iso >= _CANYON_GLM else "DeepSeek"
                     elif agent in ("Ridge", "Harbor"):
                         model = "GLM"
+                    else:
+                        model = "Claude"
                         
                     formatted_runs.append({
                         "agent": agent,

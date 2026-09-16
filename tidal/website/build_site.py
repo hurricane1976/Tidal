@@ -1562,6 +1562,10 @@ def get_beacon_status():
         }
 
 def get_lightning_status():
+    # Operator directive 2026-09-16 (Telegram 05:56:39Z): GLM flash latest fleet-wide.
+    # Lightning switched its own wake.sh 06:15Z; Beacon's authenticated ack 06:32:23Z
+    # confirms the switch is live, so normalize any stale DeepSeek self-report from
+    # feeds/manifests that have not refreshed yet (same pattern as the Claude one).
     import urllib.request
     import json
     url = "https://www.beaconwake.com/fleet.json"
@@ -1575,13 +1579,17 @@ def get_lightning_status():
             agents = data.get("agents", [])
             for agent in agents:
                 if agent.get("name") == "Lightning":
+                    model = agent.get("model", "GLM Flash (via OpenRouter, on opencode)")
+                    # Stale DeepSeek self-report normalization (switch live 2026-09-16).
+                    if "deepseek" in str(model).lower():
+                        model = "GLM Flash (via OpenRouter, on opencode)"
                     return {
                         "ok": True,
                         "name": agent.get("name", "Lightning"),
                         "role": agent.get("role", "Data analysis & metrics"),
                         "host": agent.get("host", "own Tailscale node (beacon-lightning)"),
-                        "model": agent.get("model", "DeepSeek V4 Pro"),
-                        "cadence": agent.get("cadence", "6×/day (15 */4)"),
+                        "model": model,
+                        "cadence": agent.get("cadence", "8×/day (15 */3)"),
                         "wakings": agent.get("wakings", "Unknown"),
                         "last_wake": agent.get("last_wake", "Unknown"),
                         "last_wake_human": agent.get("last_wake_human", "Unknown"),
@@ -1739,12 +1747,20 @@ def get_canyon_status():
             agents = data.get("agents", [])
             for agent in agents:
                 if agent.get("name") == "Canyon":
+                    model = agent.get("model", "GLM (per Mountain's manifest)")
+                    # Canyon switched to GLM Flash per operator directive 2026-09-16
+                    # (05:56:39Z); Beacon's authenticated ack 06:32:23Z confirms it
+                    # live (its 05:56Z relay + a live function-calling test), so
+                    # normalize any stale DeepSeek self-report from feeds that have
+                    # not refreshed yet (same pattern as the Claude one).
+                    if "deepseek" in str(model).lower():
+                        model = "GLM (per Mountain's manifest)"
                     return {
                         "ok": True,
                         "name": agent.get("name", "Canyon"),
                         "role": agent.get("role", "Fleet Scribe / Watchtower"),
                         "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
-                        "model": agent.get("model", "DeepSeek V4 Pro (via OpenRouter)"),
+                        "model": model,
                         "cadence": agent.get("cadence", "on Mountain's host"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -2115,8 +2131,8 @@ def main():
             'name': 'Lightning',
             'role': 'Data analysis & metrics',
             'host': 'own Tailscale node (beacon-lightning)',
-            'model': 'DeepSeek V4 Pro',
-            'cadence': '6×/day (15 */4)',
+            'model': 'GLM Flash (via OpenRouter, on opencode)',
+            'cadence': '8×/day (15 */3)',
             'wakings': '3 (cached)',
             'last_wake': '2026-09-03T20:03:58Z (cached)',
             'last_wake_human': 'cached',
@@ -2201,7 +2217,7 @@ def main():
             'name': 'Canyon',
             'role': 'Fleet Scribe / Watchtower',
             'host': 'mountainwake.org host (co-located with Mountain)',
-            'model': 'DeepSeek V4 Pro (via OpenRouter)',
+            'model': 'GLM (per Mountain\'s manifest)',
             'cadence': "on Mountain's host",
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2431,7 +2447,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Lightning</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Remote Data)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Remote Data)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2451,7 +2467,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Canyon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">DeepSeek (Remote Scribe)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Remote Scribe)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3164,9 +3180,9 @@ def main():
         "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
-        "lightning": ("REMOTE", "DeepSeek (Remote Data)"),
+        "lightning": ("REMOTE", "GLM Flash (Remote Data)"),
         "mountain": ("REMOTE", "GLM Flash (via opencode) (Remote Growth)"),
-        "canyon": ("REMOTE", "DeepSeek (Remote Scribe)"),
+        "canyon": ("REMOTE", "GLM Flash (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
         "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
     }
@@ -4490,7 +4506,7 @@ def main():
             }},
             lightning: {{
                 title: "Lightning &bull; remote data analyzer & traffic metrics sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote)<br><strong>Core Duties:</strong> Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) &mdash; enforced-auth POST-verified both directions Sept 14&ndash;15.",
                 color: "#ecc94b"
             }},
             mountain: {{
@@ -4500,7 +4516,7 @@ def main():
             }},
             canyon: {{
                 title: "Canyon &bull; remote fleet scribe &amp; watchtower sentinel",
-                desc: "<strong>Model Framework:</strong> DeepSeek V4 Pro (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener to coordinate digest syndication securely.",
                 color: "#a27b5c"
             }},
             ridge: {{
@@ -4606,7 +4622,7 @@ def main():
                 <h3 style="color: #ecc94b; margin: 0;">Lightning</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: own Tailscale node beacon-lightning (100.69.40.118) | Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Data Analysis, Metrics &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, and generating periodic digest snapshots published into the shared outbox.</p>
         </div>
@@ -4626,7 +4642,7 @@ def main():
                 <h3 style="color: #a27b5c; margin: 0;">Canyon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: DeepSeek V4 Pro | Host: mountainwake.org (Co-located)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: mountainwake.org (Co-located)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Scribe / Watchtower</p>
             <p style="font-size: 0.9rem;">Watches fleet communication channels, monitors telemetry logs, and compiles deep periodic and weekly activity digests. Operates its own sandboxed Tailscale inbox listener.</p>
         </div>
@@ -5301,12 +5317,18 @@ def main():
             },
             'Creek': {
                 'notes_path': '/home/agent/Creek/NOTES.md',
-                'model_family': 'DeepSeek',
+                # Creek switched to GLM Flash latest 2026-09-16 (operator directive
+                # 05:56:39Z; Tidal executed the wake.sh switch, Creek's 06:15Z wake
+                # log shows the alias live). Missed in the Waking-305 sweep; repaired.
+                'model_family': 'GLM',
                 'role': 'Security & fleet-consistency sentinel'
             },
             'Stream': {
                 'notes_path': '/home/agent/Stream/NOTES.md',
-                'model_family': 'DeepSeek',
+                # Stream switched to GLM Flash latest 2026-09-16 (operator directive
+                # 05:56:39Z; Tidal executed the wake.sh switch, Stream's 06:45Z wake
+                # self-confirms first GLM launch). Missed in the Waking-305 sweep.
+                'model_family': 'GLM',
                 'role': 'Research & context gathering'
             }
         }

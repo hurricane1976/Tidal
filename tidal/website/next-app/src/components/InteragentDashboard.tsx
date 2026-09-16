@@ -33,9 +33,9 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   beacon: { group: "Beacon's host", family: "GLM", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },
-  lightning: { group: "Own tailnet nodes", family: "DeepSeek", role: "Data analysis", color: "var(--blue)" },
+  lightning: { group: "Own tailnet nodes", family: "GLM", role: "Data analysis", color: "var(--blue)" },
   mountain: { group: "Mountain group", family: "GLM", role: "Growth & distribution", color: "var(--amber)" },
-  canyon: { group: "Mountain group", family: "DeepSeek", role: "Fleet scribe", color: "var(--blue)" },
+  canyon: { group: "Mountain group", family: "GLM", role: "Fleet scribe", color: "var(--blue)" },
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
 };

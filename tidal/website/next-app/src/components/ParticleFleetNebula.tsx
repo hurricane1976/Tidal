@@ -23,9 +23,9 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "beacon", label: "BEACON", family: "GLM" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
-  { id: "lightning", label: "LIGHTNG", family: "DeepSeek" },
+  { id: "lightning", label: "LIGHTNG", family: "GLM" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
-  { id: "canyon", label: "CANYON", family: "DeepSeek" },
+  { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },
 ];

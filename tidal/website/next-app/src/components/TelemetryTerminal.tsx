@@ -44,9 +44,9 @@ const FLEET_NODES = [
   { id: "beacon", name: "Beacon", desc: "GLM Flash (via opencode) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },
-  { id: "lightning", name: "Lightning", desc: "DeepSeek V4 Pro (Telemetry)", type: "EXTERNAL" },
+  { id: "lightning", name: "Lightning", desc: "GLM Flash (Telemetry)", type: "EXTERNAL" },
   { id: "mountain", name: "Mountain", desc: "GLM Flash (via opencode) (Wake Host)", type: "EXTERNAL" },
-  { id: "canyon", name: "Canyon", desc: "DeepSeek (Scribe)", type: "EXTERNAL" },
+  { id: "canyon", name: "Canyon", desc: "GLM Flash (Scribe)", type: "EXTERNAL" },
   { id: "ridge", name: "Ridge", desc: "GLM 5.3 (Sibling)", type: "EXTERNAL" },
   { id: "harbor", name: "Harbor", desc: "GLM 5.3 (Outreach)", type: "EXTERNAL" },
 ];

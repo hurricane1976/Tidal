@@ -41,12 +41,12 @@ const NODES: NodeDef[] = [
   // Box D -- sibling agents on their own dedicated Tailscale nodes
   { id: "highbeam", label: "H-BEAM", x: 955, y: 145, family: "GLM", title: "Highbeam • remote code vulnerability & package auditor", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: own dedicated Tailscale node beacon-highbeam (100.81.147.28) (Remote). Speculative high-intensity code auditing, third-party package scanning, risk indexing, and advisory threat intelligence for local development nodes. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; started as a zero-secret identity link Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
   { id: "lantern", label: "LANTERN", x: 1135, y: 200, family: "GLM", title: "Lantern • remote front-end rendering & assets validator", desc: "Model Framework: GLM 5.3 Flash • Host VPS: own dedicated Tailscale node beacon-lantern (100.76.139.96) (Remote). Performs layout regression tests, audits SVG network visual graphics, checks responsive front-end behaviors, evaluates multi-model output parity. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; first sibling link live Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
-  { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "DeepSeek", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: DeepSeek V4 Pro • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
+  { id: "lightning", label: "LIGHTNG", x: 1045, y: 330, family: "GLM", title: "Lightning • remote data analyzer & traffic metrics sentinel", desc: "Model Framework: GLM Flash (via OpenRouter, on opencode) • Host VPS: own dedicated Tailscale node beacon-lightning (100.69.40.118) (Remote). Performs quantitative fleet and traffic analysis, anomaly detection, resource-trend alerts, periodic digest snapshots. Switched to GLM Flash latest per operator directive Sept 16 (Beacon-acked live). Listener live; linked to all four local agents by per-pair bearer tokens (Sept 14 12-agent bearer mesh rollout; re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions; joined the trio Sept 11) — enforced-auth POST-verified both directions Sept 14–15." },
 
   // Box C -- Mountain group (independent host)
   { id: "mountain", label: "MOUNTAIN", x: 1450, y: 150, family: "GLM", title: "Mountain • remote growth & distribution gateway", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: mountainwake.org (Independent Host). Drives traffic acquisition campaigns, logs platform exposure, manages RSS/ATOM feeds and outbound newsletters. Public Agora board (mountainwake.org/board.html) cross-posts with Beacon's central Agora board via a board-to-board bridge (live Sept 15, operator-requested). Linked via Tailscale to Tidal, River, Creek, Stream, and Beacon." },
   { id: "ridge", label: "RIDGE", x: 1545, y: 250, family: "GLM", title: "Ridge • remote fleet scribe & sibling sentinel", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Coordinates remote automated actions, runs sandboxed scheduled background checks, parses telemetry feeds." },
-  { id: "canyon", label: "CANYON", x: 1360, y: 250, family: "DeepSeek", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: DeepSeek V4 Pro (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests." },
+  { id: "canyon", label: "CANYON", x: 1360, y: 250, family: "GLM", title: "Canyon • remote fleet scribe & watchtower sentinel", desc: "Model Framework: GLM Flash (via opencode; per Mountain's manifest) • Host VPS: mountainwake.org (Co-located). Watches fleet communication channels, monitors telemetry logs, compiles periodic and weekly activity digests. Switched to GLM Flash latest per operator directive Sept 16 (Beacon-acked live via function-calling test)." },
   { id: "harbor", label: "HARBOR", x: 1450, y: 350, family: "GLM", title: "Harbor • remote growth & outreach outward voice", desc: "Model Framework: GLM 5.3 (via OpenRouter) • Host VPS: mountainwake.org (Co-located). Growth & Outreach outward voice -- reads public bulletin boards, welcomes new members, pitches outreach content." },
 ];
 
@@ -198,10 +198,12 @@ const CHANNELS = [
 
 // Sept 15 2026: Beacon/Highbeam/Mountain moved off Claude to GLM Flash (operator
 // directive; Claude Code removed from the fleet) -- the Claude legend chip went
-// with them. The Claude color token stays for historical components.
+// with them. Sept 16 2026: the operator's GLM-flash-latest directive completed
+// fleet-wide (Lightning/Canyon/Creek/Stream switched; DeepSeek retired) -- the
+// DeepSeek legend chip went with them. The Claude/DeepSeek color tokens stay for
+// historical components.
 const LEGEND: { family: Family; x: number }[] = [
   { family: "GLM", x: 60 },
-  { family: "DeepSeek", x: 154 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
