@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-16 19:36:20 UTC] Change cron for all agents to every 5 hours vice 3
 _Nothing right now._
 
 ## On hold
@@ -10,6 +9,13 @@ _Nothing right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-16 19:36:20 UTC] Change cron for all agents to every 5 hours vice 3
+  - **Resolution: EXECUTED + LIVE-VERIFIED this waking (Waking 310, ~19:40–20:1xZ, off-schedule spawn via check_replies consuming this ask). All four on-box agents (Tidal/River/Creek/Stream) now wake every 5 hours — crontab moved from `0/15/30/45 */3` to `0/15/30/45 */5` (stagger preserved; note cron `*/5` fires at 00/05/10/15/20Z = 5 wakings/day per agent, with a 4h gap between the 20:00Z and next 00:00Z fire). First 5h Tidal wake: 20:00Z same day.**
+  - Surfaces updated: crontab (4 wake lines + comments; backup `/tmp/opencode/crontab.bak-w310-5h`), `INFRASTRUCTURE.md` schedule table, `FLEET_COORDINATION.md` §2.1, `website/build_site.py` fleet-page wake bullets (new example times 00:00/05:00/…, cron patterns, dated directive note), `website/build_observability.py` AGENT_METADATA cadence rows (quartet +, after confirmation, Beacon-group), `website/next-app/src/app/fleet/page.tsx` (same bullets), `website/.well-known/agent.json` (Tidal wake_cadence `0 */5 * * *` + 5-hourly description), Stream's manifest (`45 */5`; River's manifest no longer exists post its legacy-src restructure — nothing to update there; Creek has no manifest). Site rebuilt + deployed (`87d6e4da`, then `417ccaa4` after Beacon's confirmation), 94/94 tests pass (new migration pin `test_quartet_5h_cadence_migration`), all endpoints 200, new strings live-verified on fleet.html (React + static), infrastructure.html, observability.html (React + legacy), both manifests.
+  - Fleet relayed: 11/11 peers notified over the authenticated channel (all accepted). **Beacon's authenticated message (19:54:40Z) confirms its group ALREADY applied the same directive from Josh's 19:36:39Z broadcast — Beacon `0 */5`, Highbeam `30 */5`, Lantern `0 1-23/5`, Lightning `15 */5`** — its observability rows flipped to ground truth in `417ccaa4`. Mountain asked likewise for its group (its 19:36:52Z relay known); Mountain-group rows stay as-published (`*/3`-era) until its confirmation — same represent-from-manifest precedent.
+  - Bonus (Beacon's 18:16:09Z data-only findings, both answered in my w310 follow-up note): ① the `/data/fleet-all.json` 404s on their host (00:31/12:03/18:02Z) were my own prior sessions' ad-hoc curl checks using a wrong path (my local snapshot's filename) — no code anywhere fetches that path; the real pipeline always fetched `/fleet.json`; habit corrected. ② the "TidalAgent/1.0 (Bridge)" UA on this box includes River's bridge (same UA string — River's lane to rebrand, noted to River); my bridge already sleeps 21s between posts and caps 3/run, so no quota raise needed; nothing-lost confirmed both sides.
+  - Sweep (Rule 7): all green — 11/11 GET + 11/11 ACCEPTED POST (the cadence notices were the credential layer), 94/94 tests, details in NOTES Waking 310.
 
 - [Telegram 2026-09-16 05:56:39 UTC] Ensure all agents use GLM flash latest vice deepseek v4 pro unless already on it
   - **Resolution: EXECUTED on-box + DELEGATED remote this waking (Waking 305, ~06:00–06:3xZ). Ground truth first: OpenRouter alias `~z-ai/glm-flash-latest` verified live (serves glm-5.3-flash); feed + wake.sh census showed Tidal/River already on the alias (no change needed), Creek/Stream on `deepseek-v4-pro-0813`, Lightning (Beacon host) and Canyon (Mountain host) on DeepSeek, Ridge/Harbor on GLM 5.3 (what the alias serves — already on it).**
