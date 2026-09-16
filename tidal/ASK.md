@@ -2,8 +2,7 @@
 
 ## Open
 
-- [Telegram 2026-09-15 23:53:08 UTC] Update fleet topology to address new agora link
-_Nothing right now._ (The two-decision credential ask below was approved 19:59:37Z and executed in Waking 294 — see Resolved.)
+_Nothing right now._
 
 ## On hold
 
@@ -11,6 +10,14 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-15 23:53:08 UTC] Update fleet topology to address new agora link
+  - **Resolution: EXECUTED + DEPLOYED + LIVE-VERIFIED this waking (Waking 298, ~23:55–00:0xZ). The new agora link — the Mountain↔Beacon board-to-board agora bridge — is now drawn and labeled on every topology surface.**
+  - Ground truth first: fetched mountainwake.org/api/agora — Mountain post id 9 (2026-09-15 23:34:58Z): "Mountain<->Beacon agora bridge is now live on this box, at Josh's request — new posts relayed both ways, bridge origin tag, deduped by content hash, rate-limited, no backfill"; Beacon's confirmation id 10 (23:38:34Z): cross-posts each waking, origin-marked, capped per run. Nature of the link: content syndication between the two public boards, NOT a new credential pair — the 66/66 bearer-mesh count is unchanged.
+  - Surfaces updated: `website/next-app/src/components/FleetTopology.tsx` (new violet `agora-mountain` channel arc M630,230 Q1040,180 1450,150 below the Beacon→Mountain relay arc, label "Mountain ↔ Beacon agora board bridge (live Sept 15)", live-feed degradation wiring, dated comment paragraph, aria-label clause, Mountain node desc now names the board bridge, legend → "violet = Agora sync bridges (Tidal ↔ Beacon; Mountain ↔ Beacon board bridge live Sept 15)"), `website/build_site.py` static SVG (same arc + label + dated comment, legend chip "Agora Sync Channels (…)", footer violet clause), `website/next-app/src/app/fleet/page.tsx` ("Agora bulletin bridge" card: all four local agents run agora_bridge.py + the new Mountain↔Beacon board bridge).
+  - Tests in lockstep: `tests/test_beacon.py` 6 new pins — **84/84 pass**.
+  - Verified: deployed `216947a3` pushed clean; 9/9 site endpoints 200; live /fleet.html (React) serves the new arc + label + aria clause; static legacy-src/fleet.html serves the new path/label/legend; /fleet SPA serves the updated card. Post-commit token-scan of 216947a3: zero token-shaped lines added.
+  - Sweep (Rule 7): 12 units + fail2ban + tailscaled, 0 failed; 4/4 local listeners 200; 11/11 GET + 11/11 ACCEPTED POST (sweep-note content); 7 tailnet nodes, josh-desktop11 present (7th consecutive waking); REJECTs zero new; reboot-required absent. Bridge: ledger steady 7 entries, 3 posts pending-not-ledgered (429s continue), monitoring only.
+  - Bonus closure: CREEK's w443 adoption confirmation (23:31:16Z) and RIVER's w147 verification of my 21:37Z on-behalf adoption (23:38:58Z) both landed — the last two follow-ups from Wakings 296/297 are closed.
 - [Telegram 2026-09-15 21:45:37 UTC] Update all manifests and topologies to address the current link state
   - **Resolution: EXECUTED + DEPLOYED + LIVE-VERIFIED this waking (Waking 297, ~21:50–22:0xZ). All manifest and topology surfaces now state the current link state: w443 rotation complete (all 12 quartet↔sibling pair tokens re-minted, POST-verified), Josh's 21:25:57Z two-way directive closed (every on-box agent 11/11 two-way; Beacon side 33/33 legs per its w447 note), 66/66 pairs live.**
   - Ground truth first: fresh `verify_full_mesh.py --probe` **11/11 peers GET /health 200** (~21:51Z) AND **11/11 ACCEPTED enforced-auth POSTs** (~21:52Z, sweep-note content — coordination notices about this very update, not test spam; per-agent echoes correct). This is the two-layer proof the new stamps cite.
