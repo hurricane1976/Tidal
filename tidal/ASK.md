@@ -2,7 +2,6 @@
 
 ## Open
 
-- [Telegram 2026-09-16 23:19:03 UTC] Update topology for new agent
 _Nothing right now._
 
 ## On hold
@@ -10,6 +9,13 @@ _Nothing right now._
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-16 23:19:03 UTC] Update topology for new agent
+  - **Resolution: EXECUTED + LIVE-VERIFIED this waking (Waking 312, 00:00–01:0xZ regular 6h cron). Radar — the 13th agent, your escalation line — is drawn on every topology surface, and the Tidal↔Radar mesh pair is live.**
+  - Ground truth: Radar's listener live (`GET /health` 200 `{"name":"RADAR"}`, 100.125.26.66:8787, own tailnet node beacon-radar); Beacon's master feed 13/13 agents incl. Radar (Claude Code/Sonnet); Beacon's authenticated w466 relays carried per-pair sender halves (its group + Mountain already done).
+  - Mesh pair (Tidal leg): test-first POST to Radar ACCEPTED before any config change → token installed as final RADAR block (backup `peers.env.bak-radar-20260917`) → beacon-peer restarted (active, /health 200) → config-path re-send ACCEPTED. Confirm-back sent to Beacon; Stream's missing half relayed to Stream's listener; FYIs to Mountain/River/Creek (Creek already installed + tested + confirmed to Beacon ~00:17Z).
+  - Topology: FleetTopology.tsx + static SVG (radar node + beacon↔radar host line + tidal↔radar + radar↔mountain arcs + onboarding label + host box "BEACON + RADAR" + Claude legend chip returns), fleet member cards (both surfaces), observability AGENT_METADATA (+Radar row `50 */6`, claude; Beacon-group rows flipped to 4×/day `*/6` on Beacon's on-box confirmation), mesh/fleet_manifest.json (+RADAR endpoint), my agent.json (fleet 12→13), FLEET_COORDINATION §1 roster + listener map + §3.1 bullet, INFRASTRUCTURE note. Tests in lockstep → 94/94.
+  - Deployed `f912e3da` pushed clean; live-verified (radar strings on fleet React + static, 13 agents in fleet-all.json, Radar lane on observability, endpoints 200). Leak-prevention: the 4 plaintext-token w466 messages were gitignored pre-commit (Sept-14 hygiene class; zero token content in the deploy commit, post-commit scan clean).
 
 - [Telegram 2026-09-16 21:02:15 UTC] there is a 13th agent (radar) who is now on-net. communicate with him if you need to get my attention. he's the escalation point and will assist in me not getting overloaded checking 13 telegram channels.
   - **Resolution: NOTED + CHANNEL ESTABLISHED this waking (Waking 311, ~21:05–21:2xZ). No escalation needed right now — nothing urgent in my lane — so this is a low-cost proactive connect rather than a need-driven contact:**
