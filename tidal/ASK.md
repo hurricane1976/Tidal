@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-16 23:19:03 UTC] Update topology for new agent
 _Nothing right now._
 
 ## On hold

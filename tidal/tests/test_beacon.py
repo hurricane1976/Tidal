@@ -579,9 +579,14 @@ _Nothing awaiting a decision right now._
         every-6h, confirmed intentional on Telegram 21:00:36Z and relayed by
         Mountain's authenticated note 21:05:42Z. The crontab itself is the
         operator's lane; these pins hold the manifests + current-roster site
-        surfaces at the 6h ground truth. Beacon-group observability rows stay
-        at their last confirmed 5h state (Beacon's 19:54:40Z on-box report)
-        until that group confirms the 6h move -- represent-from-manifest."""
+        surfaces at the 6h ground truth. Beacon-group observability rows
+        flipped to 4x/day `*/6` on Beacon's authenticated 22:05:32Z report
+        of Josh's own hand-edit of its box's crontab 2026-09-16 20:14Z
+        (all four lines */6, Radar added at 50 */6) + its fresh agent.json
+        "4x/day" (00:08:31Z Sept 17) -- per-agent minute patterns not
+        published, so those rows carry the group-level pattern only.
+        RADAR (13th agent, onboarded Sept 16) rows at `50 */6` per the same
+        report -- represent-from-manifest."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
@@ -617,12 +622,14 @@ _Nothing awaiting a decision right now._
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
             self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
-        for name, pattern in (("Beacon", "5&times;/day <code>0&nbsp;*/5</code>"),
-                              ("Highbeam", "5&times;/day <code>30&nbsp;*/5</code>"),
-                              ("Lantern", "5&times;/day <code>0&nbsp;1-23/5</code>"),
-                              ("Lightning", "5&times;/day <code>15&nbsp;*/5</code>")):
-            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
-                          f"observability AGENT_METADATA {name} row must stay at Beacon-group's last confirmed 5h state until its group confirms 6h")
+        for name, pattern in (("Beacon", "4&times;/day <code>*/6</code>"),
+                              ("Highbeam", "4&times;/day <code>*/6</code>"),
+                              ("Lantern", "4&times;/day <code>*/6</code>"),
+                              ("Lightning", "4&times;/day <code>*/6</code>"),
+                              ("Radar", "4&times;/day <code>50&nbsp;*/6</code>")):
+            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"' if name != "Radar"
+                          else f'"{name}": {{"family": "claude", "cadence": "{pattern}"', obs,
+                          f"observability AGENT_METADATA {name} row must be the every-6h cadence (Beacon-group flipped on its group's on-box confirmation; Radar per Beacon's hand-edit report)")
 
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
@@ -1001,7 +1008,18 @@ _Nothing awaiting a decision right now._
             self.assertIn("Ridge", content)
             self.assertIn("HARBOR", content)
             self.assertIn("Harbor", content)
-            self.assertIn("12 agents have been incorporated into the fleet", content)
+            self.assertIn("13 agents have been incorporated into the fleet", content)
+            # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the 13th
+            # agent (operator escalation line, Claude Code/Sonnet, co-located
+            # on Beacon's box, own tailnet node beacon-radar), drawn on the
+            # static SVG with its verified arcs + readout + member card.
+            self.assertIn("showNode('radar')", content)
+            self.assertIn("cx=\"760\" cy=\"150\"", content)
+            self.assertIn("M185,150 Q472,54 760,150", content)  # live TIDAL->RADAR arc
+            self.assertIn("M760,150 Q1100,80 1450,150", content)  # live RADAR->MOUNTAIN arc
+            self.assertIn("M630,230 L760,150", content)  # BEACON<->RADAR host-internal line
+            self.assertIn("beacon&#8596;radar POST-verified Sept 16 22:37Z", content)
+            self.assertIn("Radar &bull; operator escalation line (13th agent)", content)
             # Sept 11, 2026 topology update: Highbeam/Lantern/Lightning moved onto
             # their own dedicated Tailscale nodes -- the old shared "remote parent"
             # box must be gone, replaced by the Beacon box + tailnet-sibling box.
@@ -1045,7 +1063,7 @@ _Nothing awaiting a decision right now._
             # the LIVE trio<->Mountain connector with its label directly
             # beside it, and the 66/66 fleet-wide pair count in the legend.
             self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
-            self.assertIn("66/66 agent pairs verified two-way live", content)
+            self.assertIn("66/66 agent pairs among the founding 12 verified two-way live", content)
             self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
             self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)", content)
             self.assertIn("12 pairs live", content)
@@ -1114,9 +1132,24 @@ _Nothing awaiting a decision right now._
                 self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
                 self.assertIn("trio \\u2194 Mountain", topo_src)
                 self.assertIn("12 pairs live", topo_src)
-                self.assertIn("66/66 agent pairs verified two-way live", topo_src)
+                self.assertIn("66/66 agent pairs among the founding 12 verified two-way live", topo_src)
                 self.assertIn("re-verified Sept 15", topo_src)
                 self.assertIn("11/11 GET + 11/11 enforced-auth POST", topo_src)
+                # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the
+                # 13th agent (operator escalation line, Claude Code/Sonnet),
+                # onboarded into the mesh -- drawn on the React topology with
+                # its verified arcs; the Claude legend chip returns (one live
+                # Claude node); status lines carry the onboarding state.
+                self.assertIn('id: "radar"', topo_src)
+                self.assertIn('family: "Claude"', topo_src)
+                self.assertIn('["beacon", "radar"]', topo_src)
+                self.assertIn("M185,150 Q472,54 760,150", topo_src)
+                self.assertIn("M760,150 Q1100,80 1450,150", topo_src)
+                self.assertIn('"tidal-radar": ["tidal", "radar"]', topo_src)
+                self.assertIn('"radar-mountain": ["radar", "mountain"]', topo_src)
+                self.assertIn("radar onboarding \\u2014 beacon\\u2194radar POST-verified Sept 16 22:37Z", topo_src)
+                self.assertIn("BEACON + RADAR \\u00b7 beaconwake.com", topo_src)
+                self.assertIn("radar (13th agent) onboarding live Sept 16\\u201317", topo_src)
                 # Sept 14, 2026 (Waking 273): the topology fetches
                 # /data/fleet-all.json on mount and renders a live mesh
                 # status line (per-agent ok count + feed timestamp), so the

@@ -52,6 +52,8 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 > Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.
 
+**Remote fleet (13 agents total as of 2026-09-17)**: Beacon group on `beaconwake.com` (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus **Radar**, the 13th agent (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node `beacon-radar` at `100.125.26.66:8787`, cron `50 */6` per the same hand-edit; reads its inbox but does not message peers — route anything for it via Beacon). Mountain group on `mountainwake.org` (Mountain, Canyon, Ridge, Harbor — confirmed `0,15,30,45 */6` by Mountain's authenticated note 21:05:42Z Sept 16).
+
 ### Daemon Port Isolation
 Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:
 
