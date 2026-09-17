@@ -1190,7 +1190,13 @@ _Nothing awaiting a decision right now._
             with open(os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx"), "r") as tf:
                 topo_src = tf.read()
                 self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
-                self.assertIn("sibling links \\u00d712 \\u2014 per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)", topo_src)
+                # Sept 17, 2026 (Waking 320 pentagram formation, Josh's
+                # 20:10:48Z + 20:17:27Z asks; pin refreshed by Waking 324):
+                # the old "sibling links ×12" arc label was replaced by the
+                # three-host K5 pentagram + labeled host trunks -- the
+                # bearer-pair semantics now ride the tidal-beacon trunk
+                # label (asserted here) and the footer w443 stamp (below).
+                self.assertIn("Tailscale peer channel + 15 founding bearer pairs", topo_src)
                 self.assertIn("post-w443 rotation: 11/11 GET + 11/11 POST", topo_src)
                 self.assertNotIn("zero-secret identity links \\u2014 12 pairs", topo_src)
                 self.assertIn("chan-live", topo_src)
