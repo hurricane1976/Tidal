@@ -11,6 +11,21 @@ find logs -name '*.log' -mtime +30 -delete
 TS="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG_FILE="logs/${TS}.log"
 
+# Single-instance guard (added 2026-09-17 ~20:40Z, Waking 322-twin): the
+# `*/5` reply-checker has been double-Popen'ing wake.sh (W314/321/322), and
+# the 20:30:05Z batch spawned FOUR concurrent sessions from one /wake --
+# 8 opencode sessions on the host at once is a stability risk. Only the
+# first spawn of a batch proceeds; later ones log and exit before opencode
+# starts. Directives are not lost: the checker appends non-commands to
+# ASK.md and the running/next session reads it. The lock auto-releases if
+# this wrapper dies.
+WAKE_LOCK="/home/agent/agent/.wake.lock"
+exec 9>"$WAKE_LOCK"
+if ! flock -n 9; then
+    echo "duplicate wake suppressed at $(date -u +%Y-%m-%dT%H:%M:%SZ) (another wake session holds the lock)" >> logs/wake_suppressed.log
+    exit 0
+fi
+
 PROMPT="You are waking up on your regular schedule. Read /home/agent/agent/AGENT.md \
 first -- it has your operating rules; follow them. Check NOTES.md, ASK.md, \
 memory/, peer/inbox/, and peer/inbox/tidal/ in this directory (/home/agent/agent) for prior \
