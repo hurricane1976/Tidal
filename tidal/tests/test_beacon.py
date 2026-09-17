@@ -1211,10 +1211,12 @@ _Nothing awaiting a decision right now._
                 self.assertNotIn("River pending", topo_src)  # pending label gone
                 self.assertIn("full fleet mesh complete", topo_src)
                 self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
-                self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain (4 local \\u00d7 4 Mountain-group)", topo_src)
+                # Waking 327 lockstep (Sept 17 2026): Waking 320's pentagram
+                # rewrite re-worded the tidal-mountain trunk label.
+                self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain group \\u00b7 trio \\u2194 Mountain 12 pairs live", topo_src)
                 self.assertIn("trio \\u2194 Mountain", topo_src)
                 self.assertIn("12 pairs live", topo_src)
-                self.assertIn("66/66 agent pairs among the founding 12 verified two-way live", topo_src)
+                self.assertIn("founding 12 = 66/66 agent pairs verified two-way live", topo_src)
                 self.assertIn("re-verified Sept 15", topo_src)
                 self.assertIn("11/11 GET + 11/11 enforced-auth POST", topo_src)
                 # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the
@@ -1222,16 +1224,24 @@ _Nothing awaiting a decision right now._
                 # onboarded into the mesh -- drawn on the React topology with
                 # its verified arcs; the Claude legend chip returns (one live
                 # Claude node); status lines carry the onboarding state.
+                # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
+                # (14th, this box) + DELTA (15th, Mountain's host) join the
+                # React topology -- mesh quads extended to 5 co-located nodes
+                # each, host-box labels carry the agent counts, the new-agents
+                # label + aria/footer/status lines carry the onboarding state.
+                # Waking 327 lockstep (Josh's 20:10/20:17Z pentagram asks):
+                # the 320 redraw re-laid the board as three host K5 clusters,
+                # so the old radar-era arc pins moved to the pentagram trunk
+                # geometry + host-box labels.
                 self.assertIn('id: "radar"', topo_src)
                 self.assertIn('family: "Claude"', topo_src)
-                self.assertIn('["beacon", "radar"]', topo_src)
-                self.assertIn("M185,150 Q472,54 760,150", topo_src)
-                self.assertIn("M760,150 Q1100,80 1450,150", topo_src)
-                self.assertIn('"tidal-radar": ["tidal", "radar"]', topo_src)
-                self.assertIn('"radar-mountain": ["radar", "mountain"]', topo_src)
-                self.assertIn("radar onboarding \\u2014 beacon\\u2194radar POST-verified Sept 16 22:37Z", topo_src)
-                self.assertIn("BEACON + RADAR \u00b7 beaconwake.com", topo_src)
-                self.assertIn("radar (13th agent) onboarding live Sept 16\\u201317", topo_src)
+                self.assertIn("Beacon\u2194Radar POST-verified Sept 16 22:37Z (w466)", topo_src)
+                self.assertIn("M452,261 Q570,190 688,261", topo_src)  # peer trunk
+                self.assertIn("M992,251 Q1110,185 1228,251", topo_src)  # relay trunk
+                self.assertIn("peer: [\"tidal\", \"beacon\"]", topo_src)
+                self.assertIn("relay: [\"beacon\", \"mountain\"]", topo_src)
+                self.assertIn("BEACON HOST \\u00b7 beaconwake.com \\u00b7 5 agents", topo_src)
+                self.assertIn("radar (13th) onboarded Sept 16\\u201317", topo_src)
                 # Sept 14, 2026 (Waking 273): the topology fetches
                 # /data/fleet-all.json on mount and renders a live mesh
                 # status line (per-agent ok count + feed timestamp), so the
@@ -1258,7 +1268,7 @@ _Nothing awaiting a decision right now._
                 # bridge (violet chan-agora arc, live Sept 15, below the
                 # Beacon->Mountain relay arc).
                 self.assertIn("agora-mountain", topo_src)
-                self.assertIn("M630,230 Q1040,180 1450,150", topo_src)
+                self.assertIn("M992,281 Q1110,345 1228,281", topo_src)
                 self.assertIn("Mountain \\u2194 Beacon agora board bridge (live Sept 15)", topo_src)
                 self.assertIn('"agora-mountain": ["beacon", "mountain"]', topo_src)
                 # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
@@ -1268,12 +1278,14 @@ _Nothing awaiting a decision right now._
                 # label + aria/footer/status lines carry the onboarding state.
                 self.assertIn('id: "meadow"', topo_src)
                 self.assertIn('id: "delta"', topo_src)
-                self.assertIn('["tidal", "creek", "stream", "river", "meadow"]', topo_src)
-                self.assertIn('["mountain", "ridge", "canyon", "harbor", "delta"]', topo_src)
-                self.assertIn('"meadow-delta": ["meadow", "delta"]', topo_src)
-                self.assertIn("THIS BOX \u00b7 tidalwake.org (5 agents)", topo_src)
-                self.assertIn("MOUNTAIN GROUP \u00b7 mountainwake.org (5 agents)", topo_src)
-                self.assertIn("meadow + delta onboarding \\u2014 tidal\\u2194meadow live (18:49 mints)", topo_src)
+                self.assertIn('id: "tidal-host"', topo_src)
+                self.assertIn('id: "beacon-host"', topo_src)
+                self.assertIn('id: "mountain-host"', topo_src)
+                self.assertIn('members: ["tidal", "river", "creek", "stream", "meadow"]', topo_src)
+                self.assertIn('members: ["mountain", "canyon", "ridge", "harbor", "delta"]', topo_src)
+                self.assertIn("TIDAL HOST \\u00b7 tidalwake.org \\u00b7 5 agents", topo_src)
+                self.assertIn("MOUNTAIN HOST \\u00b7 mountainwake.org \\u00b7 5 agents", topo_src)
+                self.assertIn("pentagram formation \\u2014 3 hosts \\u00d7 5 agents", topo_src)
                 self.assertIn("Meadow \u2022 local business development & capital generation (14th agent)", topo_src)
                 self.assertIn("Delta \u2022 remote treasury & business strategist (15th agent)", topo_src)
                 self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17: tidal pairs verified two-way", topo_src)
