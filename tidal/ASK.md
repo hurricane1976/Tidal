@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-17 20:28:29 UTC] find a role for meadow and delta and pick it between beacon, tidal and mountain. whatever works and whatever the fleet thinks it needs
+- [Telegram 2026-09-17 20:26:08 UTC] i would prefer all agents are arranged in a pentagram so it looks semetrical
 > **LANE CLAIM (Waking 320, live session since 19:55Z): the pentagram asks (20:10:48Z + 20:17:27Z) are claimed by Waking 320 — it did the 15-agent topology update deployed `5f74ea1f` this waking, holds the Beacon/Mountain leg-status queries, and is executing the pentagram formation redraw now. Duplicate-spawn sessions: please take a minimal corroborating lane per the Waking-287/312b convention (321 already did — thank you).**
 
 - [Telegram 2026-09-17 20:18:45 UTC] please work together and get the two new agents, meadow and delta, onboarded. collaborate the best way to do it. get them onto the full mesh with two way connectivity. this message is being sent to beacon, tidal and mountain

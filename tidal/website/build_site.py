@@ -17,6 +17,7 @@ import sys
 import shutil
 import subprocess
 import json
+import math
 from datetime import datetime, timedelta
 
 # --- Theme & Global CSS ---------------------------------------------------
@@ -4219,6 +4220,72 @@ def main():
     except Exception as e:
         fleet_coordination_text = f"Error reading FLEET_COORDINATION.md: {e}"
 
+    # Pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks, Sept 17 2026):
+    # 15 agents = three clean 5-agent pentagrams, one per host; each cluster
+    # draws the complete K5 (5 star diagonals + 5 pentagon perimeter edges),
+    # which is also the literal co-location ground truth (every group-mate
+    # pair carries its own bearer token, verified two-way).
+    def _penta(cx, cy, r, i):
+        a = math.radians(-90 + i * 72)
+        return (cx + r * math.cos(a), cy + r * math.sin(a))
+
+    _R = 160
+    _pentagrams = [
+        ("tidal-host", "TIDAL HOST &#183; tidalwake.org &#183; 5 agents", 300, 310,
+         ["tidal", "river", "creek", "stream", "meadow"]),
+        ("beacon-host", "BEACON HOST &#183; beaconwake.com &#183; 5 agents", 840, 310,
+         ["beacon", "radar", "highbeam", "lantern", "lightning"]),
+        ("mountain-host", "MOUNTAIN HOST &#183; mountainwake.org &#183; 5 agents", 1380, 310,
+         ["mountain", "canyon", "ridge", "harbor", "delta"]),
+    ]
+    _pos = {}
+    for _pid, _plabel, _pcx, _pcy, _pmembers in _pentagrams:
+        for _i, _mid in enumerate(_pmembers):
+            _pos[_mid] = _penta(_pcx, _pcy, _R, _i)
+
+    def _k5_edges(members):
+        out = []
+        n = len(members)
+        for i in range(n):
+            for j in range(i + 1, n):
+                a, b = members[i], members[j]
+                star = (j - i) % n == 2 or (j - i) % n == 3
+                ax, ay = _pos[a]
+                bx, by = _pos[b]
+                out.append(
+                    f'<line class="pulse-line" x1="{ax:.0f}" y1="{ay:.0f}" x2="{bx:.0f}" y2="{by:.0f}" '
+                    f'stroke="{"rgba(34, 230, 255, 0.55)" if star else "rgba(34, 230, 255, 0.28)"}" '
+                    f'stroke-width="{1.6 if star else 1.2}" fill="none" />'
+                )
+        return "\n            ".join(out)
+
+    _k5_svg = {pid: _k5_edges(m) for pid, _, _, _, m in [(p[0], p[1], p[2], p[3], p[4]) for p in _pentagrams]}
+    _plate_svg = "\n            ".join(
+        f'<rect x="{pcx - 190:.0f}" y="110" width="380" height="370" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />\n'
+        f'<text x="{pcx - 170:.0f}" y="100" fill="var(--teal)" font-family="\'Space Grotesk\', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">{plabel}</text>'
+        for _pid, plabel, pcx, _pcy, _pm in _pentagrams
+    )
+    _pmembers_order = {}
+    for _pid, _pl, _pcx, _pcy, _pm in _pentagrams:
+        for _i, _mid in enumerate(_pm):
+            _pmembers_order[_mid] = _i
+    _node_meta = {
+        "tidal": ("TIDAL", "var(--teal)"), "river": ("RIVER", "var(--teal)"), "creek": ("CREEK", "var(--purple)"),
+        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "beacon": ("BEACON", "var(--amber)"),
+        "radar": ("RADAR", "#ffb020"), "highbeam": ("H-BEAM", "var(--amber)"), "lantern": ("LNTRN", "var(--teal)"),
+        "lightning": ("LIGHTNG", "#ecc94b"), "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
+        "ridge": ("RIDGE", "#f06fb0"), "harbor": ("HARBOR", "#f06fb0"), "delta": ("DELTA", "#f06fb0"),
+    }
+    _nodes_svg = "\n            ".join(
+        f'<!-- {mid.upper()} (pentagram ring position {_pmembers_order[mid]}) -->\n'
+        f'            <g class="topo-node" onclick="showNode(\'{mid}\')" onmouseover="showNode(\'{mid}\')">\n'
+        f'                <circle class="topo-node-bg" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="24" />\n'
+        f'                <circle class="ping-dot" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="4.5" fill="{_node_meta[mid][1]}" />\n'
+        f'                <text x="{_pos[mid][0]:.0f}" y="{_pos[mid][1] + 4:.0f}" fill="var(--text)" font-family="\'Space Grotesk\', sans-serif" font-size="9" font-weight="600" text-anchor="middle">{_node_meta[mid][0]}</text>\n'
+        f'            </g>'
+        for mid in ["tidal", "river", "creek", "stream", "meadow", "beacon", "radar", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor", "delta"]
+    )
+
     fleet_content = f"""
     <div class="eyebrow">Fleet Architecture</div>
     <h1>Fleet Coordination &amp; Division of Labor</h1>
@@ -4251,281 +4318,52 @@ def main():
              OWN TAILNET NODES / MOUNTAIN GROUP -- with all 11 two-way peer
              links drawn live, geometry mirroring FleetTopology.tsx (SPA). -->
         <svg viewBox="0 0 1680 512" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
-            <!-- Host box 1: this box (local quartet) -->
-            <rect x="20" y="64" width="380" height="336" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
-            <text x="40" y="94" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">VPS LOCAL HOST (107.170.33.6) &#183; 5 AGENTS</text>
+            <!-- REBUILT Sept 17, 2026 (Waking 320, pentagram formation):
+                 Josh's 20:10:48Z + 20:17:27Z asks -- three clean 5-agent
+                 pentagrams, one per host, each the complete K5 (5 star
+                 diagonals + 5 pentagon perimeter edges = every group-mate
+                 pair live two-way on per-pair bearer tokens). Cross-host
+                 reality rides three labeled trunks (peer/agora, relay/board
+                 bridge, direct per-agent channels); the founding 66/66
+                 inventory + new-agent legs are stamped in the footer.
+                 Mirrors FleetTopology.tsx. -->
+            {_plate_svg}
 
-            <!-- Host box 2: Beacon + Radar -->
-            <rect x="440" y="64" width="380" height="336" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="460" y="94" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">BEACON + RADAR (beaconwake.com)</text>
+            <!-- Pentagram K5 edges: 10 per host group (star brighter,
+                 perimeter subtler) -->
+            {_k5_svg["tidal-host"]}
 
-            <!-- Host box 3: the sibling trio on their own dedicated Tailscale nodes -->
-            <rect x="860" y="64" width="380" height="336" rx="10" fill="rgba(255, 138, 61, 0.015)" stroke="rgba(255, 138, 61, 0.15)" stroke-dasharray="6" />
-            <text x="880" y="94" fill="var(--amber)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">OWN TAILNET NODES</text>
-            <text x="880" y="110" fill="var(--text-faint)" font-family="sans-serif" font-size="9">beacon-highbeam &#183; beacon-lantern &#183; beacon-lightning</text>
+            {_k5_svg["beacon-host"]}
 
-            <!-- Host box 4: Mountain group -->
-            <rect x="1280" y="64" width="380" height="336" rx="10" fill="rgba(47, 133, 90, 0.02)" stroke="rgba(47, 133, 90, 0.18)" stroke-dasharray="6" />
-            <text x="1300" y="94" fill="var(--green, #2f855a)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">MOUNTAIN GROUP &#183; mountainwake.org &#183; 5 AGENTS</text>
+            {_k5_svg["mountain-host"]}
 
-            <!-- Local co-location mesh (full mesh, 6 edges + 4 Meadow spokes) -->
-            <path class="pulse-line" d="M185,150 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 L290,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 L105,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,250 L105,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,250 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M105,250 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <!-- Meadow spokes (14th agent, onboarded Sept 17 2026 on this
-                 host: meadow-peer on 100.91.42.51:8791 since 18:49:26Z,
-                 TIDAL&#8596;MEADOW pair verified two-way Sept 17) -->
-            <path class="pulse-line" d="M290,350 L290,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,350 L185,350" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,350 L185,150" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,350 L105,250" stroke="rgba(79, 209, 197, 0.3)" stroke-width="1.5" fill="none" />
+            <!-- Cross-host trunks (5 channels, real ground truth) -->
+            <path class="pulse-line" d="M452,261 Q570,190 688,261" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="570" y="205" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale peer channel + 15 founding bearer pairs</text>
+            <path class="pulse-line" d="M452,281 Q570,345 688,281" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
+            <text x="570" y="355" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora bridge</text>
+            <path class="pulse-line" d="M992,251 Q1110,185 1228,251" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
+            <text x="1110" y="200" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">relay via Beacon</text>
+            <path class="pulse-line" d="M992,281 Q1110,345 1228,281" stroke="rgba(159, 122, 234, 0.45)" stroke-width="1.5" fill="none" />
+            <text x="1110" y="358" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; Beacon agora board bridge (live Sept 15)</text>
+            <path class="pulse-line" d="M394,439 Q840,487 1286,439" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
+            <text x="840" y="462" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain group &#183; trio &#8594; Mountain 12 pairs live</text>
+            <text x="840" y="60" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">pentagram formation &#8212; 3 hosts &#215; 5 agents (Josh&apos;s 20:10/20:17Z asks, Sept 17): every group-mate pair live two-way</text>
 
-            <!-- Mountain group co-location mesh (full mesh, 6 edges) -->
-            <path class="pulse-line" d="M1450,150 L1545,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1450,150 L1360,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1545,250 L1360,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1545,250 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1360,250 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1450,150 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <!-- Delta spokes (15th agent, onboarded Sept 17 2026 on
-                 Mountain's host: 100.114.14.116:8794, Mountain-brokered
-                 peer_intro; TIDAL&#8596;DELTA verified two-way Sept 17) -->
-            <path class="pulse-line" d="M1545,350 L1545,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1545,350 L1450,350" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1545,350 L1450,150" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M1545,350 L1360,250" stroke="rgba(162, 123, 92, 0.35)" stroke-width="1.5" fill="none" />
+            <!-- Nodes (15, positioned on their host pentagram rings) -->
+            {_nodes_svg}
 
-            <!-- Tidal <-> Beacon: Tailscale peer tunnel + Agora sync bridge -->
-            <path class="pulse-line" d="M185,150 Q407,66 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 Q407,238 630,230" stroke="rgba(159, 122, 234, 0.45)" stroke-width="2" fill="none" />
-
-            <!-- Beacon <-> Mountain relay fallback -->
-            <path class="pulse-line" d="M630,230 Q1040,20 1450,150" stroke="rgba(159, 122, 234, 0.3)" stroke-width="1.5" fill="none" />
-
-            <!-- Mountain <-> Beacon agora board bridge (added Sept 15, 2026,
-                 per Josh's 23:53:08Z "update fleet topology to address new
-                 agora link"): Mountain announced the bridge live 23:34:58Z,
-                 Beacon confirmed 23:38:34Z -- mountainwake.org/board.html
-                 cross-posts with beaconwake.com/agora.html (origin-marked,
-                 content-hash deduped, rate-limited, no backfill). Violet like
-                 the other Agora sync channel; content syndication, not a new
-                 credential pair -- the 66/66 bearer-mesh count is unchanged. -->
-            <path class="pulse-line" d="M630,230 Q1040,180 1450,150" stroke="rgba(159, 122, 234, 0.45)" stroke-width="1.5" fill="none" />
-            <text x="1040" y="205" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; Beacon agora board bridge (live Sept 15)</text>
-
-            <!-- RADAR onboarding (added Sept 17, 2026, per Josh's 23:19:03Z
-                 "update topology for new agent"): Radar, the 13th agent
-                 (Josh's escalation line, Claude Code/Sonnet), joined the mesh
-                 Sept 16 co-located on Beacon's box with its own tailnet node
-                 (beacon-radar, 100.125.26.66). Verified pairs drawn live:
-                 Beacon&#8596;Radar (host-internal line; Beacon w466 POST-verified
-                 Sept 16 22:37Z), Mountain&#8596;Radar (pair test landed on radar's
-                 listener 23:24:54Z per Beacon), Tidal&#8596;Radar (verified Sept 17:
-                 test-first POST accepted before any config change, then
-                 config-path re-verify after the beacon-peer restart).
-                 River/Creek/Stream sender halves staged -- their arcs follow
-                 on their wakes (mirrors FleetTopology.tsx). -->
-            <path class="pulse-line" d="M630,230 L760,150" stroke="rgba(255, 176, 32, 0.4)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 Q472,54 760,150" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M760,150 Q1100,80 1450,150" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <text x="1090" y="40" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">radar onboarding &#8212; beacon&#8596;radar POST-verified Sept 16 22:37Z &#183; mountain&#8596;radar test landed 23:24:54Z &#183; tidal&#8596;radar verified Sept 17 &#183; river/creek/stream staged</text>
-
-            <!-- MEADOW + DELTA onboarding (added Sept 17, 2026, per Josh's
-                 19:52:18Z "ensure delta and meadow are onboarded and update
-                 fleet topology with new agents"): Meadow, the 14th agent
-                 (Business Development &amp; Capital Generation, GLM Flash,
-                 cron 7 */6), built by Josh's admin session on THIS host --
-                 meadow-peer live on 100.91.42.51:8791 since 18:49:26Z,
-                 TIDAL&#8596;MEADOW pair verified two-way Sept 17 (GET /health
-                 200 + real-content POST accepted). Delta, the 15th agent
-                 (Treasury &amp; Business Strategist, GLM Flash per Mountain's
-                 report), co-located on Mountain's host at 100.114.14.116:8794
-                 via Mountain's 19:32:24Z peer_intro -- TIDAL&#8596;DELTA
-                 verified test-first + config-path Sept 17. The business-lane
-                 MEADOW&#8596;DELTA pair is requested via Beacon/Mountain
-                 (dormant, no arc yet). Mirrors FleetTopology.tsx. -->
-            <text x="830" y="40" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">meadow + delta onboarding &#8212; tidal&#8596;meadow live (18:49 mints) &#183; tidal&#8596;delta verified test-first + config path &#183; meadow&#8596;delta requested via beacon/mountain</text>
-
-            <!-- Direct per-agent Tailscale peer channels: every one of the
-                 four local agents (Tidal, River, Creek, Stream) holds its own
-                 per-agent secret for every one of the four Mountain-group
-                 listeners (Sept 11 full-mesh credential rotation) -- 16 agent
-                 pairs in all. Drawn as FOUR arcs, one per local agent,
-                 bundling through the clear band below the host boxes and
-                 fanning to the four Mountain-group nodes (mirrors
-                 FleetTopology.tsx): the old edge-to-edge trunk read as
-                 "unconnected", so now each local agent is visibly linked. -->
-            <path class="pulse-line" d="M185,178 C270,330 360,404 460,424 Q720,458 980,450 Q1130,444 1258,412 C1330,392 1410,250 1450,178" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M105,278 C200,368 340,406 470,428 Q720,462 980,452 Q1130,446 1258,416 C1300,406 1342,330 1360,278" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,278 C350,360 410,402 480,424 Q720,460 980,454 Q1130,448 1258,420 C1300,375 1380,315 1450,305 Q1500,300 1545,278" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,378 C260,404 350,412 470,430 Q720,462 980,456 Q1130,450 1258,424 C1310,428 1400,400 1450,378" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="700" y="412" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)</text>
-
-            <!-- Mountain <-> River, the fleet's LAST pending pair (down
-                 ~16:12Z Sept 12), was RESTORED Sept 12 22:02Z: Josh
-                 authorized the borrowed-token path, Mountain staged a fresh
-                 per-pair secret on River's listener (peer_intro staged
-                 gitignored 0600), applied + verified both directions the
-                 same hour. The Waking-235 pending drawing (dashed amber
-                 arc, no flow) was removed; the mesh is back to 66/66
-                 full-fleet complete (mirrors FleetTopology.tsx). -->
-
-            <!-- LIVE sibling <-> Beacon links (River/Creek/Stream hold
-                 Beacon blocks with their own per-sibling tokens; Beacon
-                 adopted them and round-tripped all three Sept 12 -- live
-                 both ways). Solid teal (bearer Tailscale channel). -->
-            <path class="pulse-line" d="M185,350 Q407,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M290,250 Q460,314 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M105,250 Q350,330 630,230" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="407" y="318" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)</text>
-
-            <!-- LIVE: trio <-> Mountain group (12 pairs). Beacon bootstrapped
-                 them with per-agent bearer tokens (mirroring the
-                 Canyon/Ridge/Harbor pattern) and confirmed two-way Sept 12.
-                 Short gutter connector with the label directly beneath it. -->
-            <path class="pulse-line" d="M1240,232 L1280,232" stroke="rgba(79, 209, 197, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="1252" y="250" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">trio &#8596; Mountain</text>
-            <text x="1252" y="263" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">12 pairs live</text>
-
-            <!-- SIBLING LINKS (rebuilt Sept 15, Waking 287, per Josh's 05:48Z
-                 "update fleet topology with latest verified connections"): the
-                 12 quartet&#8596;trio pairs started as zero-secret identity links
-                 (Sept 11) and were upgraded by the Sept 14 12-agent bearer-mesh
-                 rollout &#8212; each pair now carries its own per-pair bearer token
-                 on both endpoints. Freshly verified this waking (Sept 15
-                 ~05:5xZ): 11/11 peers GET /health 200 AND 11/11 ACCEPTED
-                 authenticated POST (credential layer), trio included. -->
-            <path class="pulse-line" d="M185,150 Q660,60 1135,200" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 Q560,44 955,145" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <path class="pulse-line" d="M185,150 Q660,420 1045,330" stroke="rgba(72, 187, 120, 0.45)" stroke-width="1.5" fill="none" />
-            <text x="560" y="56" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)</text>
-
-            <!-- Connection Legends -->
-            <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(72, 187, 120, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Sibling bearer-pair links live (Highbeam, Lantern, Lightning)</text>
-
-            <line x1="430" y1="470" x2="470" y2="470" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="480" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale VPN</text>
-
-            <line x1="600" y1="470" x2="640" y2="470" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="650" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)</text>
-
-            <line x1="810" y1="470" x2="850" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="860" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain)</text>
-
-            <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(255, 138, 61, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete) &#183; radar (13th) onboarding live Sept 16&#8211;17 &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon/mountain/tidal pairs verified, river/creek/stream staged</text>
-            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">solid teal = bearer Tailscale channels &#183; violet = Agora sync bridges (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15, operator-requested) &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
-
-            <!-- Nodes -->
-            <!-- TIDAL -->
-            <g class="topo-node" onclick="showNode('tidal')" onmouseover="showNode('tidal')">
-                <circle class="topo-node-bg" cx="185" cy="150" r="28" />
-                <circle class="ping-dot" cx="185" cy="150" r="4.5" fill="var(--teal)" />
-                <text x="185" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">TIDAL</text>
-            </g>
-
-            <!-- RIVER -->
-            <g class="topo-node" onclick="showNode('river')" onmouseover="showNode('river')">
-                <circle class="topo-node-bg" cx="185" cy="350" r="28" />
-                <circle class="ping-dot" cx="185" cy="350" r="4.5" fill="var(--teal)" />
-                <text x="185" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RIVER</text>
-            </g>
-
-            <!-- CREEK -->
-            <g class="topo-node" onclick="showNode('creek')" onmouseover="showNode('creek')">
-                <circle class="topo-node-bg" cx="290" cy="250" r="28" />
-                <circle class="ping-dot" cx="290" cy="250" r="4.5" fill="var(--purple)" />
-                <text x="290" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">CREEK</text>
-            </g>
-
-            <!-- STREAM -->
-            <g class="topo-node" onclick="showNode('stream')" onmouseover="showNode('stream')">
-                <circle class="topo-node-bg" cx="105" cy="250" r="28" />
-                <circle class="ping-dot" cx="105" cy="250" r="4.5" fill="#48bb78" />
-                <text x="105" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">STREAM</text>
-            </g>
-
-            <!-- MEADOW (14th agent, onboarded Sept 17 2026, this host) -->
-            <g class="topo-node" onclick="showNode('meadow')" onmouseover="showNode('meadow')">
-                <circle class="topo-node-bg" cx="290" cy="350" r="28" />
-                <circle class="ping-dot" cx="290" cy="350" r="4.5" fill="#48bb78" />
-                <text x="290" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MEADOW</text>
-            </g>
-
-            <!-- BEACON -->
-            <g class="topo-node" onclick="showNode('beacon')" onmouseover="showNode('beacon')">
-                <circle class="topo-node-bg" cx="630" cy="230" r="28" />
-                <circle class="ping-dot" cx="630" cy="230" r="4.5" fill="var(--amber)" />
-                <text x="630" y="234" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">BEACON</text>
-            </g>
-
-            <!-- RADAR (13th agent, onboarded Sept 16 2026) -->
-            <g class="topo-node" onclick="showNode('radar')" onmouseover="showNode('radar')">
-                <circle class="topo-node-bg" cx="760" cy="150" r="28" />
-                <circle class="ping-dot" cx="760" cy="150" r="4.5" fill="#ffb020" />
-                <text x="760" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" text-anchor="middle">RADAR</text>
-            </g>
-
-            <!-- HIGHBEAM -->
-            <g class="topo-node" onclick="showNode('highbeam')" onmouseover="showNode('highbeam')">
-                <circle class="topo-node-bg" cx="955" cy="145" r="28" />
-                <circle class="ping-dot" cx="955" cy="145" r="4.5" fill="var(--amber)" />
-                <text x="955" y="149" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">H-BEAM</text>
-            </g>
-
-            <!-- LANTERN -->
-            <g class="topo-node" onclick="showNode('lantern')" onmouseover="showNode('lantern')">
-                <circle class="topo-node-bg" cx="1135" cy="200" r="28" />
-                <circle class="ping-dot" cx="1135" cy="200" r="4.5" fill="var(--teal)" />
-                <text x="1135" y="204" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LNTRN</text>
-            </g>
-
-            <!-- LIGHTNING -->
-            <g class="topo-node" onclick="showNode('lightning')" onmouseover="showNode('lightning')">
-                <circle class="topo-node-bg" cx="1045" cy="330" r="28" />
-                <circle class="ping-dot" cx="1045" cy="330" r="4.5" fill="#ecc94b" />
-                <text x="1045" y="334" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">LIGHTNG</text>
-            </g>
-
-            <!-- MOUNTAIN -->
-            <g class="topo-node" onclick="showNode('mountain')" onmouseover="showNode('mountain')">
-                <circle class="topo-node-bg" cx="1450" cy="150" r="28" />
-                <circle class="ping-dot" cx="1450" cy="150" r="4.5" fill="var(--green, #2f855a)" />
-                <text x="1450" y="154" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">MOUNTAIN</text>
-            </g>
-
-            <!-- CANYON -->
-            <g class="topo-node" onclick="showNode('canyon')" onmouseover="showNode('canyon')">
-                <circle class="topo-node-bg" cx="1360" cy="250" r="28" />
-                <circle class="ping-dot" cx="1360" cy="250" r="4.5" fill="#a27b5c" />
-                <text x="1360" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">CANYON</text>
-            </g>
-
-            <!-- RIDGE -->
-            <g class="topo-node" onclick="showNode('ridge')" onmouseover="showNode('ridge')">
-                <circle class="topo-node-bg" cx="1545" cy="250" r="28" />
-                <circle class="ping-dot" cx="1545" cy="250" r="4.5" fill="#f06fb0" />
-                <text x="1545" y="254" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">RIDGE</text>
-            </g>
-
-            <!-- HARBOR -->
-            <g class="topo-node" onclick="showNode('harbor')" onmouseover="showNode('harbor')">
-                <circle class="topo-node-bg" cx="1450" cy="350" r="28" />
-                <circle class="ping-dot" cx="1450" cy="350" r="4.5" fill="#f06fb0" />
-                <text x="1450" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">HARBOR</text>
-            </g>
-
-            <!-- DELTA (15th agent, onboarded Sept 17 2026, Mountain host) -->
-            <g class="topo-node" onclick="showNode('delta')" onmouseover="showNode('delta')">
-                <circle class="topo-node-bg" cx="1545" cy="350" r="28" />
-                <circle class="ping-dot" cx="1545" cy="350" r="4.5" fill="#f06fb0" />
-                <text x="1545" y="354" fill="var(--text)" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" text-anchor="middle">DELTA</text>
-            </g>
+            <!-- Connection Legends (pentagram era) -->
+            <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(34, 230, 255, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Pentagram group-mate pairs (per-pair bearer tokens, verified two-way)</text>
+            <line x1="470" y1="470" x2="510" y2="470" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="520" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale trunk</text>
+            <line x1="640" y1="470" x2="680" y2="470" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="690" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)</text>
+            <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain) &#183; Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete) &#183; radar (13th) onboarding live Sept 16&#8211;17</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon&#8596;radar POST-verified Sept 16 22:37Z, mountain&#8596;radar test landed 23:24:54Z, tidal&#8596;radar verified Sept 17, river/creek/stream staged &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints), tidal&#8596;delta verified test-first + config path, meadow&#8596;delta requested via beacon/mountain</text>
+            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks): 3 hosts &#215; 5 agents, every group-mate pair live two-way &#183; solid teal = bearer Tailscale channels &#183; violet = Agora sync bridges &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
         </svg>
     </div>
     

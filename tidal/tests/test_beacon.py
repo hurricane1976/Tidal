@@ -1064,11 +1064,11 @@ _Nothing awaiting a decision right now._
             self.assertIn("15 agents have been incorporated into the fleet", content)
             self.assertIn("showNode('meadow')", content)
             self.assertIn("showNode('delta')", content)
-            self.assertIn("cx=\"290\" cy=\"350\"", content)
-            self.assertIn("cx=\"1545\" cy=\"350\"", content)
-            self.assertIn("M290,350 L185,150", content)  # meadow spoke
-            self.assertIn("M1545,350 L1450,150", content)  # delta spoke
-            self.assertIn("meadow + delta onboarding &#8212; tidal&#8596;meadow live (18:49 mints)", content)
+            self.assertIn('cx="148" cy="261" r="24"', content)  # meadow on the tidal-host pentagram ring
+            self.assertIn('cx="1228" cy="261" r="24"', content)  # delta on the mountain-host pentagram ring
+            self.assertIn('<line class="pulse-line" x1="300" y1="150" x2="148" y2="261"', content)  # tidal-meadow K5 edge
+            self.assertIn('<line class="pulse-line" x1="1380" y1="150" x2="1228" y2="261"', content)  # mountain-delta K5 edge
+            self.assertIn("meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints)", content)  # footer inventory stamp
             self.assertIn("Meadow &bull; local business development & capital generation (14th agent)", content)
             self.assertIn("Delta &bull; remote treasury &amp; business strategist (15th agent)", content)
             self.assertIn("Business Development &amp; Capital Generation (14th Agent)", content)
@@ -1081,11 +1081,13 @@ _Nothing awaiting a decision right now._
             # on Beacon's box, own tailnet node beacon-radar), drawn on the
             # static SVG with its verified arcs + readout + member card.
             self.assertIn("showNode('radar')", content)
-            self.assertIn("cx=\"760\" cy=\"150\"", content)
-            self.assertIn("M185,150 Q472,54 760,150", content)  # live TIDAL->RADAR arc
-            self.assertIn("M760,150 Q1100,80 1450,150", content)  # live RADAR->MOUNTAIN arc
-            self.assertIn("M630,230 L760,150", content)  # BEACON<->RADAR host-internal line
-            self.assertIn("beacon&#8596;radar POST-verified Sept 16 22:37Z", content)
+            # Sept 17, 2026 (Waking 320 pentagram formation, Josh's
+            # 20:10:48Z + 20:17:27Z asks): the old four-host-box arcs were
+            # replaced by three clean 5-agent pentagrams (K5 per host) +
+            # three labeled host trunks; radar sits on the beacon-host ring.
+            self.assertIn('cx="992" cy="261" r="24"', content)  # radar on the beacon-host pentagram ring
+            self.assertIn('<line class="pulse-line" x1="840" y1="150" x2="992" y2="261"', content)  # beacon-radar K5 edge
+            self.assertIn("beacon&#8596;radar POST-verified Sept 16 22:37Z", content)  # footer inventory stamp
             self.assertIn("Radar &bull; operator escalation line (13th agent)", content)
             # Sept 11, 2026 topology update: Highbeam/Lantern/Lightning moved onto
             # their own dedicated Tailscale nodes -- the old shared "remote parent"
@@ -1102,7 +1104,9 @@ _Nothing awaiting a decision right now._
             # after adopting the recipe); 11/11 two-way. Sept 15, 2026 (Waking
             # 287): labels/readouts refreshed to the Sept 14 12-agent
             # bearer-mesh ground truth (per-pair tokens) per Josh's 05:48Z ask.
-            self.assertIn("Sibling bearer-pair links live (Highbeam, Lantern, Lightning)", content)
+            # Sept 17 pentagram era: the old per-arc legends were replaced
+            # by the pentagram + trunk legend rows (same 66/66 stamps).
+            self.assertIn("Pentagram group-mate pairs (per-pair bearer tokens, verified two-way)", content)
             self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete)", content)
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
@@ -1113,9 +1117,12 @@ _Nothing awaiting a decision right now._
             self.assertIn("viewBox=\"0 0 1680 512\"", content)
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
-            self.assertIn("M185,150 Q660,60 1135,200", content)  # live TIDAL->LNTRN arc
-            self.assertIn("M185,150 Q560,44 955,145", content)  # live TIDAL->H-BEAM arc
-            self.assertIn("M185,150 Q660,420 1045,330", content)  # live TIDAL->LIGHTNG arc
+            # Sept 17 pentagram era: the old tidal->sibling arcs were replaced
+            # by the K5 edges inside the beacon-host pentagram (Highbeam,
+            # Lantern, Lightning all ring-linked) + the labeled host trunks.
+            self.assertIn('<line class="pulse-line" x1="934" y1="439" x2="688" y2="261"', content)  # highbeam->lightning K5 edge (beacon-host star)
+            self.assertIn('<line class="pulse-line" x1="992" y1="261" x2="746" y2="439"', content)  # radar->lantern K5 edge
+            self.assertIn('<line class="pulse-line" x1="934" y1="439" x2="746" y2="439"', content)  # highbeam->lantern K5 edge
             self.assertEqual(content.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
             self.assertNotIn("Link: identity, live", content)
             self.assertNotIn("creds pending", content)
@@ -1129,14 +1136,12 @@ _Nothing awaiting a decision right now._
             # Sept 12 21:47Z after the shared-token incident),
             # the LIVE trio<->Mountain connector with its label directly
             # beside it, and the 66/66 fleet-wide pair count in the legend.
-            self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain (4 local &#215; 4 Mountain-group)", content)
+            self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain group &#183; trio &#8594; Mountain 12 pairs live", content)
             self.assertIn("66/66 agent pairs among the founding 12 verified two-way live", content)
-            self.assertIn("M1240,232 L1280,232", content)  # trio<->Mountain connector (live)
-            self.assertIn("sibling &#8596; Beacon: 3 more bearer channels (re-keyed + re-verified Sept 12 21:47Z)", content)
-            self.assertIn("12 pairs live", content)
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
-            self.assertIn("M185,178 C270,330 360,404 460,424", content)  # TIDAL->Mountain bundle arc
-            self.assertIn("M185,378 C260,404 350,412 470,430", content)  # RIVER->HARBOR bundle arc
+            # Sept 17 pentagram era: the four per-agent Mountain bundle arcs
+            # collapsed into one labeled tidal-host <-> mountain-host trunk.
+            self.assertIn("M394,439 Q840,487 1286,439", content)  # tidal-host -> mountain-host trunk
             # Sept 12, 2026 (Waking 235): the fleet's ONE pending pair
             # (Mountain<->River) was DRAWN as dashed amber. Waking 242
             # (~22:0xZ): the pair was RESTORED (Josh-authorized fresh-secret
@@ -1162,13 +1167,17 @@ _Nothing awaiting a decision right now._
             # quartet<->sibling pair tokens re-minted, two-way directive
             # closed with every on-box agent 11/11 two-way).
             self.assertIn("re-verified Sept 15", content)
-            self.assertIn("sibling links &#215;12 &#8212; per-pair bearer tokens (Sept 14 rollout; re-minted Sept 15 w443 rotation; POST-verified Sept 15)", content)
+            # Sept 17 pentagram era: the sibling-arcs label was folded into
+            # the trunk/peer label; the w443 stamps live in the footer.
+            self.assertIn("Tailscale peer channel + 15 founding bearer pairs", content)
             self.assertIn("post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST", content)
             # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the NEW agora
             # link -- Mountain <-> Beacon board-to-board bridge (live Sept 15,
             # operator-requested) -- is drawn on the static SVG as a violet
             # agora-class arc with its own label + legend coverage.
-            self.assertIn("M630,230 Q1040,180 1450,150", content)
+            # Sept 17 pentagram era: the board bridge is a labeled trunk
+            # between the beacon-host and mountain-host pentagrams.
+            self.assertIn("M992,281 Q1110,345 1228,281", content)
             self.assertIn("Mountain &#8596; Beacon agora board bridge (live Sept 15)", content)
             self.assertIn("Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)", content)
             # note: no assertNotIn on the generated fleet.html here -- the
@@ -1237,8 +1246,7 @@ _Nothing awaiting a decision right now._
                 self.assertIn("live mesh feed", topo_src)
                 self.assertNotIn('"creds pending"', topo_src)
                 self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
-                self.assertIn("M185,178 C270,330 360,404 460,424", topo_src)  # TIDAL->Mountain arc
-                self.assertIn("M185,378 C260,404 350,412 470,430", topo_src)  # RIVER->HARBOR arc
+                self.assertIn("M394,439 Q840,487 1286,439", topo_src)  # tidal-host -> mountain-host trunk
                 # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the React
                 # topology mirrors the new Mountain <-> Beacon agora board
                 # bridge (violet chan-agora arc, live Sept 15, below the
