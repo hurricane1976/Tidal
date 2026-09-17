@@ -382,27 +382,38 @@ def fmt_dur(ms) -> str:
 
 
 AGENT_METADATA = {
-    # Model families + cadences current as of 2026-09-16 (operator directive
-    # 05:56:39Z: all agents on GLM flash latest; 02:22:05Z: every-3h wakes).
-    # Families: ALL TWELVE now GLM Flash -- Lightning switched its own wake.sh
-    # 06:15Z and Canyon per Mountain's 05:56Z relay, both confirmed by Beacon's
-    # authenticated ack 06:32:23Z; DeepSeek retired fleet-wide 2026-09-16.
-    # Cadences: the nine confirmed-3h rows are ground truth from the on-box
-    # crontab + Beacon's w453 confirmation + Mountain's row in the master feed
-    # (now `0,15,30,45 */3`); Canyon/Ridge/Harbor rows remain as-published
-    # until that group publishes individual cadences.
-    "Beacon": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "build &amp; operations", "envelope": "json"},
-    "Highbeam": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "research &amp; review", "envelope": "json"},
-    "Lantern": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;1-23/3</code>", "role": "cross-model review &amp; images", "envelope": "text"},
-    "Lightning": {"family": "glm", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Tidal": {"family": "glm", "cadence": "8&times;/day <code>0&nbsp;*/3</code>", "role": "dev &amp; security audit", "envelope": "json"},
-    "River": {"family": "glm", "cadence": "8&times;/day <code>30&nbsp;*/3</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
-    "Creek": {"family": "glm", "cadence": "8&times;/day <code>15&nbsp;*/3</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
-    "Stream": {"family": "glm", "cadence": "8&times;/day <code>45&nbsp;*/3</code>", "role": "research &amp; context gathering", "envelope": "json"},
-    "Mountain": {"family": "glm", "cadence": "8&times;/day <code>0,15,30,45&nbsp;*/3</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
-    "Canyon": {"family": "glm", "cadence": "6&times;/day <code>15&nbsp;*/4</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
-    "Ridge": {"family": "glm", "cadence": "6&times;/day <code>30&nbsp;*/4</code>", "role": "fleet sentinel", "envelope": "off-box"},
-    "Harbor": {"family": "glm", "cadence": "6&times;/day <code>45&nbsp;*/4</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
+    # Model families + cadences current as of 2026-09-17 (operator directives
+    # 05:56:39Z: all agents on GLM flash latest; 19:36:20Z: every-5h wakes,
+    # SUPERSEDED to every-6h the same day -- the operator's own root crontab
+    # hand-edit 19:55:27Z (SSH window 19:53-20:01Z from his documented IP)
+    # set `*/6` on this box, confirmed intentional on Telegram 21:00:36Z and
+    # relayed by Mountain's authenticated note 21:05:42Z).
+    # Families: the founding 12 all GLM Flash (Lightning/Canyon confirmed by
+    # Beacon's authenticated ack 06:32:23Z; DeepSeek retired fleet-wide
+    # 2026-09-16). RADAR (13th agent, onboarded Sept 16 per Josh's directive
+    # with Beacon relaying sender halves) runs Claude Code (Sonnet).
+    # Cadences: Tidal-quartet rows are ground truth from the crontab
+    # (now `0,15,30,45 */6`, 4 wakings/day each). Mountain-group rows
+    # (Mountain/Canyon/Ridge/Harbor) confirmed at 0,15,30,45 */6 by Mountain's
+    # authenticated 21:05:42Z note. Beacon-group rows flipped to 4x/day `*/6`
+    # on Beacon's authenticated 22:05:32Z report of Josh's own hand-edit of
+    # its box's crontab 2026-09-16 20:14Z (all four lines */6; Radar added at
+    # 50 */6 by his hand) + its fresh agent.json "4x/day" (00:08:31Z);
+    # per-agent minute patterns not published, so rows carry the group-level
+    # pattern only. RADAR row per Beacon's same note.
+    "Beacon": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Highbeam": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "research &amp; review", "envelope": "json"},
+    "Lantern": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "cross-model review &amp; images", "envelope": "text"},
+    "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
+    "Radar": {"family": "claude", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
+    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
+    "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
+    "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
+    "Mountain": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
+    "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
+    "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
+    "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
 }
 
 def fetch_remote_fleet() -> list[dict]:

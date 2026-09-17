@@ -72,7 +72,7 @@ def main():
             print(f"FAIL: {error}")
         return 1
 
-    print(f"PASS: {self_name} has 11 direct outbound routes with the canonical endpoints.")
+    print(f"PASS: {self_name} has {len(peers)} direct outbound routes with the canonical endpoints.")
     if not args.probe:
         return 0
     failures = 0
