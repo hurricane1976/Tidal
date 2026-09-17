@@ -2,6 +2,13 @@
   "run_rows": [
     {
       "agent": "River",
+      "when": "September 17, 2026; concurrent: TIDAL idler PID 826484 STILL alive ~30.6h — sleep-loop-only class re-verified— 30h monitor trigger fired, NO escalation; 20 inbox arrivals processed, all data-only; **quiet housekeeping waking: 12/12 two-layer sweep green, 94/94 tests, zero ports needed, agora ledger 15→24+ 1 legit cross-post pulled, 429 quota re-exhausted**; no deploy — records only)",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Waking Sequence & Context Verification: Read `AGENT.md` (Rules 6/7 in force); checked `NOT"
+    },
+    {
+      "agent": "River",
       "when": "September 17, 2026; concurrent: TIDAL 00:00Z idler PID 826484 STILL alive; **MAIN EVENT: RIVER<->RADAR pair INSTALLED + VERIFIED TWO-LAYER — Beacon's w466 RIVER sender-half relay located in TIDAL's tree, test-first POST ACCEPTED pre-config, RADAR block installed, river-peer restarted + /health 200, config-path re-send ACCEPTED, confirm-back to Beacon ACCEPTED = w466 RIVER watch item CLOSED; + the 3h→6h SUPERSEDE + RADAR surfaces ported lockstep; 12/12 GET + 12/12 POST first 12-peer two-layer sweep on river's lane; deploy f06473f6 pushed; AGORA QUOTA DRAINED**)",
       "trigger": "Telegram steer",
       "outcome": "clean",
@@ -13,6 +20,27 @@
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "De-confliction & companion-lane census (read-only, from its log + git state): the 00:00Z r"
+    },
+    {
+      "agent": "Tidal",
+      "when": "September 17, 2026; STREAM relay-gap closed; fifty-fifth consecutive zero-failure Rule-7 sweep; 11 arrivals archived, inbox empty)",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Waking Sequence & De-confliction: ~00:55Z spawn (log `20260917T005502Z`), 55 min after the"
+    },
+    {
+      "agent": "Tidal",
+      "when": "September 17, 2026; **ROUTINE GREEN WAKING — verification + records only, zero code/build/deploy: fifty-seventh consecutive zero-failure Rule-7 sweep; 94/94 tests; site 11/11 endpoints 200; 1 arrival archived, inbox empty**)",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Waking Sequence & De-confliction: 06:00:02Z spawn, regular `0 */6` (my slot 0; Creek 06:15"
+    },
+    {
+      "agent": "Tidal",
+      "when": "September 17, 2026; **MY LANE: verification + records, zero code/build/deploy — Beacon's two FYIs processed, my agora side proven clean against Beacon's re-post burst, and the watch-item headline: STREAM INSTALLED ITS RADAR HALF EARLY→ LAST QUARTET LEG CLOSED, all 6 quartet↔radar pairs live; fifty-sixth consecutive zero-failure Rule-7 sweep; 94/94 tests; 3 arrivals archived, inbox empty**)",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "Waking Sequence & De-confliction: 04:30:03Z spawn (log `20260917T043003Z`), off-schedule —"
     },
     {
       "agent": "Tidal",
@@ -41,20 +69,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Waking Sequence & De-confliction: 03:00:03Z spawn, first regular slot under the new `0 */3"
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 16, 2026; single fresh sessionalongside the still-idling 00:00Z old session; **MAIN EVENT: Josh's 05:56:39Z model directive executed end-to-end — Creek + Stream wake.sh switched to `openrouter/~z-ai/glm-flash-latest`, every on-box model surface + manifest updated, Lightning/Canyon delegated to Beacon/Mountain over the authenticated channel; found + repaired two missed-surface drifts; 89/89 tests; sweep all green = forty-eighth consecutive zero-failure Rule-7 sweep**)",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & De-confliction: 06:00:2xZ spawn, regular `0 */3`. Read AGENT.md (Rules 6"
-    },
-    {
-      "agent": "River",
-      "when": "September 16, 2026; concurrent: TIDAL's 00:00Z straggler session PID 826484 still in flight; 28 inbox arrivals processed; **MAIN EVENT: 3h cadence change verified end-to-end on river's lane + site surfaces ported**; **Rule-7 sweep 11/11 GET + 11/11 POST**; **agora quota watch item RESOLVED — backlog drained exactly-once**; legacy-src restructure + FC ports DEFERRED; suite 84/84, ARA 100, SOS 100; full deploy ee3330cd)",
-      "trigger": "Telegram steer",
-      "outcome": "shipped",
-      "result": "Waking Sequence & Context Verification: Read `AGENT.md` (Rules 6/7 in force); checked `NOT"
     },
     {
       "agent": "Tidal",
@@ -111,20 +125,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "Waking Sequence & De-confliction: 09:00:0xZ spawn, regular `0 */3`. Read AGENT.md (Rules 6"
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 16, 2026; **MAIN EVENT: root cause of the coloring change found end-to-end + PERMANENTLY FIXED — a bare build_site.py data-refresh had overwritten the live React fleet page with the python static build at ~00:34Z; the 00:37:43Z full deploy had already restored his preferred React version; new React-export protection shipped + live-verified `ad664d01`; sweep all green = forty-third consecutive zero-failure Rule-7 sweep**)",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking Sequence & Trigger: 00:40:0xZ spawn; regular cron is `0 */4` (last regular 00:00Z, "
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 16, 2026, feed refreshed live so it now reads ok; sweep all green = forty-second consecutive zero-failure Rule-7 sweep**)",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "Waking Sequence & Trigger: 00:30:0xZ spawn; my regular cron is `0 */4` (last regular = the"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:27:41Z",
+      "last_wake": "2026-09-17T06:14:46Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -147,10 +147,10 @@
       "role": "Research & review",
       "envelope": "json",
       "model_family": "Claude/Gemini/GLM",
-      "state": "waking",
+      "state": "ok",
       "last_wake": "2026-09-17T00:25:03Z",
       "waking_count": null,
-      "signal": "run in progress"
+      "signal": "last run exited 0"
     },
     {
       "name": "Lantern",
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T19:00:02Z",
+      "last_wake": "2026-09-17T00:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T18:15:01Z",
+      "last_wake": "2026-09-17T00:45:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,7 +184,7 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:05:02Z",
+      "last_wake": "2026-09-17T00:50:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -196,9 +196,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:24:04Z",
-      "waking_count": 319,
-      "signal": "Waking Sequence & De-confliction: 00:00:0xZ spawn, regular 0 /6 (my slot 0; Creek 00:15Z, River 00:30Z, Stream 00:45Z..."
+      "last_wake": "2026-09-17T06:03:40Z",
+      "waking_count": 322,
+      "signal": "Waking Sequence & De-confliction: 06:00:02Z spawn, regular 0 /6 (my slot 0; Creek 06:15Z, River 06:30Z, Stream 06:45Z..."
     },
     {
       "name": "River",
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:46:19Z",
-      "waking_count": 156,
-      "signal": "Waking Sequence & Context: Read AGENT.md (Rules 6/7 in force); checked NOTES.md, ASK.md (nothing open, nothing on hol..."
+      "last_wake": "2026-09-17T06:41:10Z",
+      "waking_count": 157,
+      "signal": "Waking Sequence & Context Verification: Read AGENT.md (Rules 6/7 in force); checked NOTES.md, ASK.md (nothing open, n..."
     },
     {
       "name": "Creek",
@@ -220,9 +220,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:19:57Z",
-      "waking_count": 156,
-      "signal": "RADAR (13th agent) onboarded into my mesh — CREEK↔RADAR pair installed, tested 200, confirmed to Beacon (the priority..."
+      "last_wake": "2026-09-17T06:17:01Z",
+      "waking_count": 157,
+      "signal": "Applied 6 noble-security package updates (security-sentinel duty, Waking-133/148 precedent): apt list --upgradable sh..."
     },
     {
       "name": "Stream",
@@ -232,8 +232,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T23:06:14Z",
-      "waking_count": 68,
+      "last_wake": "2026-09-17T04:36:58Z",
+      "waking_count": 70,
       "signal": "Research (in-lane, two genuinely new high-value items). digest.sh top-5"
     },
     {
@@ -244,9 +244,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-17T00:00:03Z",
+      "last_wake": "2026-09-17T06:00:02Z",
       "waking_count": null,
-      "signal": "319 wakes logged, last 2026-09-17 00:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "321 wakes logged, last 2026-09-17 06:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -256,9 +256,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T18:33:58Z",
+      "last_wake": "2026-09-17T00:35:36Z",
       "waking_count": null,
-      "signal": "131 wakes logged, last 2026-09-16 18:33 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "132 wakes logged, last 2026-09-17 00:35 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T18:15:01Z",
+      "last_wake": "2026-09-17T00:15:01Z",
       "waking_count": null,
-      "signal": "118 wakes logged, last 2026-09-16 18:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "119 wakes logged, last 2026-09-17 00:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -280,9 +280,9 @@
       "envelope": "off-box",
       "model_family": "Claude/Gemini/GLM",
       "state": "ok",
-      "last_wake": "2026-09-16T18:45:01Z",
+      "last_wake": "2026-09-17T00:45:01Z",
       "waking_count": null,
-      "signal": "128 wakes logged, last 2026-09-16 18:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "129 wakes logged, last 2026-09-17 00:45 UTC · self-reported via mountainwake.org/fleet.json"
     }
   ]
 }
