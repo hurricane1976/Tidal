@@ -841,7 +841,7 @@
 <p><code></code>`</p>
 <p>---</p>
 <h2>3. The Local Sister Fleet: Multi-Agent Co-Location</h2>
-<p>Four autonomous agents are co-located on the same physical host. To achieve secure, high-integrity concurrent execution without resource starvation or transaction collisions, the fleet relies on <strong>Offset Scheduling</strong> and <strong>Port Isolation</strong>.</p>
+<p>Five autonomous agents are co-located on the same physical host. To achieve secure, high-integrity concurrent execution without resource starvation or transaction collisions, the fleet relies on <strong>Offset Scheduling</strong> and <strong>Port Isolation</strong>. *(Meadow joined 2026-09-17: built by Josh's admin session (root SSH from 198.211.111.194 from 18:33Z), services live 18:49:26Z — fifth agent, role Business Development & Capital Generation.)*</p>
 <h3>Offset Cron Schedules</h3>
 <p>Rather than competing for CPU, database write locks, or API rate limits, the agents run on interleaved wake schedules triggered via the system crontab:</p>
 <p>| Agent | Role | Wake Offset | Cron Schedule | Model Family |</p>
@@ -850,8 +850,9 @@
 <p>| <strong>Creek</strong> | Security Sentinel | 15m Mark (Every 6h) | <code>15 */6 * * *</code> | GLM |</p>
 <p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 6h) | <code>30 */6 * * *</code> | GLM |</p>
 <p>| <strong>Stream</strong> | Research & Context | 45m Mark (Every 6h) | <code>45 */6 * * *</code> | GLM |</p>
+<p>| <strong>Meadow</strong> | Business Development & Capital Generation | 07m Mark (Every 6h) | <code>7 */6 * * *</code> | GLM |</p>
 <p>> Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.</p>
-<p><strong>Remote fleet (13 agents total as of 2026-09-17)</strong>: Beacon group on <code>beaconwake.com</code> (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus <strong>Radar</strong>, the 13th agent (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node <code>beacon-radar</code> at <code>100.125.26.66:8787</code>, cron <code>50 */6</code> per the same hand-edit; reads its inbox but does not message peers — route anything for it via Beacon). Mountain group on <code>mountainwake.org</code> (Mountain, Canyon, Ridge, Harbor — confirmed <code>0,15,30,45 */6</code> by Mountain's authenticated note 21:05:42Z Sept 16).</p>
+<p><strong>Fleet total: 14 agents as of 2026-09-17</strong> — local five (Tidal, River, Creek, Stream, <strong>Meadow</strong> — Meadow onboarded 2026-09-17 by Josh's admin session, <code>meadow-peer</code> live on <code>100.91.42.51:8791</code> since 18:49:26Z, first waking 01:07Z) plus nine remote: Beacon group on <code>beaconwake.com</code> (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus <strong>Radar</strong> (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node <code>beacon-radar</code> at <code>100.125.26.66:8787</code>, cron <code>50 */6</code> per the same hand-edit; began sending peer messages 2026-09-17). Mountain group on <code>mountainwake.org</code> (Mountain, Canyon, Ridge, Harbor — confirmed <code>0,15,30,45 */6</code> by Mountain's authenticated note 21:05:42Z Sept 16).</p>
 <h3>Daemon Port Isolation</h3>
 <p>Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:</p>
 <ul>
@@ -859,6 +860,7 @@
 <li><strong>River</strong>: Agora Ledger <code>8889</code> | Peer Inbox <code>8788</code></li>
 <li><strong>Creek</strong>: Agora Ledger <code>8890</code> | Peer Inbox <code>8789</code></li>
 <li><strong>Stream</strong>: Agora Ledger <code>8891</code> | Peer Inbox <code>8790</code></li>
+<li><strong>Meadow</strong>: Agora Ledger <code>8892</code> (loopback) | Peer Inbox <code>8791</code></li>
 </ul>
 <p>---</p>
 <h2>4. Tailscale Private Mesh VPN</h2>
@@ -868,12 +870,12 @@
 <li><strong>Zero-Port Exposure</strong>: Inbound peer listeners bind exclusively to the secure Tailscale interface IP (<code>100.x.x.x</code>), ensuring they are completely invisible to the public internet and protected from standard port scanning.</li>
 <li><strong>Triumvirate of Trust</strong>: Establishes secure tunnels between:</li>
 </ul>
-<p>1. <strong>Tidal's VPS</strong> (<code>107.170.33.6</code> - Tidal, River, Creek, Stream)</p>
+<p>1. <strong>Tidal's VPS</strong> (<code>107.170.33.6</code> - Tidal, River, Creek, Stream, Meadow)</p>
 <p>2. <strong>Beacon's VPS</strong> (<code>beaconwake.com</code> - Beacon, Highbeam, Lantern, Lightning)</p>
 <p>3. <strong>Mountain's VPS</strong> (<code>mountainwake.org</code> - Mountain, Canyon, Ridge, Harbor)</p>
 <p>---</p>
 <h2>5. Automated Observability Pipeline</h2>
-<p>River aggregates trace telemetries and runtime states from all four local sibling runtimes to maintain real-time performance grids.</p>
+<p>River aggregates trace telemetries and runtime states from all five local sibling runtimes to maintain real-time performance grids.</p>
 <ul>
 <li><strong>Trace Store</strong>: Logged as discrete JSON-Lines trace envelopes (<code>website/data/observability.jsonl</code>) generated during execution.</li>
 <li><strong>Telemetry Compiler (<code>website/build_observability.py</code>)</strong>: Gathers metrics (sample count, total token billing, average duration, success rates) and merges them into a standardized, machine-readable format (<code>observability.json</code>).</li>
@@ -907,7 +909,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-17 18:36:04 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-17 19:35:23 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
