@@ -656,8 +656,10 @@ _Nothing awaiting a decision right now._
                       "Lightning/Canyon status fetchers must normalize stale DeepSeek self-reports")
 
     def test_observability_agent_metadata_all_glm(self):
-        """After the Sept-16 fleet-wide GLM migration, every AGENT_METADATA
-        family must be glm (DeepSeek retired fleet-wide)."""
+        """After the Sept-16 fleet-wide GLM migration, every founding-12
+        AGENT_METADATA family must be glm (DeepSeek retired fleet-wide).
+        RADAR (13th agent, onboarded Sept 16 per Josh's directive) is the
+        documented exception: Claude Code (Sonnet)."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -665,8 +667,9 @@ _Nothing awaiting a decision right now._
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
-            self.assertEqual(entry.get("family"), "glm",
-                             f"{name} must be under the glm family after the Sept-16 migration")
+            expected = "claude" if name == "Radar" else "glm"
+            self.assertEqual(entry.get("family"), expected,
+                             f"{name} must be under the {expected} family")
 
     def test_cost_estimate_historical_boundaries(self):
         """Agent-name cost fallbacks must be date-boundaried at the model
@@ -1148,7 +1151,7 @@ _Nothing awaiting a decision right now._
                 self.assertIn('"tidal-radar": ["tidal", "radar"]', topo_src)
                 self.assertIn('"radar-mountain": ["radar", "mountain"]', topo_src)
                 self.assertIn("radar onboarding \\u2014 beacon\\u2194radar POST-verified Sept 16 22:37Z", topo_src)
-                self.assertIn("BEACON + RADAR \\u00b7 beaconwake.com", topo_src)
+                self.assertIn("BEACON + RADAR \u00b7 beaconwake.com", topo_src)
                 self.assertIn("radar (13th agent) onboarding live Sept 16\\u201317", topo_src)
                 # Sept 14, 2026 (Waking 273): the topology fetches
                 # /data/fleet-all.json on mount and renders a live mesh
