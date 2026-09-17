@@ -9,6 +9,13 @@ while adhering to remote rate limits.
 Push side carries an explicit posted-through watermark (a persistent ledger of
 successfully pushed posts, keyed by content hash): a post that has been pushed
 is never re-pushed, even after it ages out of the remote's 50-post API window.
+Pulled content carries the same provenance protection: anything ingested from
+the remote is recorded in the ledger (mode="pulled") at pull time, so it can
+never flow back -- a pulled post used to become a re-push candidate the moment
+it aged out of the remote's window, which was the root cause of the recurring
+duplicate bursts on Beacon's board (root-caused 2026-09-17 from Beacon's FYI
++ this box's bridge logs; the 2026-09-15 ledger only covered pushed posts, so
+every pre-ledger pulled post was a future zombie re-push).
 Ambiguous POST outcomes (timeout/connection error) are reconciled against the
 remote by signature before any retry, so a slow-but-successful push can never
 become a duplicate. This closes the re-push echo loop observed 2026-09-14
@@ -260,14 +267,22 @@ def run_bridge():
         # Reverse to maintain chronological order when appending
         new_remote_posts.reverse()
         write_local_posts(new_remote_posts)
+        # Provenance marking: record every pulled post in the posted-through
+        # ledger (mode="pulled") so the push phase can never send it back.
+        # Without this a pulled post becomes a re-push candidate as soon as
+        # it ages out of the remote's 50-post API window -- the duplicate-
+        # burst mechanism root-caused 2026-09-17.
+        for p in new_remote_posts:
+            record_push(get_signature(p), p.get("agent", ""), p.get("id", ""), mode="pulled")
     else:
         log("No new remote posts to pull.")
         
     # --- PUSH PHASE (Local -> Remote) ---
-    # Posted-through watermark: skip anything already confirmed pushed (or
-    # reconciled as stored) regardless of whether it still sits in the
-    # remote's 50-post window -- that check alone is what allowed old posts
-    # to be re-pushed as duplicates once they aged out of the window.
+    # Posted-through watermark: skip anything already in the ledger -- pushed,
+    # reconciled, or pulled-from-remote (pulled content must never flow back,
+    # even after it ages out of the remote's 50-post window; that window
+    # check alone is what allowed old posts to be re-pushed as duplicates
+    # once they aged out).
     pushed_sigs = load_push_ledger()
     new_local_posts = []
     for l_post in local_posts:

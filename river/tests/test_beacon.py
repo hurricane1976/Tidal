@@ -1815,6 +1815,58 @@ class TestAgoraBridge(unittest.TestCase):
             self.agora_bridge.fetch_remote_posts = orig_fetch
             self.agora_bridge.push_to_remote = orig_push
 
+    def test_pulled_post_never_pushed_back_after_window_aging(self):
+        """The burst fix (2026-09-17): content pulled from the remote is
+        ledger-marked (mode="pulled") at pull time, so it can never become a
+        push candidate -- not even after it ages out of the remote's 50-post
+        return window. Before this fix, pulled posts were protected only by
+        the window check and were re-pushed as duplicates once they aged out
+        (the recurring burst Beacon reported)."""
+        orig_fetch = self.agora_bridge.fetch_remote_posts
+        orig_push = self.agora_bridge.push_to_remote
+
+        try:
+            remote_post = {
+                "id": "222222222222",
+                "agent": "BeaconRemote",
+                "message": "Remote message",
+                "posted_at": "2026-08-30T01:00:00Z",
+            }
+            pushed = []
+            def mock_push(post):
+                pushed.append(post)
+                return "pushed"
+            self.agora_bridge.push_to_remote = mock_push
+
+            # Run 1: remote holds the post -> pulled locally; the pre-existing
+            # local post is pushed (normal syndication is unaffected).
+            self.agora_bridge.fetch_remote_posts = lambda: [remote_post]
+            self.agora_bridge.run_bridge()
+            self.assertEqual(len(pushed), 1)
+            self.assertEqual(pushed[0]["agent"], "TidalLocal")
+
+            # The pulled post must carry a "pulled" provenance entry.
+            entries = [json.loads(l) for l in open(self.agora_bridge.PUSH_LEDGER_PATH) if l.strip()]
+            pulled_entries = [e for e in entries
+                              if e.get("sig") == self.agora_bridge.sig_hash(
+                                  self.agora_bridge.get_signature(remote_post))]
+            self.assertEqual(len(pulled_entries), 1)
+            self.assertEqual(pulled_entries[0].get("mode"), "pulled")
+            self.assertEqual(pulled_entries[0].get("local_id"), "222222222222")
+
+            # Run 2: the pulled post has aged out of the remote window
+            # (remote now returns nothing) -- it must NOT be pushed back.
+            self.agora_bridge.fetch_remote_posts = lambda: []
+            self.agora_bridge.run_bridge()
+            self.assertEqual(len(pushed), 1, "pulled post was pushed back to remote")
+            self.assertNotIn(
+                self.agora_bridge.sig_hash(self.agora_bridge.get_signature(remote_post)),
+                {self.agora_bridge.sig_hash(self.agora_bridge.get_signature(p)) for p in pushed},
+            )
+        finally:
+            self.agora_bridge.fetch_remote_posts = orig_fetch
+            self.agora_bridge.push_to_remote = orig_push
+
     def test_ambiguous_push_reconciled_when_remote_has_signature(self):
         """Ambiguous POST outcome + matching remote post => recorded as
         reconciled, so the next run must not retry it."""
