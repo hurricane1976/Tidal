@@ -631,6 +631,49 @@ _Nothing awaiting a decision right now._
                           else f'"{name}": {{"family": "claude", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence (Beacon-group flipped on its group's on-box confirmation; Radar per Beacon's hand-edit report)")
 
+    def test_w320_meadow_delta_onboarding_surfaces(self):
+        """Sept 17, 2026 (Waking 320, Josh's 19:52:18Z Telegram ask 'ensure
+        delta and meadow are onboarded and update fleet topology with new
+        agents'): Meadow (14th agent, Business Development & Capital
+        Generation, on this host since Josh's admin session built it 18:49Z,
+        meadow-peer on 100.91.42.51:8791, cron 7 */6, GLM Flash on-box) and
+        Delta (15th agent, Treasury & Business Strategist, Mountain's host
+        100.114.14.116:8794 via Mountain's 19:32:24Z peer_intro, GLM Flash
+        per Mountain's report) must appear on every public inventory surface:
+        mesh manifest, Tidal's agent.json, observability AGENT_METADATA, and
+        the next-app fleet page. Both TIDAL pairs were verified two-way this
+        waking (authed GET /health 200 + real-content POST accepted)."""
+        import json
+        manifest_path = os.path.join(self.original_cwd, "mesh/fleet_manifest.json")
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
+        by_id = {a["id"]: a for a in manifest["agents"]}
+        self.assertEqual(len(manifest["agents"]), 15, "fleet manifest must list 15 agents")
+        self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
+        self.assertEqual(by_id["MEADOW"]["group"], "tidal")
+        self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
+        self.assertEqual(by_id["DELTA"]["group"], "mountain")
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            manifest15 = json.load(f)
+        fleet_names = [a["name"] for a in manifest15["fleet"]]
+        self.assertEqual(len(fleet_names), 15, "Tidal agent.json fleet array must list 15 agents")
+        self.assertIn("Meadow", fleet_names)
+        self.assertIn("Delta", fleet_names)
+        obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
+        with open(obs_path, "r") as f:
+            obs = f.read()
+        self.assertIn('"Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>"', obs,
+                      "Meadow observability row must carry its on-box 7 */6 cadence")
+        self.assertIn('"Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
+                      "Delta observability row must represent-from-manifest (Mountain has not published its minute)")
+        fp = os.path.join(self.original_cwd, "website/next-app/src/app/fleet/page.tsx")
+        with open(fp, "r") as f:
+            fleet_src = f.read()
+        self.assertIn('name: "Meadow"', fleet_src)
+        self.assertIn('name: "Delta"', fleet_src)
+        self.assertIn("15-agent fleet", fleet_src)
+
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
         directive 2026-09-16, Telegram 05:56:39Z; Beacon's authenticated ack
@@ -1011,7 +1054,28 @@ _Nothing awaiting a decision right now._
             self.assertIn("Ridge", content)
             self.assertIn("HARBOR", content)
             self.assertIn("Harbor", content)
-            self.assertIn("13 agents have been incorporated into the fleet", content)
+            # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask "ensure delta
+            # and meadow are onboarded and update fleet topology with new
+            # agents"): MEADOW (14th, this host, Business Development &
+            # Capital Generation, GLM Flash, cron 7 */6) + DELTA (15th,
+            # Mountain's host, Treasury & Business Strategist, GLM Flash per
+            # Mountain's report) drawn on the static SVG with their spoke
+            # edges + readouts + member cards; fleet count 13 -> 15.
+            self.assertIn("15 agents have been incorporated into the fleet", content)
+            self.assertIn("showNode('meadow')", content)
+            self.assertIn("showNode('delta')", content)
+            self.assertIn("cx=\"290\" cy=\"350\"", content)
+            self.assertIn("cx=\"1545\" cy=\"350\"", content)
+            self.assertIn("M290,350 L185,150", content)  # meadow spoke
+            self.assertIn("M1545,350 L1450,150", content)  # delta spoke
+            self.assertIn("meadow + delta onboarding &#8212; tidal&#8596;meadow live (18:49 mints)", content)
+            self.assertIn("Meadow &bull; local business development & capital generation (14th agent)", content)
+            self.assertIn("Delta &bull; remote treasury &amp; business strategist (15th agent)", content)
+            self.assertIn("Business Development &amp; Capital Generation (14th Agent)", content)
+            self.assertIn("Treasury &amp; Business Strategist (15th Agent)", content)
+            self.assertIn("meadow + delta (14th&#8211;15th) onboarded Sept 17", content)
+            self.assertIn("Port <code>8892</code>", content)  # Meadow agora port
+            self.assertIn("7 */6 * * *</code> (onboarded Sept 17, 2026", content)
             # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the 13th
             # agent (operator escalation line, Claude Code/Sonnet, co-located
             # on Beacon's box, own tailnet node beacon-radar), drawn on the
@@ -1183,6 +1247,22 @@ _Nothing awaiting a decision right now._
                 self.assertIn("M630,230 Q1040,180 1450,150", topo_src)
                 self.assertIn("Mountain \\u2194 Beacon agora board bridge (live Sept 15)", topo_src)
                 self.assertIn('"agora-mountain": ["beacon", "mountain"]', topo_src)
+                # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
+                # (14th, this box) + DELTA (15th, Mountain's host) join the
+                # React topology -- mesh quads extended to 5 co-located nodes
+                # each, host-box labels carry the agent counts, the new-agents
+                # label + aria/footer/status lines carry the onboarding state.
+                self.assertIn('id: "meadow"', topo_src)
+                self.assertIn('id: "delta"', topo_src)
+                self.assertIn('["tidal", "creek", "stream", "river", "meadow"]', topo_src)
+                self.assertIn('["mountain", "ridge", "canyon", "harbor", "delta"]', topo_src)
+                self.assertIn('"meadow-delta": ["meadow", "delta"]', topo_src)
+                self.assertIn("THIS BOX \u00b7 tidalwake.org (5 agents)", topo_src)
+                self.assertIn("MOUNTAIN GROUP \u00b7 mountainwake.org (5 agents)", topo_src)
+                self.assertIn("meadow + delta onboarding \\u2014 tidal\\u2194meadow live (18:49 mints)", topo_src)
+                self.assertIn("Meadow \u2022 local business development & capital generation (14th agent)", topo_src)
+                self.assertIn("Delta \u2022 remote treasury & business strategist (15th agent)", topo_src)
+                self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17: tidal pairs verified two-way", topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"

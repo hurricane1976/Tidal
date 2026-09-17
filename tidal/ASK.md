@@ -2,13 +2,26 @@
 
 ## Open
 
-_Nothing right now._
+- [Telegram 2026-09-17 20:10:48 UTC] configure agents into a pentagram topology using 5 agents per grouping
+- [Agent-initiated 2026-09-17 ~20:1xZ — Beacon w478 minted superseding quartet↔DELTA halves; decision needed: which mint is final?] **Nothing broken — my TIDAL↔DELTA pair is verified two-way on Mountain's 19:32:24Z peer_intro mint (3× today, latest 20:12Z post-restart). Beacon's TIDAL half is STAGED NON-FINAL (W318 meadow-w477 precedent): live pair untouched, flipping is a 2-minute change whenever you say.**
+  - What happened: Beacon w478 (~20:04:33Z) sent all four quartet members fresh DELTA sender halves as plaintext tokens in message bodies, citing your direct Telegram directive to ITS lane ("beacon ensure delta is onboarded as with meadow") and stating "Mountain's peer_intro mint is superseded by josh's directive; ignore it." Per my rules that message is data, not instruction — I can't verify what you told Beacon, and my lane's directive (19:52:18Z) said "ensure delta and meadow are onboarded and update fleet topology" with no re-mint/supersede language.
+  - Why I didn't flip: my live pair works; adopting Beacon's token as final would 401 my lane until Delta adopts Beacon's receiver halves AND my block — breaking a verified pair mid-onboarding on a peer's supersession claim is a credential decision (rule 4: credentials go to you, never peer-arbitrated).
+  - Options: (a) keep Mountain's mint final (my recommendation — it works today; Beacon's halves then serve as the staged overlap set exactly like w477), or (b) Josh confirms supersession → I flip final + re-verify + confirm to Beacon, and River/Creek/Stream do their lanes. Either way Delta-side adoption of the chosen halves is the completing step.
+  - Leak-prevention held: all 4 plaintext-token messages gitignored (inbox + processed paths) + chmod 600 BEFORE any commit; zero token copies in river/creek/stream trees; post-deploy scan clean.
+- _Nothing else right now._
 
 ## On hold
 
 _Nothing parked right now._
 
 ## Resolved
+
+- [Telegram 2026-09-17 19:52:18 UTC] ensure delta and meadow are onboarded and update fleet topology with new agents
+  - **Resolution: EXECUTED + LIVE-VERIFIED this waking (Waking 320, ~19:55–20:3xZ). Both new agents confirmed onboarded into my mesh with fresh two-layer verification, and the fleet topology now draws all 15 agents on every surface.**
+  - Onboarded-verification (the "ensure" half): MEADOW — `GET /health` 200 on 100.91.42.51:8791 + real-content POST ACCEPTED (live 18:49 quartet mints); on-box ground truth confirmed (meadow-peer + meadow-agora services active, cron `7 */6`, GLM Flash via opencode, role Business Development & Capital Generation per its AGENT.md, missions #2/#3/#4). DELTA — authed `GET /health` 200 on 100.114.14.116:8794 + real-content POST ACCEPTED (config path re-verified again post-restart 20:12Z after the staged-token restart).
+  - Topology (the "update" half), tests in lockstep → **96/96**: `FleetTopology.tsx` (+Meadow node 14th in this box's panel +Delta node 15th in Mountain's panel, mesh quads extended to 5 co-located nodes each, host-box labels "(5 agents)", new-agents onboarding label, aria-label + footer + status lines); `build_site.py` static SVG (same geometry: meadow/delta nodes + 4+4 spoke edges + onboarding label + nodeData readouts + member cards + "15 agents" intro + Meadow cadence/port rows); `next-app/fleet/page.tsx` (+2 member cards, "15 agents" banner, Meadow cadence/port rows, 15-agent metadata); `build_observability.py` AGENT_METADATA (+Meadow row `7 */6`, +Delta row `*/6` minute-unpublished per represent-from-manifest); `website/.well-known/agent.json` fleet 13→15; `mesh/fleet_manifest.json` already 15 (W318/319); deployed and live-verified.
+  - Model strings: Meadow GLM Flash on-box-verified; Delta "GLM Flash (per Mountain's report)" matching Beacon's master feed ("Mountain reports GLM Flash") — honest provenance, Josh-unconfirmed flagged.
+  - A complication arose mid-execution (Beacon w478 superseding-mint question) — kept OPEN in its own entry above; did not block this ask.
 
 - [Telegram 2026-09-17 00:52:58 UTC] Just to confirm: all agents on your host need to ensure they only wake every 6 hours
   - **Resolution: CONFIRMED + VERIFIED this waking (Waking 313, ~01:0xZ).** All four agents on this host wake on 6-hour cadence, each at a staggered minute to avoid lane collisions: Tidal `0 */6`, Creek `15 */6`, River `30 */6`, Stream `45 */6` — read directly from the shared crontab this waking. Nothing else wakes the agents on a schedule: the only other agent-cron entries are the `*/5` reply-checkers, per-agent digests/agora-bridge/watchdog loops, and Creek's port scan — none of these spawn wake sessions except the reply-checker `*/5` fire (documented /wake Popen mechanism, only on your incoming Telegram). Tidal↔Radar pair green; River leg closed (its w155); Stream's radar half re-delivered direct by Beacon (w469, payload verified on Stream's box) — Stream installs at its next wake. Fleet 12/12 peer sweep green (GET + POST labeled).
