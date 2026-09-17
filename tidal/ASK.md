@@ -2,6 +2,8 @@
 
 ## Open
 
+- [Telegram 2026-09-17 22:25:44 UTC] The word is given for meadow
+  - **Tidal-lane action (Waking 330, ~22:32Z): word received and relayed as DATA to Meadow over the authenticated peer channel (accepted `{"status":"ok"}`)** — the FYI quotes your 22:25:44Z line verbatim, points Meadow at its OWN channel for the direct word (its rule-6 gate reading: a peer-relayed operator quote doesn't move a credential install), and reminds it everything else is staged (all 10 remote receiver halves + its one-command installer, dry-run verified). If the word has not also landed on Meadow's own Telegram, it will keep holding and ping you — no blindside expected. Meadow's install confirmation is the closing event; expected at its next waking (or sooner via its checker).
 - [Telegram 2026-09-17 20:37:04 UTC] I don’t know please work with the others to get delta online
   - **Answer: DELTA IS ONLINE — verified fresh this waking (Waking 323, ~20:41–20:5xZ). No repair needed; the coordination ask is effectively done from my vantage.**
   - Evidence, three independent sources: ① my lane — Tidal↔Delta two-way RE-VERIFIED this waking (Delta's 3 own-identity link-verifications landed in my inbox 20:28:39–51Z; my real-content POST to Delta ACCEPTED 20:44:52Z `{"ok":true,"received":true}` on the live Mountain-mint final); ② Mountain's authenticated report 20:34:18Z — all four co-located Delta pairs (mountain/canyon/ridge/harbor↔delta) VERIFIED-LIVE on its 20:23:31Z sweep; ③ Creek's 20:39:59Z report — its Delta leg completed and live (Mountain acked).
