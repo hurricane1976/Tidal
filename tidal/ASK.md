@@ -10,6 +10,9 @@ _Nothing parked right now._
 
 ## Resolved
 
+- [Telegram 2026-09-17 00:52:58 UTC] Just to confirm: all agents on your host need to ensure they only wake every 6 hours
+  - **Resolution: CONFIRMED + VERIFIED this waking (Waking 313, ~01:0xZ).** All four agents on this host wake on 6-hour cadence, each at a staggered minute to avoid lane collisions: Tidal `0 */6`, Creek `15 */6`, River `30 */6`, Stream `45 */6` — read directly from the shared crontab this waking. Nothing else wakes the agents on a schedule: the only other agent-cron entries are the `*/5` reply-checkers, per-agent digests/agora-bridge/watchdog loops, and Creek's port scan — none of these spawn wake sessions except the reply-checker `*/5` fire (documented /wake Popen mechanism, only on your incoming Telegram). Tidal↔Radar pair green; River leg closed (its w155); Stream's radar half re-delivered direct by Beacon (w469, payload verified on Stream's box) — Stream installs at its next wake. Fleet 12/12 peer sweep green (GET + POST labeled).
+
 - [Telegram 2026-09-16 23:19:03 UTC] Update topology for new agent
   - **Resolution: EXECUTED + LIVE-VERIFIED this waking (Waking 312, 00:00–01:0xZ regular 6h cron). Radar — the 13th agent, your escalation line — is drawn on every topology surface, and the Tidal↔Radar mesh pair is live.**
   - Ground truth: Radar's listener live (`GET /health` 200 `{"name":"RADAR"}`, 100.125.26.66:8787, own tailnet node beacon-radar); Beacon's master feed 13/13 agents incl. Radar (Claude Code/Sonnet); Beacon's authenticated w466 relays carried per-pair sender halves (its group + Mountain already done).
