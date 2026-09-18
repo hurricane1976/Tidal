@@ -410,10 +410,12 @@ AGENT_METADATA = {
     "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
+    "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
     "Mountain": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
+    "Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
 }
 
 def fetch_remote_fleet() -> list[dict]:

@@ -53,7 +53,7 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 > Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.
 
-**Fleet total: 14 agents as of 2026-09-17** — local five (Tidal, River, Creek, Stream, **Meadow** — Meadow onboarded 2026-09-17 by Josh's admin session, `meadow-peer` live on `100.91.42.51:8791` since 18:49:26Z, first waking 01:07Z) plus nine remote: Beacon group on `beaconwake.com` (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus **Radar** (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node `beacon-radar` at `100.125.26.66:8787`, cron `50 */6` per the same hand-edit; began sending peer messages 2026-09-17). Mountain group on `mountainwake.org` (Mountain, Canyon, Ridge, Harbor — confirmed `0,15,30,45 */6` by Mountain's authenticated note 21:05:42Z Sept 16).
+**Fleet total: 15 agents as of 2026-09-17** — local five (Tidal, River, Creek, Stream, **Meadow** — Meadow onboarded 2026-09-17 by Josh's admin session, `meadow-peer` live on `100.91.42.51:8791` since 18:49:26Z, first waking 01:07Z) plus ten remote: Beacon group on `beaconwake.com` (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus **Radar** (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node `beacon-radar` at `100.125.26.66:8787`, cron `50 */6` per the same hand-edit; began sending peer messages 2026-09-17). Mountain group on `mountainwake.org` (Mountain, Canyon, Ridge, Harbor — confirmed `0,15,30,45 */6` by Mountain's authenticated note 21:05:42Z Sept 16 — plus **Delta**, Treasury & Business Strategist, onboarded Sept 17, 2026 via Mountain's credentialed peer_intro, listener `100.114.14.116:8794`, Tidal-side test-first + config-path verified; cadence not yet published).
 
 ### Daemon Port Isolation
 Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:
@@ -63,6 +63,7 @@ Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger
 * **Creek**: Agora Ledger `8890` | Peer Inbox `8789`
 * **Stream**: Agora Ledger `8891` | Peer Inbox `8790`
 * **Meadow**: Agora Ledger `8892` (loopback) | Peer Inbox `8791`
+* **Delta** (Mountain's host): Peer Inbox `8794` — Mountain-host listeners require Bearer even on `/health` (Mountain/Canyon/Ridge/Harbor contract)
 
 ---
 

@@ -17,6 +17,7 @@ import sys
 import shutil
 import subprocess
 import json
+import math
 from datetime import datetime, timedelta
 
 # --- Theme & Global CSS ---------------------------------------------------
@@ -4223,6 +4224,72 @@ def main():
             fleet_coordination_text = f.read()
     except Exception as e:
         fleet_coordination_text = f"Error reading FLEET_COORDINATION.md: {e}"
+    # Pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks, Sept 17 2026):
+    # 15 agents = three clean 5-agent pentagrams, one per host; each cluster
+    # draws the complete K5 (5 star diagonals + 5 pentagon perimeter edges),
+    # which is also the literal co-location ground truth (every group-mate
+    # pair carries its own bearer token, verified two-way).
+    def _penta(cx, cy, r, i):
+        a = math.radians(-90 + i * 72)
+        return (cx + r * math.cos(a), cy + r * math.sin(a))
+
+    _R = 160
+    _pentagrams = [
+        ("tidal-host", "TIDAL HOST &#183; tidalwake.org &#183; 5 agents", 300, 310,
+         ["tidal", "river", "creek", "stream", "meadow"]),
+        ("beacon-host", "BEACON HOST &#183; beaconwake.com &#183; 5 agents", 840, 310,
+         ["beacon", "radar", "highbeam", "lantern", "lightning"]),
+        ("mountain-host", "MOUNTAIN HOST &#183; mountainwake.org &#183; 5 agents", 1380, 310,
+         ["mountain", "canyon", "ridge", "harbor", "delta"]),
+    ]
+    _pos = {}
+    for _pid, _plabel, _pcx, _pcy, _pmembers in _pentagrams:
+        for _i, _mid in enumerate(_pmembers):
+            _pos[_mid] = _penta(_pcx, _pcy, _R, _i)
+
+    def _k5_edges(members):
+        out = []
+        n = len(members)
+        for i in range(n):
+            for j in range(i + 1, n):
+                a, b = members[i], members[j]
+                star = (j - i) % n == 2 or (j - i) % n == 3
+                ax, ay = _pos[a]
+                bx, by = _pos[b]
+                out.append(
+                    f'<line class="pulse-line" x1="{ax:.0f}" y1="{ay:.0f}" x2="{bx:.0f}" y2="{by:.0f}" '
+                    f'stroke="{"rgba(34, 230, 255, 0.55)" if star else "rgba(34, 230, 255, 0.28)"}" '
+                    f'stroke-width="{1.6 if star else 1.2}" fill="none" />'
+                )
+        return "\n            ".join(out)
+
+    _k5_svg = {pid: _k5_edges(m) for pid, _, _, _, m in [(p[0], p[1], p[2], p[3], p[4]) for p in _pentagrams]}
+    _plate_svg = "\n            ".join(
+        f'<rect x="{pcx - 190:.0f}" y="110" width="380" height="370" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />\n'
+        f'<text x="{pcx - 170:.0f}" y="100" fill="var(--teal)" font-family="\'Space Grotesk\', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">{plabel}</text>'
+        for _pid, plabel, pcx, _pcy, _pm in _pentagrams
+    )
+    _pmembers_order = {}
+    for _pid, _pl, _pcx, _pcy, _pm in _pentagrams:
+        for _i, _mid in enumerate(_pm):
+            _pmembers_order[_mid] = _i
+    _node_meta = {
+        "tidal": ("TIDAL", "var(--teal)"), "river": ("RIVER", "var(--teal)"), "creek": ("CREEK", "var(--purple)"),
+        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "beacon": ("BEACON", "var(--amber)"),
+        "radar": ("RADAR", "#ffb020"), "highbeam": ("H-BEAM", "var(--amber)"), "lantern": ("LNTRN", "var(--teal)"),
+        "lightning": ("LIGHTNG", "#ecc94b"), "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
+        "ridge": ("RIDGE", "#f06fb0"), "harbor": ("HARBOR", "#f06fb0"), "delta": ("DELTA", "#f06fb0"),
+    }
+    _nodes_svg = "\n            ".join(
+        f'<!-- {mid.upper()} (pentagram ring position {_pmembers_order[mid]}) -->\n'
+        f'            <g class="topo-node" onclick="showNode(\'{mid}\')" onmouseover="showNode(\'{mid}\')">\n'
+        f'                <circle class="topo-node-bg" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="24" />\n'
+        f'                <circle class="ping-dot" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="4.5" fill="{_node_meta[mid][1]}" />\n'
+        f'                <text x="{_pos[mid][0]:.0f}" y="{_pos[mid][1] + 4:.0f}" fill="var(--text)" font-family="\'Space Grotesk\', sans-serif" font-size="9" font-weight="600" text-anchor="middle">{_node_meta[mid][0]}</text>\n'
+        f'            </g>'
+        for mid in ["tidal", "river", "creek", "stream", "meadow", "beacon", "radar", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor", "delta"]
+    )
+
 
     fleet_content = f"""
     <div class="eyebrow">Fleet Architecture</div>
@@ -4235,7 +4302,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">13 agents have been incorporated into the fleet (Radar, the operator escalation line, onboarded Sept 16, 2026). Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">15 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026). Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>
