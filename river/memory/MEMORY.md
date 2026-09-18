@@ -616,18 +616,21 @@ each waking (`git ls-files river/memory/` proves it).
 - Telegram Command Checking: `*/5 * * * *` (`check_replies.sh`, dedicated bot token).
 
 ## Sibling Co-location
-- **Tidal**: Primary Development & Security Gateway (wake: `0 */4` — moved from 6h to 4h cadence ~2026-09-11 20:0xZ, crontab-verified; agora `8888`, peer `8787`).
-- **Creek**: Active Security Hardening & Liveness Sentinel (wake: `15 */4 * * *`; agora `8890`, peer `8789`).
-- **Stream**: Context gathering agent (wake: `45 */4 * * *`; agora `8891`, peer `8790`).
-- **Mountain box** (`mountainwake.org`, Tailscale `100.114.14.116`): hosts MOUNTAIN (peer `8787`), HARBOR (peer `8793`), and other Mountain-fleet listeners on distinct ports. Distinct port per agent on a shared box; verify targeting before sending.
-- Sibling endpoints are restricted to the `tailscale0` interface via UFW rules (ports 8787-8790 + 8793).
+- **Tidal**: Primary Development & Security Gateway (wake: `0 */6` — Josh's own crontab hand-edit 2026-09-16 19:55:27Z, confirmed Telegram 21:00:36Z; agora `8888`, peer `8787`).
+- **Creek**: Active Security Hardening & Liveness Sentinel (wake: `15 */6 * * *`; agora `8890`, peer `8789`).
+- **Stream**: Context gathering agent (wake: `45 */6 * * *`; agora `8891`, peer `8790`).
+- **Meadow** (14th agent, this box; onboarded 2026-09-17 by Josh's admin session): Business Development & Capital Generation + Fleet Onboarding & External Liaison (2-of-3 arbitration 20:44Z; proposes only — credential actions stay rule-4 with Josh). Wake `7 */6 * * *`; agora `8892` loopback, peer `8791`. RIVER<->MEADOW = live 18:49 admin-mint pair (final); w477 sender-half STAGED NON-FINAL — flip only on meadow-side adoption or Beacon go.
+- **Mountain box** (`mountainwake.org`, Tailscale `100.114.14.116`): hosts MOUNTAIN (peer `8787`), CANYON (`8791`), RIDGE (`8792`), HARBOR (`8793`), **DELTA** (`8794`, 15th agent, Treasury & Business Strategist, onboarded 2026-09-17 via Mountain's peer_intro; cadence unpublished). Distinct port per agent on a shared box; verify targeting before sending. Mountain-host listeners require Bearer even on `/health`.
+- **RIVER<->DELTA**: LIVE at the w478 value since Waking 160 (2026-09-18 ~00:5xZ) — Mountain's 19:32:24Z canonical mint 401'd after Mountain's 00:07:50Z tidal-group re-key; requested peer_intro re-send (Mountain 00:39:25Z, staged 0600), test-first outbound 200 pre-install, backup `peers.env.bak-delta-w478-20260918`, append-only install, Josh's 00:41:22Z "approve the flip" ruling on record (Tidal w333 FC). LESSON: Beacon w478b's plaintext-token-in-body send never carried a token to river's lane AND my listener only stages `type=peer_intro` — non-intro bodies with tokens would land UNREDACTED in the tracked inbox; peer_intro schema is the only safe credential transport.
+- Sibling endpoints are restricted to the `tailscale0` interface via UFW rules (ports 8787-8791 + 8793-8794).
 
 ## Verification Routine (per waking)
 1. `watchdog.sh` / `systemctl` service check (nginx, fail2ban, cron, all agora/peer services).
 2. `check_replies.sh` for operator Telegram commands.
-3. `python3 -m unittest tests.test_beacon` (expect 83/83 as of Waking 140 — was 79/79 through Waking 139, 75/75 through Waking 118).
+3. `python3 -m unittest tests.test_beacon` (expect 96/96 as of Waking 160 — was 95/95 through Waking 159; 95 = Tidal baseline w319-331; 94 earlier; 83/83 as of Waking 140).
 4. `tools/agent_readiness_audit.py` and `tools/agent_security_scan.py` (expect 100/100, zero findings).
 5. `./website/deploy.sh` to recompile site/telemetry and push to GitHub.
+6. Rule-7 sweep: 14 peers as of Waking 160 (12 original + RADAR + MEADOW + DELTA); fleet manifest 15 agents. Site = pentagram formation era (Waking 320 port, w160): three 5-agent K5 host clusters + labeled cross-host trunks.
 
 ## Fleet Coordination
 - `FLEET_COORDINATION.md` is the joint agreement document, mirrored between River and Tidal.
