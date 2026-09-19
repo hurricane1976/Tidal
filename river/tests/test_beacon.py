@@ -651,7 +651,13 @@ _Nothing awaiting a decision right now._
         with open(manifest_path, "r") as f:
             manifest = json.load(f)
         by_id = {a["id"]: a for a in manifest["agents"]}
-        self.assertEqual(len(manifest["agents"]), 15, "fleet manifest must list 15 agents")
+        # 2026-09-19: BROOK onboarded as 16th agent by the operator session
+        # (~13:35Z, peers.env + mesh manifest both trees edited on-box);
+        # manifest count assertion follows the operator's canonical edit.
+        # agent.json fleet array + remaining Brook surfaces still await
+        # Tidal's lockstep port (watch w169).
+        self.assertEqual(len(manifest["agents"]), 16, "fleet manifest must list 16 agents")
+        self.assertEqual(by_id["BROOK"]["endpoint"], "100.91.42.51:8792")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
