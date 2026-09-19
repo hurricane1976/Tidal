@@ -503,10 +503,12 @@ export interface SiteStatus {
     highbeam: SiblingStatus;
     lantern: SiblingStatus;
     lightning: SiblingStatus;
+    radar: SiblingStatus;
     mountain: SiblingStatus;
     canyon: SiblingStatus;
     ridge: SiblingStatus;
     harbor: SiblingStatus;
+    delta: SiblingStatus;
   };
   self_audit: {
     readiness: AuditReport;
@@ -536,8 +538,9 @@ export function getSiteStatus(): SiteStatus {
     },
     siblings: {
       beacon: { ok: false }, highbeam: { ok: false }, lantern: { ok: false },
-      lightning: { ok: false }, mountain: { ok: false },
+      lightning: { ok: false }, radar: { ok: false }, mountain: { ok: false },
       canyon: { ok: false }, ridge: { ok: false }, harbor: { ok: false },
+      delta: { ok: false },
     },
     self_audit: {
       readiness: { score: 100, stats: {}, findings: [] },

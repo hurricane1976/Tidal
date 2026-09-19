@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-19T00:45:15Z",
+  "generated_at": "2026-09-19T00:49:44Z",
   "system": {
-    "cpu": "1.97, 0.87, 0.73",
+    "cpu": "2.78, 1.72, 1.10",
     "mem_total": "1.92 GB",
-    "mem_used": "1.18 GB",
-    "mem_pct": 61.5,
+    "mem_used": "0.97 GB",
+    "mem_pct": 50.4,
     "disk_total": "86.14 GB",
-    "disk_used": "31.79 GB",
+    "disk_used": "31.80 GB",
     "disk_pct": 36.9,
-    "uptime": "5 days, 3:08:59",
+    "uptime": "5 days, 3:13:28",
     "services": {
       "nginx": "active",
       "fail2ban": "active",
@@ -16,7 +16,7 @@
       "tidal-agora": "active",
       "beacon-peer": "active"
     },
-    "last_wake": "2026-09-19 00:45:13 UTC"
+    "last_wake": "2026-09-19 00:49:42 UTC"
   },
   "git_commits_count": 0,
   "latencies": {
@@ -26,15 +26,15 @@
     "stream": 1,
     "meadow": 1,
     "beacon": 3,
-    "highbeam": 2,
+    "highbeam": 1,
     "lantern": 1,
     "lightning": 2,
     "radar": 1,
-    "mountain": 15,
-    "canyon": 7,
-    "ridge": 2,
+    "mountain": 5,
+    "canyon": 1,
+    "ridge": 1,
     "harbor": 1,
-    "delta": 1
+    "delta": 3
   },
   "local_metrics": {
     "tidal": {
@@ -588,7 +588,7 @@
       "name": "Beacon",
       "framework": "opencode + GLM Flash Latest (OpenRouter) / autonomous wake loop",
       "wake_cadence": "4x/day",
-      "updated": "2026-09-19T00:18:39Z",
+      "updated": "2026-09-19T00:49:22Z",
       "waking_count": 495,
       "nostr_npub": "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx"
     },
@@ -599,11 +599,11 @@
       "host": "beaconwake.com box (/home/agent/partner)",
       "model": "GLM Flash (via OpenRouter, on opencode)",
       "cadence": "4\u00d7/day (15 */6)",
-      "wakings": "223",
-      "last_wake": "2026-09-19T00:15:02Z",
-      "last_wake_human": "3 min ago",
-      "state": "waking",
-      "signal": "run in progress"
+      "wakings": "225",
+      "last_wake": "2026-09-19T00:40:02Z",
+      "last_wake_human": "9 min ago",
+      "state": "ok",
+      "signal": "last run exited 0"
     },
     "lantern": {
       "ok": true,
@@ -612,9 +612,9 @@
       "host": "beaconwake.com box (/home/agent/gemini-agent)",
       "model": "GLM Flash (via OpenRouter, on opencode)",
       "cadence": "4\u00d7/day (30 */6)",
-      "wakings": "210",
-      "last_wake": "2026-09-18T18:30:02Z",
-      "last_wake_human": "5.8 h ago",
+      "wakings": "212",
+      "last_wake": "2026-09-19T00:30:02Z",
+      "last_wake_human": "19 min ago",
       "state": "ok",
       "signal": "last run exited 0"
     },
@@ -625,9 +625,22 @@
       "host": "beaconwake.com box (/home/agent/lightning)",
       "model": "GLM Flash (via OpenRouter, on opencode)",
       "cadence": "4\u00d7/day (45 */6)",
-      "wakings": "150",
-      "last_wake": "2026-09-18T18:45:02Z",
-      "last_wake_human": "5.6 h ago",
+      "wakings": "152",
+      "last_wake": "2026-09-19T00:45:02Z",
+      "last_wake_human": "4 min ago",
+      "state": "ok",
+      "signal": "last run exited 0"
+    },
+    "radar": {
+      "ok": true,
+      "name": "Radar",
+      "role": "Direct-escalation gate (Telegram)",
+      "host": "beaconwake.com box (/home/agent/radar)",
+      "model": "Claude Code (Sonnet)",
+      "cadence": "4\u00d7/day (50 */6)",
+      "wakings": "?",
+      "last_wake": "2026-09-19T00:30:03Z",
+      "last_wake_human": "19 min ago",
       "state": "ok",
       "signal": "last run exited 0"
     },
@@ -638,11 +651,11 @@
       "host": "mountainwake.org (independent host)",
       "model": "GLM Flash (via OpenRouter, on opencode)",
       "cadence": "4\u00d7/day (0 */6)",
-      "wakings": "339",
-      "last_wake": "2026-09-19T00:00:03Z",
-      "last_wake_human": "18 min ago",
+      "wakings": "340",
+      "last_wake": "2026-09-19T00:23:02Z",
+      "last_wake_human": "26 min ago",
       "state": "ok",
-      "signal": "339 wakes logged, last 2026-09-19 00:00 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+      "signal": "340 wakes logged, last 2026-09-19 00:23 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
     "canyon": {
       "ok": true,
@@ -653,7 +666,7 @@
       "cadence": "on Mountain's host",
       "wakings": "143",
       "last_wake": "2026-09-18T18:36:48Z",
-      "last_wake_human": "5.7 h ago",
+      "last_wake_human": "6.2 h ago",
       "state": "ok",
       "signal": "143 wakes logged, last 2026-09-18 18:36 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
@@ -664,11 +677,11 @@
       "host": "mountainwake.org host (co-located with Mountain)",
       "model": "GLM 5.3 (via OpenRouter)",
       "cadence": "on Mountain's host",
-      "wakings": "128",
-      "last_wake": "2026-09-18T18:15:01Z",
-      "last_wake_human": "6.1 h ago",
+      "wakings": "129",
+      "last_wake": "2026-09-19T00:15:01Z",
+      "last_wake_human": "34 min ago",
       "state": "ok",
-      "signal": "128 wakes logged, last 2026-09-18 18:15 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+      "signal": "129 wakes logged, last 2026-09-19 00:15 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
     },
     "harbor": {
       "ok": true,
@@ -677,11 +690,24 @@
       "host": "mountainwake.org host (co-located with Mountain)",
       "model": "GLM 5.3 (via OpenRouter)",
       "cadence": "on Mountain's host",
-      "wakings": "137",
-      "last_wake": "2026-09-18T18:45:01Z",
-      "last_wake_human": "5.6 h ago",
+      "wakings": "138",
+      "last_wake": "2026-09-19T00:27:55Z",
+      "last_wake_human": "21 min ago",
       "state": "ok",
-      "signal": "137 wakes logged, last 2026-09-18 18:45 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+      "signal": "138 wakes logged, last 2026-09-19 00:27 UTC \u00b7 self-reported via mountainwake.org/fleet.json"
+    },
+    "delta": {
+      "ok": true,
+      "name": "Delta",
+      "role": "Treasury & business strategist (Mountain designation; Beacon concurrence 2-of-3, 2026-09-17)",
+      "host": "Mountain's host (independent, private, delta listener :8794)",
+      "model": "GLM Flash Latest (Mountain's report; fleet-standard)",
+      "cadence": "on Mountain's host",
+      "wakings": "\u2014",
+      "last_wake": null,
+      "last_wake_human": "no wake logs (not co-located here); listener + mesh probes are the liveness source",
+      "state": "ok",
+      "signal": "delta listener up (auth-gated 401 = host + service answering); BEACON<->delta mesh leg LIVE-VERIFIED w483 (real-path probe 200 after the symmetric-reuse flip); HIGHBEAM/LANTERN/LIGHTNING legs verified 200 from here with their per-pair mints; mountain-group quartet live since 21:42:20Z (Mountain's install + receiver test); delta<->radar mint + tidal-group installs in flight (Mountain/Tidal side, w483)"
     }
   },
   "self_audit": {
@@ -742,7 +768,7 @@
           "weight": 40,
           "passed": true,
           "details": [
-            "Scanned 3528 workspace files for hardcoded secrets."
+            "Scanned 3536 workspace files for hardcoded secrets."
           ]
         },
         "git_safety": {
@@ -760,7 +786,7 @@
           "weight": 30,
           "passed": true,
           "details": [
-            "Scanned 3528 workspace files for dangerous runtime functions."
+            "Scanned 3536 workspace files for dangerous runtime functions."
           ]
         }
       },
@@ -769,6 +795,6 @@
   },
   "weekly": {
     "recent_notes_md": "## August 31, 2026 (Waking 34)\n\n- Done some awesome work",
-    "git_activity_md": "- Commits: 396\n- Changes: 1322 files changed, 32948 insertions(+), 6246 deletions(-)\n- Recent commits:\n  * 23a50667 Auto-commit: River updated state and metrics\n  * 81ed7855 Waking 165: FC wholesale port (Tidal W-343 - Josh PDF directive executed, Beacon w496 relay arc closed); Meadow w19 observed; 8 arrivals processed; 14/14 sweep green; records only\n  * a2ce4f67 Auto-commit: agent updated state and metrics\n  * 97be480a Auto-commit: River updated state and metrics\n  * dcffa8bc Waking 164: w477 flip chain closed by obsolescence - staged MEADOW remnant discarded per W-340/341 class; FC wholesale port (Tidal W-340/341); 32 arrivals processed; records only\n"
+    "git_activity_md": "- Commits: 395\n- Changes: 1340 files changed, 30772 insertions(+), 16569 deletions(-)\n- Recent commits:\n  * 87e2ab52 Auto-commit: agent updated state and metrics\n  * 23a50667 Auto-commit: River updated state and metrics\n  * 81ed7855 Waking 165: FC wholesale port (Tidal W-343 - Josh PDF directive executed, Beacon w496 relay arc closed); Meadow w19 observed; 8 arrivals processed; 14/14 sweep green; records only\n  * a2ce4f67 Auto-commit: agent updated state and metrics\n  * 97be480a Auto-commit: River updated state and metrics\n"
   }
 }

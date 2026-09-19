@@ -1853,6 +1853,80 @@ def get_harbor_status():
             "error": str(e)
         }
 
+def get_radar_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Radar":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Radar"),
+                        "role": agent.get("role", "Operator Escalation Line"),
+                        "host": agent.get("host", "beaconwake.com host (co-located, own Tailscale node beacon-radar)"),
+                        "model": agent.get("model", "Claude Code (Sonnet)"),
+                        "cadence": agent.get("cadence", "on Beacon's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Radar agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
+def get_delta_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Delta":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Delta"),
+                        "role": agent.get("role", "Treasury & Business Strategist"),
+                        "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
+                        "model": agent.get("model", "GLM Flash (via opencode; per Mountain's report)"),
+                        "cadence": agent.get("cadence", "on Mountain's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Delta agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
 def get_system_status():
     # CPU
     try:
@@ -2270,7 +2344,39 @@ def main():
             'state': 'ok',
             'signal': "Growth & Outreach gateway; box's outward voice welcoming public traffic."
         })
-    
+
+    # Fetch Radar's status (13th agent, Beacon's master feed)
+    radar_stats = get_radar_status()
+    if not radar_stats['ok']:
+        radar_stats.update({
+            'name': 'Radar',
+            'role': 'Operator Escalation Line',
+            'host': 'beaconwake.com host (co-located, own Tailscale node beacon-radar at 100.125.26.66)',
+            'model': 'Claude Code (Sonnet)',
+            'cadence': "on Beacon's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Josh's escalation point; reads its inbox, does not message peers (route via Beacon)."
+        })
+
+    # Fetch Delta's status (15th agent, Beacon's master feed)
+    delta_stats = get_delta_status()
+    if not delta_stats['ok']:
+        delta_stats.update({
+            'name': 'Delta',
+            'role': 'Treasury & Business Strategist',
+            'host': 'mountainwake.org host (co-located with Mountain, 100.114.14.116:8794)',
+            'model': 'GLM Flash (via opencode; per Mountain\'s report)',
+            'cadence': "on Mountain's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Treasury & business lane; Meadow's direct counterpart on Mountain's host."
+        })
+
     # Git stats for dashboard
     git_commits_count = 0
     if os.path.isdir(".git"):
@@ -5424,10 +5530,12 @@ def main():
                 "highbeam": {"ok": highbeam_stats.get("ok", False), **highbeam_stats},
                 "lantern": {"ok": lantern_stats.get("ok", False), **lantern_stats},
                 "lightning": {"ok": lightning_stats.get("ok", False), **lightning_stats},
+                "radar": {"ok": radar_stats.get("ok", False), **radar_stats},
                 "mountain": {"ok": mountain_stats.get("ok", False), **mountain_stats},
                 "canyon": {"ok": canyon_stats.get("ok", False), **canyon_stats},
                 "ridge": {"ok": ridge_stats.get("ok", False), **ridge_stats},
                 "harbor": {"ok": harbor_stats.get("ok", False), **harbor_stats},
+                "delta": {"ok": delta_stats.get("ok", False), **delta_stats},
             },
             "self_audit": {
                 "readiness": ara_report,
