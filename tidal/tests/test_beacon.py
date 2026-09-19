@@ -652,7 +652,10 @@ _Nothing awaiting a decision right now._
         # session 13:35Z) joined the mesh manifest — pin moved 15 -> 16.
         # Waking 348 (Josh's 15:50:59Z directive, 18 agents): prism (17th,
         # Beacon's host) + mesa (18th, Mountain's host) added — pin 16 -> 18.
-        self.assertEqual(len(manifest["agents"]), 18, "fleet manifest must list 18 agents")
+        # Waking 350 (Sept 19 ~22-23Z expansion wave): mist (19th, 7th local,
+        # operator session 22:03Z) + vista (Mountain-box 7th) + pulsar
+        # (Beacon-box 7th, staged pending mapping confirm) — pin 18 -> 21.
+        self.assertEqual(len(manifest["agents"]), 21, "fleet manifest must list 21 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
