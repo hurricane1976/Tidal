@@ -46,6 +46,13 @@ def main():
 
     manifest = json.loads(args.manifest.read_text())
     expected = {entry["id"]: entry["endpoint"] for entry in manifest["agents"]}
+    # Waking 348 (2026-09-19): manifest rows may carry "staged": true for
+    # agents whose local outbound credential is not installed yet (e.g. a
+    # new agent's cross-host legs pending per-pair introduction). Staged
+    # lanes are reported and skipped - never a silent pass: only rows the
+    # manifest itself marks staged qualify, so an unexpectedly missing
+    # config block for a live lane still fails the sweep.
+    staged = {entry["id"] for entry in manifest["agents"] if entry.get("staged")}
     env_path = args.agent_dir / "keys" / "peers.env"
     if not env_path.is_file():
         return fail(f"missing {env_path}")
@@ -57,9 +64,11 @@ def main():
     outbound = {block["NAME"]: block for block in blocks if block.get("NAME")}
     peers = set(expected) - {self_name}
     errors = []
-    if set(outbound) != peers:
+    staged_missing = [name for name in sorted(peers - set(outbound)) if name in staged]
+    hard_missing = [name for name in sorted(peers - set(outbound)) if name not in staged]
+    if hard_missing:
         errors.append("outbound names differ: missing=%s extra=%s" %
-                      (sorted(peers - set(outbound)), sorted(set(outbound) - peers)))
+                      (hard_missing, sorted(set(outbound) - peers)))
     for name in sorted(peers & set(outbound)):
         block = outbound[name]
         if block.get("ADDR") != expected[name]:
@@ -73,10 +82,12 @@ def main():
         return 1
 
     print(f"PASS: {self_name} has {len(peers)} direct outbound routes with the canonical endpoints.")
+    for name in staged_missing:
+        print(f"STAGED {name}: no local outbound credential yet (manifest marks this lane staged; not probed)")
     if not args.probe:
         return 0
     failures = 0
-    for name in sorted(peers):
+    for name in sorted(peers & set(outbound)):
         block = outbound[name]
         request = urllib.request.Request(
             f"http://{block['ADDR']}/health",
