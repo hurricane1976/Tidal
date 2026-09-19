@@ -653,22 +653,31 @@ _Nothing awaiting a decision right now._
         by_id = {a["id"]: a for a in manifest["agents"]}
         # 2026-09-19: Brook (16th agent, 6th local, Muse Spark 1.2, operator
         # session 13:35Z) joined the mesh manifest — pin moved 15 -> 16.
-        self.assertEqual(len(manifest["agents"]), 16, "fleet manifest must list 16 agents")
+        # Waking 348 (Josh's 15:50:59Z directive, 18 agents): prism (17th,
+        # Beacon's host) + mesa (18th, Mountain's host) added — pin 16 -> 18.
+        self.assertEqual(len(manifest["agents"]), 18, "fleet manifest must list 18 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
         self.assertEqual(by_id["DELTA"]["group"], "mountain")
         self.assertEqual(by_id["BROOK"]["endpoint"], "100.91.42.51:8792")
         self.assertEqual(by_id["BROOK"]["group"], "tidal")
+        self.assertEqual(by_id["PRISM"]["endpoint"], "100.100.158.42:8787")
+        self.assertEqual(by_id["PRISM"]["group"], "beacon")
+        self.assertEqual(by_id["MESA"]["endpoint"], "100.114.14.116:8795")
+        self.assertEqual(by_id["MESA"]["group"], "mountain")
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             manifest15 = json.load(f)
         fleet_names = [a["name"] for a in manifest15["fleet"]]
         # 2026-09-19: Brook added to Tidal's published fleet manifest (16).
-        self.assertEqual(len(fleet_names), 16, "Tidal agent.json fleet array must list 16 agents")
+        # Waking 348: prism + mesa rows added (18) per Josh's directive.
+        self.assertEqual(len(fleet_names), 18, "Tidal agent.json fleet array must list 18 agents")
         self.assertIn("Meadow", fleet_names)
         self.assertIn("Delta", fleet_names)
         self.assertIn("Brook", fleet_names)
+        self.assertIn("Prism", fleet_names)
+        self.assertIn("Mesa", fleet_names)
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()
@@ -676,13 +685,24 @@ _Nothing awaiting a decision right now._
                       "Meadow observability row must carry its on-box 7 */6 cadence")
         self.assertIn('"Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
                       "Delta observability row must represent-from-manifest (Mountain has not published its minute)")
+        # Waking 348: the Sept 19 expansion-wave rows (18 agents).
+        self.assertIn('"Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>"', obs,
+                      "Brook observability row must carry its on-box 22 */6 cadence")
+        self.assertIn('"Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>"', obs,
+                      "Prism observability row must carry Beacon's published 55 */6 cadence")
+        self.assertIn('"Mesa": {"family": "muse"', obs,
+                      "Mesa observability row must carry the Muse family (per Mountain's feed)")
         fp = os.path.join(self.original_cwd, "website/next-app/src/app/fleet/page.tsx")
         if os.path.exists(fp):
             with open(fp, "r") as f:
                 fleet_src = f.read()
             self.assertIn('name: "Meadow"', fleet_src)
             self.assertIn('name: "Delta"', fleet_src)
-            self.assertIn("15-agent fleet", fleet_src)
+            self.assertIn('name: "Brook"', fleet_src)
+            self.assertIn('name: "Prism"', fleet_src)
+            self.assertIn('name: "Mesa"', fleet_src)
+            # Waking 348: the fleet description states the 18-agent fleet.
+            self.assertIn("18-agent fleet", fleet_src)
 
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
@@ -712,7 +732,10 @@ _Nothing awaiting a decision right now._
         """After the Sept-16 fleet-wide GLM migration, every founding-12
         AGENT_METADATA family must be glm (DeepSeek retired fleet-wide).
         RADAR (13th agent, onboarded Sept 16 per Josh's directive) is the
-        documented exception: Claude Code (Sonnet)."""
+        documented exception: Claude Code (Sonnet). The Sept 19 expansion
+        wave adds two more exceptions: Brook (16th) and Mesa (18th) run
+        Muse Spark 1.2 (the fleet's third model family, per Waking 347/348
+        ground truth)."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -720,7 +743,7 @@ _Nothing awaiting a decision right now._
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
-            expected = "claude" if name == "Radar" else "glm"
+            expected = {"Radar": "claude", "Brook": "muse", "Mesa": "muse"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
@@ -1016,22 +1039,28 @@ _Nothing awaiting a decision right now._
             self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
 
-    def test_fleet_nodes_registry_15_agents(self):
-        """Waking 344 (Sept 19 2026): the shared node registry carries all 15
-        agents -- the founding 12 + meadow (8791, this host) + radar
-        (100.125.26.66:8787) + delta (100.114.14.116:8794) -- so every
-        latency-probe surface (index, secops, live telemetry) accounts for
-        the three new agents. Status page FLEET SIZE reads 15 with the full
-        roster."""
+    def test_fleet_nodes_registry_18_agents(self):
+        """Waking 348 (Sept 19 2026, Josh's 15:50:59Z directive 'update fleet
+        topology to account for all 18 agents'): the shared node registry
+        carries all 18 agents -- the founding 12 + meadow (8791, this host)
+        + radar (100.125.26.66:8787) + delta (100.114.14.116:8794) + the
+        Sept 19 expansion wave (brook 100.91.42.51:8792 this host, prism
+        100.100.158.42:8787 on Beacon's host, mesa 100.114.14.116:8795 on
+        Mountain's host) -- so every latency-probe surface (index, secops,
+        live telemetry) accounts for all 18. Status page FLEET SIZE reads 18
+        with the full roster."""
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         sys.path.insert(0, repo_root)
         from tools.fleet_nodes import NODES
-        self.assertEqual(len(NODES), 15)
-        for name in ("meadow", "radar", "delta"):
+        self.assertEqual(len(NODES), 18)
+        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa"):
             self.assertIn(name, NODES)
         self.assertEqual(NODES["meadow"], ("100.91.42.51", 8791, 26))
         self.assertEqual(NODES["radar"], ("100.125.26.66", 8787, 70))
         self.assertEqual(NODES["delta"], ("100.114.14.116", 8794, 70))
+        self.assertEqual(NODES["brook"], ("100.91.42.51", 8792, 26))
+        self.assertEqual(NODES["prism"], ("100.100.158.42", 8787, 70))
+        self.assertEqual(NODES["mesa"], ("100.114.14.116", 8795, 70))
 
         # Build fresh, then assert on the python-built metrics page (the
         # FLEET SIZE card lives there; the webroot copy may be the React
@@ -1065,8 +1094,8 @@ _Nothing awaiting a decision right now._
             with open(legacy_path, "r") as f:
                 status_content = f.read()
         self.assertIn("FLEET SIZE", status_content)
-        self.assertIn(">15 <span class=\"unit\">agents</span>", status_content)
-        self.assertIn("Tidal, River, Creek, Stream, Meadow, Beacon, Radar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta", status_content)
+        self.assertIn(">18 <span class=\"unit\">agents</span>", status_content)
+        self.assertIn("Tidal, River, Creek, Stream, Meadow, Brook, Beacon, Radar, Prism, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa", status_content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -1141,13 +1170,19 @@ _Nothing awaiting a decision right now._
             # Mountain's host, Treasury & Business Strategist, GLM Flash per
             # Mountain's report) drawn on the static SVG with their spoke
             # edges + readouts + member cards; fleet count 13 -> 15.
-            self.assertIn("15 agents have been incorporated into the fleet", content)
+            self.assertIn("18 agents have been incorporated into the fleet", content)
             self.assertIn("showNode('meadow')", content)
             self.assertIn("showNode('delta')", content)
-            self.assertIn('cx="148" cy="261" r="24"', content)  # meadow on the tidal-host pentagram ring
-            self.assertIn('cx="1228" cy="261" r="24"', content)  # delta on the mountain-host pentagram ring
-            self.assertIn('<line class="pulse-line" x1="300" y1="150" x2="148" y2="261"', content)  # tidal-meadow K5 edge
-            self.assertIn('<line class="pulse-line" x1="1380" y1="150" x2="1228" y2="261"', content)  # mountain-delta K5 edge
+            self.assertIn("showNode('brook')", content)  # Waking 348: 16th agent on the tidal-host K6 ring
+            self.assertIn("showNode('prism')", content)  # Waking 348: 17th agent on the beacon-host K6 ring
+            self.assertIn("showNode('mesa')", content)  # Waking 348: 18th agent on the mountain-host K6 ring
+            self.assertIn('cx="177" cy="369" r="24"', content)  # meadow on the tidal-host K6 ring
+            self.assertIn('cx="1257" cy="369" r="24"', content)  # delta on the mountain-host K6 ring
+            self.assertIn('cx="177" cy="227" r="24"', content)  # brook on the tidal-host K6 ring
+            self.assertIn('cx="717" cy="227" r="24"', content)  # prism on the beacon-host K6 ring
+            self.assertIn('cx="1257" cy="227" r="24"', content)  # mesa on the mountain-host K6 ring
+            self.assertIn('<line class="pulse-line" x1="300" y1="156" x2="177" y2="369"', content)  # tidal-meadow K6 edge
+            self.assertIn('<line class="pulse-line" x1="1380" y1="156" x2="1257" y2="369"', content)  # mountain-delta K6 edge
             self.assertIn("meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints)", content)  # footer inventory stamp
             self.assertIn("Meadow &bull; local business development & capital generation (14th agent)", content)
             self.assertIn("Delta &bull; remote treasury &amp; business strategist (15th agent)", content)
@@ -1165,8 +1200,8 @@ _Nothing awaiting a decision right now._
             # 20:10:48Z + 20:17:27Z asks): the old four-host-box arcs were
             # replaced by three clean 5-agent pentagrams (K5 per host) +
             # three labeled host trunks; radar sits on the beacon-host ring.
-            self.assertIn('cx="992" cy="261" r="24"', content)  # radar on the beacon-host pentagram ring
-            self.assertIn('<line class="pulse-line" x1="840" y1="150" x2="992" y2="261"', content)  # beacon-radar K5 edge
+            self.assertIn('cx="963" cy="227" r="24"', content)  # radar on the beacon-host K6 ring
+            self.assertIn('<line class="pulse-line" x1="840" y1="156" x2="963" y2="227"', content)  # beacon-radar K6 edge
             self.assertIn("beacon&#8596;radar POST-verified Sept 16 22:37Z", content)  # footer inventory stamp
             self.assertIn("Radar &bull; operator escalation line (13th agent)", content)
             # Sept 11, 2026 topology update: Highbeam/Lantern/Lightning moved onto
@@ -1186,11 +1221,19 @@ _Nothing awaiting a decision right now._
             # bearer-mesh ground truth (per-pair tokens) per Josh's 05:48Z ask.
             # Sept 17 pentagram era: the old per-arc legends were replaced
             # by the pentagram + trunk legend rows (same 66/66 stamps).
-            self.assertIn("Pentagram group-mate pairs (per-pair bearer tokens, verified two-way)", content)
+            self.assertIn("Cluster group-mate pairs (per-pair bearer tokens, verified two-way)", content)
             # Waking 344 lockstep (Sept 19 2026): the 15-agent completion era
             # -- the static channel label states the 105-pair verified state.
+            # Waking 348 lockstep: the 18-agent expansion state (Josh's
+            # 15:50:59Z directive) -- brook/prism/mesa rows + 153-pair count.
             self.assertIn("Fleet mesh 66/66 founding pairs live (Sept 12; w443 rotation re-verified Sept 15)", content)
-            self.assertIn("15 agents = 105 pairs, all two-way verified Sept 18&#8211;19", content)
+            self.assertIn("18 agents = 153 possible pairs (Sept 19 expansion)", content)
+            self.assertIn("brook (16th, this host; operator hand-install 13:35:12Z, verified 5/5 both sides)", content)
+            self.assertIn("prism (17th, Beacon host; its five on-box legs two-way 14:13&#8211;14:14Z)", content)
+            self.assertIn("mesa (18th, Mountain host; five on-box pairs verified the wake he joined)", content)
+            self.assertIn("Independent Verification &amp; Fleet QA (16th Agent)", content)  # static member card
+            self.assertIn("SRE &amp; Backup Steward (17th Agent)", content)
+            self.assertIn("Fleet Link &amp; Mesh Reliability (18th Agent)", content)
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -1203,9 +1246,9 @@ _Nothing awaiting a decision right now._
             # Sept 17 pentagram era: the old tidal->sibling arcs were replaced
             # by the K5 edges inside the beacon-host pentagram (Highbeam,
             # Lantern, Lightning all ring-linked) + the labeled host trunks.
-            self.assertIn('<line class="pulse-line" x1="934" y1="439" x2="688" y2="261"', content)  # highbeam->lightning K5 edge (beacon-host star)
-            self.assertIn('<line class="pulse-line" x1="992" y1="261" x2="746" y2="439"', content)  # radar->lantern K5 edge
-            self.assertIn('<line class="pulse-line" x1="934" y1="439" x2="746" y2="439"', content)  # highbeam->lantern K5 edge
+            self.assertIn('<line class="pulse-line" x1="963" y1="369" x2="717" y2="369"', content)  # highbeam->lightning K6 edge (beacon-host diagonal)
+            self.assertIn('<line class="pulse-line" x1="963" y1="227" x2="840" y2="440"', content)  # radar->lantern K6 edge
+            self.assertIn('<line class="pulse-line" x1="963" y1="369" x2="840" y2="440"', content)  # highbeam->lantern K6 edge
             self.assertEqual(content.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
             self.assertNotIn("Link: identity, live", content)
             self.assertNotIn("creds pending", content)
@@ -1219,7 +1262,7 @@ _Nothing awaiting a decision right now._
             # Sept 12 21:47Z after the shared-token incident),
             # the LIVE trio<->Mountain connector with its label directly
             # beside it, and the 66/66 fleet-wide pair count in the legend.
-            self.assertIn("direct per-agent channels &#215;16 &#8594; Mountain group &#183; trio &#8594; Mountain 12 pairs live", content)
+            self.assertIn("direct per-agent channels &#215;17 &#8594; Mountain group &#183; hub to all 17 peers live (Sept 19)", content)
             self.assertIn("66/66 agent pairs among the founding 12 verified two-way live", content)
             self.assertNotIn("M400,390 C720,468 960,468 1280,390", content)  # old trunk gone
             # Sept 17 pentagram era: the four per-agent Mountain bundle arcs
@@ -1268,122 +1311,133 @@ _Nothing awaiting a decision right now._
             # historical 222-era pending strings by design; the React source
             # (asserted below) carries the live state.
             # Next.js topology source mirrors the same state (temp-dir-safe:
-            # resolve the real repo root from this test file's location). This
-            # file only exists in trees that carry the shared next-app sources
-            # (Tidal's); assert when present, skip silently elsewhere.
+            # resolve the real repo root from this test file's location).
             _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            # This file only exists in trees that carry the shared next-app
+            # sources (Tidal's); assert when present, skip silently elsewhere.
             _topo_src_path = os.path.join(_repo_root, "website/next-app/src/components/FleetTopology.tsx")
             if os.path.exists(_topo_src_path):
                 with open(_topo_src_path, "r") as tf:
                     topo_src = tf.read()
-                    self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
-                    # Sept 17, 2026 (Waking 320 pentagram formation, Josh's
-                    # 20:10:48Z + 20:17:27Z asks; pin refreshed by Waking 324):
-                    # the old "sibling links ×12" arc label was replaced by the
-                    # three-host K5 pentagram + labeled host trunks -- the
-                    # bearer-pair semantics now ride the tidal-beacon trunk
-                    # label (asserted here) and the footer w443 stamp (below).
-                    self.assertIn("Tailscale peer channel + 15 founding bearer pairs", topo_src)
-                    self.assertIn("post-w443 rotation: 11/11 GET + 11/11 POST", topo_src)
-                    self.assertNotIn("zero-secret identity links \\u2014 12 pairs", topo_src)
-                    self.assertIn("chan-live", topo_src)
-                    self.assertNotIn("pending adoption", topo_src)
-                    self.assertIn("chan-tailscale", topo_src)  # live bearer channels
-                    # ZERO pairs pending fleet-wide (66/66 since the Mountain<->River
-                    # restore, Sept 12 22:02Z): the Waking-235 pending arc, its
-                    # flow-skip, and all pending wording are gone from the source
-                    self.assertNotIn("chan-pending", topo_src)
-                    self.assertNotIn('"river-mountain-pending"', topo_src)
-                    self.assertNotIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending arc path gone
-                    self.assertNotIn("River pending", topo_src)  # pending label gone
-                    self.assertIn("full fleet mesh complete", topo_src)
-                    self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
-                    # Waking 327 lockstep (Sept 17 2026): Waking 320's pentagram
-                    # rewrite re-worded the tidal-mountain trunk label.
-                    self.assertIn("direct per-agent channels \\u00d716 \\u2192 Mountain group \\u00b7 trio \\u2194 Mountain 12 pairs live", topo_src)
-                    self.assertIn("trio \\u2194 Mountain", topo_src)
-                    self.assertIn("12 pairs live", topo_src)
-                    self.assertIn("founding 12 = 66/66 agent pairs verified two-way live", topo_src)
-                    self.assertIn("re-verified Sept 15", topo_src)
-                    self.assertIn("11/11 GET + 11/11 enforced-auth POST", topo_src)
-                    # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the
-                    # 13th agent (operator escalation line, Claude Code/Sonnet),
-                    # onboarded into the mesh -- drawn on the React topology with
-                    # its verified arcs; the Claude legend chip returns (one live
-                    # Claude node); status lines carry the onboarding state.
-                    # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
-                    # (14th, this box) + DELTA (15th, Mountain's host) join the
-                    # React topology -- mesh quads extended to 5 co-located nodes
-                    # each, host-box labels carry the agent counts, the new-agents
-                    # label + aria/footer/status lines carry the onboarding state.
-                    # Waking 327 lockstep (Josh's 20:10/20:17Z pentagram asks):
-                    # the 320 redraw re-laid the board as three host K5 clusters,
-                    # so the old radar-era arc pins moved to the pentagram trunk
-                    # geometry + host-box labels.
-                    self.assertIn('id: "radar"', topo_src)
-                    self.assertIn('family: "Claude"', topo_src)
-                    self.assertIn("Beacon\u2194Radar POST-verified Sept 16 22:37Z (w466)", topo_src)
-                    self.assertIn("M452,261 Q570,190 688,261", topo_src)  # peer trunk
-                    self.assertIn("M992,251 Q1110,185 1228,251", topo_src)  # relay trunk
-                    self.assertIn("peer: [\"tidal\", \"beacon\"]", topo_src)
-                    self.assertIn("relay: [\"beacon\", \"mountain\"]", topo_src)
-                    self.assertIn("BEACON HOST \\u00b7 beaconwake.com \\u00b7 5 agents", topo_src)
-                    self.assertIn("radar (13th) onboarded Sept 16\\u201317", topo_src)
-                    # Sept 14, 2026 (Waking 273): the topology fetches
-                    # /data/fleet-all.json on mount and renders a live mesh
-                    # status line (per-agent ok count + feed timestamp), so the
-                    # page shows current link/agent state on every load.
-                    self.assertIn("/data/fleet-all.json", topo_src)
-                    # Sept 15, 2026 (Waking 287, Josh's 05:48Z ask): the next-app
-                    # fleet member cards match the bearer-mesh ground truth too.
-                    # Waking 297 (21:45:37Z ask): pins moved to the post-w443
-                    # state (re-minted tokens, two-way directive closed).
-                    fp = os.path.join(_repo_root, "website/next-app/src/app/fleet/page.tsx")
-                    with open(fp, "r") as ff:
-                        fleet_src = ff.read()
-                    self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
-                    self.assertNotIn("Link: identity, live", fleet_src)
-                    self.assertIn("enforced-auth POST-verified both directions Sept 14\u201315", fleet_src)
-                    self.assertEqual(fleet_src.count("re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions"), 3)
-                    self.assertNotIn("zero-secret identity link live in both directions", fleet_src)
-                    self.assertIn("live mesh feed", topo_src)
-                    self.assertNotIn('"creds pending"', topo_src)
-                    self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
-                    self.assertIn("M394,439 Q840,487 1286,439", topo_src)  # tidal-host -> mountain-host trunk
-                    # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the React
-                    # topology mirrors the new Mountain <-> Beacon agora board
-                    # bridge (violet chan-agora arc, live Sept 15, below the
-                    # Beacon->Mountain relay arc).
-                    self.assertIn("agora-mountain", topo_src)
-                    self.assertIn("M992,281 Q1110,345 1228,281", topo_src)
-                    self.assertIn("Mountain \\u2194 Beacon agora board bridge (live Sept 15)", topo_src)
-                    self.assertIn('"agora-mountain": ["beacon", "mountain"]', topo_src)
-                    # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
-                    # (14th, this box) + DELTA (15th, Mountain's host) join the
-                    # React topology -- mesh quads extended to 5 co-located nodes
-                    # each, host-box labels carry the agent counts, the new-agents
-                    # label + aria/footer/status lines carry the onboarding state.
-                    self.assertIn('id: "meadow"', topo_src)
-                    self.assertIn('id: "delta"', topo_src)
-                    self.assertIn('id: "tidal-host"', topo_src)
-                    self.assertIn('id: "beacon-host"', topo_src)
-                    self.assertIn('id: "mountain-host"', topo_src)
-                    self.assertIn('members: ["tidal", "river", "creek", "stream", "meadow"]', topo_src)
-                    self.assertIn('members: ["mountain", "canyon", "ridge", "harbor", "delta"]', topo_src)
-                    self.assertIn("TIDAL HOST \\u00b7 tidalwake.org \\u00b7 5 agents", topo_src)
-                    self.assertIn("MOUNTAIN HOST \\u00b7 mountainwake.org \\u00b7 5 agents", topo_src)
-                    self.assertIn("pentagram formation \\u2014 3 hosts \\u00d7 5 agents", topo_src)
-                    self.assertIn("Meadow \u2022 local business development & capital generation (14th agent)", topo_src)
-                    self.assertIn("Delta \u2022 remote treasury & business strategist (15th agent)", topo_src)
-                    # Waking 344 lockstep (Sept 19 2026): the stale "tidal pairs
-                    # verified two-way" tail was replaced by the 105-pair
-                    # completion state (meadow fresh mints + Beacon-group
-                    # adoption 200x4; river/creek/stream radar legs live).
-                    self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17", topo_src)
-                    self.assertIn("15 agents = 105 pairs all two-way verified Sept 18\\u201319", topo_src)
-                    self.assertIn("river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18)", topo_src)
-                    self.assertNotIn("river/creek/stream staged", topo_src)
-                    self.assertNotIn("await far-side adoption", topo_src)
+                self.assertEqual(topo_src.count('"identity links \\u00d74 local agents"'), 0)  # old triple label gone
+                # Sept 17, 2026 (Waking 320 pentagram formation, Josh's
+                # 20:10:48Z + 20:17:27Z asks; pin refreshed by Waking 324):
+                # the old "sibling links ×12" arc label was replaced by the
+                # three-host K5 pentagram + labeled host trunks -- the
+                # bearer-pair semantics now ride the tidal-beacon trunk
+                # label (asserted here) and the footer w443 stamp (below).
+                self.assertIn("Tailscale peer channel + 15 founding bearer pairs", topo_src)
+                self.assertIn("post-w443 rotation: 11/11 GET + 11/11 POST", topo_src)
+                self.assertNotIn("zero-secret identity links \\u2014 12 pairs", topo_src)
+                self.assertIn("chan-live", topo_src)
+                self.assertNotIn("pending adoption", topo_src)
+                self.assertIn("chan-tailscale", topo_src)  # live bearer channels
+                # ZERO pairs pending fleet-wide (66/66 since the Mountain<->River
+                # restore, Sept 12 22:02Z): the Waking-235 pending arc, its
+                # flow-skip, and all pending wording are gone from the source
+                self.assertNotIn("chan-pending", topo_src)
+                self.assertNotIn('"river-mountain-pending"', topo_src)
+                self.assertNotIn("M185,322 C320,268 540,238 780,252", topo_src)  # pending arc path gone
+                self.assertNotIn("River pending", topo_src)  # pending label gone
+                self.assertIn("full fleet mesh complete", topo_src)
+                self.assertNotIn("chan-cfg", topo_src)  # configured links all confirmed live
+                # Waking 327 lockstep (Sept 17 2026): Waking 320's pentagram
+                # rewrite re-worded the tidal-mountain trunk label.
+                self.assertIn("direct per-agent channels \\u00d717 \\u2192 Mountain group \\u00b7 hub to all 17 peers live (Sept 19)", topo_src)
+                self.assertIn("hub to all 17 peers live (Sept 19)", topo_src)  # Waking 348: Mountain hub label updated (trio-era wording retired)
+                self.assertIn("15 agents = 105 pairs all two-way verified Sept 18\\u201319", topo_src)  # historical 15-agent stamp retained
+                self.assertIn("founding 12 = 66/66 agent pairs verified two-way live", topo_src)
+                self.assertIn("re-verified Sept 15", topo_src)
+                self.assertIn("11/11 GET + 11/11 enforced-auth POST", topo_src)
+                # Sept 17, 2026 (Waking 312, Josh's 23:19:03Z ask): RADAR, the
+                # 13th agent (operator escalation line, Claude Code/Sonnet),
+                # onboarded into the mesh -- drawn on the React topology with
+                # its verified arcs; the Claude legend chip returns (one live
+                # Claude node); status lines carry the onboarding state.
+                # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
+                # (14th, this box) + DELTA (15th, Mountain's host) join the
+                # React topology -- mesh quads extended to 5 co-located nodes
+                # each, host-box labels carry the agent counts, the new-agents
+                # label + aria/footer/status lines carry the onboarding state.
+                # Waking 327 lockstep (Josh's 20:10/20:17Z pentagram asks):
+                # the 320 redraw re-laid the board as three host K5 clusters,
+                # so the old radar-era arc pins moved to the pentagram trunk
+                # geometry + host-box labels.
+                self.assertIn('id: "radar"', topo_src)
+                self.assertIn('family: "Claude"', topo_src)
+                self.assertIn("Beacon\u2194Radar POST-verified Sept 16 22:37Z (w466)", topo_src)
+                self.assertIn("M452,261 Q570,190 688,261", topo_src)  # peer trunk
+                self.assertIn("M992,251 Q1110,185 1228,251", topo_src)  # relay trunk
+                self.assertIn("peer: [\"tidal\", \"beacon\"]", topo_src)
+                self.assertIn("relay: [\"beacon\", \"mountain\"]", topo_src)
+                self.assertIn("BEACON HOST \\u00b7 beaconwake.com \\u00b7 6 agents", topo_src)
+                self.assertIn("radar (13th) onboarded Sept 16\\u201317", topo_src)
+                # Sept 14, 2026 (Waking 273): the topology fetches
+                # /data/fleet-all.json on mount and renders a live mesh
+                # status line (per-agent ok count + feed timestamp), so the
+                # page shows current link/agent state on every load.
+                self.assertIn("/data/fleet-all.json", topo_src)
+                # Sept 15, 2026 (Waking 287, Josh's 05:48Z ask): the next-app
+                # fleet member cards match the bearer-mesh ground truth too.
+                # Waking 297 (21:45:37Z ask): pins moved to the post-w443
+                # state (re-minted tokens, two-way directive closed).
+                fp = os.path.join(_repo_root, "website/next-app/src/app/fleet/page.tsx")
+                with open(fp, "r") as ff:
+                    fleet_src = ff.read()
+                self.assertEqual(fleet_src.count("Link: bearer pair tokens (Sept 14 mesh; re-minted Sept 15 w443), live"), 3)
+                self.assertNotIn("Link: identity, live", fleet_src)
+                self.assertIn("enforced-auth POST-verified both directions Sept 14\u201315", fleet_src)
+                self.assertEqual(fleet_src.count("re-minted in the Sept 15 w443 rotation, POST-verified 11/11 both directions"), 3)
+                self.assertNotIn("zero-secret identity link live in both directions", fleet_src)
+                self.assertIn("live mesh feed", topo_src)
+                self.assertNotIn('"creds pending"', topo_src)
+                self.assertNotIn("mountain-trunk", topo_src)  # trunk replaced by 4 arcs
+                self.assertIn("M394,439 Q840,487 1286,439", topo_src)  # tidal-host -> mountain-host trunk
+                # Sept 15, 2026 (Waking 298, Josh's 23:53:08Z ask): the React
+                # topology mirrors the new Mountain <-> Beacon agora board
+                # bridge (violet chan-agora arc, live Sept 15, below the
+                # Beacon->Mountain relay arc).
+                self.assertIn("agora-mountain", topo_src)
+                self.assertIn("M992,281 Q1110,345 1228,281", topo_src)
+                self.assertIn("Mountain \\u2194 Beacon agora board bridge (live Sept 15)", topo_src)
+                self.assertIn('"agora-mountain": ["beacon", "mountain"]', topo_src)
+                # Sept 17, 2026 (Waking 320, Josh's 19:52:18Z ask): MEADOW
+                # (14th, this box) + DELTA (15th, Mountain's host) join the
+                # React topology -- mesh quads extended to 5 co-located nodes
+                # each, host-box labels carry the agent counts, the new-agents
+                # label + aria/footer/status lines carry the onboarding state.
+                self.assertIn('id: "meadow"', topo_src)
+                self.assertIn('id: "delta"', topo_src)
+                self.assertIn('id: "tidal-host"', topo_src)
+                self.assertIn('id: "beacon-host"', topo_src)
+                self.assertIn('id: "mountain-host"', topo_src)
+                self.assertIn('members: ["tidal", "river", "creek", "stream", "meadow", "brook"]', topo_src)  # Waking 348: K6 member list
+                self.assertIn('members: ["mountain", "canyon", "ridge", "harbor", "delta", "mesa"]', topo_src)
+                self.assertIn("TIDAL HOST \\u00b7 tidalwake.org \\u00b7 6 agents", topo_src)
+                self.assertIn("MOUNTAIN HOST \\u00b7 mountainwake.org \\u00b7 6 agents", topo_src)
+                self.assertIn("expansion wave (Josh, Sept 19): 18 agents \\u2014 3 host clusters \\u00d7 6", topo_src)
+                self.assertIn("Meadow \u2022 local business development & capital generation (14th agent)", topo_src)
+                self.assertIn("Delta \u2022 remote treasury & business strategist (15th agent)", topo_src)
+                # Waking 344 lockstep (Sept 19 2026): the stale "tidal pairs
+                # verified two-way" tail was replaced by the 105-pair
+                # completion state (meadow fresh mints + Beacon-group
+                # adoption 200x4; river/creek/stream radar legs live).
+                self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17", topo_src)
+                self.assertIn("15 agents = 105 pairs all two-way verified Sept 18\\u201319", topo_src)
+                self.assertIn("river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18)", topo_src)
+                self.assertNotIn("river/creek/stream staged", topo_src)
+                self.assertNotIn("await far-side adoption", topo_src)
+                # Waking 348 lockstep (Sept 19 2026, Josh's 15:50:59Z
+                # directive): Brook/Prism/Mesa on the React topology (K6
+                # clusters, 18 agents, 153 possible pairs) + honest staged
+                # labels for the legs not yet installed from my lane.
+                self.assertIn("Brook \u2022 independent verification & fleet QA (16th agent)", topo_src)
+                self.assertIn("Prism \u2022 SRE & backup steward (17th agent)", topo_src)
+                self.assertIn("Mesa \u2022 fleet link & mesh reliability (18th agent)", topo_src)
+                self.assertIn("18 agents = 153 possible pairs", topo_src)
+                self.assertIn("tidal-group legs staged \u2014 sender halves relayed via Tidal, installs gated on per-block mapping confirmation", topo_src)
+                self.assertIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
+                self.assertIn("18 agents \u00b7 3 host clusters live", topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
@@ -2254,12 +2308,12 @@ class TestDesignTokens(unittest.TestCase):
         test_dir = os.path.dirname(os.path.abspath(__file__))
         repo = os.path.abspath(os.path.join(test_dir, ".."))
 
+        comp_path = os.path.join(repo, "website", "next-app", "src", "components", "ObservabilityCharts.tsx")
+
         # Tidal's Waking-307 chart.agent adoption lives in trees that carry the
         # shared next-app sources (Tidal's); assert when present, skip silently
         # elsewhere. The canonical token file below exists in BOTH trees, so the
         # 12-agent shade-coverage assertions run unconditionally.
-        comp_path = os.path.join(repo, "website", "next-app", "src", "components", "ObservabilityCharts.tsx")
-
         build_path = os.path.join(repo, "website", "build_next.sh")
         if os.path.exists(comp_path):
             with open(comp_path, "r") as f:

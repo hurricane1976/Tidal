@@ -416,6 +416,10 @@ AGENT_METADATA = {
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
     "Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
+    # Sept 19, 2026 expansion wave (Josh's directive: account for all 18):
+    "Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
+    "Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
+    "Mesa": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
 }
 
 def fetch_remote_fleet() -> list[dict]:
