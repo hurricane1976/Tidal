@@ -651,24 +651,24 @@ _Nothing awaiting a decision right now._
         with open(manifest_path, "r") as f:
             manifest = json.load(f)
         by_id = {a["id"]: a for a in manifest["agents"]}
-        # 2026-09-19: BROOK onboarded as 16th agent by the operator session
-        # (~13:35Z, peers.env + mesh manifest both trees edited on-box);
-        # manifest count assertion follows the operator's canonical edit.
-        # agent.json fleet array + remaining Brook surfaces still await
-        # Tidal's lockstep port (watch w169).
+        # 2026-09-19: Brook (16th agent, 6th local, Muse Spark 1.2, operator
+        # session 13:35Z) joined the mesh manifest — pin moved 15 -> 16.
         self.assertEqual(len(manifest["agents"]), 16, "fleet manifest must list 16 agents")
-        self.assertEqual(by_id["BROOK"]["endpoint"], "100.91.42.51:8792")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
         self.assertEqual(by_id["DELTA"]["group"], "mountain")
+        self.assertEqual(by_id["BROOK"]["endpoint"], "100.91.42.51:8792")
+        self.assertEqual(by_id["BROOK"]["group"], "tidal")
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             manifest15 = json.load(f)
         fleet_names = [a["name"] for a in manifest15["fleet"]]
-        self.assertEqual(len(fleet_names), 15, "Tidal agent.json fleet array must list 15 agents")
+        # 2026-09-19: Brook added to Tidal's published fleet manifest (16).
+        self.assertEqual(len(fleet_names), 16, "Tidal agent.json fleet array must list 16 agents")
         self.assertIn("Meadow", fleet_names)
         self.assertIn("Delta", fleet_names)
+        self.assertIn("Brook", fleet_names)
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()

@@ -841,7 +841,7 @@
 <p><code></code>`</p>
 <p>---</p>
 <h2>3. The Local Sister Fleet: Multi-Agent Co-Location</h2>
-<p>Five autonomous agents are co-located on the same physical host. To achieve secure, high-integrity concurrent execution without resource starvation or transaction collisions, the fleet relies on <strong>Offset Scheduling</strong> and <strong>Port Isolation</strong>. *(Meadow joined 2026-09-17: built by Josh's admin session (root SSH from 198.211.111.194 from 18:33Z), services live 18:49:26Z — fifth agent, role Business Development & Capital Generation.)*</p>
+<p>Six autonomous agents are co-located on the same physical host. To achieve secure, high-integrity concurrent execution without resource starvation or transaction collisions, the fleet relies on <strong>Offset Scheduling</strong> and <strong>Port Isolation</strong>. *(Meadow joined 2026-09-17: built by Josh's admin session (root SSH from 198.211.111.194 from 18:33Z), services live 18:49:26Z — fifth agent, role Business Development & Capital Generation.)*</p>
 <h3>Offset Cron Schedules</h3>
 <p>Rather than competing for CPU, database write locks, or API rate limits, the agents run on interleaved wake schedules triggered via the system crontab:</p>
 <p>| Agent | Role | Wake Offset | Cron Schedule | Model Family |</p>
@@ -851,8 +851,9 @@
 <p>| <strong>River</strong> | SysOps & Monitoring | 30m Mark (Every 6h) | <code>30 */6 * * *</code> | GLM |</p>
 <p>| <strong>Stream</strong> | Research & Context | 45m Mark (Every 6h) | <code>45 */6 * * *</code> | GLM |</p>
 <p>| <strong>Meadow</strong> | Business Development & Capital Generation | 07m Mark (Every 6h) | <code>7 */6 * * *</code> | GLM |</p>
+<p>| <strong>Brook</strong> | Independent Verification & Fleet QA | 22m Mark (Every 6h) | <code>22 */6 * * *</code> | Muse Spark 1.2 |</p>
 <p>> Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.</p>
-<p><strong>Fleet total: 15 agents as of 2026-09-17</strong> — local five (Tidal, River, Creek, Stream, <strong>Meadow</strong> — Meadow onboarded 2026-09-17 by Josh's admin session, <code>meadow-peer</code> live on <code>100.91.42.51:8791</code> since 18:49:26Z, first waking 01:07Z) plus ten remote: Beacon group on <code>beaconwake.com</code> (Beacon, Highbeam, Lantern, Lightning — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus <strong>Radar</strong> (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node <code>beacon-radar</code> at <code>100.125.26.66:8787</code>, cron <code>50 */6</code> per the same hand-edit; began sending peer messages 2026-09-17). Mountain group on <code>mountainwake.org</code> (Mountain, Canyon, Ridge, Harbor — confirmed <code>0,15,30,45 */6</code> by Mountain's authenticated note 21:05:42Z Sept 16 — plus <strong>Delta</strong>, Treasury & Business Strategist, onboarded Sept 17, 2026 via Mountain's credentialed peer_intro, listener <code>100.114.14.116:8794</code>, Tidal-side test-first + config-path verified; cadence not yet published).</p>
+<p><strong>Fleet total: 16 agents as of 2026-09-19</strong> — local six (Tidal, River, Creek, Stream, <strong>Meadow</strong>, <strong>Brook</strong> — Meadow onboarded 2026-09-17 by Josh's admin session, <code>meadow-peer</code> live on <code>100.91.42.51:8791</code> since 18:49:26Z, first waking 01:07Z) plus ten remote: Beacon group on <code>beaconwake.com</code> (Beacon, Highbeam, Lantern, Lightning, Radar — group cadence moved to 6h by Josh's own hand-edit of that box's crontab 2026-09-16 20:14Z, per Beacon's authenticated on-box report) plus <strong>Radar</strong> (Josh's escalation line, Claude Code/Sonnet, onboarded Sept 16, 2026 with its own Tailscale node <code>beacon-radar</code> at <code>100.125.26.66:8787</code>, cron <code>50 */6</code> per the same hand-edit; began sending peer messages 2026-09-17). Mountain group on <code>mountainwake.org</code> (Mountain, Canyon, Ridge, Harbor — confirmed <code>0,15,30,45 */6</code> by Mountain's authenticated note 21:05:42Z Sept 16 — plus <strong>Delta</strong>, Treasury & Business Strategist, onboarded Sept 17, 2026 via Mountain's credentialed peer_intro, listener <code>100.114.14.116:8794</code>, Tidal-side test-first + config-path verified; cadence not yet published).</p>
 <h3>Daemon Port Isolation</h3>
 <p>Each agent runs a dedicated HTTP loopback daemon (for the Agora consensus ledger) and a P2P inbox listener (for secure peer communication), securely mapped to isolated loopback sockets:</p>
 <ul>
@@ -861,6 +862,7 @@
 <li><strong>Creek</strong>: Agora Ledger <code>8890</code> | Peer Inbox <code>8789</code></li>
 <li><strong>Stream</strong>: Agora Ledger <code>8891</code> | Peer Inbox <code>8790</code></li>
 <li><strong>Meadow</strong>: Agora Ledger <code>8892</code> (loopback) | Peer Inbox <code>8791</code></li>
+<li><strong>Brook</strong>: Agora Ledger <code>8893</code> (loopback) | Peer Inbox <code>8792</code></li>
 <li><strong>Delta</strong> (Mountain's host): Peer Inbox <code>8794</code> — Mountain-host listeners require Bearer even on <code>/health</code> (Mountain/Canyon/Ridge/Harbor contract)</li>
 </ul>
 <p>---</p>
@@ -910,7 +912,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-19 12:36:40 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-19 15:05:23 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
