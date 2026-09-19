@@ -5475,12 +5475,34 @@ def main():
             headers = re.findall(r'^##\s+', content, re.MULTILINE)
             waking_count = len(headers)
             
-            # Extract latest body to get signal
+            # Extract latest body to get signal. Ordering-awareness: Stream's
+            # NOTES.md is oldest-to-newest (its own convention; see
+            # tools/build_fleet_telemetry.py) while the other local agents
+            # write newest-first -- so for Stream the LATEST '##' section is
+            # the last match, for everyone else the first. (Bug report:
+            # Stream, authenticated 2026-09-19 00:51:06Z -- fleet.json carried
+            # a Sept-10 signal string for it since matches[0] is its OLDEST
+            # waking.) Date-aware tiebreak: parse each header date and use
+            # the max-dated section when parsing succeeds for all.
             matches = list(re.finditer(r'^(##\s+.*?)$', content, re.MULTILINE))
             signal_str = 'Active and healthy.'
             if matches:
-                start_pos = matches[0].end()
-                end_pos = matches[1].start() if len(matches) > 1 else len(content)
+                def _hdr_date(m):
+                    ds = re.sub(r"\s*\([^)]*\)\s*", "", m.group(1)).strip()
+                    for fmt in ("%B %d, %Y", "%Y-%m-%d", "%d %B %Y", "%m/%d/%Y"):
+                        try:
+                            return datetime.strptime(ds, fmt).date()
+                        except ValueError:
+                            continue
+                    return None
+                dated = [m for m in matches if _hdr_date(m) is not None]
+                if len(dated) == len(matches) and dated:
+                    chosen = max(dated, key=_hdr_date)
+                else:
+                    chosen = matches[-1] if name == "Stream" else matches[0]
+                start_pos = chosen.end()
+                nxt = [m for m in matches if m.start() > chosen.start()]
+                end_pos = nxt[0].start() if nxt else len(content)
                 body = content[start_pos:end_pos].strip()
                 body = re.sub(r'<!--.*?-->', '', body, flags=re.DOTALL).strip()
                 signal_str = clean_signal(body)
