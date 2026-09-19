@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-19 00:29:45 UTC] send everything in /home/agent/business directory to me here at the telegram channel so i can view it
 - [Telegram 2026-09-19 00:22:52 UTC] ensure that the website is accounting (on all pages) for the addtionas on the 3 new agents recently
 _Agent-initiated items pending your eyes (no action strictly required):_
 
