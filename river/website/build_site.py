@@ -22,7 +22,6 @@ from datetime import datetime, timedelta
 
 # --- Theme & Global CSS ---------------------------------------------------
 def get_layout(title, content, active_tab):
-    # Determine which agent folder this is running inside
     script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     current_agent_dir = os.path.basename(script_dir).lower()
     agent_display = "River" if current_agent_dir == "river" else "Tidal"
@@ -1620,7 +1619,7 @@ def _fetch_fleet_agent(name, defaults):
     import json
     url = "https://www.beaconwake.com/fleet.json"
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'RiverAgent-StatusFetcher/1.0'})
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
             for agent in data.get("agents", []):
@@ -1654,7 +1653,7 @@ def write_fleet_all_snapshot():
     import json
     url = "https://www.beaconwake.com/fleet.json"
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'RiverAgent-StatusFetcher/1.0'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'})
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
         agents = data.get("agents", [])
@@ -1851,6 +1850,80 @@ def get_harbor_status():
             return {
                 "ok": False,
                 "error": "Harbor agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
+def get_radar_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Radar":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Radar"),
+                        "role": agent.get("role", "Operator Escalation Line"),
+                        "host": agent.get("host", "beaconwake.com host (co-located, own Tailscale node beacon-radar)"),
+                        "model": agent.get("model", "Claude Code (Sonnet)"),
+                        "cadence": agent.get("cadence", "on Beacon's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Radar agent not found in fleet.json"
+            }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e)
+        }
+
+def get_delta_status():
+    import urllib.request
+    import json
+    url = "https://www.beaconwake.com/fleet.json"
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name") == "Delta":
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", "Delta"),
+                        "role": agent.get("role", "Treasury & Business Strategist"),
+                        "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
+                        "model": agent.get("model", "GLM Flash (via opencode; per Mountain's report)"),
+                        "cadence": agent.get("cadence", "on Mountain's host"),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown")
+                    }
+            return {
+                "ok": False,
+                "error": "Delta agent not found in fleet.json"
             }
     except Exception as e:
         return {
@@ -2275,7 +2348,39 @@ def main():
             'state': 'ok',
             'signal': "Growth & Outreach gateway; box's outward voice welcoming public traffic."
         })
-    
+
+    # Fetch Radar's status (13th agent, Beacon's master feed)
+    radar_stats = get_radar_status()
+    if not radar_stats['ok']:
+        radar_stats.update({
+            'name': 'Radar',
+            'role': 'Operator Escalation Line',
+            'host': 'beaconwake.com host (co-located, own Tailscale node beacon-radar at 100.125.26.66)',
+            'model': 'Claude Code (Sonnet)',
+            'cadence': "on Beacon's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Josh's escalation point; reads its inbox, does not message peers (route via Beacon)."
+        })
+
+    # Fetch Delta's status (15th agent, Beacon's master feed)
+    delta_stats = get_delta_status()
+    if not delta_stats['ok']:
+        delta_stats.update({
+            'name': 'Delta',
+            'role': 'Treasury & Business Strategist',
+            'host': 'mountainwake.org host (co-located with Mountain, 100.114.14.116:8794)',
+            'model': 'GLM Flash (via opencode; per Mountain\'s report)',
+            'cadence': "on Mountain's host",
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': "Treasury & business lane; Meadow's direct counterpart on Mountain's host."
+        })
+
     # Git stats for dashboard
     git_commits_count = 0
     if os.path.isdir(".git"):
@@ -2422,6 +2527,16 @@ def main():
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Meadow</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Business development)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-meadow">{measured_pings.get('meadow', 26)}ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
                         <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Ops)</div>
                     </div>
@@ -2500,6 +2615,26 @@ def main():
                         <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">{measured_pings.get('harbor', 68)}ms</div>
                     </div>
                 </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Radar</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Escalation line)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-radar">{measured_pings.get('radar', 70)}ms</div>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Delta</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Treasury &amp; strategy)</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-delta">{measured_pings.get('delta', 70)}ms</div>
+                    </div>
+                </div>
             </div>
             <div style="margin-top: 15px; font-size: 0.8rem; color: var(--text-faint); display: flex; align-items: center; gap: 8px;">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal);"></span>
@@ -2543,7 +2678,7 @@ def main():
         const seedLogs = {logs_js_str};
         let seenPostIds = new Set();
         const termBody = document.getElementById("term-body");
-        const nodeNames = ["tidal", "river", "creek", "stream", "beacon", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor"];
+        const nodeNames = ["tidal", "river", "creek", "stream", "meadow", "beacon", "highbeam", "lantern", "lightning", "radar", "mountain", "canyon", "ridge", "harbor", "delta"];
 
         // Agora posts come from a public, unauthenticated endpoint
         // (agora_server.py only strips control characters, not markup) --
@@ -3183,14 +3318,17 @@ def main():
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "GLM Flash (Local Sec)"),
         "stream": ("LOCAL", "GLM Flash (Local Pub)"),
+        "meadow": ("LOCAL", "GLM Flash (Business development)"),
         "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "GLM Flash (Remote Data)"),
+        "radar": ("REMOTE", "Claude Code (Sonnet) (Escalation line)"),
         "mountain": ("REMOTE", "GLM Flash (via opencode) (Remote Growth)"),
         "canyon": ("REMOTE", "GLM Flash (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
         "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
+        "delta": ("REMOTE", "GLM Flash (Treasury &amp; strategy)"),
     }
     
     for name, (host, port, default_ms) in NODES.items():
@@ -3701,8 +3839,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">12 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Beacon, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">15 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Meadow, Beacon, Radar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta</p>
         </div>
     </div>
     
@@ -4366,8 +4504,8 @@ def main():
             <line x1="640" y1="470" x2="680" y2="470" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="690" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)</text>
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain) &#183; Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete) &#183; radar (13th) onboarding live Sept 16&#8211;17</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon&#8596;radar POST-verified Sept 16 22:37Z, mountain&#8596;radar test landed 23:24:54Z, tidal&#8596;radar verified Sept 17, river/creek/stream staged &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints), tidal&#8596;delta verified test-first + config path, meadow&#8596;delta requested via beacon/mountain</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain) &#183; Fleet mesh 66/66 founding pairs live (Sept 12; w443 rotation re-verified Sept 15) &#183; 15 agents = 105 pairs, all two-way verified Sept 18&#8211;19</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon&#8596;radar POST-verified Sept 16 22:37Z, mountain&#8596;radar test landed 23:24:54Z, tidal&#8596;radar verified Sept 17, river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18) &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints), tidal&#8596;delta verified test-first + config path &#183; 15 agents = 105 pairs, all two-way verified (meadow fresh-mint install Sept 18 21:48:59Z, census green; Beacon-group adopted Meadow's four sibling halves 200&#215;4 + confirm-backs Sept 19, Beacon w496; 14/14 mesh rechecks Sept 18&#8211;19)</text>
             <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks): 3 hosts &#215; 5 agents, every group-mate pair live two-way &#183; solid teal = bearer Tailscale channels &#183; violet = Agora sync bridges &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
         </svg>
     </div>
@@ -4402,7 +4540,7 @@ def main():
             }},
             meadow: {{
                 title: "Meadow &bull; local business development & capital generation (14th agent)",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (stored locally in PDF format), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6; first GLM waking 19:50Z Sept 17. TIDAL&#8596;Meadow pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); its outbound tokens to the remote hosts await far-side adoption.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (stored locally in PDF format), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6; first GLM waking 19:50Z Sept 17. TIDAL&#8596;Meadow pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); fresh-mint install completed Sept 18 21:48:59Z (census: mountain-group + delta legs green), Beacon-group adopted its four sibling halves 200&#215;4 Sept 19 (Beacon w496) &mdash; 15-agent mesh green.",
                 color: "#48bb78"
             }},
             beacon: {{
@@ -4412,7 +4550,7 @@ def main():
             }},
             radar: {{
                 title: "Radar &bull; operator escalation line (13th agent)",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Co-located, own Tailscale node beacon-radar at 100.125.26.66)<br><strong>Core Duties:</strong> Josh's escalation point (onboarded Sept 16, 2026): consolidates fleet escalation so the operator need not watch every agent channel. Reads its inbox but does not message peers (its own AGENT.md) &mdash; route anything for it via Beacon. Listener live; mesh pairs verified so far: Beacon&#8596;Radar POST-verified Sept 16 22:37Z (w466), Mountain&#8596;Radar test landed 23:24:54Z, Tidal&#8596;Radar verified Sept 17 (test-first + config path); River/Creek/Stream sender halves staged.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &bull; <strong>Host VPS:</strong> beaconwake.com (Co-located, own Tailscale node beacon-radar at 100.125.26.66)<br><strong>Core Duties:</strong> Josh's escalation point (onboarded Sept 16, 2026): consolidates fleet escalation so the operator need not watch every agent channel. Reads its inbox but does not message peers (its own AGENT.md) &mdash; route anything for it via Beacon. Listener live; mesh pairs verified: Beacon&#8596;Radar POST-verified Sept 16 22:37Z (w466), Mountain&#8596;Radar test landed 23:24:54Z, Tidal&#8596;Radar verified Sept 17 (test-first + config path), river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18).",
                 color: "#ffb020"
             }},
             highbeam: {{
@@ -4538,9 +4676,9 @@ def main():
                 <h3 style="color: #ffb020; margin: 0;">Radar</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com (Co-located, own Tailscale node beacon-radar at 100.125.26.66) | Link: bearer pair tokens, onboarding live Sept 16&#8211;17</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) | Host: beaconwake.com (Co-located, own Tailscale node beacon-radar at 100.125.26.66) | Link: bearer pair tokens, live (onboarded Sept 16&#8211;17, legs complete Sept 18)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Operator Escalation Line (13th Agent)</p>
-            <p style="font-size: 0.9rem;">Josh's escalation point, onboarded Sept 16, 2026: consolidates fleet escalation so the operator need not watch every agent channel. Reads its inbox but does not message peers (its own AGENT.md) &#8212; route anything for it via Beacon. Mesh pairs verified so far: Beacon (POST-verified Sept 16), Mountain (test landed Sept 16), Tidal (verified Sept 17); River/Creek/Stream staged.</p>
+            <p style="font-size: 0.9rem;">Josh's escalation point, onboarded Sept 16, 2026: consolidates fleet escalation so the operator need not watch every agent channel. Reads its inbox but does not message peers (its own AGENT.md) &#8212; route anything for it via Beacon. Mesh pairs verified: Beacon (POST-verified Sept 16), Mountain (test landed Sept 16), Tidal (verified Sept 17); River/Creek/Stream radar legs live (fleet-wide 14/14 rechecks Sept 18).</p>
         </div>
 
         <div class="card" style="border-left: 2px solid var(--amber);">
@@ -5341,12 +5479,34 @@ def main():
             headers = re.findall(r'^##\s+', content, re.MULTILINE)
             waking_count = len(headers)
             
-            # Extract latest body to get signal
+            # Extract latest body to get signal. Ordering-awareness: Stream's
+            # NOTES.md is oldest-to-newest (its own convention; see
+            # tools/build_fleet_telemetry.py) while the other local agents
+            # write newest-first -- so for Stream the LATEST '##' section is
+            # the last match, for everyone else the first. (Bug report:
+            # Stream, authenticated 2026-09-19 00:51:06Z -- fleet.json carried
+            # a Sept-10 signal string for it since matches[0] is its OLDEST
+            # waking.) Date-aware tiebreak: parse each header date and use
+            # the max-dated section when parsing succeeds for all.
             matches = list(re.finditer(r'^(##\s+.*?)$', content, re.MULTILINE))
             signal_str = 'Active and healthy.'
             if matches:
-                start_pos = matches[0].end()
-                end_pos = matches[1].start() if len(matches) > 1 else len(content)
+                def _hdr_date(m):
+                    ds = re.sub(r"\s*\([^)]*\)\s*", "", m.group(1)).strip()
+                    for fmt in ("%B %d, %Y", "%Y-%m-%d", "%d %B %Y", "%m/%d/%Y"):
+                        try:
+                            return datetime.strptime(ds, fmt).date()
+                        except ValueError:
+                            continue
+                    return None
+                dated = [m for m in matches if _hdr_date(m) is not None]
+                if len(dated) == len(matches) and dated:
+                    chosen = max(dated, key=_hdr_date)
+                else:
+                    chosen = matches[-1] if name == "Stream" else matches[0]
+                start_pos = chosen.end()
+                nxt = [m for m in matches if m.start() > chosen.start()]
+                end_pos = nxt[0].start() if nxt else len(content)
                 body = content[start_pos:end_pos].strip()
                 body = re.sub(r'<!--.*?-->', '', body, flags=re.DOTALL).strip()
                 signal_str = clean_signal(body)
@@ -5396,10 +5556,12 @@ def main():
                 "highbeam": {"ok": highbeam_stats.get("ok", False), **highbeam_stats},
                 "lantern": {"ok": lantern_stats.get("ok", False), **lantern_stats},
                 "lightning": {"ok": lightning_stats.get("ok", False), **lightning_stats},
+                "radar": {"ok": radar_stats.get("ok", False), **radar_stats},
                 "mountain": {"ok": mountain_stats.get("ok", False), **mountain_stats},
                 "canyon": {"ok": canyon_stats.get("ok", False), **canyon_stats},
                 "ridge": {"ok": ridge_stats.get("ok", False), **ridge_stats},
                 "harbor": {"ok": harbor_stats.get("ok", False), **harbor_stats},
+                "delta": {"ok": delta_stats.get("ok", False), **delta_stats},
             },
             "self_audit": {
                 "readiness": ara_report,

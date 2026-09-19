@@ -953,6 +953,16 @@ _Nothing awaiting a decision right now._
             self.assertIn("Harbor", index_content)
             self.assertIn("id=\"ping-harbor\"", index_content)
             self.assertIn('"harbor"', index_content)
+            # Waking 344 (Sept 19 2026): the three new agents joined every
+            # ping/telemetry surface -- meadow (this host, 8791), radar
+            # (beacon-radar, 100.125.26.66:8787), delta (Mountain's host,
+            # 100.114.14.116:8794) per mesh/fleet_manifest.json.
+            self.assertIn("Meadow", index_content)
+            self.assertIn("id=\"ping-meadow\"", index_content)
+            self.assertIn("Radar", index_content)
+            self.assertIn("id=\"ping-radar\"", index_content)
+            self.assertIn("Delta", index_content)
+            self.assertIn("id=\"ping-delta\"", index_content)
 
     def test_secops_page_generation(self):
         from unittest.mock import patch
@@ -990,7 +1000,67 @@ _Nothing awaiting a decision right now._
             self.assertIn("Live P2P Fleet Latency Matrix", content)
             self.assertIn("measured-at-val", content)
             self.assertIn('id="ping-tidal"', content)
+            # Waking 344 (Sept 19 2026): the latency matrix renders all 15
+            # fleet nodes (meadow/radar/delta included, friendly labels).
+            self.assertIn('id="ping-meadow"', content)
+            self.assertIn('id="ping-radar"', content)
+            self.assertIn('id="ping-delta"', content)
+            self.assertIn("GLM Flash (Business development)", content)
+            self.assertIn("Claude Code (Sonnet) (Escalation line)", content)
+            self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
+
+    def test_fleet_nodes_registry_15_agents(self):
+        """Waking 344 (Sept 19 2026): the shared node registry carries all 15
+        agents -- the founding 12 + meadow (8791, this host) + radar
+        (100.125.26.66:8787) + delta (100.114.14.116:8794) -- so every
+        latency-probe surface (index, secops, live telemetry) accounts for
+        the three new agents. Status page FLEET SIZE reads 15 with the full
+        roster."""
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        sys.path.insert(0, repo_root)
+        from tools.fleet_nodes import NODES
+        self.assertEqual(len(NODES), 15)
+        for name in ("meadow", "radar", "delta"):
+            self.assertIn(name, NODES)
+        self.assertEqual(NODES["meadow"], ("100.91.42.51", 8791, 26))
+        self.assertEqual(NODES["radar"], ("100.125.26.66", 8787, 70))
+        self.assertEqual(NODES["delta"], ("100.114.14.116", 8794, 70))
+
+        # Build fresh, then assert on the python-built metrics page (the
+        # FLEET SIZE card lives there; the webroot copy may be the React
+        # export per the React-export protection, so prefer the freshly
+        # built output either way).
+        from unittest.mock import patch as _patch
+        os.makedirs("website", exist_ok=True)
+        with open("NOTES.md", "w") as f:
+            f.write("## August 31, 2026 (Waking 34)\n- Done some awesome work\n")
+        with open("ASK.md", "w") as f:
+            f.write("## Open\n- Track operational status.\n")
+        with _patch(
+            "website.build_site.parse_notes",
+            side_effect=lambda notes_path="NOTES.md": [
+                {
+                    "date": "August 31, 2026 (Waking 34)",
+                    "raw_content": "- Done some awesome work\n",
+                    "html_content": "<li>Done some awesome work</li>",
+                }
+            ],
+        ):
+            import website.build_site as _bs
+            _bs.main()
+        metrics_html_path = os.path.join(repo_root, "website", "metrics.html")
+        self.assertTrue(os.path.exists(metrics_html_path))
+        with open(metrics_html_path, "r") as f:
+            status_content = f.read()
+        if "FLEET SIZE" not in status_content:
+            legacy_path = os.path.join(repo_root, "website", "legacy-src", "metrics.html")
+            self.assertTrue(os.path.exists(legacy_path))
+            with open(legacy_path, "r") as f:
+                status_content = f.read()
+        self.assertIn("FLEET SIZE", status_content)
+        self.assertIn(">15 <span class=\"unit\">agents</span>", status_content)
+        self.assertIn("Tidal, River, Creek, Stream, Meadow, Beacon, Radar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta", status_content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -1111,7 +1181,10 @@ _Nothing awaiting a decision right now._
             # Sept 17 pentagram era: the old per-arc legends were replaced
             # by the pentagram + trunk legend rows (same 66/66 stamps).
             self.assertIn("Pentagram group-mate pairs (per-pair bearer tokens, verified two-way)", content)
-            self.assertIn("Fleet mesh 66/66 two-way live (Sept 12; re-verified Sept 15, w443 rotation complete)", content)
+            # Waking 344 lockstep (Sept 19 2026): the 15-agent completion era
+            # -- the static channel label states the 105-pair verified state.
+            self.assertIn("Fleet mesh 66/66 founding pairs live (Sept 12; w443 rotation re-verified Sept 15)", content)
+            self.assertIn("15 agents = 105 pairs, all two-way verified Sept 18&#8211;19", content)
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -1296,7 +1369,15 @@ _Nothing awaiting a decision right now._
                     self.assertIn("pentagram formation \\u2014 3 hosts \\u00d7 5 agents", topo_src)
                     self.assertIn("Meadow \u2022 local business development & capital generation (14th agent)", topo_src)
                     self.assertIn("Delta \u2022 remote treasury & business strategist (15th agent)", topo_src)
-                    self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17: tidal pairs verified two-way", topo_src)
+                    # Waking 344 lockstep (Sept 19 2026): the stale "tidal pairs
+                    # verified two-way" tail was replaced by the 105-pair
+                    # completion state (meadow fresh mints + Beacon-group
+                    # adoption 200x4; river/creek/stream radar legs live).
+                    self.assertIn("meadow (14th) + delta (15th) onboarded Sept 17", topo_src)
+                    self.assertIn("15 agents = 105 pairs all two-way verified Sept 18\\u201319", topo_src)
+                    self.assertIn("river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18)", topo_src)
+                    self.assertNotIn("river/creek/stream staged", topo_src)
+                    self.assertNotIn("await far-side adoption", topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
