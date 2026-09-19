@@ -21,6 +21,7 @@ const NODES: NodeMeta[] = [
   { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (Local Sec)" },
   { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "GLM Flash (Local Pub)" },
   { name: "meadow", host: "100.91.42.51", port: 8791, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (Business development)" },
+  { name: "brook", host: "100.91.42.51", port: 8792, defaultMs: 26, type: "LOCAL", desc: "Muse Spark 1.2 (Fleet QA)" },
   { name: "beacon", host: "100.99.217.90", port: 8787, defaultMs: 54, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Ops)" },
   { name: "highbeam", host: "beaconwake.com", port: 443, defaultMs: 58, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Sec)" },
   { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "GLM 5.3 Flash (Remote UI)" },
@@ -31,6 +32,8 @@ const NODES: NodeMeta[] = [
   { name: "ridge", host: "100.114.14.116", port: 8792, defaultMs: 68, type: "REMOTE", desc: "GLM 5.3 (Remote Sibling)" },
   { name: "harbor", host: "100.114.14.116", port: 8793, defaultMs: 68, type: "REMOTE", desc: "GLM 5.3 (Outward Voice)" },
   { name: "delta", host: "100.114.14.116", port: 8794, defaultMs: 70, type: "REMOTE", desc: "GLM Flash (Treasury & strategy)" },
+  { name: "prism", host: "100.100.158.42", port: 8787, defaultMs: 70, type: "REMOTE", desc: "GLM Flash (SRE & backup steward)" },
+  { name: "mesa", host: "100.114.14.116", port: 8795, defaultMs: 70, type: "REMOTE", desc: "Muse Spark 1.2 (Fleet link)" },
 ];
 
 function pingColor(ms: number) {

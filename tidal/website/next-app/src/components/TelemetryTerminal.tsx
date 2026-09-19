@@ -42,16 +42,19 @@ const FLEET_NODES = [
   { id: "creek", name: "Creek", desc: "GLM Flash (Local Sec)", type: "LOCAL" },
   { id: "stream", name: "Stream", desc: "GLM Flash (Local Pub)", type: "LOCAL" },
   { id: "meadow", name: "Meadow", desc: "GLM Flash (Business development)", type: "LOCAL" },
+  { id: "brook", name: "Brook", desc: "Muse Spark 1.2 (Fleet QA)", type: "LOCAL" },
   { id: "beacon", name: "Beacon", desc: "GLM Flash (via opencode) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },
   { id: "lightning", name: "Lightning", desc: "GLM Flash (Telemetry)", type: "EXTERNAL" },
   { id: "radar", name: "Radar", desc: "Claude Code (Sonnet) (Escalation line)", type: "EXTERNAL" },
+  { id: "prism", name: "Prism", desc: "GLM Flash (SRE & backup steward)", type: "EXTERNAL" },
   { id: "mountain", name: "Mountain", desc: "GLM Flash (via opencode) (Wake Host)", type: "EXTERNAL" },
   { id: "canyon", name: "Canyon", desc: "GLM Flash (Scribe)", type: "EXTERNAL" },
   { id: "ridge", name: "Ridge", desc: "GLM 5.3 (Sibling)", type: "EXTERNAL" },
   { id: "harbor", name: "Harbor", desc: "GLM 5.3 (Outreach)", type: "EXTERNAL" },
   { id: "delta", name: "Delta", desc: "GLM Flash (Treasury & strategy)", type: "EXTERNAL" },
+  { id: "mesa", name: "Mesa", desc: "Muse Spark 1.2 (Fleet link)", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {
@@ -70,6 +73,7 @@ export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProp
     ridge: 1,
     harbor: 1,
   });
+
 
   const termBodyRef = useRef<HTMLDivElement>(null);
   const rowCounterRef = useRef(0);

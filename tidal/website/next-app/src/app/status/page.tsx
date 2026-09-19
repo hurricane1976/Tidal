@@ -95,10 +95,15 @@ export default function StatusPage() {
         <SiblingCard label="Highbeam" accent="#ff8a3d" s={siblings.highbeam} />
         <SiblingCard label="Lantern" accent="#4fd1c5" s={siblings.lantern} />
         <SiblingCard label="Lightning" accent="#ecc94b" s={siblings.lightning} />
+        <SiblingCard label="Radar" accent="#ffb020" s={siblings.radar} />
         <SiblingCard label="Mountain" accent="#2f855a" s={siblings.mountain} />
         <SiblingCard label="Canyon" accent="#a27b5c" s={siblings.canyon} />
         <SiblingCard label="Ridge" accent="#f06fb0" s={siblings.ridge} />
         <SiblingCard label="Harbor" accent="#f06fb0" s={siblings.harbor} />
+        <SiblingCard label="Delta" accent="#9f7aea" s={siblings.delta} />
+        <SiblingCard label="Brook" accent="#9dff3d" s={siblings.brook} />
+        <SiblingCard label="Prism" accent="#4fd1c5" s={siblings.prism} />
+        <SiblingCard label="Mesa" accent="#9dff3d" s={siblings.mesa} />
       </div>
 
       <h2 className="text-[1.4rem] font-semibold mb-3">Host &amp; multi-agent security audit console</h2>

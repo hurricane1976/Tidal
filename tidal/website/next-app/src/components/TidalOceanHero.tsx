@@ -2,34 +2,40 @@
 
 import { useEffect, useRef } from "react";
 
-type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI";
+type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI" | "Muse";
 
 const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Claude: [255, 138, 61], // var(--amber)
   DeepSeek: [90, 169, 255], // var(--blue)
   GLM: [240, 111, 176], // var(--magenta)
   OpenAI: [16, 163, 127], // OpenAI green
+  Muse: [157, 255, 61], // --fleet-muse lime
 };
 
-// The 15 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
+// The 18 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
 // box Sept 17 (14th), Radar joined Beacon's host Sept 16 (13th), Delta joined
 // Mountain's host Sept 17 (15th); 15-agent mesh two-way green Sept 18-19.
+// Sept 19 expansion wave: Brook (16th, this host), Prism (17th, Beacon's
+// host), Mesa (18th, Mountain's host) -- 18 agents per Josh's directive.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "GLM" },
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "GLM" },
   { id: "stream", label: "STREAM", family: "GLM" },
   { id: "meadow", label: "MEADOW", family: "GLM" },
+  { id: "brook", label: "BROOK", family: "Muse" },
   { id: "beacon", label: "BEACON", family: "GLM" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
   { id: "radar", label: "RADAR", family: "Claude" },
+  { id: "prism", label: "PRISM", family: "GLM" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
   { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },
   { id: "delta", label: "DELTA", family: "GLM" },
+  { id: "mesa", label: "MESA", family: "Muse" },
 ];
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs
@@ -38,28 +44,36 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 // (Lantern, Highbeam, Lightning) ride live zero-secret identity links to
 // this box. The founding 12 completed their 66-pair mesh (Sept 12); the
 // three new agents (radar/meadow/delta, Sept 16-17) completed the 105-pair
-// full mesh Sept 18-19 (Beacon w496 + fleet-wide 14/14 rechecks). Mirrors
-// FLEET_COORDINATION.md §3.1/§5.
+// full mesh Sept 18-19 (Beacon w496 + fleet-wide 14/14 rechecks). Sept 19
+// expansion wave (18 agents, Josh's directive): brook's five mountain-group
+// legs, prism's five mountain-group legs (Mountain's authenticated feed,
+// Sept 19) drawn live; tidal-group<->prism legs stay UNDRAWN (staged,
+// per-block mapping confirmation pending) and mesa's wider-fleet legs
+// pending per-pair introduction. Mirrors FLEET_COORDINATION.md §3.1/§5.
 const CHANNELS: [number, number][] = [
-  [0, 4], // Tidal <-> Beacon
-  [0, 8], // Tidal <-> Mountain
-  [4, 8], // Beacon <-> Mountain (relay)
-  [2, 8], // Creek <-> Mountain
-  [3, 8], // Stream <-> Mountain
-  [1, 8], // River <-> Mountain
-  [0, 5], // Tidal <-> Lantern (identity link, live)
-  [0, 6], // Tidal <-> Highbeam (identity link, live)
-  [0, 7], // Tidal <-> Lightning (identity link, live)
+  [0, 6], // Tidal <-> Beacon
+  [0, 12], // Tidal <-> Mountain
+  [6, 12], // Beacon <-> Mountain (relay)
+  [2, 12], // Creek <-> Mountain
+  [3, 12], // Stream <-> Mountain
+  [1, 12], // River <-> Mountain
+  [0, 8], // Tidal <-> Lantern (identity link, live)
+  [0, 7], // Tidal <-> Highbeam (identity link, live)
+  [0, 9], // Tidal <-> Lightning (identity link, live)
   // New-agent cross-host legs (live Sept 17-19): meadow <-> beacon group,
   // delta <-> everything off its host, radar <-> everything off Beacon's host.
-  [12, 4], [12, 5], [12, 6], [12, 7], // meadow x beacon group
-  [12, 8], [12, 9], [12, 10], [12, 11], // meadow x mountain group
-  [12, 13], // meadow <-> radar
-  [12, 14], // meadow <-> delta
-  [13, 0], [13, 1], [13, 2], [13, 3], // radar x local quartet
-  [13, 8], [13, 9], [13, 10], [13, 11], // radar x mountain group
-  [13, 14], // radar <-> delta
-  [14, 0], [14, 1], [14, 2], [14, 3], [14, 4], [14, 5], [14, 6], [14, 7], // delta x tidal quartet + beacon group
+  [4, 6], [4, 7], [4, 8], [4, 9], // meadow x beacon group
+  [4, 12], [4, 13], [4, 14], [4, 15], // meadow x mountain group
+  [4, 10], // meadow <-> radar
+  [4, 16], // meadow <-> delta
+  [10, 0], [10, 1], [10, 2], [10, 3], // radar x local quartet
+  [10, 12], [10, 13], [10, 14], [10, 15], // radar x mountain group
+  [10, 16], // radar <-> delta
+  [16, 0], [16, 1], [16, 2], [16, 3], [16, 6], [16, 7], [16, 8], [16, 9], // delta x tidal quartet + beacon group
+  // Sept 19 expansion-wave cross-host legs (verified two-way per Mountain's
+  // authenticated feed, Sept 19):
+  [5, 12], [5, 13], [5, 14], [5, 15], [5, 16], // brook x mountain group (5 lanes green)
+  [11, 12], [11, 13], [11, 14], [11, 15], [11, 16], // prism x mountain group (5 lanes green)
 ];
 
 // The rest of the mesh (founding era: 66/66 agent pairs verified two-way
@@ -74,20 +88,25 @@ const CHANNELS: [number, number][] = [
 // Beacon bearer channels (re-keyed + re-verified Sept 12 21:47Z), the 3 trio <-> trio
 // identity pairs (verified, Beacon w130-155), and the 3 Beacon <->
 // Canyon/Ridge/Harbor channels (confirmed Sept 12). Drawn as a dimmer layer
-// so the flagship cross-host channels stay readable.
+// so the flagship cross-host channels stay readable. Sept 19: the three
+// host clusters each grew to six agents (K6, 15 pairs per host, verified
+// by each hosting side) and the pentagram tradition now draws K6.
 const MESH_CHANNELS: [number, number][] = [
   [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], // local co-location mesh (6)
-  [0, 9], [0, 10], [0, 11], [1, 9], [1, 10], [1, 11], // local x Mountain-group
-  [2, 9], [2, 10], [2, 11], [3, 9], [3, 10], [3, 11],
-  [1, 5], [1, 6], [1, 7], [2, 5], [2, 6], [2, 7], [3, 5], [3, 6], [3, 7], // local x siblings
-  [5, 8], [6, 8], [7, 8], [5, 9], [6, 9], [7, 9], [5, 10], [6, 10], [7, 10], [5, 11], [6, 11], [7, 11], // trio x Mountain-group (12, live Sept 12)
-  [1, 4], [2, 4], [3, 4], // siblings x Beacon (3, re-keyed + re-verified Sept 12 21:47Z)
-  [5, 6], [5, 7], [6, 7], // trio x trio (3, verified)
-  [4, 9], [4, 10], [4, 11], // Beacon x Canyon/Ridge/Harbor (3, confirmed Sept 12)
-  // New-agent same-host mesh (pentagram K5 groups, live Sept 16-19):
-  [12, 0], [12, 1], [12, 2], [12, 3], // meadow x local quartet (tidal-host pentagram)
-  [13, 4], [13, 5], [13, 6], [13, 7], // radar x beacon group (beacon-host pentagram)
-  [14, 8], [14, 9], [14, 10], [14, 11], // delta x mountain group (mountain-host pentagram)
+  [0, 12], [0, 13], [0, 14], [1, 12], [1, 13], [1, 14], // local x Mountain-group
+  [2, 12], [2, 13], [2, 14], [3, 12], [3, 13], [3, 14],
+  [1, 7], [1, 8], [1, 9], [2, 7], [2, 8], [2, 9], [3, 7], [3, 8], [3, 9], // local x siblings
+  [7, 12], [8, 12], [9, 12], [7, 13], [8, 13], [9, 13], [7, 14], [8, 14], [9, 14], // trio x Mountain-group (12, live Sept 12)
+  [1, 6], [2, 6], [3, 6], // siblings x Beacon (3, re-keyed + re-verified Sept 12 21:47Z)
+  [7, 8], [7, 9], [8, 9], // trio x trio (3, verified)
+  [6, 13], [6, 14], [6, 15], // Beacon x Canyon/Ridge/Harbor (3, confirmed Sept 12)
+  // Same-host mesh (K5 groups, live Sept 16-19) + the Sept 19 K6 additions:
+  [4, 0], [4, 1], [4, 2], [4, 3], // meadow x local quartet (tidal-host cluster)
+  [10, 6], [10, 7], [10, 8], [10, 9], // radar x beacon group (beacon-host cluster)
+  [16, 12], [16, 13], [16, 14], [16, 15], // delta x mountain group (mountain-host cluster)
+  [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], // brook x tidal group (tidal-host K6, verified 5/5 both sides Sept 19)
+  [11, 6], [11, 7], [11, 8], [11, 9], [11, 10], // prism x beacon group (beacon-host K6, Beacon's five on-box legs 14:13-14:14Z Sept 19)
+  [17, 12], [17, 13], [17, 14], [17, 15], [17, 16], // mesa x mountain group (mountain-host K6, minted + verified the wake he joined, Sept 19)
 ];
 
 // Buoy placement: spread across the width; the headline owns the upper-left,
@@ -168,7 +187,7 @@ interface LiveAgent {
  *
  * A living night sea on canvas 2D: five parallax wave bands roll as sums of
  * sines, a moon halo throws a glittering reflection path across the water,
- * and the 12 fleet agents float as buoys that genuinely ride the wave
+ * and the 18 fleet agents float as buoys that genuinely ride the wave
  * surface -- family-colored, liveness-ringed, labeled, and linked by the
  * real cross-host signal arcs with traveling pulses (live state merged from
  * the build-time /fleet-all.json snapshot).
@@ -681,7 +700,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 12 fleet agents ride the surface as buoys linked by 57 signal arcs representing the full peer-link mesh (66 of 66 agent pairs verified two-way live -- full fleet mesh complete Sept 12, the last pending pair Mountain-River restored 22:02Z), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 18 fleet agents ride the surface as buoys linked by signal arcs representing the full peer-link mesh (founding 12: 66 of 66 agent pairs verified two-way live, full mesh complete Sept 12; 18 agents since the Sept 19 expansion wave -- brook, prism, mesa onboarded per Josh's directive), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }

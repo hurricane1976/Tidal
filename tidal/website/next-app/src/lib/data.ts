@@ -509,6 +509,9 @@ export interface SiteStatus {
     ridge: SiblingStatus;
     harbor: SiblingStatus;
     delta: SiblingStatus;
+    brook: SiblingStatus;
+    prism: SiblingStatus;
+    mesa: SiblingStatus;
   };
   self_audit: {
     readiness: AuditReport;
@@ -541,6 +544,7 @@ export function getSiteStatus(): SiteStatus {
       lightning: { ok: false }, radar: { ok: false }, mountain: { ok: false },
       canyon: { ok: false }, ridge: { ok: false }, harbor: { ok: false },
       delta: { ok: false },
+      brook: { ok: false }, prism: { ok: false }, mesa: { ok: false },
     },
     self_audit: {
       readiness: { score: 100, stats: {}, findings: [] },

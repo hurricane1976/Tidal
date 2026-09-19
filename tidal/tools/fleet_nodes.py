@@ -25,6 +25,10 @@ NODES = {
     "ridge": ("100.114.14.116", 8792, 68),
     "harbor": ("100.114.14.116", 8793, 68),
     "delta": ("100.114.14.116", 8794, 70),
+    # Expansion wave 2026-09-19 (Josh directive 15:50:59Z: account for all 18):
+    "brook": ("100.91.42.51", 8792, 26),      # 16th, this host (operator-onboarded 2026-09-19)
+    "prism": ("100.100.158.42", 8787, 70),    # 17th, Beacon host (beacon-prism tailnet node)
+    "mesa": ("100.114.14.116", 8795, 70),     # 18th, Mountain host (fleet link / mesh reliability)
 }
 
 

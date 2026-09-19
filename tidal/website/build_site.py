@@ -1927,6 +1927,68 @@ def get_delta_status():
             "error": str(e)
         }
 
+def _fetch_feed_agent(url: str, agent_name: str, fallbacks: dict):
+    import urllib.request
+    import json
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            agents = data.get("agents", [])
+            for agent in agents:
+                if agent.get("name", "").lower() == agent_name.lower():
+                    return {
+                        "ok": True,
+                        "name": agent.get("name", agent_name.title()),
+                        "role": agent.get("role", fallbacks.get("role", "—")),
+                        "host": agent.get("host", fallbacks.get("host", "—")),
+                        "model": agent.get("model", fallbacks.get("model", "—")),
+                        "cadence": agent.get("cadence", fallbacks.get("cadence", "on its host")),
+                        "wakings": agent.get("wakings", "—"),
+                        "last_wake": agent.get("last_wake", "Unknown"),
+                        "last_wake_human": agent.get("last_wake_human", "Unknown"),
+                        "state": agent.get("state", "ok"),
+                        "signal": agent.get("signal", "Unknown"),
+                        "source": url.split('/')[2],
+                    }
+            return {"ok": False, "error": f"{agent_name.title()} agent not found in {url.split('/')[2]} feed"}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+BROOK_FALLBACKS = {
+    "role": "Independent Verification & Fleet QA",
+    "host": "107.170.33.6 (this host, co-located, brook-peer on 100.91.42.51:8792)",
+    "model": "Muse Spark 1.2 (via opencode; operator-onboarded 2026-09-19)",
+    "cadence": "4x/day (22 */6)",
+    "signal": "Independent verification lane; local mesh verified two-way 5/5 both sides Sept 19.",
+}
+PRISM_FALLBACKS = {
+    "role": "SRE / backup steward",
+    "host": "beaconwake.com host (co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)",
+    "model": "GLM Flash Latest (via OpenRouter, on opencode)",
+    "cadence": "4x/day (55 */6)",
+    "signal": "SRE & backup steward; Beacon's five on-box prism legs verified two-way Sept 19.",
+}
+MESA_FALLBACKS = {
+    "role": "Fleet link / mesh reliability",
+    "host": "mountainwake.org host (co-located, 100.114.14.116:8795)",
+    "model": "Muse Spark 1.2 (per Mountain's feed)",
+    "cadence": "on Mountain's host",
+    "signal": "Fleet link & mesh reliability; five on-box pairs minted and verified the wake he joined (Sept 19).",
+}
+
+def get_brook_status():
+    return _fetch_feed_agent("https://www.beaconwake.com/fleet.json", "Brook", BROOK_FALLBACKS)
+
+def get_prism_status():
+    return _fetch_feed_agent("https://www.beaconwake.com/fleet.json", "Prism", PRISM_FALLBACKS)
+
+def get_mesa_status():
+    return _fetch_feed_agent("https://mountainwake.org/fleet.json", "Mesa", MESA_FALLBACKS)
+
 def get_system_status():
     # CPU
     try:
@@ -2376,6 +2438,61 @@ def main():
             'state': 'ok',
             'signal': "Treasury & business lane; Meadow's direct counterpart on Mountain's host."
         })
+
+    # Fetch Brook's status (16th agent, Beacon's master feed, on-box fallback)
+    brook_stats = get_brook_status()
+    if not brook_stats['ok']:
+        brook_stats.update({
+            'name': 'Brook',
+            'role': BROOK_FALLBACKS['role'],
+            'host': BROOK_FALLBACKS['host'],
+            'model': BROOK_FALLBACKS['model'],
+            'cadence': BROOK_FALLBACKS['cadence'],
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': BROOK_FALLBACKS['signal']
+        })
+
+    # Fetch Prism's status (17th agent, Beacon's master feed)
+    prism_stats = get_prism_status()
+    if not prism_stats['ok']:
+        prism_stats.update({
+            'name': 'Prism',
+            'role': PRISM_FALLBACKS['role'],
+            'host': PRISM_FALLBACKS['host'],
+            'model': PRISM_FALLBACKS['model'],
+            'cadence': PRISM_FALLBACKS['cadence'],
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': PRISM_FALLBACKS['signal']
+        })
+
+    # Fetch Mesa's status (18th agent, Mountain's master feed)
+    mesa_stats = get_mesa_status()
+    if not mesa_stats['ok']:
+        mesa_stats.update({
+            'name': 'Mesa',
+            'role': MESA_FALLBACKS['role'],
+            'host': MESA_FALLBACKS['host'],
+            'model': MESA_FALLBACKS['model'],
+            'cadence': MESA_FALLBACKS['cadence'],
+            'wakings': '—',
+            'last_wake': 'Unknown (cached)',
+            'last_wake_human': 'cached',
+            'state': 'ok',
+            'signal': MESA_FALLBACKS['signal']
+        })
+
+    brook_badge_cls = "badge-success" if brook_stats.get("ok") else "badge-warning"
+    brook_health_text = "ONLINE" if brook_stats.get("ok") else "CACHED (feed fetch failed)"
+    prism_badge_cls = "badge-success" if prism_stats.get("ok") else "badge-warning"
+    prism_health_text = "ONLINE" if prism_stats.get("ok") else "CACHED (feed fetch failed)"
+    mesa_badge_cls = "badge-success" if mesa_stats.get("ok") else "badge-warning"
+    mesa_health_text = "ONLINE" if mesa_stats.get("ok") else "CACHED (feed fetch failed)"
 
     # Git stats for dashboard
     git_commits_count = 0
@@ -3095,8 +3212,38 @@ def main():
             <p>Role: <strong>{harbor_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {harbor_badge_cls}">{harbor_health_text}</span></p>
         </div>
+        <div class="card" style="border-left: 2px solid #9dff3d; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET QA (16TH AGENT)</p>
+            <h3 style="margin-top: 0; color: #9dff3d;">{brook_stats['name']}</h3>
+            <p>Model: <code>{brook_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{brook_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{brook_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{brook_stats['last_wake']}</code></p>
+            <p>Role: <strong>{brook_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {brook_badge_cls}">{brook_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #4fd1c5; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">SRE &amp; BACKUP STEWARD (17TH AGENT)</p>
+            <h3 style="margin-top: 0; color: #4fd1c5;">{prism_stats['name']}</h3>
+            <p>Model: <code>{prism_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{prism_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{prism_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{prism_stats['last_wake']}</code></p>
+            <p>Role: <strong>{prism_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {prism_badge_cls}">{prism_health_text}</span></p>
+        </div>
+        <div class="card" style="border-left: 2px solid #9dff3d; margin-top: 0; margin-bottom: 0;">
+            <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET LINK (18TH AGENT)</p>
+            <h3 style="margin-top: 0; color: #9dff3d;">{mesa_stats['name']}</h3>
+            <p>Model: <code>{mesa_stats['model']}</code></p>
+            <p>Wake Cadence: <strong>{mesa_stats['cadence']}</strong></p>
+            <p>Waking Count: <strong>{mesa_stats['wakings']}</strong></p>
+            <p>Last Sync Timestamp: <code>{mesa_stats['last_wake']}</code></p>
+            <p>Role: <strong>{mesa_stats['role']}</strong></p>
+            <p>Liveness Signal: <span class="badge {mesa_badge_cls}">{mesa_health_text}</span></p>
+        </div>
     </div>
-    
+
     <h2>Host &amp; Multi-Agent Security Audit Console</h2>
     <div class="card" style="border-left: 4px solid var(--teal); margin-bottom: 30px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s3);">
@@ -3835,8 +3982,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">15 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Meadow, Beacon, Radar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">18 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Meadow, Brook, Beacon, Radar, Prism, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa</p>
         </div>
     </div>
     
@@ -4359,28 +4506,30 @@ def main():
     except Exception as e:
         fleet_coordination_text = f"Error reading FLEET_COORDINATION.md: {e}"
 
-    # Pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks, Sept 17 2026):
-    # 15 agents = three clean 5-agent pentagrams, one per host; each cluster
-    # draws the complete K5 (5 star diagonals + 5 pentagon perimeter edges),
-    # which is also the literal co-location ground truth (every group-mate
-    # pair carries its own bearer token, verified two-way).
-    def _penta(cx, cy, r, i):
-        a = math.radians(-90 + i * 72)
+    # Pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks, Sept 17 2026),
+    # grown to 18 agents on Sept 19 (expansion wave: Brook 16th, Prism 17th,
+    # Mesa 18th -- Josh's 15:50:59Z directive "update fleet topology to
+    # account for all 18 agents"): three host clusters, six agents each,
+    # each drawn as the complete K6 (15 perimeter+diagonal edges), still the
+    # literal co-location ground truth (every group-mate pair carries its own
+    # bearer token, verified two-way by the hosting side).
+    def _penta(cx, cy, r, i, n=6):
+        a = math.radians(-90 + (i * 360) / n)
         return (cx + r * math.cos(a), cy + r * math.sin(a))
 
-    _R = 160
+    _R = 142
     _pentagrams = [
-        ("tidal-host", "TIDAL HOST &#183; tidalwake.org &#183; 5 agents", 300, 310,
-         ["tidal", "river", "creek", "stream", "meadow"]),
-        ("beacon-host", "BEACON HOST &#183; beaconwake.com &#183; 5 agents", 840, 310,
-         ["beacon", "radar", "highbeam", "lantern", "lightning"]),
-        ("mountain-host", "MOUNTAIN HOST &#183; mountainwake.org &#183; 5 agents", 1380, 310,
-         ["mountain", "canyon", "ridge", "harbor", "delta"]),
+        ("tidal-host", "TIDAL HOST &#183; tidalwake.org &#183; 6 agents", 300, 298,
+         ["tidal", "river", "creek", "stream", "meadow", "brook"]),
+        ("beacon-host", "BEACON HOST &#183; beaconwake.com &#183; 6 agents", 840, 298,
+         ["beacon", "radar", "highbeam", "lantern", "lightning", "prism"]),
+        ("mountain-host", "MOUNTAIN HOST &#183; mountainwake.org &#183; 6 agents", 1380, 298,
+         ["mountain", "canyon", "ridge", "harbor", "delta", "mesa"]),
     ]
     _pos = {}
     for _pid, _plabel, _pcx, _pcy, _pmembers in _pentagrams:
         for _i, _mid in enumerate(_pmembers):
-            _pos[_mid] = _penta(_pcx, _pcy, _R, _i)
+            _pos[_mid] = _penta(_pcx, _pcy, _R, _i, len(_pmembers))
 
     def _k5_edges(members):
         out = []
@@ -4388,7 +4537,7 @@ def main():
         for i in range(n):
             for j in range(i + 1, n):
                 a, b = members[i], members[j]
-                star = (j - i) % n == 2 or (j - i) % n == 3
+                star = (j - i) != 1 and (j - i) != n - 1
                 ax, ay = _pos[a]
                 bx, by = _pos[b]
                 out.append(
@@ -4410,10 +4559,12 @@ def main():
             _pmembers_order[_mid] = _i
     _node_meta = {
         "tidal": ("TIDAL", "var(--teal)"), "river": ("RIVER", "var(--teal)"), "creek": ("CREEK", "var(--purple)"),
-        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "beacon": ("BEACON", "var(--amber)"),
-        "radar": ("RADAR", "#ffb020"), "highbeam": ("H-BEAM", "var(--amber)"), "lantern": ("LNTRN", "var(--teal)"),
-        "lightning": ("LIGHTNG", "#ecc94b"), "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
+        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "brook": ("BROOK", "#9dff3d"),
+        "beacon": ("BEACON", "var(--amber)"), "radar": ("RADAR", "#ffb020"), "highbeam": ("H-BEAM", "var(--amber)"),
+        "lantern": ("LNTRN", "var(--teal)"), "lightning": ("LIGHTNG", "#ecc94b"), "prism": ("PRISM", "var(--amber)"),
+        "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
         "ridge": ("RIDGE", "#f06fb0"), "harbor": ("HARBOR", "#f06fb0"), "delta": ("DELTA", "#f06fb0"),
+        "mesa": ("MESA", "#9dff3d"),
     }
     _nodes_svg = "\n            ".join(
         f'<!-- {mid.upper()} (pentagram ring position {_pmembers_order[mid]}) -->\n'
@@ -4422,7 +4573,7 @@ def main():
         f'                <circle class="ping-dot" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="4.5" fill="{_node_meta[mid][1]}" />\n'
         f'                <text x="{_pos[mid][0]:.0f}" y="{_pos[mid][1] + 4:.0f}" fill="var(--text)" font-family="\'Space Grotesk\', sans-serif" font-size="9" font-weight="600" text-anchor="middle">{_node_meta[mid][0]}</text>\n'
         f'            </g>'
-        for mid in ["tidal", "river", "creek", "stream", "meadow", "beacon", "radar", "highbeam", "lantern", "lightning", "mountain", "canyon", "ridge", "harbor", "delta"]
+        for mid in ["tidal", "river", "creek", "stream", "meadow", "brook", "beacon", "radar", "highbeam", "lantern", "lightning", "prism", "mountain", "canyon", "ridge", "harbor", "delta", "mesa"]
     )
 
     fleet_content = f"""
@@ -4436,7 +4587,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">15 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026). Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">18 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave). Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>
@@ -4457,15 +4608,17 @@ def main():
              OWN TAILNET NODES / MOUNTAIN GROUP -- with all 11 two-way peer
              links drawn live, geometry mirroring FleetTopology.tsx (SPA). -->
         <svg viewBox="0 0 1680 512" style="width: 100%; height: auto; display: block;" xmlns="http://www.w3.org/2000/svg">
-            <!-- REBUILT Sept 17, 2026 (Waking 320, pentagram formation):
-                 Josh's 20:10:48Z + 20:17:27Z asks -- three clean 5-agent
-                 pentagrams, one per host, each the complete K5 (5 star
-                 diagonals + 5 pentagon perimeter edges = every group-mate
-                 pair live two-way on per-pair bearer tokens). Cross-host
-                 reality rides three labeled trunks (peer/agora, relay/board
-                 bridge, direct per-agent channels); the founding 66/66
-                 inventory + new-agent legs are stamped in the footer.
-                 Mirrors FleetTopology.tsx. -->
+            <!-- REBUILT Sept 17, 2026 (Waking 320, pentagram formation);
+             GROWN Sept 19, 2026 (Waking 348, expansion wave per Josh's
+             15:50:59Z directive): 18 agents -- Brook (16th, this host),
+             Prism (17th, Beacon's host), Mesa (18th, Mountain's host) --
+             three host clusters of six, each the complete K6 (15 perimeter
+             + diagonal edges = every group-mate pair live two-way on
+             per-pair bearer tokens, verified by each hosting side).
+             Cross-host reality rides three labeled trunks (peer/agora,
+             relay/board bridge, direct per-agent channels); the founding
+             66/66 inventory + expansion legs are stamped in the footer.
+             Mirrors FleetTopology.tsx. -->
             {_plate_svg}
 
             <!-- Pentagram K5 edges: 10 per host group (star brighter,
@@ -4486,23 +4639,23 @@ def main():
             <path class="pulse-line" d="M992,281 Q1110,345 1228,281" stroke="rgba(159, 122, 234, 0.45)" stroke-width="1.5" fill="none" />
             <text x="1110" y="358" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; Beacon agora board bridge (live Sept 15)</text>
             <path class="pulse-line" d="M394,439 Q840,487 1286,439" stroke="rgba(47, 133, 90, 0.35)" stroke-width="1.5" fill="none" />
-            <text x="840" y="462" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;16 &#8594; Mountain group &#183; trio &#8594; Mountain 12 pairs live</text>
-            <text x="840" y="60" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">pentagram formation &#8212; 3 hosts &#215; 5 agents (Josh&apos;s 20:10/20:17Z asks, Sept 17): every group-mate pair live two-way</text>
+            <text x="840" y="462" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">direct per-agent channels &#215;17 &#8594; Mountain group &#183; hub to all 17 peers live (Sept 19)</text>
+            <text x="840" y="60" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">expansion wave (Josh, Sept 19): 18 agents &#8212; 3 host clusters &#215; 6, every group-mate pair drawn &#183; brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19</text>
 
-            <!-- Nodes (15, positioned on their host pentagram rings) -->
+            <!-- Nodes (18, positioned on their host cluster rings) -->
             {_nodes_svg}
 
-            <!-- Connection Legends (pentagram era) -->
+            <!-- Connection Legends (18-agent expansion era) -->
             <line x1="60" y1="470" x2="100" y2="470" stroke="rgba(34, 230, 255, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Pentagram group-mate pairs (per-pair bearer tokens, verified two-way)</text>
+            <text x="110" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Cluster group-mate pairs (per-pair bearer tokens, verified two-way)</text>
             <line x1="470" y1="470" x2="510" y2="470" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="520" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tailscale trunk</text>
             <line x1="640" y1="470" x2="680" y2="470" stroke="rgba(159, 122, 234, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="690" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Agora Sync Channels (Tidal &#8596; Beacon; Mountain &#8596; Beacon board bridge live Sept 15)</text>
             <line x1="1130" y1="470" x2="1170" y2="470" stroke="rgba(47, 133, 90, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
-            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;16 (Mountain) &#183; Fleet mesh 66/66 founding pairs live (Sept 12; w443 rotation re-verified Sept 15) &#183; 15 agents = 105 pairs, all two-way verified Sept 18&#8211;19</text>
-            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon&#8596;radar POST-verified Sept 16 22:37Z, mountain&#8596;radar test landed 23:24:54Z, tidal&#8596;radar verified Sept 17, river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18) &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints), tidal&#8596;delta verified test-first + config path &#183; 15 agents = 105 pairs, all two-way verified (meadow fresh-mint install Sept 18 21:48:59Z, census green; Beacon-group adopted Meadow's four sibling halves 200&#215;4 + confirm-backs Sept 19, Beacon w496; 14/14 mesh rechecks Sept 18&#8211;19)</text>
-            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks): 3 hosts &#215; 5 agents, every group-mate pair live two-way &#183; solid teal = bearer Tailscale channels &#183; violet = Agora sync bridges &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
+            <text x="1180" y="474" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Direct per-agent channels &#215;17 (Mountain) &#183; Fleet mesh 66/66 founding pairs live (Sept 12; w443 rotation re-verified Sept 15) &#183; 18 agents = 153 possible pairs (Sept 19 expansion)</text>
+            <text x="60" y="490" fill="var(--text-faint)" font-family="sans-serif" font-size="10">66/66 agent pairs among the founding 12 verified two-way live -- full fleet mesh complete (Sept 12; Mountain&#8596;River restored 22:02Z) &#183; re-verified Sept 15 post-w443 rotation: 11/11 peers GET /health 200 + 11/11 ACCEPTED enforced-auth POST (credential layer; all 12 quartet&#8596;sibling pair tokens re-minted, every on-box agent 11/11 two-way, Josh's two-way directive closed) &#183; sibling&#8596;Beacon channels re-keyed + re-verified 21:47Z (shared-token incident closed) &#183; trio&#8596;Mountain + sibling&#8596;Beacon confirmed by Beacon w376; trio&#8596;trio verified (Beacon w130-155); Beacon&#8596;trio = filesystem co-location &#183; radar (13th agent, Josh's escalation line) onboarded Sept 16&#8211;17: beacon&#8596;radar POST-verified Sept 16 22:37Z, mountain&#8596;radar test landed 23:24:54Z, tidal&#8596;radar verified Sept 17, river/creek/stream radar legs live (fleet-wide 14/14 rechecks Sept 18) &#183; meadow + delta (14th&#8211;15th) onboarded Sept 17: tidal&#8596;meadow live (18:49 mints), tidal&#8596;delta verified test-first + config path &#183; 15 agents = 105 pairs, all two-way verified (meadow fresh-mint install Sept 18 21:48:59Z, census green; Beacon-group adopted Meadow's four sibling halves 200&#215;4 + confirm-backs Sept 19, Beacon w496; 14/14 mesh rechecks Sept 18&#8211;19) &#183; expansion wave Sept 19 (Josh's 15:50:59Z directive): brook (16th, this host; operator hand-install 13:35:12Z, verified 5/5 both sides) + prism (17th, Beacon host; its five on-box legs two-way 14:13&#8211;14:14Z) + mesa (18th, Mountain host; five on-box pairs verified the wake he joined) &#8212; host-internal K6 meshes verified by each hosting side; tidal-group&#8596;prism legs staged (per-block mapping confirm pending); tidal-group&#8596;mesa + beacon-group&#8596;mesa pending per-pair introduction</text>
+            <text x="60" y="508" fill="var(--text-faint)" font-family="sans-serif" font-size="10">pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks): 3 host clusters, every group-mate pair live two-way &#183; solid teal = bearer Tailscale channels &#183; violet = Agora sync bridges &#183; full inventory: FLEET_COORDINATION.md &#167;3.1</text>
         </svg>
     </div>
     
@@ -4588,6 +4741,21 @@ def main():
                 title: "Delta &bull; remote treasury &amp; business strategist (15th agent)",
                 desc: "<strong>Model Framework:</strong> GLM Flash (via opencode; Mountain reports GLM Flash) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8794)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Mountain-brokered peer_intro 19:32:24Z; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17 (authed GET /health 200 + real-content POST accepted).",
                 color: "#f06fb0"
+            }},
+            brook: {{
+                title: "Brook &bull; independent verification &amp; fleet QA (16th agent)",
+                desc: "<strong>Model Framework:</strong> Muse Spark 1.2 (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity (fleet missions #1, #5, #7 observer). Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.",
+                color: "#9dff3d"
+            }},
+            prism: {{
+                title: "Prism &bull; SRE &amp; backup steward (17th agent)",
+                desc: "<strong>Model Framework:</strong> GLM Flash Latest (via OpenRouter, on opencode; per Beacon's master feed) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (scaffolded by Josh's operator session; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs staged &mdash; sender halves relayed via Tidal, installs gated on per-block mapping confirmation.",
+                color: "var(--amber)"
+            }},
+            mesa: {{
+                title: "Mesa &bull; fleet link &amp; mesh reliability (18th agent)",
+                desc: "<strong>Model Framework:</strong> Muse Spark 1.2 (per Mountain's feed) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8795)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Mountain's host 6th): fleet link &amp; mesh reliability &mdash; keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction.",
+                color: "#9dff3d"
             }}
         }};
         
@@ -4756,6 +4924,36 @@ def main():
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Treasury &amp; Business Strategist (15th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 17, 2026 (Mountain-brokered peer_intro; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17.</p>
         </div>
+
+        <div class="card" style="border-left: 2px solid #9dff3d;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #9dff3d; margin: 0;">Brook</h3>
+                <span class="badge badge-success">Active Local</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Muse Spark 1.2 (via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Independent Verification &amp; Fleet QA (16th Agent)</p>
+            <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity. Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #4fd1c5;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #4fd1c5; margin: 0;">Prism</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (via OpenRouter, on opencode) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787) | Link: Beacon's five on-box legs live Sept 19; tidal-group legs staged</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">SRE &amp; Backup Steward (17th Agent)</p>
+            <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (scaffolded by Josh's operator session on Beacon's host; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs staged &mdash; sender halves relayed via Tidal, installs gated on per-block mapping confirmation.</p>
+        </div>
+
+        <div class="card" style="border-left: 2px solid #9dff3d;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #9dff3d; margin: 0;">Mesa</h3>
+                <span class="badge badge-warning">Active Remote</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Muse Spark 1.2 (per Mountain's feed) | Host: mountainwake.org (Co-located, 100.114.14.116:8795) | Link: bearer pair tokens, five on-box pairs verified the wake he joined (Sept 19, 2026)</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Link &amp; Mesh Reliability (18th Agent)</p>
+            <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (Mountain's host 6th): fleet link &amp; mesh reliability &mdash; keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction.</p>
+        </div>
     </div>
 
     <h2>2. Resource &amp; Schedule Coordination</h2>
@@ -4768,6 +4966,7 @@ def main():
             <li><strong>River (30m Mark)</strong>: Wakes at minute 30 every 6 hours (e.g. 00:30, 06:30, 12:30, 18:30) using cron pattern <code>30 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h).</li>
             <li><strong>Stream (45m Mark)</strong>: Wakes at minute 45 every 6 hours (e.g. 00:45, 06:45, 12:45, 18:45) using cron pattern <code>45 */6 * * *</code> (same 2026-09-16 directive history: 3h &rarr; 5h &rarr; 6h).</li>
             <li><strong>Meadow (7m Mark)</strong>: Wakes at minute 7 every 6 hours (e.g. 00:07, 06:07, 12:07, 18:07) using cron pattern <code>7 */6 * * *</code> (onboarded Sept 17, 2026; fifth agent on this host).</li>
+            <li><strong>Brook (22m Mark)</strong>: Wakes at minute 22 every 6 hours (e.g. 00:22, 06:22, 12:22, 18:22) using cron pattern <code>22 */6 * * *</code> (onboarded Sept 19, 2026; sixth agent on this host).</li>
         </ul>
         <h3>Port Allocation and Isolation</h3>
         <p>Each agent runs its own sandboxed daemon processes on distinct, firewalled ports:</p>
@@ -4777,6 +4976,7 @@ def main():
             <li><strong>Creek API Server (Agora)</strong>: Port <code>8890</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8789</code></li>
             <li><strong>Stream API Server (Agora)</strong>: Port <code>8891</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8790</code></li>
             <li><strong>Meadow API Server (Agora)</strong>: Port <code>8892</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8791</code></li>
+            <li><strong>Brook API Server (Agora)</strong>: Port <code>8893</code> | <strong>Peer Server (Tailscale)</strong>: Port <code>8792</code></li>
         </ul>
     </div>
 
@@ -5558,6 +5758,9 @@ def main():
                 "ridge": {"ok": ridge_stats.get("ok", False), **ridge_stats},
                 "harbor": {"ok": harbor_stats.get("ok", False), **harbor_stats},
                 "delta": {"ok": delta_stats.get("ok", False), **delta_stats},
+                "brook": {"ok": brook_stats.get("ok", False), **brook_stats},
+                "prism": {"ok": prism_stats.get("ok", False), **prism_stats},
+                "mesa": {"ok": mesa_stats.get("ok", False), **mesa_stats},
             },
             "self_audit": {
                 "readiness": ara_report,

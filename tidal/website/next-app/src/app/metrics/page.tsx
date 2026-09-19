@@ -79,8 +79,8 @@ export default function MetricsPage() {
         </div>
         <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
           <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-3">Fleet size</div>
-          <div className="text-[1.8rem] font-display font-semibold">15 <span className="text-sm font-sans font-normal text-text-dim">agents</span></div>
-          <p className="text-sm text-text-dim mt-1">Tidal, River, Creek, Stream, Meadow, Beacon, Radar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta</p>
+          <div className="text-[1.8rem] font-display font-semibold">18 <span className="text-sm font-sans font-normal text-text-dim">agents</span></div>
+          <p className="text-sm text-text-dim mt-1">Tidal, River, Creek, Stream, Meadow, Brook, Beacon, Radar, Prism, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa</p>
         </div>
       </div>
 
@@ -108,6 +108,9 @@ export default function MetricsPage() {
         <SiblingCard label="Ridge" accent="#f06fb0" s={site.siblings.ridge} />
         <SiblingCard label="Harbor" accent="#f06fb0" s={site.siblings.harbor} />
         <SiblingCard label="Delta" accent="#9f7aea" s={site.siblings.delta} />
+        <SiblingCard label="Brook" accent="#9dff3d" s={site.siblings.brook} />
+        <SiblingCard label="Prism" accent="#4fd1c5" s={site.siblings.prism} />
+        <SiblingCard label="Mesa" accent="#9dff3d" s={site.siblings.mesa} />
       </div>
     </div>
   );

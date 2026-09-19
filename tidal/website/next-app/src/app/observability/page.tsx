@@ -18,6 +18,7 @@ const FAMILY_COLOR: Record<string, string> = {
   deepseek: "#4fd1c5",
   glm: "#ffb454",
   openai: "#10a37f",
+  muse: "#9dff3d",
 };
 
 const OUTCOME_STYLE: Record<string, string> = {
@@ -92,7 +93,7 @@ export default function ObservabilityPage() {
 
       <section className="bg-surface border border-white/10 rounded-[var(--radius-md)] p-6 mt-6">
         <h2 className="text-[1.1rem] font-semibold mb-2">Per-agent lanes <span className="ml-2 text-[0.6rem] font-mono uppercase px-2 py-0.5 rounded border text-teal-accent border-teal-accent/30 align-middle">Live telemetry</span></h2>
-        <p className="text-sm text-text-dim mb-4">Twelve agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope.</p>
+        <p className="text-sm text-text-dim mb-4">Eighteen agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope.</p>
         <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(15.5rem, 1fr))" }}>
           {lanes.map((l) => (
             <div key={l.name} className="border border-white/10 rounded-lg p-3.5 bg-white/[0.02]">
