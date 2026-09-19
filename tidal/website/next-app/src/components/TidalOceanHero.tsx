@@ -11,28 +11,34 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
   OpenAI: [16, 163, 127], // OpenAI green
 };
 
-// The 12 real fleet agents (mirrors FleetTopology.tsx / ParticleFleetNebula).
+// The 15 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
+// box Sept 17 (14th), Radar joined Beacon's host Sept 16 (13th), Delta joined
+// Mountain's host Sept 17 (15th); 15-agent mesh two-way green Sept 18-19.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "GLM" },
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "GLM" },
   { id: "stream", label: "STREAM", family: "GLM" },
+  { id: "meadow", label: "MEADOW", family: "GLM" },
   { id: "beacon", label: "BEACON", family: "GLM" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
+  { id: "radar", label: "RADAR", family: "Claude" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
   { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },
+  { id: "delta", label: "DELTA", family: "GLM" },
 ];
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs
 // between buoys. Every local agent now holds its own direct channel to the
 // Mountain group (Sept 11 full-mesh rotation), and all three siblings
 // (Lantern, Highbeam, Lightning) ride live zero-secret identity links to
-// this box. Fleet-wide every one of the 66 possible agent pairs is verified
-// two-way live (Sept 12, full fleet mesh complete). Mirrors
+// this box. The founding 12 completed their 66-pair mesh (Sept 12); the
+// three new agents (radar/meadow/delta, Sept 16-17) completed the 105-pair
+// full mesh Sept 18-19 (Beacon w496 + fleet-wide 14/14 rechecks). Mirrors
 // FLEET_COORDINATION.md §3.1/§5.
 const CHANNELS: [number, number][] = [
   [0, 4], // Tidal <-> Beacon
@@ -44,12 +50,23 @@ const CHANNELS: [number, number][] = [
   [0, 5], // Tidal <-> Lantern (identity link, live)
   [0, 6], // Tidal <-> Highbeam (identity link, live)
   [0, 7], // Tidal <-> Lightning (identity link, live)
+  // New-agent cross-host legs (live Sept 17-19): meadow <-> beacon group,
+  // delta <-> everything off its host, radar <-> everything off Beacon's host.
+  [12, 4], [12, 5], [12, 6], [12, 7], // meadow x beacon group
+  [12, 8], [12, 9], [12, 10], [12, 11], // meadow x mountain group
+  [12, 13], // meadow <-> radar
+  [12, 14], // meadow <-> delta
+  [13, 0], [13, 1], [13, 2], [13, 3], // radar x local quartet
+  [13, 8], [13, 9], [13, 10], [13, 11], // radar x mountain group
+  [13, 14], // radar <-> delta
+  [14, 0], [14, 1], [14, 2], [14, 3], [14, 4], [14, 5], [14, 6], [14, 7], // delta x tidal quartet + beacon group
 ];
 
-// The rest of the mesh (Sept 12: 66/66 agent pairs verified two-way live --
-// FULL FLEET MESH COMPLETE; the last pending pair Mountain<->River was
-// restored 22:02Z Sept 12 via a Josh-authorized fresh pair secret delivered
-// through River's peer_intro staging; mirrors FLEET_COORDINATION.md §3.1): the local
+// The rest of the mesh (founding era: 66/66 agent pairs verified two-way
+// live Sept 12 -- FULL FLEET MESH COMPLETE; the last pending pair
+// Mountain<->River was restored 22:02Z Sept 12 via a Josh-authorized fresh
+// pair secret delivered through River's peer_intro staging; mirrors
+// FLEET_COORDINATION.md §3.1): the local
 // co-location mesh, the remaining 12 local <-> Mountain-group per-agent
 // channels (every local agent x every Mountain-group listener), the
 // remaining 9 local <-> sibling identity pairs, the 12 trio <-> Mountain
@@ -67,6 +84,10 @@ const MESH_CHANNELS: [number, number][] = [
   [1, 4], [2, 4], [3, 4], // siblings x Beacon (3, re-keyed + re-verified Sept 12 21:47Z)
   [5, 6], [5, 7], [6, 7], // trio x trio (3, verified)
   [4, 9], [4, 10], [4, 11], // Beacon x Canyon/Ridge/Harbor (3, confirmed Sept 12)
+  // New-agent same-host mesh (pentagram K5 groups, live Sept 16-19):
+  [12, 0], [12, 1], [12, 2], [12, 3], // meadow x local quartet (tidal-host pentagram)
+  [13, 4], [13, 5], [13, 6], [13, 7], // radar x beacon group (beacon-host pentagram)
+  [14, 8], [14, 9], [14, 10], [14, 11], // delta x mountain group (mountain-host pentagram)
 ];
 
 // Buoy placement: spread across the width; the headline owns the upper-left,

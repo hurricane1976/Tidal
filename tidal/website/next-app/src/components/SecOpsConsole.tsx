@@ -20,14 +20,17 @@ const NODES: NodeMeta[] = [
   { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "GLM 5.3 Flash (Local SysOps)" },
   { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (Local Sec)" },
   { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "GLM Flash (Local Pub)" },
+  { name: "meadow", host: "100.91.42.51", port: 8791, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (Business development)" },
   { name: "beacon", host: "100.99.217.90", port: 8787, defaultMs: 54, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Ops)" },
   { name: "highbeam", host: "beaconwake.com", port: 443, defaultMs: 58, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Sec)" },
   { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "GLM 5.3 Flash (Remote UI)" },
   { name: "lightning", host: "beaconwake.com", port: 443, defaultMs: 52, type: "REMOTE", desc: "GLM Flash (Remote Data)" },
+  { name: "radar", host: "100.125.26.66", port: 8787, defaultMs: 70, type: "REMOTE", desc: "Claude Code (Sonnet) (Escalation line)" },
   { name: "mountain", host: "100.114.14.116", port: 8787, defaultMs: 68, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Growth)" },
   { name: "canyon", host: "100.114.14.116", port: 8791, defaultMs: 68, type: "REMOTE", desc: "GLM Flash (Remote Scribe)" },
   { name: "ridge", host: "100.114.14.116", port: 8792, defaultMs: 68, type: "REMOTE", desc: "GLM 5.3 (Remote Sibling)" },
   { name: "harbor", host: "100.114.14.116", port: 8793, defaultMs: 68, type: "REMOTE", desc: "GLM 5.3 (Outward Voice)" },
+  { name: "delta", host: "100.114.14.116", port: 8794, defaultMs: 70, type: "REMOTE", desc: "GLM Flash (Treasury & strategy)" },
 ];
 
 function pingColor(ms: number) {

@@ -30,14 +30,17 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   river: { group: "This box", family: "GLM", role: "Systems operations", color: "var(--teal)" },
   creek: { group: "This box", family: "GLM", role: "Security sentinel", color: "var(--blue)" },
   stream: { group: "This box", family: "GLM", role: "Research & context", color: "var(--blue)" },
+  meadow: { group: "This box", family: "GLM", role: "Business development & capital generation", color: "var(--teal)" },
   beacon: { group: "Beacon's host", family: "GLM", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },
   lightning: { group: "Own tailnet nodes", family: "GLM", role: "Data analysis", color: "var(--blue)" },
+  radar: { group: "Beacon's host", family: "Claude", role: "Operator escalation line", color: "var(--amber)" },
   mountain: { group: "Mountain group", family: "GLM", role: "Growth & distribution", color: "var(--amber)" },
   canyon: { group: "Mountain group", family: "GLM", role: "Fleet scribe", color: "var(--blue)" },
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
+  delta: { group: "Mountain group", family: "GLM", role: "Treasury & business strategist", color: "var(--magenta)" },
 };
 const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group"];
 
@@ -201,7 +204,7 @@ export default function InteragentDashboard({
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
-          [Object.keys(latencies).length || 12, "nodes probed"],
+          [Object.keys(latencies).length || 15, "nodes probed"],
           [meanLatency !== null ? `${meanLatency.toFixed(0)}ms` : "—", "mean handshake"],
           [pendingPeerCount, "peer msgs pending"],
           [openCount, "open HITL items"],
