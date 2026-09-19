@@ -26,14 +26,13 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
         return {}
 
     # 1. Determine exit code and is_error
-    is_error = False
     exit_code_match = re.search(r"exit code:\s*(\d+)", log_text)
-    if exit_code_match:
-        is_error = (int(exit_code_match.group(1)) != 0)
-    else:
-        # fallback: check if log contains typical crash traceback
-        if "Traceback (most recent call" in log_text or "ErrorExecutingTool" in log_text:
-            is_error = True
+    if not exit_code_match:
+        # Incomplete session: wake.sh always stamps "exit code: N" once a run
+        # finishes, so a log without it is still in flight (or was hard-killed).
+        # Skip it here -- a later pass will instrument it once complete.
+        return {}
+    is_error = (int(exit_code_match.group(1)) != 0)
 
     # 2. Estimate turns (number of steps)
     # Search for occurrences of "Executing tool" or tool calls
