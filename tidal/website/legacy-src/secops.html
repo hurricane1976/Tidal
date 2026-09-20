@@ -618,6 +618,18 @@
                 <stop offset="0%" stop-color="#3f7fd6" />
                 <stop offset="100%" stop-color="#5aa9ff" />
             </linearGradient>
+            <linearGradient id="meadowGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d6249e" />
+                <stop offset="100%" stop-color="#ff2ec4" />
+            </linearGradient>
+            <linearGradient id="brookGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#e53e3e" />
+                <stop offset="100%" stop-color="#ff5a5f" />
+            </linearGradient>
+            <linearGradient id="mistGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d69e2e" />
+                <stop offset="100%" stop-color="#ecc94b" />
+            </linearGradient>
             <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stop-color="#d69e2e" />
                 <stop offset="100%" stop-color="#ecc94b" />
@@ -696,26 +708,26 @@
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
                     <span>CPU Load average</span>
-                    <span id="cpu-load-val">0.40, 0.21, 0.10</span>
+                    <span id="cpu-load-val">0.16, 0.13, 0.11</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 20%; transition: width 0.8s;"></div>
+                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 8%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
-                    <span>Memory Usage (0.39 GB / 1.92 GB)</span>
-                    <span id="mem-pct-val">20.5%</span>
+                    <span>Memory Usage (0.62 GB / 1.92 GB)</span>
+                    <span id="mem-pct-val">32.1%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 20.5%; transition: width 0.8s;"></div>
+                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 32.1%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
             <div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
-                    <span>Disk Space (32.74 GB / 86.14 GB)</span>
+                    <span>Disk Space (32.75 GB / 86.14 GB)</span>
                     <span id="disk-pct-val">38.0%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
@@ -741,7 +753,7 @@
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Open Warnings</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--line);">
-                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">6 days, 16:20:20</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">6 days, 16:32:35</div>
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Host Uptime</div>
                 </div>
             </div>
@@ -925,7 +937,7 @@
                 </div>
                 <div style="text-align: right;">
                     <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--purple); color: var(--purple);">REMOTE</span>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-highbeam">1ms</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-highbeam">2ms</div>
                 </div>
             </div>
         
@@ -1273,7 +1285,7 @@
         // Rolling wave data setup
         const maxPoints = 50;
         const cpuData = Array(maxPoints).fill(10);
-        const memData = Array(maxPoints).fill(20.5);
+        const memData = Array(maxPoints).fill(32.1);
         
         for (let i = 0; i < maxPoints; i++) {
             cpuData[i] = Math.max(2, Math.min(95, 10 + Math.sin(i * 0.3) * 5 + Math.random() * 4));
@@ -1336,7 +1348,7 @@
                     if (matEl) matEl.textContent = data.measured_at;
                 }
                 
-                let memPct = 20.5;
+                let memPct = 32.1;
                 let cpuPct = avgLatency * 2.5;
                 if (cpuPct > 80) cpuPct = 35 + Math.random() * 10;
                 if (cpuPct < 2) cpuPct = 4 + Math.random() * 3;
@@ -1411,7 +1423,7 @@
             } catch (e) {
                 cpuData.push(10 + Math.sin(Date.now() / 10000) * 4 + Math.random() * 3);
                 cpuData.shift();
-                memData.push(20.5 + Math.sin(Date.now() / 20000) * 1);
+                memData.push(32.1 + Math.sin(Date.now() / 20000) * 1);
                 memData.shift();
                 if (cpuPath && memPath) {
                     cpuPath.setAttribute('d', generateSvgPath(cpuData));
@@ -1496,7 +1508,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-20 13:56:35 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-20 14:08:49 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

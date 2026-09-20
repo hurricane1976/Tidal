@@ -498,6 +498,9 @@ export interface SiteStatus {
     river: AgentMetrics;
     creek: AgentMetrics;
     stream: AgentMetrics;
+    meadow: AgentMetrics;
+    brook: AgentMetrics;
+    mist: AgentMetrics;
   };
   siblings: {
     beacon: SiblingStatus;
@@ -539,6 +542,9 @@ export function getSiteStatus(): SiteStatus {
       river: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
       creek: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
       stream: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      meadow: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      brook: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
+      mist: { total_wakings: 0, total_actions: 0, past_14_days: [], daily_wakings: [], daily_actions: [] },
     },
     siblings: {
       beacon: { ok: false }, highbeam: { ok: false }, lantern: { ok: false },

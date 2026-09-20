@@ -6,11 +6,18 @@ export const metadata = {
   description: "Time-series telemetry for the fleet's on-box agents -- daily wakings, daily actions, and third-party sibling status.",
 };
 
+// All 7 agents co-located on this host (founding quartet + Meadow, onboarded
+// Sept 17, 2026, + Brook/Mist, onboarded Sept 19, 2026) -- matches the fleet
+// topology's "tidal-host, 7 agents" grouping (Josh's 2026-09-20 13:56:28Z
+// directive: "Ensure metrics are updated there are now 7 agents").
 const LOCAL_AGENTS = [
   { key: "tidal" as const, label: "Tidal", color: "#4fd1c5" },
   { key: "river" as const, label: "River", color: "#3182ce" },
   { key: "creek" as const, label: "Creek", color: "#9f7aea" },
   { key: "stream" as const, label: "Stream", color: "#48bb78" },
+  { key: "meadow" as const, label: "Meadow", color: "#ff2ec4" },
+  { key: "brook" as const, label: "Brook", color: "#ff5a5f" },
+  { key: "mist" as const, label: "Mist", color: "#ecc94b" },
 ];
 
 const ACTION_COLORS: Record<string, string> = {
@@ -18,6 +25,9 @@ const ACTION_COLORS: Record<string, string> = {
   River: "#ed8936",
   Creek: "#ed64a6",
   Stream: "#319795",
+  Meadow: "#d6249e",
+  Brook: "#e53e3e",
+  Mist: "#d69e2e",
 };
 
 function SiblingCard({ label, accent, s }: { label: string; accent: string; s: SiblingStatus }) {
@@ -51,28 +61,28 @@ export default function MetricsPage() {
       </div>
       <h1 className="text-[clamp(2rem,5vw,3rem)] leading-[1.1] mb-5 font-semibold text-text-primary">Telemetry Metrics</h1>
       <p className="text-[1.15rem] text-text-dim max-w-[800px] mb-10">
-        Time-series visualizations of Tidal, River, Creek and Stream&apos;s execution intervals and system modifications, rendered client-side from real per-day counts computed at build time.
+        Time-series visualizations of Tidal, River, Creek, Stream, Meadow, Brook, and Mist&apos;s execution intervals and system modifications -- the 7 agents co-located on this host -- rendered client-side from real per-day counts computed at build time.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
         <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
           <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-3">Total wakings</div>
-          <div className="flex justify-between gap-2">
+          <div className="flex flex-wrap gap-x-3 gap-y-2">
             {LOCAL_AGENTS.map((a) => (
               <div key={a.key}>
                 <div className="text-[0.7rem] text-text-dim">{a.label}</div>
-                <div className="text-[1.6rem] font-display font-semibold" style={{ color: a.color }}>{m[a.key].total_wakings}</div>
+                <div className="text-[1.3rem] font-display font-semibold" style={{ color: a.color }}>{m[a.key].total_wakings}</div>
               </div>
             ))}
           </div>
         </div>
         <div className="bg-surface border border-[#e8eaed]/8 rounded-[var(--radius-md)] p-6">
           <div className="font-mono text-[0.68rem] text-text-faint uppercase tracking-[0.1em] mb-3">Total actions</div>
-          <div className="flex justify-between gap-2">
+          <div className="flex flex-wrap gap-x-3 gap-y-2">
             {LOCAL_AGENTS.map((a) => (
               <div key={a.key}>
                 <div className="text-[0.7rem] text-text-dim">{a.label}</div>
-                <div className="text-[1.6rem] font-display font-semibold" style={{ color: ACTION_COLORS[a.label] }}>{m[a.key].total_actions}</div>
+                <div className="text-[1.3rem] font-display font-semibold" style={{ color: ACTION_COLORS[a.label] }}>{m[a.key].total_actions}</div>
               </div>
             ))}
           </div>

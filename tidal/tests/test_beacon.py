@@ -952,9 +952,12 @@ _Nothing awaiting a decision right now._
             {'date': '2026-08-31', 'count': 3},
             {'date': '2026-08-30', 'count': 7}
         ]
-        
-        # Test 2-series rendering (backward compatibility)
-        svg2 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2)
+
+        # Test 2-series rendering
+        svg2 = build_site.generate_comparative_svg_bar_chart([
+            {'label': 'Tidal', 'data': mock_daily_data_1, 'gradient': 'tidalGrad'},
+            {'label': 'River', 'data': mock_daily_data_2, 'gradient': 'riverGrad'},
+        ])
         self.assertIn('<svg', svg2)
         self.assertIn('class="metrics-svg"', svg2)
         self.assertIn('Aug 31', svg2)
@@ -966,7 +969,11 @@ _Nothing awaiting a decision right now._
         self.assertNotIn('class="bar-rect-3"', svg2)
 
         # Test 3-series rendering
-        svg3 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2, mock_daily_data_3)
+        svg3 = build_site.generate_comparative_svg_bar_chart([
+            {'label': 'Tidal', 'data': mock_daily_data_1, 'gradient': 'tidalGrad'},
+            {'label': 'River', 'data': mock_daily_data_2, 'gradient': 'riverGrad'},
+            {'label': 'Creek', 'data': mock_daily_data_3, 'gradient': 'creekGrad'},
+        ])
         self.assertIn('<svg', svg3)
         self.assertIn('class="metrics-svg"', svg3)
         self.assertIn('Aug 31', svg3)
@@ -977,19 +984,21 @@ _Nothing awaiting a decision right now._
         self.assertIn('bar-rect-2', svg3)
         self.assertIn('bar-rect-3', svg3)
 
-        # Test 4-series rendering
-        svg4 = build_site.generate_comparative_svg_bar_chart(mock_daily_data_1, mock_daily_data_2, mock_daily_data_3, mock_daily_data_4)
-        self.assertIn('<svg', svg4)
-        self.assertIn('class="metrics-svg"', svg4)
-        self.assertIn('Aug 31', svg4)
-        self.assertIn('Tidal', svg4)
-        self.assertIn('River', svg4)
-        self.assertIn('Creek', svg4)
-        self.assertIn('Stream', svg4)
-        self.assertIn('bar-rect-1', svg4)
-        self.assertIn('bar-rect-2', svg4)
-        self.assertIn('bar-rect-3', svg4)
-        self.assertIn('bar-rect-4', svg4)
+        # Test 7-series rendering (the current this-host roster: Tidal, River,
+        # Creek, Stream, Meadow, Brook, Mist)
+        seven_labels = ['Tidal', 'River', 'Creek', 'Stream', 'Meadow', 'Brook', 'Mist']
+        svg7 = build_site.generate_comparative_svg_bar_chart([
+            {'label': label, 'data': mock_daily_data_1, 'gradient': 'tidalGrad', 'short': label[0]}
+            for label in seven_labels
+        ])
+        self.assertIn('<svg', svg7)
+        self.assertIn('class="metrics-svg"', svg7)
+        self.assertIn('Aug 31', svg7)
+        for label in seven_labels:
+            self.assertIn(label, svg7)
+        for i in range(1, 8):
+            self.assertIn(f'bar-rect-{i}', svg7)
+        self.assertNotIn('class="bar-rect-8"', svg7)
 
     def test_metrics_page_generation(self):
         from unittest.mock import patch
@@ -1050,6 +1059,12 @@ _Nothing awaiting a decision right now._
             self.assertIn("CREEK", content)
             self.assertIn("STREAM", content)
             self.assertIn("Stream", content)
+            self.assertIn("MEADOW", content)
+            self.assertIn("BROOK", content)
+            self.assertIn("MIST", content)
+            self.assertIn("Meadow", content)
+            self.assertIn("Brook", content)
+            self.assertIn("Mist", content)
             self.assertIn('class="nav-link active">Metrics</a>', content)
             self.assertIn("METRICS SENTINEL", content)
             self.assertIn("Lightning", content)

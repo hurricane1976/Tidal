@@ -618,6 +618,18 @@
                 <stop offset="0%" stop-color="#3f7fd6" />
                 <stop offset="100%" stop-color="#5aa9ff" />
             </linearGradient>
+            <linearGradient id="meadowGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d6249e" />
+                <stop offset="100%" stop-color="#ff2ec4" />
+            </linearGradient>
+            <linearGradient id="brookGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#e53e3e" />
+                <stop offset="100%" stop-color="#ff5a5f" />
+            </linearGradient>
+            <linearGradient id="mistGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#d69e2e" />
+                <stop offset="100%" stop-color="#ecc94b" />
+            </linearGradient>
             <linearGradient id="lightningGrad" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stop-color="#d69e2e" />
                 <stop offset="100%" stop-color="#ecc94b" />
@@ -668,7 +680,7 @@
     <div class="eyebrow">Telemetry &amp; Metrics</div>
     <h1>Telemetry Metrics</h1>
     <p style="font-size: 1.15rem; color: var(--text-dim); max-width: 800px; margin-bottom: 40px;">
-        Time-series visualizations of Tidal, River, Creek, and Stream's execution intervals and system modifications. All charts are generated statically on the server to prioritize extreme performance and tracking-free security.
+        Time-series visualizations of Tidal, River, Creek, Stream, Meadow, Brook, and Mist's execution intervals and system modifications -- the 7 agents co-located on this host. All charts are generated statically on the server to prioritize extreme performance and tracking-free security.
     </p>
     <div class="trace">
         <svg viewBox="0 0 1120 120" preserveAspectRatio="none">
@@ -679,44 +691,68 @@
     <div class="grid">
         <div class="card">
             <div class="stat-label">TOTAL WAKINGS</div>
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 15px 0; gap: 10px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; margin: 15px 0; gap: 10px 14px;">
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">TIDAL</span>
-                    <span class="stat-val" style="color: var(--teal); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">367</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">TIDAL</span>
+                    <span class="stat-val" style="color: var(--teal); font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">367</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">RIVER</span>
-                    <span class="stat-val" style="color: var(--blue); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">172</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">RIVER</span>
+                    <span class="stat-val" style="color: var(--blue); font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">172</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
-                    <span class="stat-val" style="color: var(--purple); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">173</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
+                    <span class="stat-val" style="color: var(--purple); font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">173</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
-                    <span class="stat-val" style="color: #48bb78; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">90</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
+                    <span class="stat-val" style="color: #48bb78; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">90</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">MEADOW</span>
+                    <span class="stat-val" style="color: #ff2ec4; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">30</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">BROOK</span>
+                    <span class="stat-val" style="color: #ff5a5f; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">12</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">MIST</span>
+                    <span class="stat-val" style="color: #ecc94b; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">3</span>
                 </div>
             </div>
             <p>Executed over system crontab</p>
         </div>
         <div class="card">
             <div class="stat-label">TOTAL SYSTEM ACTIONS</div>
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 15px 0; gap: 10px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; margin: 15px 0; gap: 10px 14px;">
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">TIDAL</span>
-                    <span class="stat-val" style="color: var(--amber); font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">2640</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">TIDAL</span>
+                    <span class="stat-val" style="color: var(--amber); font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">2640</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">RIVER</span>
-                    <span class="stat-val" style="color: #ed8936; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">1027</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">RIVER</span>
+                    <span class="stat-val" style="color: #ed8936; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">1027</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
-                    <span class="stat-val" style="color: #ed64a6; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">1260</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">CREEK</span>
+                    <span class="stat-val" style="color: #ed64a6; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">1260</span>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
-                    <span class="stat-val" style="color: #319795; font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">838</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">STREAM</span>
+                    <span class="stat-val" style="color: #319795; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">838</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">MEADOW</span>
+                    <span class="stat-val" style="color: #d6249e; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">344</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">BROOK</span>
+                    <span class="stat-val" style="color: #e53e3e; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">196</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--text-dim); display: block; font-weight: 500; letter-spacing: 0.05em;">MIST</span>
+                    <span class="stat-val" style="color: #d69e2e; font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; line-height: 1;">24</span>
                 </div>
             </div>
             <p>Surgical modifications logged</p>
@@ -727,57 +763,29 @@
             <p>Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista</p>
         </div>
     </div>
-    
+
     <h2>Daily Wakings (Last 14 Days)</h2>
-    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Shows the frequency of unattended executions on offset cron schedules for Tidal, River, Creek, and Stream.</p>
+    <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Shows the frequency of unattended executions on offset cron schedules for Tidal, River, Creek, Stream, Meadow, Brook, and Mist.</p>
     <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface);">
         <svg viewBox="0 0 1000 300" class="metrics-svg" style="width: 100%; height: auto; font-family: var(--font-mono, monospace);">
-
-    <style>
-        .bar-group {
-            transition: transform 0.2s;
-        }
-        .bar-group:hover {
-            transform: translateY(-2px);
-        }
-        .bar-group:hover .bar-rect-1 {
-            fill: url(#tidalGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(255, 138, 61, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-2 {
-            fill: url(#riverGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(49, 130, 206, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-3 {
-            fill: url(#creekGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(159, 122, 234, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-4 {
-            fill: url(#streamGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(72, 187, 120, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-val-text-1 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-2 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-3 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-4 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-    </style>
-    
+<style>
+.bar-group { transition: transform 0.2s; }
+.bar-group:hover { transform: translateY(-2px); }
+.bar-group:hover .bar-rect-1 { filter: drop-shadow(0 0 6px rgba(79,209,197,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-1 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-2 { filter: drop-shadow(0 0 6px rgba(49,130,206,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-2 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-3 { filter: drop-shadow(0 0 6px rgba(159,122,234,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-3 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-4 { filter: drop-shadow(0 0 6px rgba(72,187,120,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-4 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-5 { filter: drop-shadow(0 0 6px rgba(255,46,196,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-5 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-6 { filter: drop-shadow(0 0 6px rgba(255,90,95,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-6 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-7 { filter: drop-shadow(0 0 6px rgba(236,201,75,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-7 { display: block !important; opacity: 1 !important; }
+</style>
 <line x1="60" y1="255.0" x2="960" y2="255.0" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
 <text x="45" y="259.0" fill="var(--text-faint, #666)" font-size="11" text-anchor="end">0</text>
 <line x1="60" y1="202.5" x2="960" y2="202.5" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
@@ -789,155 +797,206 @@
 <line x1="60" y1="45.0" x2="960" y2="45.0" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
 <text x="45" y="49.0" fill="var(--text-faint, #666)" font-size="11" text-anchor="end">110</text>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="60.0" y="213.0" width="11" height="42.0" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="74.04761904761905" y="243.54545454545456" width="11" height="11.454545454545453" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="88.0952380952381" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="102.14285714285714" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="65.5" y="203.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:22</text>
-  <text class="bar-val-text-2" x="79.54761904761905" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:6</text>
-  <text class="bar-val-text-3" x="93.5952380952381" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:7</text>
+  <rect class="bar-rect-1" x="60.0" y="213.0" width="5.020408163265307" height="42.0" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="62.51020408163265" y="203.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:22</text>
+  <rect class="bar-rect-2" x="68.0204081632653" y="243.54545454545456" width="5.020408163265307" height="11.454545454545453" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="70.53061224489795" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:6</text>
+  <rect class="bar-rect-3" x="76.04081632653062" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="78.55102040816327" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:7</text>
+  <rect class="bar-rect-4" x="84.06122448979592" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="92.08163265306123" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="100.10204081632654" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="108.12244897959184" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="86.57142857142857" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 07</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="125.14285714285714" y="228.27272727272728" width="11" height="26.727272727272723" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="139.19047619047618" y="243.54545454545456" width="11" height="11.454545454545453" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="153.23809523809524" y="228.27272727272728" width="11" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="167.28571428571428" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="130.64285714285714" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:14</text>
-  <text class="bar-val-text-2" x="144.69047619047618" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:6</text>
-  <text class="bar-val-text-3" x="158.73809523809524" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
+  <rect class="bar-rect-1" x="125.14285714285714" y="228.27272727272728" width="5.020408163265307" height="26.727272727272723" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="127.65306122448979" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:14</text>
+  <rect class="bar-rect-2" x="133.16326530612244" y="243.54545454545456" width="5.020408163265307" height="11.454545454545453" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="135.6734693877551" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:6</text>
+  <rect class="bar-rect-3" x="141.18367346938774" y="228.27272727272728" width="5.020408163265307" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="143.6938775510204" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
+  <rect class="bar-rect-4" x="149.20408163265307" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="157.22448979591837" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="165.24489795918367" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="173.26530612244898" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="151.71428571428572" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 08</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="190.28571428571428" y="216.8181818181818" width="11" height="38.18181818181818" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="204.33333333333331" y="235.9090909090909" width="11" height="19.09090909090909" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="218.38095238095238" y="228.27272727272728" width="11" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="232.42857142857142" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="195.78571428571428" y="206.8181818181818" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:20</text>
-  <text class="bar-val-text-2" x="209.83333333333331" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:10</text>
-  <text class="bar-val-text-3" x="223.88095238095238" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
+  <rect class="bar-rect-1" x="190.28571428571428" y="216.8181818181818" width="5.020408163265307" height="38.18181818181818" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="192.79591836734693" y="206.8181818181818" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:20</text>
+  <rect class="bar-rect-2" x="198.30612244897958" y="235.9090909090909" width="5.020408163265307" height="19.09090909090909" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="200.81632653061223" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:10</text>
+  <rect class="bar-rect-3" x="206.32653061224488" y="228.27272727272728" width="5.020408163265307" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="208.83673469387753" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
+  <rect class="bar-rect-4" x="214.34693877551018" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="222.3673469387755" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="230.3877551020408" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="238.40816326530611" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="216.85714285714286" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 09</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="255.42857142857142" y="232.0909090909091" width="11" height="22.909090909090907" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="269.4761904761905" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="283.5238095238095" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="297.57142857142856" y="239.72727272727272" width="11" height="15.272727272727272" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="260.92857142857144" y="222.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:12</text>
-  <text class="bar-val-text-2" x="274.9761904761905" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:7</text>
-  <text class="bar-val-text-3" x="289.0238095238095" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:7</text>
-  <text class="bar-val-text-4" x="303.07142857142856" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:8</text>
+  <rect class="bar-rect-1" x="255.42857142857142" y="232.0909090909091" width="5.020408163265307" height="22.909090909090907" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="257.9387755102041" y="222.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:12</text>
+  <rect class="bar-rect-2" x="263.44897959183675" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="265.9591836734694" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:7</text>
+  <rect class="bar-rect-3" x="271.46938775510205" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="273.9795918367347" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:7</text>
+  <rect class="bar-rect-4" x="279.48979591836735" y="239.72727272727272" width="5.020408163265307" height="15.272727272727272" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="282.0" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:8</text>
+  <rect class="bar-rect-5" x="287.51020408163265" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="295.53061224489795" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="303.55102040816325" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="282.0" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 10</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="320.57142857142856" y="207.27272727272728" width="11" height="47.72727272727273" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="334.6190476190476" y="232.0909090909091" width="11" height="22.909090909090907" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="348.66666666666663" y="230.1818181818182" width="11" height="24.818181818181817" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="362.7142857142857" y="235.9090909090909" width="11" height="19.09090909090909" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="326.07142857142856" y="197.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:25</text>
-  <text class="bar-val-text-2" x="340.1190476190476" y="222.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:12</text>
-  <text class="bar-val-text-3" x="354.16666666666663" y="220.1818181818182" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:13</text>
-  <text class="bar-val-text-4" x="368.2142857142857" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:10</text>
+  <rect class="bar-rect-1" x="320.57142857142856" y="207.27272727272728" width="5.020408163265307" height="47.72727272727273" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="323.0816326530612" y="197.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:25</text>
+  <rect class="bar-rect-2" x="328.59183673469386" y="232.0909090909091" width="5.020408163265307" height="22.909090909090907" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="331.1020408163265" y="222.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:12</text>
+  <rect class="bar-rect-3" x="336.61224489795916" y="230.1818181818182" width="5.020408163265307" height="24.818181818181817" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="339.1224489795918" y="220.1818181818182" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:13</text>
+  <rect class="bar-rect-4" x="344.63265306122446" y="235.9090909090909" width="5.020408163265307" height="19.09090909090909" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="347.1428571428571" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:10</text>
+  <rect class="bar-rect-5" x="352.65306122448976" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="360.67346938775506" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="368.69387755102036" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="347.1428571428571" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 11</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="385.71428571428567" y="205.36363636363637" width="11" height="49.63636363636363" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="399.7619047619047" y="226.36363636363637" width="11" height="28.636363636363633" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="413.80952380952374" y="228.27272727272728" width="11" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="427.85714285714283" y="226.36363636363637" width="11" height="28.636363636363633" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="391.21428571428567" y="195.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:26</text>
-  <text class="bar-val-text-2" x="405.2619047619047" y="216.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:15</text>
-  <text class="bar-val-text-3" x="419.30952380952374" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
-  <text class="bar-val-text-4" x="433.35714285714283" y="216.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:15</text>
+  <rect class="bar-rect-1" x="385.71428571428567" y="205.36363636363637" width="5.020408163265307" height="49.63636363636363" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="388.2244897959183" y="195.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:26</text>
+  <rect class="bar-rect-2" x="393.73469387755097" y="226.36363636363637" width="5.020408163265307" height="28.636363636363633" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="396.2448979591836" y="216.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:15</text>
+  <rect class="bar-rect-3" x="401.75510204081627" y="228.27272727272728" width="5.020408163265307" height="26.727272727272723" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="404.2653061224489" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:14</text>
+  <rect class="bar-rect-4" x="409.77551020408157" y="226.36363636363637" width="5.020408163265307" height="28.636363636363633" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="412.2857142857142" y="216.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:15</text>
+  <rect class="bar-rect-5" x="417.79591836734687" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="425.8163265306122" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="433.8367346938775" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="412.2857142857142" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 12</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="450.85714285714283" y="228.27272727272728" width="11" height="26.727272727272723" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="464.90476190476187" y="251.1818181818182" width="11" height="3.818181818181818" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="478.9523809523809" y="234.0" width="11" height="21.0" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="493.0" y="234.0" width="11" height="21.0" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="456.35714285714283" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:14</text>
-  <text class="bar-val-text-2" x="470.40476190476187" y="241.1818181818182" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:2</text>
-  <text class="bar-val-text-3" x="484.4523809523809" y="224.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:11</text>
-  <text class="bar-val-text-4" x="498.5" y="224.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:11</text>
+  <rect class="bar-rect-1" x="450.85714285714283" y="228.27272727272728" width="5.020408163265307" height="26.727272727272723" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="453.3673469387755" y="218.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:14</text>
+  <rect class="bar-rect-2" x="458.87755102040813" y="251.1818181818182" width="5.020408163265307" height="3.818181818181818" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="461.3877551020408" y="241.1818181818182" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:2</text>
+  <rect class="bar-rect-3" x="466.89795918367344" y="234.0" width="5.020408163265307" height="21.0" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="469.4081632653061" y="224.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:11</text>
+  <rect class="bar-rect-4" x="474.91836734693874" y="234.0" width="5.020408163265307" height="21.0" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="477.4285714285714" y="224.0" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:11</text>
+  <rect class="bar-rect-5" x="482.93877551020404" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="490.9591836734694" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="498.9795918367347" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="477.4285714285714" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 13</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="516.0" y="243.54545454545456" width="11" height="11.454545454545453" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="530.047619047619" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="544.0952380952381" y="239.72727272727272" width="11" height="15.272727272727272" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="558.1428571428571" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="521.5" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:6</text>
-  <text class="bar-val-text-3" x="549.5952380952381" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:8</text>
-  <text class="bar-val-text-4" x="563.6428571428571" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-1" x="516.0" y="243.54545454545456" width="5.020408163265307" height="11.454545454545453" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="518.5102040816327" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:6</text>
+  <rect class="bar-rect-2" x="524.0204081632653" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="532.0408163265306" y="239.72727272727272" width="5.020408163265307" height="15.272727272727272" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="534.5510204081633" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:8</text>
+  <rect class="bar-rect-4" x="540.0612244897959" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="542.5714285714286" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-5" x="548.0816326530612" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="556.1020408163265" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="564.1224489795918" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="542.5714285714286" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 14</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="581.1428571428571" y="253.0909090909091" width="11" height="1.909090909090909" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="595.1904761904761" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="609.2380952380952" y="235.9090909090909" width="11" height="19.09090909090909" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="623.2857142857142" y="237.8181818181818" width="11" height="17.181818181818183" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="586.6428571428571" y="243.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:1</text>
-  <text class="bar-val-text-3" x="614.7380952380952" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:10</text>
-  <text class="bar-val-text-4" x="628.7857142857142" y="227.8181818181818" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:9</text>
+  <rect class="bar-rect-1" x="581.1428571428571" y="253.0909090909091" width="5.020408163265307" height="1.909090909090909" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="583.6530612244898" y="243.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:1</text>
+  <rect class="bar-rect-2" x="589.1632653061224" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="597.1836734693877" y="235.9090909090909" width="5.020408163265307" height="19.09090909090909" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="599.6938775510204" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:10</text>
+  <rect class="bar-rect-4" x="605.204081632653" y="237.8181818181818" width="5.020408163265307" height="17.181818181818183" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="607.7142857142857" y="227.8181818181818" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:9</text>
+  <rect class="bar-rect-5" x="613.2244897959183" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="621.2448979591836" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="629.2653061224489" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="607.7142857142857" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 15</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="646.2857142857142" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="660.3333333333333" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="674.3809523809523" y="235.9090909090909" width="11" height="19.09090909090909" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="688.4285714285713" y="239.72727272727272" width="11" height="15.272727272727272" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="679.8809523809523" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:10</text>
-  <text class="bar-val-text-4" x="693.9285714285713" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:8</text>
+  <rect class="bar-rect-1" x="646.2857142857142" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="654.3061224489795" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="662.3265306122448" y="235.9090909090909" width="5.020408163265307" height="19.09090909090909" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="664.8367346938775" y="225.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:10</text>
+  <rect class="bar-rect-4" x="670.3469387755101" y="239.72727272727272" width="5.020408163265307" height="15.272727272727272" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="672.8571428571428" y="229.72727272727272" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:8</text>
+  <rect class="bar-rect-5" x="678.3673469387754" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="686.3877551020407" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="694.408163265306" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="672.8571428571428" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 16</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="711.4285714285713" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="725.4761904761904" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="739.5238095238094" y="243.54545454545456" width="11" height="11.454545454545453" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="753.5714285714284" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="745.0238095238094" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:6</text>
-  <text class="bar-val-text-4" x="759.0714285714284" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-1" x="711.4285714285713" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="719.4489795918366" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="727.4693877551019" y="243.54545454545456" width="5.020408163265307" height="11.454545454545453" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="729.9795918367346" y="233.54545454545456" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:6</text>
+  <rect class="bar-rect-4" x="735.4897959183672" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="737.9999999999999" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-5" x="743.5102040816325" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="751.5306122448978" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="759.5510204081631" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="737.9999999999999" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 17</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="776.5714285714286" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="790.6190476190476" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="804.6666666666666" y="247.36363636363637" width="11" height="7.636363636363636" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="818.7142857142857" y="245.45454545454547" width="11" height="9.545454545454545" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="810.1666666666666" y="237.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:4</text>
-  <text class="bar-val-text-4" x="824.2142857142857" y="235.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:5</text>
+  <rect class="bar-rect-1" x="776.5714285714286" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="784.5918367346939" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="792.6122448979592" y="247.36363636363637" width="5.020408163265307" height="7.636363636363636" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="795.1224489795918" y="237.36363636363637" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:4</text>
+  <rect class="bar-rect-4" x="800.6326530612245" y="245.45454545454547" width="5.020408163265307" height="9.545454545454545" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="803.1428571428571" y="235.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:5</text>
+  <rect class="bar-rect-5" x="808.6530612244898" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="816.6734693877551" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="824.6938775510204" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="803.1428571428571" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 18</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="841.7142857142857" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="855.7619047619047" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="869.8095238095237" y="245.45454545454547" width="11" height="9.545454545454545" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="883.8571428571428" y="241.63636363636363" width="11" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="875.3095238095237" y="235.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:5</text>
-  <text class="bar-val-text-4" x="889.3571428571428" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-1" x="841.7142857142857" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="849.734693877551" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="857.7551020408163" y="245.45454545454547" width="5.020408163265307" height="9.545454545454545" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="860.2653061224489" y="235.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:5</text>
+  <rect class="bar-rect-4" x="865.7755102040816" y="241.63636363636363" width="5.020408163265307" height="13.363636363636362" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="868.2857142857142" y="231.63636363636363" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:7</text>
+  <rect class="bar-rect-5" x="873.7959183673469" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="881.8163265306122" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="889.8367346938775" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="868.2857142857142" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 19</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="906.8571428571428" y="56.45454545454547" width="11" height="198.54545454545453" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="920.9047619047618" y="151.9090909090909" width="11" height="103.0909090909091" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="934.9523809523808" y="249.27272727272728" width="11" height="5.727272727272727" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="948.9999999999999" y="249.27272727272728" width="11" height="5.727272727272727" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="912.3571428571428" y="46.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:104</text>
-  <text class="bar-val-text-2" x="926.4047619047618" y="141.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:54</text>
-  <text class="bar-val-text-3" x="940.4523809523808" y="239.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:3</text>
-  <text class="bar-val-text-4" x="954.4999999999999" y="239.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:3</text>
+  <rect class="bar-rect-1" x="906.8571428571428" y="56.45454545454547" width="5.020408163265307" height="198.54545454545453" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="909.3673469387754" y="46.45454545454547" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:104</text>
+  <rect class="bar-rect-2" x="914.8775510204081" y="151.9090909090909" width="5.020408163265307" height="103.0909090909091" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="917.3877551020407" y="141.9090909090909" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:54</text>
+  <rect class="bar-rect-3" x="922.8979591836734" y="249.27272727272728" width="5.020408163265307" height="5.727272727272727" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="925.408163265306" y="239.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:3</text>
+  <rect class="bar-rect-4" x="930.9183673469387" y="249.27272727272728" width="5.020408163265307" height="5.727272727272727" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="933.4285714285713" y="239.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:3</text>
+  <rect class="bar-rect-5" x="938.938775510204" y="197.72727272727275" width="5.020408163265307" height="57.272727272727266" fill="url(#meadowGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-5" x="941.4489795918366" y="187.72727272727275" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Me:30</text>
+  <rect class="bar-rect-6" x="946.9591836734693" y="232.0909090909091" width="5.020408163265307" height="22.909090909090907" fill="url(#brookGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-6" x="949.4693877551019" y="222.0909090909091" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Br:12</text>
+  <rect class="bar-rect-7" x="954.9795918367346" y="249.27272727272728" width="5.020408163265307" height="5.727272727272727" fill="url(#mistGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-7" x="957.4897959183672" y="239.27272727272728" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Mi:3</text>
   <text x="933.4285714285713" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 20</text>
 </g>
-<g transform="translate(550, 15)">
+<g transform="translate(380, 6)">
   <rect x="0" y="0" width="12" height="12" fill="url(#tidalGrad)" rx="2" />
   <text x="18" y="10" fill="var(--text-dim)" font-size="11">Tidal</text>
-  <rect x="100" y="0" width="12" height="12" fill="url(#riverGrad)" rx="2" />
-  <text x="118" y="10" fill="var(--text-dim)" font-size="11">River</text>
-  <rect x="200" y="0" width="12" height="12" fill="url(#creekGrad)" rx="2" />
-  <text x="218" y="10" fill="var(--text-dim)" font-size="11">Creek</text>
-  <rect x="300" y="0" width="12" height="12" fill="url(#streamGrad)" rx="2" />
-  <text x="318" y="10" fill="var(--text-dim)" font-size="11">Stream</text>
+  <rect x="145" y="0" width="12" height="12" fill="url(#riverGrad)" rx="2" />
+  <text x="163" y="10" fill="var(--text-dim)" font-size="11">River</text>
+  <rect x="290" y="0" width="12" height="12" fill="url(#creekGrad)" rx="2" />
+  <text x="308" y="10" fill="var(--text-dim)" font-size="11">Creek</text>
+  <rect x="435" y="0" width="12" height="12" fill="url(#streamGrad)" rx="2" />
+  <text x="453" y="10" fill="var(--text-dim)" font-size="11">Stream</text>
+  <rect x="0" y="16" width="12" height="12" fill="url(#meadowGrad)" rx="2" />
+  <text x="18" y="26" fill="var(--text-dim)" font-size="11">Meadow</text>
+  <rect x="145" y="16" width="12" height="12" fill="url(#brookGrad)" rx="2" />
+  <text x="163" y="26" fill="var(--text-dim)" font-size="11">Brook</text>
+  <rect x="290" y="16" width="12" height="12" fill="url(#mistGrad)" rx="2" />
+  <text x="308" y="26" fill="var(--text-dim)" font-size="11">Mist</text>
 </g>
 </svg>
         <div style="overflow-x: auto; margin-top: 20px;">
@@ -949,77 +1008,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong style="color: var(--teal);">Tidal</strong></td>
-                        <td>22</td><td>14</td><td>20</td><td>12</td><td>25</td><td>26</td><td>14</td><td>6</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>104</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: var(--blue);">River</strong></td>
-                        <td>6</td><td>6</td><td>10</td><td>7</td><td>12</td><td>15</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>54</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: var(--purple);">Creek</strong></td>
-                        <td>7</td><td>14</td><td>14</td><td>7</td><td>13</td><td>14</td><td>11</td><td>8</td><td>10</td><td>10</td><td>6</td><td>4</td><td>5</td><td>3</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: #48bb78;">Stream</strong></td>
-                        <td>0</td><td>0</td><td>0</td><td>8</td><td>10</td><td>15</td><td>11</td><td>7</td><td>9</td><td>8</td><td>7</td><td>5</td><td>7</td><td>3</td>
-                    </tr>
+                    <tr><td><strong style="color: var(--teal);">Tidal</strong></td><td>22</td><td>14</td><td>20</td><td>12</td><td>25</td><td>26</td><td>14</td><td>6</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>104</td></tr><tr><td><strong style="color: var(--blue);">River</strong></td><td>6</td><td>6</td><td>10</td><td>7</td><td>12</td><td>15</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>54</td></tr><tr><td><strong style="color: var(--purple);">Creek</strong></td><td>7</td><td>14</td><td>14</td><td>7</td><td>13</td><td>14</td><td>11</td><td>8</td><td>10</td><td>10</td><td>6</td><td>4</td><td>5</td><td>3</td></tr><tr><td><strong style="color: #48bb78;">Stream</strong></td><td>0</td><td>0</td><td>0</td><td>8</td><td>10</td><td>15</td><td>11</td><td>7</td><td>9</td><td>8</td><td>7</td><td>5</td><td>7</td><td>3</td></tr><tr><td><strong style="color: #ff2ec4;">Meadow</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>30</td></tr><tr><td><strong style="color: #ff5a5f;">Brook</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>12</td></tr><tr><td><strong style="color: #ecc94b;">Mist</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-    
+
     <h2>Daily Actions (Last 14 Days)</h2>
     <p style="color: var(--text-dim); margin-bottom: 1.5rem;">Tracks development activity, security scans, systems, and sentinel operations recorded per waking.</p>
     <div class="card" style="padding: 20px; margin-bottom: 30px; background: var(--surface);">
         <svg viewBox="0 0 1000 300" class="metrics-svg" style="width: 100%; height: auto; font-family: var(--font-mono, monospace);">
-
-    <style>
-        .bar-group {
-            transition: transform 0.2s;
-        }
-        .bar-group:hover {
-            transform: translateY(-2px);
-        }
-        .bar-group:hover .bar-rect-1 {
-            fill: url(#tidalGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(255, 138, 61, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-2 {
-            fill: url(#riverGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(49, 130, 206, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-3 {
-            fill: url(#creekGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(159, 122, 234, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-rect-4 {
-            fill: url(#streamGrad) !important;
-            filter: drop-shadow(0 0 6px rgba(72, 187, 120, 0.6));
-            opacity: 0.95;
-        }
-        .bar-group:hover .bar-val-text-1 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-2 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-3 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-        .bar-group:hover .bar-val-text-4 {
-            display: block !important;
-            opacity: 1 !important;
-        }
-    </style>
-    
+<style>
+.bar-group { transition: transform 0.2s; }
+.bar-group:hover { transform: translateY(-2px); }
+.bar-group:hover .bar-rect-1 { filter: drop-shadow(0 0 6px rgba(79,209,197,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-1 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-2 { filter: drop-shadow(0 0 6px rgba(49,130,206,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-2 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-3 { filter: drop-shadow(0 0 6px rgba(159,122,234,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-3 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-4 { filter: drop-shadow(0 0 6px rgba(72,187,120,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-4 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-5 { filter: drop-shadow(0 0 6px rgba(255,46,196,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-5 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-6 { filter: drop-shadow(0 0 6px rgba(255,90,95,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-6 { display: block !important; opacity: 1 !important; }
+.bar-group:hover .bar-rect-7 { filter: drop-shadow(0 0 6px rgba(236,201,75,0.6)); opacity: 0.95; }
+.bar-group:hover .bar-val-text-7 { display: block !important; opacity: 1 !important; }
+</style>
 <line x1="60" y1="255.0" x2="960" y2="255.0" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
 <text x="45" y="259.0" fill="var(--text-faint, #666)" font-size="11" text-anchor="end">0</text>
 <line x1="60" y1="202.5" x2="960" y2="202.5" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
@@ -1031,155 +1047,206 @@
 <line x1="60" y1="45.0" x2="960" y2="45.0" stroke="var(--line, #2d2d2d)" stroke-dasharray="4" />
 <text x="45" y="49.0" fill="var(--text-faint, #666)" font-size="11" text-anchor="end">800</text>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="60.0" y="206.7" width="11" height="48.300000000000004" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="74.04761904761905" y="244.5" width="11" height="10.5" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="88.0952380952381" y="245.025" width="11" height="9.975" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="102.14285714285714" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="65.5" y="196.7" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:184</text>
-  <text class="bar-val-text-2" x="79.54761904761905" y="234.5" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:40</text>
-  <text class="bar-val-text-3" x="93.5952380952381" y="235.025" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:38</text>
+  <rect class="bar-rect-1" x="60.0" y="206.7" width="5.020408163265307" height="48.300000000000004" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="62.51020408163265" y="196.7" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:184</text>
+  <rect class="bar-rect-2" x="68.0204081632653" y="244.5" width="5.020408163265307" height="10.5" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="70.53061224489795" y="234.5" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:40</text>
+  <rect class="bar-rect-3" x="76.04081632653062" y="245.025" width="5.020408163265307" height="9.975" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="78.55102040816327" y="235.025" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:38</text>
+  <rect class="bar-rect-4" x="84.06122448979592" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="92.08163265306123" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="100.10204081632654" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="108.12244897959184" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="86.57142857142857" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 07</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="125.14285714285714" y="208.8" width="11" height="46.2" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="139.19047619047618" y="247.65" width="11" height="7.3500000000000005" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="153.23809523809524" y="228.75" width="11" height="26.25" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="167.28571428571428" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="130.64285714285714" y="198.8" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:176</text>
-  <text class="bar-val-text-2" x="144.69047619047618" y="237.65" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:28</text>
-  <text class="bar-val-text-3" x="158.73809523809524" y="218.75" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:100</text>
+  <rect class="bar-rect-1" x="125.14285714285714" y="208.8" width="5.020408163265307" height="46.2" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="127.65306122448979" y="198.8" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:176</text>
+  <rect class="bar-rect-2" x="133.16326530612244" y="247.65" width="5.020408163265307" height="7.3500000000000005" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="135.6734693877551" y="237.65" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:28</text>
+  <rect class="bar-rect-3" x="141.18367346938774" y="228.75" width="5.020408163265307" height="26.25" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="143.6938775510204" y="218.75" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:100</text>
+  <rect class="bar-rect-4" x="149.20408163265307" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="157.22448979591837" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="165.24489795918367" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="173.26530612244898" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="151.71428571428572" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 08</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="190.28571428571428" y="195.15" width="11" height="59.849999999999994" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="204.33333333333331" y="239.5125" width="11" height="15.487499999999999" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="218.38095238095238" y="227.175" width="11" height="27.825000000000003" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="232.42857142857142" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <text class="bar-val-text-1" x="195.78571428571428" y="185.15" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:228</text>
-  <text class="bar-val-text-2" x="209.83333333333331" y="229.5125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:59</text>
-  <text class="bar-val-text-3" x="223.88095238095238" y="217.175" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:106</text>
+  <rect class="bar-rect-1" x="190.28571428571428" y="195.15" width="5.020408163265307" height="59.849999999999994" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="192.79591836734693" y="185.15" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:228</text>
+  <rect class="bar-rect-2" x="198.30612244897958" y="239.5125" width="5.020408163265307" height="15.487499999999999" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="200.81632653061223" y="229.5125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:59</text>
+  <rect class="bar-rect-3" x="206.32653061224488" y="227.175" width="5.020408163265307" height="27.825000000000003" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="208.83673469387753" y="217.175" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:106</text>
+  <rect class="bar-rect-4" x="214.34693877551018" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-5" x="222.3673469387755" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="230.3877551020408" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="238.40816326530611" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="216.85714285714286" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 09</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="255.42857142857142" y="228.225" width="11" height="26.775000000000002" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="269.4761904761905" y="247.3875" width="11" height="7.6125" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="283.5238095238095" y="241.6125" width="11" height="13.387500000000001" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="297.57142857142856" y="241.875" width="11" height="13.125" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="260.92857142857144" y="218.225" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:102</text>
-  <text class="bar-val-text-2" x="274.9761904761905" y="237.3875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:29</text>
-  <text class="bar-val-text-3" x="289.0238095238095" y="231.6125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:51</text>
-  <text class="bar-val-text-4" x="303.07142857142856" y="231.875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:50</text>
+  <rect class="bar-rect-1" x="255.42857142857142" y="228.225" width="5.020408163265307" height="26.775000000000002" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="257.9387755102041" y="218.225" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:102</text>
+  <rect class="bar-rect-2" x="263.44897959183675" y="247.3875" width="5.020408163265307" height="7.6125" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="265.9591836734694" y="237.3875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:29</text>
+  <rect class="bar-rect-3" x="271.46938775510205" y="241.6125" width="5.020408163265307" height="13.387500000000001" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="273.9795918367347" y="231.6125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:51</text>
+  <rect class="bar-rect-4" x="279.48979591836735" y="241.875" width="5.020408163265307" height="13.125" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="282.0" y="231.875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:50</text>
+  <rect class="bar-rect-5" x="287.51020408163265" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="295.53061224489795" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="303.55102040816325" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="282.0" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 10</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="320.57142857142856" y="217.4625" width="11" height="37.5375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="334.6190476190476" y="238.9875" width="11" height="16.0125" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="348.66666666666663" y="228.4875" width="11" height="26.5125" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="362.7142857142857" y="236.1" width="11" height="18.9" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="326.07142857142856" y="207.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:143</text>
-  <text class="bar-val-text-2" x="340.1190476190476" y="228.9875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:61</text>
-  <text class="bar-val-text-3" x="354.16666666666663" y="218.4875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:101</text>
-  <text class="bar-val-text-4" x="368.2142857142857" y="226.1" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:72</text>
+  <rect class="bar-rect-1" x="320.57142857142856" y="217.4625" width="5.020408163265307" height="37.5375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="323.0816326530612" y="207.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:143</text>
+  <rect class="bar-rect-2" x="328.59183673469386" y="238.9875" width="5.020408163265307" height="16.0125" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="331.1020408163265" y="228.9875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:61</text>
+  <rect class="bar-rect-3" x="336.61224489795916" y="228.4875" width="5.020408163265307" height="26.5125" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="339.1224489795918" y="218.4875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:101</text>
+  <rect class="bar-rect-4" x="344.63265306122446" y="236.1" width="5.020408163265307" height="18.9" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="347.1428571428571" y="226.1" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:72</text>
+  <rect class="bar-rect-5" x="352.65306122448976" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="360.67346938775506" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="368.69387755102036" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="347.1428571428571" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 11</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="385.71428571428567" y="210.9" width="11" height="44.1" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="399.7619047619047" y="229.275" width="11" height="25.724999999999998" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="413.80952380952374" y="226.9125" width="11" height="28.087500000000002" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="427.85714285714283" y="219.0375" width="11" height="35.962500000000006" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="391.21428571428567" y="200.9" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:168</text>
-  <text class="bar-val-text-2" x="405.2619047619047" y="219.275" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:98</text>
-  <text class="bar-val-text-3" x="419.30952380952374" y="216.9125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:107</text>
-  <text class="bar-val-text-4" x="433.35714285714283" y="209.0375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:137</text>
+  <rect class="bar-rect-1" x="385.71428571428567" y="210.9" width="5.020408163265307" height="44.1" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="388.2244897959183" y="200.9" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:168</text>
+  <rect class="bar-rect-2" x="393.73469387755097" y="229.275" width="5.020408163265307" height="25.724999999999998" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="396.2448979591836" y="219.275" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:98</text>
+  <rect class="bar-rect-3" x="401.75510204081627" y="226.9125" width="5.020408163265307" height="28.087500000000002" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="404.2653061224489" y="216.9125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:107</text>
+  <rect class="bar-rect-4" x="409.77551020408157" y="219.0375" width="5.020408163265307" height="35.962500000000006" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="412.2857142857142" y="209.0375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:137</text>
+  <rect class="bar-rect-5" x="417.79591836734687" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="425.8163265306122" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="433.8367346938775" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="412.2857142857142" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 12</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="450.85714285714283" y="229.8" width="11" height="25.2" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="464.90476190476187" y="251.325" width="11" height="3.6750000000000003" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="478.9523809523809" y="234.525" width="11" height="20.475" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="493.0" y="228.4875" width="11" height="26.5125" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="456.35714285714283" y="219.8" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:96</text>
-  <text class="bar-val-text-2" x="470.40476190476187" y="241.325" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:14</text>
-  <text class="bar-val-text-3" x="484.4523809523809" y="224.525" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:78</text>
-  <text class="bar-val-text-4" x="498.5" y="218.4875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:101</text>
+  <rect class="bar-rect-1" x="450.85714285714283" y="229.8" width="5.020408163265307" height="25.2" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="453.3673469387755" y="219.8" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:96</text>
+  <rect class="bar-rect-2" x="458.87755102040813" y="251.325" width="5.020408163265307" height="3.6750000000000003" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="461.3877551020408" y="241.325" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:14</text>
+  <rect class="bar-rect-3" x="466.89795918367344" y="234.525" width="5.020408163265307" height="20.475" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="469.4081632653061" y="224.525" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:78</text>
+  <rect class="bar-rect-4" x="474.91836734693874" y="228.4875" width="5.020408163265307" height="26.5125" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="477.4285714285714" y="218.4875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:101</text>
+  <rect class="bar-rect-5" x="482.93877551020404" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="490.9591836734694" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="498.9795918367347" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="477.4285714285714" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 13</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="516.0" y="246.8625" width="11" height="8.1375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="530.047619047619" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="544.0952380952381" y="238.4625" width="11" height="16.5375" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="558.1428571428571" y="240.825" width="11" height="14.175" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="521.5" y="236.8625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:31</text>
-  <text class="bar-val-text-3" x="549.5952380952381" y="228.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:63</text>
-  <text class="bar-val-text-4" x="563.6428571428571" y="230.825" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:54</text>
+  <rect class="bar-rect-1" x="516.0" y="246.8625" width="5.020408163265307" height="8.1375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="518.5102040816327" y="236.8625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:31</text>
+  <rect class="bar-rect-2" x="524.0204081632653" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="532.0408163265306" y="238.4625" width="5.020408163265307" height="16.5375" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="534.5510204081633" y="228.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:63</text>
+  <rect class="bar-rect-4" x="540.0612244897959" y="240.825" width="5.020408163265307" height="14.175" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="542.5714285714286" y="230.825" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:54</text>
+  <rect class="bar-rect-5" x="548.0816326530612" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="556.1020408163265" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="564.1224489795918" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="542.5714285714286" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 14</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="581.1428571428571" y="253.1625" width="11" height="1.8375000000000001" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="595.1904761904761" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="609.2380952380952" y="232.6875" width="11" height="22.3125" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="623.2857142857142" y="229.5375" width="11" height="25.4625" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="586.6428571428571" y="243.1625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:7</text>
-  <text class="bar-val-text-3" x="614.7380952380952" y="222.6875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:85</text>
-  <text class="bar-val-text-4" x="628.7857142857142" y="219.5375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:97</text>
+  <rect class="bar-rect-1" x="581.1428571428571" y="253.1625" width="5.020408163265307" height="1.8375000000000001" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="583.6530612244898" y="243.1625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:7</text>
+  <rect class="bar-rect-2" x="589.1632653061224" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="597.1836734693877" y="232.6875" width="5.020408163265307" height="22.3125" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="599.6938775510204" y="222.6875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:85</text>
+  <rect class="bar-rect-4" x="605.204081632653" y="229.5375" width="5.020408163265307" height="25.4625" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="607.7142857142857" y="219.5375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:97</text>
+  <rect class="bar-rect-5" x="613.2244897959183" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="621.2448979591836" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="629.2653061224489" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="607.7142857142857" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 15</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="646.2857142857142" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="660.3333333333333" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="674.3809523809523" y="231.375" width="11" height="23.625" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="688.4285714285713" y="229.0125" width="11" height="25.9875" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="679.8809523809523" y="221.375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:90</text>
-  <text class="bar-val-text-4" x="693.9285714285713" y="219.0125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:99</text>
+  <rect class="bar-rect-1" x="646.2857142857142" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="654.3061224489795" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="662.3265306122448" y="231.375" width="5.020408163265307" height="23.625" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="664.8367346938775" y="221.375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:90</text>
+  <rect class="bar-rect-4" x="670.3469387755101" y="229.0125" width="5.020408163265307" height="25.9875" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="672.8571428571428" y="219.0125" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:99</text>
+  <rect class="bar-rect-5" x="678.3673469387754" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="686.3877551020407" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="694.408163265306" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="672.8571428571428" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 16</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="711.4285714285713" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="725.4761904761904" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="739.5238095238094" y="238.4625" width="11" height="16.5375" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="753.5714285714284" y="234.7875" width="11" height="20.212500000000002" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="745.0238095238094" y="228.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:63</text>
-  <text class="bar-val-text-4" x="759.0714285714284" y="224.7875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:77</text>
+  <rect class="bar-rect-1" x="711.4285714285713" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="719.4489795918366" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="727.4693877551019" y="238.4625" width="5.020408163265307" height="16.5375" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="729.9795918367346" y="228.4625" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:63</text>
+  <rect class="bar-rect-4" x="735.4897959183672" y="234.7875" width="5.020408163265307" height="20.212500000000002" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="737.9999999999999" y="224.7875" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:77</text>
+  <rect class="bar-rect-5" x="743.5102040816325" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="751.5306122448978" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="759.5510204081631" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="737.9999999999999" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 17</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="776.5714285714286" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="790.6190476190476" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="804.6666666666666" y="245.025" width="11" height="9.975" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="818.7142857142857" y="242.925" width="11" height="12.075000000000001" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="810.1666666666666" y="235.025" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:38</text>
-  <text class="bar-val-text-4" x="824.2142857142857" y="232.925" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:46</text>
+  <rect class="bar-rect-1" x="776.5714285714286" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="784.5918367346939" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="792.6122448979592" y="245.025" width="5.020408163265307" height="9.975" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="795.1224489795918" y="235.025" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:38</text>
+  <rect class="bar-rect-4" x="800.6326530612245" y="242.925" width="5.020408163265307" height="12.075000000000001" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="803.1428571428571" y="232.925" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:46</text>
+  <rect class="bar-rect-5" x="808.6530612244898" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="816.6734693877551" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="824.6938775510204" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="803.1428571428571" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 18</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="841.7142857142857" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-2" x="855.7619047619047" y="253" width="11" height="2" fill="var(--line)" rx="1" opacity="0.3" />
-  <rect class="bar-rect-3" x="869.8095238095237" y="242.1375" width="11" height="12.862499999999999" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="883.8571428571428" y="236.1" width="11" height="18.9" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-3" x="875.3095238095237" y="232.1375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:49</text>
-  <text class="bar-val-text-4" x="889.3571428571428" y="226.1" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:72</text>
+  <rect class="bar-rect-1" x="841.7142857142857" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-2" x="849.734693877551" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-3" x="857.7551020408163" y="242.1375" width="5.020408163265307" height="12.862499999999999" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="860.2653061224489" y="232.1375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:49</text>
+  <rect class="bar-rect-4" x="865.7755102040816" y="236.1" width="5.020408163265307" height="18.9" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="868.2857142857142" y="226.1" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:72</text>
+  <rect class="bar-rect-5" x="873.7959183673469" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-6" x="881.8163265306122" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
+  <rect class="bar-rect-7" x="889.8367346938775" y="253" width="5.020408163265307" height="2" fill="var(--line)" rx="1" opacity="0.3" />
   <text x="868.2857142857142" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 19</text>
 </g>
 <g class="bar-group" cursor="pointer">
-  <rect class="bar-rect-1" x="906.8571428571428" y="45.26249999999999" width="11" height="209.7375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-2" x="920.9047619047618" y="153.675" width="11" height="101.325" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-3" x="934.9523809523808" y="246.075" width="11" height="8.925" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <rect class="bar-rect-4" x="948.9999999999999" y="246.3375" width="11" height="8.6625" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
-  <text class="bar-val-text-1" x="912.3571428571428" y="35.26249999999999" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:799</text>
-  <text class="bar-val-text-2" x="926.4047619047618" y="143.675" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:386</text>
-  <text class="bar-val-text-3" x="940.4523809523808" y="236.075" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:34</text>
-  <text class="bar-val-text-4" x="954.4999999999999" y="236.3375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:33</text>
+  <rect class="bar-rect-1" x="906.8571428571428" y="45.26249999999999" width="5.020408163265307" height="209.7375" fill="url(#tidalGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-1" x="909.3673469387754" y="35.26249999999999" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">T:799</text>
+  <rect class="bar-rect-2" x="914.8775510204081" y="153.675" width="5.020408163265307" height="101.325" fill="url(#riverGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-2" x="917.3877551020407" y="143.675" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">R:386</text>
+  <rect class="bar-rect-3" x="922.8979591836734" y="246.075" width="5.020408163265307" height="8.925" fill="url(#creekGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-3" x="925.408163265306" y="236.075" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">C:34</text>
+  <rect class="bar-rect-4" x="930.9183673469387" y="246.3375" width="5.020408163265307" height="8.6625" fill="url(#streamGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-4" x="933.4285714285713" y="236.3375" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">S:33</text>
+  <rect class="bar-rect-5" x="938.938775510204" y="164.7" width="5.020408163265307" height="90.3" fill="url(#meadowGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-5" x="941.4489795918366" y="154.7" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Me:344</text>
+  <rect class="bar-rect-6" x="946.9591836734693" y="203.55" width="5.020408163265307" height="51.449999999999996" fill="url(#brookGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-6" x="949.4693877551019" y="193.55" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Br:196</text>
+  <rect class="bar-rect-7" x="954.9795918367346" y="248.7" width="5.020408163265307" height="6.3" fill="url(#mistGrad)" rx="2" style="transition: fill 0.2s, filter 0.2s;" />
+  <text class="bar-val-text-7" x="957.4897959183672" y="238.7" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle" style="display: none; transition: opacity 0.2s;">Mi:24</text>
   <text x="933.4285714285713" y="277" fill="var(--text-dim)" font-size="11" text-anchor="middle">Sep 20</text>
 </g>
-<g transform="translate(550, 15)">
+<g transform="translate(380, 6)">
   <rect x="0" y="0" width="12" height="12" fill="url(#tidalGrad)" rx="2" />
   <text x="18" y="10" fill="var(--text-dim)" font-size="11">Tidal</text>
-  <rect x="100" y="0" width="12" height="12" fill="url(#riverGrad)" rx="2" />
-  <text x="118" y="10" fill="var(--text-dim)" font-size="11">River</text>
-  <rect x="200" y="0" width="12" height="12" fill="url(#creekGrad)" rx="2" />
-  <text x="218" y="10" fill="var(--text-dim)" font-size="11">Creek</text>
-  <rect x="300" y="0" width="12" height="12" fill="url(#streamGrad)" rx="2" />
-  <text x="318" y="10" fill="var(--text-dim)" font-size="11">Stream</text>
+  <rect x="145" y="0" width="12" height="12" fill="url(#riverGrad)" rx="2" />
+  <text x="163" y="10" fill="var(--text-dim)" font-size="11">River</text>
+  <rect x="290" y="0" width="12" height="12" fill="url(#creekGrad)" rx="2" />
+  <text x="308" y="10" fill="var(--text-dim)" font-size="11">Creek</text>
+  <rect x="435" y="0" width="12" height="12" fill="url(#streamGrad)" rx="2" />
+  <text x="453" y="10" fill="var(--text-dim)" font-size="11">Stream</text>
+  <rect x="0" y="16" width="12" height="12" fill="url(#meadowGrad)" rx="2" />
+  <text x="18" y="26" fill="var(--text-dim)" font-size="11">Meadow</text>
+  <rect x="145" y="16" width="12" height="12" fill="url(#brookGrad)" rx="2" />
+  <text x="163" y="26" fill="var(--text-dim)" font-size="11">Brook</text>
+  <rect x="290" y="16" width="12" height="12" fill="url(#mistGrad)" rx="2" />
+  <text x="308" y="26" fill="var(--text-dim)" font-size="11">Mist</text>
 </g>
 </svg>
         <div style="overflow-x: auto; margin-top: 20px;">
@@ -1191,22 +1258,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong style="color: var(--amber);">Tidal</strong></td>
-                        <td>184</td><td>176</td><td>228</td><td>102</td><td>143</td><td>168</td><td>96</td><td>31</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>799</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: #ed8936;">River</strong></td>
-                        <td>40</td><td>28</td><td>59</td><td>29</td><td>61</td><td>98</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>386</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: #ed64a6;">Creek</strong></td>
-                        <td>38</td><td>100</td><td>106</td><td>51</td><td>101</td><td>107</td><td>78</td><td>63</td><td>85</td><td>90</td><td>63</td><td>38</td><td>49</td><td>34</td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color: #319795;">Stream</strong></td>
-                        <td>0</td><td>0</td><td>0</td><td>50</td><td>72</td><td>137</td><td>101</td><td>54</td><td>97</td><td>99</td><td>77</td><td>46</td><td>72</td><td>33</td>
-                    </tr>
+                    <tr><td><strong style="color: var(--amber);">Tidal</strong></td><td>184</td><td>176</td><td>228</td><td>102</td><td>143</td><td>168</td><td>96</td><td>31</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>799</td></tr><tr><td><strong style="color: #ed8936;">River</strong></td><td>40</td><td>28</td><td>59</td><td>29</td><td>61</td><td>98</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>386</td></tr><tr><td><strong style="color: #ed64a6;">Creek</strong></td><td>38</td><td>100</td><td>106</td><td>51</td><td>101</td><td>107</td><td>78</td><td>63</td><td>85</td><td>90</td><td>63</td><td>38</td><td>49</td><td>34</td></tr><tr><td><strong style="color: #319795;">Stream</strong></td><td>0</td><td>0</td><td>0</td><td>50</td><td>72</td><td>137</td><td>101</td><td>54</td><td>97</td><td>99</td><td>77</td><td>46</td><td>72</td><td>33</td></tr><tr><td><strong style="color: #d6249e;">Meadow</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>344</td></tr><tr><td><strong style="color: #e53e3e;">Brook</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>196</td></tr><tr><td><strong style="color: #d69e2e;">Mist</strong></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>24</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1282,7 +1334,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-20 13:56:35 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-20 14:08:49 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
