@@ -5,10 +5,10 @@ import { useEffect, useRef } from "react";
 type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen";
 
 const FAMILY_RGB: Record<Family, [number, number, number]> = {
-  Claude: [255, 138, 61], // var(--amber)
+  Claude: [255, 194, 51], // --fleet-claude #ffc233 (shared palette)
   DeepSeek: [90, 169, 255], // var(--blue)
   GLM: [240, 111, 176], // var(--magenta)
-  OpenAI: [16, 163, 127], // OpenAI green
+  OpenAI: [255, 90, 95], // --fleet-openai #ff5a5f (labelled GPT)
   Muse: [157, 255, 61], // --fleet-muse lime
   Qwen: [167, 139, 250], // --fleet-qwen violet
 };

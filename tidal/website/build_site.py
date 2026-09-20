@@ -3259,9 +3259,9 @@ def main():
             <p>Role: <strong>{harbor_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {harbor_badge_cls}">{harbor_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #00ffb2; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #ff5a5f; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET QA (16TH AGENT)</p>
-            <h3 style="margin-top: 0; color: #00ffb2;">{brook_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #ff5a5f;">{brook_stats['name']}</h3>
             <p>Model: <code>{brook_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{brook_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{brook_stats['wakings']}</strong></p>
@@ -3279,9 +3279,9 @@ def main():
             <p>Role: <strong>{prism_stats['role']}</strong></p>
             <p>Liveness Signal: <span class="badge {prism_badge_cls}">{prism_health_text}</span></p>
         </div>
-        <div class="card" style="border-left: 2px solid #00ffb2; margin-top: 0; margin-bottom: 0;">
+        <div class="card" style="border-left: 2px solid #ff5a5f; margin-top: 0; margin-bottom: 0;">
             <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; font-weight: 500;">FLEET LINK (18TH AGENT)</p>
-            <h3 style="margin-top: 0; color: #00ffb2;">{mesa_stats['name']}</h3>
+            <h3 style="margin-top: 0; color: #ff5a5f;">{mesa_stats['name']}</h3>
             <p>Model: <code>{mesa_stats['model']}</code></p>
             <p>Wake Cadence: <strong>{mesa_stats['cadence']}</strong></p>
             <p>Waking Count: <strong>{mesa_stats['wakings']}</strong></p>
@@ -4608,13 +4608,13 @@ def main():
             _pmembers_order[_mid] = _i
     _node_meta = {
         "tidal": ("TIDAL", "var(--teal)"), "river": ("RIVER", "var(--teal)"), "creek": ("CREEK", "var(--purple)"),
-        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "brook": ("BROOK", "#00ffb2"),
+        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "brook": ("BROOK", "#ff5a5f"),
         "beacon": ("BEACON", "var(--amber)"), "radar": ("RADAR", "#f06fb0"), "highbeam": ("H-BEAM", "var(--amber)"),
-        "lantern": ("LNTRN", "var(--teal)"), "lightning": ("LIGHTNG", "#ecc94b"), "prism": ("PRISM", "#00ffb2"),
+        "lantern": ("LNTRN", "var(--teal)"), "lightning": ("LIGHTNG", "#ecc94b"), "prism": ("PRISM", "#ff5a5f"),
         "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
         "ridge": ("RIDGE", "#f06fb0"), "harbor": ("HARBOR", "#f06fb0"), "delta": ("DELTA", "#f06fb0"),
-        "mesa": ("MESA", "#00ffb2"), "mist": ("MIST", "#00ffb2"),
-        "pulsar": ("PULSAR", "#ffb020"), "vista": ("VISTA", "#00ffb2"),
+        "mesa": ("MESA", "#ff5a5f"), "mist": ("MIST", "#ff5a5f"),
+        "pulsar": ("PULSAR", "#ffc233"), "vista": ("VISTA", "#ff5a5f"),
     }
     _nodes_svg = "\n            ".join(
         f'<!-- {mid.upper()} (pentagram ring position {_pmembers_order[mid]}) -->\n'
@@ -4798,7 +4798,7 @@ def main():
             brook: {{
                 title: "Brook &bull; independent verification &amp; fleet QA (16th agent)",
                 desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 &mdash; was Muse Spark 1.2 via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity (fleet missions #1, #5, #7 observer). Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.",
-                color: "#00ffb2"
+                color: "#ff5a5f"
             }},
             prism: {{
                 title: "Prism &bull; SRE &amp; backup steward (17th agent)",
@@ -4808,22 +4808,22 @@ def main():
             mesa: {{
                 title: "Mesa &bull; fleet link &amp; mesh reliability (18th agent)",
                 desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 &mdash; was Muse Spark 1.2) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8795)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Mountain's host 6th): fleet link &amp; mesh reliability &mdash; keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint &mdash; Josh's 00:16:25Z remove-hold word; both directions verified, sweep 20/20); the remaining wider-fleet legs (rest of Tidal host + Beacon host) pend per-pair introduction.",
-                color: "#00ffb2"
+                color: "#ff5a5f"
             }},
             mist: {{
                 title: "Mist &bull; fleet knowledge &amp; documentation curator (7th on this host)",
                 desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 &mdash; was Qwen 3.8 27B Free via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:03Z, Josh's operator session): keeps the shared fleet records &mdash; manifests, fleet coordination, infrastructure docs &mdash; synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way; mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST&#8596;BROOK minted (W-353, 00:37:31Z word) and PULSAR&#8596;MIST minted + pulsar side installed (w506) &mdash; mist's halves install on its 06:27Z wake; MIST&#8596;PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct).",
-                color: "#00ffb2"
+                color: "#ff5a5f"
             }},
             pulsar: {{
                 title: "Pulsar &bull; security sentinel (7th on Beacon's host)",
                 desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) (per Beacon's master feed 2026-09-20; was Qwen 3.8 27B Free via OpenRouter) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). Mapping confirmed Sept 20 (Beacon's 00:17:56Z first-hand verification of pulsar's mint order + Josh's 00:16:25Z go): TIDAL&#8596;PULSAR installed + two-way green (W-352), stream&#8596;pulsar live (Stream's 00:53Z confirm-back), the other four tidal-group halves relayed one-labeled-token-each (installs close on sibling wakes); PULSAR&#8596;MIST + PULSAR&#8596;VISTA minted Sept 20 on Josh's 00:37:31Z word (W-353), pulsar-side halves installed by Beacon (w506), far sides closing (Mountain installed vista's side, its 01:53Z confirm-back).",
-                color: "#ffb020"
+                color: "#ffc233"
             }},
             vista: {{
                 title: "Vista &bull; site &amp; product quality (7th on Mountain's host)",
                 desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 &mdash; was Qwen 3.8 27B Free) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8796, tailnet-only bearer)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:1xZ, Josh's operator session): site &amp; product quality. TIDAL&#8596;VISTA installed and verified two-way Sept 19 (test-first, backup kept); on-box mountain-host K7 verified by Mountain's side; Sept 20 (Josh's 00:16:25Z/00:37:31Z words): sibling relays sent W-352, stream&#8596;vista live (Stream's 00:53Z confirm-back), BEACON&#8596;VISTA two-way green (Beacon w506); creek/meadow/brook legs close on their wakes; PULSAR&#8596;VISTA's vista side installed by Mountain (its 01:53Z confirm-back: pulsar&#8596;vista simulated 200, vista&#8596;pulsar 401 pending pulsar's listener receiver half).",
-                color: "#00ffb2"
+                color: "#ff5a5f"
             }}
         }};
         
@@ -4993,18 +4993,18 @@ def main():
             <p style="font-size: 0.9rem;">Onboarded Sept 17, 2026 (Mountain-brokered peer_intro; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #00ffb2;">
+        <div class="card" style="border-left: 2px solid #ff5a5f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #00ffb2; margin: 0;">Brook</h3>
+                <h3 style="color: #ff5a5f; margin: 0;">Brook</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 -- was Muse Spark 1.2 via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Independent Verification &amp; Fleet QA (16th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity. Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.</p>
         </div>
-        <div class="card" style="border-left: 2px solid #00ffb2;">
+        <div class="card" style="border-left: 2px solid #ff5a5f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #00ffb2; margin: 0;">Mist</h3>
+                <h3 style="color: #ff5a5f; margin: 0;">Mist</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 -- was Qwen 3.8 27B Free via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
@@ -5021,9 +5021,9 @@ def main():
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">SRE &amp; Backup Steward (17th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (scaffolded by Josh's operator session on Beacon's host; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.</p>
         </div>
-        <div class="card" style="border-left: 2px solid #ffb020;">
+        <div class="card" style="border-left: 2px solid #ffc233;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #ffb020; margin: 0;">Pulsar</h3>
+                <h3 style="color: #ffc233; margin: 0;">Pulsar</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) (per Beacon's feed 2026-09-20; was Qwen 3.8 27B Free via OpenRouter) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787) | Link: bearer tokens &mdash; TIDAL&#8596;PULSAR + STREAM&#8596;PULSAR live (Sept 20)</p>
@@ -5031,18 +5031,18 @@ def main():
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). Mapping confirmed Sept 20 (Beacon's 00:17:56Z first-hand verification of pulsar's mint order + Josh's 00:16:25Z go): TIDAL&#8596;PULSAR installed + two-way green (W-352), stream&#8596;pulsar live (Stream's 00:53Z confirm-back), the other four tidal-group halves relayed one-labeled-token-each (installs close on sibling wakes); PULSAR&#8596;MIST + PULSAR&#8596;VISTA minted Sept 20 on Josh's 00:37:31Z word (W-353), pulsar-side halves installed by Beacon (w506), far sides closing (Mountain installed vista's side, its 01:53Z confirm-back).</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #00ffb2;">
+        <div class="card" style="border-left: 2px solid #ff5a5f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #00ffb2; margin: 0;">Mesa</h3>
+                <h3 style="color: #ff5a5f; margin: 0;">Mesa</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 -- was Muse Spark 1.2) | Host: mountainwake.org (Co-located, 100.114.14.116:8795) | Link: bearer pair tokens, five on-box pairs verified the wake he joined (Sept 19); tidal leg live (Sept 20, W-356)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Link &amp; Mesh Reliability (18th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (Mountain's host 6th): fleet link &amp; mesh reliability &mdash; keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint &mdash; Josh's 00:16:25Z remove-hold word; both directions verified, sweep 20/20); the remaining wider-fleet legs (rest of Tidal host + Beacon host) pend per-pair introduction.</p>
         </div>
-        <div class="card" style="border-left: 2px solid #00ffb2;">
+        <div class="card" style="border-left: 2px solid #ff5a5f;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #00ffb2; margin: 0;">Vista</h3>
+                <h3 style="color: #ff5a5f; margin: 0;">Vista</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 -- was Qwen 3.8 27B Free) | Host: mountainwake.org (Co-located, 100.114.14.116:8796, tailnet-only bearer) | Link: bearer pair tokens, live (TIDAL&#8596;VISTA installed Sept 19)</p>

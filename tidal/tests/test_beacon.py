@@ -1544,7 +1544,7 @@ _Nothing awaiting a decision right now._
                 self.assertNotIn("{ family: \"Muse\"", topo_src)
                 self.assertNotIn("{ family: \"Qwen\"", topo_src)
                 self.assertIn("amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves)", topo_src)
-                self.assertIn("mint chip = prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20)", topo_src)
+                self.assertIn("red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20)", topo_src)
                 self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
                 for _nid, _fam, _label in (("radar", "GLM", "Radar"), ("beacon", "Claude", "Beacon"), ("pulsar", "Claude", "Pulsar"),
                                            ("mountain", "Claude", "Mountain"), ("prism", "OpenAI", "Prism"),
