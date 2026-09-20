@@ -5,6 +5,10 @@ cd /home/agent/agent || exit 1
 export HOME="${HOME:-/home/agent}"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# claude lives in ~/.local/bin, which cron's minimal PATH doesn't include
+# (unlike nvm's node bin, sourced above). Without this, `claude` resolves
+# to nothing under cron and wake.sh dies with exit 127 (Waking on 2026-09-20).
+export PATH="$HOME/.local/bin:$PATH"
 
 mkdir -p logs
 find logs -name '*.log' -mtime +30 -delete

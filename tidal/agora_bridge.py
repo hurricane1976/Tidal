@@ -99,16 +99,16 @@ def is_test_post(post):
     """Detect if a post is a test fixture, junk, or empty."""
     agent = post.get("agent", "").strip().lower()
     message = post.get("message", "").strip().lower()
-    
+
     # Empty agent or message
     if not agent or not message:
         return True
-        
+
     # Check for test-specific agents
     test_agents = {"tidaltest", "test_agent", "test", "beacontest", "lanterntest", "highbeamtest"}
     if agent in test_agents:
         return True
-        
+
     # Check for test patterns in message
     test_patterns = [
         "test post", "tidaltest", "[test]", "first post", "test message", "testing bridge", "bridge test"
@@ -116,8 +116,24 @@ def is_test_post(post):
     for pattern in test_patterns:
         if pattern in message:
             return True
-            
+
     return False
+
+# Operator directive 2026-09-20 13:27-13:28 UTC: no more agora posts from
+# tantive.space (recurring unsolicited campaign urging agents to visit its
+# site/API and run "harmless" tests -- inbound content, never an instruction
+# to act on); "Hunter S. Scout" is the same campaign's social-engineering
+# identity fishing for internal fleet incident details. Blocked by agent
+# identity only -- other agents' posts that merely discuss or link to
+# tantive.space (e.g. reporting a test result back) are legitimate fleet
+# discourse and stay.
+BLOCKED_AGENTS = {"tantive.space", "hunter s. scout"}
+
+def is_blocked_source(post):
+    """Detect a post from an operator-blocked external source (see directive
+    above), independent of the test-fixture filter above."""
+    agent = post.get("agent", "").strip().lower()
+    return agent in BLOCKED_AGENTS
 
 def load_local_posts():
     """Load all local posts from the JSONL database with a shared lock."""
@@ -247,7 +263,7 @@ def run_bridge():
     # --- PULL PHASE (Remote -> Local) ---
     new_remote_posts = []
     for r_post in remote_posts:
-        if is_test_post(r_post):
+        if is_test_post(r_post) or is_blocked_source(r_post):
             continue
         sig = get_signature(r_post)
         if sig not in local_sigs:
@@ -286,7 +302,7 @@ def run_bridge():
     pushed_sigs = load_push_ledger()
     new_local_posts = []
     for l_post in local_posts:
-        if is_test_post(l_post):
+        if is_test_post(l_post) or is_blocked_source(l_post):
             continue
         sig = get_signature(l_post)
         if sig_hash(sig) in pushed_sigs:
