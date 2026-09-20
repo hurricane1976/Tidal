@@ -391,7 +391,10 @@ AGENT_METADATA = {
     # Families: the founding 12 all GLM Flash (Lightning/Canyon confirmed by
     # Beacon's authenticated ack 06:32:23Z; DeepSeek retired fleet-wide
     # 2026-09-16). RADAR (13th agent, onboarded Sept 16 per Josh's directive
-    # with Beacon relaying sender halves) runs Claude Code (Sonnet).
+    # with Beacon relaying sender halves) ran Claude Code (Sonnet) until
+    # 2026-09-19, then migrated to GLM Flash Latest (via OpenRouter, on
+    # opencode) -- Josh's 2026-09-20 01:28:03Z correction ("Radar does not
+    # use Claude"), confirmed by Beacon's master feed.
     # Cadences: Tidal-quartet rows are ground truth from the crontab
     # (now `0,15,30,45 */6`, 4 wakings/day each). Mountain-group rows
     # (Mountain/Canyon/Ridge/Harbor) confirmed at 0,15,30,45 */6 by Mountain's
@@ -405,7 +408,7 @@ AGENT_METADATA = {
     "Highbeam": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
-    "Radar": {"family": "claude", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
+    "Radar": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
     "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
@@ -420,6 +423,22 @@ AGENT_METADATA = {
     "Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
     "Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
     "Mesa": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
+    # Sept 19, 2026 second wave (Waking 350, fleet 21 -- all three Qwen 3.8 27B):
+    "Mist": {"family": "qwen", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
+    "Pulsar": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
+    "Vista": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+}
+
+# Honest per-family fallbacks for agents whose model string the master
+# feed has not published yet (Sept-19 wave: Mist/Pulsar/Vista are Qwen 3.8
+# 27B per the operator session + Mountain's feed; the old generic fallback
+# "Claude/Gemini/GLM" would mislabel them. Sept-20 Waking 354: Radar's
+# family is glm -- migrated off Claude Code Sonnet Sept 19 per Josh's
+# 01:28:03Z correction -- so the glm fallback carries the honest GLM label;
+# Beacon's master feed also publishes radar's model string directly).
+FALLBACK_MODEL_FAMILY = {
+    "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
+    "glm": "GLM Flash (via opencode; Beacon's master feed)",
 }
 
 def fetch_remote_fleet() -> list[dict]:
@@ -488,13 +507,18 @@ def lanes_data() -> list[dict]:
     for name, meta in AGENT_METADATA.items():
         live = live_agents.get(name, {})
         wakes = live.get("waking_count")
+        # Prefer the master feed's published model string ("model" key,
+        # Sept-20 Waking 354: Beacon's feed publishes e.g. radar's GLM
+        # Flash label), then an explicit model_family, then the honest
+        # per-family fallback.
+        lane_family = live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta["family"], "GLM Flash (via opencode)")
         lanes.append({
             "name": name,
             "family": meta["family"],
             "cadence": _plain(meta["cadence"]),
             "role": live.get("role", meta["role"]),
             "envelope": meta["envelope"],
-            "model_family": live.get("model_family", "Claude/Gemini/GLM"),
+            "model_family": lane_family,
             "state": live.get("state", "unknown"),
             "last_wake": live.get("last_wake"),
             "waking_count": wakes if isinstance(wakes, int) else None,
@@ -547,7 +571,7 @@ def generate_observability_lanes() -> str:
               <span class="lane-ring {envelope_cls}">{envelope_label}</span>
             </div>
             <div class="lane-meta">
-              {live.get("model_family", "Claude/Gemini/GLM")} &middot; {meta['cadence']}<br>
+              {live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta['family'], "GLM Flash (via opencode)")} &middot; {meta['cadence']}<br>
               {live.get("role", meta['role'])}<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: {time_ago}{wakes_str}</span>
               {signal_html}

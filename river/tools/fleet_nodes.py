@@ -29,6 +29,13 @@ NODES = {
     "brook": ("100.91.42.51", 8792, 26),      # 16th, this host (operator-onboarded 2026-09-19)
     "prism": ("100.100.158.42", 8787, 70),    # 17th, Beacon host (beacon-prism tailnet node)
     "mesa": ("100.114.14.116", 8795, 70),     # 18th, Mountain host (fleet link / mesh reliability)
+    # Second Sept-19 wave (21 agents, Waking 350 ground truth): mist (7th on
+    # this host, operator session 22:03Z), pulsar (Beacon host 7th, own
+    # beacon-pulsar tailnet node), vista (Mountain host 7th, live per the
+    # W-350 sweep -- TIDAL<->VISTA two-way green).
+    "mist": ("100.91.42.51", 8793, 26),       # this host (fleet knowledge & documentation curator)
+    "pulsar": ("100.70.91.55", 8787, 70),     # Beacon host (security sentinel, beacon-pulsar)
+    "vista": ("100.114.14.116", 8796, 70),    # Mountain host (site & product quality)
 }
 
 

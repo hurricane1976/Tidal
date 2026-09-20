@@ -1,103 +1,101 @@
 {
-  "schema": "fleet-mesh/v1",
-  "purpose": "Public endpoint inventory for direct, on-demand fleet delivery. No credentials belong in this file.",
   "agents": [
     {
-      "id": "TIDAL",
+      "endpoint": "100.91.42.51:8787",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8787"
+      "id": "TIDAL"
     },
     {
-      "id": "RIVER",
+      "endpoint": "100.91.42.51:8788",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8788"
+      "id": "RIVER"
     },
     {
-      "id": "CREEK",
+      "endpoint": "100.91.42.51:8789",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8789"
+      "id": "CREEK"
     },
     {
-      "id": "STREAM",
+      "endpoint": "100.91.42.51:8790",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8790"
+      "id": "STREAM"
     },
     {
-      "id": "MEADOW",
+      "endpoint": "100.91.42.51:8791",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8791"
+      "id": "MEADOW"
     },
     {
-      "id": "BROOK",
+      "endpoint": "100.91.42.51:8792",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8792"
+      "id": "BROOK"
     },
     {
-      "id": "MIST",
+      "endpoint": "100.91.42.51:8793",
       "group": "tidal",
-      "endpoint": "100.91.42.51:8793"
+      "id": "MIST"
     },
     {
-      "id": "BEACON",
+      "endpoint": "100.99.217.90:8787",
       "group": "beacon",
-      "endpoint": "100.99.217.90:8787"
+      "id": "BEACON"
     },
     {
-      "id": "HIGHBEAM",
+      "endpoint": "100.81.147.28:8787",
       "group": "beacon",
-      "endpoint": "100.81.147.28:8787"
+      "id": "HIGHBEAM"
     },
     {
-      "id": "LANTERN",
+      "endpoint": "100.76.139.96:8787",
       "group": "beacon",
-      "endpoint": "100.76.139.96:8787"
+      "id": "LANTERN"
     },
     {
-      "id": "LIGHTNING",
+      "endpoint": "100.69.40.118:8787",
       "group": "beacon",
-      "endpoint": "100.69.40.118:8787"
+      "id": "LIGHTNING"
     },
     {
-      "id": "RADAR",
+      "endpoint": "100.125.26.66:8787",
       "group": "beacon",
-      "endpoint": "100.125.26.66:8787"
+      "id": "RADAR"
     },
     {
-      "id": "PRISM",
+      "endpoint": "100.100.158.42:8787",
       "group": "beacon",
-      "endpoint": "100.100.158.42:8787"
+      "id": "PRISM"
     },
     {
-      "id": "MOUNTAIN",
+      "endpoint": "100.114.14.116:8787",
       "group": "mountain",
-      "endpoint": "100.114.14.116:8787"
+      "id": "MOUNTAIN"
     },
     {
-      "id": "CANYON",
+      "endpoint": "100.114.14.116:8791",
       "group": "mountain",
-      "endpoint": "100.114.14.116:8791"
+      "id": "CANYON"
     },
     {
-      "id": "RIDGE",
+      "endpoint": "100.114.14.116:8792",
       "group": "mountain",
-      "endpoint": "100.114.14.116:8792"
+      "id": "RIDGE"
     },
     {
-      "id": "HARBOR",
+      "endpoint": "100.114.14.116:8793",
       "group": "mountain",
-      "endpoint": "100.114.14.116:8793"
+      "id": "HARBOR"
     },
     {
-      "id": "DELTA",
+      "endpoint": "100.114.14.116:8794",
       "group": "mountain",
-      "endpoint": "100.114.14.116:8794"
+      "id": "DELTA"
     },
     {
-      "id": "MESA",
-      "group": "mountain",
       "endpoint": "100.114.14.116:8795",
       "staged": true,
-      "staged_note": "mesa<->tidal-group legs uncredentialed; Mountain/Josh mint+relay path per W-348 record"
+      "staged_note": "river<->mesa leg uncredentialed (no labeled half relayed to river yet); TIDAL<->mesa live since 2026-09-20 W-356 on Mountain's resent 01:56Z mint (Josh's 00:16:25Z remove-hold word) - river's half rides the same Mountain/Josh relay lane",
+      "group": "mountain",
+      "id": "MESA"
     },
     {
       "endpoint": "100.114.14.116:8796",
@@ -111,5 +109,7 @@
       "id": "PULSAR",
       "note": "Beacon-box 7th agent (security sentinel, Qwen 3.8 27B); Beacon mint ~22:26Z relayed 22:28:10Z; mapping verified 6/6 vs Beacon's 00:17:56Z first-hand confirm-back (pulsar's own mint order); TIDAL<->PULSAR two-way green 00:28Z Waking-352 per Josh's 00:16:25Z 'Remove hold on new agents and install their keys'; sibling halves relayed one-labeled-token-each"
     }
-  ]
+  ],
+  "purpose": "Public endpoint inventory for direct, on-demand fleet delivery. No credentials belong in this file.",
+  "schema": "fleet-mesh/v1"
 }
