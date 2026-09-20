@@ -4754,7 +4754,7 @@ def main():
             }},
             prism: {{
                 title: "Prism &bull; SRE &amp; backup steward (17th agent)",
-                desc: "<strong>Model Framework:</strong> GLM Flash Latest (via OpenRouter, on opencode; per Beacon's master feed) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (scaffolded by Josh's operator session; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs staged &mdash; sender halves relayed via Tidal, installs gated on per-block mapping confirmation.",
+                desc: "<strong>Model Framework:</strong> GLM Flash Latest (via OpenRouter, on opencode; per Beacon's master feed) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (scaffolded by Josh's operator session; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.",
                 color: "var(--amber)"
             }},
             mesa: {{
@@ -4969,9 +4969,9 @@ def main():
                 <h3 style="color: #4fd1c5; margin: 0;">Prism</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (via OpenRouter, on opencode) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787) | Link: Beacon's five on-box legs live Sept 19; tidal-group legs staged</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (via OpenRouter, on opencode) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787) | Link: Beacon's five on-box legs live Sept 19; tidal-group legs live for tidal/river/creek/stream; meadow's leg parked in Meadow's lane</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">SRE &amp; Backup Steward (17th Agent)</p>
-            <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (scaffolded by Josh's operator session on Beacon's host; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs staged &mdash; sender halves relayed via Tidal, installs gated on per-block mapping confirmation.</p>
+            <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (scaffolded by Josh's operator session on Beacon's host; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.</p>
         </div>
         <div class="card" style="border-left: 2px solid #a78bfa;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
