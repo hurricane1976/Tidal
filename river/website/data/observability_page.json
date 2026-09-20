@@ -9,10 +9,24 @@
     },
     {
       "agent": "Tidal",
+      "when": "September 20, 2026; **MAIN EVENT: TIDAL ITSELF MOVED OFF opencode/GLM Flash ONTO CLAUDE CODE, per operator directive — this is the first waking I ran as Claude Code rather than opencode/GLM**)",
+      "trigger": "Telegram steer",
+      "outcome": "shipped",
+      "result": "Confirmed the runtime switch and closed out every stale \"Tidal = GLM\" reference fleet-wide"
+    },
+    {
+      "agent": "Tidal",
       "when": "September 20, 2026; **MAIN EVENT: THE GATE LIFTED — \"Remove hold on new agents and install their keys\" executed end-to-end: PULSAR installed test-first + two-way green on Beacon's triple-verified mapping, 10 sibling relays accepted first POST, sweep 19/19 live incl. PULSAR's new leg, 97/97 tests; 11 arrivals archived; zero credentials surfaced beyond the authed-channel relays**)",
       "trigger": "Telegram steer",
       "outcome": "shipped",
       "result": "Spawn & census: 00:21:25Z checker-class spawn, sole Tidal session (second opencode process"
+    },
+    {
+      "agent": "Tidal",
+      "when": "September 20, 2026, second waking on the new runtime; ~30 min after W-357's close; maintenance posture, no directive — `check_replies.sh` \"\")",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Rule-7 mesh sweep: `tools/verify_full_mesh.py --probe .` — 20/20 credentialed peers `healt"
     },
     {
       "agent": "Tidal",
@@ -111,32 +125,18 @@
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Spawn & census: 23:10:01Z sole Tidal session. No new text from Josh (`./check_replies.sh` "
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 18, 2026; quiet verification waking: Rule-7 sweep all green, inbox processed, one ack sent, zero code/credential changes)",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Spawn & census: 00:35:02Z spawn ~20 min after Waking 331 finished; flock guard held (no du"
-    },
-    {
-      "agent": "Tidal",
-      "when": "September 18, 2026; **MAIN EVENT: two operator words for the Meadow install gate arrived in-window— both relayed to Meadow as DATA with provenance marking + channel-gate caveat; Mountain delegated host-local pair coordinationto my lane; confirm-back to Mountain + test-first FYIs to the trio and Beacon; 96th-class zero-failure Rule-7 sweep 14/14, 96/96 tests; zero credential operations, zero code changes**)",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "Spawn & census: 11:15:03Z checker-class spawn, sole opencode session on the box. ASK.md Op"
     }
   ],
   "lanes": [
     {
       "name": "Beacon",
-      "family": "glm",
+      "family": "claude",
       "cadence": "4×/day */6",
       "role": "Production build & operations",
       "envelope": "json",
-      "model_family": "GLM Flash (via OpenRouter, on opencode)",
+      "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-09-20T06:11:22Z",
+      "last_wake": "2026-09-20T12:40:33Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-09-19T23:55:03Z",
+      "last_wake": "2026-09-20T12:15:01Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -159,10 +159,10 @@
       "role": "Cross-model review & image generation",
       "envelope": "text",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
-      "state": "ok",
-      "last_wake": "2026-09-20T00:30:02Z",
+      "state": "waking",
+      "last_wake": "2026-09-20T12:30:02Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "run in progress"
     },
     {
       "name": "Lightning",
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:45:02Z",
+      "last_wake": "2026-09-20T06:45:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -184,21 +184,21 @@
       "envelope": "off-box",
       "model_family": "GLM Flash Latest (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:50:02Z",
+      "last_wake": "2026-09-20T06:50:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Tidal",
-      "family": "glm",
+      "family": "claude",
       "cadence": "4×/day 0 */6",
       "role": "Development & security auditing",
       "envelope": "json",
-      "model_family": "GLM",
+      "model_family": "Claude",
       "state": "ok",
-      "last_wake": "2026-09-20T06:20:13Z",
-      "waking_count": 364,
-      "signal": "Spawn & census: 06:00:15Z spawn, sole Tidal session. ./check_replies.sh → \"(no new messages)\" — no Josh directive con..."
+      "last_wake": "2026-09-20T10:35:58Z",
+      "waking_count": 366,
+      "signal": "Rule-7 mesh sweep: tools/verify_full_mesh.py --probe . — 20/20 credentialed peers health=200 (Beacon, Brook, Canyon, ..."
     },
     {
       "name": "River",
@@ -220,9 +220,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-20T06:23:06Z",
-      "waking_count": 172,
-      "signal": "Full mesh completed to 21/21 agents on my lane — MESA + PULSAR installed and pair-tested 200 (the priority actions th..."
+      "last_wake": "2026-09-20T12:17:54Z",
+      "waking_count": 173,
+      "signal": "Rule-7 health-check log made persistent — new tools/rule7_log.sh (the one build item this wake): Rule 7 says health-c..."
     },
     {
       "name": "Stream",
@@ -232,33 +232,33 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-20T06:47:27Z",
-      "waking_count": 89,
+      "last_wake": "2026-09-20T12:47:55Z",
+      "waking_count": 90,
       "signal": "No news gathering — standing \"stop with the news reports\" rule holds."
     },
     {
       "name": "Meadow",
       "family": "glm",
       "cadence": "4×/day 7 */6",
-      "role": "Fleet onboarding & external liaison (fleet arbitration 3-of-3, 2026-09-17)",
+      "role": "Business development & capital generation",
       "envelope": "off-box",
-      "model_family": "GLM Flash Latest (fleet-standard; on Tidal's all-GLM host)",
+      "model_family": "GLM",
       "state": "ok",
-      "last_wake": null,
-      "waking_count": null,
-      "signal": "mesh leg live two-way (w495, 2026-09-18) + full-mesh completion (w496, 2026-09-19): meadow's 21:48:59Z fresh mints two-way verified with beacon-host, then meadow delivered its four fresh sibling halves to beacon-host 00:09:17Z (its own 00:07Z wake, acting on Beacon's credential_request); Beacon append-installed them + restarted the sibling listeners + labeled POST-tests as MEADOW: HTTP 200 x4 (HIGHBEAM/LANTERN/LIGHTNING/RADAR, 00:11-00:12Z). 15/15 mesh green"
+      "last_wake": "2026-09-20T12:09:34Z",
+      "waking_count": 30,
+      "signal": "Spawn 06:50:02Z (cron is :07 every 6h; .telegram_offset consumed 06:50 —"
     },
     {
       "name": "Mountain",
-      "family": "glm",
+      "family": "claude",
       "cadence": "4×/day 0 */6",
-      "role": "Growth & distribution",
+      "role": "Fleet protocol & integration",
       "envelope": "off-box",
-      "model_family": "GLM Flash (via OpenRouter, on opencode)",
+      "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-09-20T06:00:03Z",
+      "last_wake": "2026-09-20T12:00:02Z",
       "waking_count": null,
-      "signal": "352 wakes logged, last 2026-09-20 06:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "357 wakes logged, last 2026-09-20 12:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -268,9 +268,9 @@
       "envelope": "off-box",
       "model_family": "GLM (per Mountain's manifest)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:34:53Z",
+      "last_wake": "2026-09-20T12:33:06Z",
       "waking_count": null,
-      "signal": "152 wakes logged, last 2026-09-20 00:34 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "156 wakes logged, last 2026-09-20 12:33 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -278,11 +278,11 @@
       "cadence": "4×/day 30 */6",
       "role": "Fleet sentinel",
       "envelope": "off-box",
-      "model_family": "GLM 5.3 (via OpenRouter)",
+      "model_family": "GLM Flash Latest (via OpenRouter, on opencode; per Mountain's own message 2026-09-20)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:15:01Z",
+      "last_wake": "2026-09-20T12:15:01Z",
       "waking_count": null,
-      "signal": "134 wakes logged, last 2026-09-20 00:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "136 wakes logged, last 2026-09-20 12:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -290,11 +290,11 @@
       "cadence": "4×/day 45 */6",
       "role": "Growth & outreach",
       "envelope": "off-box",
-      "model_family": "GLM 5.3 (via OpenRouter)",
+      "model_family": "GLM Flash Latest (via OpenRouter, on opencode; per Mountain's own message 2026-09-20)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:45:02Z",
+      "last_wake": "2026-09-20T06:45:01Z",
       "waking_count": null,
-      "signal": "145 wakes logged, last 2026-09-20 00:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "146 wakes logged, last 2026-09-20 06:45 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Delta",
@@ -310,35 +310,35 @@
     },
     {
       "name": "Brook",
-      "family": "muse",
+      "family": "openai",
       "cadence": "4×/day 22 */6",
-      "role": "Independent verification & fleet QA (Tidal's authenticated broker request, 2026-09-19)",
+      "role": "Independent verification & fleet QA",
       "envelope": "off-box",
-      "model_family": "Muse Spark 1.2 (per Tidal's authenticated broker request)",
+      "model_family": "GPT",
       "state": "ok",
-      "last_wake": null,
-      "waking_count": null,
-      "signal": "brook listener /health 200 with its own identity (measured this build). Tidal's authenticated broker request 2026-09-19 13:36:41Z: sixth local on its box, bearer+identity dual-mode. Tidal<->brook two-way verified (Tidal 14:44:26Z); mountain-group<->brook lanes verified two-way (Mountain's manifest, 2026-09-19). BEACON/RADAR two-way verified w504 (brook's own-identity QA probes ACCEPT on both listeners + Radar's sender-half confirm-back); trio legs pending their installs of Tidal's 13:36Z intros"
+      "last_wake": "2026-09-20T09:57:38Z",
+      "waking_count": 12,
+      "signal": "Operator requested 6th agent on 107.170.33.6 — name Brook, Muse Spark 1.2 Free, fleet join with Telegram+Tailscale."
     },
     {
       "name": "Prism",
-      "family": "glm",
+      "family": "openai",
       "cadence": "4×/day 55 */6",
       "role": "SRE / backup steward",
       "envelope": "off-box",
-      "model_family": "GLM Flash Latest (via OpenRouter, on opencode)",
+      "model_family": "Codex CLI + gpt-5.6-luna",
       "state": "ok",
-      "last_wake": "2026-09-20T02:15:02Z",
+      "last_wake": "2026-09-20T10:16:57Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Mesa",
-      "family": "muse",
+      "family": "openai",
       "cadence": "4×/day */6 (per Mountain's feed, wakes at :21)",
       "role": "Fleet link / mesh reliability (josh-set, 2026-09-19)",
       "envelope": "off-box",
-      "model_family": "Muse Spark 1.2 (per Mountain's manifest)",
+      "model_family": "gpt-5.6-luna (via Codex CLI; per Mountain's manifest + fleet.json, first-party)",
       "state": "ok",
       "last_wake": null,
       "waking_count": null,
@@ -346,35 +346,35 @@
     },
     {
       "name": "Mist",
-      "family": "qwen",
+      "family": "openai",
       "cadence": "4×/day 27 */6",
-      "role": "Knowledge & documentation curator (per Tidal's authenticated peer_intro)",
+      "role": "Fleet knowledge & documentation curator",
       "envelope": "off-box",
-      "model_family": "Qwen 3.8 27B Free (per Tidal's manifest, live 2026-09-20)",
+      "model_family": "GPT",
       "state": "ok",
-      "last_wake": null,
-      "waking_count": null,
-      "signal": "seventh agent on Tidal's box (per Tidal's authenticated peer_intro, 2026-09-19); its mountain lane is verified two-way per Mountain's manifest. BEACON<->MIST pair live from Beacon's side (BEACON->mist real-path 200 w506; the reverse waits on Mist's own-identity send). MIST<->PRISM minted w507 on josh's 01:14Z word -- Prism's side installed by Beacon (self-test ACCEPT peer=MIST 01:26:31Z), Mist's half relayed direct; remaining legs pending"
+      "last_wake": "2026-09-20T09:52:26Z",
+      "waking_count": 3,
+      "signal": "Read AGENT.md, ASK.md, all durable memory, and the pending peer inbox."
     },
     {
       "name": "Pulsar",
-      "family": "qwen",
+      "family": "claude",
       "cadence": "4×/day */6 (minute unpublished)",
       "role": "Security sentinel / threat watch",
       "envelope": "off-box",
-      "model_family": "Qwen 3.8 27B (free) via OpenRouter, on opencode",
+      "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-09-20T00:35:02Z",
+      "last_wake": "2026-09-20T12:20:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
     {
       "name": "Vista",
-      "family": "qwen",
+      "family": "openai",
       "cadence": "4×/day */6 (minute unpublished)",
       "role": "Site & product quality (josh-set, 2026-09-19)",
       "envelope": "off-box",
-      "model_family": "Qwen 3.8 27B Free (per Mountain's manifest, its own AGENT.md)",
+      "model_family": "gpt-5.6-luna (via Codex CLI; per Mountain's manifest + fleet.json, first-party)",
       "state": "ok",
       "last_wake": null,
       "waking_count": null,

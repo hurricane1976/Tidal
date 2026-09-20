@@ -153,9 +153,11 @@ def estimate_cost_if_null(r: dict) -> None:
     # migration windows and price post-migration runs at GLM Flash rates.
     _CLAUDE_ERA_END = "2026-09-15T20:00"   # Beacon/Highbeam/Mountain off Claude
     _DEEPSEEK_ERA_END = "2026-09-16T06:15"  # Creek/Stream/Lightning/Canyon off DeepSeek
+    _TIDAL_CLAUDE_START = "2026-09-20T10:00"  # Tidal off GLM Flash, onto Claude Code (Sonnet)
     ts = str(r.get("ts") or "")
     post_claude = ts >= _CLAUDE_ERA_END if ts else False
     post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
+    tidal_on_claude = ts >= _TIDAL_CLAUDE_START if ts else False
 
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
@@ -171,7 +173,8 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "deepseek" in model.lower() or (agent in ("Creek", "Stream", "Canyon", "Lightning") and not post_deepseek):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
-    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River", "Lantern") or \
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("River", "Lantern") or \
+            (agent == "Tidal" and not tidal_on_claude) or \
             (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
             (agent in ("Mountain", "Beacon", "Highbeam") and post_claude):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
@@ -193,7 +196,8 @@ def estimate_cost_if_null(r: dict) -> None:
                         (output_tokens * (1.20 / 1000000.0)) + \
                         (cache_read * (0.02 / 1000000.0))
     elif "claude" in model.lower() or "sonnet" in model.lower() or \
-            (agent in ("Mountain", "Beacon", "Highbeam") and not post_claude):
+            (agent in ("Mountain", "Beacon", "Highbeam") and not post_claude) or \
+            (agent == "Tidal" and tidal_on_claude):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
 
@@ -395,6 +399,15 @@ AGENT_METADATA = {
     # 2026-09-19, then migrated to GLM Flash Latest (via OpenRouter, on
     # opencode) -- Josh's 2026-09-20 01:28:03Z correction ("Radar does not
     # use Claude"), confirmed by Beacon's master feed.
+    # Sept 20, 2026 model changes: BEACON and PULSAR now publish "Claude Code
+    # (Sonnet)" in Beacon's master feed and MOUNTAIN's first-party agent.json
+    # reports Claude Sonnet 5 via Claude Code ("2026-09-20 engine switch
+    # back") -> family claude (with Tidal: four Claude nodes). PRISM's feed
+    # string is "Codex CLI + gpt-5.6-luna" and BROOK/MIST's own wake.sh run
+    # `codex exec -m gpt-5.6-luna` (operator directive 2026-09-20) -> family
+    # openai. Later the same day Mountain's first-party agent.json/fleet.json
+    # (12:01Z, per wake.sh + wake log) moved MESA and VISTA to openai too (five
+    # nodes); the muse and qwen families have no live agents left; rest glm.
     # Cadences: Tidal-quartet rows are ground truth from the crontab
     # (now `0,15,30,45 */6`, 4 wakings/day each). Mountain-group rows
     # (Mountain/Canyon/Ridge/Harbor) confirmed at 0,15,30,45 */6 by Mountain's
@@ -404,29 +417,30 @@ AGENT_METADATA = {
     # 50 */6 by his hand) + its fresh agent.json "4x/day" (00:08:31Z);
     # per-agent minute patterns not published, so rows carry the group-level
     # pattern only. RADAR row per Beacon's same note.
-    "Beacon": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Beacon": {"family": "claude", "cadence": "4&times;/day <code>*/6</code>", "role": "build &amp; operations", "envelope": "json"},
     "Highbeam": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Radar": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
-    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
     "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
-    "Mountain": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "growth &amp; distribution", "envelope": "off-box"},
+    "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
     "Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
     # Sept 19, 2026 expansion wave (Josh's directive: account for all 18):
-    "Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
-    "Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
-    "Mesa": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
-    # Sept 19, 2026 second wave (Waking 350, fleet 21 -- all three Qwen 3.8 27B):
-    "Mist": {"family": "qwen", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
-    "Pulsar": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
-    "Vista": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+    "Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
+    "Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
+    "Mesa": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
+    # Sept 19, 2026 second wave (Waking 350, fleet 21 -- launched on Qwen 3.8
+    # 27B; Mist and Pulsar have since moved, see the Sept 20 note below):
+    "Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
+    "Pulsar": {"family": "claude", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
+    "Vista": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
@@ -436,9 +450,15 @@ AGENT_METADATA = {
 # family is glm -- migrated off Claude Code Sonnet Sept 19 per Josh's
 # 01:28:03Z correction -- so the glm fallback carries the honest GLM label;
 # Beacon's master feed also publishes radar's model string directly).
+# Sept-20 (later): Tidal itself moved OFF opencode/GLM Flash ONTO Claude
+# Code (Sonnet) per operator directive (wake.sh now invokes `claude -p`) --
+# the reverse of Radar's move above. fleet.json has no "model" field for
+# the local Tidal row, so this fallback is what actually renders.
 FALLBACK_MODEL_FAMILY = {
+    "openai": "gpt-5.6-luna (via Codex CLI)",
     "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
+    "claude": "Claude Code (Sonnet)",
 }
 
 def fetch_remote_fleet() -> list[dict]:
@@ -590,6 +610,8 @@ def _system_of_model(model) -> str:
         return "deepseek"
     if "glm" in m:
         return "zhipu"
+    if "gpt" in m or "luna" in m or "codex" in m:
+        return "openai"
     return "unknown"
 
 
