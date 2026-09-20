@@ -551,12 +551,53 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
   .fleet-aurora {
-    animation: fleet-aurora-spin 20s linear infinite;
+    animation: fleet-aurora-spin 20s linear infinite, fleet-aurora-hue 14s ease-in-out infinite;
   }
 }
 
 @keyframes fleet-aurora-spin {
   to { --fleet-angle: 360deg; }
+}
+
+/* Layered on top of the conic rotation: a slow hue drift so the wash's own
+   colors keep shifting independently of the rotation, instead of five fixed
+   hues just spinning in place. */
+@keyframes fleet-aurora-hue {
+  0%, 100% { filter: blur(60px) hue-rotate(0deg); }
+  50%      { filter: blur(60px) hue-rotate(35deg); }
+}
+
+/* Moving-color "tide current" gradient laid under the trunk channels' crisp
+   lines -- three gradient stops cycle independently through the fleet's
+   family palette (cyan/magenta/red) on staggered offsets, so each trunk
+   reads as flowing current rather than a static wire. Purely CSS: animating
+   SVG <stop stop-color> is compositor-friendly and needs no JS/rAF loop. */
+.tide-current-stop-a { animation: tide-current-cycle 10s ease-in-out infinite; }
+.tide-current-stop-b { animation: tide-current-cycle 10s ease-in-out infinite -3.3s; }
+.tide-current-stop-c { animation: tide-current-cycle 10s ease-in-out infinite -6.6s; }
+
+@keyframes tide-current-cycle {
+  0%   { stop-color: var(--fleet-chan-tailscale); }
+  33%  { stop-color: var(--fleet-glm); }
+  66%  { stop-color: var(--fleet-openai); }
+  100% { stop-color: var(--fleet-chan-tailscale); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tide-current-stop-a, .tide-current-stop-b, .tide-current-stop-c { animation: none; }
+}
+
+.tide-current-wash {
+  mix-blend-mode: screen;
+  animation: tide-current-flow 5s linear infinite;
+}
+
+@keyframes tide-current-flow {
+  to { stroke-dashoffset: -240; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tide-current-wash { animation: none; }
 }
 
 /* Sci-fi HUD scan beam -- a soft light bar sweeping down the frame, layered
@@ -1055,6 +1096,79 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .card-enter { animation: none; }
+}
+
+/* Kinetic hero headline -- a single hero-level moment (2026 trend research:
+   this reads as polish only when used sparingly, not page-wide), animating
+   the same teal -> tide -> amber identity gradient (--tidewave) as a moving
+   fill across the H1 instead of a flat static color. */
+.kinetic-title {
+  background: linear-gradient(
+    100deg,
+    var(--teal) 0%,
+    var(--tide) 30%,
+    var(--tide-bright) 50%,
+    var(--amber-soft) 70%,
+    var(--teal) 100%
+  );
+  background-size: 240% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kinetic-title {
+    animation: kinetic-title-drift 9s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes kinetic-title-drift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Sitewide "rising tide" scroll-progress bar -- a thin fixed strip under the
+   header that fills left-to-right as the page scrolls, using the native CSS
+   scroll-driven animation timeline (baseline across major browsers in 2026)
+   instead of a scroll-listener + rAF loop. Progressive enhancement only:
+   browsers without scroll-timeline support simply never see the element. */
+.tide-progress {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 200;
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--teal), var(--tide), var(--tide-bright), var(--amber-soft));
+  background-size: 260% 100%;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .tide-progress {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tide-progress {
+      animation: tide-progress-fill linear, tide-progress-hue 6s linear infinite;
+      animation-timeline: scroll(root), auto;
+    }
+  }
+}
+
+@keyframes tide-progress-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes tide-progress-hue {
+  to { background-position: 260% 0%; }
 }
 
 /* Bars that rise into place instead of appearing pre-grown */

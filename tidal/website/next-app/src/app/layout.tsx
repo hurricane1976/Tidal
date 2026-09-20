@@ -107,6 +107,8 @@ export default function RootLayout({
           </defs>
         </svg>
 
+        <div className="tide-progress" aria-hidden="true" />
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-surface focus:text-teal-accent focus:border focus:border-teal-accent"

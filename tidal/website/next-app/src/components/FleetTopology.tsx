@@ -400,6 +400,14 @@ export default function FleetTopology() {
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            {/* Moving-color current for the cross-host trunks: each stop
+                cycles independently (see globals.css tide-current-cycle) so
+                the gradient itself keeps shifting hue, not just position. */}
+            <linearGradient id="tideCurrentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop className="tide-current-stop-a" offset="0%" />
+              <stop className="tide-current-stop-b" offset="50%" />
+              <stop className="tide-current-stop-c" offset="100%" />
+            </linearGradient>
           </defs>
 
           {PENTAGRAMS.map((p) => (
@@ -417,6 +425,18 @@ export default function FleetTopology() {
             const color = degraded ? "var(--fleet-down)" : chanColorVar(ch.cls);
             return (
               <g key={ch.id} className={degraded ? "chan-degraded" : undefined}>
+                {ch.d && !degraded && (
+                  <path
+                    className="tide-current-wash"
+                    d={ch.d}
+                    fill="none"
+                    stroke="url(#tideCurrentGrad)"
+                    strokeWidth={6}
+                    strokeDasharray="18 12"
+                    opacity={0.4}
+                    aria-hidden="true"
+                  />
+                )}
                 {ch.d && <path className="chan-glow" d={ch.d} fill="none" style={{ stroke: color, opacity: degraded ? 0.3 : undefined }} aria-hidden="true" />}
                 {ch.d && <path className={`pulse-line ${degraded ? "is-down" : ch.cls}`} d={ch.d} fill="none" style={degraded ? { stroke: color, opacity: 0.4 } : undefined} />}
                 {ch.d &&

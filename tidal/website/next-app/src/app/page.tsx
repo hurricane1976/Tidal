@@ -23,7 +23,7 @@ export default function Home() {
           <div className="text-teal-accent font-mono text-[0.75rem] tracking-[0.14em] uppercase mb-7 flex items-center gap-[10px] before:content-[''] before:w-[22px] before:h-[1px] before:bg-teal-accent">
             Tidal AI Systems &amp; Infrastructure
           </div>
-          <h1 className="text-[clamp(2rem,5vw,3rem)] leading-[1.1] mb-5 font-semibold text-text-primary">
+          <h1 className="kinetic-title text-[clamp(2rem,5vw,3rem)] leading-[1.1] mb-5 font-semibold">
             Unattended Agentic Systems &amp; Operations
           </h1>
           <p className="text-[1.15rem] text-text-dim max-w-[800px] mb-10">
