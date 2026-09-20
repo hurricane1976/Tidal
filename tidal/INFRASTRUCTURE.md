@@ -45,7 +45,7 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 
 | Agent | Role | Wake Offset | Cron Schedule | Model Family |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | GLM |
+| **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | Claude (Sonnet) |
 | **Creek** | Security Sentinel | 15m Mark (Every 6h) | `15 */6 * * *` | GLM |
 | **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | GLM |
 | **Stream** | Research & Context | 45m Mark (Every 6h) | `45 */6 * * *` | GLM |

@@ -26,7 +26,7 @@ interface InteragentPayload {
 }
 
 const NODE_META: Record<string, { group: string; family: string; role: string; color: string }> = {
-  tidal: { group: "This box", family: "GLM", role: "Development & security", color: "var(--teal)" },
+  tidal: { group: "This box", family: "Claude", role: "Development & security", color: "var(--teal)" },
   river: { group: "This box", family: "GLM", role: "Systems operations", color: "var(--teal)" },
   creek: { group: "This box", family: "GLM", role: "Security sentinel", color: "var(--blue)" },
   stream: { group: "This box", family: "GLM", role: "Research & context", color: "var(--blue)" },

@@ -518,16 +518,32 @@ _Nothing awaiting a decision right now._
                 self.assertIn("Contact: https://tidalwake.org/portfolio.html", content)
 
     def test_manifest_glm_flash_migration(self):
-        """Tidal, River, and Lantern moved off Gemini to GLM Flash (operator
-        directive 2026-09-09); the manifest must not regress to stale families."""
+        """River and Lantern moved off Gemini to GLM Flash (operator
+        directive 2026-09-09); the manifest must not regress to stale families.
+        Tidal itself was part of that same migration but moved again on
+        2026-09-20 (operator directive) off opencode/GLM Flash onto Claude
+        Code (Sonnet) -- covered separately below."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
-        for name in ("Tidal", "River", "Lantern"):
+        for name in ("River", "Lantern"):
             if name in families:
                 self.assertEqual(families[name], "GLM",
                                  f"{name} should be listed under the GLM family after the GLM Flash migration")
+
+    def test_manifest_tidal_claude_migration(self):
+        """Sept 20, 2026 (operator directive): Tidal itself moved off
+        opencode/GLM Flash onto Claude Code (Sonnet) -- wake.sh now invokes
+        `claude -p`. The manifest's Tidal row (and top-level framework/
+        model_family) must reflect Claude, not GLM."""
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        self.assertIn("Claude", data.get("model_family", ""))
+        self.assertIn("Claude Code", data.get("framework", ""))
+        families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
+        self.assertIn("Claude", families.get("Tidal", ""))
 
     def test_manifest_claude_code_removal_migration(self):
         """Beacon, Highbeam, and Mountain moved off Claude to GLM Flash via
@@ -556,10 +572,11 @@ _Nothing awaiting a decision right now._
                                  f"{name} should be listed under the GLM family after the Sept-16 GLM-flash-latest migration")
 
     def test_wake_configs_glm_flash_latest(self):
-        """All four on-box wake.sh files must launch GLM Flash latest via the
-        ~z-ai/glm-flash-latest alias (operator directive 2026-09-16)."""
-        for agent, base in (("tidal", "/home/agent/agent"),
-                            ("river", "/home/agent/River"),
+        """River, Creek, and Stream must launch GLM Flash latest via the
+        ~z-ai/glm-flash-latest alias (operator directive 2026-09-16). Tidal
+        itself moved off this alias onto Claude Code on 2026-09-20 -- covered
+        separately below."""
+        for agent, base in (("river", "/home/agent/River"),
                             ("creek", "/home/agent/Creek"),
                             ("stream", "/home/agent/Stream")):
             path = os.path.join(base, "wake.sh")
@@ -571,6 +588,19 @@ _Nothing awaiting a decision right now._
                           f"{agent}'s wake.sh must launch GLM Flash latest")
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
+
+    def test_wake_config_tidal_claude_code(self):
+        """Sept 20, 2026 (operator directive): Tidal's wake.sh moved off
+        opencode/GLM Flash onto Claude Code -- it must invoke `claude -p`
+        with bypassPermissions (unattended cron wake, no TTY to answer a
+        prompt) and no longer reference the GLM Flash alias."""
+        path = os.path.join("/home/agent/agent", "wake.sh")
+        with open(path, "r") as f:
+            content = f.read()
+        self.assertIn("claude -p", content)
+        self.assertIn("--permission-mode bypassPermissions", content)
+        self.assertNotIn("openrouter/~z-ai/glm-flash-latest", content,
+                         "tidal's wake.sh must not regress to the GLM Flash alias")
 
     def test_cadence_6h_supersede(self):
         """Cadence supersede (2026-09-16): the operator's every-5h directive
@@ -612,8 +642,7 @@ _Nothing awaiting a decision right now._
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()
-        for name, pattern in (("Tidal", "4&times;/day <code>0&nbsp;*/6</code>"),
-                              ("River", "4&times;/day <code>30&nbsp;*/6</code>"),
+        for name, pattern in (("River", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Creek", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Stream", "4&times;/day <code>45&nbsp;*/6</code>"),
                               ("Mountain", "4&times;/day <code>0&nbsp;*/6</code>"),
@@ -622,6 +651,11 @@ _Nothing awaiting a decision right now._
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
             self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
+        # Sept 20, 2026 (operator directive): Tidal itself moved off
+        # opencode/GLM Flash onto Claude Code (Sonnet); its AGENT_METADATA
+        # family flips to claude while its cadence stays the same.
+        self.assertIn('"Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>"', obs,
+                      "observability AGENT_METADATA Tidal row must be the every-6h cadence, claude family")
         for name, pattern in (("Beacon", "4&times;/day <code>*/6</code>"),
                               ("Highbeam", "4&times;/day <code>*/6</code>"),
                               ("Lantern", "4&times;/day <code>*/6</code>"),
@@ -747,7 +781,8 @@ _Nothing awaiting a decision right now._
         remain. The Sept 19 expansion wave adds two exceptions: Brook (16th)
         and Mesa (18th) run Muse Spark 1.2 (the fleet's third model family,
         per Waking 347/348 ground truth), and the second wave (Mist/Pulsar/
-        Vista) runs Qwen 3.8 27B."""
+        Vista) runs Qwen 3.8 27B. Tidal itself moved off opencode/GLM Flash
+        onto Claude Code (Sonnet) per operator directive 2026-09-20."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -756,7 +791,8 @@ _Nothing awaiting a decision right now._
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
             expected = {"Brook": "muse", "Mesa": "muse",
-                        "Mist": "qwen", "Pulsar": "qwen", "Vista": "qwen"}.get(name, "glm")
+                        "Mist": "qwen", "Pulsar": "qwen", "Vista": "qwen",
+                        "Tidal": "claude"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
@@ -810,7 +846,7 @@ _Nothing awaiting a decision right now._
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Claude"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 
@@ -1477,9 +1513,16 @@ _Nothing awaiting a decision right now._
                 # Sept 20, 2026 (Waking 354): the Claude legend chip retired
                 # again (radar moved to GLM on Josh's correction -- no live
                 # Claude nodes remain); the three chips re-spaced GLM/Muse/Qwen.
-                self.assertIn("{ family: \"Qwen\", x: 240 }", topo_src)
-                self.assertIn("{ family: \"Muse\", x: 150 }", topo_src)
-                self.assertIn("GLM chip = the whole founding tier + radar (GLM Flash since Sept 19)", topo_src)
+                # Sept 20, 2026 (later, operator directive): Tidal itself
+                # moves off opencode/GLM Flash onto Claude Code (Sonnet) --
+                # the Claude legend chip returns a third time (this time for
+                # Tidal) and the four chips re-space Claude/GLM/Muse/Qwen.
+                self.assertIn("{ family: \"Claude\", x: 60 }", topo_src)
+                self.assertIn("{ family: \"GLM\", x: 150 }", topo_src)
+                self.assertIn("{ family: \"Muse\", x: 240 }", topo_src)
+                self.assertIn("{ family: \"Qwen\", x: 330 }", topo_src)
+                self.assertIn("amber chip = tidal (Claude Code Sonnet since Sept 20)", topo_src)
+                self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
                 # Waking 356: mesa's tidal leg went live (Mountain's resent
                 # 01:56Z mint installed per Josh's 00:16:25Z remove-hold
                 # word) -- honest leg-state strings updated on every surface.
@@ -2627,14 +2670,16 @@ class TestObservability(unittest.TestCase):
         self.assertAlmostEqual(r_mountain_claude["cost_usd"], 18.00)
 
     def test_wake_script_uses_glm_flash_latest(self):
-        """wake.sh must invoke Tidal on the OpenRouter GLM Flash latest alias
-        (per the operator directive of 2026-09-09). The ~ alias always
-        redirects to the newest GLM Flash release."""
+        """wake.sh invoked Tidal on the OpenRouter GLM Flash latest alias from
+        2026-09-09 until 2026-09-20, when the operator moved Tidal onto
+        Claude Code (`claude -p --model sonnet`). wake.sh must not regress to
+        the old opencode/GLM invocation."""
         wake_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wake.sh"))
         with open(wake_path, "r") as f:
             content = f.read()
-        self.assertIn('--model "openrouter/~z-ai/glm-flash-latest"', content)
-        self.assertNotIn("z-ai/glm-5.3\n", content)
+        self.assertNotIn('--model "openrouter/~z-ai/glm-flash-latest"', content)
+        self.assertIn('claude -p "$PROMPT"', content)
+        self.assertIn('--model sonnet', content)
 
 
 class TestFleetTelemetry(unittest.TestCase):

@@ -50,7 +50,7 @@ export default function ObservabilityPage() {
         </svg>
         <h1 className="font-display text-[2rem] font-bold tracking-[-0.01em] mb-3 text-text-primary">Agentic observability</h1>
         <p className="text-text-dim text-[0.95rem] leading-relaxed">
-          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: twenty-one autonomous agents on cron, across three hosts and three live model families (GLM Flash, Muse Spark 1.2, Qwen 3.8 27B — the fleet left Claude behind Sept 15–19, Radar included per Josh's Sept 20 correction). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
+          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: twenty-one autonomous agents on cron, across three hosts and four live model families (Claude Code Sonnet, GLM Flash, Muse Spark 1.2, Qwen 3.8 27B — the fleet left Claude behind Sept 15–19 [Radar included per Josh's Sept 20 correction], then Tidal itself moved onto Claude Code Sonnet later that same day). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
         </p>
       </div>
 

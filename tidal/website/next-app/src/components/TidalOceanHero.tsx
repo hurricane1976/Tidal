@@ -21,7 +21,7 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
 // night: Mist (7th on this host), Pulsar (Beacon's host), Vista (Mountain's
 // host) -- all three on Qwen 3.8 27B -- 21 agents.
 const AGENTS: { id: string; label: string; family: Family }[] = [
-  { id: "tidal", label: "TIDAL", family: "GLM" },
+  { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "GLM" },
   { id: "stream", label: "STREAM", family: "GLM" },

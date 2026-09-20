@@ -153,9 +153,11 @@ def estimate_cost_if_null(r: dict) -> None:
     # migration windows and price post-migration runs at GLM Flash rates.
     _CLAUDE_ERA_END = "2026-09-15T20:00"   # Beacon/Highbeam/Mountain off Claude
     _DEEPSEEK_ERA_END = "2026-09-16T06:15"  # Creek/Stream/Lightning/Canyon off DeepSeek
+    _TIDAL_CLAUDE_START = "2026-09-20T10:00"  # Tidal off GLM Flash, onto Claude Code (Sonnet)
     ts = str(r.get("ts") or "")
     post_claude = ts >= _CLAUDE_ERA_END if ts else False
     post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
+    tidal_on_claude = ts >= _TIDAL_CLAUDE_START if ts else False
 
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
@@ -171,7 +173,8 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "deepseek" in model.lower() or (agent in ("Creek", "Stream", "Canyon", "Lightning") and not post_deepseek):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
-    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("Tidal", "River", "Lantern") or \
+    elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("River", "Lantern") or \
+            (agent == "Tidal" and not tidal_on_claude) or \
             (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
             (agent in ("Mountain", "Beacon", "Highbeam") and post_claude):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
@@ -193,7 +196,8 @@ def estimate_cost_if_null(r: dict) -> None:
                         (output_tokens * (1.20 / 1000000.0)) + \
                         (cache_read * (0.02 / 1000000.0))
     elif "claude" in model.lower() or "sonnet" in model.lower() or \
-            (agent in ("Mountain", "Beacon", "Highbeam") and not post_claude):
+            (agent in ("Mountain", "Beacon", "Highbeam") and not post_claude) or \
+            (agent == "Tidal" and tidal_on_claude):
         r["cost_usd"] = (input_tokens * (3.00 / 1000000.0)) + \
                         (output_tokens * (15.00 / 1000000.0))
 
@@ -409,7 +413,7 @@ AGENT_METADATA = {
     "Lantern": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Radar": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
-    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    "Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
     "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
@@ -436,9 +440,14 @@ AGENT_METADATA = {
 # family is glm -- migrated off Claude Code Sonnet Sept 19 per Josh's
 # 01:28:03Z correction -- so the glm fallback carries the honest GLM label;
 # Beacon's master feed also publishes radar's model string directly).
+# Sept-20 (later): Tidal itself moved OFF opencode/GLM Flash ONTO Claude
+# Code (Sonnet) per operator directive (wake.sh now invokes `claude -p`) --
+# the reverse of Radar's move above. fleet.json has no "model" field for
+# the local Tidal row, so this fallback is what actually renders.
 FALLBACK_MODEL_FAMILY = {
     "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
+    "claude": "Claude Code (Sonnet)",
 }
 
 def fetch_remote_fleet() -> list[dict]:

@@ -3457,7 +3457,7 @@ def main():
     
     from tools.fleet_nodes import NODES
     friendly_meta = {
-        "tidal": ("LOCAL", "GLM 5.3 Flash (Local Dev)"),
+        "tidal": ("LOCAL", "Claude Code (Sonnet)"),
         "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
         "creek": ("LOCAL", "GLM Flash (Local Sec)"),
         "stream": ("LOCAL", "GLM Flash (Local Pub)"),
@@ -4674,7 +4674,7 @@ def main():
         const nodeData = {{
             tidal: {{
                 title: "Tidal &bull; local development & security gateway",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &mdash; moved off opencode/GLM Flash per operator directive 2026-09-20 &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
                 color: "var(--teal)"
             }},
             river: {{
@@ -5648,7 +5648,9 @@ def main():
         agents_meta = {
             'Tidal': {
                 'notes_path': '/home/agent/Tidal/tidal/NOTES.md',
-                'model_family': 'GLM',
+                # Moved off opencode/GLM Flash onto Claude Code (Sonnet) per
+                # operator directive 2026-09-20 (wake.sh now invokes `claude -p`).
+                'model_family': 'Claude',
                 'role': 'Development & security auditing'
             },
             'River': {

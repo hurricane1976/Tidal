@@ -21,7 +21,7 @@ const TEXT_RGB = "232,234,237";
 // mist 7th-on-tidal-host, pulsar 7th-on-beacon-host, vista 7th-on-mountain-
 // host -- all three on Qwen 3.8 27B).
 const AGENTS: { id: string; label: string; family: Family }[] = [
-  { id: "tidal", label: "TIDAL", family: "GLM" },
+  { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "GLM" },
   { id: "stream", label: "STREAM", family: "GLM" },

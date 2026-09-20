@@ -60,7 +60,7 @@ PENTAGRAMS.forEach((p) => p.members.forEach((id, i) => { POS[id] = ringPos(p.cx,
 
 const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // TIDAL HOST pentagram (this box, tidalwake.org)
-  { id: "tidal", label: "TIDAL", family: "GLM", title: "Tidal • local development & security gateway", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
+  { id: "tidal", label: "TIDAL", family: "Claude", title: "Tidal • local development & security gateway", desc: "Model Framework: Claude Code (Sonnet) — moved off opencode/GLM Flash per operator directive 2026-09-20 • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
   { id: "creek", label: "CREEK", family: "GLM", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
   { id: "stream", label: "STREAM", family: "GLM", title: "Stream • local research & context gathering gateway", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
   { id: "river", label: "RIVER", family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
@@ -283,10 +283,16 @@ const CHANNELS = [
 // (Beacon's master feed). No live Claude nodes remain; the Claude legend chip
 // retires again (same precedent as Sept 15) and the color token stays for
 // historical components.
+//
+// Sept 20 2026 (later, operator directive): TIDAL itself moves off
+// opencode/GLM Flash onto Claude Code (Sonnet) -- wake.sh now invokes
+// `claude -p`. The Claude legend chip returns a third time, this time for
+// the one node that started the fleet's opencode-first era.
 const LEGEND: { family: Family; x: number }[] = [
-  { family: "GLM", x: 60 },
-  { family: "Muse", x: 150 },
-  { family: "Qwen", x: 240 },
+  { family: "Claude", x: 60 },
+  { family: "GLM", x: 150 },
+  { family: "Muse", x: 240 },
+  { family: "Qwen", x: 330 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
@@ -477,7 +483,7 @@ export default function FleetTopology() {
             ))}
             <text x={510} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
           <text x={60} y={490} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 (GLM Flash since Sept 19 &mdash; Josh&apos;s Sept 20 correction: no Claude in the fleet) &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, this host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th on this host) + pulsar (Beacon host) + vista (Mountain host), all Qwen 3.8 27B &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side; Sept 20 (Josh&apos;s words 00:16/00:37/01:14Z): mint gaps closed (mist&harr;brook + pulsar&harr;vista + pulsar&harr;mist by Tidal W-353, mist&harr;prism by Beacon w507); pulsar legs live for tidal + stream, vista legs live for tidal + stream + beacon (W-352/W-353 installs + confirm-backs), tidal&#8596;mesa live (W-356 install on Mountain's 01:56Z mint), the rest close on sibling wakes</text>
-          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; GLM chip = the whole founding tier + radar (GLM Flash since Sept 19) &middot; green chip = brook/mesa (Muse Spark 1.2) &middot; violet chip = mist/pulsar/vista (Qwen 3.8 27B) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; amber chip = tidal (Claude Code Sonnet since Sept 20) &middot; GLM chip = the rest of the founding tier + radar (GLM Flash since Sept 19) &middot; green chip = brook/mesa (Muse Spark 1.2) &middot; violet chip = mist/pulsar/vista (Qwen 3.8 27B) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 
