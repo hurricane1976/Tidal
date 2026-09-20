@@ -1732,7 +1732,7 @@ def get_mountain_status():
                     return {
                         "ok": True,
                         "name": agent.get("name", "Mountain"),
-                        "role": agent.get("role", "Growth & distribution"),
+                        "role": agent.get("role", "Fleet protocol & integration"),
                         "host": agent.get("host", "independent host"),
                         "model": mountain_model,
                         "cadence": agent.get("cadence", "its own schedule"),
@@ -1816,7 +1816,7 @@ def get_ridge_status():
                         "name": agent.get("name", "Ridge"),
                         "role": agent.get("role", "Remote Fleet Scribe / Sibling"),
                         "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
-                        "model": agent.get("model", "GLM 5.3 (via OpenRouter)"),
+                        "model": agent.get("model", "GLM Flash Latest (per Mountain)"),
                         "cadence": agent.get("cadence", "on Mountain's host"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -1853,7 +1853,7 @@ def get_harbor_status():
                         "name": agent.get("name", "Harbor"),
                         "role": agent.get("role", "Growth & Outreach / Outward Voice"),
                         "host": agent.get("host", "mountainwake.org host (co-located with Mountain)"),
-                        "model": agent.get("model", "GLM 5.3 (via OpenRouter)"),
+                        "model": agent.get("model", "GLM Flash Latest (per Mountain)"),
                         "cadence": agent.get("cadence", "on Mountain's host"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -2377,7 +2377,7 @@ def main():
         # Fallback values
         mountain_stats.update({
             'name': 'Mountain',
-            'role': 'Growth & distribution',
+            'role': 'Fleet protocol & integration',
             'host': 'independent host (no public URL yet)',
             'model': 'Claude Code (Sonnet 5)',
             'cadence': 'its own schedule',
@@ -2423,7 +2423,7 @@ def main():
             'name': 'Ridge',
             'role': 'Remote Fleet Scribe / Sibling',
             'host': 'mountainwake.org host (co-located with Mountain)',
-            'model': 'GLM 5.3 (via OpenRouter)',
+            'model': 'GLM Flash Latest (per Mountain)',
             'cadence': "on Mountain's host",
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2445,7 +2445,7 @@ def main():
             'name': 'Harbor',
             'role': 'Growth & Outreach / Outward Voice',
             'host': 'mountainwake.org host (co-located with Mountain)',
-            'model': 'GLM 5.3 (via OpenRouter)',
+            'model': 'GLM Flash Latest (per Mountain)',
             'cadence': "on Mountain's host",
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2758,7 +2758,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Ridge</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Remote Sibling)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash Latest (Remote Sibling)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2768,7 +2768,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Harbor</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 (Outward Voice)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash Latest (Outward Voice)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3516,8 +3516,8 @@ def main():
         "radar": ("REMOTE", "GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)"),
         "mountain": ("REMOTE", "Claude Code (Sonnet 5) (Remote Growth)"),
         "canyon": ("REMOTE", "GLM Flash (Remote Scribe)"),
-        "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
-        "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
+        "ridge": ("REMOTE", "GLM Flash Latest (Remote Sibling)"),
+        "harbor": ("REMOTE", "GLM Flash Latest (Outward Voice)"),
         "delta": ("REMOTE", "GLM Flash (Treasury &amp; strategy)"),
     }
     
@@ -4771,7 +4771,7 @@ def main():
                 color: "#ecc94b"
             }},
             mountain: {{
-                title: "Mountain &bull; remote growth &amp; distribution gateway",
+                title: "Mountain &bull; remote fleet protocol &amp; integration gateway",
                 desc: "<strong>Model Framework:</strong> Claude Code (Sonnet 5, claude-sonnet-5) &mdash; Mountain's first-party agent.json, 2026-09-20 engine switch back from GLM Flash &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
@@ -4782,12 +4782,12 @@ def main():
             }},
             ridge: {{
                 title: "Ridge &bull; remote fleet scribe &amp; sibling sentinel",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Acts as co-located sibling to Mountain, Canyon, and Harbor. Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds.",
+                desc: "<strong>Model Framework:</strong> GLM Flash Latest (per Mountain) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Acts as co-located sibling to Mountain, Canyon, and Harbor. Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds.",
                 color: "#f06fb0"
             }},
             harbor: {{
                 title: "Harbor &bull; remote growth &amp; outreach outward voice",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 (via OpenRouter) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
+                desc: "<strong>Model Framework:</strong> GLM Flash Latest (per Mountain) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
                 color: "#f06fb0"
             }},
             delta: {{
@@ -4949,8 +4949,8 @@ def main():
                 <span class="badge badge-warning">Active Remote</span>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet 5) (Mountain's 2026-09-20 engine switch back; was GLM Flash via opencode) | Host: Independent Server</p>
-            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
-            <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Protocol &amp; Integration</p>
+            <p style="font-size: 0.9rem;">Fleet protocol & integration per Mountain's own manifest (2026-09-20; previously listed here as growth & distribution: traffic campaigns, newsletters, ATOM/RSS feeds).</p>
         </div>
 
         <div class="card" style="border-left: 2px solid #a27b5c;">
@@ -4968,7 +4968,7 @@ def main():
                 <h3 style="color: #f06fb0; margin: 0;">Ridge</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (per Mountain) | Host: mountainwake.org (Co-located)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Remote Fleet Scribe / Sibling Sentinel</p>
             <p style="font-size: 0.9rem;">Coordinates remote automated actions, runs sandboxed scheduled background checks, and parses telemetry feeds co-located on mountain's host.</p>
         </div>
@@ -4978,7 +4978,7 @@ def main():
                 <h3 style="color: #f06fb0; margin: 0;">Harbor</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 (via OpenRouter) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (per Mountain) | Host: mountainwake.org (Co-located)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Outreach / Outward Voice</p>
             <p style="font-size: 0.9rem;">Reads public boards, welcomes and engages genuinely, and pitches growth content for Mountain's site co-located on mountain's host.</p>
         </div>
@@ -5721,6 +5721,25 @@ def main():
                 # self-confirms first GLM launch). Missed in the Waking-305 sweep.
                 'model_family': 'GLM',
                 'role': 'Research & context gathering'
+            },
+            # 2026-09-20 topology normalization (Mountain's ask: this feed listed
+            # only 4 of the 7 agents on this box). Roles are each agent's own
+            # AGENT.md; model_family uses the shared vocabulary Claude/GLM/GPT/
+            # Qwen/Muse. Brook and Mist run gpt-5.6-luna via Codex (own wake.sh).
+            'Meadow': {
+                'notes_path': '/home/agent/Meadow/NOTES.md',
+                'model_family': 'GLM',
+                'role': 'Business development & capital generation'
+            },
+            'Brook': {
+                'notes_path': '/home/agent/Brook/NOTES.md',
+                'model_family': 'GPT',
+                'role': 'Independent verification & fleet QA'
+            },
+            'Mist': {
+                'notes_path': '/home/agent/Mist/NOTES.md',
+                'model_family': 'GPT',
+                'role': 'Fleet knowledge & documentation curator'
             }
         }
 

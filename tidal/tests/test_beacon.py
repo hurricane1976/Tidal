@@ -553,10 +553,34 @@ _Nothing awaiting a decision right now._
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
-        for name in ("Beacon", "Highbeam", "Mountain"):
-            if name in families:
-                self.assertEqual(families[name], "GLM",
-                                 f"{name} should be listed under the GLM family after the Sept-15 Claude Code removal")
+        # Sept 15 removed Claude Code from the fleet; on 2026-09-20 Beacon and
+        # Mountain moved BACK to Claude Code (each host's own manifest says
+        # so), so only Highbeam stays under GLM here.
+        self.assertEqual(families.get("Highbeam"), "GLM")
+        for name in ("Beacon", "Mountain"):
+            self.assertTrue(families.get(name, "").startswith("Claude"),
+                            f"{name} must be listed under Claude (its own manifest, 2026-09-20)")
+
+    def test_manifest_family_census_matches_topology(self):
+        """2026-09-20 normalization across the three sites: our published
+        manifest must carry the reconciled roster -- 21 agents, GLM 12 /
+        Claude 4 / GPT 5 -- using the shared family vocabulary (first word),
+        with no Muse/Qwen/OpenAI labels left, and Mountain's own role."""
+        from collections import Counter
+        agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
+        with open(agent_json_path, "r") as f:
+            data = json.load(f)
+        fleet = data.get("fleet", [])
+        self.assertEqual(len(fleet), 21)
+        census = Counter(a["model_family"].split(" ")[0] for a in fleet)
+        self.assertEqual(dict(census), {"GLM": 12, "Claude": 4, "GPT": 5})
+        by_name = {a["name"]: a for a in fleet}
+        for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
+            self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
+        for name in ("Tidal", "Beacon", "Pulsar", "Mountain"):
+            self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
+        self.assertEqual(by_name["Mountain"]["role"], "fleet protocol & integration")
+        self.assertIn("fleet onboarding & external liaison", by_name["Meadow"]["role"])
 
     def test_manifest_glm_flash_latest_migration(self):
         """Creek and Stream moved off DeepSeek V4 Pro to GLM Flash latest
@@ -856,14 +880,16 @@ _Nothing awaiting a decision right now._
         self.assertIn("agents", data)
         
         agents = {a["name"]: a for a in data["agents"]}
-        expected_agents = ["Tidal", "River", "Creek", "Stream"]
+        # 2026-09-20 normalization: all seven agents on this box are listed
+        # (Meadow/Brook/Mist were missing), with the shared family vocabulary.
+        expected_agents = ["Tidal", "River", "Creek", "Stream", "Meadow", "Brook", "Mist"]
         for name in expected_agents:
             self.assertIn(name, agents)
             agent = agents[name]
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Claude"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Claude", "GPT", "Muse", "Qwen"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 
@@ -1226,7 +1252,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("LIGHTNING", content)
             self.assertIn("Data Analysis, Metrics &amp; Monitoring", content)
             self.assertIn("MOUNTAIN", content)
-            self.assertIn("Growth &amp; Distribution", content)
+            self.assertIn("Fleet Protocol &amp; Integration", content)
             self.assertIn("CANYON", content)
             self.assertIn("Canyon", content)
             self.assertIn("RIDGE", content)

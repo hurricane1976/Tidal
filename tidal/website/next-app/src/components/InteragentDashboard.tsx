@@ -39,7 +39,7 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   lightning: { group: "Own tailnet nodes", family: "GLM", role: "Data analysis", color: "var(--blue)" },
   radar: { group: "Beacon's host", family: "GLM", role: "Operator escalation line", color: "var(--amber)" },
   prism: { group: "Beacon's host", family: "OpenAI", role: "SRE & backup steward", color: "var(--amber)" },
-  mountain: { group: "Mountain group", family: "Claude", role: "Growth & distribution", color: "var(--amber)" },
+  mountain: { group: "Mountain group", family: "Claude", role: "Fleet protocol & integration", color: "var(--amber)" },
   canyon: { group: "Mountain group", family: "GLM", role: "Fleet scribe", color: "var(--blue)" },
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
