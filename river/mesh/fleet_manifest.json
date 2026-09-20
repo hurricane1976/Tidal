@@ -2,100 +2,115 @@
   "schema": "fleet-mesh/v1",
   "purpose": "Public endpoint inventory for direct, on-demand fleet delivery. No credentials belong in this file.",
   "agents": [
-   {
-    "id": "TIDAL",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8787"
-   },
-   {
-    "id": "RIVER",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8788"
-   },
-   {
-    "id": "CREEK",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8789"
-   },
-   {
-    "id": "STREAM",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8790"
-   },
-   {
-    "id": "MEADOW",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8791"
-   },
-   {
-    "id": "BROOK",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8792"
-   },
-   {
-    "id": "MIST",
-    "group": "tidal",
-    "endpoint": "100.91.42.51:8793"
-   },
-   {
-    "id": "BEACON",
-    "group": "beacon",
-    "endpoint": "100.99.217.90:8787"
-   },
-   {
-    "id": "HIGHBEAM",
-    "group": "beacon",
-    "endpoint": "100.81.147.28:8787"
-   },
-   {
-    "id": "LANTERN",
-    "group": "beacon",
-    "endpoint": "100.76.139.96:8787"
-   },
-   {
-    "id": "LIGHTNING",
-    "group": "beacon",
-    "endpoint": "100.69.40.118:8787"
-   },
-   {
-    "id": "RADAR",
-    "group": "beacon",
-    "endpoint": "100.125.26.66:8787"
-   },
-   {
-    "id": "PRISM",
-    "group": "beacon",
-    "endpoint": "100.100.158.42:8787"
-   },
-   {
-    "id": "MOUNTAIN",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8787"
-   },
-   {
-    "id": "CANYON",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8791"
-   },
-   {
-    "id": "RIDGE",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8792"
-   },
-   {
-    "id": "HARBOR",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8793"
-   },
-   {
-    "id": "DELTA",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8794"
-   },
-   {
-    "id": "MESA",
-    "group": "mountain",
-    "endpoint": "100.114.14.116:8795"
-   }
+    {
+      "id": "TIDAL",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8787"
+    },
+    {
+      "id": "RIVER",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8788"
+    },
+    {
+      "id": "CREEK",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8789"
+    },
+    {
+      "id": "STREAM",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8790"
+    },
+    {
+      "id": "MEADOW",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8791"
+    },
+    {
+      "id": "BROOK",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8792"
+    },
+    {
+      "id": "MIST",
+      "group": "tidal",
+      "endpoint": "100.91.42.51:8793"
+    },
+    {
+      "id": "BEACON",
+      "group": "beacon",
+      "endpoint": "100.99.217.90:8787"
+    },
+    {
+      "id": "HIGHBEAM",
+      "group": "beacon",
+      "endpoint": "100.81.147.28:8787"
+    },
+    {
+      "id": "LANTERN",
+      "group": "beacon",
+      "endpoint": "100.76.139.96:8787"
+    },
+    {
+      "id": "LIGHTNING",
+      "group": "beacon",
+      "endpoint": "100.69.40.118:8787"
+    },
+    {
+      "id": "RADAR",
+      "group": "beacon",
+      "endpoint": "100.125.26.66:8787"
+    },
+    {
+      "id": "PRISM",
+      "group": "beacon",
+      "endpoint": "100.100.158.42:8787"
+    },
+    {
+      "id": "MOUNTAIN",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8787"
+    },
+    {
+      "id": "CANYON",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8791"
+    },
+    {
+      "id": "RIDGE",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8792"
+    },
+    {
+      "id": "HARBOR",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8793"
+    },
+    {
+      "id": "DELTA",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8794"
+    },
+    {
+      "id": "MESA",
+      "group": "mountain",
+      "endpoint": "100.114.14.116:8795",
+      "staged": true,
+      "staged_note": "mesa<->tidal-group legs uncredentialed; Mountain/Josh mint+relay path per W-348 record"
+    },
+    {
+      "endpoint": "100.114.14.116:8796",
+      "group": "mountain",
+      "id": "VISTA",
+      "note": "Mountain-box 7th agent (Site & Product Quality); onboarded 2026-09-19 by operator session via Mountain's 22:22:07Z relay; shared receiver token installed on TIDAL this waking; sibling installs relayed same-token"
+    },
+    {
+      "endpoint": "100.70.91.55:8787",
+      "group": "beacon",
+      "id": "PULSAR",
+      "staged": true,
+      "note": "Beacon-box 7th agent (security sentinel, Qwen 3.8 27B); operator-session mints relayed by Beacon 22:28:10Z; 6 unlabeled tidal-group blocks -- install gated on mapping confirmation (W-347 class); /health 200 live-verified"
+    }
   ]
 }

@@ -655,7 +655,11 @@ _Nothing awaiting a decision right now._
         # session 13:35Z) joined the mesh manifest — pin moved 15 -> 16.
         # Waking 348 (Josh's 15:50:59Z directive, 18 agents): prism (17th,
         # Beacon's host) + mesa (18th, Mountain's host) added — pin 16 -> 18.
-        self.assertEqual(len(manifest["agents"]), 18, "fleet manifest must list 18 agents")
+        # Waking 350 interim (river lane): manifest wholesale-adopted at 21 rows
+        # (mist/vista live, pulsar staged, mesa staged) for Rule-7 sweep truth;
+        # agent.json/observability stay 18 until the full W-350 accounting port
+        # lands post-settle (watch W171).
+        self.assertEqual(len(manifest["agents"]), 21, "fleet manifest must list 21 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
