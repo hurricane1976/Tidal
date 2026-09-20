@@ -230,6 +230,8 @@ def build_telemetry_rows() -> list[dict]:
                 run_family = "deepseek"
             elif "gemini" in m_low:
                 run_family = "gemini"
+            elif "claude" in m_low:
+                run_family = "claude"
             else:
                 run_family = cfg["family"]
 

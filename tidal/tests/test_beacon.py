@@ -2758,13 +2758,16 @@ class TestFleetTelemetry(unittest.TestCase):
             self.assertIsNone(first["cache_creation_tokens"])
             self.assertIn(first["terminal_reason"], ["completed", "provider_api_error", "execution_error", "turn_limit", "timeout", "other"])
 
-            # Tidal rows: legacy runs may be gemini, but everything from the
-            # GLM migration onward must map to the glm family consistently.
+            # Tidal rows: legacy runs may be gemini or glm, and runs from the
+            # 2026-09-20 Claude Code (Sonnet) migration onward must map to
+            # the claude family consistently.
             tidal_rows = [r for r in rows if r["agent"] == "tidal"]
             for r in tidal_rows:
-                self.assertIn(r["model_family"], ["gemini", "glm"])
+                self.assertIn(r["model_family"], ["gemini", "glm", "claude"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
+                if r["model_family"] == "claude":
+                    self.assertIn("claude", r["model"].lower())
 
             # River rows: same guarantee after River's GLM Flash migration
             # (operator directive 2026-09-09).
