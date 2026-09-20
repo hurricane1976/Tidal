@@ -48,7 +48,7 @@ const FLEET_NODES = [
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },
   { id: "lightning", name: "Lightning", desc: "GLM Flash (Telemetry)", type: "EXTERNAL" },
-  { id: "radar", name: "Radar", desc: "Claude Code (Sonnet) (Escalation line)", type: "EXTERNAL" },
+  { id: "radar", name: "Radar", desc: "GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)", type: "EXTERNAL" },
   { id: "prism", name: "Prism", desc: "GLM Flash (SRE & backup steward)", type: "EXTERNAL" },
   { id: "mountain", name: "Mountain", desc: "GLM Flash (via opencode) (Wake Host)", type: "EXTERNAL" },
   { id: "canyon", name: "Canyon", desc: "GLM Flash (Scribe)", type: "EXTERNAL" },

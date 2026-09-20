@@ -32,7 +32,7 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
-  { id: "radar", label: "RADAR", family: "Claude" },
+  { id: "radar", label: "RADAR", family: "GLM" },
   { id: "prism", label: "PRISM", family: "GLM" },
   { id: "pulsar", label: "PULSAR", family: "Qwen" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
@@ -53,9 +53,12 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 // full mesh Sept 18-19 (Beacon w496 + fleet-wide 14/14 rechecks). Sept 19
 // expansion wave (18 agents, Josh's directive): brook's five mountain-group
 // legs, prism's five mountain-group legs (Mountain's authenticated feed,
-// Sept 19) drawn live; tidal-group<->prism legs stay UNDRAWN (staged,
-// per-block mapping confirmation pending) and mesa's wider-fleet legs
-// pending per-pair introduction. Mirrors FLEET_COORDINATION.md §3.1/§5.
+// Sept 19) drawn live; mesa's wider-fleet legs pending per-pair
+// introduction. Sept 20 (Josh's words 00:16/00:37/01:14Z, W-352/W-353):
+// pulsar arcs drawn for the verified pairs (tidal/stream) and vista arcs
+// for its verified pairs (tidal/stream/beacon); the remaining pulsar/vista/
+// mist-brook sibling legs close on sibling wakes and stay undrawn until
+// confirmed. Mirrors FLEET_COORDINATION.md §3.1/§5.
 const CHANNELS: [number, number][] = [
   [0, 7], // Tidal <-> Beacon
   [0, 14], // Tidal <-> Mountain
@@ -81,6 +84,14 @@ const CHANNELS: [number, number][] = [
   [5, 14], [5, 15], [5, 16], [5, 17], [5, 18], // brook x mountain group (5 lanes green)
   [12, 14], [12, 15], [12, 16], [12, 17], [12, 18], // prism x mountain group (5 lanes green)
   [20, 0], // vista <-> tidal (TIDAL<->VISTA installed + two-way green Sept 19, W-350)
+  // Sept 20 verified legs (Josh's words + confirm-backs): pulsar arcs
+  // (TIDAL<->PULSAR two-way green W-352; STREAM<->PULSAR live per Stream's
+  // 00:53Z confirm-back) + vista arcs (STREAM<->VISTA live per the same
+  // confirm-back; BEACON<->VISTA two-way green per Beacon's w506).
+  [0, 13], // tidal <-> pulsar (installed + two-way green Sept 20, W-352)
+  [3, 13], // stream <-> pulsar (live Sept 20, Stream's confirm-back)
+  [3, 20], // stream <-> vista (live Sept 20, Stream's confirm-back)
+  [7, 20], // beacon <-> vista (two-way green Sept 20, Beacon w506)
 ];
 
 // The rest of the mesh (founding era: 66/66 agent pairs verified two-way

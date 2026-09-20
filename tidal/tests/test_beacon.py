@@ -627,9 +627,8 @@ _Nothing awaiting a decision right now._
                               ("Lantern", "4&times;/day <code>*/6</code>"),
                               ("Lightning", "4&times;/day <code>*/6</code>"),
                               ("Radar", "4&times;/day <code>50&nbsp;*/6</code>")):
-            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"' if name != "Radar"
-                          else f'"{name}": {{"family": "claude", "cadence": "{pattern}"', obs,
-                          f"observability AGENT_METADATA {name} row must be the every-6h cadence (Beacon-group flipped on its group's on-box confirmation; Radar per Beacon's hand-edit report)")
+            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
+                          f"observability AGENT_METADATA {name} row must be the every-6h cadence (Beacon-group flipped on its group's on-box confirmation; Radar migrated off Claude to GLM Flash Sept 19, Josh's Sept 20 correction)")
 
     def test_w320_meadow_delta_onboarding_surfaces(self):
         """Sept 17, 2026 (Waking 320, Josh's 19:52:18Z Telegram ask 'ensure
@@ -741,11 +740,14 @@ _Nothing awaiting a decision right now._
     def test_observability_agent_metadata_all_glm(self):
         """After the Sept-16 fleet-wide GLM migration, every founding-12
         AGENT_METADATA family must be glm (DeepSeek retired fleet-wide).
-        RADAR (13th agent, onboarded Sept 16 per Josh's directive) is the
-        documented exception: Claude Code (Sonnet). The Sept 19 expansion
-        wave adds two more exceptions: Brook (16th) and Mesa (18th) run
-        Muse Spark 1.2 (the fleet's third model family, per Waking 347/348
-        ground truth)."""
+        RADAR (13th agent, onboarded Sept 16 per Josh's directive) ran
+        Claude Code (Sonnet) until 2026-09-19, then migrated to GLM Flash
+        Latest (Josh's Sept 20, 2026 01:28:03Z correction: Radar does not
+        use Claude; Beacon's master feed concurs) -- no Claude exceptions
+        remain. The Sept 19 expansion wave adds two exceptions: Brook (16th)
+        and Mesa (18th) run Muse Spark 1.2 (the fleet's third model family,
+        per Waking 347/348 ground truth), and the second wave (Mist/Pulsar/
+        Vista) runs Qwen 3.8 27B."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -753,7 +755,7 @@ _Nothing awaiting a decision right now._
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
-            expected = {"Radar": "claude", "Brook": "muse", "Mesa": "muse",
+            expected = {"Brook": "muse", "Mesa": "muse",
                         "Mist": "qwen", "Pulsar": "qwen", "Vista": "qwen"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
@@ -1046,7 +1048,7 @@ _Nothing awaiting a decision right now._
             self.assertIn('id="ping-radar"', content)
             self.assertIn('id="ping-delta"', content)
             self.assertIn("GLM Flash (Business development)", content)
-            self.assertIn("Claude Code (Sonnet) (Escalation line)", content)
+            self.assertIn("GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)", content)
             self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
 
@@ -1381,7 +1383,12 @@ _Nothing awaiting a decision right now._
                 # so the old radar-era arc pins moved to the pentagram trunk
                 # geometry + host-box labels.
                 self.assertIn('id: "radar"', topo_src)
-                self.assertIn('family: "Claude"', topo_src)
+                # Sept 20, 2026 (Waking 354, Josh's 01:28:03Z correction):
+                # radar's family is GLM (migrated off Claude Code Sonnet on
+                # Sept 19; Beacon's master feed concurs) -- no Claude family
+                # node remains in the topology.
+                self.assertIn('family: "GLM", title: "Radar', topo_src)
+                self.assertIn("GLM Flash Latest (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19", topo_src)
                 self.assertIn("Beacon\u2194Radar POST-verified Sept 16 22:37Z (w466)", topo_src)
                 self.assertIn("M452,261 Q570,190 688,261", topo_src)  # peer trunk
                 self.assertIn("M992,251 Q1110,185 1228,251", topo_src)  # relay trunk
@@ -1459,8 +1466,12 @@ _Nothing awaiting a decision right now._
                 self.assertIn("18 agents = 153 possible pairs", topo_src)  # historical stamp retained in the chain
                 self.assertIn("21 agents = 210 possible pairs", topo_src)
                 self.assertIn("family: \"Qwen\"", topo_src)
-                self.assertIn("{ family: \"Qwen\", x: 330 }", topo_src)
-                self.assertIn("tidal-group legs staged \u2014 sender halves relayed via Tidal, installs gated on per-block mapping confirmation", topo_src)
+                # Sept 20, 2026 (Waking 354): the Claude legend chip retired
+                # again (radar moved to GLM on Josh's correction -- no live
+                # Claude nodes remain); the three chips re-spaced GLM/Muse/Qwen.
+                self.assertIn("{ family: \"Qwen\", x: 240 }", topo_src)
+                self.assertIn("{ family: \"Muse\", x: 150 }", topo_src)
+                self.assertIn("GLM chip = the whole founding tier + radar (GLM Flash since Sept 19)", topo_src)
                 self.assertIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
                 self.assertIn("21 agents \u00b7 3 host clusters live", topo_src)
 

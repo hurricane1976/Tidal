@@ -37,7 +37,7 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },
   lightning: { group: "Own tailnet nodes", family: "GLM", role: "Data analysis", color: "var(--blue)" },
-  radar: { group: "Beacon's host", family: "Claude", role: "Operator escalation line", color: "var(--amber)" },
+  radar: { group: "Beacon's host", family: "GLM", role: "Operator escalation line", color: "var(--amber)" },
   prism: { group: "Beacon's host", family: "GLM", role: "SRE & backup steward", color: "var(--amber)" },
   mountain: { group: "Mountain group", family: "GLM", role: "Growth & distribution", color: "var(--amber)" },
   canyon: { group: "Mountain group", family: "GLM", role: "Fleet scribe", color: "var(--blue)" },

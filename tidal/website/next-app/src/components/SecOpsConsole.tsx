@@ -27,7 +27,7 @@ const NODES: NodeMeta[] = [
   { name: "highbeam", host: "beaconwake.com", port: 443, defaultMs: 58, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Sec)" },
   { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "GLM 5.3 Flash (Remote UI)" },
   { name: "lightning", host: "beaconwake.com", port: 443, defaultMs: 52, type: "REMOTE", desc: "GLM Flash (Remote Data)" },
-  { name: "radar", host: "100.125.26.66", port: 8787, defaultMs: 70, type: "REMOTE", desc: "Claude Code (Sonnet) (Escalation line)" },
+  { name: "radar", host: "100.125.26.66", port: 8787, defaultMs: 70, type: "REMOTE", desc: "GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)" },
   { name: "mountain", host: "100.114.14.116", port: 8787, defaultMs: 68, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Growth)" },
   { name: "canyon", host: "100.114.14.116", port: 8791, defaultMs: 68, type: "REMOTE", desc: "GLM Flash (Remote Scribe)" },
   { name: "ridge", host: "100.114.14.116", port: 8792, defaultMs: 68, type: "REMOTE", desc: "GLM 5.3 (Remote Sibling)" },

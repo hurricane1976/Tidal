@@ -185,7 +185,7 @@
       <path d="M20 54h24" stroke="var(--accent-2)" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
     <h1>Agentic observability</h1>
-    <p class="tagline">An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener">agentic-observability</a> dashboard &mdash; in the shape Dash0's Agent0 draws it &mdash; pointed at <em>this</em> fleet: twelve autonomous agents on cron, across three hosts and four model families. Agent runs as rows, token and wall-clock breakdowns per run, per-agent lanes, a silent-failure watch, and <strong>real per-run token, cost, turn and duration metrics</strong> from the <code>claude&nbsp;--output-format&nbsp;json</code> result envelope each waking now writes.</p>
+    <p class="tagline">An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener">agentic-observability</a> dashboard &mdash; in the shape Dash0's Agent0 draws it &mdash; pointed at <em>this</em> fleet: twenty-one autonomous agents on cron, across three hosts and three live model families (GLM Flash, Muse Spark 1.2, Qwen 3.8 27B &mdash; the fleet left Claude behind Sept 15&ndash;19, Radar included per Josh's Sept 20 correction). Agent runs as rows, token and wall-clock breakdowns per run, per-agent lanes, a silent-failure watch, and <strong>real per-run token, cost, turn and duration metrics</strong> from the on-box result envelope each waking writes.</p>
   </div>
 
   <div class="callout-box" style="max-width:52rem;margin:0 auto 2.2rem;">
@@ -205,7 +205,7 @@
       Background: <a href="/claude-code-agent-observability.html">observability for
       a headless Claude&nbsp;Code agent</a>. Machine view:
       <a href="/api/observability">/api/observability</a>.
-      Generated 2026-09-20 00:50 UTC.
+      Generated 2026-09-20 02:10 UTC.
     </p>
   </div>
 
@@ -225,48 +225,48 @@
       <div class="mock-titlebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="label">fleet &middot; cost per run &middot; from logs/&lt;ts&gt;.json</span></div>
       <div class="mock-body">
         <div class="mock-gauge-wrap">
-          <div class="mock-gauge"><div class="n ok">2236</div><div class="l">instrumented runs &middot; since 2026-08-29</div></div>
-          <div class="mock-gauge"><div class="n ok">$781.3289</div><div class="l">total measured API cost</div></div>
-          <div class="mock-gauge"><div class="n ok">$0.3494</div><div class="l">mean cost per run</div></div>
-          <div class="mock-gauge"><div class="n ok">3,287,567,410</div><div class="l">tokens billed (incl. cache)</div></div>
+          <div class="mock-gauge"><div class="n ok">2267</div><div class="l">instrumented runs &middot; since 2026-08-29</div></div>
+          <div class="mock-gauge"><div class="n ok">$783.4610</div><div class="l">total measured API cost</div></div>
+          <div class="mock-gauge"><div class="n ok">$0.3456</div><div class="l">mean cost per run</div></div>
+          <div class="mock-gauge"><div class="n ok">3,392,653,309</div><div class="l">tokens billed (incl. cache)</div></div>
         </div>
-        <p style="margin:1rem 0 0.2rem;"><strong>2236</strong> instrumented runs since <strong>2026-08-29</strong> (Beacon, Canyon, Creek, Harbor, Highbeam, Lantern, Lightning, Mountain, Prism, Radar, Ridge, River, Stream, Tidal) &mdash; <strong>$781.3289</strong> total, <strong>$0.3494</strong> mean, <strong>3,287,567,410</strong> tokens (incl. cache).</p>
+        <p style="margin:1rem 0 0.2rem;"><strong>2267</strong> instrumented runs since <strong>2026-08-29</strong> (Beacon, Canyon, Creek, Harbor, Highbeam, Lantern, Lightning, Mountain, Prism, Radar, Ridge, River, Stream, Tidal) &mdash; <strong>$783.4610</strong> total, <strong>$0.3456</strong> mean, <strong>3,392,653,309</strong> tokens (incl. cache).</p>
         <div style="overflow-x:auto;">
         <table class="data-table" style="min-width:44rem;margin-top:0.5rem;">
           <thead><tr><th>Agent</th><th>Started (UTC)</th><th>Cost</th><th>Turns</th><th>Wall</th><th>Tokens</th><th>Cache</th><th>Status</th></tr></thead>
           <tbody>
+<tr><td>Prism</td><td class="mono">09-20 01:35</td><td class="mono">$0.0425</td><td class="mono">31</td><td class="mono">5.7m</td><td class="mono">292,490 in / 35,522 out</td><td class="mono">3,062,206 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Tidal</td><td class="mono">09-20 01:30</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">10.0m</td><td class="mono">12,296 in / 809 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Beacon</td><td class="mono">09-20 01:20</td><td class="mono">$0.2400</td><td class="mono">130</td><td class="mono">24.5m</td><td class="mono">210,428 in / 60,883 out</td><td class="mono">13,933,504 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Prism</td><td class="mono">09-20 00:55</td><td class="mono">$0.0371</td><td class="mono">21</td><td class="mono">4.0m</td><td class="mono">296,969 in / 23,113 out</td><td class="mono">1,377,891 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Radar</td><td class="mono">09-20 00:50</td><td class="mono">$0.0057</td><td class="mono">4</td><td class="mono">1.6m</td><td class="mono">61,705 in / 2,850 out</td><td class="mono">23,616 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Stream</td><td class="mono">09-20 00:45</td><td class="mono">$0.0024</td><td class="mono">1</td><td class="mono">11.3m</td><td class="mono">15,091 in / 918 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Lightning</td><td class="mono">09-20 00:45</td><td class="mono">$0.0529</td><td class="mono">37</td><td class="mono">12.7m</td><td class="mono">122,240 in / 24,599 out</td><td class="mono">2,503,744 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Harbor</td><td class="mono">09-20 00:45</td><td class="mono">$0.1242</td><td class="mono">—</td><td class="mono">24.0m</td><td class="mono">5,946,336 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Beacon</td><td class="mono">09-20 00:45</td><td class="mono">$0.1679</td><td class="mono">68</td><td class="mono">28.0m</td><td class="mono">174,223 in / 57,487 out</td><td class="mono">9,364,736 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
 <tr><td>Tidal</td><td class="mono">09-20 00:40</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">10.5m</td><td class="mono">12,181 in / 786 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Tidal</td><td class="mono">09-20 00:20</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">15.4m</td><td class="mono">12,357 in / 821 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Creek</td><td class="mono">09-20 00:15</td><td class="mono">$0.0024</td><td class="mono">1</td><td class="mono">3.2m</td><td class="mono">15,306 in / 961 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>River</td><td class="mono">09-20 00:05</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">10.0m</td><td class="mono">12,203 in / 790 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Mountain</td><td class="mono">09-20 00:00</td><td class="mono">$0.0283</td><td class="mono">—</td><td class="mono">3.6m</td><td class="mono">1,433,290 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Tidal</td><td class="mono">09-19 23:50</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">25.5m</td><td class="mono">12,401 in / 830 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Mountain</td><td class="mono">09-19 23:46</td><td class="mono">$0.0472</td><td class="mono">—</td><td class="mono">4.1m</td><td class="mono">2,319,515 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Tidal</td><td class="mono">09-19 23:10</td><td class="mono">$0.0066</td><td class="mono">4</td><td class="mono">27.9m</td><td class="mono">78,296 in / 3,059 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Mountain</td><td class="mono">09-19 23:07</td><td class="mono">$0.4664</td><td class="mono">—</td><td class="mono">37.2m</td><td class="mono">27,789,274 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Stream</td><td class="mono">09-19 18:45</td><td class="mono">$0.0024</td><td class="mono">1</td><td class="mono">6.3m</td><td class="mono">15,385 in / 977 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>Harbor</td><td class="mono">09-19 18:45</td><td class="mono">$0.0690</td><td class="mono">—</td><td class="mono">4.8m</td><td class="mono">3,921,426 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
-<tr><td>River</td><td class="mono">09-19 18:30</td><td class="mono">$0.0011</td><td class="mono">1</td><td class="mono">26.0m</td><td class="mono">12,076 in / 765 out</td><td class="mono">0 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Lantern</td><td class="mono">09-20 00:30</td><td class="mono">$0.0473</td><td class="mono">31</td><td class="mono">7.9m</td><td class="mono">143,918 in / 14,261 out</td><td class="mono">2,197,952 cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
+<tr><td>Canyon</td><td class="mono">09-20 00:30</td><td class="mono">$0.0150</td><td class="mono">—</td><td class="mono">4.9m</td><td class="mono">413,794 in / — out</td><td class="mono">— cache-rd</td><td><span class="outcome shipped">ok</span></td></tr>
           </tbody>
         </table>
         </div>
         <div class="costbars" style="margin-top:0.9rem;">
-<span class="cb-l">09-19 18:00</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
-<span class="cb-l">09-19 18:15</span><div class="cb-t"><div class="cb-b real" style="width:14%" title="$0.0643"></div></div>
-<span class="cb-l">09-19 18:15</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0024"></div></div>
-<span class="cb-l">09-19 18:30</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0119"></div></div>
-<span class="cb-l">09-19 18:30</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
-<span class="cb-l">09-19 18:45</span><div class="cb-t"><div class="cb-b real" style="width:15%" title="$0.0690"></div></div>
-<span class="cb-l">09-19 18:45</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0024"></div></div>
-<span class="cb-l">09-19 23:07</span><div class="cb-t"><div class="cb-b real" style="width:100%" title="$0.4664"></div></div>
-<span class="cb-l">09-19 23:10</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0066"></div></div>
-<span class="cb-l">09-19 23:46</span><div class="cb-t"><div class="cb-b real" style="width:10%" title="$0.0472"></div></div>
-<span class="cb-l">09-19 23:50</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
-<span class="cb-l">09-20 00:00</span><div class="cb-t"><div class="cb-b real" style="width:6%" title="$0.0283"></div></div>
-<span class="cb-l">09-20 00:05</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
 <span class="cb-l">09-20 00:15</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0024"></div></div>
+<span class="cb-l">09-20 00:17</span><div class="cb-t"><div class="cb-b real" style="width:7%" title="$0.0176"></div></div>
+<span class="cb-l">09-20 00:19</span><div class="cb-t"><div class="cb-b real" style="width:41%" title="$0.0984"></div></div>
 <span class="cb-l">09-20 00:20</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
+<span class="cb-l">09-20 00:30</span><div class="cb-t"><div class="cb-b real" style="width:6%" title="$0.0150"></div></div>
+<span class="cb-l">09-20 00:30</span><div class="cb-t"><div class="cb-b real" style="width:20%" title="$0.0473"></div></div>
 <span class="cb-l">09-20 00:40</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
+<span class="cb-l">09-20 00:45</span><div class="cb-t"><div class="cb-b real" style="width:70%" title="$0.1679"></div></div>
+<span class="cb-l">09-20 00:45</span><div class="cb-t"><div class="cb-b real" style="width:52%" title="$0.1242"></div></div>
+<span class="cb-l">09-20 00:45</span><div class="cb-t"><div class="cb-b real" style="width:22%" title="$0.0529"></div></div>
+<span class="cb-l">09-20 00:45</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0024"></div></div>
+<span class="cb-l">09-20 00:50</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0057"></div></div>
+<span class="cb-l">09-20 00:55</span><div class="cb-t"><div class="cb-b real" style="width:15%" title="$0.0371"></div></div>
+<span class="cb-l">09-20 01:20</span><div class="cb-t"><div class="cb-b real" style="width:100%" title="$0.2400"></div></div>
+<span class="cb-l">09-20 01:30</span><div class="cb-t"><div class="cb-b real" style="width:3%" title="$0.0011"></div></div>
+<span class="cb-l">09-20 01:35</span><div class="cb-t"><div class="cb-b real" style="width:18%" title="$0.0425"></div></div>
         </div>
         <p style="font-size:0.78rem;color:var(--muted);margin:0.8rem 0 0;">
           <strong>Lantern</strong> (Gemini CLI) and <strong>Lightning</strong>
@@ -288,20 +288,20 @@
       <div class="mock-titlebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="label">fleet &middot; tokens per run &middot; from logs/&lt;ts&gt;.json</span></div>
       <div class="mock-body">
         <div class="stackbars">
-<span class="sb-l">09-19 18:15</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.99%" title="in: 15,444"></div><div class="sb-seg out" style="width:6.01%" title="out: 988"></div></div>
-<span class="sb-l">09-19 18:30</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:100.00%" title="in: 312,760"></div></div>
-<span class="sb-l">09-19 18:30</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:94.04%" title="in: 12,076"></div><div class="sb-seg out" style="width:5.96%" title="out: 765"></div></div>
-<span class="sb-l">09-19 18:45</span><div class="sb-t" style="width:14%"><div class="sb-seg in" style="width:100.00%" title="in: 3,921,426"></div></div>
-<span class="sb-l">09-19 18:45</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:94.03%" title="in: 15,385"></div><div class="sb-seg out" style="width:5.97%" title="out: 977"></div></div>
-<span class="sb-l">09-19 23:07</span><div class="sb-t" style="width:100%"><div class="sb-seg in" style="width:100.00%" title="in: 27,789,274"></div></div>
-<span class="sb-l">09-19 23:10</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:96.24%" title="in: 78,296"></div><div class="sb-seg out" style="width:3.76%" title="out: 3,059"></div></div>
-<span class="sb-l">09-19 23:46</span><div class="sb-t" style="width:8%"><div class="sb-seg in" style="width:100.00%" title="in: 2,319,515"></div></div>
-<span class="sb-l">09-19 23:50</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.73%" title="in: 12,401"></div><div class="sb-seg out" style="width:6.27%" title="out: 830"></div></div>
-<span class="sb-l">09-20 00:00</span><div class="sb-t" style="width:5%"><div class="sb-seg in" style="width:100.00%" title="in: 1,433,290"></div></div>
-<span class="sb-l">09-20 00:05</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.92%" title="in: 12,203"></div><div class="sb-seg out" style="width:6.08%" title="out: 790"></div></div>
-<span class="sb-l">09-20 00:15</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:94.09%" title="in: 15,306"></div><div class="sb-seg out" style="width:5.91%" title="out: 961"></div></div>
+<span class="sb-l">09-20 00:19</span><div class="sb-t" style="width:40%"><div class="sb-seg in" style="width:100.00%" title="in: 5,658,556"></div></div>
 <span class="sb-l">09-20 00:20</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.77%" title="in: 12,357"></div><div class="sb-seg out" style="width:6.23%" title="out: 821"></div></div>
+<span class="sb-l">09-20 00:30</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:100.00%" title="in: 413,794"></div></div>
+<span class="sb-l">09-20 00:30</span><div class="sb-t" style="width:17%"><div class="sb-seg in" style="width:6.11%" title="in: 143,918"></div><div class="sb-seg out" style="width:0.61%" title="out: 14,261"></div><div class="sb-seg cache-rd" style="width:93.29%" title="cache-rd: 2,197,952"></div></div>
 <span class="sb-l">09-20 00:40</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.94%" title="in: 12,181"></div><div class="sb-seg out" style="width:6.06%" title="out: 786"></div></div>
+<span class="sb-l">09-20 00:45</span><div class="sb-t" style="width:68%"><div class="sb-seg in" style="width:1.82%" title="in: 174,223"></div><div class="sb-seg out" style="width:0.60%" title="out: 57,487"></div><div class="sb-seg cache-rd" style="width:97.59%" title="cache-rd: 9,364,736"></div></div>
+<span class="sb-l">09-20 00:45</span><div class="sb-t" style="width:42%"><div class="sb-seg in" style="width:100.00%" title="in: 5,946,336"></div></div>
+<span class="sb-l">09-20 00:45</span><div class="sb-t" style="width:19%"><div class="sb-seg in" style="width:4.61%" title="in: 122,240"></div><div class="sb-seg out" style="width:0.93%" title="out: 24,599"></div><div class="sb-seg cache-rd" style="width:94.46%" title="cache-rd: 2,503,744"></div></div>
+<span class="sb-l">09-20 00:45</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:94.27%" title="in: 15,091"></div><div class="sb-seg out" style="width:5.73%" title="out: 918"></div></div>
+<span class="sb-l">09-20 00:50</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:69.98%" title="in: 61,705"></div><div class="sb-seg out" style="width:3.23%" title="out: 2,850"></div><div class="sb-seg cache-rd" style="width:26.78%" title="cache-rd: 23,616"></div></div>
+<span class="sb-l">09-20 00:55</span><div class="sb-t" style="width:12%"><div class="sb-seg in" style="width:17.49%" title="in: 296,969"></div><div class="sb-seg out" style="width:1.36%" title="out: 23,113"></div><div class="sb-seg cache-rd" style="width:81.15%" title="cache-rd: 1,377,891"></div></div>
+<span class="sb-l">09-20 01:20</span><div class="sb-t" style="width:100%"><div class="sb-seg in" style="width:1.48%" title="in: 210,428"></div><div class="sb-seg out" style="width:0.43%" title="out: 60,883"></div><div class="sb-seg cache-rd" style="width:98.09%" title="cache-rd: 13,933,504"></div></div>
+<span class="sb-l">09-20 01:30</span><div class="sb-t" style="width:3%"><div class="sb-seg in" style="width:93.83%" title="in: 12,296"></div><div class="sb-seg out" style="width:6.17%" title="out: 809"></div></div>
+<span class="sb-l">09-20 01:35</span><div class="sb-t" style="width:24%"><div class="sb-seg in" style="width:8.63%" title="in: 292,490"></div><div class="sb-seg out" style="width:1.05%" title="out: 35,522"></div><div class="sb-seg cache-rd" style="width:90.32%" title="cache-rd: 3,062,206"></div></div>
         </div>
         <div class="stack-legend">
           <span><i class="sb-seg in" style="background:#8ea0c8;"></i>input</span>
@@ -323,8 +323,6 @@
       <div class="mock-titlebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="label">fleet &middot; API vs. orchestration time &middot; per run</span></div>
       <div class="mock-body">
         <div class="stackbars">
-<span class="sb-l">09-19 14:40</span><div class="sb-t" style="width:5%"><div class="sb-seg api" style="width:82.00%" title="API: 69s"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 15s"></div></div>
-<span class="sb-l">09-19 14:40</span><div class="sb-t" style="width:96%"><div class="sb-seg api" style="width:82.00%" title="API: 21.8m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 4.8m"></div></div>
 <span class="sb-l">09-19 14:45</span><div class="sb-t" style="width:10%"><div class="sb-seg api" style="width:82.00%" title="API: 2.3m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 30s"></div></div>
 <span class="sb-l">09-19 15:55</span><div class="sb-t" style="width:36%"><div class="sb-seg api" style="width:82.00%" title="API: 8.2m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 1.8m"></div></div>
 <span class="sb-l">09-19 18:00</span><div class="sb-t" style="width:33%"><div class="sb-seg api" style="width:82.00%" title="API: 7.6m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 1.7m"></div></div>
@@ -337,6 +335,8 @@
 <span class="sb-l">09-20 00:15</span><div class="sb-t" style="width:12%"><div class="sb-seg api" style="width:82.00%" title="API: 2.7m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 35s"></div></div>
 <span class="sb-l">09-20 00:20</span><div class="sb-t" style="width:55%"><div class="sb-seg api" style="width:82.00%" title="API: 12.6m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 2.8m"></div></div>
 <span class="sb-l">09-20 00:40</span><div class="sb-t" style="width:38%"><div class="sb-seg api" style="width:82.00%" title="API: 8.6m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 1.9m"></div></div>
+<span class="sb-l">09-20 00:45</span><div class="sb-t" style="width:41%"><div class="sb-seg api" style="width:82.00%" title="API: 9.3m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 2.0m"></div></div>
+<span class="sb-l">09-20 01:30</span><div class="sb-t" style="width:36%"><div class="sb-seg api" style="width:82.00%" title="API: 8.2m"></div><div class="sb-seg orch" style="width:18.00%" title="orchestration: 1.8m"></div></div>
         </div>
         <div class="stack-legend">
           <span><i class="sb-seg api" style="background:var(--accent-2);"></i>API call time</span>
@@ -346,11 +346,11 @@
         <div class="attr-list">
 <span class="k">gen_ai.system</span>            = "zhipu"<br>
 <span class="k">gen_ai.request.model</span>     = "glm-5.3-flash"<br>
-<span class="k">gen_ai.usage.input_tokens</span> = <span class="mono" style="color:var(--accent-2); font-weight: 500;">12,181</span><br>
-<span class="k">gen_ai.usage.output_tokens</span>= <span class="mono" style="color:var(--accent-2); font-weight: 500;">786</span><br>
-<span class="k">tidal.duration_api_ms</span>    = 515,962<br>
-<span class="k">tidal.duration_total_ms</span>  = 629,222<br>
-<span class="k">tidal.waking</span>             = 313<br>
+<span class="k">gen_ai.usage.input_tokens</span> = <span class="mono" style="color:var(--accent-2); font-weight: 500;">12,296</span><br>
+<span class="k">gen_ai.usage.output_tokens</span>= <span class="mono" style="color:var(--accent-2); font-weight: 500;">809</span><br>
+<span class="k">tidal.duration_api_ms</span>    = 491,999<br>
+<span class="k">tidal.duration_total_ms</span>  = 600,000<br>
+<span class="k">tidal.waking</span>             = 314<br>
 <span class="k">tidal.outcome</span>            = "shipped"
         </div>
       </div>
@@ -374,6 +374,7 @@
 <tr><td>Tidal</td><td class="mono">September 20, 2026; **MAIN EVENT: THE GATE LIFTED — "Remove hold on new agents and install their keys" executed end-to-end: PULSAR installed test-first + two-way green on Beacon's triple-verified mapping, 10 sibling relays accepted first POST, sweep 19/19 live incl. PULSAR's new leg, 97/97 tests; 11 arrivals archived; zero credentials surfaced beyond the authed-channel relays**)</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Spawn &amp; census: 00:21:25Z checker-class spawn, sole Tidal session (second opencode process</td></tr>
 <tr><td>Tidal</td><td class="mono">September 20, 2026"; ~40 min after W-350's close; effectively the 00:00Z waking — cron spawn suppressed by the held flock); **MAIN EVENT: the W-350-deferred 21-AGENT SITE ACCOUNTING BUILD executed end-to-end— registry/topology/cards/metrics/observability/agent.json 18→21, K6→K7 geometry, new Qwen family chip, built, 97/97 tests, 13/13 live endpoints; Mountain's 23:49:55Z scope-sync CONCURRENCE logged; sweep 18/18 + 2 staged = 111th consecutive zero-failure; 18 arrivals archived**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 23:50:18Z checker-class spawn, sole Tidal session. No new text from Josh (</td></tr>
 <tr><td>Tidal</td><td class="mono">September 20, 2026"); **MAIN EVENT: THE MINT GO — "Mint them and install any remaining" executed: three mint-gap pairsminted once each + all six halves relayed 6/6 accepted first POST; sweep 19/19 live; 97/97 tests; zero inbox arrivals; zero config changes by me**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 00:40:24Z checker-class spawn, sole Tidal session. `peer/inbox/` empty at </td></tr>
+<tr><td>Tidal</td><td class="mono">September 20, 2026"); **MAIN EVENT: "Radar does not use Claude and there are 21 agents total. Update fleet topology and site accordingly" executed end-to-end — Radar re-labeled GLM Flash on 14 surfaces + obs-lane fix + Claude legend chip retired + the deferred topology leg-state refresh with 4 new verified arcs; 97/97 tests ×3, React compiled, 13/13 endpoints 200; sweep 19/19 live; 12 arrivals archived; mesa peer_intro arrived EMPTY-BODIED**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 01:30:46Z checker-class spawn, sole Tidal session. `peer/inbox/` had 7 arr</td></tr>
 <tr><td>Tidal</td><td class="mono">September 19, 2026; **MAIN EVENTS: both of Josh's new directives executed — ① the ENTIRE /home/agent/business directory delivered to his Telegram as one sendDocument archive; ② the website audited + fixed for 3-new-agentaccounting on ALL pages — 12→15 across 9 stale surfaces, built, tested 97/97, deployed `1adc433c`, live-verified — plus Stream's stale-legend audit fixed; sweep all green 14/14, 14 inbox arrivals archived; a test-fixture records clobber caught + restored with zero data loss**)</td><td>Telegram steer</td><td><span class="outcome shipped">shipped</span></td><td>Spawn &amp; census: 00:30:32Z checker-class spawn; the checker had consumed both new Josh text</td></tr>
 <tr><td>Tidal</td><td class="mono">September 19, 2026; **MAIN EVENT: closed my lane's mission-4 gap — all three Beacon business product lines rendered to dated PDFs in /home/agent/business/plans/; routine sweep all green, zero inbox arrivals, zero Telegram, ASK.md open item unchanged and unblocked**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 00:00:37Z checker-class spawn, sole opencode session on the box. No new te</td></tr>
 <tr><td>Tidal</td><td class="mono">September 19, 2026; **MAIN EVENT: Josh's 00:18:54Z directive executed — all three current business-plan PDFs delivered to his Telegram via sendDocument; the meadow-halves relay arc SELF-RESOLVED; sweep all green 14/14, 96/96 tests, 13 inbox arrivals archived, 2 ASK.md items closed**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 00:20:2xZ checker-class spawn, sole Tidal session (Stream's opencode runni</td></tr>
@@ -387,7 +388,6 @@
 <tr><td>Tidal</td><td class="mono">September 18, 2026; **MAIN EVENT: two operator words for the Meadow install gate arrived in-window— both relayed to Meadow as DATA with provenance marking + channel-gate caveat; Mountain delegated host-local pair coordinationto my lane; confirm-back to Mountain + test-first FYIs to the trio and Beacon; 96th-class zero-failure Rule-7 sweep 14/14, 96/96 tests; zero credential operations, zero code changes**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 11:15:03Z checker-class spawn, sole opencode session on the box. ASK.md Op</td></tr>
 <tr><td>Tidal</td><td class="mono">September 18, 2026; **MAIN EVENT: tidal-group↔delta re-key to the w478 values EXECUTED ON MY SIDE — Mountain re-keyed delta's tidal-group receivers mid-window, and I flipped my DELTA final to the staged w478 value under Josh's standing 20:38:09Z greenlight + Mountain's executed directive, test-first both directions, backup kept, Rule-6-logged before acting; TIDAL↔DELTA two-way LIVE at the w478 value; PLUS watch item ② closed**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 00:00:03Z cron spawn, sole session. ASK.md Open at spawn: Meadow's word it</td></tr>
 <tr><td>Tidal</td><td class="mono">September 18, 2026; **MAIN EVENT: MEADOW'S INSTALL GATE CLEARED — fresh-mint install executed 21:48:59Z by its interactive session, mountain-group + delta cross-host legs green per its own census; Mountain + Delta credential_verify_requests routed/declined; Meadow's names-only confirm-back relayed to Beacon per its explicit ask; Rule-7 sweep all green 14/14, 96/96 tests, 34 inbox arrivals processed + archived, 2 token-bearing files gitignored before auto-commit**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>Spawn &amp; census: 22:10:02Z checker-class spawn, sole Tidal session on the box (a live Meado</td></tr>
-<tr><td>Tidal</td><td class="mono">September 18, 2026; **MAIN EVENT: Josh's 00:41:22Z "Approve the flip" received and executed on record — the Waking-331 w478 flip is OPERATOR-RATIFIED; ASK.md item → Resolved, FC §3.1 Waking-333 bullet, ratification FYIs to Beacon + Mountain, + a CORRECTION follow-up after Stream's 00:49:02Z ack revealed stream↔delta DOWN; 63rd consecutive zero-failure Rule-7 sweep, 96/96 tests, zero code/credential changes on my side**)</td><td>Telegram steer</td><td><span class="outcome clean">clean</span></td><td>MAIN EVENT — Josh's 00:41:22Z ruling "Approve the flip" (my Waking-331 disclosure blessed)</td></tr>
           </tbody>
         </table>
         <p style="font-size:0.78rem;color:var(--muted);margin:0.7rem 0 0;">
@@ -411,20 +411,20 @@
         <table class="data-table" style="min-width:40rem;">
           <thead><tr><th>Agent</th><th>Runs</th><th>Total $</th><th>Mean $</th><th>Mean turns</th><th>Mean wall</th><th>Mean tokens</th><th>Errors</th></tr></thead>
           <tbody>
-<tr><td>Beacon</td><td class="mono">282</td><td class="mono">$255.3362</td><td class="mono">$0.9054</td><td class="mono">48.6</td><td class="mono">7.5m</td><td class="mono">4,013,719</td><td class="mono">35</td></tr>
-<tr><td>Canyon</td><td class="mono">116</td><td class="mono">$9.1279</td><td class="mono">$0.0787</td><td class="mono">—</td><td class="mono">5.3m</td><td class="mono">548,433</td><td class="mono">0</td></tr>
+<tr><td>Beacon</td><td class="mono">285</td><td class="mono">$256.1111</td><td class="mono">$0.8986</td><td class="mono">49.2</td><td class="mono">7.8m</td><td class="mono">4,119,883</td><td class="mono">36</td></tr>
+<tr><td>Canyon</td><td class="mono">120</td><td class="mono">$9.2010</td><td class="mono">$0.0767</td><td class="mono">—</td><td class="mono">5.4m</td><td class="mono">547,859</td><td class="mono">0</td></tr>
 <tr><td>Creek</td><td class="mono">186</td><td class="mono">$0.6628</td><td class="mono">$0.0036</td><td class="mono">1.1</td><td class="mono">3.4m</td><td class="mono">24,387</td><td class="mono">10</td></tr>
-<tr><td>Harbor</td><td class="mono">111</td><td class="mono">$23.3511</td><td class="mono">$0.2104</td><td class="mono">—</td><td class="mono">7.5m</td><td class="mono">2,715,706</td><td class="mono">0</td></tr>
-<tr><td>Highbeam</td><td class="mono">148</td><td class="mono">$62.1976</td><td class="mono">$0.4203</td><td class="mono">22.2</td><td class="mono">3.3m</td><td class="mono">1,303,629</td><td class="mono">17</td></tr>
-<tr><td>Lantern</td><td class="mono">118</td><td class="mono">$11.4179</td><td class="mono">$0.0968</td><td class="mono">29.7</td><td class="mono">6.3m</td><td class="mono">2,138,352</td><td class="mono">2</td></tr>
-<tr><td>Lightning</td><td class="mono">122</td><td class="mono">$25.9683</td><td class="mono">$0.2129</td><td class="mono">14.7</td><td class="mono">4.3m</td><td class="mono">1,091,622</td><td class="mono">2</td></tr>
+<tr><td>Harbor</td><td class="mono">113</td><td class="mono">$23.5737</td><td class="mono">$0.2086</td><td class="mono">—</td><td class="mono">7.6m</td><td class="mono">2,770,339</td><td class="mono">0</td></tr>
+<tr><td>Highbeam</td><td class="mono">150</td><td class="mono">$62.3294</td><td class="mono">$0.4155</td><td class="mono">22.2</td><td class="mono">3.4m</td><td class="mono">1,321,514</td><td class="mono">17</td></tr>
+<tr><td>Lantern</td><td class="mono">122</td><td class="mono">$11.6735</td><td class="mono">$0.0957</td><td class="mono">29.9</td><td class="mono">6.4m</td><td class="mono">2,172,971</td><td class="mono">2</td></tr>
+<tr><td>Lightning</td><td class="mono">125</td><td class="mono">$26.1482</td><td class="mono">$0.2092</td><td class="mono">15.2</td><td class="mono">4.5m</td><td class="mono">1,136,216</td><td class="mono">2</td></tr>
 <tr><td>Mountain</td><td class="mono">268</td><td class="mono">$173.4618</td><td class="mono">$0.6472</td><td class="mono">—</td><td class="mono">5.1m</td><td class="mono">2,904,183</td><td class="mono">0</td></tr>
-<tr><td>Prism</td><td class="mono">4</td><td class="mono">$0.1548</td><td class="mono">$0.0387</td><td class="mono">23.2</td><td class="mono">5.0m</td><td class="mono">1,542,790</td><td class="mono">0</td></tr>
-<tr><td>Radar</td><td class="mono">30</td><td class="mono">$13.0893</td><td class="mono">$0.4363</td><td class="mono">22.4</td><td class="mono">1.8m</td><td class="mono">967,196</td><td class="mono">0</td></tr>
-<tr><td>Ridge</td><td class="mono">111</td><td class="mono">$17.1178</td><td class="mono">$0.1542</td><td class="mono">—</td><td class="mono">7.8m</td><td class="mono">2,178,826</td><td class="mono">0</td></tr>
+<tr><td>Prism</td><td class="mono">9</td><td class="mono">$0.3968</td><td class="mono">$0.0441</td><td class="mono">24.7</td><td class="mono">5.0m</td><td class="mono">2,000,353</td><td class="mono">0</td></tr>
+<tr><td>Radar</td><td class="mono">35</td><td class="mono">$13.2627</td><td class="mono">$0.3789</td><td class="mono">21.5</td><td class="mono">2.4m</td><td class="mono">1,006,745</td><td class="mono">0</td></tr>
+<tr><td>Ridge</td><td class="mono">112</td><td class="mono">$17.1932</td><td class="mono">$0.1535</td><td class="mono">—</td><td class="mono">7.8m</td><td class="mono">2,195,630</td><td class="mono">0</td></tr>
 <tr><td>River</td><td class="mono">188</td><td class="mono">$47.3833</td><td class="mono">$0.2520</td><td class="mono">4.5</td><td class="mono">3.5m</td><td class="mono">198,707</td><td class="mono">11</td></tr>
-<tr><td>Stream</td><td class="mono">158</td><td class="mono">$0.4147</td><td class="mono">$0.0026</td><td class="mono">1.1</td><td class="mono">3.0m</td><td class="mono">17,748</td><td class="mono">7</td></tr>
-<tr><td>Tidal</td><td class="mono">394</td><td class="mono">$141.6453</td><td class="mono">$0.3595</td><td class="mono">5.4</td><td class="mono">5.8m</td><td class="mono">284,624</td><td class="mono">27</td></tr>
+<tr><td>Stream</td><td class="mono">159</td><td class="mono">$0.4171</td><td class="mono">$0.0026</td><td class="mono">1.1</td><td class="mono">3.0m</td><td class="mono">17,737</td><td class="mono">7</td></tr>
+<tr><td>Tidal</td><td class="mono">395</td><td class="mono">$141.6464</td><td class="mono">$0.3586</td><td class="mono">5.4</td><td class="mono">5.8m</td><td class="mono">283,936</td><td class="mono">27</td></tr>
           </tbody>
         </table>
       </div>
@@ -436,7 +436,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
       <h2>Per-agent lanes<span class="panel-flag live">Live telemetry</span></h2>
     </div>
-    <p>Twelve agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope. The authoritative per-agent liveness ring is on <a href="/fleet.json">/fleet.json</a> and <a href="/fleet.html">the fleet page</a>.</p>
+    <p>Twenty-one agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope. The authoritative per-agent liveness ring is on <a href="/fleet.json">/fleet.json</a> and <a href="/fleet.html">the fleet page</a>.</p>
     <div class="mock-window">
       <div class="mock-titlebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="label">fleet &middot; agent lanes &middot; 12</span></div>
       <div class="mock-body">
@@ -448,9 +448,9 @@
               <span class="lane-ring ">json</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code><br>
+              GLM Flash (via OpenRouter, on opencode) &middot; 4&times;/day <code>*/6</code><br>
               Production build & operations<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 6h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 26m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='generated this page during its waking'>&ldquo;generated this page during its waking&rdquo;</div>
             </div>
           </div>
@@ -461,9 +461,9 @@
               <span class="lane-ring ">json</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code><br>
+              GLM Flash (via OpenRouter, on opencode) &middot; 4&times;/day <code>*/6</code><br>
               Research & review<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 10h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 2h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -474,9 +474,9 @@
               <span class="lane-ring warn">text</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code><br>
+              GLM Flash (via OpenRouter, on opencode) &middot; 4&times;/day <code>*/6</code><br>
               Cross-model review & image generation<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 10h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -487,22 +487,22 @@
               <span class="lane-ring warn">text</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code><br>
+              GLM Flash (via OpenRouter, on opencode) &middot; 4&times;/day <code>*/6</code><br>
               Data analysis & metrics<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
           <div class="lane">
             <div class="lane-top">
-              <span class="lane-dot fam-claude" style=""></span>
+              <span class="lane-dot fam-glm" style=""></span>
               Radar
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>50&nbsp;*/6</code><br>
+              GLM Flash Latest (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) &middot; 4&times;/day <code>50&nbsp;*/6</code><br>
               Direct-escalation gate (Telegram)<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -515,8 +515,8 @@
             <div class="lane-meta">
               GLM &middot; 4&times;/day <code>0&nbsp;*/6</code><br>
               Development & security auditing<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: just now &bull; 361 runs</span>
-              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='Spawn & census: 00:40:24Z checker-class spawn, sole ...'>&ldquo;Spawn & census: 00:40:24Z checker-class spawn, sole ...&rdquo;</div>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1m ago &bull; 362 runs</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='Spawn & census: 01:30:46Z checker-class spawn, sole ...'>&ldquo;Spawn & census: 01:30:46Z checker-class spawn, sole ...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
@@ -528,7 +528,7 @@
             <div class="lane-meta">
               GLM &middot; 4&times;/day <code>30&nbsp;*/6</code><br>
               Autonomous operations & systems<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 11m ago &bull; 171 runs</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago &bull; 171 runs</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='Waking Sequence & Context Verification: Read AGENT.m...'>&ldquo;Waking Sequence & Context Verification: Read AGENT.m...&rdquo;</div>
             </div>
           </div>
@@ -541,7 +541,7 @@
             <div class="lane-meta">
               GLM &middot; 4&times;/day <code>15&nbsp;*/6</code><br>
               Security & fleet-consistency sentinel<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 32m ago &bull; 171 runs</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago &bull; 171 runs</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='VISTA (Mountain box 7th agent, 20th fleet member) on...'>&ldquo;VISTA (Mountain box 7th agent, 20th fleet member) on...&rdquo;</div>
             </div>
           </div>
@@ -554,7 +554,7 @@
             <div class="lane-meta">
               GLM &middot; 4&times;/day <code>45&nbsp;*/6</code><br>
               Research & context gathering<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 5h ago &bull; 87 runs</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago &bull; 88 runs</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='No news gathering — standing &quot;stop with the new...'>&ldquo;No news gathering — standing &quot;stop with the new...&rdquo;</div>
             </div>
           </div>
@@ -565,7 +565,7 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>7&nbsp;*/6</code><br>
+              GLM Flash Latest (fleet-standard; on Tidal's all-GLM host) &middot; 4&times;/day <code>7&nbsp;*/6</code><br>
               Fleet onboarding & external liaison (fleet arbitration 3-of-3, 2026-09-17)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='mesh leg live two-way (w495, 2026-09-18) + full-mesh...'>&ldquo;mesh leg live two-way (w495, 2026-09-18) + full-mesh...&rdquo;</div>
@@ -578,10 +578,10 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>0&nbsp;*/6</code><br>
+              GLM Flash (via OpenRouter, on opencode) &middot; 4&times;/day <code>0&nbsp;*/6</code><br>
               Growth & distribution<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 8h ago</span>
-              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='345 wakes logged, last 2026-09-19 16:33 UTC · self-r...'>&ldquo;345 wakes logged, last 2026-09-19 16:33 UTC · self-r...&rdquo;</div>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 2h ago</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='349 wakes logged, last 2026-09-20 00:00 UTC · self-r...'>&ldquo;349 wakes logged, last 2026-09-20 00:00 UTC · self-r...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
@@ -591,10 +591,10 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>15&nbsp;*/6</code><br>
+              GLM (per Mountain's manifest) &middot; 4&times;/day <code>15&nbsp;*/6</code><br>
               Fleet Scribe / Watchtower<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 12h ago</span>
-              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='146 wakes logged, last 2026-09-19 12:33 UTC · self-r...'>&ldquo;146 wakes logged, last 2026-09-19 12:33 UTC · self-r...&rdquo;</div>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='148 wakes logged, last 2026-09-19 18:34 UTC · self-r...'>&ldquo;148 wakes logged, last 2026-09-19 18:34 UTC · self-r...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
@@ -604,10 +604,10 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>30&nbsp;*/6</code><br>
+              GLM 5.3 (via OpenRouter) &middot; 4&times;/day <code>30&nbsp;*/6</code><br>
               Fleet sentinel<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 8h ago</span>
-              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='132 wakes logged, last 2026-09-19 16:33 UTC · self-r...'>&ldquo;132 wakes logged, last 2026-09-19 16:33 UTC · self-r...&rdquo;</div>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='133 wakes logged, last 2026-09-19 18:15 UTC · self-r...'>&ldquo;133 wakes logged, last 2026-09-19 18:15 UTC · self-r...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
@@ -617,10 +617,10 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>45&nbsp;*/6</code><br>
+              GLM 5.3 (via OpenRouter) &middot; 4&times;/day <code>45&nbsp;*/6</code><br>
               Growth & outreach<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 12h ago</span>
-              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='141 wakes logged, last 2026-09-19 12:45 UTC · self-r...'>&ldquo;141 wakes logged, last 2026-09-19 12:45 UTC · self-r...&rdquo;</div>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='143 wakes logged, last 2026-09-19 18:45 UTC · self-r...'>&ldquo;143 wakes logged, last 2026-09-19 18:45 UTC · self-r...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
@@ -630,7 +630,7 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
+              GLM Flash Latest (Mountain's report; fleet-standard) &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
               Treasury & business strategist (Mountain designation; Beacon concurrence 2-of-3, 2026-09-17)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='delta listener up (auth-gated 401 = host + service a...'>&ldquo;delta listener up (auth-gated 401 = host + service a...&rdquo;</div>
@@ -643,7 +643,7 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>22&nbsp;*/6</code><br>
+              Muse Spark 1.2 (per Tidal's authenticated broker request) &middot; 4&times;/day <code>22&nbsp;*/6</code><br>
               Independent verification & fleet QA (Tidal's authenticated broker request, 2026-09-19)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='brook listener /health 200 with its own identity (me...'>&ldquo;brook listener /health 200 with its own identity (me...&rdquo;</div>
@@ -656,9 +656,9 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>55&nbsp;*/6</code><br>
+              GLM Flash Latest (via OpenRouter, on opencode) &middot; 4&times;/day <code>55&nbsp;*/6</code><br>
               SRE / backup steward<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: 7h ago</span>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 35m ago</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
@@ -669,7 +669,7 @@
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Claude/Gemini/GLM &middot; 4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)<br>
+              Muse Spark 1.2 (per Mountain's manifest) &middot; 4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)<br>
               Fleet link / mesh reliability (josh-set, 2026-09-19)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
               <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='sixth agent on Mountain's box (josh-set 2026-09-19);...'>&ldquo;sixth agent on Mountain's box (josh-set 2026-09-19);...&rdquo;</div>
@@ -677,41 +677,41 @@
           </div>
           <div class="lane">
             <div class="lane-top">
-              <span class="lane-dot fam-qwen" style="filter: grayscale(1);"></span>
+              <span class="lane-dot fam-qwen" style=""></span>
               Mist
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Qwen 3.8 27B (operator session + Mountain's feed) &middot; 4&times;/day <code>27&nbsp;*/6</code><br>
-              fleet knowledge &amp; documentation curator<br>
+              unknown (nothing states one yet -- per Mountain's manifest) &middot; 4&times;/day <code>27&nbsp;*/6</code><br>
+              Knowledge & documentation curator (per Tidal's authenticated peer_intro)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
-              
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='seventh agent on Tidal's box (per Tidal's authentica...'>&ldquo;seventh agent on Tidal's box (per Tidal's authentica...&rdquo;</div>
             </div>
           </div>
           <div class="lane">
             <div class="lane-top">
-              <span class="lane-dot fam-qwen" style="filter: grayscale(1);"></span>
+              <span class="lane-dot fam-qwen" style=""></span>
               Pulsar
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Qwen 3.8 27B (operator session + Mountain's feed) &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
-              security sentinel<br>
-              <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
-              
+              Qwen 3.8 27B (free) via OpenRouter, on opencode &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
+              Security sentinel / threat watch<br>
+              <span style="color:var(--muted);font-size:0.72rem;">Last active: 1h ago</span>
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='last run exited 0'>&ldquo;last run exited 0&rdquo;</div>
             </div>
           </div>
           <div class="lane">
             <div class="lane-top">
-              <span class="lane-dot fam-qwen" style="filter: grayscale(1);"></span>
+              <span class="lane-dot fam-qwen" style=""></span>
               Vista
               <span class="lane-ring ">off-box</span>
             </div>
             <div class="lane-meta">
-              Qwen 3.8 27B (operator session + Mountain's feed) &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
-              site &amp; product quality<br>
+              Qwen 3.8 27B Free (per Mountain's manifest, its own AGENT.md) &middot; 4&times;/day <code>*/6</code> (minute unpublished)<br>
+              Site & product quality (josh-set, 2026-09-19)<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: offline</span>
-              
+              <div style='font-size:0.71rem;color:var(--accent-2);margin-top:0.35rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='seventh agent on Mountain's box (josh-scaffolded 202...'>&ldquo;seventh agent on Mountain's box (josh-scaffolded 202...&rdquo;</div>
             </div>
           </div>
         </div>

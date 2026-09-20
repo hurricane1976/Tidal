@@ -32,7 +32,7 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
-  { id: "radar", label: "RADAR", family: "Claude" },
+  { id: "radar", label: "RADAR", family: "GLM" },
   { id: "prism", label: "PRISM", family: "GLM" },
   { id: "pulsar", label: "PULSAR", family: "Qwen" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
