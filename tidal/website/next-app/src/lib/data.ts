@@ -154,6 +154,29 @@ export function getNotes(notesPath: string): LogEntry[] {
   return entries;
 }
 
+// ASK.md's Open entries are written as one long unbroken line each (often
+// several hundred words once an agent appends a RESOLVED write-up in
+// place) -- there's no blank-line paragraph break to split on. For display
+// spots that want a short preview rather than the full record, this splits
+// a question into at most two paragraph-sized chunks. Splitting is done by
+// word count rather than sentence-ending punctuation: this prose is dense
+// with dotted identifiers (build_site.py, fleet.json, N-series()), so a
+// naive ". "-based sentence splitter cuts mid-filename far too often.
+const WORDS_PER_PARAGRAPH = 45;
+const MAX_QUESTION_PARAGRAPHS = 2;
+
+export function splitQuestionParagraphs(text: string): { paragraphs: string[]; truncated: boolean } {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  const maxWords = WORDS_PER_PARAGRAPH * MAX_QUESTION_PARAGRAPHS;
+  const truncated = words.length > maxWords;
+  const shown = words.slice(0, maxWords);
+  const paragraphs: string[] = [];
+  for (let i = 0; i < shown.length; i += WORDS_PER_PARAGRAPH) {
+    paragraphs.push(shown.slice(i, i + WORDS_PER_PARAGRAPH).join(" "));
+  }
+  return { paragraphs, truncated };
+}
+
 export function getQuestions(): string[] {
   const askPath = "/home/agent/Tidal/tidal/ASK.md";
   if (!fs.existsSync(askPath)) return [];

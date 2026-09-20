@@ -1171,6 +1171,27 @@ body {
   to { background-position: 260% 0%; }
 }
 
+/* Fleet-expansion spotlight (fleet page, above the topology) -- its accent
+   color is set per-render from whichever agent has the latest `onboarded`
+   date, so the whole banner's identity "flips" to the new agent automatically
+   the next time the roster grows, instead of a hand-edited headline going
+   stale (see MOST_RECENT in fleet/page.tsx). This just adds a slow breathing
+   glow in that agent's own color so the banner reads as live, not static. */
+.welcome-spotlight {
+  transition: border-left-color 0.6s var(--ease-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .welcome-spotlight {
+    animation: welcome-spotlight-glow 3.6s ease-in-out infinite;
+  }
+}
+
+@keyframes welcome-spotlight-glow {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50%      { box-shadow: 0 0 26px -6px var(--spotlight-accent, var(--teal)); }
+}
+
 /* Bars that rise into place instead of appearing pre-grown */
 @keyframes bar-rise {
   from { transform: scaleY(0); }

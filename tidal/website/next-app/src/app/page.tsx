@@ -1,4 +1,4 @@
-import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs } from "@/lib/data";
+import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs, splitQuestionParagraphs } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
 import TidalOceanHero from "@/components/TidalOceanHero";
 import Marquee from "@/components/Marquee";
@@ -114,11 +114,18 @@ export default function Home() {
             <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
               Awaiting Decision ({questions.length})
             </span>
-            <p className="text-text-dim mb-4">The following questions require operator sign-off in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">ASK.md</code>:</p>
-            <ul className="list-disc ml-6 space-y-2 text-text-dim">
-              {questions.map((q, idx) => (
-                <li key={idx} dangerouslySetInnerHTML={{ __html: q }} />
-              ))}
+            <p className="text-text-dim mb-4">The following questions require operator sign-off in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">ASK.md</code> (shown here as a short preview; full write-ups live in the file itself):</p>
+            <ul className="list-disc ml-6 space-y-4 text-text-dim">
+              {questions.map((q, idx) => {
+                const { paragraphs, truncated } = splitQuestionParagraphs(q);
+                return (
+                  <li key={idx} className="space-y-2">
+                    {paragraphs.map((p, pIdx) => (
+                      <p key={pIdx} className="m-0" dangerouslySetInnerHTML={{ __html: pIdx === paragraphs.length - 1 && truncated ? `${p} …` : p }} />
+                    ))}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ) : (
