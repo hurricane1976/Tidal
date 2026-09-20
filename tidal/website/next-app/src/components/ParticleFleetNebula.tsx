@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI" | "Muse";
+type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen";
 
 const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Claude: [255, 138, 61], // var(--amber)
@@ -10,13 +10,16 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
   GLM: [240, 111, 176], // var(--magenta)
   OpenAI: [16, 163, 127], // OpenAI green
   Muse: [157, 255, 61], // --fleet-muse lime
+  Qwen: [167, 139, 250], // --fleet-qwen violet
 };
 const SEA_RGB: [number, number, number] = [79, 209, 197]; // var(--teal)
 const TIDE_RGB: [number, number, number] = [63, 199, 255]; // var(--tide)
 const TEXT_RGB = "232,234,237";
 
-// The 18 real fleet agents, grouped by host box (mirrors FleetTopology.tsx;
-// Sept 19 expansion wave: brook 16th, prism 17th, mesa 18th).
+// The 21 real fleet agents, grouped by host box (mirrors FleetTopology.tsx;
+// Sept 19 double expansion wave: brook 16th, prism 17th, mesa 18th, then
+// mist 7th-on-tidal-host, pulsar 7th-on-beacon-host, vista 7th-on-mountain-
+// host -- all three on Qwen 3.8 27B).
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "GLM" },
   { id: "river", label: "RIVER", family: "GLM" },
@@ -24,18 +27,21 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "stream", label: "STREAM", family: "GLM" },
   { id: "meadow", label: "MEADOW", family: "GLM" },
   { id: "brook", label: "BROOK", family: "Muse" },
+  { id: "mist", label: "MIST", family: "Qwen" },
   { id: "beacon", label: "BEACON", family: "GLM" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
   { id: "radar", label: "RADAR", family: "Claude" },
   { id: "prism", label: "PRISM", family: "GLM" },
+  { id: "pulsar", label: "PULSAR", family: "Qwen" },
   { id: "mountain", label: "MOUNTAIN", family: "GLM" },
   { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },
   { id: "delta", label: "DELTA", family: "GLM" },
   { id: "mesa", label: "MESA", family: "Muse" },
+  { id: "vista", label: "VISTA", family: "Qwen" },
 ];
 
 // Same-host full meshes + the cross-host channels (peer/agora, the three
@@ -45,20 +51,20 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
 // direct Tailscale from every local agent to Mountain, Beacon's relay).
 // Mirrors FLEET_COORDINATION.md §3.1.
 const QUADS: number[][] = [
-  [0, 1, 2, 3, 4, 5], // tidal host cluster (K6: tidal/river/creek/stream/meadow/brook)
-  [6, 7, 8, 9, 10, 11], // beacon host cluster (K6: beacon/highbeam/lantern/lightning/radar/prism)
-  [12, 13, 14, 15, 16, 17], // mountain host cluster (K6: mountain/canyon/ridge/harbor/delta/mesa)
+  [0, 1, 2, 3, 4, 5, 6], // tidal host cluster (K7: tidal/river/creek/stream/meadow/brook/mist)
+  [7, 8, 9, 10, 11, 12, 13], // beacon host cluster (K7: beacon/highbeam/lantern/lightning/radar/prism/pulsar)
+  [14, 15, 16, 17, 18, 19, 20], // mountain host cluster (K7: mountain/canyon/ridge/harbor/delta/mesa/vista)
 ];
 const CHANNELS: [number, number][] = [
-  [0, 6], // Tailscale peer channel + Agora bridge (Tidal <-> Beacon)
-  [0, 12], // direct Tailscale peer channel (Tidal <-> Mountain)
-  [6, 12], // relay via Beacon (Beacon <-> Mountain)
-  [2, 12], // direct Tailscale peer channel (Creek <-> Mountain)
-  [3, 12], // direct Tailscale peer channel (Stream <-> Mountain)
-  [1, 12], // direct Tailscale peer channel (River <-> Mountain)
-  [0, 8], // identity link LIVE (Lantern -> local quartet, zero secrets)
-  [0, 7], // identity link LIVE (Highbeam -> local quartet, zero secrets)
-  [0, 9], // identity link LIVE (Lightning -> local quartet, zero secrets)
+  [0, 7], // Tailscale peer channel + Agora bridge (Tidal <-> Beacon)
+  [0, 14], // direct Tailscale peer channel (Tidal <-> Mountain)
+  [7, 14], // relay via Beacon (Beacon <-> Mountain)
+  [2, 14], // direct Tailscale peer channel (Creek <-> Mountain)
+  [3, 14], // direct Tailscale peer channel (Stream <-> Mountain)
+  [1, 14], // direct Tailscale peer channel (River <-> Mountain)
+  [0, 9], // identity link LIVE (Lantern -> local quartet, zero secrets)
+  [0, 8], // identity link LIVE (Highbeam -> local quartet, zero secrets)
+  [0, 10], // identity link LIVE (Lightning -> local quartet, zero secrets)
   // Sept 12 mesh state: every founding pair verified two-way live (66/66
   // FULL FLEET MESH COMPLETE; Mountain<->River, the last pending pair,
   // restored 22:02Z Sept 12; mirrors FLEET_COORDINATION.md §3.1) -- local
@@ -68,23 +74,26 @@ const CHANNELS: [number, number][] = [
   // channels (re-keyed + re-verified Sept 12 21:47Z), the 3 trio x trio identity
   // pairs (verified), and Beacon x Canyon/Ridge/Harbor (confirmed Sept 12).
   [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3],
-  [0, 13], [0, 14], [0, 15], [1, 13], [1, 14], [1, 15],
-  [2, 13], [2, 14], [2, 15], [3, 13], [3, 14], [3, 15],
-  [1, 7], [1, 8], [1, 9], [2, 7], [2, 8], [2, 9], [3, 7], [3, 8], [3, 9],
-  [7, 13], [8, 13], [9, 13], [7, 14], [8, 14], [9, 14], [7, 15], [8, 15], [9, 15],
-  [1, 6], [2, 6], [3, 6],
-  [7, 8], [7, 9], [8, 9],
-  [6, 13], [6, 14], [6, 15],
-  // Sept 16-19 new-agent cross-host legs (verified two-way; 18 agents =
-  // 153 possible pairs per Josh's Sept 19 directive):
-  [4, 6], [4, 7], [4, 8], [4, 9], // meadow x beacon group
-  [4, 12], [4, 13], [4, 14], [4, 15], // meadow x mountain group
-  [4, 10], [4, 16], // meadow <-> radar, meadow <-> delta
-  [10, 0], [10, 1], [10, 2], [10, 3], // radar x local quartet
-  [10, 12], [10, 13], [10, 14], [10, 15], [10, 16], // radar x mountain group + delta
-  [16, 0], [16, 1], [16, 2], [16, 3], [16, 6], [16, 7], [16, 8], [16, 9], // delta x tidal quartet + beacon group
-  [5, 12], [5, 13], [5, 14], [5, 15], [5, 16], // brook x mountain group (Sept 19)
-  [11, 12], [11, 13], [11, 14], [11, 15], [11, 16], // prism x mountain group (Sept 19)
+  [0, 15], [0, 16], [0, 17], [1, 15], [1, 16], [1, 17],
+  [2, 15], [2, 16], [2, 17], [3, 15], [3, 16], [3, 17],
+  [1, 8], [1, 9], [1, 10], [2, 8], [2, 9], [2, 10], [3, 8], [3, 9], [3, 10],
+  [8, 15], [9, 15], [10, 15], [8, 16], [9, 16], [10, 16], [8, 17], [9, 17], [10, 17],
+  [1, 7], [2, 7], [3, 7],
+  [8, 9], [8, 10], [9, 10],
+  [7, 15], [7, 16], [7, 17],
+  // Sept 16-19 new-agent cross-host legs (verified two-way; 21 agents =
+  // 210 possible pairs per Josh's Sept 19 double-expansion directives):
+  [4, 7], [4, 8], [4, 9], [4, 10], // meadow x beacon group
+  [4, 14], [4, 15], [4, 16], [4, 17], // meadow x mountain group
+  [4, 11], [4, 18], // meadow <-> radar, meadow <-> delta
+  [11, 0], [11, 1], [11, 2], [11, 3], // radar x local quartet
+  [11, 14], [11, 15], [11, 16], [11, 17], [11, 18], // radar x mountain group + delta
+  [18, 0], [18, 1], [18, 2], [18, 3], [18, 7], [18, 8], [18, 9], [18, 10], // delta x tidal quartet + beacon group
+  [5, 14], [5, 15], [5, 16], [5, 17], [5, 18], // brook x mountain group (Sept 19)
+  [12, 14], [12, 15], [12, 16], [12, 17], [12, 18], // prism x mountain group (Sept 19)
+  [20, 0], // vista <-> tidal (TIDAL<->VISTA two-way green Sept 19, W-350)
+  [6, 14], [6, 15], [6, 16], [6, 17], [6, 18], [6, 19], // mist x mountain group (verified Sept 19)
+  [20, 14], [20, 15], [20, 16], [20, 17], [20, 18], [20, 19], // vista x mountain group (Mountain's on-box K7)
 ];
 
 interface Edge {
@@ -125,12 +134,12 @@ interface LiveAgent {
 /**
  * Particle Fleet Nebula -- Tidal's flagship hero (approved 2026-09-10).
  *
- * A canvas particle field where ~65% of particles cluster around 12 anchor
+ * A canvas particle field where ~65% of particles cluster around 21 anchor
  * points on a slowly rotating sphere -- one anchor per real fleet agent,
  * colored by model family. Real topology edges (host meshes + cross-host
  * channels) arc between anchors with traveling pulses, and labels name each
  * agent. Live liveness/waking counts are merged from a build-time snapshot
- * of the 12-agent fleet feed (/fleet-all.json, refreshed every deploy).
+ * of the 21-agent fleet feed (/fleet-all.json, refreshed every deploy).
  *
  * Scroll morphs the field globe -> hex agent-grid -> ocean wave (the fleet
  * IS the tide), with per-particle stagger, cursor repulsion, and a soft
@@ -152,7 +161,7 @@ export default function ParticleFleetNebula() {
     const wrap = canvas.parentElement;
     if (!wrap) return;
 
-    // 12 anchor directions via Fibonacci sphere -- even spread, deterministic.
+    // 21 anchor directions via Fibonacci sphere -- even spread, deterministic.
     const dirs: [number, number, number][] = AGENTS.map((_, i) => {
       const y = 1 - ((i + 0.5) * 2) / AGENTS.length;
       const r = Math.sqrt(Math.max(0, 1 - y * y));
@@ -566,7 +575,7 @@ export default function ParticleFleetNebula() {
       ref={canvasRef}
       className="nebula-canvas"
       role="img"
-      aria-label="The 12-agent fleet rendered as a rotating particle globe; scrolling morphs it into a hex agent grid, then an ocean wave."
+      aria-label="The 21-agent fleet rendered as a rotating particle globe; scrolling morphs it into a hex agent grid, then an ocean wave."
     />
   );
 }

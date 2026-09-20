@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FleetParticles from "./FleetParticles";
 
-type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse";
+type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen";
 
 // A dedicated, higher-saturation palette (defined in globals.css) so the
 // fleet map itself pops without touching the colors any other component
@@ -15,6 +15,7 @@ const FAMILY_COLOR: Record<Family, string> = {
   GLM: "var(--fleet-glm)",
   OpenAI: "var(--fleet-openai)",
   Muse: "var(--fleet-muse)",
+  Qwen: "var(--fleet-qwen)",
 };
 
 interface NodeDef {
@@ -30,13 +31,15 @@ interface NodeDef {
 // Pentagram formation (Josh's 20:10:48Z + 20:17:27Z asks, Sept 17 2026):
 // the fleet grew to 18 agents on Sept 19 (expansion wave: Brook 16th, Prism
 // 17th, Mesa 18th -- Josh's 15:50:59Z directive "update fleet topology to
-// account for all 18 agents"), so each host now draws the complete six-node
-// graph K6 on a circle: 15 perimeter+diagonal edges per cluster. The
-// pentagram-era history stays in the stamps; the geometry is the same idea
-// one member larger -- and still the literal ground truth for co-located
-// hosts (every group-mate pair carries its own bearer token and is verified
-// two-way by the hosting side). Cross-group reality rides the three labeled
-// host trunks and the footer inventory.
+// account for all 18 agents") and to 21 the same night (second wave: Mist
+// 7th on this host, Pulsar 7th on Beacon's, Vista 7th on Mountain's --
+// Waking 350, Josh's operator session), so each host now draws the
+// complete seven-node graph K7 on a circle: 21 perimeter+diagonal edges
+// per cluster. The pentagram-era history stays in the stamps; the geometry
+// is the same idea one member larger -- and still the literal ground truth
+// for co-located hosts (every group-mate pair carries its own bearer token
+// and is verified two-way by the hosting side). Cross-group reality rides
+// the three labeled host trunks and the footer inventory.
 function ringPos(cx: number, cy: number, r: number, i: number, n: number) {
   const angle = ((-90 + (i * 360) / n) * Math.PI) / 180;
   return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
@@ -45,9 +48,9 @@ function ringPos(cx: number, cy: number, r: number, i: number, n: number) {
 const PENTAGRAM_R = 142;
 
 const PENTAGRAMS = [
-  { id: "tidal-host", label: "TIDAL HOST \u00b7 tidalwake.org \u00b7 6 agents", cx: 300, cy: 298, members: ["tidal", "river", "creek", "stream", "meadow", "brook"] },
-  { id: "beacon-host", label: "BEACON HOST \u00b7 beaconwake.com \u00b7 6 agents", cx: 840, cy: 298, members: ["beacon", "radar", "highbeam", "lantern", "lightning", "prism"] },
-  { id: "mountain-host", label: "MOUNTAIN HOST \u00b7 mountainwake.org \u00b7 6 agents", cx: 1380, cy: 298, members: ["mountain", "canyon", "ridge", "harbor", "delta", "mesa"] },
+  { id: "tidal-host", label: "TIDAL HOST \u00b7 tidalwake.org \u00b7 7 agents", cx: 300, cy: 298, members: ["tidal", "river", "creek", "stream", "meadow", "brook", "mist"] },
+  { id: "beacon-host", label: "BEACON HOST \u00b7 beaconwake.com \u00b7 7 agents", cx: 840, cy: 298, members: ["beacon", "radar", "highbeam", "lantern", "lightning", "prism", "pulsar"] },
+  { id: "mountain-host", label: "MOUNTAIN HOST \u00b7 mountainwake.org \u00b7 7 agents", cx: 1380, cy: 298, members: ["mountain", "canyon", "ridge", "harbor", "delta", "mesa", "vista"] },
 ] as const;
 
 // Node positions assigned from each cluster's ring (member index = ring
@@ -117,13 +120,37 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // feed). Mountain-group<->Brook and Mountain-group<->Prism lanes also
   // verified two-way Sept 19.
   { id: "mesa", label: "MESA", family: "Muse", title: "Mesa • fleet link & mesh reliability (18th agent)", desc: "Model Framework: Muse Spark 1.2 (per Mountain's feed) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8795). Onboarded Sept 19, 2026. Fleet link & mesh reliability — keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction." },
+
+  // Second Sept-19 wave (three agents in one night, Josh's operator
+  // session; fleet 21). MIST (7th on THIS host, onboarded 22:03:35Z --
+  // operator session hand-installed its halves into all six local configs
+  // and restarted my listener 22:04:40Z). Fleet Knowledge & Documentation
+  // Curator on Qwen 3.8 27B Free (via opencode), cron 27 */6, live 22:30Z.
+  { id: "mist", label: "MIST", family: "Qwen", title: "Mist • fleet knowledge & documentation curator (7th on this host)", desc: "Model Framework: Qwen 3.8 27B Free (via opencode) • Host VPS: 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894). Onboarded Sept 19, 2026 (Josh's operator session, 22:03Z wave): fleet knowledge & documentation curator — keeps the shared records (manifests, fleet coordination, infrastructure) synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way (operator install + sweep); mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back); the MIST↔BROOK pair is minted nowhere yet (Mist's own audit flagged it — operator mint path)." },
+
+  // PULSAR (7th on Beacon's host, onboarded ~22:2xZ Sept 19 by the operator
+  // session, own tailnet node beacon-pulsar 100.70.91.55). Security
+  // sentinel on Qwen 3.8 27B Free (via OpenRouter). Beacon's operator
+  // mints for the tidal group arrived as six UNLABELED NAME=PULSAR blocks
+  // (22:28:10Z relay) — tidal-side installs staged pending per-block
+  // mapping confirmation (W-350; same attribution care as the prism lane).
+  { id: "pulsar", label: "PULSAR", family: "Qwen", title: "Pulsar • security sentinel (7th on Beacon's host)", desc: "Model Framework: Qwen 3.8 27B Free (via OpenRouter) • Host VPS: beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787). Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). The tidal-group receiver halves arrived as six unlabeled NAME=PULSAR blocks (Beacon's 22:28:10Z relay) — tidal-side installs staged pending per-block mapping confirmation; nothing installed or relayed from the Tidal lane yet." },
+
+  // VISTA (7th on Mountain's host, onboarded ~22:1xZ Sept 19 by the
+  // operator session, listener 100.114.14.116:8796, tailnet-only bearer).
+  // Site & Product Quality on Qwen 3.8 27B Free (per Mountain's feed).
+  // TIDAL<->VISTA installed and two-way green this same night (W-350,
+  // test-first, backup kept, Beacon's 22:37 clearance; Mountain's 23:49Z
+  // scope-sync concurs with the stricter hold on the sibling installs).
+  { id: "vista", label: "VISTA", family: "Qwen", title: "Vista • site & product quality (7th on Mountain's host)", desc: "Model Framework: Qwen 3.8 27B Free (per Mountain's feed) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8796, tailnet-only bearer). Onboarded Sept 19, 2026 (~22:1xZ, Josh's operator session): site & product quality. TIDAL↔VISTA installed and verified two-way Sept 19 (test-first, backup kept); on-box mountain-host K7 verified by Mountain's side; sibling tidal-group installs + beacon-group legs held pending Josh's direct word (Mountain's 23:49Z scope-sync concurs — stricter posture governs)." },
 ];
 
 const NODES: NodeDef[] = RAW_NODES.map((n) => ({ ...n, x: POS[n.id].x, y: POS[n.id].y }));
 
-// The complete K6 edge set for one host cluster: 15 perimeter + diagonal
-// edges. Drawn as 15 lines per cluster (45 fleet-wide).
-function k5Edges(members: readonly string[]): [string, string][] {
+// The complete K7 edge set for one host cluster: 21 perimeter + diagonal
+// edges (every pair of the seven co-located agents). Drawn as 21 lines per
+// cluster (63 fleet-wide).
+function clusterEdges(members: readonly string[]): [string, string][] {
   const edges: [string, string][] = [];
   for (let i = 0; i < members.length; i++) {
     for (let j = i + 1; j < members.length; j++) edges.push([members[i], members[j]]);
@@ -209,14 +236,28 @@ const FLOW_PACKETS = [
 // <-> brook/prism lanes verified two-way the same day). Josh's 15:50:59Z
 // directive: "Update fleet topology to account for all 18 agents" -- each
 // host now draws the complete K6 (18 agents = 153 possible pairs).
+//
+// Sept 19 2026 (later, the second wave -- Waking 350): three MORE agents
+// in one night, all on Qwen 3.8 27B. MIST (7th on this host, fleet
+// knowledge & documentation curator -- operator session installed its
+// halves into all six local configs 22:03:35Z, listener restarted
+// 22:04:40Z; tidal-host legs + mountain-group legs verified, MIST<->BROOK
+// minted nowhere yet -- Mist's own audit flags the gap). PULSAR (7th on
+// Beacon's host, security sentinel, own tailnet node beacon-pulsar -- its
+// tidal-group mints arrived unlabeled, staged pending per-block mapping
+// confirmation). VISTA (7th on Mountain's host, site & product quality --
+// TIDAL<->VISTA installed and two-way green the same night on Beacon's
+// 22:37 clearance; sibling tidal installs held pending Josh's direct word
+// per Mountain's 23:49Z scope-sync concurrence). Each host now draws the
+// complete K7 (21 agents = 210 possible pairs).
 const CHANNELS = [
   { id: "peer", d: "M452,261 Q570,190 688,261", cls: "chan-tailscale", label: "Tailscale peer channel + 15 founding bearer pairs", labelX: 570, labelY: 205 },
   { id: "agora", d: "M452,281 Q570,345 688,281", cls: "chan-agora", label: "Agora bridge", labelX: 570, labelY: 355 },
   { id: "relay", d: "M992,251 Q1110,185 1228,251", cls: "chan-relay", label: "relay via Beacon", labelX: 1110, labelY: 200 },
   { id: "agora-mountain", d: "M992,281 Q1110,345 1228,281", cls: "chan-agora", label: "Mountain \u2194 Beacon agora board bridge (live Sept 15)", labelX: 1110, labelY: 358 },
-  { id: "tidal-mountain", d: "M394,439 Q840,487 1286,439", cls: "chan-mountain", label: "direct per-agent channels \u00d717 \u2192 Mountain group \u00b7 hub to all 17 peers live (Sept 19)", labelX: 840, labelY: 462 },
+  { id: "tidal-mountain", d: "M394,439 Q840,487 1286,439", cls: "chan-mountain", label: "direct per-agent channels \u00d720 \u2192 Mountain group \u00b7 hub to all 20 peers live (Sept 19)", labelX: 840, labelY: 462 },
   // Formation label (text-only channel, no path): the pentagram ask, dated.
-  { id: "formation-label", d: "", cls: "chan-live", label: "expansion wave (Josh, Sept 19): 18 agents \u2014 3 host clusters \u00d7 6, every group-mate pair drawn \u00b7 brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19", labelX: 840, labelY: 60 },
+  { id: "formation-label", d: "", cls: "chan-live", label: "expansion wave (Josh, Sept 19): 21 agents \u2014 3 host clusters \u00d7 7, every group-mate pair drawn \u00b7 brook (16th) + prism (17th) + mesa (18th), then mist + pulsar + vista (all Qwen 3.8 27B) the same night", labelX: 840, labelY: 60 },
 ] as const;
 
 // Sept 15 2026: Beacon/Highbeam/Mountain moved off Claude to GLM Flash (operator
@@ -234,6 +275,7 @@ const LEGEND: { family: Family; x: number }[] = [
   { family: "GLM", x: 60 },
   { family: "Claude", x: 150 },
   { family: "Muse", x: 240 },
+  { family: "Qwen", x: 330 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
@@ -278,7 +320,7 @@ export default function FleetTopology() {
 
   const renderMesh = () =>
     PENTAGRAMS.flatMap((p) =>
-      k5Edges(p.members).map(([a, b], i) => {
+      clusterEdges(p.members).map(([a, b], i) => {
         const na = POS[a];
         const nb = POS[b];
         const degraded = downIds.has(a) || downIds.has(b);
@@ -314,7 +356,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 512"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: three host clusters in the pentagram tradition, now six agents each (18 total) -- Tidal host (Tidal, River, Creek, Stream, Meadow, Brook), Beacon host (Beacon, Radar, Highbeam, Lantern, Lightning, Prism), and Mountain host (Mountain, Canyon, Ridge, Harbor, Delta, Mesa). Each cluster draws the complete six-node graph (diagonals plus perimeter): every group-mate pair is live two-way on per-pair bearer tokens, verified by the hosting side. The three hosts ride labeled trunks: the Tailscale peer channel and Agora bridge between Tidal and Beacon hosts, Beacon's relay and the Mountain-Beacon agora board bridge between Beacon and Mountain hosts, and the seventeen direct per-agent channels from Mountain's hub to all 17 peers. Expansion wave Sept 19 per Josh's directives: Brook (16th agent, independent verification & fleet QA, on the Tidal host), Prism (17th, SRE & backup steward, on the Beacon host), and Mesa (18th, fleet link & mesh reliability, on the Mountain host). Radar (13th, Josh's escalation line) onboarded Sept 16; Meadow (14th) and Delta (15th) Sept 17. All 66 of 66 bearer-mesh agent pairs among the founding 12 are verified two-way live -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation. A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
+          aria-label="Animated fleet topology: three host clusters in the pentagram tradition, now seven agents each (21 total) -- Tidal host (Tidal, River, Creek, Stream, Meadow, Brook, Mist), Beacon host (Beacon, Radar, Highbeam, Lantern, Lightning, Prism, Pulsar), and Mountain host (Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista). Each cluster draws the complete seven-node graph (diagonals plus perimeter): every group-mate pair is live two-way on per-pair bearer tokens, verified by the hosting side. The three hosts ride labeled trunks: the Tailscale peer channel and Agora bridge between Tidal and Beacon hosts, Beacon's relay and the Mountain-Beacon agora board bridge between Beacon and Mountain hosts, and the twenty direct per-agent channels from Mountain's hub to all 20 peers. Expansion waves Sept 19 per Josh's directives: Brook (16th agent, independent verification & fleet QA, on the Tidal host), Prism (17th, SRE & backup steward, on the Beacon host), Mesa (18th, fleet link & mesh reliability, on the Mountain host), then Mist (fleet knowledge & documentation curator, 7th on the Tidal host), Pulsar (security sentinel, 7th on the Beacon host) and Vista (site & product quality, 7th on the Mountain host) -- all three on Qwen 3.8 27B. Radar (13th, Josh's escalation line) onboarded Sept 16; Meadow (14th) and Delta (15th) Sept 17. All 66 of 66 bearer-mesh agent pairs among the founding 12 are verified two-way live -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation. A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
         >
           <defs>
             {/* Soft bloom used on every node core -- a classic two-layer neon
@@ -423,8 +465,8 @@ export default function FleetTopology() {
               </g>
             ))}
             <text x={510} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={490} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, this host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs; host-internal K6 meshes verified by each hosting side; tidal-group&harr;prism legs staged (mapping confirm pending), tidal-group&harr;mesa + beacon-group&harr;mesa pending per-pair introduction</text>
-          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; amber chip = radar (Claude, escalation line) &middot; green chip = brook/mesa (Muse Spark 1.2) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={490} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, this host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th on this host) + pulsar (Beacon host) + vista (Mountain host), all Qwen 3.8 27B &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side; tidal-group&harr;pulsar legs staged (unlabeled relay, mapping confirm pending), mist&harr;brook minted nowhere (operator mint path), vista sibling installs held pending Josh's word (Mountain concurs, 23:49Z)</text>
+          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; amber chip = radar (Claude, escalation line) &middot; green chip = brook/mesa (Muse Spark 1.2) &middot; violet chip = mist/pulsar/vista (Qwen 3.8 27B) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 
@@ -435,14 +477,14 @@ export default function FleetTopology() {
         <div className="fleet-hud-corner fleet-hud-corner--br" aria-hidden="true" />
         <div className={feed && !feedAllOk ? "fleet-live-badge fleet-live-badge--degraded" : "fleet-live-badge"} aria-hidden="true">
           <span className="dot" />
-          {feed ? `${feedOk}/${feedTotal} agents live` : "18 agents · 3 host clusters live"}
+          {feed ? `${feedOk}/${feedTotal} agents live` : "21 agents · 3 host clusters live"}
         </div>
       </div>
 
       <div className="mt-2 text-xs text-text-dim" role="status" aria-live="polite">
         {feed
-          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 3 host clusters \u00d7 6 agents (18 total), every group-mate pair drawn \u00b7 founding 12 = 66/66 pairs verified two-way, re-verified Sept 15 post-w443 rotation (11/11 GET + 11/11 enforced-auth POST) \u00b7 radar (13th) onboarded Sept 16\u201317 \u00b7 meadow (14th) + delta (15th) onboarded Sept 17 \u00b7 15 agents = 105 pairs all two-way verified Sept 18\u201319 \u00b7 expansion wave Sept 19: brook (16th) + prism (17th) + mesa (18th) onboarded \u2014 18 agents = 153 possible pairs`
-          : "live mesh feed unavailable \u2014 showing last verified state: 3 host clusters \u00d7 6 agents (18 total, Sept 19 expansion); founding 12 = 66/66 pairs two-way (re-verified Sept 15 post-w443 rotation); radar (13th) onboarded Sept 16\u201317; meadow (14th) + delta (15th) Sept 17; brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19"}
+          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 3 host clusters \u00d7 7 agents (21 total), every group-mate pair drawn \u00b7 founding 12 = 66/66 pairs verified two-way, re-verified Sept 15 post-w443 rotation (11/11 GET + 11/11 enforced-auth POST) \u00b7 radar (13th) onboarded Sept 16\u201317 \u00b7 meadow (14th) + delta (15th) onboarded Sept 17 \u00b7 15 agents = 105 pairs all two-way verified Sept 18\u201319 \u00b7 expansion wave Sept 19: brook (16th) + prism (17th) + mesa (18th) onboarded \u2014 18 agents = 153 possible pairs \u00b7 second Sept-19 wave: mist + pulsar + vista (all Qwen 3.8 27B) \u2014 21 agents = 210 possible pairs`
+          : "live mesh feed unavailable \u2014 showing last verified state: 3 host clusters \u00d7 7 agents (21 total, Sept 19 double expansion); founding 12 = 66/66 pairs two-way (re-verified Sept 15 post-w443 rotation); radar (13th) onboarded Sept 16\u201317; meadow (14th) + delta (15th) Sept 17; brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19; mist + pulsar + vista (all Qwen 3.8 27B) the same night \u2014 21 agents = 210 possible pairs"}
       </div>
 
       <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: downIds.has(active.id) ? "var(--fleet-down)" : FAMILY_COLOR[active.family] }}>

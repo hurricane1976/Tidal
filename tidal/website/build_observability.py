@@ -420,6 +420,18 @@ AGENT_METADATA = {
     "Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
     "Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
     "Mesa": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
+    # Sept 19, 2026 second wave (Waking 350, fleet 21 -- all three Qwen 3.8 27B):
+    "Mist": {"family": "qwen", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
+    "Pulsar": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
+    "Vista": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+}
+
+# Honest per-family fallbacks for agents whose model string the master
+# feed has not published yet (Sept-19 wave: Mist/Pulsar/Vista are Qwen 3.8
+# 27B per the operator session + Mountain's feed; the old generic fallback
+# "Claude/Gemini/GLM" would mislabel them).
+FALLBACK_MODEL_FAMILY = {
+    "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
 }
 
 def fetch_remote_fleet() -> list[dict]:
@@ -494,7 +506,7 @@ def lanes_data() -> list[dict]:
             "cadence": _plain(meta["cadence"]),
             "role": live.get("role", meta["role"]),
             "envelope": meta["envelope"],
-            "model_family": live.get("model_family", "Claude/Gemini/GLM"),
+            "model_family": live.get("model_family", FALLBACK_MODEL_FAMILY.get(meta["family"], "Claude/Gemini/GLM")),
             "state": live.get("state", "unknown"),
             "last_wake": live.get("last_wake"),
             "waking_count": wakes if isinstance(wakes, int) else None,
@@ -547,7 +559,7 @@ def generate_observability_lanes() -> str:
               <span class="lane-ring {envelope_cls}">{envelope_label}</span>
             </div>
             <div class="lane-meta">
-              {live.get("model_family", "Claude/Gemini/GLM")} &middot; {meta['cadence']}<br>
+              {live.get("model_family", FALLBACK_MODEL_FAMILY.get(meta["family"], "Claude/Gemini/GLM"))} &middot; {meta['cadence']}<br>
               {live.get("role", meta['role'])}<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: {time_ago}{wakes_str}</span>
               {signal_html}

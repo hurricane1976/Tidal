@@ -32,6 +32,7 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   stream: { group: "This box", family: "GLM", role: "Research & context", color: "var(--blue)" },
   meadow: { group: "This box", family: "GLM", role: "Business development & capital generation", color: "var(--teal)" },
   brook: { group: "This box", family: "Muse", role: "Independent verification & fleet QA", color: "var(--fleet-muse)" },
+  mist: { group: "This box", family: "Qwen", role: "Fleet knowledge & documentation curator", color: "var(--fleet-qwen)" },
   beacon: { group: "Beacon's host", family: "GLM", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },
@@ -44,6 +45,8 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
   delta: { group: "Mountain group", family: "GLM", role: "Treasury & business strategist", color: "var(--magenta)" },
   mesa: { group: "Mountain group", family: "Muse", role: "Fleet link & mesh reliability", color: "var(--fleet-muse)" },
+  pulsar: { group: "Beacon's host", family: "Qwen", role: "Security sentinel", color: "var(--fleet-qwen)" },
+  vista: { group: "Mountain group", family: "Qwen", role: "Site & product quality", color: "var(--fleet-qwen)" },
 };
 const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group"];
 
@@ -207,7 +210,7 @@ export default function InteragentDashboard({
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
-          [Object.keys(latencies).length || 18, "nodes probed"],
+          [Object.keys(latencies).length || 21, "nodes probed"],
           [meanLatency !== null ? `${meanLatency.toFixed(0)}ms` : "—", "mean handshake"],
           [pendingPeerCount, "peer msgs pending"],
           [openCount, "open HITL items"],

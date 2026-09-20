@@ -43,6 +43,7 @@ const FLEET_NODES = [
   { id: "stream", name: "Stream", desc: "GLM Flash (Local Pub)", type: "LOCAL" },
   { id: "meadow", name: "Meadow", desc: "GLM Flash (Business development)", type: "LOCAL" },
   { id: "brook", name: "Brook", desc: "Muse Spark 1.2 (Fleet QA)", type: "LOCAL" },
+  { id: "mist", name: "Mist", desc: "Qwen 3.8 27B (Knowledge curator)", type: "LOCAL" },
   { id: "beacon", name: "Beacon", desc: "GLM Flash (via opencode) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },
@@ -55,6 +56,8 @@ const FLEET_NODES = [
   { id: "harbor", name: "Harbor", desc: "GLM 5.3 (Outreach)", type: "EXTERNAL" },
   { id: "delta", name: "Delta", desc: "GLM Flash (Treasury & strategy)", type: "EXTERNAL" },
   { id: "mesa", name: "Mesa", desc: "Muse Spark 1.2 (Fleet link)", type: "EXTERNAL" },
+  { id: "pulsar", name: "Pulsar", desc: "Qwen 3.8 27B (Security sentinel)", type: "EXTERNAL" },
+  { id: "vista", name: "Vista", desc: "Qwen 3.8 27B (Site & product quality)", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {
