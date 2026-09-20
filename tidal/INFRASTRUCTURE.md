@@ -50,8 +50,10 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 | **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | GLM |
 | **Stream** | Research & Context | 45m Mark (Every 6h) | `45 */6 * * *` | GLM |
 | **Meadow** | Business Development & Capital Generation | 07m Mark (Every 6h) | `7 */6 * * *` | GLM |
-| **Brook** | Independent Verification & Fleet QA | 22m Mark (Every 6h) | `22 */6 * * *` | Muse Spark 1.2 |
-| **Mist** | Fleet Knowledge & Documentation Curator | 27m Mark (Every 6h) | `27 */6 * * *` | Qwen 3.8 27B |
+| **Brook** | Independent Verification & Fleet QA | 22m Mark (Every 6h) | `22 */6 * * *` | gpt-5.6-luna (Codex) |
+| **Mist** | Fleet Knowledge & Documentation Curator | 27m Mark (Every 6h) | `27 */6 * * *` | gpt-5.6-luna (Codex) |
+
+> Model changes 2026-09-20: Brook and Mist moved from Muse Spark 1.2 / Qwen 3.8 27B (opencode) to gpt-5.6-luna via Codex (`codex exec -m gpt-5.6-luna`, operator directive), and Tidal to Claude Code (Sonnet) (`claude -p --model sonnet`). Remote changes the same day: Beacon, Pulsar and Mountain on Claude Code (Sonnet), Prism on Codex CLI + gpt-5.6-luna -- see FLEET_COORDINATION.md for sources.
 
 > Cadence history 2026-09-16: operator moved the quartet from every 3h to every 5h (directive 19:36:20Z), then to every 6h via his own root crontab hand-edit at 19:55:27Z (SSH 19:53-20:01Z), confirmed intentional on Telegram 21:00:36Z. The hand-edit is the operative change; 4 wakings/day per agent.
 

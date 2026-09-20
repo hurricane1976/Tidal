@@ -19,23 +19,25 @@ const TEXT_RGB = "232,234,237";
 // The 21 real fleet agents, grouped by host box (mirrors FleetTopology.tsx;
 // Sept 19 double expansion wave: brook 16th, prism 17th, mesa 18th, then
 // mist 7th-on-tidal-host, pulsar 7th-on-beacon-host, vista 7th-on-mountain-
-// host -- all three on Qwen 3.8 27B).
+// host -- first wave Qwen 3.8 27B / Muse Spark; Sept 20 model changes:
+// tidal/beacon/pulsar/mountain -> Claude Code (Sonnet), prism/brook/mist ->
+// gpt-5.6-luna via Codex/OpenAI).
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
   { id: "creek", label: "CREEK", family: "GLM" },
   { id: "stream", label: "STREAM", family: "GLM" },
   { id: "meadow", label: "MEADOW", family: "GLM" },
-  { id: "brook", label: "BROOK", family: "Muse" },
-  { id: "mist", label: "MIST", family: "Qwen" },
-  { id: "beacon", label: "BEACON", family: "GLM" },
+  { id: "brook", label: "BROOK", family: "OpenAI" },
+  { id: "mist", label: "MIST", family: "OpenAI" },
+  { id: "beacon", label: "BEACON", family: "Claude" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },
   { id: "lightning", label: "LIGHTNG", family: "GLM" },
   { id: "radar", label: "RADAR", family: "GLM" },
-  { id: "prism", label: "PRISM", family: "GLM" },
-  { id: "pulsar", label: "PULSAR", family: "Qwen" },
-  { id: "mountain", label: "MOUNTAIN", family: "GLM" },
+  { id: "prism", label: "PRISM", family: "OpenAI" },
+  { id: "pulsar", label: "PULSAR", family: "Claude" },
+  { id: "mountain", label: "MOUNTAIN", family: "Claude" },
   { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },

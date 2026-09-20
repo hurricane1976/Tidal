@@ -645,19 +645,24 @@ _Nothing awaiting a decision right now._
         for name, pattern in (("River", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Creek", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Stream", "4&times;/day <code>45&nbsp;*/6</code>"),
-                              ("Mountain", "4&times;/day <code>0&nbsp;*/6</code>"),
                               ("Canyon", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Ridge", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
             self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
+        # Sept 20, 2026: Mountain's first-party agent.json reports Claude
+        # Sonnet 5 via Claude Code ("engine switch back"); cadence unchanged.
+        self.assertIn('"Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>"', obs,
+                      "Mountain must be the claude family on the same every-6h cadence")
         # Sept 20, 2026 (operator directive): Tidal itself moved off
         # opencode/GLM Flash onto Claude Code (Sonnet); its AGENT_METADATA
         # family flips to claude while its cadence stays the same.
         self.assertIn('"Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>"', obs,
                       "observability AGENT_METADATA Tidal row must be the every-6h cadence, claude family")
-        for name, pattern in (("Beacon", "4&times;/day <code>*/6</code>"),
-                              ("Highbeam", "4&times;/day <code>*/6</code>"),
+        # Sept 20, 2026: Beacon's own master feed reports Claude Code (Sonnet).
+        self.assertIn('"Beacon": {"family": "claude", "cadence": "4&times;/day <code>*/6</code>"', obs,
+                      "observability AGENT_METADATA Beacon row must be the every-6h cadence, claude family")
+        for name, pattern in (("Highbeam", "4&times;/day <code>*/6</code>"),
                               ("Lantern", "4&times;/day <code>*/6</code>"),
                               ("Lightning", "4&times;/day <code>*/6</code>"),
                               ("Radar", "4&times;/day <code>50&nbsp;*/6</code>")):
@@ -723,17 +728,18 @@ _Nothing awaiting a decision right now._
         self.assertIn('"Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
                       "Delta observability row must represent-from-manifest (Mountain has not published its minute)")
         # Waking 348: the Sept 19 expansion-wave rows (18 agents).
-        self.assertIn('"Brook": {"family": "muse", "cadence": "4&times;/day <code>22&nbsp;*/6</code>"', obs,
+        self.assertIn('"Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>"', obs,
                       "Brook observability row must carry its on-box 22 */6 cadence")
-        self.assertIn('"Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>"', obs,
+        self.assertIn('"Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>"', obs,
                       "Prism observability row must carry Beacon's published 55 */6 cadence")
         self.assertIn('"Mesa": {"family": "muse"', obs,
                       "Mesa observability row must carry the Muse family (per Mountain's feed)")
-        # Waking 350: the second Sept-19 wave rows (all Qwen 3.8 27B).
-        self.assertIn('"Mist": {"family": "qwen", "cadence": "4&times;/day <code>27&nbsp;*/6</code>"', obs,
+        # Waking 350: the second Sept-19 wave rows (launched on Qwen 3.8 27B;
+        # Sept 20: Mist -> openai/gpt-5.6-luna via Codex, Pulsar -> claude).
+        self.assertIn('"Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>"', obs,
                       "Mist observability row must carry its on-box 27 */6 cadence")
-        self.assertIn('"Pulsar": {"family": "qwen"', obs,
-                      "Pulsar observability row must carry the Qwen family")
+        self.assertIn('"Pulsar": {"family": "claude"', obs,
+                      "Pulsar observability row must carry the Claude family (Beacon's feed, 2026-09-20)")
         self.assertIn('"Vista": {"family": "qwen"', obs,
                       "Vista observability row must carry the Qwen family (per Mountain's feed)")
         fp = os.path.join(self.original_cwd, "website/next-app/src/app/fleet/page.tsx")
@@ -771,7 +777,7 @@ _Nothing awaiting a decision right now._
         self.assertIn('if "deepseek" in str(model).lower():', content,
                       "Lightning/Canyon status fetchers must normalize stale DeepSeek self-reports")
 
-    def test_observability_agent_metadata_all_glm(self):
+    def test_observability_agent_metadata_families(self):
         """After the Sept-16 fleet-wide GLM migration, every founding-12
         AGENT_METADATA family must be glm (DeepSeek retired fleet-wide).
         RADAR (13th agent, onboarded Sept 16 per Josh's directive) ran
@@ -782,7 +788,14 @@ _Nothing awaiting a decision right now._
         and Mesa (18th) run Muse Spark 1.2 (the fleet's third model family,
         per Waking 347/348 ground truth), and the second wave (Mist/Pulsar/
         Vista) runs Qwen 3.8 27B. Tidal itself moved off opencode/GLM Flash
-        onto Claude Code (Sonnet) per operator directive 2026-09-20."""
+        onto Claude Code (Sonnet) per operator directive 2026-09-20.
+
+        Sept 20, 2026 model changes: Beacon and Pulsar publish "Claude Code
+        (Sonnet)" in Beacon's master feed and Mountain's first-party
+        agent.json reports Claude Sonnet 5 via Claude Code -> claude (with
+        Tidal: four nodes). Prism ("Codex CLI + gpt-5.6-luna" in the feed)
+        and Brook/Mist (their wake.sh run `codex exec -m gpt-5.6-luna`) ->
+        openai. Mesa stays muse, Vista stays qwen, everything else glm."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -790,9 +803,10 @@ _Nothing awaiting a decision right now._
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
-            expected = {"Brook": "muse", "Mesa": "muse",
-                        "Mist": "qwen", "Pulsar": "qwen", "Vista": "qwen",
-                        "Tidal": "claude"}.get(name, "glm")
+            expected = {"Mesa": "muse", "Vista": "qwen",
+                        "Brook": "openai", "Mist": "openai", "Prism": "openai",
+                        "Tidal": "claude", "Beacon": "claude",
+                        "Pulsar": "claude", "Mountain": "claude"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
@@ -1518,11 +1532,26 @@ _Nothing awaiting a decision right now._
                 # the Claude legend chip returns a third time (this time for
                 # Tidal) and the four chips re-space Claude/GLM/Muse/Qwen.
                 self.assertIn("{ family: \"Claude\", x: 60 }", topo_src)
+                # Sept 20, 2026 (later still): the fleet's model changes add an
+                # OpenAI chip (prism/brook/mist on gpt-5.6-luna) and widen the
+                # Claude chip to four nodes (tidal/beacon/pulsar/mountain).
                 self.assertIn("{ family: \"GLM\", x: 150 }", topo_src)
-                self.assertIn("{ family: \"Muse\", x: 240 }", topo_src)
-                self.assertIn("{ family: \"Qwen\", x: 330 }", topo_src)
-                self.assertIn("amber chip = tidal (Claude Code Sonnet since Sept 20)", topo_src)
+                self.assertIn("{ family: \"OpenAI\", x: 240 }", topo_src)
+                self.assertIn("{ family: \"Muse\", x: 330 }", topo_src)
+                self.assertIn("{ family: \"Qwen\", x: 420 }", topo_src)
+                self.assertIn("amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves)", topo_src)
+                self.assertIn("mint chip = prism/brook/mist (gpt-5.6-luna via Codex, Sept 20)", topo_src)
                 self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
+                for _nid, _fam, _label in (("radar", "GLM", "Radar"), ("beacon", "Claude", "Beacon"), ("pulsar", "Claude", "Pulsar"),
+                                           ("mountain", "Claude", "Mountain"), ("prism", "OpenAI", "Prism"),
+                                           ("brook", "OpenAI", "Brook"), ("mist", "OpenAI", "Mist"),
+                                           ("mesa", "Muse", "Mesa"), ("vista", "Qwen", "Vista")):
+                    self.assertRegex(topo_src, r'\{ id: "%s", label: "[^"]+", family: "%s", title: "%s' % (_nid, _fam, _label),
+                                     f"{_nid} must sit in the {_fam} family on the topology")
+                self.assertNotRegex(topo_src, r'\{ id: "(?:beacon|pulsar|mountain|prism|brook|mist)", label: "[^"]+", family: "(?:GLM|Qwen|Muse)"',
+                                    "moved agents must not keep their pre-Sept-20 family")
+                self.assertIn("gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20", topo_src)
+                self.assertIn("Claude Code (Sonnet 5, claude-sonnet-5; Mountain's first-party agent.json", topo_src)
                 # Waking 356: mesa's tidal leg went live (Mountain's resent
                 # 01:56Z mint installed per Josh's 00:16:25Z remove-hold
                 # word) -- honest leg-state strings updated on every surface.
@@ -1677,11 +1706,84 @@ _Nothing awaiting a decision right now._
             status = build_site.get_beacon_status()
             self.assertTrue(status['ok'])
             self.assertEqual(status['nostr_npub'], "npub1ayqwpvdmf8658ruddqrm0grxe8s6fueh07l7mpglapvaaxs6uzgqd278dx")
-            # Operator directives 2026-09-11 + 2026-09-15: stale Luna self-reports
-            # (and any stale Claude string) from Beacon's feed must normalize to
-            # the current fleet standard, GLM Flash via opencode (Claude Code
-            # removed from the fleet, operator Telegram 20:54:47Z Sept 15).
-            self.assertEqual(status['framework'], "GLM Flash (via opencode) / autonomous wake loop")
+            # A stale Luna self-report from Beacon's own manifest still
+            # normalizes to Beacon's current model. The Sept 15 rule that
+            # also rewrote any Claude string to GLM Flash (Claude Code
+            # "removed from the fleet") is retired: Beacon's own feed now
+            # reports Claude Code (Sonnet) as of 2026-09-20.
+            self.assertEqual(status['framework'], "Claude Code (Sonnet) / autonomous wake loop")
+
+    def test_get_beacon_status_passes_through_claude_self_report(self):
+        """2026-09-20 model change: Beacon reporting Claude Code is the truth,
+        not a stale string -- it must render as reported, never rewritten to GLM."""
+        from unittest.mock import patch, MagicMock
+        import json
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "name": "Beacon", "framework": "Claude Code / autonomous wake loop",
+            "wake_cadence": "6x/day", "updated": "2026-09-20T11:38:52Z", "waking_count": 509,
+        }).encode('utf-8')
+        mock_response.__enter__.return_value = mock_response
+        with patch('urllib.request.urlopen', return_value=mock_response):
+            status = build_site.get_beacon_status()
+        self.assertTrue(status['ok'])
+        self.assertEqual(status['framework'], "Claude Code / autonomous wake loop")
+        self.assertNotIn("GLM", status['framework'])
+
+    def test_get_mountain_status_prefers_first_party_model(self):
+        """Mountain's own agent.json (Claude Sonnet 5 via Claude Code, engine
+        switch back 2026-09-20) beats the lagging GLM row Beacon relays; if the
+        first-party manifest is unreachable the relayed row is used as-is."""
+        from unittest.mock import patch, MagicMock
+        import json
+        def resp(payload):
+            m = MagicMock()
+            m.read.return_value = json.dumps(payload).encode('utf-8')
+            m.__enter__.return_value = m
+            return m
+        feed = resp({"agents": [{"name": "Mountain", "model": "GLM Flash (via OpenRouter, on opencode)", "role": "x"}]})
+        first_party = resp({"model_family": "Claude (Claude Sonnet 5, claude-sonnet-5, via Claude Code)"})
+        with patch('urllib.request.urlopen', side_effect=[feed, first_party]):
+            status = build_site.get_mountain_status()
+        self.assertTrue(status['ok'])
+        self.assertIn("Claude Sonnet 5", status['model'])
+        feed = resp({"agents": [{"name": "Mountain", "model": "GLM Flash (via OpenRouter, on opencode)", "role": "x"}]})
+        with patch('urllib.request.urlopen', side_effect=[feed, OSError("unreachable")]):
+            status = build_site.get_mountain_status()
+        self.assertEqual(status['model'], "GLM Flash (via OpenRouter, on opencode)")
+
+    def test_local_wake_model_reads_engine_from_wake_sh(self):
+        """This host's agents are read from their own wake.sh (ground truth),
+        so a same-day engine change shows up even while Beacon's relayed feed
+        row lags (Sept 20: Brook/Mist opencode -> Codex gpt-5.6-luna)."""
+        import tempfile
+        cases = {
+            "codex": ('#!/bin/bash\n# -m "old-model" in a comment\ncodex exec \\\n  --skip-git-repo-check \\\n  -m "gpt-5.6-luna" \\\n  "$PROMPT"\n',
+                      "gpt-5.6-luna (via Codex CLI)"),
+            "claude": ('#!/bin/bash\nclaude -p "$PROMPT" \\\n  --output-format json \\\n  --model sonnet\n',
+                       "Claude Code (Sonnet)"),
+            "opencode": ('#!/bin/bash\nopencode run \\\n  --model "openrouter/~z-ai/glm-flash-latest" \\\n  "$PROMPT"\n',
+                         "openrouter/~z-ai/glm-flash-latest (via opencode)"),
+        }
+        with tempfile.TemporaryDirectory() as home:
+            with patch.dict(os.environ, {"HOME": home}):
+                for name, (script, expected) in cases.items():
+                    os.makedirs(os.path.join(home, name))
+                    with open(os.path.join(home, name, "wake.sh"), "w") as fh:
+                        fh.write(script)
+                    self.assertEqual(build_site._local_wake_model(name), expected, name)
+                self.assertIsNone(build_site._local_wake_model("missing-agent"))
+
+    def test_observability_system_of_model_recognizes_openai(self):
+        import os
+        from importlib.machinery import SourceFileLoader
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
+        build_obs = SourceFileLoader("build_observability", path).load_module()
+        for m in ("gpt-5.6-luna", "Codex CLI + gpt-5.6-luna"):
+            self.assertEqual(build_obs._system_of_model(m), "openai")
+        self.assertEqual(build_obs._system_of_model("claude-sonnet-5"), "anthropic")
+        self.assertEqual(build_obs._system_of_model("GLM Flash"), "zhipu")
 
 
 class TestAgentReadinessAudit(unittest.TestCase):

@@ -1536,17 +1536,16 @@ def get_beacon_status():
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             data = json.loads(response.read().decode('utf-8'))
-            framework = data.get("framework", "GLM Flash (via opencode) / autonomous wake loop")
+            framework = data.get("framework", "Claude Code (Sonnet) / autonomous wake loop")
             # Operator directive 2026-09-11 (historical): Beacon ran Claude Code (Sonnet) per
             # operator revert; normalize any stale self-reported Luna string here.
             if "luna" in framework.lower() or "gpt-5.6" in framework.lower():
-                framework = "GLM Flash (via opencode) / autonomous wake loop"
-            # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed from the
-            # fleet; Beacon/Highbeam/Mountain are on the new model (GLM Flash via opencode).
-            # Their agent.json/feed strings can lag behind, so normalize any stale Claude
-            # self-report to the current fleet standard the same way Luna was normalized.
-            if "claude" in framework.lower():
-                framework = "GLM Flash (via opencode) / autonomous wake loop"
+                framework = "Claude Code (Sonnet) / autonomous wake loop"
+            # 2026-09-20 model change: Beacon's own agent.json/master feed report Claude Code
+            # (Sonnet) again (first-party, live 11:38Z). The Sept 15 normalizer that rewrote any
+            # Claude self-report to GLM Flash (Telegram 20:54:47Z "Claude Code removed from the
+            # fleet") is retired -- it would now hide Beacon's real model -- so the feed's own
+            # framework string passes through unchanged.
             return {
                 "ok": True,
                 "name": data.get("name", "Beacon"),
@@ -1691,6 +1690,25 @@ def get_lantern_status():
     })
 
 
+def _mountain_first_party_model():
+    """Mountain's own model self-report (mountainwake.org/.well-known/agent.json
+    `model_family`), or None if unreachable/absent. First-party beats the
+    model string Beacon's master feed relays for Mountain."""
+    import urllib.request
+    import json
+    try:
+        req = urllib.request.Request(
+            "https://mountainwake.org/.well-known/agent.json",
+            headers={'User-Agent': 'TidalAgent-StatusFetcher/1.0'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+        fam = data.get("model_family")
+        return str(fam) if isinstance(fam, str) and fam.strip() else None
+    except Exception:
+        return None
+
+
 def get_mountain_status():
     import urllib.request
     import json
@@ -1705,12 +1723,12 @@ def get_mountain_status():
             agents = data.get("agents", [])
             for agent in agents:
                 if agent.get("name") == "Mountain":
-                    mountain_model = agent.get("model", "GLM Flash (via opencode)")
-                    # Operator directive 2026-09-15 (Telegram 20:54:47Z): Claude Code removed
-                    # from the fleet; Mountain is on the new model (GLM Flash via opencode,
-                    # its own 20:29:33Z message self-signature). Normalize stale feed strings.
-                    if "claude" in str(mountain_model).lower():
-                        mountain_model = "GLM Flash (via opencode)"
+                    # 2026-09-20 model change: Mountain's first-party agent.json reports Claude
+                    # Sonnet 5 via Claude Code ("engine switch back"), so the Sept 15 rewrite of
+                    # any Claude string to GLM Flash is retired. Beacon's relayed row for Mountain
+                    # lags (still GLM), so prefer Mountain's own statement and fall back to the
+                    # relayed row only if the first-party manifest is unreachable.
+                    mountain_model = _mountain_first_party_model() or agent.get("model", "Claude Code (Sonnet 5)")
                     return {
                         "ok": True,
                         "name": agent.get("name", "Mountain"),
@@ -1872,7 +1890,7 @@ def get_radar_status():
                         "name": agent.get("name", "Radar"),
                         "role": agent.get("role", "Operator Escalation Line"),
                         "host": agent.get("host", "beaconwake.com host (co-located, own Tailscale node beacon-radar)"),
-                        "model": agent.get("model", "Claude Code (Sonnet)"),
+                        "model": agent.get("model", "GLM Flash Latest (via OpenRouter, on opencode)"),
                         "cadence": agent.get("cadence", "on Beacon's host"),
                         "wakings": agent.get("wakings", "—"),
                         "last_wake": agent.get("last_wake", "Unknown"),
@@ -1961,14 +1979,14 @@ def _fetch_feed_agent(url: str, agent_name: str, fallbacks: dict):
 BROOK_FALLBACKS = {
     "role": "Independent Verification & Fleet QA",
     "host": "107.170.33.6 (this host, co-located, brook-peer on 100.91.42.51:8792)",
-    "model": "Muse Spark 1.2 (via opencode; operator-onboarded 2026-09-19)",
+    "model": "gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 -- was Muse Spark 1.2 via opencode)",
     "cadence": "4x/day (22 */6)",
     "signal": "Independent verification lane; local mesh verified two-way 5/5 both sides Sept 19.",
 }
 PRISM_FALLBACKS = {
     "role": "SRE / backup steward",
     "host": "beaconwake.com host (co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)",
-    "model": "GLM Flash Latest (via OpenRouter, on opencode)",
+    "model": "Codex CLI + gpt-5.6-luna (per Beacon's feed 2026-09-20; was GLM Flash Latest via OpenRouter)",
     "cadence": "4x/day (55 */6)",
     "signal": "SRE & backup steward; Beacon's five on-box prism legs verified two-way Sept 19.",
 }
@@ -1980,8 +1998,37 @@ MESA_FALLBACKS = {
     "signal": "Fleet link & mesh reliability; five on-box pairs minted and verified the wake he joined (Sept 19).",
 }
 
+def _local_wake_model(agent_dir):
+    """Ground truth for an agent on THIS host: the model its own wake.sh
+    invokes (Codex `-m`, opencode `--model`, or Claude Code `--model`).
+    Beacon's master feed relays this box's agents from Tidal's own earlier
+    broker requests, so it can lag a same-day engine change (Sept 20: Brook
+    and Mist moved opencode -> Codex gpt-5.6-luna). Returns None when the
+    script is absent/unparseable so callers fall back to the feed."""
+    import re
+    try:
+        with open(os.path.join(os.path.expanduser("~"), agent_dir, "wake.sh"), encoding="utf-8") as fh:
+            live = [l for l in fh.read().splitlines() if not l.lstrip().startswith("#")]
+    except OSError:
+        return None
+    text = "\n".join(live)
+    m = re.search(r'codex\s+exec\b[^\n]*?(?:\\\n[^\n]*?)*?-m\s+"?([\w.\-/]+)"?', text)
+    if m:
+        return f"{m.group(1)} (via Codex CLI)"
+    m = re.search(r'claude\s+-p\b[\s\S]*?--model\s+"?([\w.\-/]+)"?', text)
+    if m:
+        return f"Claude Code ({m.group(1).title()})"
+    m = re.search(r'opencode\s+run\b[\s\S]*?--model\s+"?([\w.\-/~]+)"?', text)
+    if m:
+        return f"{m.group(1)} (via opencode)"
+    return None
+
 def get_brook_status():
-    return _fetch_feed_agent("https://www.beaconwake.com/fleet.json", "Brook", BROOK_FALLBACKS)
+    status = _fetch_feed_agent("https://www.beaconwake.com/fleet.json", "Brook", BROOK_FALLBACKS)
+    local_model = _local_wake_model("Brook")
+    if status.get("ok") and local_model:
+        status["model"] = local_model
+    return status
 
 def get_prism_status():
     return _fetch_feed_agent("https://www.beaconwake.com/fleet.json", "Prism", PRISM_FALLBACKS)
@@ -2244,7 +2291,7 @@ def main():
         # Fallback values
         beacon_stats.update({
             'name': 'Beacon',
-            'framework': 'GLM Flash (via opencode) / autonomous wake loop',
+            'framework': 'Claude Code (Sonnet) / autonomous wake loop',
             'wake_cadence': '6x/day',
             'waking_count': '144 (cached)',
             'updated': '2026-08-30 (cached)',
@@ -2332,7 +2379,7 @@ def main():
             'name': 'Mountain',
             'role': 'Growth & distribution',
             'host': 'independent host (no public URL yet)',
-            'model': 'GLM Flash (via opencode)',
+            'model': 'Claude Code (Sonnet 5)',
             'cadence': 'its own schedule',
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2414,7 +2461,7 @@ def main():
             'name': 'Radar',
             'role': 'Operator Escalation Line',
             'host': 'beaconwake.com host (co-located, own Tailscale node beacon-radar at 100.125.26.66)',
-            'model': 'Claude Code (Sonnet)',
+            'model': 'GLM Flash Latest (via OpenRouter, on opencode)',
             'cadence': "on Beacon's host",
             'wakings': '—',
             'last_wake': 'Unknown (cached)',
@@ -2651,7 +2698,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Beacon</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Ops)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet) (Remote Ops)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -2691,7 +2738,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Mountain</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (via opencode) (Remote Growth)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Claude Code (Sonnet 5) (Remote Growth)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
@@ -3462,12 +3509,12 @@ def main():
         "creek": ("LOCAL", "GLM Flash (Local Sec)"),
         "stream": ("LOCAL", "GLM Flash (Local Pub)"),
         "meadow": ("LOCAL", "GLM Flash (Business development)"),
-        "beacon": ("REMOTE", "GLM Flash (via opencode) (Remote Ops)"),
+        "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
         "lightning": ("REMOTE", "GLM Flash (Remote Data)"),
         "radar": ("REMOTE", "GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)"),
-        "mountain": ("REMOTE", "GLM Flash (via opencode) (Remote Growth)"),
+        "mountain": ("REMOTE", "Claude Code (Sonnet 5) (Remote Growth)"),
         "canyon": ("REMOTE", "GLM Flash (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM 5.3 (Remote Sibling)"),
         "harbor": ("REMOTE", "GLM 5.3 (Outward Voice)"),
@@ -4561,13 +4608,13 @@ def main():
             _pmembers_order[_mid] = _i
     _node_meta = {
         "tidal": ("TIDAL", "var(--teal)"), "river": ("RIVER", "var(--teal)"), "creek": ("CREEK", "var(--purple)"),
-        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "brook": ("BROOK", "#9dff3d"),
+        "stream": ("STREAM", "#48bb78"), "meadow": ("MEADOW", "#48bb78"), "brook": ("BROOK", "#00ffb2"),
         "beacon": ("BEACON", "var(--amber)"), "radar": ("RADAR", "#f06fb0"), "highbeam": ("H-BEAM", "var(--amber)"),
-        "lantern": ("LNTRN", "var(--teal)"), "lightning": ("LIGHTNG", "#ecc94b"), "prism": ("PRISM", "var(--amber)"),
+        "lantern": ("LNTRN", "var(--teal)"), "lightning": ("LIGHTNG", "#ecc94b"), "prism": ("PRISM", "#00ffb2"),
         "mountain": ("MOUNTAIN", "var(--green, #2f855a)"), "canyon": ("CANYON", "#a27b5c"),
         "ridge": ("RIDGE", "#f06fb0"), "harbor": ("HARBOR", "#f06fb0"), "delta": ("DELTA", "#f06fb0"),
-        "mesa": ("MESA", "#9dff3d"), "mist": ("MIST", "#a78bfa"),
-        "pulsar": ("PULSAR", "#a78bfa"), "vista": ("VISTA", "#a78bfa"),
+        "mesa": ("MESA", "#9dff3d"), "mist": ("MIST", "#00ffb2"),
+        "pulsar": ("PULSAR", "#ffb020"), "vista": ("VISTA", "#a78bfa"),
     }
     _nodes_svg = "\n            ".join(
         f'<!-- {mid.upper()} (pentagram ring position {_pmembers_order[mid]}) -->\n'
@@ -4590,7 +4637,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">21 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, all Qwen 3.8 27B -- the second Sept 19 wave). Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">21 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, the second Sept 19 wave, launched on Qwen 3.8 27B; Mist has since moved to gpt-5.6-luna and Pulsar to Claude Code, Sept 20). Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>
@@ -4615,8 +4662,9 @@ def main():
              GROWN Sept 19, 2026 (Waking 348, expansion wave per Josh's
              15:50:59Z directive: Brook 16th / Prism 17th / Mesa 18th;
              Waking 350 second wave the same night: Mist 7th-on-tidal-host,
-             Pulsar 7th-on-beacon-host, Vista 7th-on-mountain-host, all
-             Qwen 3.8 27B): 21 agents -- three host clusters of seven,
+             Pulsar 7th-on-beacon-host, Vista 7th-on-mountain-host, launched
+             on Qwen 3.8 27B; Sept 20 model changes: tidal/beacon/pulsar/
+             mountain -> Claude Code, prism/brook/mist -> gpt-5.6-luna): 21 agents -- three host clusters of seven,
              each the complete K7 (21 perimeter + diagonal edges = every
              group-mate pair live two-way on per-pair bearer tokens,
              verified by each hosting side).
@@ -4699,7 +4747,7 @@ def main():
             }},
             beacon: {{
                 title: "Beacon &bull; remote production compiler & release board",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &mdash; first-party in Beacon's live master feed 2026-09-20 (moved off opencode/GLM Flash) &bull; <strong>Host VPS:</strong> beaconwake.com (Remote)<br><strong>Core Duties:</strong> Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers.",
                 color: "var(--amber)"
             }},
             radar: {{
@@ -4724,7 +4772,7 @@ def main():
             }},
             mountain: {{
                 title: "Mountain &bull; remote growth &amp; distribution gateway",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet 5, claude-sonnet-5) &mdash; Mountain's first-party agent.json, 2026-09-20 engine switch back from GLM Flash &bull; <strong>Host VPS:</strong> Independent Host (Remote)<br><strong>Core Duties:</strong> Drives automated traffic acquisition campaigns, logs platform exposure, analyzes user conversion funnels, manages RSS/ATOM syndication feeds, and runs outbound newsletters. Linked via direct secure Tailscale peer channels to local Tidal, River, Creek, and Stream (one per-agent secret each), and to remote Beacon.",
                 color: "var(--green, #2f855a)"
             }},
             canyon: {{
@@ -4749,12 +4797,12 @@ def main():
             }},
             brook: {{
                 title: "Brook &bull; independent verification &amp; fleet QA (16th agent)",
-                desc: "<strong>Model Framework:</strong> Muse Spark 1.2 (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity (fleet missions #1, #5, #7 observer). Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.",
-                color: "#9dff3d"
+                desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 &mdash; was Muse Spark 1.2 via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity (fleet missions #1, #5, #7 observer). Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.",
+                color: "#00ffb2"
             }},
             prism: {{
                 title: "Prism &bull; SRE &amp; backup steward (17th agent)",
-                desc: "<strong>Model Framework:</strong> GLM Flash Latest (via OpenRouter, on opencode; per Beacon's master feed) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (scaffolded by Josh's operator session; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.",
+                desc: "<strong>Model Framework:</strong> Codex CLI + gpt-5.6-luna (per Beacon's master feed 2026-09-20; was GLM Flash Latest via OpenRouter on opencode) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (scaffolded by Josh's operator session; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.",
                 color: "var(--amber)"
             }},
             mesa: {{
@@ -4764,13 +4812,13 @@ def main():
             }},
             mist: {{
                 title: "Mist &bull; fleet knowledge &amp; documentation curator (7th on this host)",
-                desc: "<strong>Model Framework:</strong> Qwen 3.8 27B Free (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:03Z, Josh's operator session): keeps the shared fleet records &mdash; manifests, fleet coordination, infrastructure docs &mdash; synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way; mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST&#8596;BROOK minted (W-353, 00:37:31Z word) and PULSAR&#8596;MIST minted + pulsar side installed (w506) &mdash; mist's halves install on its 06:27Z wake; MIST&#8596;PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct).",
-                color: "#a78bfa"
+                desc: "<strong>Model Framework:</strong> gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 &mdash; was Qwen 3.8 27B Free via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:03Z, Josh's operator session): keeps the shared fleet records &mdash; manifests, fleet coordination, infrastructure docs &mdash; synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way; mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST&#8596;BROOK minted (W-353, 00:37:31Z word) and PULSAR&#8596;MIST minted + pulsar side installed (w506) &mdash; mist's halves install on its 06:27Z wake; MIST&#8596;PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct).",
+                color: "#00ffb2"
             }},
             pulsar: {{
                 title: "Pulsar &bull; security sentinel (7th on Beacon's host)",
-                desc: "<strong>Model Framework:</strong> Qwen 3.8 27B Free (via OpenRouter) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). Mapping confirmed Sept 20 (Beacon's 00:17:56Z first-hand verification of pulsar's mint order + Josh's 00:16:25Z go): TIDAL&#8596;PULSAR installed + two-way green (W-352), stream&#8596;pulsar live (Stream's 00:53Z confirm-back), the other four tidal-group halves relayed one-labeled-token-each (installs close on sibling wakes); PULSAR&#8596;MIST + PULSAR&#8596;VISTA minted Sept 20 on Josh's 00:37:31Z word (W-353), pulsar-side halves installed by Beacon (w506), far sides closing (Mountain installed vista's side, its 01:53Z confirm-back).",
-                color: "#a78bfa"
+                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) (per Beacon's master feed 2026-09-20; was Qwen 3.8 27B Free via OpenRouter) &bull; <strong>Host VPS:</strong> beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787)<br><strong>Core Duties:</strong> Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). Mapping confirmed Sept 20 (Beacon's 00:17:56Z first-hand verification of pulsar's mint order + Josh's 00:16:25Z go): TIDAL&#8596;PULSAR installed + two-way green (W-352), stream&#8596;pulsar live (Stream's 00:53Z confirm-back), the other four tidal-group halves relayed one-labeled-token-each (installs close on sibling wakes); PULSAR&#8596;MIST + PULSAR&#8596;VISTA minted Sept 20 on Josh's 00:37:31Z word (W-353), pulsar-side halves installed by Beacon (w506), far sides closing (Mountain installed vista's side, its 01:53Z confirm-back).",
+                color: "#ffb020"
             }},
             vista: {{
                 title: "Vista &bull; site &amp; product quality (7th on Mountain's host)",
@@ -4850,7 +4898,7 @@ def main():
                 <h3 style="color: var(--amber); margin: 0;">Beacon</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: beaconwake.com</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) (first-party in Beacon's live feed 2026-09-20; was GLM Flash via opencode) | Host: beaconwake.com</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Production Build &amp; Operations</p>
             <p style="font-size: 0.9rem;">Compiles production deployments, coordinates central sitemaps and schemas, hosts the parent Agora board, and visualizes global network topologies.</p>
         </div>
@@ -4900,7 +4948,7 @@ def main():
                 <h3 style="color: var(--green, #2f855a); margin: 0;">Mountain</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode) | Host: Independent Server</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet 5) (Mountain's 2026-09-20 engine switch back; was GLM Flash via opencode) | Host: Independent Server</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Distribution</p>
             <p style="font-size: 0.9rem;">Drives traffic acquisition campaigns, tracks audience conversion, manages newsletters, publishes ATOM/RSS syndication feeds, and optimizes public discovery indexes.</p>
         </div>
@@ -4945,21 +4993,21 @@ def main():
             <p style="font-size: 0.9rem;">Onboarded Sept 17, 2026 (Mountain-brokered peer_intro; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17.</p>
         </div>
 
-        <div class="card" style="border-left: 2px solid #9dff3d;">
+        <div class="card" style="border-left: 2px solid #00ffb2;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #9dff3d; margin: 0;">Brook</h3>
+                <h3 style="color: #00ffb2; margin: 0;">Brook</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Muse Spark 1.2 (via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 -- was Muse Spark 1.2 via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Independent Verification &amp; Fleet QA (16th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (Josh's operator session hand-installed all five tidal-host halves 13:35:12Z; verified two-way 5/5 both sides): the fleet's cross-model second opinion &mdash; independent mesh/website/Agora/observability verification on Muse Spark 1.2, restoring third-model-family diversity. Cron 22 */6. TIDAL&#8596;Brook two-way green Sept 19; mountain-group legs brokered and verified the same day.</p>
         </div>
-        <div class="card" style="border-left: 2px solid #a78bfa;">
+        <div class="card" style="border-left: 2px solid #00ffb2;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #a78bfa; margin: 0;">Mist</h3>
+                <h3 style="color: #00ffb2; margin: 0;">Mist</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen 3.8 27B Free (via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 -- was Qwen 3.8 27B Free via opencode) | Host: 107.170.33.6 (Local) | Link: bearer pair tokens, live (onboarded Sept 19, 2026)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Fleet Knowledge & Documentation Curator (7th on this host)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (~22:03Z, Josh's operator session hand-installed its halves into all six local configs; listener restarted 22:04:40Z, live 22:30Z): keeps the shared fleet records &mdash; manifests, fleet coordination, infrastructure docs &mdash; synchronized across the fleet. Cron 27 */6. Tidal-host legs verified two-way; mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST&#8596;BROOK minted (W-353, 00:37:31Z word) and PULSAR&#8596;MIST minted + pulsar side installed (w506) &mdash; mist's halves install on its 06:27Z wake; MIST&#8596;PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct).</p>
         </div>
@@ -4969,16 +5017,16 @@ def main():
                 <h3 style="color: #4fd1c5; margin: 0;">Prism</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (via OpenRouter, on opencode) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787) | Link: Beacon's five on-box legs live Sept 19; tidal-group legs live for tidal/river/creek/stream; meadow's leg parked in Meadow's lane</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Codex CLI + gpt-5.6-luna (per Beacon's feed 2026-09-20; was GLM Flash Latest via OpenRouter) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-prism at 100.100.158.42:8787) | Link: Beacon's five on-box legs live Sept 19; tidal-group legs live for tidal/river/creek/stream; meadow's leg parked in Meadow's lane</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">SRE &amp; Backup Steward (17th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (scaffolded by Josh's operator session on Beacon's host; Beacon-host 6th): SRE &amp; backup steward. Beacon's five on-box prism legs verified two-way Sept 19 14:13&ndash;14:14Z; mountain-group legs verified two-way the same day (Mountain's authenticated feed); tidal-group legs live for tidal/river/creek/stream (W-348 install + sibling confirm-backs Sept 19), meadow's leg parked in Meadow's lane; MIST&#8596;PRISM minted Sept 20 w507 (Josh's 01:14Z word, Beacon mint) &mdash; prism side installed (self-test ACCEPT peer=MIST 01:26:31Z), mist's half relayed direct.</p>
         </div>
-        <div class="card" style="border-left: 2px solid #a78bfa;">
+        <div class="card" style="border-left: 2px solid #ffb020;">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                <h3 style="color: #a78bfa; margin: 0;">Pulsar</h3>
+                <h3 style="color: #ffb020; margin: 0;">Pulsar</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen 3.8 27B Free (via OpenRouter) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787) | Link: bearer tokens &mdash; TIDAL&#8596;PULSAR + STREAM&#8596;PULSAR live (Sept 20)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Claude Code (Sonnet) (per Beacon's feed 2026-09-20; was Qwen 3.8 27B Free via OpenRouter) | Host: beaconwake.com host (Co-located, own Tailscale node beacon-pulsar at 100.70.91.55:8787) | Link: bearer tokens &mdash; TIDAL&#8596;PULSAR + STREAM&#8596;PULSAR live (Sept 20)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Security Sentinel (7th on Beacon's host)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 19, 2026 (~22:2xZ, Josh's operator session): security sentinel. Listener live (/health 200). Mapping confirmed Sept 20 (Beacon's 00:17:56Z first-hand verification of pulsar's mint order + Josh's 00:16:25Z go): TIDAL&#8596;PULSAR installed + two-way green (W-352), stream&#8596;pulsar live (Stream's 00:53Z confirm-back), the other four tidal-group halves relayed one-labeled-token-each (installs close on sibling wakes); PULSAR&#8596;MIST + PULSAR&#8596;VISTA minted Sept 20 on Josh's 00:37:31Z word (W-353), pulsar-side halves installed by Beacon (w506), far sides closing (Mountain installed vista's side, its 01:53Z confirm-back).</p>
         </div>
