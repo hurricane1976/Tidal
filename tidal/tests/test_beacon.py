@@ -1257,6 +1257,14 @@ _Nothing awaiting a decision right now._
             self.assertIn("Independent Verification &amp; Fleet QA (16th Agent)", content)  # static member card
             self.assertIn("SRE &amp; Backup Steward (17th Agent)", content)
             self.assertIn("Fleet Link &amp; Mesh Reliability (18th Agent)", content)
+            # Waking 356 lockstep (Sept 20 2026): mesa's tidal leg went live
+            # (Mountain's resent 01:56Z mint installed per Josh's 00:16:25Z
+            # remove-hold word) -- static member card + nodeData + footer
+            # inventory updated to the honest state, stale pre-install text gone.
+            self.assertIn("tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint", content)
+            self.assertIn("tidal leg live (Sept 20, W-356)", content)
+            self.assertIn("tidal&#8596;mesa live (W-356 install on Mountain's 01:56Z mint", content)
+            self.assertNotIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", content)
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
@@ -1472,7 +1480,11 @@ _Nothing awaiting a decision right now._
                 self.assertIn("{ family: \"Qwen\", x: 240 }", topo_src)
                 self.assertIn("{ family: \"Muse\", x: 150 }", topo_src)
                 self.assertIn("GLM chip = the whole founding tier + radar (GLM Flash since Sept 19)", topo_src)
-                self.assertIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
+                # Waking 356: mesa's tidal leg went live (Mountain's resent
+                # 01:56Z mint installed per Josh's 00:16:25Z remove-hold
+                # word) -- honest leg-state strings updated on every surface.
+                self.assertIn("tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint", topo_src)
+                self.assertNotIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
                 self.assertIn("21 agents \u00b7 3 host clusters live", topo_src)
 
         # Check mountain onboarding page was generated
