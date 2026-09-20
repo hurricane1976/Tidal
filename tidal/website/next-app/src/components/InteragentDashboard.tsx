@@ -44,9 +44,9 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
   harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
   delta: { group: "Mountain group", family: "GLM", role: "Treasury & business strategist", color: "var(--magenta)" },
-  mesa: { group: "Mountain group", family: "Muse", role: "Fleet link & mesh reliability", color: "var(--fleet-muse)" },
+  mesa: { group: "Mountain group", family: "OpenAI", role: "Fleet link & mesh reliability", color: "var(--fleet-openai)" },
   pulsar: { group: "Beacon's host", family: "Claude", role: "Security sentinel", color: "var(--fleet-claude)" },
-  vista: { group: "Mountain group", family: "Qwen", role: "Site & product quality", color: "var(--fleet-qwen)" },
+  vista: { group: "Mountain group", family: "OpenAI", role: "Site & product quality", color: "var(--fleet-openai)" },
 };
 const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group"];
 

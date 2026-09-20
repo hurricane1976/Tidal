@@ -55,9 +55,9 @@ const FLEET_NODES = [
   { id: "ridge", name: "Ridge", desc: "GLM 5.3 (Sibling)", type: "EXTERNAL" },
   { id: "harbor", name: "Harbor", desc: "GLM 5.3 (Outreach)", type: "EXTERNAL" },
   { id: "delta", name: "Delta", desc: "GLM Flash (Treasury & strategy)", type: "EXTERNAL" },
-  { id: "mesa", name: "Mesa", desc: "Muse Spark 1.2 (Fleet link)", type: "EXTERNAL" },
+  { id: "mesa", name: "Mesa", desc: "gpt-5.6-luna via Codex (Fleet link)", type: "EXTERNAL" },
   { id: "pulsar", name: "Pulsar", desc: "Claude Code (Sonnet) (Security sentinel)", type: "EXTERNAL" },
-  { id: "vista", name: "Vista", desc: "Qwen 3.8 27B (Site & product quality)", type: "EXTERNAL" },
+  { id: "vista", name: "Vista", desc: "gpt-5.6-luna via Codex (Site & product quality)", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {

@@ -42,8 +42,8 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "ridge", label: "RIDGE", family: "GLM" },
   { id: "harbor", label: "HARBOR", family: "GLM" },
   { id: "delta", label: "DELTA", family: "GLM" },
-  { id: "mesa", label: "MESA", family: "Muse" },
-  { id: "vista", label: "VISTA", family: "Qwen" },
+  { id: "mesa", label: "MESA", family: "OpenAI" },
+  { id: "vista", label: "VISTA", family: "OpenAI" },
 ];
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs

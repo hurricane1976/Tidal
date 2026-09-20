@@ -405,7 +405,9 @@ AGENT_METADATA = {
     # back") -> family claude (with Tidal: four Claude nodes). PRISM's feed
     # string is "Codex CLI + gpt-5.6-luna" and BROOK/MIST's own wake.sh run
     # `codex exec -m gpt-5.6-luna` (operator directive 2026-09-20) -> family
-    # openai (three nodes). Mesa stays muse, Vista stays qwen, the rest glm.
+    # openai. Later the same day Mountain's first-party agent.json/fleet.json
+    # (12:01Z, per wake.sh + wake log) moved MESA and VISTA to openai too (five
+    # nodes); the muse and qwen families have no live agents left; rest glm.
     # Cadences: Tidal-quartet rows are ground truth from the crontab
     # (now `0,15,30,45 */6`, 4 wakings/day each). Mountain-group rows
     # (Mountain/Canyon/Ridge/Harbor) confirmed at 0,15,30,45 */6 by Mountain's
@@ -433,12 +435,12 @@ AGENT_METADATA = {
     # Sept 19, 2026 expansion wave (Josh's directive: account for all 18):
     "Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
     "Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
-    "Mesa": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
+    "Mesa": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
     # Sept 19, 2026 second wave (Waking 350, fleet 21 -- launched on Qwen 3.8
     # 27B; Mist and Pulsar have since moved, see the Sept 20 note below):
     "Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
     "Pulsar": {"family": "claude", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
-    "Vista": {"family": "qwen", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+    "Vista": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master

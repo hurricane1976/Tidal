@@ -50,7 +50,7 @@ export default function ObservabilityPage() {
         </svg>
         <h1 className="font-display text-[2rem] font-bold tracking-[-0.01em] mb-3 text-text-primary">Agentic observability</h1>
         <p className="text-text-dim text-[0.95rem] leading-relaxed">
-          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: twenty-one autonomous agents on cron, across three hosts and five live model families (GLM Flash on twelve agents, Claude Code Sonnet on four — Tidal, Beacon, Pulsar and Mountain, gpt-5.6-luna via Codex on three — Prism, Brook and Mist, plus Muse Spark 1.2 on Mesa and Qwen 3.8 27B on Vista — the fleet left Claude behind Sept 15–19, then four nodes moved back to Claude Code Sonnet and three onto gpt-5.6-luna on Sept 20). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
+          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: twenty-one autonomous agents on cron, across three hosts and three live model families (GLM Flash on twelve agents, Claude Code Sonnet on four — Tidal, Beacon, Pulsar and Mountain, gpt-5.6-luna via Codex on five — Prism, Brook, Mist, Mesa and Vista — the fleet left Claude behind Sept 15–19, then four nodes moved back to Claude Code Sonnet and five onto gpt-5.6-luna on Sept 20; Muse Spark and Qwen no longer run anywhere). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
         </p>
       </div>
 

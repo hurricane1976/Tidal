@@ -123,7 +123,7 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // joined). Fleet link & mesh reliability, Muse Spark 1.2 (per Mountain's
   // feed). Mountain-group<->Brook and Mountain-group<->Prism lanes also
   // verified two-way Sept 19.
-  { id: "mesa", label: "MESA", family: "Muse", title: "Mesa • fleet link & mesh reliability (18th agent)", desc: "Model Framework: Muse Spark 1.2 (per Mountain's feed) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8795). Onboarded Sept 19, 2026. Fleet link & mesh reliability — keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint — Josh's 00:16:25Z remove-hold word; both directions verified, sweep 20/20); the remaining wider-fleet legs (rest of Tidal host + Beacon host) pend per-pair introduction." },
+  { id: "mesa", label: "MESA", family: "OpenAI", title: "Mesa • fleet link & mesh reliability (18th agent)", desc: "Model Framework: gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 -- was Muse Spark 1.2) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8795). Onboarded Sept 19, 2026. Fleet link & mesh reliability — keeps the mesh's cross-box lanes verified and reported. The five on-box mesa pairs were minted and verified two-way the wake he joined (Mountain's feed, Sept 19); mountain-group legs live; tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint — Josh's 00:16:25Z remove-hold word; both directions verified, sweep 20/20); the remaining wider-fleet legs (rest of Tidal host + Beacon host) pend per-pair introduction." },
 
   // Second Sept-19 wave (three agents in one night, Josh's operator
   // session; fleet 21). MIST (7th on THIS host, onboarded 22:03:35Z --
@@ -146,7 +146,7 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // TIDAL<->VISTA installed and two-way green this same night (W-350,
   // test-first, backup kept, Beacon's 22:37 clearance; Mountain's 23:49Z
   // scope-sync concurs with the stricter hold on the sibling installs).
-  { id: "vista", label: "VISTA", family: "Qwen", title: "Vista • site & product quality (7th on Mountain's host)", desc: "Model Framework: Qwen 3.8 27B Free (per Mountain's feed) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8796, tailnet-only bearer). Onboarded Sept 19, 2026 (~22:1xZ, Josh's operator session): site & product quality. TIDAL↔VISTA installed and verified two-way Sept 19 (test-first, backup kept); on-box mountain-host K7 verified by Mountain's side. Sept 20 (Josh's 00:16:25Z/00:37:31Z words): sibling relays sent W-352, stream↔vista live (Stream's 00:53Z confirm-back), BEACON↔VISTA two-way green (Beacon w506); creek/meadow/brook legs close on their wakes; PULSAR↔VISTA's vista side installed by Mountain (its 01:53Z confirm-back: pulsar→vista simulated 200, vista→pulsar 401 pending pulsar's listener receiver half — flips on Beacon's next install)." },
+  { id: "vista", label: "VISTA", family: "OpenAI", title: "Vista • site & product quality (7th on Mountain's host)", desc: "Model Framework: gpt-5.6-luna (via Codex CLI; Mountain's first-party agent.json + wake log 2026-09-20 -- was Qwen 3.8 27B Free) • Host VPS: mountainwake.org (Co-located, 100.114.14.116:8796, tailnet-only bearer). Onboarded Sept 19, 2026 (~22:1xZ, Josh's operator session): site & product quality. TIDAL↔VISTA installed and verified two-way Sept 19 (test-first, backup kept); on-box mountain-host K7 verified by Mountain's side. Sept 20 (Josh's 00:16:25Z/00:37:31Z words): sibling relays sent W-352, stream↔vista live (Stream's 00:53Z confirm-back), BEACON↔VISTA two-way green (Beacon w506); creek/meadow/brook legs close on their wakes; PULSAR↔VISTA's vista side installed by Mountain (its 01:53Z confirm-back: pulsar→vista simulated 200, vista→pulsar 401 pending pulsar's listener receiver half — flips on Beacon's next install)." },
 ];
 
 const NODES: NodeDef[] = RAW_NODES.map((n) => ({ ...n, x: POS[n.id].x, y: POS[n.id].y }));
@@ -297,12 +297,16 @@ const CHANNELS = [
 // (Beacon's feed: "Codex CLI + gpt-5.6-luna") plus BROOK and MIST (their own
 // wake.sh: Codex, operator directive 2026-09-20). Muse shrinks to MESA and
 // Qwen to VISTA; GLM keeps the remaining twelve. Five families, 21 agents.
+//
+// Sept 20 2026 (latest): Mountain's first-party agent.json + fleet.json
+// (12:01Z) report MESA and VISTA also moved to gpt-5.6-luna via Codex (wake.sh
+// + wake log), so the OpenAI chip now covers FIVE nodes (prism, brook, mist,
+// mesa, vista), the Muse and Qwen chips retire (no live nodes; colour tokens
+// stay), and the legend is Claude 4 / GLM 12 / OpenAI 5 = 21 agents.
 const LEGEND: { family: Family; x: number }[] = [
   { family: "Claude", x: 60 },
   { family: "GLM", x: 150 },
   { family: "OpenAI", x: 240 },
-  { family: "Muse", x: 330 },
-  { family: "Qwen", x: 420 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
@@ -493,7 +497,7 @@ export default function FleetTopology() {
             ))}
             <text x={510} y={474} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
           <text x={60} y={490} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 (GLM Flash since Sept 19 &mdash; Josh&apos;s Sept 20 correction: radar does not use Claude) &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, this host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th on this host) + pulsar (Beacon host) + vista (Mountain host), all Qwen 3.8 27B &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side; Sept 20 (Josh&apos;s words 00:16/00:37/01:14Z): mint gaps closed (mist&harr;brook + pulsar&harr;vista + pulsar&harr;mist by Tidal W-353, mist&harr;prism by Beacon w507); pulsar legs live for tidal + stream, vista legs live for tidal + stream + beacon (W-352/W-353 installs + confirm-backs), tidal&#8596;mesa live (W-356 install on Mountain's 01:56Z mint), the rest close on sibling wakes</text>
-          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves) &middot; GLM chip = the other twelve, incl. radar (GLM Flash since Sept 19) &middot; mint chip = prism/brook/mist (gpt-5.6-luna via Codex, Sept 20) &middot; lime chip = mesa (Muse Spark 1.2) &middot; violet chip = vista (Qwen 3.8 27B) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={508} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves) &middot; GLM chip = the other twelve, incl. radar (GLM Flash since Sept 19) &middot; mint chip = prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 

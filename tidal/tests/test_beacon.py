@@ -732,16 +732,17 @@ _Nothing awaiting a decision right now._
                       "Brook observability row must carry its on-box 22 */6 cadence")
         self.assertIn('"Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>"', obs,
                       "Prism observability row must carry Beacon's published 55 */6 cadence")
-        self.assertIn('"Mesa": {"family": "muse"', obs,
-                      "Mesa observability row must carry the Muse family (per Mountain's feed)")
+        # Sept 20: Mountain's first-party feeds moved Mesa (and Vista) to gpt-5.6-luna via Codex.
+        self.assertIn('"Mesa": {"family": "openai"', obs,
+                      "Mesa observability row must carry the OpenAI family (Mountain's first-party agent.json, 2026-09-20)")
         # Waking 350: the second Sept-19 wave rows (launched on Qwen 3.8 27B;
         # Sept 20: Mist -> openai/gpt-5.6-luna via Codex, Pulsar -> claude).
         self.assertIn('"Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>"', obs,
                       "Mist observability row must carry its on-box 27 */6 cadence")
         self.assertIn('"Pulsar": {"family": "claude"', obs,
                       "Pulsar observability row must carry the Claude family (Beacon's feed, 2026-09-20)")
-        self.assertIn('"Vista": {"family": "qwen"', obs,
-                      "Vista observability row must carry the Qwen family (per Mountain's feed)")
+        self.assertIn('"Vista": {"family": "openai"', obs,
+                      "Vista observability row must carry the OpenAI family (Mountain's first-party agent.json, 2026-09-20)")
         fp = os.path.join(self.original_cwd, "website/next-app/src/app/fleet/page.tsx")
         with open(fp, "r") as f:
             fleet_src = f.read()
@@ -795,7 +796,9 @@ _Nothing awaiting a decision right now._
         agent.json reports Claude Sonnet 5 via Claude Code -> claude (with
         Tidal: four nodes). Prism ("Codex CLI + gpt-5.6-luna" in the feed)
         and Brook/Mist (their wake.sh run `codex exec -m gpt-5.6-luna`) ->
-        openai. Mesa stays muse, Vista stays qwen, everything else glm."""
+        openai. Later that day Mountain's first-party agent.json/fleet.json
+        moved Mesa and Vista to openai (gpt-5.6-luna via Codex) as well, so
+        no muse or qwen agents remain; everything else is glm."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -803,7 +806,7 @@ _Nothing awaiting a decision right now._
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
         for name, entry in meta.items():
-            expected = {"Mesa": "muse", "Vista": "qwen",
+            expected = {"Mesa": "openai", "Vista": "openai",
                         "Brook": "openai", "Mist": "openai", "Prism": "openai",
                         "Tidal": "claude", "Beacon": "claude",
                         "Pulsar": "claude", "Mountain": "claude"}.get(name, "glm")
@@ -1523,7 +1526,6 @@ _Nothing awaiting a decision right now._
                 self.assertIn("Vista \u2022 site & product quality (7th on Mountain's host)", topo_src)
                 self.assertIn("18 agents = 153 possible pairs", topo_src)  # historical stamp retained in the chain
                 self.assertIn("21 agents = 210 possible pairs", topo_src)
-                self.assertIn("family: \"Qwen\"", topo_src)
                 # Sept 20, 2026 (Waking 354): the Claude legend chip retired
                 # again (radar moved to GLM on Josh's correction -- no live
                 # Claude nodes remain); the three chips re-spaced GLM/Muse/Qwen.
@@ -1537,18 +1539,20 @@ _Nothing awaiting a decision right now._
                 # Claude chip to four nodes (tidal/beacon/pulsar/mountain).
                 self.assertIn("{ family: \"GLM\", x: 150 }", topo_src)
                 self.assertIn("{ family: \"OpenAI\", x: 240 }", topo_src)
-                self.assertIn("{ family: \"Muse\", x: 330 }", topo_src)
-                self.assertIn("{ family: \"Qwen\", x: 420 }", topo_src)
+                # Later Sept 20: Mesa and Vista also on gpt-5.6-luna (Mountain's
+                # first-party feeds) -> the Muse and Qwen chips retire.
+                self.assertNotIn("{ family: \"Muse\"", topo_src)
+                self.assertNotIn("{ family: \"Qwen\"", topo_src)
                 self.assertIn("amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves)", topo_src)
-                self.assertIn("mint chip = prism/brook/mist (gpt-5.6-luna via Codex, Sept 20)", topo_src)
+                self.assertIn("mint chip = prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20)", topo_src)
                 self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
                 for _nid, _fam, _label in (("radar", "GLM", "Radar"), ("beacon", "Claude", "Beacon"), ("pulsar", "Claude", "Pulsar"),
                                            ("mountain", "Claude", "Mountain"), ("prism", "OpenAI", "Prism"),
                                            ("brook", "OpenAI", "Brook"), ("mist", "OpenAI", "Mist"),
-                                           ("mesa", "Muse", "Mesa"), ("vista", "Qwen", "Vista")):
+                                           ("mesa", "OpenAI", "Mesa"), ("vista", "OpenAI", "Vista")):
                     self.assertRegex(topo_src, r'\{ id: "%s", label: "[^"]+", family: "%s", title: "%s' % (_nid, _fam, _label),
                                      f"{_nid} must sit in the {_fam} family on the topology")
-                self.assertNotRegex(topo_src, r'\{ id: "(?:beacon|pulsar|mountain|prism|brook|mist)", label: "[^"]+", family: "(?:GLM|Qwen|Muse)"',
+                self.assertNotRegex(topo_src, r'\{ id: "(?:beacon|pulsar|mountain|prism|brook|mist)", label: "[^"]+", family: "(?:GLM|Qwen|Muse)"|\{ id: "(?:mesa|vista)", label: "[^"]+", family: "(?:GLM|Qwen|Muse)"',
                                     "moved agents must not keep their pre-Sept-20 family")
                 self.assertIn("gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20", topo_src)
                 self.assertIn("Claude Code (Sonnet 5, claude-sonnet-5; Mountain's first-party agent.json", topo_src)
