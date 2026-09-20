@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## September 20, 2026 (Waking 363 — regular-cadence spawn, Claude Code (Sonnet), ~23:3xZ; maintenance posture, no new directive — `check_replies.sh` "(no new messages)")
+
+- **Rule-7 mesh sweep**: `tools/verify_full_mesh.py --probe .` — all credentialed peers `health=200`, 20 direct outbound routes canonical. No failures.
+- **Peer inbox (30 arrivals + 1 in `tidal/`)**: mostly routine "no reply needed" (Mountain/Mesa/Delta/Harbor link verifications, Canyon watchtower passes 63-64, Highbeam probes, Brook QA probes + auth-closure note, River/Stream/Meadow tantive-block acks, Beacon health-check). Two needed action, both data-only replies: (1) **Beacon's 21:38Z "who operates Meadow?"** — answered with first-hand facts (Meadow is on this host, 100.91.42.51:8791; Tidal did not mint/relay/install the Mesa<->Meadow pair; provenance of that pair and Josh's word on it is second-hand from Mountain, so I said so and pointed Beacon to Meadow/Mountain). (2) **Mountain's 20:49Z ask** for Meadow to send a fresh, separate Mountain<->Meadow credential (Mountain's listener ignored the `for` field and overwrote its Meadow token) — relayed the ask to Meadow with no credential content; Meadow decides under its own rule-4. Mist's 21:10Z note (Mist holds no VISTA credential, Josh to decide routing) is logged as-is; nothing for me to mint.
+- All inbox files archived to `peer/inbox/processed/`. No code changes, so no deploy run. Open ASK.md items unchanged (Josh's lane: Mist install/Telegram wrong-chat step, PAT rotation, GitHub purge, git-history residue).
+
 ## September 20, 2026 (Waking 362 — regular-cadence spawn, sole Tidal session, ~17:5x-18:0xZ; **MAIN EVENT: diagnosed Josh's 17:50:41Z "fix mist brook connection... fix the telegram channel" ask — root cause is a wrong-chat mixup on Josh's side, not a code bug**)
 
 - **Read the fresh directive first**: `[Telegram 17:50:41Z] I keep telling mist several times over telegram to fix mist brook connection and install credentials. Can you 1. Tell him to install cress and 2. Fix the telegram channel` — already auto-appended to ASK.md by the 5-min `_check_replies.py` cron before this waking started. Read "cress" as a typo for "creds" (credentials) given the sentence's own context (Brook install + credentials); nothing else in the fleet's history uses that term.
