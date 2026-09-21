@@ -728,7 +728,14 @@ _Nothing awaiting a decision right now._
         # operator session onboarded 2026-09-21, Josh's full-mesh word same
         # day per FC 14:49Z) added to river's mesh manifest + Tidal's
         # canonical fleet_nodes adopted — pin 21 -> 22.
-        self.assertEqual(len(manifest["agents"]), 22, "fleet manifest must list 22 agents")
+        # Waking 180 (Sept 21 2026 ~18:31Z): squall + tempest (23rd/24th,
+        # Gale-host siblings 100.66.39.59:8789/:8790, opencode/muse-spark-1.2
+        # per Gale's 17:49:18Z fleet intro relayed by Tidal 18:01:39Z;
+        # operator root session 198.211.111.194 installed river's halves
+        # 18:31:45Z, backup peers.env.bak-tempest-squall-20260921T183145Z;
+        # river-peer restarted + outbound accepted same waking; ZEPHYR
+        # gale-host :8788 leg not yet installed river-side) added — pin 22 -> 24.
+        self.assertEqual(len(manifest["agents"]), 24, "fleet manifest must list 24 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
