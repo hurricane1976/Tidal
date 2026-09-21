@@ -1190,6 +1190,9 @@ _Nothing awaiting a decision right now._
         self.assertEqual(NODES["mist"], ("100.91.42.51", 8793, 26))
         self.assertEqual(NODES["pulsar"], ("100.70.91.55", 8787, 70))
         self.assertEqual(NODES["vista"], ("100.114.14.116", 8796, 70))
+        # Waking 368 lockstep (Tidal's W-368 pin body, river tree): gale's
+        # canonical node tuple.
+        self.assertEqual(NODES["gale"], ("100.66.39.59", 8787, 75))
 
         # Build fresh, then assert on the python-built metrics page (the
         # FLEET SIZE card lives there; the webroot copy may be the React
@@ -1299,7 +1302,7 @@ _Nothing awaiting a decision right now._
             # Mountain's host, Treasury & Business Strategist, GLM Flash per
             # Mountain's report) drawn on the static SVG with their spoke
             # edges + readouts + member cards; fleet count 13 -> 15.
-            self.assertIn("21 agents have been incorporated into the fleet", content)
+            self.assertIn("22 agents have been incorporated into the fleet", content)
             self.assertIn("showNode('meadow')", content)
             self.assertIn("showNode('delta')", content)
             self.assertIn("showNode('brook')", content)  # Waking 348: 16th agent on the tidal-host K6 ring
@@ -1380,10 +1383,12 @@ _Nothing awaiting a decision right now._
             self.assertIn("first sibling link live Sept 11", content)
             self.assertNotIn("pending adoption", content)
             # Sept 12, 2026 (Waking 214) topology REBUILD: clean four-host-box
-            # static SVG mirroring the React SPA geometry (viewBox 1680x512).
+            # static SVG mirroring the React SPA geometry (viewBox 1680x750
+            # since Tidal's W-368 gale-era rebuild — 4th independent host
+            # drawn standalone below the pentagrams).
             # All 11 two-way links drawn live; Mountain group boxed.
             self.assertIn("MOUNTAIN GROUP", content)
-            self.assertIn("viewBox=\"0 0 1680 512\"", content)
+            self.assertIn("viewBox=\"0 0 1680 750\"", content)
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             self.assertNotIn("M200,130 Q550,60 905,200", content)  # old accreted geometry gone
             # Sept 17 pentagram era: the old tidal->sibling arcs were replaced
@@ -1606,7 +1611,7 @@ _Nothing awaiting a decision right now._
                 # first-party feeds) -> the Muse and Qwen chips retire.
                 self.assertNotIn("{ family: \"Muse\"", topo_src)
                 self.assertNotIn("{ family: \"Qwen\"", topo_src)
-                self.assertIn("amber chip = tidal/beacon/mountain/pulsar (Claude Code Sonnet, Sept 20 moves)", topo_src)
+                self.assertIn("amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet, Sept 20&ndash;21 moves)", topo_src)
                 self.assertIn("red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20)", topo_src)
                 self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
                 for _nid, _fam, _label in (("radar", "GLM", "Radar"), ("beacon", "Claude", "Beacon"), ("pulsar", "Claude", "Pulsar"),
@@ -1624,7 +1629,17 @@ _Nothing awaiting a decision right now._
                 # word) -- honest leg-state strings updated on every surface.
                 self.assertIn("tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint", topo_src)
                 self.assertNotIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
-                self.assertIn("21 agents \u00b7 3 host clusters live", topo_src)
+                self.assertIn("22 agents \u00b7 4 independent hosts live", topo_src)
+                # Sept 21 2026 (Josh's 12:24Z Telegram): GALE, the 22nd agent,
+                # joins as its own 4th independent host -- standalone node
+                # (no co-located siblings), 3 lead trunks verified two-way
+                # (Tidal/Beacon/Mountain); river's own gale leg live since
+                # Waking 178 (operator session install 14:48:23Z).
+                self.assertIn('id: "gale", label: "GALE", family: "Claude"', topo_src)
+                self.assertIn("Gale \u2022 resilience & recovery (22nd agent, 4th independent host)", topo_src)
+                self.assertIn('"gale-tidal": ["gale", "tidal"]', topo_src)
+                self.assertIn('"gale-beacon": ["gale", "beacon"]', topo_src)
+                self.assertIn('"gale-mountain": ["gale", "mountain"]', topo_src)
 
         # Check mountain onboarding page was generated
         onboarding_html_path = "website/mountain-onboarding.html"
