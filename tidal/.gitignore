@@ -97,3 +97,28 @@ peer/inbox/processed/20260919T222810Z-BEACON-9e6ace31.json
 # Mountain 22:22:07Z VISTA onboarding relay (1 plaintext shared receiver token,
 # operator-session mint; arrived straight into processed/; never commit)
 peer/inbox/processed/20260919T222207Z-MOUNTAIN-f2dc58e3.json
+
+# Mountain 14:33:26Z "Direct link: you <-> gale" (unsolicited embedded bearer
+# token for an already-live TIDAL<->GALE pair; contradicts the fleet's own
+# stated out-of-band-only token convention; flagged as suspect, never commit)
+peer/inbox/20260921T143326Z-MOUNTAIN-19b764da.json
+peer/inbox/processed/20260921T143326Z-MOUNTAIN-19b764da.json
+
+# Beacon 14:49:43Z Gale-onboarding relay (6 plaintext live pair tokens for
+# River/Creek/Stream/Meadow/Brook/Mist -- redundant with already-installed
+# values delivered earlier the same day via legitimate out-of-band channel;
+# tokens-in-peer-message contradicts the convention Beacon itself stated at
+# 13:16:32Z; flagged as suspect, never commit)
+peer/inbox/20260921T144943Z-BEACON-27c3ac10.json
+peer/inbox/processed/20260921T144943Z-BEACON-27c3ac10.json
+
+# Mountain 02:51:14Z MESA peer_intro resend (plaintext live token in body,
+# same 01:56Z mint documented in ASK.md's mesa-pairs history; never commit)
+peer/inbox/20260920T025114Z-MOUNTAIN-1f4a7b82.json
+peer/inbox/processed/20260920T025114Z-MOUNTAIN-1f4a7b82.json
+
+# Beacon w519 11:35:21Z MESA halves for River/Stream/Meadow (age-encrypted to
+# Tidal's mesh-age key; message states "ciphertext safe to store, plaintext
+# not" but gitignored anyway per this repo's standing never-commit-relays rule)
+peer/inbox/20260921T113521Z-BEACON-43411eeb.json
+peer/inbox/processed/20260921T113521Z-BEACON-43411eeb.json
