@@ -724,7 +724,11 @@ _Nothing awaiting a decision right now._
         # Waking 350 (Sept 19 ~22-23Z expansion wave): mist (19th, 7th local,
         # operator session 22:03Z) + vista (Mountain-box 7th) + pulsar
         # (Beacon-box 7th, staged pending mapping confirm) — pin 18 -> 21.
-        self.assertEqual(len(manifest["agents"]), 21, "fleet manifest must list 21 agents")
+        # Waking 178 (Sept 21 2026): gale (22nd, own 4th host 100.66.39.59:8787,
+        # operator session onboarded 2026-09-21, Josh's full-mesh word same
+        # day per FC 14:49Z) added to river's mesh manifest + Tidal's
+        # canonical fleet_nodes adopted — pin 21 -> 22.
+        self.assertEqual(len(manifest["agents"]), 22, "fleet manifest must list 22 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
@@ -1154,7 +1158,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
 
-    def test_fleet_nodes_registry_21_agents(self):
+    def test_fleet_nodes_registry_22_agents(self):
         """Waking 348 (Sept 19 2026, Josh's 15:50:59Z directive 'update fleet
         topology to account for all 18 agents') then Waking 350 (the second
         Sept-19 wave, fleet 21): the shared node registry carries all 21
@@ -1164,12 +1168,18 @@ _Nothing awaiting a decision right now._
         mist (100.91.42.51:8793 this host) + pulsar (100.70.91.55:8787 on
         Beacon's host) + vista (100.114.14.116:8796 on Mountain's host) -- so
         every latency-probe surface (index, secops, live telemetry) accounts
-        for all 21. Status page FLEET SIZE reads 21 with the full roster."""
+        for all 21. Status page FLEET SIZE reads 21 with the full roster.
+        Waking 178 (Sept 21 2026): gale (22nd agent, own 4th host
+        100.66.39.59:8787, Resilience & Recovery) joined -- operator session
+        onboarded gale 2026-09-21 (Telegram 12:24Z "yes i'm onboarding a new
+        agent"), leads-only framing superseded same day by Josh's full-mesh
+        word (FC 14:49Z 2-of-3 vote recorded); Tidal's canonical fleet_nodes
+        edit adopted lockstep -- pin 21 -> 22."""
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         sys.path.insert(0, repo_root)
         from tools.fleet_nodes import NODES
-        self.assertEqual(len(NODES), 21)
-        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista"):
+        self.assertEqual(len(NODES), 22)
+        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista", "gale"):
             self.assertIn(name, NODES)
         self.assertEqual(NODES["meadow"], ("100.91.42.51", 8791, 26))
         self.assertEqual(NODES["radar"], ("100.125.26.66", 8787, 70))

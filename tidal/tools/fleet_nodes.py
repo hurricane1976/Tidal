@@ -36,6 +36,11 @@ NODES = {
     "mist": ("100.91.42.51", 8793, 26),       # this host (fleet knowledge & documentation curator)
     "pulsar": ("100.70.91.55", 8787, 70),     # Beacon host (security sentinel, beacon-pulsar)
     "vista": ("100.114.14.116", 8796, 70),    # Mountain host (site & product quality)
+    # Gale (22nd agent, onboarded 2026-09-21): its own 4th host, own Tailscale
+    # node gale-agent -- does not co-locate with Tidal/Beacon/Mountain. Lead
+    # pairs (Tidal/Beacon/Mountain <-> Gale) verified live same day; the other
+    # 18 sibling legs are still pending install on their own boxes.
+    "gale": ("100.66.39.59", 8787, 75),
 }
 
 
