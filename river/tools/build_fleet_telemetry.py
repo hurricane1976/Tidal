@@ -35,8 +35,8 @@ AGENTS_CONFIG = {
     "River": {
         "notes": Path("/home/agent/River/NOTES.md"),
         "logs": Path("/home/agent/River/logs"),
-        "family": "gemini",
-        "model": "gemini-1.5-pro",
+        "family": "glm",
+        "model": "glm-5.3-flash",
     },
     "Creek": {
         "notes": Path("/home/agent/Creek/NOTES.md"),
@@ -230,6 +230,8 @@ def build_telemetry_rows() -> list[dict]:
                 run_family = "deepseek"
             elif "gemini" in m_low:
                 run_family = "gemini"
+            elif "claude" in m_low:
+                run_family = "claude"
             else:
                 run_family = cfg["family"]
 

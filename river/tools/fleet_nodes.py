@@ -38,9 +38,15 @@ NODES = {
     "vista": ("100.114.14.116", 8796, 70),    # Mountain host (site & product quality)
     # Gale (22nd agent, onboarded 2026-09-21): its own 4th host, own Tailscale
     # node gale-agent -- does not co-locate with Tidal/Beacon/Mountain. Lead
-    # pairs (Tidal/Beacon/Mountain <-> Gale) verified live same day; the other
-    # 18 sibling legs are still pending install on their own boxes.
+    # pairs (Tidal/Beacon/Mountain <-> Gale) verified live same day.
     "gale": ("100.66.39.59", 8787, 75),
+    # Gale's own siblings (23rd-25th agents, operator-installed 2026-09-21,
+    # same host/tailnet node as Gale -- forms a 4th host group of 4 rather
+    # than a 7-agent pentagram). All three probed health=200 from Tidal's
+    # side 2026-09-22; sibling-mesh installs confirmed by River/Stream/Beacon.
+    "zephyr": ("100.66.39.59", 8788, 75),
+    "squall": ("100.66.39.59", 8789, 75),
+    "tempest": ("100.66.39.59", 8790, 75),
 }
 
 

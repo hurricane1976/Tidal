@@ -708,30 +708,30 @@
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
                     <span>CPU Load average</span>
-                    <span id="cpu-load-val">0.79, 0.35, 0.15</span>
+                    <span id="cpu-load-val">0.29, 0.33, 0.22</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 39%; transition: width 0.8s;"></div>
+                    <div id="cpu-bar-fill" style="background: var(--teal); height: 100%; width: 14%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
             <div style="margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
-                    <span>Memory Usage (0.41 GB / 1.92 GB)</span>
-                    <span id="mem-pct-val">21.3%</span>
+                    <span>Memory Usage (0.83 GB / 1.92 GB)</span>
+                    <span id="mem-pct-val">43.1%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 21.3%; transition: width 0.8s;"></div>
+                    <div id="mem-bar-fill" style="background: var(--tide); height: 100%; width: 43.1%; transition: width 0.8s;"></div>
                 </div>
             </div>
             
             <div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">
-                    <span>Disk Space (33.18 GB / 86.14 GB)</span>
-                    <span id="disk-pct-val">38.5%</span>
+                    <span>Disk Space (33.25 GB / 86.14 GB)</span>
+                    <span id="disk-pct-val">38.6%</span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div id="disk-bar-fill" style="background: var(--amber); height: 100%; width: 38.5%; transition: width 0.8s;"></div>
+                    <div id="disk-bar-fill" style="background: var(--amber); height: 100%; width: 38.6%; transition: width 0.8s;"></div>
                 </div>
             </div>
         </div>
@@ -753,7 +753,7 @@
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Open Warnings</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--line);">
-                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">8 days, 2:59:22</div>
+                    <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-dim);" id="uptime-val">8 days, 9:03:17</div>
                     <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">Host Uptime</div>
                 </div>
             </div>
@@ -1147,7 +1147,49 @@
                 </div>
                 <div style="text-align: right;">
                     <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--purple); color: var(--purple);">REMOTE</span>
-                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-gale">11ms</div>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-gale">12ms</div>
+                </div>
+            </div>
+        
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; transition: border-color 0.2s;" class="latency-card">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; align-items: center; gap: 8px;">
+                        <span>Zephyr</span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--teal); display: inline-block; box-shadow: 0 0 6px var(--teal-dim);" id="ping-indicator-zephyr"></span>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-faint); margin-top: 2px;">Unknown Sibling</div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--purple); color: var(--purple);">REMOTE</span>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-zephyr">12ms</div>
+                </div>
+            </div>
+        
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; transition: border-color 0.2s;" class="latency-card">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; align-items: center; gap: 8px;">
+                        <span>Squall</span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--teal); display: inline-block; box-shadow: 0 0 6px var(--teal-dim);" id="ping-indicator-squall"></span>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-faint); margin-top: 2px;">Unknown Sibling</div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--purple); color: var(--purple);">REMOTE</span>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-squall">13ms</div>
+                </div>
+            </div>
+        
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; transition: border-color 0.2s;" class="latency-card">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; align-items: center; gap: 8px;">
+                        <span>Tempest</span>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--teal); display: inline-block; box-shadow: 0 0 6px var(--teal-dim);" id="ping-indicator-tempest"></span>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-faint); margin-top: 2px;">Unknown Sibling</div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="display: inline-block; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--purple); color: var(--purple);">REMOTE</span>
+                    <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-dim); font-family: 'IBM Plex Mono', monospace; margin-top: 4px;" id="ping-tempest">12ms</div>
                 </div>
             </div>
         
@@ -1269,7 +1311,7 @@
         // Rolling wave data setup
         const maxPoints = 50;
         const cpuData = Array(maxPoints).fill(10);
-        const memData = Array(maxPoints).fill(21.3);
+        const memData = Array(maxPoints).fill(43.1);
         
         for (let i = 0; i < maxPoints; i++) {
             cpuData[i] = Math.max(2, Math.min(95, 10 + Math.sin(i * 0.3) * 5 + Math.random() * 4));
@@ -1332,7 +1374,7 @@
                     if (matEl) matEl.textContent = data.measured_at;
                 }
                 
-                let memPct = 21.3;
+                let memPct = 43.1;
                 let cpuPct = avgLatency * 2.5;
                 if (cpuPct > 80) cpuPct = 35 + Math.random() * 10;
                 if (cpuPct < 2) cpuPct = 4 + Math.random() * 3;
@@ -1407,7 +1449,7 @@
             } catch (e) {
                 cpuData.push(10 + Math.sin(Date.now() / 10000) * 4 + Math.random() * 3);
                 cpuData.shift();
-                memData.push(21.3 + Math.sin(Date.now() / 20000) * 1);
+                memData.push(43.1 + Math.sin(Date.now() / 20000) * 1);
                 memData.shift();
                 if (cpuPath && memPath) {
                     cpuPath.setAttribute('d', generateSvgPath(cpuData));
@@ -1492,7 +1534,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-22 00:35:36 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-22 06:39:31 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
