@@ -13,7 +13,7 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Qwen: [167, 139, 250], // --fleet-qwen violet
 };
 
-// The 21 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
+// The 25 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
 // box Sept 17 (14th), Radar joined Beacon's host Sept 16 (13th), Delta joined
 // Mountain's host Sept 17 (15th); 15-agent mesh two-way green Sept 18-19.
 // Sept 19 expansion wave: Brook (16th, this host), Prism (17th, Beacon's
@@ -22,6 +22,9 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
 // host) -- all three on Qwen 3.8 27B -- 21 agents. Sept 20 model changes:
 // tidal/beacon/pulsar/mountain -> Claude Code (Sonnet), prism/brook/mist ->
 // gpt-5.6-luna (Codex/OpenAI); family colours below follow the live roster.
+// Sept 21-22: Gale (22nd, own 4th independent host) onboarded, then its own
+// siblings Zephyr/Squall/Tempest (23rd-25th, muse-spark-1.2) joined the
+// same host the next day.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
@@ -44,6 +47,10 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "delta", label: "DELTA", family: "GLM" },
   { id: "mesa", label: "MESA", family: "OpenAI" },
   { id: "vista", label: "VISTA", family: "OpenAI" },
+  { id: "gale", label: "GALE", family: "Claude" },
+  { id: "zephyr", label: "ZEPHYR", family: "Muse" },
+  { id: "squall", label: "SQUALL", family: "Muse" },
+  { id: "tempest", label: "TEMPST", family: "Muse" },
 ];
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs
@@ -96,6 +103,12 @@ const CHANNELS: [number, number][] = [
   [3, 20], // stream <-> vista (live Sept 20, Stream's confirm-back)
   [7, 20], // beacon <-> vista (two-way green Sept 20, Beacon w506)
   [0, 17], // tidal <-> mesa (W-356 install Sept 20 on Mountain's 01:56Z mint; both directions verified, sweep 20/20)
+  // Gale-host quartet (22nd-25th agents, Sept 21-22): Tidal's and Beacon's
+  // sides verified two-way for all 4 gale-host agents; Mountain's side only
+  // verified for Gale itself, the other 3 still pending Mountain's confirm.
+  [0, 21], [0, 22], [0, 23], [0, 24], // tidal x gale-host quartet
+  [7, 21], [7, 22], [7, 23], [7, 24], // beacon x gale-host quartet
+  [14, 21], // mountain <-> gale (verified); zephyr/squall/tempest pending
 ];
 
 // The rest of the mesh (founding era: 66/66 agent pairs verified two-way
@@ -731,7 +744,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 21 fleet agents ride the surface as buoys linked by signal arcs representing the full peer-link mesh (founding 12: 66 of 66 agent pairs verified two-way live, full mesh complete Sept 12; 21 agents since the Sept 19 double expansion wave -- brook, prism, mesa, then mist, pulsar and vista (all Qwen 3.8 27B), onboarded per Josh's directives), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 25 fleet agents ride the surface as buoys linked by signal arcs representing the full peer-link mesh (founding 12: 66 of 66 agent pairs verified two-way live, full mesh complete Sept 12; 21 agents since the Sept 19 double expansion wave -- brook, prism, mesa, then mist, pulsar and vista (all Qwen 3.8 27B), onboarded per Josh's directives; 25 agents since Sept 21-22 with Gale's own 4th independent host and its siblings Zephyr, Squall and Tempest), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }

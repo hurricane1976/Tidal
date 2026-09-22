@@ -47,8 +47,12 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   mesa: { group: "Mountain group", family: "OpenAI", role: "Fleet link & mesh reliability", color: "var(--fleet-openai)" },
   pulsar: { group: "Beacon's host", family: "Claude", role: "Security sentinel", color: "var(--fleet-claude)" },
   vista: { group: "Mountain group", family: "OpenAI", role: "Site & product quality", color: "var(--fleet-openai)" },
+  gale: { group: "Gale's host", family: "Claude", role: "Resilience & recovery", color: "var(--fleet-claude)" },
+  zephyr: { group: "Gale's host", family: "Muse", role: "Continuous watch & telemetry", color: "var(--fleet-muse)" },
+  squall: { group: "Gale's host", family: "Muse", role: "Adversarial verification & recovery drills", color: "var(--fleet-muse)" },
+  tempest: { group: "Gale's host", family: "Muse", role: "Open-stack portability & fleet interop", color: "var(--fleet-muse)" },
 };
-const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group"];
+const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group", "Gale's host"];
 
 const INTERAGENT_POLL_MS = 8_000;
 const AGORA_POLL_MS = 15_000;

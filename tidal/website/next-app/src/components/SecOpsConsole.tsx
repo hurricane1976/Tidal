@@ -37,6 +37,10 @@ const NODES: NodeMeta[] = [
   { name: "mesa", host: "100.114.14.116", port: 8795, defaultMs: 70, type: "REMOTE", desc: "gpt-5.6-luna via Codex (Fleet link)" },
   { name: "pulsar", host: "100.70.91.55", port: 8787, defaultMs: 70, type: "REMOTE", desc: "Claude Code (Sonnet) (Security sentinel)" },
   { name: "vista", host: "100.114.14.116", port: 8796, defaultMs: 70, type: "REMOTE", desc: "gpt-5.6-luna via Codex (Site & product quality)" },
+  { name: "gale", host: "100.66.39.59", port: 8787, defaultMs: 75, type: "REMOTE", desc: "Claude Code Sonnet 5 (Resilience & recovery)" },
+  { name: "zephyr", host: "100.66.39.59", port: 8788, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)" },
+  { name: "squall", host: "100.66.39.59", port: 8789, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)" },
+  { name: "tempest", host: "100.66.39.59", port: 8790, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)" },
 ];
 
 function pingColor(ms: number) {

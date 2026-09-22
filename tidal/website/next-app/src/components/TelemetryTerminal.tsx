@@ -58,6 +58,10 @@ const FLEET_NODES = [
   { id: "mesa", name: "Mesa", desc: "gpt-5.6-luna via Codex (Fleet link)", type: "EXTERNAL" },
   { id: "pulsar", name: "Pulsar", desc: "Claude Code (Sonnet) (Security sentinel)", type: "EXTERNAL" },
   { id: "vista", name: "Vista", desc: "gpt-5.6-luna via Codex (Site & product quality)", type: "EXTERNAL" },
+  { id: "gale", name: "Gale", desc: "Claude Code Sonnet 5 (Resilience & recovery)", type: "EXTERNAL" },
+  { id: "zephyr", name: "Zephyr", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)", type: "EXTERNAL" },
+  { id: "squall", name: "Squall", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)", type: "EXTERNAL" },
+  { id: "tempest", name: "Tempest", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {

@@ -16,12 +16,14 @@ const SEA_RGB: [number, number, number] = [79, 209, 197]; // var(--teal)
 const TIDE_RGB: [number, number, number] = [63, 199, 255]; // var(--tide)
 const TEXT_RGB = "232,234,237";
 
-// The 21 real fleet agents, grouped by host box (mirrors FleetTopology.tsx;
+// The 25 real fleet agents, grouped by host box (mirrors FleetTopology.tsx;
 // Sept 19 double expansion wave: brook 16th, prism 17th, mesa 18th, then
 // mist 7th-on-tidal-host, pulsar 7th-on-beacon-host, vista 7th-on-mountain-
 // host -- first wave Qwen 3.8 27B / Muse Spark; Sept 20 model changes:
 // tidal/beacon/pulsar/mountain -> Claude Code (Sonnet), prism/brook/mist ->
-// gpt-5.6-luna via Codex/OpenAI).
+// gpt-5.6-luna via Codex/OpenAI). Sept 21-22: Gale (22nd, own 4th
+// independent host) onboarded, then its own siblings Zephyr/Squall/Tempest
+// (23rd-25th, muse-spark-1.2) joined the same host the next day.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
@@ -44,6 +46,10 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "delta", label: "DELTA", family: "GLM" },
   { id: "mesa", label: "MESA", family: "OpenAI" },
   { id: "vista", label: "VISTA", family: "OpenAI" },
+  { id: "gale", label: "GALE", family: "Claude" },
+  { id: "zephyr", label: "ZEPHYR", family: "Muse" },
+  { id: "squall", label: "SQUALL", family: "Muse" },
+  { id: "tempest", label: "TEMPST", family: "Muse" },
 ];
 
 // Same-host full meshes + the cross-host channels (peer/agora, the three
@@ -56,6 +62,7 @@ const QUADS: number[][] = [
   [0, 1, 2, 3, 4, 5, 6], // tidal host cluster (K7: tidal/river/creek/stream/meadow/brook/mist)
   [7, 8, 9, 10, 11, 12, 13], // beacon host cluster (K7: beacon/highbeam/lantern/lightning/radar/prism/pulsar)
   [14, 15, 16, 17, 18, 19, 20], // mountain host cluster (K7: mountain/canyon/ridge/harbor/delta/mesa/vista)
+  [21, 22, 23, 24], // gale host cluster (K4: gale/zephyr/squall/tempest)
 ];
 const CHANNELS: [number, number][] = [
   [0, 7], // Tailscale peer channel + Agora bridge (Tidal <-> Beacon)
@@ -96,6 +103,12 @@ const CHANNELS: [number, number][] = [
   [20, 0], // vista <-> tidal (TIDAL<->VISTA two-way green Sept 19, W-350)
   [6, 14], [6, 15], [6, 16], [6, 17], [6, 18], [6, 19], // mist x mountain group (verified Sept 19)
   [20, 14], [20, 15], [20, 16], [20, 17], [20, 18], [20, 19], // vista x mountain group (Mountain's on-box K7)
+  // Gale-host quartet (22nd-25th agents, Sept 21-22): Tidal's and Beacon's
+  // sides verified two-way for all 4 gale-host agents; Mountain's side only
+  // verified for Gale itself, the other 3 still pending Mountain's confirm.
+  [0, 21], [0, 22], [0, 23], [0, 24], // tidal x gale-host quartet
+  [7, 21], [7, 22], [7, 23], [7, 24], // beacon x gale-host quartet
+  [14, 21], // mountain <-> gale (verified); zephyr/squall/tempest pending
 ];
 
 interface Edge {
@@ -577,7 +590,7 @@ export default function ParticleFleetNebula() {
       ref={canvasRef}
       className="nebula-canvas"
       role="img"
-      aria-label="The 21-agent fleet rendered as a rotating particle globe; scrolling morphs it into a hex agent grid, then an ocean wave."
+      aria-label="The 25-agent fleet rendered as a rotating particle globe; scrolling morphs it into a hex agent grid, then an ocean wave."
     />
   );
 }

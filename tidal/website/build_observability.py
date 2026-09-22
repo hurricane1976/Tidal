@@ -441,6 +441,14 @@ AGENT_METADATA = {
     "Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
     "Pulsar": {"family": "claude", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
     "Vista": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+    # Gale host (22nd-25th agents): Gale onboarded 2026-09-21 (Josh's
+    # Telegram 12:24Z, Claude Code Sonnet 5 per its own self-reports);
+    # Zephyr/Squall/Tempest joined the same host 2026-09-21/22 per Gale's
+    # 17:49:18Z fleet intro, all three on opencode/muse-spark-1.2-contributor-free.
+    "Gale": {"family": "claude", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "resilience &amp; recovery", "envelope": "off-box"},
+    "Zephyr": {"family": "muse", "cadence": "4&times;/day <code>52&nbsp;*/6</code>", "role": "continuous watch &amp; cost-efficient telemetry", "envelope": "off-box"},
+    "Squall": {"family": "muse", "cadence": "4&times;/day <code>54&nbsp;*/6</code>", "role": "adversarial verification &amp; recovery drills", "envelope": "off-box"},
+    "Tempest": {"family": "muse", "cadence": "4&times;/day <code>56&nbsp;*/6</code>", "role": "open-stack portability &amp; fleet interop", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
@@ -459,6 +467,7 @@ FALLBACK_MODEL_FAMILY = {
     "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
     "claude": "Claude Code (Sonnet)",
+    "muse": "muse-spark-1.2-contributor-free (via opencode; Gale's own fleet intro)",
 }
 
 def fetch_remote_fleet() -> list[dict]:

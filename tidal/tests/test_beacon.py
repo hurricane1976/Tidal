@@ -565,15 +565,18 @@ _Nothing awaiting a decision right now._
         """2026-09-20 normalization across the three sites: our published
         manifest must carry the reconciled roster -- 21 agents, GLM 12 /
         Claude 4 / GPT 5 -- using the shared family vocabulary (first word),
-        with no Muse/Qwen/OpenAI labels left, and Mountain's own role."""
+        with no Muse/Qwen/OpenAI labels left, and Mountain's own role. Sept
+        21-22, 2026: Gale (Claude, 22nd) then its own siblings Zephyr/Squall/
+        Tempest (Muse, 23rd-25th) join -- 25 agents, GLM 12 / Claude 5 / GPT
+        5 / Muse 3."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         fleet = data.get("fleet", [])
-        self.assertEqual(len(fleet), 21)
+        self.assertEqual(len(fleet), 25)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 12, "Claude": 4, "GPT": 5})
+        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
@@ -717,7 +720,7 @@ _Nothing awaiting a decision right now._
         # Waking 350 (Sept 19 ~22-23Z expansion wave): mist (19th, 7th local,
         # operator session 22:03Z) + vista (Mountain-box 7th) + pulsar
         # (Beacon-box 7th, staged pending mapping confirm) — pin 18 -> 21.
-        self.assertEqual(len(manifest["agents"]), 21, "fleet manifest must list 21 agents")
+        self.assertEqual(len(manifest["agents"]), 25, "fleet manifest must list 25 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
@@ -735,7 +738,7 @@ _Nothing awaiting a decision right now._
         # 2026-09-19: Brook added to Tidal's published fleet manifest (16).
         # Waking 348: prism + mesa rows added (18) per Josh's directive.
         # Waking 350 (Sept 19 second wave): mist + pulsar + vista — pin 18 -> 21.
-        self.assertEqual(len(fleet_names), 21, "Tidal agent.json fleet array must list 21 agents")
+        self.assertEqual(len(fleet_names), 25, "Tidal agent.json fleet array must list 25 agents")
         self.assertIn("Meadow", fleet_names)
         self.assertIn("Delta", fleet_names)
         self.assertIn("Brook", fleet_names)
@@ -776,7 +779,8 @@ _Nothing awaiting a decision right now._
         self.assertIn('name: "Prism"', fleet_src)
         self.assertIn('name: "Mesa"', fleet_src)
         # Waking 348: the fleet description states the 18-agent fleet.
-        self.assertIn("21-agent fleet", fleet_src)
+        # Sept 21-22: Gale-host quartet joins, description now 25-agent.
+        self.assertIn("25-agent fleet", fleet_src)
 
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
@@ -822,7 +826,10 @@ _Nothing awaiting a decision right now._
         and Brook/Mist (their wake.sh run `codex exec -m gpt-5.6-luna`) ->
         openai. Later that day Mountain's first-party agent.json/fleet.json
         moved Mesa and Vista to openai (gpt-5.6-luna via Codex) as well, so
-        no muse or qwen agents remain; everything else is glm."""
+        no muse or qwen agents remain; everything else is glm. Sept 21-22,
+        2026: Gale (22nd, own 4th host) runs Claude Code (Sonnet 5); its own
+        siblings Zephyr/Squall/Tempest (23rd-25th) run opencode/muse-spark-
+        1.2-contributor-free -- the fleet's first live muse family rows."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -833,7 +840,8 @@ _Nothing awaiting a decision right now._
             expected = {"Mesa": "openai", "Vista": "openai",
                         "Brook": "openai", "Mist": "openai", "Prism": "openai",
                         "Tidal": "claude", "Beacon": "claude",
-                        "Pulsar": "claude", "Mountain": "claude"}.get(name, "glm")
+                        "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
+                        "Zephyr": "muse", "Squall": "muse", "Tempest": "muse"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
@@ -1158,13 +1166,16 @@ _Nothing awaiting a decision right now._
         every latency-probe surface (index, secops, live telemetry) accounts
         for all 21. Sept 21 2026 (Josh onboarded Gale, 12:24Z Telegram): a
         22nd agent joins as its own 4th independent host (own Tailscale node
-        gale-agent, 100.66.39.59:8787) -- registry now carries 22. Status
-        page FLEET SIZE reads 22 with the full roster."""
+        gale-agent, 100.66.39.59:8787) -- registry now carries 22. Sept
+        21-22, 2026 (Gale's own 17:49:18Z fleet intro): Zephyr, Squall and
+        Tempest (23rd-25th) join the same host -- registry now carries 25.
+        Status page FLEET SIZE reads 21 with the full core roster (the
+        Gale-host quartet is called out separately on the fleet page)."""
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         sys.path.insert(0, repo_root)
         from tools.fleet_nodes import NODES
-        self.assertEqual(len(NODES), 22)
-        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista", "gale"):
+        self.assertEqual(len(NODES), 25)
+        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista", "gale", "zephyr", "squall", "tempest"):
             self.assertIn(name, NODES)
         self.assertEqual(NODES["meadow"], ("100.91.42.51", 8791, 26))
         self.assertEqual(NODES["radar"], ("100.125.26.66", 8787, 70))
@@ -1176,6 +1187,9 @@ _Nothing awaiting a decision right now._
         self.assertEqual(NODES["pulsar"], ("100.70.91.55", 8787, 70))
         self.assertEqual(NODES["vista"], ("100.114.14.116", 8796, 70))
         self.assertEqual(NODES["gale"], ("100.66.39.59", 8787, 75))
+        self.assertEqual(NODES["zephyr"], ("100.66.39.59", 8788, 75))
+        self.assertEqual(NODES["squall"], ("100.66.39.59", 8789, 75))
+        self.assertEqual(NODES["tempest"], ("100.66.39.59", 8790, 75))
 
         # Build fresh, then assert on the python-built metrics page (the
         # FLEET SIZE card lives there; the webroot copy may be the React
@@ -1209,8 +1223,8 @@ _Nothing awaiting a decision right now._
             with open(legacy_path, "r") as f:
                 status_content = f.read()
         self.assertIn("FLEET SIZE", status_content)
-        self.assertIn(">21 <span class=\"unit\">agents</span>", status_content)
-        self.assertIn("Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista", status_content)
+        self.assertIn(">25 <span class=\"unit\">agents</span>", status_content)
+        self.assertIn("Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista, Gale, Zephyr, Squall, Tempest", status_content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -1285,7 +1299,7 @@ _Nothing awaiting a decision right now._
             # Mountain's host, Treasury & Business Strategist, GLM Flash per
             # Mountain's report) drawn on the static SVG with their spoke
             # edges + readouts + member cards; fleet count 13 -> 15.
-            self.assertIn("22 agents have been incorporated into the fleet", content)
+            self.assertIn("25 agents have been incorporated into the fleet", content)
             self.assertIn("showNode('meadow')", content)
             self.assertIn("showNode('delta')", content)
             self.assertIn("showNode('brook')", content)  # Waking 348: 16th agent on the tidal-host K6 ring
@@ -1585,11 +1599,13 @@ _Nothing awaiting a decision right now._
                 self.assertIn("{ family: \"GLM\", x: 150 }", topo_src)
                 self.assertIn("{ family: \"OpenAI\", x: 240 }", topo_src)
                 # Later Sept 20: Mesa and Vista also on gpt-5.6-luna (Mountain's
-                # first-party feeds) -> the Muse and Qwen chips retire.
-                self.assertNotIn("{ family: \"Muse\"", topo_src)
+                # first-party feeds) -> the Muse and Qwen chips retire...
                 self.assertNotIn("{ family: \"Qwen\"", topo_src)
-                self.assertIn("amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet, Sept 20&ndash;21 moves)", topo_src)
-                self.assertIn("red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex, Sept 20)", topo_src)
+                # ...until Sept 21-22, when Gale's own siblings Zephyr/Squall/
+                # Tempest (muse-spark-1.2) join and the Muse chip returns.
+                self.assertIn("{ family: \"Muse\", x: 330 }", topo_src)
+                self.assertIn("amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet)", topo_src)
+                self.assertIn("red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex)", topo_src)
                 self.assertIn("family: \"Claude\", title: \"Tidal", topo_src)
                 for _nid, _fam, _label in (("radar", "GLM", "Radar"), ("beacon", "Claude", "Beacon"), ("pulsar", "Claude", "Pulsar"),
                                            ("mountain", "Claude", "Mountain"), ("prism", "OpenAI", "Prism"),
@@ -1606,12 +1622,16 @@ _Nothing awaiting a decision right now._
                 # word) -- honest leg-state strings updated on every surface.
                 self.assertIn("tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint", topo_src)
                 self.assertNotIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
-                self.assertIn("22 agents \u00b7 4 independent hosts live", topo_src)
+                self.assertIn("25 agents \u00b7 4 host clusters live", topo_src)
                 # Sept 21 2026 (Josh's 12:24Z Telegram): GALE, the 22nd agent,
-                # joins as its own 4th independent host -- standalone node
-                # (no co-located siblings), 3 lead trunks verified two-way.
+                # joins as its own 4th independent host; Sept 21-22, its own
+                # siblings Zephyr/Squall/Tempest (23rd-25th) join the same
+                # host, so the standalone node becomes a small K4 cluster.
                 self.assertIn('id: "gale", label: "GALE", family: "Claude"', topo_src)
-                self.assertIn("Gale \u2022 resilience & recovery (22nd agent, 4th independent host)", topo_src)
+                self.assertIn("Gale \u2022 resilience & recovery (22nd agent, Gale-host lead)", topo_src)
+                self.assertIn('id: "zephyr", label: "ZEPHYR", family: "Muse"', topo_src)
+                self.assertIn('id: "squall", label: "SQUALL", family: "Muse"', topo_src)
+                self.assertIn('id: "tempest", label: "TEMPEST", family: "Muse"', topo_src)
                 self.assertIn('"gale-tidal": ["gale", "tidal"]', topo_src)
                 self.assertIn('"gale-beacon": ["gale", "beacon"]', topo_src)
                 self.assertIn('"gale-mountain": ["gale", "mountain"]', topo_src)
