@@ -1154,7 +1154,7 @@ _Nothing awaiting a decision right now._
             self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
 
-    def test_fleet_nodes_registry_21_agents(self):
+    def test_fleet_nodes_registry_25_agents(self):
         """Waking 348 (Sept 19 2026, Josh's 15:50:59Z directive 'update fleet
         topology to account for all 18 agents') then Waking 350 (the second
         Sept-19 wave, fleet 21): the shared node registry carries all 21

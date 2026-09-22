@@ -4449,7 +4449,7 @@ def main():
         "mesa": ("MESA", "#ff5a5f"), "mist": ("MIST", "#ff5a5f"),
         "pulsar": ("PULSAR", "#ffc233"), "vista": ("VISTA", "#ff5a5f"),
         "gale": ("GALE", "#38bdf8"), "zephyr": ("ZEPHYR", "#22d3ee"),
-        "squall": ("SQUALL", "#a78bfa"), "tempest": ("TEMPST", "#fb7185"),
+        "squall": ("SQUALL", "#a78bfa"), "tempest": ("TEMPEST", "#fb7185"),
     }
     _nodes_svg = "\n            ".join(
         f'<!-- {mid.upper()} ({"gale-host ring position" if mid in _gale_members else f"pentagram ring position {_pmembers_order[mid]}"}) -->\n'
