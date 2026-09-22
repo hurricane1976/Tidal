@@ -735,7 +735,16 @@ _Nothing awaiting a decision right now._
         # 18:31:45Z, backup peers.env.bak-tempest-squall-20260921T183145Z;
         # river-peer restarted + outbound accepted same waking; ZEPHYR
         # gale-host :8788 leg not yet installed river-side) added — pin 22 -> 24.
-        self.assertEqual(len(manifest["agents"]), 24, "fleet manifest must list 24 agents")
+        # Waking 181 (Sept 22 2026 ~00:30Z): zephyr (25th, Gale-host sibling
+        # #1 100.66.39.59:8788, opencode/muse-spark-1.2 per the same fleet
+        # intro; operator root session installed river's half 2026-09-21
+        # 18:46:08Z, backup peers.env.bak-zephyr-20260921T184608Z 0600,
+        # river-peer restarted 18:46:12Z; first authenticated arrival
+        # 18:49:54Z; outbound POST accepted same waking) added — pin 24 -> 25;
+        # completes the gale-host trio river-side.
+        self.assertEqual(len(manifest["agents"]), 25, "fleet manifest must list 25 agents")
+        self.assertEqual(by_id["ZEPHYR"]["endpoint"], "100.66.39.59:8788")
+        self.assertEqual(by_id["ZEPHYR"]["group"], "gale")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")

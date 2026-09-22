@@ -1,132 +1,138 @@
 {
- "agents": [
-  {
-   "endpoint": "100.91.42.51:8787",
-   "group": "tidal",
-   "id": "TIDAL"
-  },
-  {
-   "endpoint": "100.91.42.51:8788",
-   "group": "tidal",
-   "id": "RIVER"
-  },
-  {
-   "endpoint": "100.91.42.51:8789",
-   "group": "tidal",
-   "id": "CREEK"
-  },
-  {
-   "endpoint": "100.91.42.51:8790",
-   "group": "tidal",
-   "id": "STREAM"
-  },
-  {
-   "endpoint": "100.91.42.51:8791",
-   "group": "tidal",
-   "id": "MEADOW"
-  },
-  {
-   "endpoint": "100.91.42.51:8792",
-   "group": "tidal",
-   "id": "BROOK"
-  },
-  {
-   "endpoint": "100.91.42.51:8793",
-   "group": "tidal",
-   "id": "MIST"
-  },
-  {
-   "endpoint": "100.99.217.90:8787",
-   "group": "beacon",
-   "id": "BEACON"
-  },
-  {
-   "endpoint": "100.81.147.28:8787",
-   "group": "beacon",
-   "id": "HIGHBEAM"
-  },
-  {
-   "endpoint": "100.76.139.96:8787",
-   "group": "beacon",
-   "id": "LANTERN"
-  },
-  {
-   "endpoint": "100.69.40.118:8787",
-   "group": "beacon",
-   "id": "LIGHTNING"
-  },
-  {
-   "endpoint": "100.125.26.66:8787",
-   "group": "beacon",
-   "id": "RADAR"
-  },
-  {
-   "endpoint": "100.100.158.42:8787",
-   "group": "beacon",
-   "id": "PRISM"
-  },
-  {
-   "endpoint": "100.114.14.116:8787",
-   "group": "mountain",
-   "id": "MOUNTAIN"
-  },
-  {
-   "endpoint": "100.114.14.116:8791",
-   "group": "mountain",
-   "id": "CANYON"
-  },
-  {
-   "endpoint": "100.114.14.116:8792",
-   "group": "mountain",
-   "id": "RIDGE"
-  },
-  {
-   "endpoint": "100.114.14.116:8793",
-   "group": "mountain",
-   "id": "HARBOR"
-  },
-  {
-   "endpoint": "100.114.14.116:8794",
-   "group": "mountain",
-   "id": "DELTA"
-  },
-  {
-   "endpoint": "100.114.14.116:8795",
-   "group": "mountain",
-   "id": "MESA",
-   "note": "Mountain-box 8th, 21st fleet member (fleet link & mesh reliability, Muse Spark 1.2); TIDAL half installed 2026-09-20 Waking 356 on Mountain's resent 01:56Z mint (Josh's 00:16:25Z remove-hold word); pre-install probe + config-path POST 200. Sibling tidal-group halves ride Mountain's relay lanes."
-  },
-  {
-   "endpoint": "100.114.14.116:8796",
-   "group": "mountain",
-   "id": "VISTA",
-   "note": "Mountain-box 7th agent (Site & Product Quality); onboarded 2026-09-19 by operator session via Mountain's 22:22:07Z relay; shared receiver token installed on TIDAL this waking; sibling installs relayed same-token"
-  },
-  {
-   "endpoint": "100.70.91.55:8787",
-   "group": "beacon",
-   "id": "PULSAR",
-   "note": "Beacon-box 7th agent (security sentinel, Qwen 3.8 27B); Beacon mint ~22:26Z relayed 22:28:10Z; mapping verified 6/6 vs Beacon's 00:17:56Z first-hand confirm-back (pulsar's own mint order); TIDAL<->PULSAR two-way green 00:28Z Waking-352 per Josh's 00:16:25Z 'Remove hold on new agents and install their keys'; sibling halves relayed one-labeled-token-each"
-  },
-  {
-   "endpoint": "100.66.39.59:8787",
-   "group": "gale",
-   "id": "GALE",
-   "note": "Fourth-host lead (Resilience & Recovery: backups, rules-file version control, spend/quota, incident runbooks), Claude Code / Sonnet, wakes 00:50/06:50/12:50/18:50Z. Operator session installed river's half 2026-09-21 14:48:23Z (peers.env 31 blocks + river-peer restart, backup peers.env.bak-gale-20260921T144823Z); GALE pair test 14:51:58Z authenticated inbound (server log ACCEPT via=bearer); river W178: /health 200 + junk-bearer 401 discriminator + confirm-back POST 200 - two-way green. Leads-only phase (Tidal 14:20Z relay) was superseded same-day by Josh's full-mesh word (Mountain 14:33:26Z relay)."
-  },
-  {
-   "endpoint": "100.66.39.59:8789",
-   "group": "gale",
-   "id": "SQUALL",
-   "note": "Gale-host sibling #2 (Adversarial Verification & Recovery Drills, opencode/muse-spark-1.2 per Gale's 17:49:18Z fleet intro). Operator root session 198.211.111.194 installed river's half 2026-09-21 18:31:45Z (peers.env 33 blocks, backup peers.env.bak-tempest-squall-20260921T183145Z 0600); river-peer restarted 18:3xZ; outbound river->SQUALL accepted same waking."
-  },
-  {
-   "endpoint": "100.66.39.59:8790",
-   "group": "gale",
-   "id": "TEMPEST",
-   "note": "Gale-host sibling #3 (Open-Stack Portability & Fleet Interop, opencode/muse-spark-1.2 per Gale's 17:49:18Z fleet intro). Operator root session 198.211.111.194 installed river's half 2026-09-21 18:31:45Z (peers.env 33 blocks, backup peers.env.bak-tempest-squall-20260921T183145Z 0600); river-peer restarted 18:3xZ; outbound river->TEMPEST accepted same waking. ZEPHYR (gale-host :8788) leg not yet installed river-side."
-  }
- ],
- "purpose": "Public endpoint inventory for direct, on-demand fleet delivery. No credentials belong in this file.",
- "schema": "fleet-mesh/v1"
+  "agents": [
+    {
+      "endpoint": "100.91.42.51:8787",
+      "group": "tidal",
+      "id": "TIDAL"
+    },
+    {
+      "endpoint": "100.91.42.51:8788",
+      "group": "tidal",
+      "id": "RIVER"
+    },
+    {
+      "endpoint": "100.91.42.51:8789",
+      "group": "tidal",
+      "id": "CREEK"
+    },
+    {
+      "endpoint": "100.91.42.51:8790",
+      "group": "tidal",
+      "id": "STREAM"
+    },
+    {
+      "endpoint": "100.91.42.51:8791",
+      "group": "tidal",
+      "id": "MEADOW"
+    },
+    {
+      "endpoint": "100.91.42.51:8792",
+      "group": "tidal",
+      "id": "BROOK"
+    },
+    {
+      "endpoint": "100.91.42.51:8793",
+      "group": "tidal",
+      "id": "MIST"
+    },
+    {
+      "endpoint": "100.99.217.90:8787",
+      "group": "beacon",
+      "id": "BEACON"
+    },
+    {
+      "endpoint": "100.81.147.28:8787",
+      "group": "beacon",
+      "id": "HIGHBEAM"
+    },
+    {
+      "endpoint": "100.76.139.96:8787",
+      "group": "beacon",
+      "id": "LANTERN"
+    },
+    {
+      "endpoint": "100.69.40.118:8787",
+      "group": "beacon",
+      "id": "LIGHTNING"
+    },
+    {
+      "endpoint": "100.125.26.66:8787",
+      "group": "beacon",
+      "id": "RADAR"
+    },
+    {
+      "endpoint": "100.100.158.42:8787",
+      "group": "beacon",
+      "id": "PRISM"
+    },
+    {
+      "endpoint": "100.114.14.116:8787",
+      "group": "mountain",
+      "id": "MOUNTAIN"
+    },
+    {
+      "endpoint": "100.114.14.116:8791",
+      "group": "mountain",
+      "id": "CANYON"
+    },
+    {
+      "endpoint": "100.114.14.116:8792",
+      "group": "mountain",
+      "id": "RIDGE"
+    },
+    {
+      "endpoint": "100.114.14.116:8793",
+      "group": "mountain",
+      "id": "HARBOR"
+    },
+    {
+      "endpoint": "100.114.14.116:8794",
+      "group": "mountain",
+      "id": "DELTA"
+    },
+    {
+      "endpoint": "100.114.14.116:8795",
+      "group": "mountain",
+      "id": "MESA",
+      "note": "Mountain-box 8th, 21st fleet member (fleet link & mesh reliability, Muse Spark 1.2); TIDAL half installed 2026-09-20 Waking 356 on Mountain's resent 01:56Z mint (Josh's 00:16:25Z remove-hold word); pre-install probe + config-path POST 200. Sibling tidal-group halves ride Mountain's relay lanes."
+    },
+    {
+      "endpoint": "100.114.14.116:8796",
+      "group": "mountain",
+      "id": "VISTA",
+      "note": "Mountain-box 7th agent (Site & Product Quality); onboarded 2026-09-19 by operator session via Mountain's 22:22:07Z relay; shared receiver token installed on TIDAL this waking; sibling installs relayed same-token"
+    },
+    {
+      "endpoint": "100.70.91.55:8787",
+      "group": "beacon",
+      "id": "PULSAR",
+      "note": "Beacon-box 7th agent (security sentinel, Qwen 3.8 27B); Beacon mint ~22:26Z relayed 22:28:10Z; mapping verified 6/6 vs Beacon's 00:17:56Z first-hand confirm-back (pulsar's own mint order); TIDAL<->PULSAR two-way green 00:28Z Waking-352 per Josh's 00:16:25Z 'Remove hold on new agents and install their keys'; sibling halves relayed one-labeled-token-each"
+    },
+    {
+      "endpoint": "100.66.39.59:8787",
+      "group": "gale",
+      "id": "GALE",
+      "note": "Fourth-host lead (Resilience & Recovery: backups, rules-file version control, spend/quota, incident runbooks), Claude Code / Sonnet, wakes 00:50/06:50/12:50/18:50Z. Operator session installed river's half 2026-09-21 14:48:23Z (peers.env 31 blocks + river-peer restart, backup peers.env.bak-gale-20260921T144823Z); GALE pair test 14:51:58Z authenticated inbound (server log ACCEPT via=bearer); river W178: /health 200 + junk-bearer 401 discriminator + confirm-back POST 200 - two-way green. Leads-only phase (Tidal 14:20Z relay) was superseded same-day by Josh's full-mesh word (Mountain 14:33:26Z relay)."
+    },
+    {
+      "endpoint": "100.66.39.59:8789",
+      "group": "gale",
+      "id": "SQUALL",
+      "note": "Gale-host sibling #2 (Adversarial Verification & Recovery Drills, opencode/muse-spark-1.2 per Gale's 17:49:18Z fleet intro). Operator root session 198.211.111.194 installed river's half 2026-09-21 18:31:45Z (peers.env 33 blocks, backup peers.env.bak-tempest-squall-20260921T183145Z 0600); river-peer restarted 18:3xZ; outbound river->SQUALL accepted same waking."
+    },
+    {
+      "endpoint": "100.66.39.59:8790",
+      "group": "gale",
+      "id": "TEMPEST",
+      "note": "Gale-host sibling #3 (Open-Stack Portability & Fleet Interop, opencode/muse-spark-1.2 per Gale's 17:49:18Z fleet intro). Operator root session 198.211.111.194 installed river's half 2026-09-21 18:31:45Z (peers.env 33 blocks, backup peers.env.bak-tempest-squall-20260921T183145Z 0600); river-peer restarted 18:3xZ; outbound river->TEMPEST accepted same waking. ZEPHYR (gale-host :8788) leg not yet installed river-side."
+    },
+    {
+      "id": "ZEPHYR",
+      "endpoint": "100.66.39.59:8788",
+      "group": "gale",
+      "note": "Gale-host sibling #1 (Continuous Watch & Cost-Efficient Telemetry, opencode/muse-spark-1.2 per Gale's 17:49:18Z fleet intro). Operator root session 198.211.111.194 installed river's half 2026-09-21 18:46:08Z (peers.env 33->34 blocks, backup peers.env.bak-zephyr-20260921T184608Z 0600, river-peer restarted 18:46:12Z); first authenticated inbound arrival 18:49:54Z; river W181: /health 200 identity echo + outbound POST accepted - two-way green. Completes the gale-host trio river-side."
+    }
+  ],
+  "purpose": "Public endpoint inventory for direct, on-demand fleet delivery. No credentials belong in this file.",
+  "schema": "fleet-mesh/v1"
 }
