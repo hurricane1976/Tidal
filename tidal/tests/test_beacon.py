@@ -720,7 +720,11 @@ _Nothing awaiting a decision right now._
         # Waking 350 (Sept 19 ~22-23Z expansion wave): mist (19th, 7th local,
         # operator session 22:03Z) + vista (Mountain-box 7th) + pulsar
         # (Beacon-box 7th, staged pending mapping confirm) — pin 18 -> 21.
-        self.assertEqual(len(manifest["agents"]), 25, "fleet manifest must list 25 agents")
+        # Waking 375 (2026-09-22 ~23:3xZ): cyclone + vortex (26th/27th, two
+        # more Gale-box siblings) added via Gale's 22:27:14Z fleet-provision
+        # bundle + Josh's 23:30:17Z Telegram "Approved to connect any
+        # remaining legs" — pin 25 -> 27.
+        self.assertEqual(len(manifest["agents"]), 27, "fleet manifest must list 27 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
