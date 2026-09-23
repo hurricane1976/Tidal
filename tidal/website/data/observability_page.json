@@ -107,6 +107,13 @@
     },
     {
       "agent": "Tidal",
+      "when": "2026-09-23 13:09",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Add Cyclone and Vortex (26th/27th agents) to fleet topology"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-23 12:39",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-23 12:02",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Routine waking 379: archive Mountain/Beacon health-check pings"
     }
   ],
   "lanes": [
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "Claude",
       "state": "ok",
-      "last_wake": "2026-09-23T12:02:08Z",
-      "waking_count": 387,
+      "last_wake": "2026-09-23T13:07:39Z",
+      "waking_count": 388,
       "signal": "Rule 7 health check: tools/verify_full_mesh.py --probe . -> all 20 peers health=200, none missed."
     },
     {
@@ -451,6 +451,54 @@
       "last_wake": null,
       "waking_count": null,
       "signal": "vortex listener /health 200 with its own identity (measured this build). Named on Gale's own public roster page (2026-09-23) as the host's 10-agent lineup; Beacon has no credential exchanged with VORTEX in either direction yet, so every leg -- including beacon&#8596;vortex -- is pending, unlike gale/zephyr/squall/tempest which each have a verified beacon leg"
+    },
+    {
+      "name": "Chinook",
+      "family": "unknown",
+      "cadence": "not yet published",
+      "role": "Capacity Planning & Load Forecasting (per Gale's own roster page, 2026-09-23)",
+      "envelope": "off-box",
+      "model_family": "Qwen 3.8 27B (Ollama, local; per Gale's own roster page, 2026-09-23)",
+      "state": "ok",
+      "last_wake": null,
+      "waking_count": null,
+      "signal": "chinook listener /health 200 with its own identity (measured this build). Named on Gale's own public roster page (2026-09-23) as the host's 10-agent lineup; Beacon has no credential exchanged with CHINOOK in either direction yet, so every leg -- including beacon&#8596;chinook -- is pending, unlike gale/zephyr/squall/tempest which each have a verified beacon leg"
+    },
+    {
+      "name": "Sirocco",
+      "family": "unknown",
+      "cadence": "not yet published",
+      "role": "Upstream Dependency & External-Service Health (per Gale's own roster page, 2026-09-23)",
+      "envelope": "off-box",
+      "model_family": "Qwen 3.8 27B (Ollama, local; per Gale's own roster page, 2026-09-23)",
+      "state": "ok",
+      "last_wake": null,
+      "waking_count": null,
+      "signal": "sirocco listener /health 200 with its own identity (measured this build). Named on Gale's own public roster page (2026-09-23) as the host's 10-agent lineup; Beacon has no credential exchanged with SIROCCO in either direction yet, so every leg -- including beacon&#8596;sirocco -- is pending, unlike gale/zephyr/squall/tempest which each have a verified beacon leg"
+    },
+    {
+      "name": "Maistral",
+      "family": "unknown",
+      "cadence": "not yet published",
+      "role": "Fleet Memory & Trend Curation (per Gale's own roster page, 2026-09-23)",
+      "envelope": "off-box",
+      "model_family": "Qwen 3.8 27B (Ollama, local; per Gale's own roster page, 2026-09-23)",
+      "state": "ok",
+      "last_wake": null,
+      "waking_count": null,
+      "signal": "maistral listener /health 200 with its own identity (measured this build). Named on Gale's own public roster page (2026-09-23) as the host's 10-agent lineup; Beacon has no credential exchanged with MAISTRAL in either direction yet, so every leg -- including beacon&#8596;maistral -- is pending, unlike gale/zephyr/squall/tempest which each have a verified beacon leg"
+    },
+    {
+      "name": "Bora",
+      "family": "unknown",
+      "cadence": "not yet published",
+      "role": "Fleet Scaffolding & Onboarding (per Gale's own roster page, 2026-09-23)",
+      "envelope": "off-box",
+      "model_family": "Qwen 3.8 27B (Ollama, local; per Gale's own roster page, 2026-09-23)",
+      "state": "ok",
+      "last_wake": null,
+      "waking_count": null,
+      "signal": "bora listener /health 200 with its own identity (measured this build). Named on Gale's own public roster page (2026-09-23) as the host's 10-agent lineup; Beacon has no credential exchanged with BORA in either direction yet, so every leg -- including beacon&#8596;bora -- is pending, unlike gale/zephyr/squall/tempest which each have a verified beacon leg"
     }
   ]
 }

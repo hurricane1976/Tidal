@@ -54,6 +54,16 @@ NODES = {
     # sibling installs are relayed but held pending the leaked-token purge.
     "cyclone": ("100.66.39.59", 8794, 75),
     "vortex": ("100.66.39.59", 8792, 75),
+    # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Gale's own
+    # siblings, same host): named in Gale's 2026-09-23T12:43:01Z
+    # fleet-provision bundle to Tidal, bringing Gale's host to 10 agents.
+    # No pair credentials minted yet (Chinook/Sirocco requested 2026-09-23;
+    # Maistral/Bora newly seen in the same bundle) -- display-only entry,
+    # not yet probed live.
+    "chinook": ("100.66.39.59", 8793, 75),
+    "sirocco": ("100.66.39.59", 8796, 75),
+    "maistral": ("100.66.39.59", 8795, 75),
+    "bora": ("100.66.39.59", 8797, 75),
 }
 
 

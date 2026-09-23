@@ -455,6 +455,14 @@ AGENT_METADATA = {
     # verified so far (sibling installs held pending a leaked-token purge).
     "Cyclone": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     "Vortex": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Sept 23 2026):
+    # named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal,
+    # bringing Gale's host to its full 10 agents. Role and cadence not yet
+    # published by Gale's operator; no pair credentials minted yet.
+    "Chinook": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Sirocco": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Maistral": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Bora": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master

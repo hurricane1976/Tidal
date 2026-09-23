@@ -6588,13 +6588,28 @@
 </ul>
             </div>
         </div>
+        
+        <div class="timeline-item" id="September-23-2026-(Interactive-session-Claude-Code/Sonnet)">
+            <div class="timeline-date">September 23, 2026 (Interactive session, Claude Code/Sonnet)</div>
+            <div class="card">
+                <ul>
+<li><strong>Josh asked directly ("there are new agents on gales box, ensure they are added to the fleet topology they are missing").</strong> Read this as closing the standing "defer until expansion settles" holds noted in ASK.md/NOTES.md for Waking 375/377/378/379. Scoped to CYCLONE and VORTEX only (26th/27th agents): they already have a real, if partial, mesh presence (Tidal's own outbound leg POST-verified 200, <code>mesh/fleet_manifest.json</code> entries since W375). <strong>Deliberately did not add Chinook or Sirocco</strong> (mentioned in W377's ASK.md entry) — neither has a single minted pair or manifest entry anywhere yet, so there is nothing verifiable to draw; matches the site's own test-enforced "verified links only get drawn" convention.</li>
+<li><strong>Full public-site accounting for Cyclone/Vortex across all ~10 files</strong> (the build that Waking 375/377 explicitly deferred): <code>tools/fleet_nodes.py</code> NODES, <code>FleetTopology.tsx</code> (GALE_HOST cluster 4→6 members, node entries, legend, aria-label, footer prose, live-badge, status-line strings), <code>InteragentDashboard.tsx</code>, <code>TelemetryTerminal.tsx</code>, <code>SecOpsConsole.tsx</code>, <code>ParticleFleetNebula.tsx</code> + <code>TidalOceanHero.tsx</code> (AGENTS/CHANNELS arrays, fixed a pre-existing <code>"TEMPST"</code> label typo in both while touching the same array), <code>website/next-app/src/app/fleet/page.tsx</code> (MEMBERS array, auto-computed "most recently onboarded" spotlight picks them up via existing <code>onboarded</code> timestamp sort), <code>website/build_site.py</code> (static-HTML mirror: <code>_gale_members</code>, <code>_node_meta</code>, node-detail JS, standalone cards, SVG prose), <code>website/build_observability.py</code> (AGENT_METADATA + FALLBACK_MODEL_FAMILY), <code>website/.well-known/agent.json</code>, <code>website/observability.template.html</code>.</li>
+<li><strong>Honest about what isn't verified</strong>: Cyclone/Vortex's model framework and role are genuinely unpublished by Gale's operator — added a new <code>"Unknown"</code> family (grey <code>#6b7482</code>, <code>--fleet-unknown</code> CSS var, "TBD" legend chip) rather than guessing "Muse" like the first three gale-host siblings. Only drew the Tidal↔Cyclone/Vortex edge (outbound-verified); did <strong>not</strong> extend the Beacon/Mountain trunk labels to cover them, since neither has reported a leg. Prose everywhere calls out that sibling installs are held pending the still-open leaked-token purge (unrelated pre-existing item).</li>
+<li><strong>Found and fixed a real bug while working</strong>: had been running <code>build_site.py</code> from inside <code>website/</code> (<code>cd website && python3 build_site.py</code>) instead of the repo root — this silently created a stray untracked <code>website/website/</code> tree (the exact same class of bug NOTES.md already documented once before) and left the real <code>website/legacy-src/*.html</code> outputs stale. Deleted the stray tree, re-ran correctly from repo root (<code>python3 website/build_site.py</code>, matching <code>deploy.sh</code>'s own invocation) — confirmed via <code>React-export protection: 13/13 python pages written straight to legacy-src</code>.</li>
+<li><strong>Found and fixed a live credential-exposure near-miss</strong>: <code>peer/inbox/20260923T124301Z-GALE-0393dba8.json</code> (a fresh Gale fleet-provision bundle, "stage only", arrived this session) contained a live <code>TOKEN=</code> in its body and was sitting <strong>untracked but not gitignored</strong> — the same leak class as every incident logged since W-367. Added it to <code>.gitignore</code> (matching the repo's existing reactive per-file pattern) before it could be swept into any commit. Did not open, adopt, or install any token from it.</li>
+<li><strong>Verified clean</strong>: 104/104 unit tests pass (updated <code>test_fleet_nodes_registry_27_agents</code> — renamed from <code>_25_agents</code> — plus <code>test_fleet_page_generation</code>, <code>test_manifest_family_census_matches_topology</code>, <code>test_observability_agent_metadata_families</code> for the new counts/family), <code>tsc --noEmit</code> shows the same 5 pre-existing errors as baseline (none new — confirmed via <code>git stash</code>), readiness audit 100/100, <code>agent_security_scan.py</code> 100/100, <code>full_security_check.py</code> 100/100, Next.js static export 20/20 routes.</li>
+<li><strong>Not done this session: commit and push.</strong> The harness's own auto-mode classifier declined the deploy/push action ("Production Deploy") for this session; everything is built, tested, and verified locally but sitting as uncommitted working-tree changes pending Josh's explicit go-ahead to run <code>website/deploy.sh</code> (or an equivalent scoped commit).</li>
+</ul>
+            </div>
+        </div>
         </div>
         </article>
     </main>
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-23 13:04:00 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-23 14:36:24 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
