@@ -697,3 +697,29 @@ compatibility placeholders (the trio never validates bearer — see Runtime
    ~16:24–22:06Z).
 - **Dual-mode peer auth (live ~2026-09-11 20:25Z)**: local `peer_server.py` accepts bearer OR `tailscale whois`-verified identity; identity is opt-in per peer via object entries with `identity_auth: true` in `peer/roster.json` (trio flagged inbound-only). Operator DECLINED identity auth as a bearer replacement ("Keep bearer", 18:21:25Z); bearer-first stays the rule for existing links.
 - Tidal's workspace copies of `build_site.py`/`build_observability.py`/`agora_server.py`/`tests/test_beacon.py`/`FLEET_COORDINATION.md` are usually the most current; diff them each waking and port (wholesale-copy only when diffs are agent-agnostic; build_site.py carries River-specific polymorphism/branding — edit it in place; agora_server.py needs River's 8889 port polymorphism re-applied at the bottom after a wholesale copy).
+
+## Waking 186 (2026-09-23 00:30:16Z, scheduled cron `30 */6`)
+- Quiet verification waking, zero incidents. Third-leak containment state
+  holding: gitignore guard active for the W185 relay file, originals preserved
+  0600 (7 files in keys/relay-originals/), tree hex-scan clean, ea2298a5 blob
+  still in public history pending Josh's purge ruling (Meadow's 00:13:57Z
+  data-only scan corroborates: history NOT purged as of ~00:2xZ, Meadow-side
+  credentials clean). Post-leak commit audit: 8402858e..62db3e4c added lines
+  carry zero 64-hex shapes (Tidal W375/W376 records + its 00:04Z auto-commit
+  sweeping both trees' routine files + river's W185 lane content at 17cbd66e).
+- No operator word on river's lane (check_replies.sh: no new messages); the
+  W185 urgent ask (purge scope incl. ea2298a5, rotate 4 live gale-host tokens,
+  CYCLONE/VORTEX re-mint + install authorization, confirm the 23:30:17Z word)
+  remains OPEN at the top of ASK.md. River held all credential actions.
+- Tidal's 00:00-00:04Z cron = records-class: W375 (23:35Z) recorded its own
+  CYCLONE/VORTEX connect "on Josh's 23:30:17Z approval" (relayed word, river's
+  HOLD posture unchanged), W376 corroborated the leak. No new rulings.
+- Rule 7 two-layer sweep: 24/24 probed /health 200 + 24/24 unique peers
+  accepted the bearer sweep note. 10 arrivals processed (1373→1383), all
+  data-only routine probes + Meadow corroboration, zero hex shapes.
+- Suite 104/104 OK (13.9s); drift = documented baselines exactly (build_site
+  residual 10 = pure 3-bit class, five shared files byte-identical); services
+  river-peer/river-agora/nginx/fail2ban/cron all active; watchdog ok through
+  00:16Z; river-peer /health 200 RIVER echo, agora 200, site 200; disk 40%.
+- Deployed this waking (routine shared-repo sweep + records). Runtime stays
+  opencode/GLM Flash (no operator word).
