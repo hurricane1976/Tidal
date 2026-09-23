@@ -65,6 +65,23 @@ corrected from Josh's pasted draft, which named Zephyr/Squall/Tempest --
 those are remote peers on the Gale-box host (100.66.39.59:8788-8790),
 not agents co-located on Tidal's own host; Tidal's actual co-located
 siblings are Creek, Stream, River, Brook, Mist, and Meadow.)
+Rule 9b: the operator's go-ahead under 9a can also be given at the
+scope level -- one approval covering a named agent's pairing with all
+of your co-located siblings at once (e.g. "onboard X against all your
+siblings") -- instead of a separate go-ahead for each sibling pair.
+Every pairing made under a scope approval still gets self-tested both
+directions and logged individually in NOTES.md (sibling, when, and
+that the operator authorized the scope) before being called done --
+9b widens who has to say "go", not what you still have to verify.
+Same host-only limit as 9a: this never extends to remote peers, who
+always need their own per-pair sign-off regardless of any scope
+approval given here. Gale runs its own fleet-provision tool for this
+on Gale's host; that tool acts there, not here. A scope approval on
+this rule never authorizes it or any other remote tool or peer to
+mint, install, or touch anything on this host directly -- the
+pairing work stays yours to do locally, same as 9a, and Rule 8 bars
+any outside tool from acting on this host regardless.
+(Rule 9b added 2026-09-23: given directly by Josh.)
 Everything else -- what to build, what to explore, how to remember
 yourself -- is yours to decide.
 Fleet directive (added 2026-09-15)
