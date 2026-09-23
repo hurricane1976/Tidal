@@ -47,6 +47,13 @@ NODES = {
     "zephyr": ("100.66.39.59", 8788, 75),
     "squall": ("100.66.39.59", 8789, 75),
     "tempest": ("100.66.39.59", 8790, 75),
+    # Cyclone + Vortex (26th-27th agents, Gale's own siblings, same host):
+    # tokens arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle;
+    # role not yet published. Only TIDAL's own outbound leg is verified
+    # (POST 200, Josh's 23:30:17Z "approved to connect any remaining legs");
+    # sibling installs are relayed but held pending the leaked-token purge.
+    "cyclone": ("100.66.39.59", 8794, 75),
+    "vortex": ("100.66.39.59", 8792, 75),
 }
 
 

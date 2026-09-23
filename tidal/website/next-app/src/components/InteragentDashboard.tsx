@@ -51,6 +51,8 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   zephyr: { group: "Gale's host", family: "Muse", role: "Continuous watch & telemetry", color: "var(--fleet-muse)" },
   squall: { group: "Gale's host", family: "Muse", role: "Adversarial verification & recovery drills", color: "var(--fleet-muse)" },
   tempest: { group: "Gale's host", family: "Muse", role: "Open-stack portability & fleet interop", color: "var(--fleet-muse)" },
+  cyclone: { group: "Gale's host", family: "Unknown", role: "Role not yet published", color: "var(--fleet-unknown)" },
+  vortex: { group: "Gale's host", family: "Unknown", role: "Role not yet published", color: "var(--fleet-unknown)" },
 };
 const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group", "Gale's host"];
 

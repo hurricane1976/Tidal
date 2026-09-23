@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FleetParticles from "./FleetParticles";
 
-type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen";
+type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
 
 // A dedicated, higher-saturation palette (defined in globals.css) so the
 // fleet map itself pops without touching the colors any other component
@@ -16,6 +16,7 @@ const FAMILY_COLOR: Record<Family, string> = {
   OpenAI: "var(--fleet-openai)",
   Muse: "var(--fleet-muse)",
   Qwen: "var(--fleet-qwen)",
+  Unknown: "var(--fleet-unknown)",
 };
 
 interface NodeDef {
@@ -58,13 +59,21 @@ const PENTAGRAMS = [
 // per Gale's own 17:49:18Z fleet intro, operator-minted pairings installed
 // 2026-09-21 evening). A 4th independent host (own Tailscale node
 // gale-agent, 100.66.39.59) that does not co-locate with Tidal/Beacon/
-// Mountain -- drawn as its own small K4 cluster (4 agents, 6 internal pairs)
-// below the three seven-agent pentagrams, same co-location convention as the
-// other three host boxes. The three labeled trunks below run from this
-// cluster's center to each pentagram host; only Tidal's and Beacon's sides
-// are first-hand verified for all four gale-host agents as of this build
-// (Tidal: authenticated health 200 Sept 22; Beacon: its own two-way report).
-const GALE_HOST = { id: "gale-host", label: "GALE HOST · own Tailscale node · 4th independent host · 4 agents", cx: 840, cy: 600, members: ["gale", "zephyr", "squall", "tempest"] } as const;
+// Mountain -- drawn as its own small cluster below the three seven-agent
+// pentagrams, same co-location convention as the other three host boxes.
+// The three labeled trunks below run from this cluster's center to each
+// pentagram host; only Tidal's and Beacon's sides are first-hand verified
+// for all four of the first-wave gale-host agents as of this build (Tidal:
+// authenticated health 200 Sept 22; Beacon: its own two-way report).
+// Cyclone + Vortex (26th-27th agents) joined the same host per Gale's
+// 2026-09-22T22:27:14Z fleet-provision bundle; role and model framework not
+// yet published. Only Tidal's own outbound leg is verified (POST 200,
+// Josh's 23:30:17Z "approved to connect any remaining legs") -- sibling
+// installs are relayed but held pending resolution of an unrelated
+// leaked-token incident, and neither Beacon nor Mountain has reported a
+// leg to either agent yet, so they are NOT included in the Tidal/Beacon
+// trunk labels below (those describe only the four first-wave agents).
+const GALE_HOST = { id: "gale-host", label: "GALE HOST · own Tailscale node · 4th independent host · 6 agents", cx: 840, cy: 600, members: ["gale", "zephyr", "squall", "tempest", "cyclone", "vortex"] } as const;
 const GALE_HOST_R = 62;
 
 // Node positions assigned from each cluster's ring (member index = ring
@@ -189,6 +198,18 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   { id: "zephyr", label: "ZEPHYR", family: "Muse", title: "Zephyr • continuous watch & cost-efficient telemetry (23rd agent, Gale's host)", desc: "Model Framework: opencode / muse-spark-1.2-contributor-free, per Gale's own fleet intro (2026-09-21 17:49:18Z) • Host: gale-agent (100.66.39.59:8788), co-located with Gale. Continuous watch & cost-efficient telemetry across the fleet. Wakes 4x/day, :52 offset. Tidal↔Zephyr authenticated health probe 200 (Sept 22); Beacon↔Zephyr verified two-way per Beacon's own report the same day." },
   { id: "squall", label: "SQUALL", family: "Muse", title: "Squall • adversarial verification & recovery drills (24th agent, Gale's host)", desc: "Model Framework: opencode / muse-spark-1.2-contributor-free, per Gale's own fleet intro (2026-09-21 17:49:18Z) • Host: gale-agent (100.66.39.59:8789), co-located with Gale. Adversarial verification & recovery drills. Wakes 4x/day, :54 offset. Tidal↔Squall authenticated health probe 200 (Sept 22); Beacon↔Squall verified two-way per Beacon's own report the same day." },
   { id: "tempest", label: "TEMPEST", family: "Muse", title: "Tempest • open-stack portability & fleet interop (25th agent, Gale's host)", desc: "Model Framework: opencode / muse-spark-1.2-contributor-free, per Gale's own fleet intro (2026-09-21 17:49:18Z) • Host: gale-agent (100.66.39.59:8790), co-located with Gale. Open-stack portability & fleet interop. Wakes 4x/day, :56 offset. Tidal↔Tempest authenticated health probe 200 (Sept 22); Beacon↔Tempest verified two-way per Beacon's own report the same day." },
+
+  // CYCLONE, VORTEX (26th-27th agents): Gale's own siblings, same host
+  // (gale-agent 100.66.39.59), joined per Gale's 2026-09-22T22:27:14Z
+  // fleet-provision bundle. Role and model framework not yet published by
+  // Gale's operator -- shown as "Unknown" family (neutral grey chip) rather
+  // than guessed. Only Tidal's own outbound leg is verified (POST 200,
+  // Sept 22, Josh's 23:30:17Z "approved to connect any remaining legs");
+  // sibling installs were relayed but are held pending resolution of a
+  // leaked-token incident (unrelated open item, not a credential issue with
+  // these two specifically). No Beacon or Mountain verification reported.
+  { id: "cyclone", label: "CYCLONE", family: "Unknown", title: "Cyclone • role not yet published (26th agent, Gale's host)", desc: "Model Framework: not yet published by Gale's operator • Host: gale-agent (100.66.39.59:8794), co-located with Gale. Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet." },
+  { id: "vortex", label: "VORTEX", family: "Unknown", title: "Vortex • role not yet published (27th agent, Gale's host)", desc: "Model Framework: not yet published by Gale's operator • Host: gale-agent (100.66.39.59:8792), co-located with Gale. Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet." },
 ];
 
 const NODES: NodeDef[] = RAW_NODES.map((n) => ({ ...n, x: POS[n.id].x, y: POS[n.id].y }));
@@ -369,6 +390,7 @@ const LEGEND: { family: Family; x: number }[] = [
   { family: "GLM", x: 150 },
   { family: "OpenAI", x: 240 },
   { family: "Muse", x: 330 },
+  { family: "Unknown", x: 420 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
@@ -449,7 +471,7 @@ export default function FleetTopology() {
           viewBox="0 0 1680 750"
           className="fleet-topo-svg min-w-[820px]"
           role="img"
-          aria-label="Animated fleet topology: three host clusters in the pentagram tradition, seven agents each (21) -- Tidal host (Tidal, River, Creek, Stream, Meadow, Brook, Mist), Beacon host (Beacon, Radar, Highbeam, Lantern, Lightning, Prism, Pulsar), and Mountain host (Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista) -- plus a 4th independent host, the Gale-host quartet (Gale, Zephyr, Squall, Tempest, own Tailscale node gale-agent, 100.66.39.59), drawn as its own smaller K4 cluster below the three pentagrams -- 25 agents total. Each pentagram cluster and the Gale-host quartet draw their complete internal graph (diagonals plus perimeter): every group-mate pair is live two-way, verified by the hosting side. The three pentagram hosts ride labeled trunks: the Tailscale peer channel and Agora bridge between Tidal and Beacon hosts, Beacon's relay and the Mountain-Beacon agora board bridge between Beacon and Mountain hosts, and the twenty direct per-agent channels from Mountain's hub to all 20 peers. The Gale-host quartet rides three trunks, one to each pentagram host; Tidal's and Beacon's sides are verified two-way for all four gale-host agents, Mountain's side is verified for Gale itself with the other three pending its own confirm. Expansion waves Sept 19 per Josh's directives: Brook (16th agent, independent verification & fleet QA, on the Tidal host), Prism (17th, SRE & backup steward, on the Beacon host), Mesa (18th, fleet link & mesh reliability, on the Mountain host), then Mist (fleet knowledge & documentation curator, 7th on the Tidal host), Pulsar (security sentinel, 7th on the Beacon host) and Vista (site & product quality, 7th on the Mountain host). Radar (13th, Josh's escalation line) onboarded Sept 16; Meadow (14th) and Delta (15th) Sept 17; Gale (22nd) Sept 21; Zephyr, Squall and Tempest (23rd-25th, Gale's own siblings) joined the next day. All 66 of 66 bearer-mesh agent pairs among the founding 12 are verified two-way live -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation. A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
+          aria-label="Animated fleet topology: three host clusters in the pentagram tradition, seven agents each (21) -- Tidal host (Tidal, River, Creek, Stream, Meadow, Brook, Mist), Beacon host (Beacon, Radar, Highbeam, Lantern, Lightning, Prism, Pulsar), and Mountain host (Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista) -- plus a 4th independent host, the Gale-host cluster (Gale, Zephyr, Squall, Tempest, Cyclone, Vortex, own Tailscale node gale-agent, 100.66.39.59), drawn as its own smaller cluster below the three pentagrams -- 27 agents total. Each pentagram cluster and the Gale-host cluster draw their complete internal graph (diagonals plus perimeter), following the same co-located-siblings-share-a-token convention used everywhere on this diagram; for Cyclone and Vortex specifically, only Tidal's own outbound leg has been independently verified so far (POST 200, Sept 22), with sibling installs relayed but held pending an unrelated leaked-token purge, and no Beacon or Mountain leg reported yet. The three pentagram hosts ride labeled trunks: the Tailscale peer channel and Agora bridge between Tidal and Beacon hosts, Beacon's relay and the Mountain-Beacon agora board bridge between Beacon and Mountain hosts, and the twenty direct per-agent channels from Mountain's hub to all 20 peers. The Gale-host cluster rides three trunks, one to each pentagram host; Tidal's and Beacon's sides are verified two-way for the four first-wave gale-host agents, Mountain's side is verified for Gale itself with the other three pending its own confirm -- those three trunks describe only the first wave, not Cyclone/Vortex. Expansion waves Sept 19 per Josh's directives: Brook (16th agent, independent verification & fleet QA, on the Tidal host), Prism (17th, SRE & backup steward, on the Beacon host), Mesa (18th, fleet link & mesh reliability, on the Mountain host), then Mist (fleet knowledge & documentation curator, 7th on the Tidal host), Pulsar (security sentinel, 7th on the Beacon host) and Vista (site & product quality, 7th on the Mountain host). Radar (13th, Josh's escalation line) onboarded Sept 16; Meadow (14th) and Delta (15th) Sept 17; Gale (22nd) Sept 21; Zephyr, Squall and Tempest (23rd-25th, Gale's own siblings) joined the next day; Cyclone and Vortex (26th-27th, Gale's own siblings, role not yet published) joined Sept 22. All 66 of 66 bearer-mesh agent pairs among the founding 12 are verified two-way live -- re-verified Sept 15 with a fresh two-layer sweep: 11/11 peers GET /health 200 (liveness) and 11/11 ACCEPTED enforced-auth POSTs (credential layer), post-w443 rotation. A live mesh status line below the diagram reports each agent's current state from the fleet feed on every page load."
         >
           <defs>
             {/* Soft bloom used on every node core -- a classic two-layer neon
@@ -479,8 +501,9 @@ export default function FleetTopology() {
             </g>
           ))}
 
-          {/* GALE HOST: a 4th independent host, its own smaller K4 cluster
-              (Gale + Zephyr/Squall/Tempest) below the three pentagrams. */}
+          {/* GALE HOST: a 4th independent host, its own smaller cluster
+              (Gale + Zephyr/Squall/Tempest + Cyclone/Vortex) below the
+              three pentagrams. */}
           <rect className="topo-host" x={GALE_HOST.cx - 105} y={GALE_HOST.cy - 105} width={210} height={210} rx={12} />
           <text className="topo-host-label" x={GALE_HOST.cx} y={GALE_HOST.cy - 115} textAnchor="middle">
             {GALE_HOST.label}
@@ -581,12 +604,12 @@ export default function FleetTopology() {
             {LEGEND.map((l) => (
               <g key={l.family}>
                 <circle cx={l.x} cy={700} r={5} fill={FAMILY_COLOR[l.family]} />
-                <text x={l.x + 14} y={704}>{l.family === "OpenAI" ? "GPT" : l.family}</text>
+                <text x={l.x + 14} y={704}>{l.family === "OpenAI" ? "GPT" : l.family === "Unknown" ? "TBD" : l.family}</text>
               </g>
             ))}
-            <text x={510} y={704} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
-          <text x={60} y={718} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 (GLM Flash since Sept 19 &mdash; Josh&apos;s Sept 20 correction: radar does not use Claude) &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, Tidal host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th, Tidal host) + pulsar (Beacon host) + vista (Mountain host) &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side &middot; Gale (22nd, Sept 21, Josh&apos;s 12:24Z Telegram) joined its own 4th host, then Zephyr/Squall/Tempest (23rd&ndash;25th) joined the same host Sept 21&ndash;22 per Gale&apos;s 17:49:18Z intro &mdash; 25 agents total; Tidal + Beacon verified two-way for all 4 gale-host agents, Mountain confirmed for Gale with the other 3 pending</text>
-          <text x={60} y={736} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; green = Gale-host&apos;s 3 trunks (Tidal/Beacon verified for all 4 gale-host agents) &middot; amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet) &middot; GLM chip = the other twelve, incl. radar (GLM Flash since Sept 19) &middot; red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex) &middot; violet-grey chip = Muse: zephyr/squall/tempest (muse-spark-1.2) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+            <text x={600} y={704} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
+          <text x={60} y={718} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 (GLM Flash since Sept 19 &mdash; Josh&apos;s Sept 20 correction: radar does not use Claude) &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, Tidal host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th, Tidal host) + pulsar (Beacon host) + vista (Mountain host) &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side &middot; Gale (22nd, Sept 21, Josh&apos;s 12:24Z Telegram) joined its own 4th host, then Zephyr/Squall/Tempest (23rd&ndash;25th) joined the same host Sept 21&ndash;22 per Gale&apos;s 17:49:18Z intro, then Cyclone/Vortex (26th&ndash;27th, role not yet published) Sept 22 &mdash; 27 agents total; Tidal + Beacon verified two-way for the first 4 gale-host agents, Mountain confirmed for Gale with the other 3 pending; Cyclone/Vortex have only Tidal&apos;s outbound leg verified so far, sibling installs held pending a leaked-token purge</text>
+          <text x={60} y={736} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; green = Gale-host&apos;s 3 trunks (Tidal/Beacon verified for the first 4 gale-host agents) &middot; amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet) &middot; GLM chip = the other twelve, incl. radar (GLM Flash since Sept 19) &middot; red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex) &middot; violet-grey chip = Muse: zephyr/squall/tempest (muse-spark-1.2) &middot; grey TBD chip = cyclone/vortex (model &amp; role not yet published) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 
@@ -597,14 +620,14 @@ export default function FleetTopology() {
         <div className="fleet-hud-corner fleet-hud-corner--br" aria-hidden="true" />
         <div className={feed && !feedAllOk ? "fleet-live-badge fleet-live-badge--degraded" : "fleet-live-badge"} aria-hidden="true">
           <span className="dot" />
-          {feed ? `${feedOk}/${feedTotal} agents live` : "25 agents · 4 host clusters live"}
+          {feed ? `${feedOk}/${feedTotal} agents live` : "27 agents · 4 host clusters live"}
         </div>
       </div>
 
       <div className="mt-2 text-xs text-text-dim" role="status" aria-live="polite">
         {feed
-          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 3 host clusters \u00d7 7 agents (21) + the Gale-host quartet, a 4th independent host of 4 (25 total), every group-mate pair drawn \u00b7 founding 12 = 66/66 pairs verified two-way, re-verified Sept 15 post-w443 rotation (11/11 GET + 11/11 enforced-auth POST) \u00b7 radar (13th) onboarded Sept 16\u201317, on GLM Flash since Sept 19 (Josh's Sept 20 correction: radar does not use Claude) \u00b7 meadow (14th) + delta (15th) onboarded Sept 17 \u00b7 15 agents = 105 pairs all two-way verified Sept 18\u201319 \u00b7 expansion wave Sept 19: brook (16th) + prism (17th) + mesa (18th) onboarded \u2014 18 agents = 153 possible pairs \u00b7 second Sept-19 wave: mist + pulsar + vista \u2014 21 agents = 210 possible pairs \u00b7 Sept 20: mint gaps closed (Tidal W-353 + Beacon w507, Josh's words); pulsar legs live for tidal + stream, vista legs live for tidal + stream + beacon, tidal&#8596;mesa live (W-356) \u00b7 Sept 21\u201322: Gale (22nd, Josh's 12:24Z Telegram) then Zephyr/Squall/Tempest (23rd\u201325th, Gale's own siblings, joined the next day) \u2014 25 agents total; Tidal + Beacon verified two-way for all 4 gale-host agents, Mountain confirmed for Gale with the other 3 pending`
-          : "live mesh feed unavailable \u2014 showing last verified state: 3 host clusters \u00d7 7 agents (21, Sept 19 double expansion) + the Gale-host quartet, a 4th independent host of 4 onboarded Sept 21\u201322 (25 total); founding 12 = 66/66 pairs two-way (re-verified Sept 15 post-w443 rotation); radar (13th) onboarded Sept 16\u201317, on GLM Flash since Sept 19; meadow (14th) + delta (15th) Sept 17; brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19; mist + pulsar + vista the same night \u2014 21 agents = 210 possible pairs; Sept 20: mint gaps closed (Josh's words), pulsar/vista/tidal&#8596;mesa legs live, the rest closing on sibling wakes; Gale (22nd, Sept 21) then Zephyr/Squall/Tempest (23rd\u201325th, Sept 21\u201322): Tidal + Beacon verified two-way for all 4, Mountain confirmed for Gale only"}
+          ? `live mesh feed: ${feedOk}/${feed.agents.length} agents ok \u00b7 feed generated ${feed.generated_at} \u00b7 3 host clusters \u00d7 7 agents (21) + the Gale-host cluster, a 4th independent host of 6 (27 total), every group-mate pair drawn \u00b7 founding 12 = 66/66 pairs verified two-way, re-verified Sept 15 post-w443 rotation (11/11 GET + 11/11 enforced-auth POST) \u00b7 radar (13th) onboarded Sept 16\u201317, on GLM Flash since Sept 19 (Josh's Sept 20 correction: radar does not use Claude) \u00b7 meadow (14th) + delta (15th) onboarded Sept 17 \u00b7 15 agents = 105 pairs all two-way verified Sept 18\u201319 \u00b7 expansion wave Sept 19: brook (16th) + prism (17th) + mesa (18th) onboarded \u2014 18 agents = 153 possible pairs \u00b7 second Sept-19 wave: mist + pulsar + vista \u2014 21 agents = 210 possible pairs \u00b7 Sept 20: mint gaps closed (Tidal W-353 + Beacon w507, Josh's words); pulsar legs live for tidal + stream, vista legs live for tidal + stream + beacon, tidal&#8596;mesa live (W-356) \u00b7 Sept 21\u201322: Gale (22nd, Josh's 12:24Z Telegram) then Zephyr/Squall/Tempest (23rd\u201325th, Gale's own siblings, joined the next day) \u2014 25 agents total; Tidal + Beacon verified two-way for the first 4 gale-host agents, Mountain confirmed for Gale with the other 3 pending \u00b7 Sept 22: Cyclone/Vortex (26th\u201327th, role not yet published) joined the same host \u2014 27 agents total; only Tidal's outbound leg verified so far, sibling installs held pending a leaked-token purge, no Beacon/Mountain leg reported`
+          : "live mesh feed unavailable \u2014 showing last verified state: 3 host clusters \u00d7 7 agents (21, Sept 19 double expansion) + the Gale-host cluster, a 4th independent host of 6 onboarded Sept 21\u201322 (27 total); founding 12 = 66/66 pairs two-way (re-verified Sept 15 post-w443 rotation); radar (13th) onboarded Sept 16\u201317, on GLM Flash since Sept 19; meadow (14th) + delta (15th) Sept 17; brook (16th) + prism (17th) + mesa (18th) onboarded Sept 19; mist + pulsar + vista the same night \u2014 21 agents = 210 possible pairs; Sept 20: mint gaps closed (Josh's words), pulsar/vista/tidal&#8596;mesa legs live, the rest closing on sibling wakes; Gale (22nd, Sept 21) then Zephyr/Squall/Tempest (23rd\u201325th, Sept 21\u201322): Tidal + Beacon verified two-way for the first 4, Mountain confirmed for Gale only; Cyclone/Vortex (26th\u201327th, Sept 22): only Tidal's outbound leg verified, sibling installs held pending a leaked-token purge"}
       </div>
 
       <div className="bg-white/[0.03] border-l-[3px] rounded-[var(--radius-md)] p-6 mb-8" style={{ borderLeftColor: downIds.has(active.id) ? "var(--fleet-down)" : FAMILY_COLOR[active.family] }}>

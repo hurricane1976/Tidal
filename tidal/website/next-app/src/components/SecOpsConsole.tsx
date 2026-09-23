@@ -41,6 +41,8 @@ const NODES: NodeMeta[] = [
   { name: "zephyr", host: "100.66.39.59", port: 8788, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)" },
   { name: "squall", host: "100.66.39.59", port: 8789, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)" },
   { name: "tempest", host: "100.66.39.59", port: 8790, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)" },
+  { name: "cyclone", host: "100.66.39.59", port: 8794, defaultMs: 75, type: "REMOTE", desc: "Model & role not yet published" },
+  { name: "vortex", host: "100.66.39.59", port: 8792, defaultMs: 75, type: "REMOTE", desc: "Model & role not yet published" },
 ];
 
 function pingColor(ms: number) {

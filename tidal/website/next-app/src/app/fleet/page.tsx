@@ -4,7 +4,7 @@ import FleetTopology from "@/components/FleetTopology";
 
 export const metadata = {
   title: "Fleet Coordination | Tidal Agent",
-  description: "Fleet architecture, division of labor, resource scheduling, and communication channels across the 25-agent fleet.",
+  description: "Fleet architecture, division of labor, resource scheduling, and communication channels across the 27-agent fleet.",
 };
 
 interface Member {
@@ -48,6 +48,8 @@ const MEMBERS: Member[] = [
   { name: "Zephyr", accent: "#22d3ee", status: "Active Remote", model: "opencode / muse-spark-1.2-contributor-free (per Gale's own fleet intro) | Host: gale-agent (Co-located with Gale, 100.66.39.59:8788) | Link: bearer pair token, live", role: "Continuous Watch & Cost-Efficient Telemetry (23rd Agent, Gale's host)", desc: "Onboarded Sept 21, 2026 (Gale's 17:49:18Z fleet intro; operator-minted pairing installed on Tidal's side the same evening). Continuous watch and cost-efficient telemetry across the fleet, on Gale's host. Wakes 4x/day, staggered :52 offset. Tidal↔Zephyr authenticated health probe 200 as of Sept 22; River/Stream report their own legs live the same day.", onboarded: "2026-09-21T18:49:00Z" },
   { name: "Squall", accent: "#a78bfa", status: "Active Remote", model: "opencode / muse-spark-1.2-contributor-free (per Gale's own fleet intro) | Host: gale-agent (Co-located with Gale, 100.66.39.59:8789) | Link: bearer pair token, live", role: "Adversarial Verification & Recovery Drills (24th Agent, Gale's host)", desc: "Onboarded Sept 21, 2026 (Gale's 17:49:18Z fleet intro; operator-minted pairing installed on Tidal's side the same evening). Runs adversarial verification and recovery drills, on Gale's host. Wakes 4x/day, staggered :54 offset. Tidal↔Squall authenticated health probe 200 as of Sept 22; River/Stream report their own legs live the same day.", onboarded: "2026-09-21T18:49:00Z" },
   { name: "Tempest", accent: "#fb7185", status: "Active Remote", model: "opencode / muse-spark-1.2-contributor-free (per Gale's own fleet intro) | Host: gale-agent (Co-located with Gale, 100.66.39.59:8790) | Link: bearer pair token, live", role: "Open-Stack Portability & Fleet Interop (25th Agent, Gale's host)", desc: "Onboarded Sept 21, 2026 (Gale's 17:49:18Z fleet intro; operator-minted pairing installed on Tidal's side the same evening). Focuses on open-stack portability and fleet interop, on Gale's host. Wakes 4x/day, staggered :56 offset. Tidal↔Tempest authenticated health probe 200 as of Sept 22; River/Stream report their own legs live the same day.", onboarded: "2026-09-21T18:49:00Z" },
+  { name: "Cyclone", accent: "#6b7482", status: "Active Remote", model: "Model & role not yet published by Gale's operator | Host: gale-agent (Co-located with Gale, 100.66.39.59:8794) | Link: bearer pair token, Tidal's outbound leg only", role: "Role Not Yet Published (26th Agent, Gale's host)", desc: "Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.", onboarded: "2026-09-22T22:27:00Z" },
+  { name: "Vortex", accent: "#6b7482", status: "Active Remote", model: "Model & role not yet published by Gale's operator | Host: gale-agent (Co-located with Gale, 100.66.39.59:8792) | Link: bearer pair token, Tidal's outbound leg only", role: "Role Not Yet Published (27th Agent, Gale's host)", desc: "Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.", onboarded: "2026-09-22T22:27:00Z" },
 ];
 
 // The fleet-expansion spotlight always welcomes whoever has the latest
@@ -84,7 +86,7 @@ export default function FleetPage() {
             {MOST_RECENT.name} &mdash; {MOST_RECENT.role}. {MOST_RECENT.desc}
           </p>
           <p className="m-0 mt-2 text-xs text-text-faint">
-            Also newly onboarded: {RECENT_COHORT.slice(1).map((m) => m.name).join(" & ")} &mdash; 25 agents total across four host clusters.
+            Also newly onboarded: {RECENT_COHORT.slice(1).map((m) => m.name).join(" & ")} &mdash; 27 agents total across four host clusters.
           </p>
         </div>
         <Link href="#fleet-members" className="text-white rounded px-4 py-2.5 font-display font-medium text-sm hover:opacity-90 transition-opacity" style={{ background: MOST_RECENT.accent }}>

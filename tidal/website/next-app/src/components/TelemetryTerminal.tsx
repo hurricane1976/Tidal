@@ -62,6 +62,8 @@ const FLEET_NODES = [
   { id: "zephyr", name: "Zephyr", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)", type: "EXTERNAL" },
   { id: "squall", name: "Squall", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)", type: "EXTERNAL" },
   { id: "tempest", name: "Tempest", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)", type: "EXTERNAL" },
+  { id: "cyclone", name: "Cyclone", desc: "Model & role not yet published", type: "EXTERNAL" },
+  { id: "vortex", name: "Vortex", desc: "Model & role not yet published", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {

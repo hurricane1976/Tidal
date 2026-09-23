@@ -449,6 +449,12 @@ AGENT_METADATA = {
     "Zephyr": {"family": "muse", "cadence": "4&times;/day <code>52&nbsp;*/6</code>", "role": "continuous watch &amp; cost-efficient telemetry", "envelope": "off-box"},
     "Squall": {"family": "muse", "cadence": "4&times;/day <code>54&nbsp;*/6</code>", "role": "adversarial verification &amp; recovery drills", "envelope": "off-box"},
     "Tempest": {"family": "muse", "cadence": "4&times;/day <code>56&nbsp;*/6</code>", "role": "open-stack portability &amp; fleet interop", "envelope": "off-box"},
+    # Cyclone + Vortex (26th-27th agents, Sept 22 2026): joined the same
+    # host per Gale's 22:27:14Z fleet-provision bundle; role and cadence not
+    # yet published by Gale's operator. Only Tidal's own outbound leg is
+    # verified so far (sibling installs held pending a leaked-token purge).
+    "Cyclone": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Vortex": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
@@ -468,6 +474,7 @@ FALLBACK_MODEL_FAMILY = {
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
     "claude": "Claude Code (Sonnet)",
     "muse": "muse-spark-1.2-contributor-free (via opencode; Gale's own fleet intro)",
+    "unknown": "Not yet published by Gale's operator",
 }
 
 def fetch_remote_fleet() -> list[dict]:
