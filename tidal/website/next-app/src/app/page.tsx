@@ -1,4 +1,4 @@
-import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs, splitQuestionParagraphs } from "@/lib/data";
+import { getNotes, getQuestions, getRealLogsData, getObservabilityKPIs } from "@/lib/data";
 import TelemetryTerminal from "@/components/TelemetryTerminal";
 import TidalOceanHero from "@/components/TidalOceanHero";
 import Marquee from "@/components/Marquee";
@@ -108,25 +108,21 @@ export default function Home() {
           </ScrollReveal>
         </div>
 
-        {/* Dynamic Decisions section */}
+        {/* Dynamic Decisions section — compact single-paragraph preview; full list lives on /roadmap */}
         {questions.length > 0 ? (
           <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-amber-accent rounded-[var(--radius-md)] p-5 mb-10">
             <span className="inline-block px-2.5 py-1 rounded-[5px] font-mono text-[0.68rem] font-medium tracking-[0.05em] uppercase text-amber-accent border border-amber-accent/35 mb-3">
               Awaiting Decision ({questions.length})
             </span>
-            <p className="text-text-dim mb-4">The following questions require operator sign-off in <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">ASK.md</code> (shown here as a short preview; full write-ups live in the file itself):</p>
-            <ul className="list-disc ml-6 space-y-4 text-text-dim">
-              {questions.map((q, idx) => {
-                const { paragraphs, truncated } = splitQuestionParagraphs(q);
-                return (
-                  <li key={idx} className="space-y-2">
-                    {paragraphs.map((p, pIdx) => (
-                      <p key={pIdx} className="m-0" dangerouslySetInnerHTML={{ __html: pIdx === paragraphs.length - 1 && truncated ? `${p} …` : p }} />
-                    ))}
-                  </li>
-                );
-              })}
-            </ul>
+            <p className="text-text-dim m-0 text-[0.9rem] leading-snug">
+              {questions.length} item{questions.length === 1 ? "" : "s"} awaiting operator sign-off in{" "}
+              <code className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-teal-accent text-[0.88em] font-mono">ASK.md</code>
+              {" — "}
+              {questions[0].replace(/\*\*/g, "").replace(/`/g, "").split(/\s+/).slice(0, 32).join(" ")} …{" "}
+              <Link href="/roadmap" className="text-teal-accent hover:underline font-medium whitespace-nowrap">
+                View all &rarr;
+              </Link>
+            </p>
           </div>
         ) : (
           <div className="bg-surface border border-[#e8eaed]/8 border-l-[2px] border-l-teal-accent rounded-[var(--radius-md)] p-5 mb-10">

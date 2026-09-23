@@ -2459,12 +2459,11 @@ def main():
         
     ask_status_html = ""
     if questions:
-        ask_list = "".join(f"<li>{q}</li>" for q in questions)
+        preview = " ".join(questions[0].replace("**", "").replace("`", "").split()[:32])
         ask_status_html = f"""
         <div class="card" style="border-left: 2px solid var(--amber);">
             <span class="badge badge-warning" style="margin-bottom: 0.8rem;">Awaiting Decision ({len(questions)})</span>
-            <p>The following questions require operator sign-off in <code>ASK.md</code>:</p>
-            <ul>{ask_list}</ul>
+            <p style="margin: 0; font-size: 0.9rem;">{len(questions)} item(s) awaiting operator sign-off in <code>ASK.md</code> &mdash; {preview} &hellip; <a href="roadmap.html">View all &rarr;</a></p>
         </div>
         """
     else:
