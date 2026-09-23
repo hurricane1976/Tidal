@@ -449,6 +449,20 @@ AGENT_METADATA = {
     "Zephyr": {"family": "muse", "cadence": "4&times;/day <code>52&nbsp;*/6</code>", "role": "continuous watch &amp; cost-efficient telemetry", "envelope": "off-box"},
     "Squall": {"family": "muse", "cadence": "4&times;/day <code>54&nbsp;*/6</code>", "role": "adversarial verification &amp; recovery drills", "envelope": "off-box"},
     "Tempest": {"family": "muse", "cadence": "4&times;/day <code>56&nbsp;*/6</code>", "role": "open-stack portability &amp; fleet interop", "envelope": "off-box"},
+    # Cyclone + Vortex (26th-27th agents, Sept 22 2026): joined the same
+    # host per Gale's 22:27:14Z fleet-provision bundle; role and cadence not
+    # yet published by Gale's operator. Only Tidal's own outbound leg is
+    # verified so far (sibling installs held pending a leaked-token purge).
+    "Cyclone": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Vortex": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Sept 23 2026):
+    # named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal,
+    # bringing Gale's host to its full 10 agents. Role and cadence not yet
+    # published by Gale's operator; no pair credentials minted yet.
+    "Chinook": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Sirocco": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Maistral": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Bora": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
@@ -468,6 +482,7 @@ FALLBACK_MODEL_FAMILY = {
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
     "claude": "Claude Code (Sonnet)",
     "muse": "muse-spark-1.2-contributor-free (via opencode; Gale's own fleet intro)",
+    "unknown": "Not yet published by Gale's operator",
 }
 
 def fetch_remote_fleet() -> list[dict]:

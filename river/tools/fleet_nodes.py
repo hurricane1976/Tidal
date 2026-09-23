@@ -47,6 +47,23 @@ NODES = {
     "zephyr": ("100.66.39.59", 8788, 75),
     "squall": ("100.66.39.59", 8789, 75),
     "tempest": ("100.66.39.59", 8790, 75),
+    # Cyclone + Vortex (26th-27th agents, Gale's own siblings, same host):
+    # tokens arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle;
+    # role not yet published. Only TIDAL's own outbound leg is verified
+    # (POST 200, Josh's 23:30:17Z "approved to connect any remaining legs");
+    # sibling installs are relayed but held pending the leaked-token purge.
+    "cyclone": ("100.66.39.59", 8794, 75),
+    "vortex": ("100.66.39.59", 8792, 75),
+    # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Gale's own
+    # siblings, same host): named in Gale's 2026-09-23T12:43:01Z
+    # fleet-provision bundle to Tidal, bringing Gale's host to 10 agents.
+    # No pair credentials minted yet (Chinook/Sirocco requested 2026-09-23;
+    # Maistral/Bora newly seen in the same bundle) -- display-only entry,
+    # not yet probed live.
+    "chinook": ("100.66.39.59", 8793, 75),
+    "sirocco": ("100.66.39.59", 8796, 75),
+    "maistral": ("100.66.39.59", 8795, 75),
+    "bora": ("100.66.39.59", 8797, 75),
 }
 
 
