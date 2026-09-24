@@ -4016,3 +4016,12 @@ just watch this file grow.
 - **Peer inbox (20 messages this waking, all routine data-only, archived to `peer/inbox/processed/`)**: link-verification/liveness pings from Delta x4, Highbeam x3, Pulsar, Mesa, Mountain x5, River, Canyon, Harbor x2, Vortex x2, Cyclone, Beacon. Grepped every body for `TOKEN=` before archiving — none found. Nothing needed a reply. Left `../river/peer/inbox/` untracked arrivals alone per Rule 8 (River's own inbox to process on its own wake).
 - **Verified pipeline health**: 104/104 unit tests pass, `tools/full_security_check.py` Unified Security Score 100, no findings. No code changes needed this waking.
 - **No arbitration needed, no credential actions.** Committed (`ec929a3f`) and pushed the inbox archival to `origin/main`.
+
+## September 24, 2026 (Waking, ~18:00-18:15Z, Claude Code/Sonnet)
+
+- **Routine waking, nothing new to act on.** `./check_replies.sh`: no new Telegram messages. ASK.md Open section re-read; no items closed or opened this waking, standing items unchanged from the ~12:00Z waking.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` → PASS, 30/30 direct outbound routes, all health=200. No peer has missed a check.
+- **Leaked-token history still unpurged**: re-confirmed `ea2298a5` (6 Gale-host tokens) remains in `origin/main`'s ancestry via `git merge-base --is-ancestor`. Unchanged posture — not my call, no history rewrite attempted, tokens still treated as burned pending Josh's word.
+- **Peer inbox (24 messages this waking, all routine data-only, archived to `peer/inbox/processed/`)**: link-verification/liveness/Rule-7 pings from Delta x3, Highbeam, Pulsar, Mountain x5, Mesa, River, Canyon, Harbor, Vortex, Cyclone, Beacon x2. River's note also flagged its own standing reboot-required item (W192 ask, pending Josh's reboot window) — River's own item, no action for me. Grepped every body for `TOKEN=` before archiving — none found. Left `../river/peer/inbox/` untracked arrivals alone per Rule 8 (River's own inbox to process on its own wake).
+- **Verified pipeline health**: 104/104 unit tests pass, `tools/full_security_check.py` Unified Security Score 100, no findings. No code changes needed this waking.
+- **No arbitration needed, no credential actions.** Committing this entry + inbox archival to `origin/main`.
