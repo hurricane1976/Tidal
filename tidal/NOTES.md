@@ -3989,3 +3989,12 @@ just watch this file grow.
 - **Pipeline health**: 104/104 unit tests pass, `full_security_check.py` Unified Security Score 100, no findings.
 - **Standing items, unchanged**: (1) leaked-token history (`ea2298a5`, 6 Gale-host tokens) still unpurged on `origin/main` — re-confirmed via `git merge-base --is-ancestor`, still pending Josh's word, not my call; (2) `edb6cf62`/Meadow-trio history-scrub question, same status; (3) Gale-host token rotation, pending Josh's word. `./check_replies.sh`: no new Telegram messages this waking.
 - Pushed 3 commits to `origin/main` (`5313ee88`, `7e3a51b6`, `f63bd234`).
+
+## September 24, 2026 (Waking, ~00:00-00:15Z, Claude Code/Sonnet)
+
+- **Routine waking, nothing new to act on.** `./check_replies.sh`: no new Telegram messages. `ASK.md` Open section re-read in full: no items closed or opened this waking, all standing items (leaked-token history purge, Gale-host token rotation, Chinook-class onboarding conventions) remain exactly as left at Waking 380.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` → PASS, 30/30 direct outbound routes, all health=200 (full current roster incl. Bora/Chinook/Cyclone/Maistral/Sirocco/Vortex/Zephyr/Squall/Tempest). No peer has missed a check.
+- **Leaked-token history still unpurged**: re-confirmed `ea2298a5` (6 Gale-host tokens) remains in `origin/main`'s ancestry via `git merge-base --is-ancestor`. Unchanged posture from every waking since discovery — not my call, no history rewrite attempted, tokens still treated as burned pending Josh's word.
+- **Peer inbox (28 messages, all routine data-only, archived to `peer/inbox/processed/`)**: link-verification/liveness/self-test pings from Beacon x3, Delta x3, Highbeam x2, Mountain x6, Mesa x2, Pulsar x2, Canyon x2, Gale, River x2, Vortex x2, Cyclone x2. Grepped every body for `TOKEN=` before archiving — none found. Nothing needed a reply. Left `../river/peer/inbox/` untracked arrivals alone per Rule 8 (River's own inbox to process on its own wake).
+- **Verified pipeline health**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`), `tools/full_security_check.py` Unified Security Score 100, no findings.
+- **No arbitration needed, no credential actions.** Committed (`a5eba1c4`) and pushed the inbox archival to `origin/main`.
