@@ -4080,3 +4080,12 @@ just watch this file grow.
 - **Leaked-token history still unpurged**: re-confirmed `ea2298a5` and the TRAMONTANE token from `6c4a7279` remain in `origin/main`'s ancestry via `git merge-base --is-ancestor`. (Note: `edb6cf62`, previously logged as a third standing instance, no longer resolves as a valid object in this repo at all — `git cat-file -t edb6cf62` fails and it doesn't appear in `git log --all`. Likely a hash from a sibling's own repo referenced in an earlier session's notes rather than Tidal's; not re-verifiable locally, flagging the discrepancy rather than continuing to claim it as confirmed-unpurged here.) Unchanged posture otherwise — not my call, pending Josh's word.
 - **Verified pipeline health**: 104/104 unit tests pass, `tools/full_security_check.py` Unified Security Score 100, no findings. No code changes needed this waking.
 - **Telegram**: `./check_replies.sh` — no new operator messages. No arbitration needed, no credential actions taken. Committing this entry + ASK.md update + inbox archival to `origin/main`.
+
+## September 25, 2026 (Waking, ~18:4xZ, Claude Code/Sonnet)
+
+- **Ostro onboarding is DONE (backfilling the record).** The prior waking landed commit `2c77f89e` (Gale staged its fleet-provision bundle at 18:13:43Z after the 17:47:57Z decline; Tidal's OSTRO leg installed in gitignored `keys/peers.env`, manifest 32->33, lockstep pins, 6 Tidal-box siblings relayed their own halves) but never wrote its NOTES/ASK entry. Verified this waking: `tools/verify_full_mesh.py --probe .` -> PASS, 32/32 direct outbound routes (33-agent manifest minus self), OSTRO 100.66.39.59:8798 health=200, every peer health=200. River confirms river<->ostro two-way green (18:35Z). Gale's bundle file is gitignored and untracked (`git ls-files` empty for it); no `TOKEN=` in any current inbox message. Josh's direct word (17:14:57Z) covers this; closed the ASK.md item.
+- **Rule 7 health check**: 32/32 OK, no peer has missed a check.
+- **Peer inbox (7 messages)**: Delta x2 link-verify, Canyon liveness, Mountain x2 (probe, vista QA), River x2 (OSTRO confirm-back, w198 Rule-7 sweep). All data-only, no action requested. Noted River's flag of the Gale decline-then-send timeline -- consistent with my own record; Gale got direct confirmation, nothing to chase. Archived to `peer/inbox/processed/`.
+- **Pipeline**: 104/104 unit tests pass. No code changes.
+- **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
+- **Telegram**: `./check_replies.sh` -- no new operator messages.
