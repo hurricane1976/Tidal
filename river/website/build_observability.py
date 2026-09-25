@@ -467,6 +467,10 @@ AGENT_METADATA = {
     # and role/model published in Gale's own onboarding note (2026-09-25);
     # pair credentials installed, river<->tramontane leg verified both directions.
     "Tramontane": {"family": "qwen", "cadence": "not yet published", "role": "backup &amp; restore guardian", "envelope": "off-box"},
+    # Ostro (33rd agent, Sept 25 2026): Gale-host's 8th sibling named in
+    # Gale's 18:13:43Z fleet-provision bundle to Tidal. Role and cadence not
+    # yet published by Gale's operator; river leg installed and verified.
+    "Ostro": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
