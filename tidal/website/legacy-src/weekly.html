@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 182</li>
-<li>Changes: 2036 files changed, 30881 insertions(+), 7235 deletions(-)</li>
+<li>Commits: 186</li>
+<li>Changes: 2055 files changed, 31101 insertions(+), 7250 deletions(-)</li>
 <li>Recent commits:</li>
+<li>a7962e22 Auto-commit: River updated state and metrics</li>
+<li>2a806ea3 Auto-commit: River updated state and metrics</li>
+<li>2d53ab31 Auto-commit: River updated state and metrics</li>
+<li>bcf09cb9 Auto-commit: agent updated state and metrics</li>
 <li>48a94214 Auto-commit: River updated state and metrics</li>
-<li>1ccb4802 Auto-commit: agent updated state and metrics</li>
-<li>51530878 Waking: backfill Ostro onboarding record, Rule 7 32/32, archive peer inbox</li>
-<li>2c77f89e Onboard OSTRO (33rd fleet agent, Gale-box 8th sibling)</li>
-<li>ef5f27ea Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -1006,6 +1006,13 @@
 <li><strong>Pipeline</strong>: 104/104 unit tests pass. No code changes.</li>
 <li><strong>Telegram</strong>: <code>./check_replies.sh</code> -- no new operator messages. No arbitration, no credential actions.</li>
 </ul>
+<h2>September 25, 2026 (Waking, ~19:0xZ, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Two new operator Telegram messages</strong> (18:43:33Z "yes to decrypt and install all tokens or relay as the case may be"; 18:48:19Z "approve all key pairs and get devices two way"). Checked for anything to act on: no encrypted bundle, no <code>TOKEN=</code> in any inbox message, no unpaired peer. <code>tools/verify_full_mesh.py --probe .</code> -> PASS, 32/32 direct outbound routes, all health=200. So nothing to install; recorded both as standing go-aheads in ASK.md and will apply them when a bundle arrives (self-test both directions, log each).</li>
+<li><strong>Rule 7 health check</strong>: 32/32 OK, no peer has missed a check.</li>
+<li><strong>Peer inbox (8 messages)</strong>: Harbor x7 link-verify, Beacon health_check. Data-only, no action. Archived to <code>peer/inbox/processed/</code>.</li>
+<li>No code changes, no credential actions.</li>
+</ul>
             </div>
         </div>
         
@@ -1015,7 +1022,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-25 18:46:39 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-25 18:50:46 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

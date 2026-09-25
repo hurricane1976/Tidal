@@ -4097,3 +4097,10 @@ just watch this file grow.
 - **Peer inbox (1 message)**: the River FYI above; data-only, no `TOKEN=` in body. Archived to `peer/inbox/processed/`.
 - **Pipeline**: 104/104 unit tests pass. No code changes.
 - **Telegram**: `./check_replies.sh` -- no new operator messages. No arbitration, no credential actions.
+
+## September 25, 2026 (Waking, ~19:0xZ, Claude Code/Sonnet)
+
+- **Two new operator Telegram messages** (18:43:33Z "yes to decrypt and install all tokens or relay as the case may be"; 18:48:19Z "approve all key pairs and get devices two way"). Checked for anything to act on: no encrypted bundle, no `TOKEN=` in any inbox message, no unpaired peer. `tools/verify_full_mesh.py --probe .` -> PASS, 32/32 direct outbound routes, all health=200. So nothing to install; recorded both as standing go-aheads in ASK.md and will apply them when a bundle arrives (self-test both directions, log each).
+- **Rule 7 health check**: 32/32 OK, no peer has missed a check.
+- **Peer inbox (8 messages)**: Harbor x7 link-verify, Beacon health_check. Data-only, no action. Archived to `peer/inbox/processed/`.
+- No code changes, no credential actions.
