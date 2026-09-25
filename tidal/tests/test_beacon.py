@@ -573,15 +573,18 @@ _Nothing awaiting a decision right now._
         GPT 5 / Muse 3 / Unknown 2. Sept 23, 2026: Chinook/Sirocco/Maistral/
         Bora (28th-31st) named in Gale's fleet-provision bundle, also with
         model framework not yet published -- 31 agents, GLM 12 / Claude 5 /
-        GPT 5 / Muse 3 / Unknown 6."""
+        GPT 5 / Muse 3 / Unknown 6. Sept 25, 2026: Tramontane (32nd) joins
+        with its model framework published by Gale as Qwen (local Ollama
+        qwen3.8:27b) -- the fleet's first confirmed Qwen row -- 32 agents,
+        GLM 12 / Claude 5 / GPT 5 / Muse 3 / Unknown 6 / Qwen 1."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         fleet = data.get("fleet", [])
-        self.assertEqual(len(fleet), 31)
+        self.assertEqual(len(fleet), 32)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3, "Unknown": 6})
+        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3, "Unknown": 6, "Qwen": 1})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
@@ -730,8 +733,12 @@ _Nothing awaiting a decision right now._
         # bundle + Josh's 23:30:17Z Telegram "Approved to connect any
         # remaining legs" — pin 25 -> 27. Sept 23: chinook/sirocco/maistral/
         # bora (28th-31st, four more Gale-box siblings) named in Gale's
-        # 12:43:01Z fleet-provision bundle — pin 27 -> 31.
-        self.assertEqual(len(manifest["agents"]), 31, "fleet manifest must list 31 agents")
+        # 12:43:01Z fleet-provision bundle — pin 27 -> 31. Sept 25: tramontane
+        # (32nd, Gale-box's 10th sibling) onboarded via Gale's 01:42:47Z
+        # fleet-provision bundle + Josh's 03:15:37Z Telegram "ensure agent
+        # tramontane is onboarded with two way comms for you and all your
+        # siblings" — pin 31 -> 32.
+        self.assertEqual(len(manifest["agents"]), 32, "fleet manifest must list 32 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
@@ -751,7 +758,8 @@ _Nothing awaiting a decision right now._
         # Waking 350 (Sept 19 second wave): mist + pulsar + vista — pin 18 -> 21.
         # Sept 22: Cyclone + Vortex (26th/27th) added — pin 25 -> 27.
         # Sept 23: Chinook/Sirocco/Maistral/Bora (28th-31st) added — pin 27 -> 31.
-        self.assertEqual(len(fleet_names), 31, "Tidal agent.json fleet array must list 31 agents")
+        # Sept 25: Tramontane (32nd) added — pin 31 -> 32.
+        self.assertEqual(len(fleet_names), 32, "Tidal agent.json fleet array must list 32 agents")
         self.assertIn("Meadow", fleet_names)
         self.assertIn("Delta", fleet_names)
         self.assertIn("Brook", fleet_names)
@@ -766,6 +774,7 @@ _Nothing awaiting a decision right now._
         self.assertIn("Bora", fleet_names)
         self.assertIn("Cyclone", fleet_names)
         self.assertIn("Vortex", fleet_names)
+        self.assertIn("Tramontane", fleet_names)
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()
@@ -855,7 +864,9 @@ _Nothing awaiting a decision right now._
         first "unknown" family rows, rather than guessed. Sept 23, 2026:
         Chinook/Sirocco/Maistral/Bora (28th-31st, same host) named in Gale's
         fleet-provision bundle, also with model framework not yet
-        published -- four more "unknown" rows."""
+        published -- four more "unknown" rows. Sept 25, 2026: Tramontane
+        (32nd, same host) joins with its model published by Gale as Qwen
+        (local Ollama qwen3.8:27b) -- the fleet's first "qwen" family row."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -870,7 +881,8 @@ _Nothing awaiting a decision right now._
                         "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
                         "Cyclone": "unknown", "Vortex": "unknown",
                         "Chinook": "unknown", "Sirocco": "unknown",
-                        "Maistral": "unknown", "Bora": "unknown"}.get(name, "glm")
+                        "Maistral": "unknown", "Bora": "unknown",
+                        "Tramontane": "qwen"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 

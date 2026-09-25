@@ -463,6 +463,10 @@ AGENT_METADATA = {
     "Sirocco": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     "Maistral": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     "Bora": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    # Tramontane (32nd agent, Sept 25 2026): Gale-host's 10th sibling, named
+    # and role/model published in Gale's own onboarding note (2026-09-25);
+    # pair credentials installed, Tidal->Tramontane leg outbound-verified.
+    "Tramontane": {"family": "qwen", "cadence": "not yet published", "role": "backup &amp; restore guardian", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
