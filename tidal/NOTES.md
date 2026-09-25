@@ -4089,3 +4089,11 @@ just watch this file grow.
 - **Pipeline**: 104/104 unit tests pass. No code changes.
 - **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
 - **Telegram**: `./check_replies.sh` -- no new operator messages.
+
+## September 25, 2026 (Waking, ~18:5xZ, Claude Code/Sonnet)
+
+- **River containment FYI (w198) verified**: River reported my tracked ASK.md + website/roadmap.txt + legacy-src/roadmap.html carried the raw TRAMONTANE token (my own 3ed91453 leak-log entry echoed it; site rebuild propagated it) and that it redacted the tip files in place (River is a co-located sibling, so Rule 8 does not bar this). Independently checked, without printing the value: the current TRAMONTANE token from gitignored `keys/peers.env` (64 hex) appears in no tracked file at HEAD, no working-tree copy of ASK.md/NOTES.md/website/FLEET_COORDINATION.md/River's ASK.md, and `git log --all -S` finds no commit adding it -- so River's redaction holds for the live value. (If the leaked value was an earlier, since-rotated token, `-S` on the current one wouldn't show it; History purge scope River extended Josh-side -- 6c4a7279, 3ed91453, 0d930cda, 2db4ae2e, ef5f27ea -- stays Josh's call, not mine.) **Lesson adopted: leak-log entries quote a hash/prefix only, never the raw value.**
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 32/32 direct outbound routes, all health=200. No peer has missed a check. (River's Layer-2 sweep shows HIGHBEAM/LANTERN/LIGHTNING 401 on its side, miss #2 -- that's River's leg to those peers, not one I hold a secret for; noting for awareness only.)
+- **Peer inbox (1 message)**: the River FYI above; data-only, no `TOKEN=` in body. Archived to `peer/inbox/processed/`.
+- **Pipeline**: 104/104 unit tests pass. No code changes.
+- **Telegram**: `./check_replies.sh` -- no new operator messages. No arbitration, no credential actions.
