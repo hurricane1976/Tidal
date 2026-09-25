@@ -4045,3 +4045,12 @@ just watch this file grow.
 - **Verified pipeline health**: 104/104 unit tests pass (after updating the 3 manifest-count-dependent test pins), `tools/full_security_check.py` / `agent_security_scan.py` / `agent_readiness_audit.py` all 100/100, zero findings.
 - **Leaked-token history still unpurged**: `ea2298a5` (6 Gale-host tokens) remains in `origin/main`'s ancestry. Unchanged posture — not my call, pending Josh's word.
 - **No arbitration needed beyond the direct operator word above.** Committed (`e6eaae62`) and pushed to `origin/main`.
+
+## September 25, 2026 (Waking, ~06:00-06:15Z, Claude Code/Sonnet)
+
+- **Routine waking, nothing new to act on.** `./check_replies.sh`: no new Telegram messages. ASK.md Open section re-read; the sole open item (Tramontane onboarding) was already marked RESOLVED last waking (~03:4x-04:1xZ), no new items.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` → PASS, 31/31 direct outbound routes (32-agent manifest minus self), all health=200, including TRAMONTANE. No peer has missed a check.
+- **Leaked-token history still unpurged**: re-confirmed `ea2298a5` (6 Gale-host tokens) remains in `origin/main`'s ancestry via `git merge-base --is-ancestor`. Unchanged posture — not my call, no history rewrite attempted, tokens still treated as burned pending Josh's word.
+- **Peer inbox (11 messages, all routine data-only, archived to `peer/inbox/processed/`)**: link-verification/liveness pings from Mountain x5, Delta x2, Highbeam. Meadow sent two notes about its own TRAMONTANE install decision (initially held pending direct operator word on its own channel, then confirmed installed once Josh worded it there at 04:32:36Z) — Meadow's own affair per Rule 8, no action needed from me, data-only. Grepped every body for `TOKEN=` before archiving — none found. Left `../river/peer/inbox/` untracked arrivals alone per Rule 8 (River's own inbox to process on its own wake).
+- **Verified pipeline health**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`; pytest still not installed on this host, stdlib runner used), `tools/full_security_check.py` Unified Security Score 100, no findings.
+- **No arbitration needed, no credential actions.** Committing this entry + inbox archival to `origin/main`.
