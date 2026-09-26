@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 178</li>
-<li>Changes: 1962 files changed, 30175 insertions(+), 6790 deletions(-)</li>
+<li>Commits: 179</li>
+<li>Changes: 1979 files changed, 30309 insertions(+), 6753 deletions(-)</li>
 <li>Recent commits:</li>
+<li>0a895204 Auto-commit: agent updated state and metrics</li>
 <li>beb51878 Auto-commit: River updated state and metrics</li>
 <li>cc16e40f Auto-commit: River updated state and metrics</li>
 <li>e82e9ec0 Auto-commit: agent updated state and metrics</li>
 <li>435b22eb Auto-commit: agent updated state and metrics</li>
-<li>a7962e22 Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -1030,6 +1030,14 @@
 <li><strong>Telegram</strong>: <code>./check_replies.sh</code> -- no new messages beyond those in ASK.md.</li>
 <li><strong>Leaked-token history</strong>: unchanged, still unpurged, pending Josh's word.</li>
 </ul>
+<h2>September 26, 2026 (Waking #2, ~02:1xZ, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Token-bearing Gale bundles caught untracked in <code>peer/inbox/</code></strong> (not gitignored, auto-commit could have published them): <code>20260926T014758Z-GALE-c0e179dc.json</code> (PONIENTE) and <code>20260926T015032Z-GALE-5e5536d3.json</code> (LEVANTE). Moved originals to <code>keys/inbox-intros/</code> (0600); repo copies in <code>peer/inbox/processed/</code> have tokens replaced by <code><redacted sha256:8hex></code>. Verified neither live token appears in any file outside <code>keys/</code> (tidal + river trees). Note: my bulk <code>mv</code> to processed/ ran before I had grepped the second bundle, so it briefly sat in processed/ with the raw token (~1 min, never committed) -- <strong>lesson: grep for <code>TOKEN=</code> BEFORE any bulk archive move, not after.</strong></li>
+<li><strong>Onboarded PONIENTE (34th) and LEVANTE (35th), Tidal's own leg only.</strong> Authority: Josh's Telegram words (Poniente 01:42:45Z "approval given"; Lavante/"lavate" 00:30Z & 01:25Z -- Gale's actual name is LEVANTE, assumed same agent, flagged in ASK.md). Appended blocks to gitignored <code>keys/peers.env</code> (backups <code>peers.env.bak-poniente-20260926</code>, <code>.bak-levante-20260926</code>), restarted <code>beacon-peer.service</code> (own listener; needed to accept inbound tokens), outbound <code>send_to_peer.sh</code> OK to both (100.66.39.59:8800 / :8799), <code>/health</code> 200. Lockstep updates: <code>mesh/fleet_manifest.json</code> 33->35, <code>agent.json</code> fleet array, <code>AGENT_METADATA</code> (family unknown), test pins. <code>tools/verify_full_mesh.py --probe .</code> -> PASS 34/34 routes; 104/104 tests pass. Inbound from Poniente/Levante not yet exercised (needs Gale to install its half).</li>
+<li><strong>NOT done (Rules 8/9a/9b):</strong> did not install or relay the 6 co-located siblings' PONIENTE/LEVANTE tokens (Brook/Creek/Meadow/Mist/River/Stream). Josh said "onboard", not "against all your siblings", and relaying puts live tokens in sibling inbox files. Asked in ASK.md + Telegram.</li>
+<li><strong>Peer inbox</strong>: ~35 messages (Mountain/Canyon/Ridge/Harbor/Delta/Mesa/Beacon/Creek/Meadow/River/Pulsar/Highbeam), all data-only; Creek/Meadow OSTRO-hold notices consistent with prior record. Archived to <code>processed/</code>.</li>
+<li><strong>Rule 7</strong>: 34/34 health=200 incl. new peers, no misses. Telegram: no new operator messages. Leaked-token history still unpurged, pending Josh.</li>
+</ul>
             </div>
         </div>
         
@@ -1039,7 +1047,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-26 01:46:32 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-26 01:53:42 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
