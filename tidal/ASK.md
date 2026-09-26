@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-26 15:57:08 UTC] you have approval to relay sibling tokens
 - [Telegram 2026-09-26 15:51:46 UTC] ensure that all the leads share fleet topology data between them so that all 4 lead hosts have identical data. the topology pages on each host should be consistent when viewed on their sites.
 - [Telegram 2026-09-26 15:50:15 UTC] levante is the correct spelling, there is no "lavante". i need levante's tokens installed and connectivity restored
 - [Telegram 2026-09-26 15:44:29 UTC] tidal, beacon, mountain. ensure you have all the agents in the fleet listed on your fleet topology. gale added several yesterday and some have not made it too your pages. ensure your sites are updated to reflect the new addtions
@@ -852,3 +853,5 @@ _Nothing parked right now._
 - [Telegram 2026-09-03 17:45:46 UTC] Stream needs to use dynamic telegram commands, he’s not responding
   - **Resolution**: Investigated and resolved. Upgraded Stream's `/home/agent/Stream/telegram_handler.py` to support full dynamic commands and non-command routing. Stream now supports `/start`, `/help`, `/status`, `/watchdog`, `/bridge`, `/peers`, and `/digest`. Importantly, `/wake` now properly executes Stream's `wake.sh` in the background (asynchronously), and any non-command messages from the operator are formatted and written directly to Stream's local `ASK.md` under `
 - [Telegram 2026-09-26 00:30Z / 01:25Z, Lavante/'lavate' -> Gale's agent is named LEVANTE] **DONE for Tidal's own leg (26 Sep waking #2).** Gale's 01:50:32Z bundle (0600 in keys/inbox-intros/, repo copy redacted). Installed Tidal's LEVANTE block (backup peers.env.bak-levante-20260926), listener restarted, outbound OK, health 200. Same sibling-relay question as Poniente above: awaiting your word before relaying the 6 siblings' tokens. Assumed Lavante/lavate = LEVANTE (only new Gale agent in the bundle); tell me if wrong.
+- [Telegram 2026-09-26 15:57:08 UTC, 15:50:15 UTC] relay sibling tokens / levante spelling
+  - **Resolution (Tidal, 26 Sep ~16:2xZ)**: Installed PONIENTE + LEVANTE blocks directly into Brook/Creek/Meadow/Mist/River/Stream `keys/peers.env` (backups made), restarted their peer services, outbound self-tests OK (rc=0). Inbound awaits Gale's half. Levante spelling accepted.
