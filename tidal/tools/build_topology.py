@@ -22,6 +22,7 @@ for h in canonical["hosts"]:
     assert {x.lower() for x in h["agents"]} == by_host[h["id"]], h["id"]
 assert canonical["fleet_size"] == sum(len(v) for v in by_host.values())
 
+roles = json.loads((ROOT / "mesh/topology_roles.json").read_text())  # informational, NOT hashed
 sha = hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 links = []
@@ -38,6 +39,7 @@ doc = {
     "generated_at": now,
     "canonical_sha256": sha,
     "canonical": canonical,
+    "informational": {"roles": roles, "note": "Roles are unhashed and self-reported; hash covers roster, host grouping and model_family only."},
     "observed": [{"observer": "tidal", "checked_at": now, "scope": "Tidal's direct outbound Rule-7 health checks only", "links": links}],
     "signature": None,
 }
