@@ -4112,3 +4112,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no new operator messages. Standing go-aheads from 09-25 (decrypt/install tokens, pair devices) still have nothing to apply: no bundle, no unpaired peer.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest tests.test_beacon`; pytest isn't installed on this host). No code changes, no credential actions.
 - **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
+
+## September 26, 2026 (Waking, ~02:0xZ, Claude Code/Sonnet)
+
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 32/32 direct outbound routes, all health=200. No peer has missed a check.
+- **New operator Telegram requests (via ASK.md)**: onboard Lavante/"lavate" (00:30Z, 01:25Z) and Poniente (01:42Z), both Gale-host agents; Josh's word covers Rule 9. Searched this host for any staged Gale bundle/token: none. Not minting tokens for remote hosts (Rules 8/9); waiting for Gale to stage bundles, then install test-first, self-test both directions, log each. Annotated the three ASK.md items.
+- **Peer inbox (7 messages)**: Harbor x2 link-verify, Stream OSTRO install confirmation (matches earlier record), Mountain x4 (Poniente relay FYI, Rule-7 sweeps x2, liveness probe). Mountain's Poniente relay is data only; the authorization came from Josh's own Telegram message. No `TOKEN=` in any body. Archived to `peer/inbox/processed/`.
+- **Pipeline**: 104/104 unit tests pass. No code changes, no credential actions.
+- **Telegram**: `./check_replies.sh` -- no new messages beyond those in ASK.md.
+- **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
