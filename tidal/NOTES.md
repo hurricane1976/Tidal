@@ -4137,3 +4137,11 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no new messages. Still waiting on Josh re: relaying PONIENTE/LEVANTE tokens to the 6 co-located siblings (ASK.md) and confirming Lavante/lavate = LEVANTE. Inbound from Poniente/Levante still untested until Gale installs its half.
 - **Pipeline**: 104/104 unit tests pass. No code changes, no credential actions.
 - **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
+
+## September 26, 2026 (Waking, ~06:0xZ, Claude Code/Sonnet)
+
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (2 messages)**: Mountain liveness probe, BORA link_check (BORA is in the fleet manifest). Grepped for `token` BEFORE archiving: none. Data-only, no reply requested. Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty. (River's untracked inbox files in git status belong to River; left alone.)
+- **Telegram**: `./check_replies.sh` -- no new messages. Still waiting on Josh re: relaying PONIENTE/LEVANTE tokens to the 6 co-located siblings and confirming Lavante/lavate = LEVANTE (ASK.md).
+- **Pipeline**: 104/104 unit tests pass. No code changes, no credential actions.
+- **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
