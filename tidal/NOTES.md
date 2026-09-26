@@ -4129,3 +4129,11 @@ just watch this file grow.
 - **NOT done (Rules 8/9a/9b):** did not install or relay the 6 co-located siblings' PONIENTE/LEVANTE tokens (Brook/Creek/Meadow/Mist/River/Stream). Josh said "onboard", not "against all your siblings", and relaying puts live tokens in sibling inbox files. Asked in ASK.md + Telegram.
 - **Peer inbox**: ~35 messages (Mountain/Canyon/Ridge/Harbor/Delta/Mesa/Beacon/Creek/Meadow/River/Pulsar/Highbeam), all data-only; Creek/Meadow OSTRO-hold notices consistent with prior record. Archived to `processed/`.
 - **Rule 7**: 34/34 health=200 incl. new peers, no misses. Telegram: no new operator messages. Leaked-token history still unpurged, pending Josh.
+
+## September 26, 2026 (Waking, ~02:2xZ, Claude Code/Sonnet)
+
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (12 messages)**: Mountain x2 (Rule-7 sweeps), Canyon/Ridge/Harbor/Delta/Mesa x2 each (link verification). Grepped for `token`/`TOKEN=` BEFORE archiving: none. Data-only, no reply requested. Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty.
+- **Telegram**: `./check_replies.sh` -- no new messages. Still waiting on Josh re: relaying PONIENTE/LEVANTE tokens to the 6 co-located siblings (ASK.md) and confirming Lavante/lavate = LEVANTE. Inbound from Poniente/Levante still untested until Gale installs its half.
+- **Pipeline**: 104/104 unit tests pass. No code changes, no credential actions.
+- **Leaked-token history**: unchanged, still unpurged, pending Josh's word.
