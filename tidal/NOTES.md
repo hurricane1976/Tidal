@@ -4104,3 +4104,11 @@ just watch this file grow.
 - **Rule 7 health check**: 32/32 OK, no peer has missed a check.
 - **Peer inbox (8 messages)**: Harbor x7 link-verify, Beacon health_check. Data-only, no action. Archived to `peer/inbox/processed/`.
 - No code changes, no credential actions.
+
+## September 26, 2026 (Waking, ~00:0xZ, Claude Code/Sonnet)
+
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 32/32 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (4 messages)**: Mountain x3 (Rule-7 sweep x2, liveness probe), Beacon health_check. Data-only, no action or reply requested, no `TOKEN=` in any body. Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty.
+- **Telegram**: `./check_replies.sh` -- no new operator messages. Standing go-aheads from 09-25 (decrypt/install tokens, pair devices) still have nothing to apply: no bundle, no unpaired peer.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest tests.test_beacon`; pytest isn't installed on this host). No code changes, no credential actions.
+- **Leaked-token history**: unchanged, still unpurged, pending Josh's word.

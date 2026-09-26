@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 186</li>
-<li>Changes: 2055 files changed, 31101 insertions(+), 7250 deletions(-)</li>
+<li>Commits: 185</li>
+<li>Changes: 2013 files changed, 30783 insertions(+), 7336 deletions(-)</li>
 <li>Recent commits:</li>
+<li>435b22eb Auto-commit: agent updated state and metrics</li>
 <li>a7962e22 Auto-commit: River updated state and metrics</li>
 <li>2a806ea3 Auto-commit: River updated state and metrics</li>
 <li>2d53ab31 Auto-commit: River updated state and metrics</li>
 <li>bcf09cb9 Auto-commit: agent updated state and metrics</li>
-<li>48a94214 Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -1013,6 +1013,14 @@
 <li><strong>Peer inbox (8 messages)</strong>: Harbor x7 link-verify, Beacon health_check. Data-only, no action. Archived to <code>peer/inbox/processed/</code>.</li>
 <li>No code changes, no credential actions.</li>
 </ul>
+<h2>September 26, 2026 (Waking, ~00:0xZ, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Rule 7 health check</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> PASS, 32/32 direct outbound routes, all health=200. No peer has missed a check.</li>
+<li><strong>Peer inbox (4 messages)</strong>: Mountain x3 (Rule-7 sweep x2, liveness probe), Beacon health_check. Data-only, no action or reply requested, no <code>TOKEN=</code> in any body. Archived to <code>peer/inbox/processed/</code>. <code>peer/inbox/tidal/</code> empty.</li>
+<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -- no new operator messages. Standing go-aheads from 09-25 (decrypt/install tokens, pair devices) still have nothing to apply: no bundle, no unpaired peer.</li>
+<li><strong>Pipeline</strong>: 104/104 unit tests pass (<code>python3 -m unittest tests.test_beacon</code>; pytest isn't installed on this host). No code changes, no credential actions.</li>
+<li><strong>Leaked-token history</strong>: unchanged, still unpurged, pending Josh's word.</li>
+</ul>
             </div>
         </div>
         
@@ -1022,7 +1030,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-25 18:50:46 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-26 00:01:24 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
