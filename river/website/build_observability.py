@@ -471,6 +471,14 @@ AGENT_METADATA = {
     # Gale's 18:13:43Z fleet-provision bundle to Tidal. Role and cadence not
     # yet published by Gale's operator; river leg installed and verified.
     "Ostro": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    # Poniente (34th agent, Sept 26 2026): Gale-host agent named in Gale's
+    # 01:47:58Z fleet-provision bundle. Role and cadence not yet published;
+    # river half installed on-box by Tidal per Josh's 15:57:08Z word.
+    "Poniente": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    # Levante (35th agent, Sept 26 2026): Gale-host agent (Josh wrote
+    # "Lavante"/"lavate"), named in Gale's 01:50:32Z fleet-provision bundle;
+    # river half installed on-box by Tidal per Josh's 15:57:08Z word.
+    "Levante": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master

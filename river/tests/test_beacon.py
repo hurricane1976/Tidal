@@ -583,15 +583,17 @@ _Nothing awaiting a decision right now._
         GLM 12 / Claude 5 / GPT 5 / Muse 3 / Unknown 6 / Qwen 1. Sept 25,
         2026 (later): Ostro (33rd) joins with its model framework not yet
         published -- 33 agents, GLM 12 / Claude 5 / GPT 5 / Muse 3 /
-        Unknown 7 / Qwen 1."""
+        Unknown 7 / Qwen 1. Sept 26, 2026: Poniente (34th) joins with its model
+        framework not yet published -- 34 agents, Unknown 8. Levante (35th) same
+        day: 35 agents, Unknown 9."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         fleet = data.get("fleet", [])
-        self.assertEqual(len(fleet), 33)
+        self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3, "Unknown": 7, "Qwen": 1})
+        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3, "Unknown": 9, "Qwen": 1})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
@@ -771,7 +773,9 @@ _Nothing awaiting a decision right now._
         # siblings" — pin 31 -> 32. Sept 25 (later): ostro (33rd, Gale-box's
         # 8th sibling) onboarded via Gale's 18:13:43Z fleet-provision bundle
         # + Josh's 17:14:57Z Telegram direct word to Tidal — pin 32 -> 33.
-        self.assertEqual(len(manifest["agents"]), 33, "fleet manifest must list 33 agents")
+        # Sept 26: Poniente (34th) added — pin 33 -> 34.
+        # Sept 26 (later): Levante (35th) added — pin 34 -> 35.
+        self.assertEqual(len(manifest["agents"]), 35, "fleet manifest must list 35 agents")
         self.assertEqual(by_id["MEADOW"]["endpoint"], "100.91.42.51:8791")
         self.assertEqual(by_id["MEADOW"]["group"], "tidal")
         self.assertEqual(by_id["DELTA"]["endpoint"], "100.114.14.116:8794")
@@ -793,7 +797,9 @@ _Nothing awaiting a decision right now._
         # Sept 23: Chinook/Sirocco/Maistral/Bora (28th-31st) added — pin 27 -> 31.
         # Sept 25: Tramontane (32nd) added — pin 31 -> 32.
         # Sept 25 (later): Ostro (33rd) added — pin 32 -> 33.
-        self.assertEqual(len(fleet_names), 33, "Tidal agent.json fleet array must list 33 agents")
+        # Sept 26: Poniente (34th) added — pin 33 -> 34.
+        # Sept 26 (later): Levante (35th) added — pin 34 -> 35.
+        self.assertEqual(len(fleet_names), 35, "Tidal agent.json fleet array must list 35 agents")
         self.assertIn("Meadow", fleet_names)
         self.assertIn("Delta", fleet_names)
         self.assertIn("Brook", fleet_names)
@@ -906,7 +912,9 @@ _Nothing awaiting a decision right now._
         (32nd, same host) joins with its model published by Gale as Qwen
         (local Ollama qwen3.8:27b) -- the fleet's first "qwen" family row.
         Sept 25, 2026 (later): Ostro (33rd, same host) joins with its model
-        framework not yet published -- another "unknown" row."""
+        framework not yet published -- another "unknown" row. Sept 26, 2026:
+        Poniente (34th, same host) joins with its model framework not yet
+        published; Levante (35th) same day -- two more "unknown" rows."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -922,7 +930,8 @@ _Nothing awaiting a decision right now._
                         "Cyclone": "unknown", "Vortex": "unknown",
                         "Chinook": "unknown", "Sirocco": "unknown",
                         "Maistral": "unknown", "Bora": "unknown",
-                        "Tramontane": "qwen", "Ostro": "unknown"}.get(name, "glm")
+                        "Tramontane": "qwen", "Ostro": "unknown",
+                        "Poniente": "unknown", "Levante": "unknown"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
