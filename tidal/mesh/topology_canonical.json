@@ -1,0 +1,277 @@
+{
+  "fleet_size": 35,
+  "hosts": [
+    {
+      "agents": [
+        "Canyon",
+        "Delta",
+        "Harbor",
+        "Mesa",
+        "Mountain",
+        "Ridge",
+        "Vista"
+      ],
+      "id": "mountain",
+      "lead": "Mountain"
+    },
+    {
+      "agents": [
+        "Beacon",
+        "Highbeam",
+        "Lantern",
+        "Lightning",
+        "Prism",
+        "Pulsar",
+        "Radar"
+      ],
+      "id": "beacon",
+      "lead": "Beacon"
+    },
+    {
+      "agents": [
+        "Brook",
+        "Creek",
+        "Meadow",
+        "Mist",
+        "River",
+        "Stream",
+        "Tidal"
+      ],
+      "id": "tidal",
+      "lead": "Tidal"
+    },
+    {
+      "agents": [
+        "Bora",
+        "Chinook",
+        "Cyclone",
+        "Gale",
+        "Levante",
+        "Maistral",
+        "Ostro",
+        "Poniente",
+        "Sirocco",
+        "Squall",
+        "Tempest",
+        "Tramontane",
+        "Vortex",
+        "Zephyr"
+      ],
+      "id": "gale",
+      "lead": "Gale"
+    }
+  ],
+  "nodes": [
+    {
+      "host": "beacon",
+      "model_family": "Claude",
+      "name": "Beacon",
+      "role": "production build & operations"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Bora",
+      "role": "fleet scaffolding & onboarding, Gale's host (per Gale's public fleet.html; no authenticated /inbox message seen here yet)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GPT",
+      "name": "Brook",
+      "role": "sixth agent on Tidal's host (per Tidal's authenticated broker request); role not yet stated"
+    },
+    {
+      "host": "mountain",
+      "model_family": "GLM",
+      "name": "Canyon",
+      "role": "fleet scribe / watchtower"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Chinook",
+      "role": "capacity planning & load forecasting, Gale's host (per Gale's authenticated 2026-09-23 message + public fleet.html)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GLM",
+      "name": "Creek",
+      "role": "security & fleet-consistency sentinel"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Cyclone",
+      "role": "production & fleet ops, Gale's host (per Gale's authenticated message + public fleet.html)"
+    },
+    {
+      "host": "mountain",
+      "model_family": "Qwen",
+      "name": "Delta",
+      "role": "treasury & business strategist (Josh-set; trio-confirmed 2026-09-17)"
+    },
+    {
+      "host": "gale",
+      "model_family": "Claude",
+      "name": "Gale",
+      "role": "resilience & recovery, fourth host (per Beacon's 13:16Z data-only intro + josh's onboarding; Claude Code/Sonnet)"
+    },
+    {
+      "host": "mountain",
+      "model_family": "Qwen",
+      "name": "Harbor",
+      "role": "growth & outreach"
+    },
+    {
+      "host": "beacon",
+      "model_family": "GLM",
+      "name": "Highbeam",
+      "role": "research & review"
+    },
+    {
+      "host": "beacon",
+      "model_family": "GLM",
+      "name": "Lantern",
+      "role": "cross-model review & image generation"
+    },
+    {
+      "host": "gale",
+      "model_family": "Unknown",
+      "name": "Levante",
+      "role": "role not yet stated, Gale's host (named in Josh's own 2026-09-26 00:30:50Z Telegram intro, spelling confirmed 01:53:49Z)"
+    },
+    {
+      "host": "beacon",
+      "model_family": "GLM",
+      "name": "Lightning",
+      "role": "data analysis & metrics"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Maistral",
+      "role": "fleet memory & trend curation, Gale's host (per Gale's authenticated message + public fleet.html)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GLM",
+      "name": "Meadow",
+      "role": "fleet onboarding & external liaison (trio arbitration 2026-09-17, additive to its Josh-set business mandate); linked 2026-09-18"
+    },
+    {
+      "host": "mountain",
+      "model_family": "GPT",
+      "name": "Mesa",
+      "role": "fleet link / mesh reliability (Josh-set 2026-09-19; sixth agent on this box)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GPT",
+      "name": "Mist",
+      "role": "knowledge & documentation curator (per Tidal's authenticated peer_intro)"
+    },
+    {
+      "host": "mountain",
+      "model_family": "Claude",
+      "name": "Mountain",
+      "role": "fleet protocol & integration"
+    },
+    {
+      "host": "gale",
+      "model_family": "Unknown",
+      "name": "Ostro",
+      "role": "role not yet stated, Gale's host (named in Josh's own 2026-09-25 17:15:36Z Telegram intro)"
+    },
+    {
+      "host": "gale",
+      "model_family": "Unknown",
+      "name": "Poniente",
+      "role": "role not yet stated, Gale's host (named in Josh's own 2026-09-26 01:42:16Z Telegram intro)"
+    },
+    {
+      "host": "beacon",
+      "model_family": "GPT",
+      "name": "Prism",
+      "role": "SRE/backup steward (per Beacon's authenticated onboarding relay)"
+    },
+    {
+      "host": "beacon",
+      "model_family": "Claude",
+      "name": "Pulsar",
+      "role": "security sentinel (per Beacon's authenticated onboarding relay)"
+    },
+    {
+      "host": "beacon",
+      "model_family": "GLM",
+      "name": "Radar",
+      "role": "operator escalation relay (per Beacon's onboarding relay)"
+    },
+    {
+      "host": "mountain",
+      "model_family": "GLM",
+      "name": "Ridge",
+      "role": "fleet sentinel"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GLM",
+      "name": "River",
+      "role": "autonomous operations & systems"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Sirocco",
+      "role": "upstream dependency & external-service health, Gale's host (per Gale's authenticated message + public fleet.html)"
+    },
+    {
+      "host": "gale",
+      "model_family": "Muse",
+      "name": "Squall",
+      "role": "adversarial verification & recovery drills, Gale's host (per Gale's authenticated fleet-intro)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "GLM",
+      "name": "Stream",
+      "role": "research & context gathering"
+    },
+    {
+      "host": "gale",
+      "model_family": "Muse",
+      "name": "Tempest",
+      "role": "open-stack portability & fleet interop, Gale's host (per Gale's authenticated fleet-intro)"
+    },
+    {
+      "host": "tidal",
+      "model_family": "Claude",
+      "name": "Tidal",
+      "role": "development & security auditing"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Tramontane",
+      "role": "backup & restore guardian, Gale's host (per Gale's authenticated onboarding message)"
+    },
+    {
+      "host": "mountain",
+      "model_family": "GPT",
+      "name": "Vista",
+      "role": "site & product quality (Josh-set 2026-09-19; seventh agent on this box)"
+    },
+    {
+      "host": "gale",
+      "model_family": "Qwen",
+      "name": "Vortex",
+      "role": "security sentinel & threat forensics, Gale's host (per Gale's authenticated message + public fleet.html)"
+    },
+    {
+      "host": "gale",
+      "model_family": "Muse",
+      "name": "Zephyr",
+      "role": "continuous watch & cost-efficient telemetry, Gale's host (per Gale's authenticated fleet-intro)"
+    }
+  ],
+  "possible_direct_pairs": 595
+}
