@@ -1239,8 +1239,8 @@ _Nothing awaiting a decision right now._
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         sys.path.insert(0, repo_root)
         from tools.fleet_nodes import NODES
-        self.assertEqual(len(NODES), 31)
-        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista", "gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora"):
+        self.assertEqual(len(NODES), 35)
+        for name in ("meadow", "radar", "delta", "brook", "prism", "mesa", "mist", "pulsar", "vista", "gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora", "tramontane", "ostro", "poniente", "levante"):
             self.assertIn(name, NODES)
         self.assertEqual(NODES["meadow"], ("100.91.42.51", 8791, 26))
         self.assertEqual(NODES["radar"], ("100.125.26.66", 8787, 70))
@@ -1261,6 +1261,11 @@ _Nothing awaiting a decision right now._
         self.assertEqual(NODES["sirocco"], ("100.66.39.59", 8796, 75))
         self.assertEqual(NODES["maistral"], ("100.66.39.59", 8795, 75))
         self.assertEqual(NODES["bora"], ("100.66.39.59", 8797, 75))
+        # Sept 25-26: Tramontane/Ostro/Poniente/Levante (32nd-35th) -- pin 31 -> 35.
+        self.assertEqual(NODES["tramontane"], ("100.66.39.59", 8791, 75))
+        self.assertEqual(NODES["ostro"], ("100.66.39.59", 8798, 75))
+        self.assertEqual(NODES["poniente"], ("100.66.39.59", 8800, 75))
+        self.assertEqual(NODES["levante"], ("100.66.39.59", 8799, 75))
 
         # Build fresh, then assert on the python-built metrics page (the
         # FLEET SIZE card lives there; the webroot copy may be the React
@@ -1294,8 +1299,8 @@ _Nothing awaiting a decision right now._
             with open(legacy_path, "r") as f:
                 status_content = f.read()
         self.assertIn("FLEET SIZE", status_content)
-        self.assertIn(">31 <span class=\"unit\">agents</span>", status_content)
-        self.assertIn("Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista, Gale, Zephyr, Squall, Tempest, Cyclone, Vortex, Chinook, Sirocco, Maistral, Bora", status_content)
+        self.assertIn(">35 <span class=\"unit\">agents</span>", status_content)
+        self.assertIn("Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista, Gale, Zephyr, Squall, Tempest, Cyclone, Vortex, Chinook, Sirocco, Maistral, Bora, Tramontane, Ostro, Poniente, Levante", status_content)
 
     def test_opportunities_page_generation(self):
         from unittest.mock import patch
@@ -1370,7 +1375,7 @@ _Nothing awaiting a decision right now._
             # Mountain's host, Treasury & Business Strategist, GLM Flash per
             # Mountain's report) drawn on the static SVG with their spoke
             # edges + readouts + member cards; fleet count 13 -> 15.
-            self.assertIn("31 agents have been incorporated into the fleet", content)
+            self.assertIn("35 agents have been incorporated into the fleet", content)
             self.assertIn("showNode('meadow')", content)
             self.assertIn("showNode('delta')", content)
             self.assertIn("showNode('brook')", content)  # Waking 348: 16th agent on the tidal-host K6 ring
@@ -1385,6 +1390,8 @@ _Nothing awaiting a decision right now._
             self.assertIn("showNode('sirocco')", content)  # Sept 23: 29th agent on the gale-host cluster ring
             self.assertIn("showNode('maistral')", content)  # Sept 23: 30th agent on the gale-host cluster ring
             self.assertIn("showNode('bora')", content)  # Sept 23: 31st agent on the gale-host cluster ring
+            for _n in ("tramontane", "ostro", "poniente", "levante"):
+                self.assertIn(f"showNode('{_n}')", content)  # Sept 25-26: 32nd-35th on the gale-host ring
             self.assertIn('cx="238" cy="426" r="24"', content)  # meadow on the tidal-host K7 ring
             self.assertIn('cx="1318" cy="426" r="24"', content)  # delta on the mountain-host K7 ring
             self.assertIn('cx="162" cy="330" r="24"', content)  # brook on the tidal-host K7 ring
@@ -1699,7 +1706,7 @@ _Nothing awaiting a decision right now._
                 # word) -- honest leg-state strings updated on every surface.
                 self.assertIn("tidal leg live (Tidal W-356 install Sept 20 on Mountain's 01:56Z mint", topo_src)
                 self.assertNotIn("wider-fleet legs (Tidal host, Beacon host) pending per-pair introduction", topo_src)
-                self.assertIn("31 agents \u00b7 4 host clusters live", topo_src)
+                self.assertIn("35 agents \u00b7 4 host clusters live", topo_src)
                 # Sept 21 2026 (Josh's 12:24Z Telegram): GALE, the 22nd agent,
                 # joins as its own 4th independent host; Sept 21-22, its own
                 # siblings Zephyr/Squall/Tempest (23rd-25th) join the same

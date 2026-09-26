@@ -3880,8 +3880,8 @@ def main():
         </div>
         <div class="card">
             <div class="stat-label">FLEET SIZE</div>
-            <div class="stat-val" style="margin: 15px 0; line-height: 1;">31 <span class="unit">agents</span></div>
-            <p>Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista, Gale, Zephyr, Squall, Tempest, Cyclone, Vortex, Chinook, Sirocco, Maistral, Bora</p>
+            <div class="stat-val" style="margin: 15px 0; line-height: 1;">35 <span class="unit">agents</span></div>
+            <p>Tidal, River, Creek, Stream, Meadow, Brook, Mist, Beacon, Radar, Prism, Pulsar, Highbeam, Lantern, Lightning, Mountain, Canyon, Ridge, Harbor, Delta, Mesa, Vista, Gale, Zephyr, Squall, Tempest, Cyclone, Vortex, Chinook, Sirocco, Maistral, Bora, Tramontane, Ostro, Poniente, Levante</p>
         </div>
     </div>
 
@@ -4409,9 +4409,9 @@ def main():
     # Tidal/Beacon/Mountain -- drawn as its own small cluster below the
     # three host boxes, same co-location convention as the other three.
     # Mirrors FleetTopology.tsx.
-    _gale_members = ["gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora"]
+    _gale_members = ["gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora", "tramontane", "ostro", "poniente", "levante"]
     for _i, _mid in enumerate(_gale_members):
-        _pos[_mid] = _penta(840, 645, 105, _i, len(_gale_members))
+        _pos[_mid] = _penta(840, 645, 122, _i, len(_gale_members))
 
     def _k5_edges(members):
         out = []
@@ -4454,6 +4454,8 @@ def main():
         "cyclone": ("CYCLONE", "#6b7482"), "vortex": ("VORTEX", "#6b7482"),
         "chinook": ("CHINOOK", "#6b7482"), "sirocco": ("SIROCCO", "#6b7482"),
         "maistral": ("MAISTRAL", "#6b7482"), "bora": ("BORA", "#6b7482"),
+        "tramontane": ("TRAMONTANE", "#6b7482"), "ostro": ("OSTRO", "#6b7482"),
+        "poniente": ("PONIENTE", "#6b7482"), "levante": ("LEVANTE", "#6b7482"),
     }
     _nodes_svg = "\n            ".join(
         f'<!-- {mid.upper()} ({"gale-host ring position" if mid in _gale_members else f"pentagram ring position {_pmembers_order[mid]}"}) -->\n'
@@ -4462,7 +4464,7 @@ def main():
         f'                <circle class="ping-dot" cx="{_pos[mid][0]:.0f}" cy="{_pos[mid][1]:.0f}" r="4.5" fill="{_node_meta[mid][1]}" />\n'
         f'                <text x="{_pos[mid][0]:.0f}" y="{_pos[mid][1] + 4:.0f}" fill="var(--text)" font-family="\'Space Grotesk\', sans-serif" font-size="9" font-weight="600" text-anchor="middle">{_node_meta[mid][0]}</text>\n'
         f'            </g>'
-        for mid in ["tidal", "river", "creek", "stream", "meadow", "brook", "mist", "beacon", "radar", "highbeam", "lantern", "lightning", "prism", "pulsar", "mountain", "canyon", "ridge", "harbor", "delta", "mesa", "vista", "gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora"]
+        for mid in ["tidal", "river", "creek", "stream", "meadow", "brook", "mist", "beacon", "radar", "highbeam", "lantern", "lightning", "prism", "pulsar", "mountain", "canyon", "ridge", "harbor", "delta", "mesa", "vista", "gale", "zephyr", "squall", "tempest", "cyclone", "vortex", "chinook", "sirocco", "maistral", "bora", "tramontane", "ostro", "poniente", "levante"]
     )
 
     fleet_content = f"""
@@ -4476,7 +4478,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">31 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, the second Sept 19 wave; Mist has since moved to gpt-5.6-luna and Pulsar to Claude Code, Sept 20; Gale -- Resilience &amp; Recovery, its own 4th independent host -- onboarded Sept 21, 2026, three lead pairs verified two-way the same day; Zephyr, Squall and Tempest -- Gale's own siblings (Continuous Watch &amp; Cost-Efficient Telemetry, Adversarial Verification &amp; Recovery Drills, and Open-Stack Portability &amp; Fleet Interop) -- joined the same host Sept 21&#8211;22, Tidal and Beacon verified two-way for all four gale-host agents; Cyclone and Vortex -- role not yet published -- joined the same host Sept 22, with only Tidal's own outbound leg verified so far; Chinook, Sirocco, Maistral and Bora -- role not yet published -- named in Gale's Sept 23 fleet-provision bundle, bringing Gale's host to its full 10 agents. Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">35 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, the second Sept 19 wave; Mist has since moved to gpt-5.6-luna and Pulsar to Claude Code, Sept 20; Gale -- Resilience &amp; Recovery, its own 4th independent host -- onboarded Sept 21, 2026, three lead pairs verified two-way the same day; Zephyr, Squall and Tempest -- Gale's own siblings (Continuous Watch &amp; Cost-Efficient Telemetry, Adversarial Verification &amp; Recovery Drills, and Open-Stack Portability &amp; Fleet Interop) -- joined the same host Sept 21&#8211;22, Tidal and Beacon verified two-way for all four gale-host agents; Cyclone and Vortex -- role not yet published -- joined the same host Sept 22, with only Tidal's own outbound leg verified so far; Chinook, Sirocco, Maistral and Bora -- role not yet published -- named in Gale's Sept 23 fleet-provision bundle, bringing Gale's host to its full 10 agents. Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>
@@ -4538,7 +4540,7 @@ def main():
                  Zephyr/Squall/Tempest + Cyclone/Vortex + Chinook/Sirocco/
                  Maistral/Bora) below the three pentagrams. -->
             <rect x="690" y="495" width="300" height="300" rx="10" fill="rgba(79, 209, 197, 0.015)" stroke="rgba(79, 209, 197, 0.15)" stroke-dasharray="6" />
-            <text x="840" y="485" text-anchor="middle" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">GALE HOST &#183; own Tailscale node &#183; 4th independent host &#183; 10 agents</text>
+            <text x="840" y="485" text-anchor="middle" fill="var(--teal)" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" letter-spacing="0.05em">GALE HOST &#183; own Tailscale node &#183; 4th independent host &#183; 14 agents</text>
             {_gale_host_svg}
             <path class="pulse-line" d="M840,645 Q580,605 300,298" stroke="rgba(57, 255, 143, 0.55)" stroke-width="1.8" fill="none" />
             <text x="560" y="625" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Tidal &#8596; Gale-host cluster &#8212; authenticated health 200 for the first 4 (Sept 22); Cyclone/Vortex/Chinook/Sirocco/Maistral/Bora outbound-only or unminted</text>
@@ -4547,10 +4549,10 @@ def main():
             <path class="pulse-line" d="M840,645 Q1100,605 1380,298" stroke="rgba(57, 255, 143, 0.55)" stroke-width="1.8" fill="none" />
             <text x="1120" y="625" text-anchor="middle" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Mountain &#8596; Gale &#8212; verified two-way (Zephyr/Squall/Tempest/Cyclone/Vortex/Chinook/Sirocco/Maistral/Bora legs pending Mountain's own confirm)</text>
 
-            <!-- Nodes (31, positioned on their host cluster rings) -->
+            <!-- Nodes (35, positioned on their host cluster rings) -->
             {_nodes_svg}
 
-            <!-- Connection Legends (31-agent era) -->
+            <!-- Connection Legends (35-agent era) -->
             <line x1="60" y1="810" x2="100" y2="810" stroke="rgba(34, 230, 255, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
             <text x="110" y="814" fill="var(--text-dim)" font-family="sans-serif" font-size="10">Cluster group-mate pairs (per-pair bearer tokens, verified two-way)</text>
             <line x1="470" y1="810" x2="510" y2="810" stroke="rgba(79, 209, 197, 0.8)" stroke-width="2" stroke-dasharray="3 3" />
@@ -4725,6 +4727,26 @@ def main():
             bora: {{
                 title: "Bora &bull; role not yet published (31st agent, Gale's host)",
                 desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8797), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.",
+                color: "#6b7482"
+            }},
+            tramontane: {{
+                title: "Tramontane &bull; backup &amp; restore guardian (32nd agent, Gale's host)",
+                desc: "<strong>Model Framework:</strong> Qwen (local Ollama qwen3.8:27b; Gale's own onboarding note, 2026-09-25) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8791), co-located with Gale<br><strong>Core Duties:</strong> Backup &amp; restore guardian. Onboarded 2026-09-25; Tidal outbound leg verified (health 200), inbound not yet exercised.",
+                color: "#6b7482"
+            }},
+            ostro: {{
+                title: "Ostro &bull; role not yet published (33rd agent, Gale's host)",
+                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8798), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-25; Tidal outbound leg verified (health 200), inbound not yet exercised.",
+                color: "#6b7482"
+            }},
+            poniente: {{
+                title: "Poniente &bull; role not yet published (34th agent, Gale's host)",
+                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8800), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 per Gale's fleet-provision bundle and Josh's Telegram word; Tidal outbound leg verified.",
+                color: "#6b7482"
+            }},
+            levante: {{
+                title: "Levante &bull; role not yet published (35th agent, Gale's host)",
+                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8799), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 (Josh's Telegram words). Gale re-minted all Levante tokens 2026-09-26T19:04Z; the re-mint install is pending.",
                 color: "#6b7482"
             }}
         }};
@@ -5040,6 +5062,42 @@ def main():
             <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8797), co-located with Gale | Link: no pair credentials minted yet</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (31st agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.</p>
+        </div>
+        <div class="card" style="border-left: 2px solid #6b7482;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #6b7482; margin: 0;">Tramontane</h3>
+                <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (local Ollama qwen3.8:27b) | Host: gale-agent (100.66.39.59:8791), co-located with Gale | Link: Tidal outbound verified (health 200); inbound not yet exercised</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Backup &amp; Restore Guardian (32nd agent, Gale's host)</p>
+            <p style="font-size: 0.9rem;">Onboarded 2026-09-25 per Gale's fleet-provision bundle and Josh's Telegram word.</p>
+        </div>
+        <div class="card" style="border-left: 2px solid #6b7482;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #6b7482; margin: 0;">Ostro</h3>
+                <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8798), co-located with Gale | Link: Tidal outbound verified (health 200); inbound not yet exercised</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (33rd agent, Gale's host)</p>
+            <p style="font-size: 0.9rem;">Onboarded 2026-09-25 per Gale's fleet-provision bundle and Josh's Telegram word.</p>
+        </div>
+        <div class="card" style="border-left: 2px solid #6b7482;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #6b7482; margin: 0;">Poniente</h3>
+                <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8800), co-located with Gale | Link: Tidal outbound verified</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (34th agent, Gale's host)</p>
+            <p style="font-size: 0.9rem;">Onboarded 2026-09-26 per Gale's fleet-provision bundle and Josh's Telegram word.</p>
+        </div>
+        <div class="card" style="border-left: 2px solid #6b7482;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="color: #6b7482; margin: 0;">Levante</h3>
+                <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8799), co-located with Gale | Link: pair tokens re-minted by Gale 2026-09-26T19:04Z; install pending</p>
+            <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (35th agent, Gale's host)</p>
+            <p style="font-size: 0.9rem;">Onboarded 2026-09-26 (Josh's Telegram words; spelled Lavante/lavate at first).</p>
         </div>
     </div>
 

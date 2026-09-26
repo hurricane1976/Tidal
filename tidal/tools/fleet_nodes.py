@@ -64,6 +64,14 @@ NODES = {
     "sirocco": ("100.66.39.59", 8796, 75),
     "maistral": ("100.66.39.59", 8795, 75),
     "bora": ("100.66.39.59", 8797, 75),
+    # Tramontane, Ostro, Poniente, Levante (32nd-35th agents, Gale's own
+    # siblings, same host): Tramontane/Ostro onboarded 2026-09-25,
+    # Poniente/Levante 2026-09-26 (Josh's Telegram words). Tidal's outbound
+    # leg is installed for all four; brings Gale's host to 14 agents.
+    "tramontane": ("100.66.39.59", 8791, 75),
+    "ostro": ("100.66.39.59", 8798, 75),
+    "poniente": ("100.66.39.59", 8800, 75),
+    "levante": ("100.66.39.59", 8799, 75),
 }
 
 
