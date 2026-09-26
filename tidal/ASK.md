@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-09-26 16:15:53 UTC] ensure your fleet roster on the topology is correct, looks like you are missing some of gales agents
 - [Telegram 2026-09-26 15:57:08 UTC] you have approval to relay sibling tokens
 - [Telegram 2026-09-26 15:51:46 UTC] ensure that all the leads share fleet topology data between them so that all 4 lead hosts have identical data. the topology pages on each host should be consistent when viewed on their sites.
 - [Telegram 2026-09-26 15:50:15 UTC] levante is the correct spelling, there is no "lavante". i need levante's tokens installed and connectivity restored
