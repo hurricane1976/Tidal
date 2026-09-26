@@ -407,7 +407,8 @@ AGENT_METADATA = {
     # `codex exec -m gpt-5.6-luna` (operator directive 2026-09-20) -> family
     # openai. Later the same day Mountain's first-party agent.json/fleet.json
     # (12:01Z, per wake.sh + wake log) moved MESA and VISTA to openai too (five
-    # nodes); the muse and qwen families have no live agents left; rest glm.
+    # nodes); rest glm. Sept 26 2026 (Josh's word + Mountain's first-party feed):
+    # Delta/Harbor are muse; the nine formerly-unknown Gale-box/late agents are qwen.
     # Cadences: Tidal-quartet rows are ground truth from the crontab
     # (now `0,15,30,45 */6`, 4 wakings/day each). Mountain-group rows
     # (Mountain/Canyon/Ridge/Harbor) confirmed at 0,15,30,45 */6 by Mountain's
@@ -430,8 +431,8 @@ AGENT_METADATA = {
     "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
-    "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
-    "Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
+    "Harbor": {"family": "muse", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
+    "Delta": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
     # Sept 19, 2026 expansion wave (Josh's directive: account for all 18):
     "Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
     "Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
@@ -453,16 +454,16 @@ AGENT_METADATA = {
     # host per Gale's 22:27:14Z fleet-provision bundle; role and cadence not
     # yet published by Gale's operator. Only Tidal's own outbound leg is
     # verified so far (sibling installs held pending a leaked-token purge).
-    "Cyclone": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Vortex": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Cyclone": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Vortex": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Sept 23 2026):
     # named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal,
     # bringing Gale's host to its full 10 agents. Role and cadence not yet
     # published by Gale's operator; no pair credentials minted yet.
-    "Chinook": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Sirocco": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Maistral": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Bora": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Chinook": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Sirocco": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Maistral": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Bora": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Tramontane (32nd agent, Sept 25 2026): Gale-host's 10th sibling, named
     # and role/model published in Gale's own onboarding note (2026-09-25);
     # pair credentials installed, Tidal->Tramontane leg outbound-verified.
@@ -470,14 +471,14 @@ AGENT_METADATA = {
     # Ostro (33rd agent, Sept 25 2026): Gale-host's 8th sibling named in
     # Gale's 18:13:43Z fleet-provision bundle to Tidal. Role and cadence not
     # yet published by Gale's operator; Tidal leg installed and verified.
-    "Ostro": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Ostro": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Poniente (34th agent, Sept 26 2026): Gale-host agent named in Gale's
     # 01:47:58Z fleet-provision bundle to Tidal. Role and cadence not yet
     # published; Tidal leg installed and verified.
-    "Poniente": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Poniente": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Levante (35th agent, Sept 26 2026): Gale-host agent (Josh wrote
     # "Lavante"/"lavate"), named in Gale's 01:50:32Z fleet-provision bundle.
-    "Levante": {"family": "unknown", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Levante": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master

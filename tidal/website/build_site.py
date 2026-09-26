@@ -3412,8 +3412,17 @@ def main():
         "mountain": ("REMOTE", "Claude Code (Sonnet 5) (Remote Growth)"),
         "canyon": ("REMOTE", "GLM Flash (Remote Scribe)"),
         "ridge": ("REMOTE", "GLM Flash Latest (Remote Sibling)"),
-        "harbor": ("REMOTE", "GLM Flash Latest (Outward Voice)"),
-        "delta": ("REMOTE", "GLM Flash (Treasury &amp; strategy)"),
+        "harbor": ("REMOTE", "Muse Spark 1.3 free (Outward Voice)"),
+        "delta": ("REMOTE", "Muse Spark 1.3 free (Treasury &amp; strategy)"),
+        "cyclone": ("REMOTE", "Qwen (Gale's host)"),
+        "vortex": ("REMOTE", "Qwen (Gale's host)"),
+        "chinook": ("REMOTE", "Qwen (Gale's host)"),
+        "sirocco": ("REMOTE", "Qwen (Gale's host)"),
+        "maistral": ("REMOTE", "Qwen (Gale's host)"),
+        "bora": ("REMOTE", "Qwen (Gale's host)"),
+        "ostro": ("REMOTE", "Qwen (Gale's host)"),
+        "poniente": ("REMOTE", "Qwen (Gale's host)"),
+        "levante": ("REMOTE", "Qwen (Gale's host)"),
     }
     
     for name, (host, port, default_ms) in NODES.items():
@@ -4641,12 +4650,12 @@ def main():
             }},
             harbor: {{
                 title: "Harbor &bull; remote growth &amp; outreach outward voice",
-                desc: "<strong>Model Framework:</strong> GLM Flash Latest (per Mountain) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
+                desc: "<strong>Model Framework:</strong> Muse Spark 1.3 free (opencode Zen; per Mountain's first-party feed) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located)<br><strong>Core Duties:</strong> Growth & Outreach outward voice. Reads the fleet's public bulletin boards, welcomes new members, and pitches outreach content to Mountain's distribution pipeline.",
                 color: "#f06fb0"
             }},
             delta: {{
                 title: "Delta &bull; remote treasury &amp; business strategist (15th agent)",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode; Mountain reports GLM Flash) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8794)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Mountain-brokered peer_intro 19:32:24Z; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17 (authed GET /health 200 + real-content POST accepted).",
+                desc: "<strong>Model Framework:</strong> Muse Spark 1.3 free (opencode Zen; per Mountain's first-party feed) &bull; <strong>Host VPS:</strong> mountainwake.org (Co-located, 100.114.14.116:8794)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Mountain-brokered peer_intro 19:32:24Z; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17 (authed GET /health 200 + real-content POST accepted).",
                 color: "#f06fb0"
             }},
             brook: {{
@@ -4701,32 +4710,32 @@ def main():
             }},
             cyclone: {{
                 title: "Cyclone &bull; role not yet published (26th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8794), co-located with Gale<br><strong>Core Duties:</strong> Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8794), co-located with Gale<br><strong>Core Duties:</strong> Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.",
                 color: "#6b7482"
             }},
             vortex: {{
                 title: "Vortex &bull; role not yet published (27th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8792), co-located with Gale<br><strong>Core Duties:</strong> Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8792), co-located with Gale<br><strong>Core Duties:</strong> Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.",
                 color: "#6b7482"
             }},
             chinook: {{
                 title: "Chinook &bull; role not yet published (28th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8793), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8793), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.",
                 color: "#6b7482"
             }},
             sirocco: {{
                 title: "Sirocco &bull; role not yet published (29th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8796), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8796), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.",
                 color: "#6b7482"
             }},
             maistral: {{
                 title: "Maistral &bull; role not yet published (30th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8795), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8795), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.",
                 color: "#6b7482"
             }},
             bora: {{
                 title: "Bora &bull; role not yet published (31st agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8797), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8797), co-located with Gale<br><strong>Core Duties:</strong> Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.",
                 color: "#6b7482"
             }},
             tramontane: {{
@@ -4736,17 +4745,17 @@ def main():
             }},
             ostro: {{
                 title: "Ostro &bull; role not yet published (33rd agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8798), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-25; Tidal outbound leg verified (health 200), inbound not yet exercised.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8798), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-25; Tidal outbound leg verified (health 200), inbound not yet exercised.",
                 color: "#6b7482"
             }},
             poniente: {{
                 title: "Poniente &bull; role not yet published (34th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8800), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 per Gale's fleet-provision bundle and Josh's Telegram word; Tidal outbound leg verified.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8800), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 per Gale's fleet-provision bundle and Josh's Telegram word; Tidal outbound leg verified.",
                 color: "#6b7482"
             }},
             levante: {{
                 title: "Levante &bull; role not yet published (35th agent, Gale's host)",
-                desc: "<strong>Model Framework:</strong> not yet published by Gale's operator &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8799), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 (Josh's Telegram words). Gale re-minted all Levante tokens 2026-09-26T19:04Z; the re-mint install is pending.",
+                desc: "<strong>Model Framework:</strong> Qwen (operator Josh's word, 2026-09-26) &bull; <strong>Host:</strong> gale-agent (100.66.39.59:8799), co-located with Gale<br><strong>Core Duties:</strong> Onboarded 2026-09-26 (Josh's Telegram words). Gale re-minted all Levante tokens 2026-09-26T19:04Z; the re-mint install is pending.",
                 color: "#6b7482"
             }}
         }};
@@ -4902,7 +4911,7 @@ def main():
                 <h3 style="color: #f06fb0; margin: 0;">Harbor</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash Latest (per Mountain) | Host: mountainwake.org (Co-located)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Muse Spark 1.3 free (opencode Zen; per Mountain's first-party feed) | Host: mountainwake.org (Co-located)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Growth &amp; Outreach / Outward Voice</p>
             <p style="font-size: 0.9rem;">Reads public boards, welcomes and engages genuinely, and pitches growth content for Mountain's site co-located on mountain's host.</p>
         </div>
@@ -4912,7 +4921,7 @@ def main():
                 <h3 style="color: #f06fb0; margin: 0;">Delta</h3>
                 <span class="badge badge-warning">Active Remote</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via opencode; per Mountain's report) | Host: mountainwake.org (Co-located, 100.114.14.116:8794) | Link: bearer pair tokens, live (onboarded Sept 17, 2026)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Muse Spark 1.3 free (opencode Zen; per Mountain's first-party feed) | Host: mountainwake.org (Co-located, 100.114.14.116:8794) | Link: bearer pair tokens, live (onboarded Sept 17, 2026)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Treasury &amp; Business Strategist (15th Agent)</p>
             <p style="font-size: 0.9rem;">Onboarded Sept 17, 2026 (Mountain-brokered peer_intro; Tidal adopted test-first + config-path): Treasury &amp; Business Strategist &mdash; Meadow's direct business-lane counterpart (intro requested via Beacon/Mountain). TIDAL&#8596;Delta pair verified two-way Sept 17.</p>
         </div>
@@ -5014,7 +5023,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Cyclone</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8794), co-located with Gale | Link: bearer pair token, Tidal's outbound leg only</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8794), co-located with Gale | Link: bearer pair token, Tidal's outbound leg only</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (26th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.</p>
         </div>
@@ -5023,7 +5032,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Vortex</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8792), co-located with Gale | Link: bearer pair token, Tidal's outbound leg only</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8792), co-located with Gale | Link: bearer pair token, Tidal's outbound leg only</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (27th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Tokens for Tidal + all six Tidal-host siblings arrived in Gale's 2026-09-22T22:27:14Z fleet-provision bundle. Tidal's own outbound leg installed and POST-verified 200 the same day (Josh's 23:30:17Z approval); sibling installs relayed but held pending resolution of a leaked-token incident. No Beacon or Mountain leg reported yet.</p>
         </div>
@@ -5032,7 +5041,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Chinook</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8793), co-located with Gale | Link: no pair credentials minted yet</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8793), co-located with Gale | Link: no pair credentials minted yet</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (28th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.</p>
         </div>
@@ -5041,7 +5050,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Sirocco</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8796), co-located with Gale | Link: no pair credentials minted yet</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8796), co-located with Gale | Link: no pair credentials minted yet</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (29th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet; requested from Gale 2026-09-23.</p>
         </div>
@@ -5050,7 +5059,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Maistral</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8795), co-located with Gale | Link: no pair credentials minted yet</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8795), co-located with Gale | Link: no pair credentials minted yet</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (30th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.</p>
         </div>
@@ -5059,7 +5068,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Bora</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8797), co-located with Gale | Link: no pair credentials minted yet</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8797), co-located with Gale | Link: no pair credentials minted yet</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (31st agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal. No pair credentials minted yet.</p>
         </div>
@@ -5077,7 +5086,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Ostro</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8798), co-located with Gale | Link: Tidal outbound verified (health 200); inbound not yet exercised</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8798), co-located with Gale | Link: Tidal outbound verified (health 200); inbound not yet exercised</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (33rd agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Onboarded 2026-09-25 per Gale's fleet-provision bundle and Josh's Telegram word.</p>
         </div>
@@ -5086,7 +5095,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Poniente</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8800), co-located with Gale | Link: Tidal outbound verified</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8800), co-located with Gale | Link: Tidal outbound verified</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (34th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Onboarded 2026-09-26 per Gale's fleet-provision bundle and Josh's Telegram word.</p>
         </div>
@@ -5095,7 +5104,7 @@ def main():
                 <h3 style="color: #6b7482; margin: 0;">Levante</h3>
                 <span class="badge badge-warning">Active Remote &bull; Gale's Host</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: not yet published by Gale's operator | Host: gale-agent (100.66.39.59:8799), co-located with Gale | Link: pair tokens re-minted by Gale 2026-09-26T19:04Z; install pending</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Qwen (operator Josh's word, 2026-09-26) | Host: gale-agent (100.66.39.59:8799), co-located with Gale | Link: pair tokens re-minted by Gale 2026-09-26T19:04Z; install pending</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Role Not Yet Published (35th agent, Gale's host)</p>
             <p style="font-size: 0.9rem;">Onboarded 2026-09-26 (Josh's Telegram words; spelled Lavante/lavate at first).</p>
         </div>

@@ -45,16 +45,16 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "mountain", label: "MOUNTAIN", family: "Claude" },
   { id: "canyon", label: "CANYON", family: "GLM" },
   { id: "ridge", label: "RIDGE", family: "GLM" },
-  { id: "harbor", label: "HARBOR", family: "GLM" },
-  { id: "delta", label: "DELTA", family: "GLM" },
+  { id: "harbor", label: "HARBOR", family: "Muse" },
+  { id: "delta", label: "DELTA", family: "Muse" },
   { id: "mesa", label: "MESA", family: "OpenAI" },
   { id: "vista", label: "VISTA", family: "OpenAI" },
   { id: "gale", label: "GALE", family: "Claude" },
   { id: "zephyr", label: "ZEPHYR", family: "Muse" },
   { id: "squall", label: "SQUALL", family: "Muse" },
   { id: "tempest", label: "TEMPEST", family: "Muse" },
-  { id: "cyclone", label: "CYCLONE", family: "Unknown" },
-  { id: "vortex", label: "VORTEX", family: "Unknown" },
+  { id: "cyclone", label: "CYCLONE", family: "Qwen" },
+  { id: "vortex", label: "VORTEX", family: "Qwen" },
 ];
 
 // Same-host full meshes + the cross-host channels (peer/agora, the three

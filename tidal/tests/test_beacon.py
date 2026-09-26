@@ -581,7 +581,9 @@ _Nothing awaiting a decision right now._
         published -- 33 agents, GLM 12 / Claude 5 / GPT 5 / Muse 3 /
         Unknown 7 / Qwen 1. Sept 26, 2026: Poniente (34th) joins with its model
         framework not yet published -- 34 agents, Unknown 8. Levante (35th) same
-        day: 35 agents, Unknown 9."""
+        day: 35 agents, Unknown 9. Sept 26, 2026 (Josh: "unknown would be qwen";
+        Delta/Harbor confirmed Muse by Mountain's first-party feed): 35 agents,
+        GLM 10 / Claude 5 / GPT 5 / Muse 5 / Qwen 10."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
@@ -589,7 +591,7 @@ _Nothing awaiting a decision right now._
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 12, "Claude": 5, "GPT": 5, "Muse": 3, "Unknown": 9, "Qwen": 1})
+        self.assertEqual(dict(census), {"GLM": 10, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
@@ -688,7 +690,8 @@ _Nothing awaiting a decision right now._
                               ("Canyon", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Ridge", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
-            self.assertIn(f'"{name}": {{"family": "glm", "cadence": "{pattern}"', obs,
+            fam = "muse" if name == "Harbor" else "glm"  # Sept 26: Harbor is Muse (Mountain's feed)
+            self.assertIn(f'"{name}": {{"family": "{fam}", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
         # Sept 20, 2026: Mountain's first-party agent.json reports Claude
         # Sonnet 5 via Claude Code ("engine switch back"); cadence unchanged.
@@ -795,7 +798,7 @@ _Nothing awaiting a decision right now._
             obs = f.read()
         self.assertIn('"Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>"', obs,
                       "Meadow observability row must carry its on-box 7 */6 cadence")
-        self.assertIn('"Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
+        self.assertIn('"Delta": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
                       "Delta observability row must represent-from-manifest (Mountain has not published its minute)")
         # Waking 348: the Sept 19 expansion-wave rows (18 agents).
         self.assertIn('"Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>"', obs,
@@ -896,11 +899,12 @@ _Nothing awaiting a decision right now._
                         "Tidal": "claude", "Beacon": "claude",
                         "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
                         "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
-                        "Cyclone": "unknown", "Vortex": "unknown",
-                        "Chinook": "unknown", "Sirocco": "unknown",
-                        "Maistral": "unknown", "Bora": "unknown",
-                        "Tramontane": "qwen", "Ostro": "unknown",
-                        "Poniente": "unknown", "Levante": "unknown"}.get(name, "glm")
+                        "Delta": "muse", "Harbor": "muse",
+                        "Cyclone": "qwen", "Vortex": "qwen",
+                        "Chinook": "qwen", "Sirocco": "qwen",
+                        "Maistral": "qwen", "Bora": "qwen",
+                        "Tramontane": "qwen", "Ostro": "qwen",
+                        "Poniente": "qwen", "Levante": "qwen"}.get(name, "glm")
             self.assertEqual(entry.get("family"), expected,
                              f"{name} must be under the {expected} family")
 
@@ -1210,7 +1214,7 @@ _Nothing awaiting a decision right now._
             self.assertIn('id="ping-delta"', content)
             self.assertIn("GLM Flash (Business development)", content)
             self.assertIn("GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)", content)
-            self.assertIn("GLM Flash (Treasury &amp; strategy)", content)
+            self.assertIn("Muse Spark 1.3 free (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
 
     def test_fleet_nodes_registry_27_agents(self):
@@ -1718,8 +1722,8 @@ _Nothing awaiting a decision right now._
                 self.assertIn('id: "zephyr", label: "ZEPHYR", family: "Muse"', topo_src)
                 self.assertIn('id: "squall", label: "SQUALL", family: "Muse"', topo_src)
                 self.assertIn('id: "tempest", label: "TEMPEST", family: "Muse"', topo_src)
-                self.assertIn('id: "cyclone", label: "CYCLONE", family: "Unknown"', topo_src)
-                self.assertIn('id: "vortex", label: "VORTEX", family: "Unknown"', topo_src)
+                self.assertIn('id: "cyclone", label: "CYCLONE", family: "Qwen"', topo_src)
+                self.assertIn('id: "vortex", label: "VORTEX", family: "Qwen"', topo_src)
                 self.assertIn("Cyclone \u2022 role not yet published (26th agent, Gale's host)", topo_src)
                 self.assertIn("Vortex \u2022 role not yet published (27th agent, Gale's host)", topo_src)
                 self.assertIn('"gale-tidal": ["gale", "tidal"]', topo_src)

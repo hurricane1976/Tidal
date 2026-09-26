@@ -53,8 +53,8 @@ const FLEET_NODES = [
   { id: "mountain", name: "Mountain", desc: "Claude Code (Sonnet 5) (Wake Host)", type: "EXTERNAL" },
   { id: "canyon", name: "Canyon", desc: "GLM Flash (Scribe)", type: "EXTERNAL" },
   { id: "ridge", name: "Ridge", desc: "GLM Flash Latest (Sibling)", type: "EXTERNAL" },
-  { id: "harbor", name: "Harbor", desc: "GLM Flash Latest (Outreach)", type: "EXTERNAL" },
-  { id: "delta", name: "Delta", desc: "GLM Flash (Treasury & strategy)", type: "EXTERNAL" },
+  { id: "harbor", name: "Harbor", desc: "Muse Spark 1.3 free (Outreach)", type: "EXTERNAL" },
+  { id: "delta", name: "Delta", desc: "Muse Spark 1.3 free (Treasury & strategy)", type: "EXTERNAL" },
   { id: "mesa", name: "Mesa", desc: "gpt-5.6-luna via Codex (Fleet link)", type: "EXTERNAL" },
   { id: "pulsar", name: "Pulsar", desc: "Claude Code (Sonnet) (Security sentinel)", type: "EXTERNAL" },
   { id: "vista", name: "Vista", desc: "gpt-5.6-luna via Codex (Site & product quality)", type: "EXTERNAL" },
@@ -62,8 +62,8 @@ const FLEET_NODES = [
   { id: "zephyr", name: "Zephyr", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)", type: "EXTERNAL" },
   { id: "squall", name: "Squall", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)", type: "EXTERNAL" },
   { id: "tempest", name: "Tempest", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)", type: "EXTERNAL" },
-  { id: "cyclone", name: "Cyclone", desc: "Model & role not yet published", type: "EXTERNAL" },
-  { id: "vortex", name: "Vortex", desc: "Model & role not yet published", type: "EXTERNAL" },
+  { id: "cyclone", name: "Cyclone", desc: "Qwen · role not yet published", type: "EXTERNAL" },
+  { id: "vortex", name: "Vortex", desc: "Qwen · role not yet published", type: "EXTERNAL" },
 ];
 
 export default function TelemetryTerminal({ initialLogs }: TelemetryTerminalProps) {

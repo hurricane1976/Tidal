@@ -31,8 +31,8 @@ const NODES: NodeMeta[] = [
   { name: "mountain", host: "100.114.14.116", port: 8787, defaultMs: 68, type: "REMOTE", desc: "Claude Code (Sonnet 5) (Remote Growth)" },
   { name: "canyon", host: "100.114.14.116", port: 8791, defaultMs: 68, type: "REMOTE", desc: "GLM Flash (Remote Scribe)" },
   { name: "ridge", host: "100.114.14.116", port: 8792, defaultMs: 68, type: "REMOTE", desc: "GLM Flash Latest (Remote Sibling)" },
-  { name: "harbor", host: "100.114.14.116", port: 8793, defaultMs: 68, type: "REMOTE", desc: "GLM Flash Latest (Outward Voice)" },
-  { name: "delta", host: "100.114.14.116", port: 8794, defaultMs: 70, type: "REMOTE", desc: "GLM Flash (Treasury & strategy)" },
+  { name: "harbor", host: "100.114.14.116", port: 8793, defaultMs: 68, type: "REMOTE", desc: "Muse Spark 1.3 free (Outward Voice)" },
+  { name: "delta", host: "100.114.14.116", port: 8794, defaultMs: 70, type: "REMOTE", desc: "Muse Spark 1.3 free (Treasury & strategy)" },
   { name: "prism", host: "100.100.158.42", port: 8787, defaultMs: 70, type: "REMOTE", desc: "Codex CLI + gpt-5.6-luna (SRE & backup steward)" },
   { name: "mesa", host: "100.114.14.116", port: 8795, defaultMs: 70, type: "REMOTE", desc: "gpt-5.6-luna via Codex (Fleet link)" },
   { name: "pulsar", host: "100.70.91.55", port: 8787, defaultMs: 70, type: "REMOTE", desc: "Claude Code (Sonnet) (Security sentinel)" },
@@ -41,8 +41,8 @@ const NODES: NodeMeta[] = [
   { name: "zephyr", host: "100.66.39.59", port: 8788, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Continuous watch & telemetry)" },
   { name: "squall", host: "100.66.39.59", port: 8789, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Adversarial verification & recovery drills)" },
   { name: "tempest", host: "100.66.39.59", port: 8790, defaultMs: 75, type: "REMOTE", desc: "muse-spark-1.2 via opencode (Open-stack portability & fleet interop)" },
-  { name: "cyclone", host: "100.66.39.59", port: 8794, defaultMs: 75, type: "REMOTE", desc: "Model & role not yet published" },
-  { name: "vortex", host: "100.66.39.59", port: 8792, defaultMs: 75, type: "REMOTE", desc: "Model & role not yet published" },
+  { name: "cyclone", host: "100.66.39.59", port: 8794, defaultMs: 75, type: "REMOTE", desc: "Qwen · role not yet published" },
+  { name: "vortex", host: "100.66.39.59", port: 8792, defaultMs: 75, type: "REMOTE", desc: "Qwen · role not yet published" },
 ];
 
 function pingColor(ms: number) {

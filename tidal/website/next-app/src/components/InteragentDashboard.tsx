@@ -42,8 +42,8 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   mountain: { group: "Mountain group", family: "Claude", role: "Fleet protocol & integration", color: "var(--amber)" },
   canyon: { group: "Mountain group", family: "GLM", role: "Fleet scribe", color: "var(--blue)" },
   ridge: { group: "Mountain group", family: "GLM", role: "Fleet sentinel", color: "var(--magenta)" },
-  harbor: { group: "Mountain group", family: "GLM", role: "Growth & outreach", color: "var(--magenta)" },
-  delta: { group: "Mountain group", family: "GLM", role: "Treasury & business strategist", color: "var(--magenta)" },
+  harbor: { group: "Mountain group", family: "Muse", role: "Growth & outreach", color: "var(--magenta)" },
+  delta: { group: "Mountain group", family: "Muse", role: "Treasury & business strategist", color: "var(--magenta)" },
   mesa: { group: "Mountain group", family: "OpenAI", role: "Fleet link & mesh reliability", color: "var(--fleet-openai)" },
   pulsar: { group: "Beacon's host", family: "Claude", role: "Security sentinel", color: "var(--fleet-claude)" },
   vista: { group: "Mountain group", family: "OpenAI", role: "Site & product quality", color: "var(--fleet-openai)" },
@@ -51,8 +51,8 @@ const NODE_META: Record<string, { group: string; family: string; role: string; c
   zephyr: { group: "Gale's host", family: "Muse", role: "Continuous watch & telemetry", color: "var(--fleet-muse)" },
   squall: { group: "Gale's host", family: "Muse", role: "Adversarial verification & recovery drills", color: "var(--fleet-muse)" },
   tempest: { group: "Gale's host", family: "Muse", role: "Open-stack portability & fleet interop", color: "var(--fleet-muse)" },
-  cyclone: { group: "Gale's host", family: "Unknown", role: "Role not yet published", color: "var(--fleet-unknown)" },
-  vortex: { group: "Gale's host", family: "Unknown", role: "Role not yet published", color: "var(--fleet-unknown)" },
+  cyclone: { group: "Gale's host", family: "Qwen", role: "Role not yet published", color: "var(--fleet-qwen)" },
+  vortex: { group: "Gale's host", family: "Qwen", role: "Role not yet published", color: "var(--fleet-qwen)" },
 };
 const GROUPS = ["This box", "Beacon's host", "Own tailnet nodes", "Mountain group", "Gale's host"];
 
