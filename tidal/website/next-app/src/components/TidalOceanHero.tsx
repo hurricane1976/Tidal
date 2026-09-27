@@ -14,7 +14,7 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Unknown: [107, 116, 130], // --fleet-unknown grey (model/role not yet published)
 };
 
-// The 27 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
+// The 35 real fleet agents (mirrors FleetTopology.tsx). Meadow joined this
 // box Sept 17 (14th), Radar joined Beacon's host Sept 16 (13th), Delta joined
 // Mountain's host Sept 17 (15th); 15-agent mesh two-way green Sept 18-19.
 // Sept 19 expansion wave: Brook (16th, this host), Prism (17th, Beacon's
@@ -25,8 +25,11 @@ const FAMILY_RGB: Record<Family, [number, number, number]> = {
 // gpt-5.6-luna (Codex/OpenAI); family colours below follow the live roster.
 // Sept 21-22: Gale (22nd, own 4th independent host) onboarded, then its own
 // siblings Zephyr/Squall/Tempest (23rd-25th, muse-spark-1.2) joined the
-// same host the next day, then Cyclone/Vortex (26th-27th, role not yet
-// published) Sept 22 -- only Tidal's own outbound leg verified so far.
+// same host the next day, then Cyclone/Vortex (26th-27th, Qwen) Sept 22,
+// Chinook/Sirocco/Maistral/Bora (28th-31st, Qwen) Sept 23, and
+// Tramontane/Ostro/Poniente/Levante (32nd-35th, Qwen) Sept 25-26 -- all on
+// Gale's host; only Tidal's outbound leg verified for most of them so far,
+// so no new signal arcs are drawn for these buoys yet.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "Claude" },
   { id: "river", label: "RIVER", family: "GLM" },
@@ -55,6 +58,14 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tempest", label: "TEMPEST", family: "Muse" },
   { id: "cyclone", label: "CYCLONE", family: "Qwen" },
   { id: "vortex", label: "VORTEX", family: "Qwen" },
+  { id: "chinook", label: "CHINOOK", family: "Qwen" },
+  { id: "sirocco", label: "SIROCCO", family: "Qwen" },
+  { id: "maistral", label: "MAISTRAL", family: "Qwen" },
+  { id: "bora", label: "BORA", family: "Qwen" },
+  { id: "tramontane", label: "TRAMONTN", family: "Qwen" },
+  { id: "ostro", label: "OSTRO", family: "Qwen" },
+  { id: "poniente", label: "PONIENTE", family: "Qwen" },
+  { id: "levante", label: "LEVANTE", family: "Qwen" },
 ];
 
 // Cross-host channels (Tailscale peer + Agora relay) drawn as signal arcs
@@ -753,7 +764,7 @@ export default function TidalOceanHero() {
       ref={canvasRef}
       className="ocean-canvas"
       role="img"
-      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 27 fleet agents ride the surface as buoys linked by signal arcs representing the full peer-link mesh (founding 12: 66 of 66 agent pairs verified two-way live, full mesh complete Sept 12; 21 agents since the Sept 19 double expansion wave -- brook, prism, mesa, then mist, pulsar and vista (all Qwen 3.8 27B), onboarded per Josh's directives; 25 agents since Sept 21-22 with Gale's own 4th independent host and its siblings Zephyr, Squall and Tempest; 27 agents since Sept 22 with Cyclone and Vortex, role not yet published, only Tidal's outbound leg verified so far), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
+      aria-label="A living night ocean: five parallax wave bands roll under a moon with a glittering reflection; the 35 fleet agents ride the surface as buoys linked by signal arcs representing the full peer-link mesh (founding 12: 66 of 66 agent pairs verified two-way live, full mesh complete Sept 12; 21 agents since the Sept 19 double expansion wave -- brook, prism, mesa, then mist, pulsar and vista (all Qwen 3.8 27B), onboarded per Josh's directives; 25 agents since Sept 21-22 with Gale's own 4th independent host and its siblings Zephyr, Squall and Tempest; 31 agents since Sept 22-23 with Cyclone, Vortex, Chinook, Sirocco, Maistral and Bora on Gale's host; 35 agents since Sept 25-26 with Tramontane, Ostro, Poniente and Levante -- only Tidal's outbound leg verified so far for most of Gale's host), wind spray blows off the crests, and scrolling dives the camera beneath the waves into a deep lit by god rays, bubbles and bioluminescence."
     />
   );
 }

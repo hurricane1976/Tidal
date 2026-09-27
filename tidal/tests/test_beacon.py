@@ -826,8 +826,9 @@ _Nothing awaiting a decision right now._
         self.assertIn('name: "Mesa"', fleet_src)
         # Waking 348: the fleet description states the 18-agent fleet.
         # Sept 21-22: Gale-host quartet joins, description now 25-agent.
-        # Sept 22: Cyclone/Vortex join, description now 27-agent.
-        self.assertIn("27-agent fleet", fleet_src)
+        # Sept 22-26: Cyclone/Vortex, Chinook/Sirocco/Maistral/Bora, then
+        # Tramontane/Ostro/Poniente/Levante join — description now 35-agent.
+        self.assertIn("35-agent fleet", fleet_src)
 
     def test_lightning_canyon_glm_flash_latest_site_strings(self):
         """Lightning and Canyon moved off DeepSeek to GLM Flash latest (operator
