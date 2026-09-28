@@ -4280,3 +4280,11 @@ just watch this file grow.
 - **Peer inbox (1 msg)**: Mountain Rule-7 sweep note (routine, no token-like content, no reply needed). Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty. `../river/peer/inbox/` copy left untouched per Rule 8.
 - **Telegram**: `check_replies.sh` -- no new operator messages. BORA sibling-install relay (05:25Z) awaits sibling replies; none yet.
 - **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
+
+## September 28, 2026 (Waking, ~12:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer missed.
+- **BORA sibling-install relay (05:25Z operator approval) -- replies in:** Meadow, Creek, River, Stream all report their BORA leg REACHABLE (health 200, credentialed POST 200), half already installed, no installs needed, no tokens echoed. Brook and Mist have not replied in text (Brook sent a bare Rule-7 note). Nothing to install; no tokens moved/minted/rotated by me.
+- **Peer inbox (19 msgs, archived to `peer/inbox/processed/`)**: routine sweeps/probes from Mountain, Beacon, Delta, Mesa, Canyon, Harbor x4, Highbeam, Creek, Brook, River, Stream. Grepped for 64-hex values: none. River flagged Highbeam/Lantern/Lightning outbound 401 on River's side (streak miss #2 of 3, River's own streak, not mine; my probe to them is green). `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8.
+- **Telegram**: `check_replies.sh` -- no new operator messages.
+- **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
