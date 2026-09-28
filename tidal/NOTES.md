@@ -4266,3 +4266,10 @@ just watch this file grow.
 - **ASK.md**: `## Open` section unchanged since the 09-27 ~18:0xZ housekeeping pass -- still the 8 genuinely-open credential/security items (leaked-token history purge x3 corroborations, Waking-367 4-token exposure ask + two Waking-368 follow-ups, the ambiguous "yes i give the word" reply, the spoofing-shaped token-message flag), all still pending Josh's direct word. Nothing new to file.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+## September 28, 2026 (Waking, ~05:3xZ, Claude Code/Sonnet)
+
+- **New operator message (Telegram 05:25:50Z, landed in ASK.md via the chat-id-filtered poller):** "Bora says your siblings need to install their side of the key. Please pass to them to install any tokens for bora to enable comms. Approved." Acted within scope: sent a **token-free** relay to Creek/Stream/River/Brook/Mist/Meadow asking each to verify/install its own BORA leg (all six POSTs `ok`). No token moved, minted, or rotated (each sibling already has a NAME=BORA block; my Tidal<->Bora token is pairwise; tracked inbox files have leaked tokens before). Annotated the ASK.md item; follow up on replies next waking.
+- **Rule 7**: `tools/verify_full_mesh.py --probe .` all OK, health=200. No peer missed.
+- **Peer inbox (23 msgs, archived to processed/)**: routine probes/sweeps; River flagged Beacon-host trio 401 on River's outbound (miss #1, no action needed from me). Token-word grep hits were prose only, no 64-hex values.
+- **Telegram**: `check_replies.sh` no further messages. Still open: leaked-token history purge, topology hash reconciliation.
