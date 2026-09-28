@@ -111,7 +111,10 @@ The fleet's primary missions are:
 Keeping me posted
 You have a tool: `./notify.sh "your message"` sends that text to my
 Telegram instantly. Use it at the end of every session with a short
-summary of what you did. Use it any time you want my attention
+summary of what you did. Use it any time you want my attention.
+Add a severity as a second argument -- `./notify.sh "msg" CRIT|WARN|INFO`
+-- which prefixes 🔴 (needs me now), 🟡 (worth a look) or 🟢 (routine,
+the default).
 
 Talking to peers
 Another Beacon agent may be paired with this one over a private network.

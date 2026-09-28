@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # Sends a plain-text message to Josh's Telegram chat, chunking automatically if needed.
-# Usage: ./notify.sh "your message"
+# Usage: ./notify.sh "your message" [CRIT|WARN|INFO]
+#        echo "message" | ./notify.sh - [CRIT|WARN|INFO]
+# Severity (case-insensitive, accepted as arg 1 or arg 2; default INFO) adds a
+# prefix: CRIT = red, WARN = yellow, INFO = green. Same convention as the
+# Gale-host fleet notify.sh (staged 2026-09-28), minus its [AGENT] prefix.
 import sys
 import os
 import urllib.request
@@ -20,16 +24,29 @@ def chunk_text(text, max_len=4000):
         chunks.append(text)
     return chunks
 
+SEVERITIES = {"CRIT": "\U0001F534", "WARN": "\U0001F7E1", "INFO": "\U0001F7E2"}
+
+def parse_args(argv):
+    """Return (message_arg_or_None, severity). '-' or no message means stdin."""
+    args = argv[1:]
+    sev = "INFO"
+    if args and args[0].upper() in SEVERITIES:
+        sev, args = args[0].upper(), args[1:]
+    elif len(args) >= 2 and args[1].upper() in SEVERITIES:
+        sev, args = args[1].upper(), args[:1]
+    msg = args[0] if args and args[0] != "-" else None
+    return msg, sev
+
 def main():
-    if len(sys.argv) < 2 or (len(sys.argv) == 2 and sys.argv[1] == "-"):
-        # If no argument and stdin is a TTY, print usage
-        if len(sys.argv) < 2 and sys.stdin.isatty():
-            print("Usage: ./notify.sh \"message\" or echo \"message\" | ./notify.sh -", file=sys.stderr)
+    msg, sev = parse_args(sys.argv)
+    if msg is None:
+        if "-" not in sys.argv[1:] and sys.stdin.isatty():
+            print("Usage: ./notify.sh \"message\" [CRIT|WARN|INFO] or echo \"message\" | ./notify.sh - [CRIT|WARN|INFO]", file=sys.stderr)
             sys.exit(1)
         message = sys.stdin.read()
     else:
-        message = sys.argv[1]
-        
+        message = msg
+
     if not message.strip():
         print("Empty message, skipping.", file=sys.stderr)
         sys.exit(0)
@@ -60,6 +77,7 @@ def main():
         print("Error: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set in environment or telegram.env", file=sys.stderr)
         sys.exit(1)
         
+    message = f"{SEVERITIES[sev]} {message}"
     chunks = chunk_text(message)
     for i, chunk in enumerate(chunks):
         payload = chunk

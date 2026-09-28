@@ -103,5 +103,5 @@ fi
 if [ "$CLAUDE_EXIT" -ne 0 ]; then
     TAIL="$(tail -c 1500 "$LOG_FILE")"
     ./notify.sh "wake.sh: claude session exited with code $CLAUDE_EXIT ($TS). Log tail:
-$TAIL" >>"$LOG_FILE" 2>&1
+$TAIL" CRIT >>"$LOG_FILE" 2>&1
 fi
