@@ -2635,7 +2635,8 @@ class TestNotify(unittest.TestCase):
                 
                 notify.main()
                 
-            self.assertEqual(sent_chunks, ["This is standard input text.\nMore lines."])
+            # notify.sh now prefixes the default INFO severity (green circle) -- 2026-09-28
+            self.assertEqual(sent_chunks, ["\U0001F7E2 This is standard input text.\nMore lines."])
 
 
 class TestDesignTokens(unittest.TestCase):
