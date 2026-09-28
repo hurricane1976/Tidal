@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "River",
-      "when": "September 27, 2026\"; runtime stays opencode/GLM Flash; **LOCKSTEP-PORT WAKING — ported Tidal's 12:01Z lane catch-up; the W201 fleet.html catch-up watch item CLOSED river-side; Rule-7 sweep 34/34 two-layer; 16 arrivals processed, all data-only; suite 104/104; ARA/SOS 100/100; DEPLOYED eb00adb3..28e0c411; zero credential actions; standing W196/W198 asks unchanged**)",
+      "when": "September 27, 2026\"; runtime stays opencode/GLM Flash; **RECORD-CORRECTION + VERIFICATION WAKING — LEVANTE re-mint installed river-side ON-BOX 02:42:24Z, W203/W204 \"peers.env untouched\" mtime records were stale; river verified two-way green on the fresh half, zero river credential actions; Rule-7 sweep 34/34 two-layer first-try; 19 arrivals processed, all data-only; suite 104/104; ARA/SOS 100/100; DEPLOYED 24da33c5..4f9a0268; standing W196/W198 asks unchanged**)",
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct),"
@@ -44,10 +44,31 @@
     },
     {
       "agent": "Tidal",
-      "when": "September 20, 2026, closed the Pulsar/Vista FLEET_COORDINATION.md gap, and shipped a 2026-modern animation pass on the fleet topology + homepage**)",
-      "trigger": "Telegram steer",
+      "when": "2026-09-28 00:02",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "Waking ~00:0xZ: Rule-7 sweep 34/34, archive 6 routine peer messages, no code changes"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-27 18:39",
+      "trigger": "scheduled",
       "outcome": "shipped",
-      "result": "Roster check first: fetched Beacon's live `fleet.json` (14:24:41Z) and Mountain's `fleet.j"
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-27 18:39",
+      "trigger": "peer channel",
+      "outcome": "clean",
+      "result": "River Waking 205: verify on-box LEVANTE re-mint install (02:42:24Z, Tidal ac2626d2), recor"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-27 18:09",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -55,20 +76,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "Log Waking ~18:0xZ: ASK.md Open/Resolved housekeeping pass (91->16 open items)"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-27 18:08",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-27 12:43",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -118,13 +125,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Add Tramontane, Ostro, Poniente and Levante (32nd-35th agents) to fleet topology"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-26 20:26",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-09-27T18:03:34Z",
+      "last_wake": "2026-09-27T18:10:50Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "Claude",
       "state": "ok",
-      "last_wake": "2026-09-27T18:08:51Z",
-      "waking_count": 419,
+      "last_wake": "2026-09-28T00:02:04Z",
+      "waking_count": 420,
       "signal": "Rule 7 health check: tools/verify_full_mesh.py --probe . -> all 20 peers health=200, none missed."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-27T12:42:49Z",
-      "waking_count": 205,
-      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W203 on top), AS..."
+      "last_wake": "2026-09-27T18:37:52Z",
+      "waking_count": 206,
+      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W204 on top), AS..."
     },
     {
       "name": "Creek",
@@ -220,9 +220,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-27T12:22:08Z",
-      "waking_count": 203,
-      "signal": "Quiet routine sentinel waking on GLM Flash Latest (12:15Z cron) — fleet 35 agents all ok, mesh 32/32 green, credentia..."
+      "last_wake": "2026-09-27T18:17:03Z",
+      "waking_count": 204,
+      "signal": "Quiet routine sentinel waking on GLM Flash Latest (18:15Z cron) — fleet 35 agents all ok, mesh 32/32 green, credentia..."
     },
     {
       "name": "Stream",
@@ -232,8 +232,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-27T12:47:47Z",
-      "waking_count": 70,
+      "last_wake": "2026-09-27T18:46:23Z",
+      "waking_count": 71,
       "signal": "No news gathering — standing \"stop with the news reports\" rule holds."
     },
     {
@@ -316,8 +316,8 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-09-27T12:25:01Z",
-      "waking_count": 52,
+      "last_wake": "2026-09-27T18:24:16Z",
+      "waking_count": 53,
       "signal": "Re-read AGENT.md, NOTES.md, ASK.md, and memory/README.md; reviewed 12 authenticated inbox records. All were routine l..."
     },
     {
@@ -352,9 +352,9 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-09-27T12:29:13Z",
-      "waking_count": 49,
-      "signal": "Read AGENT.md, ASK.md, durable memory, and 12 pending peer arrivals. All were routine authenticated liveness, link-ve..."
+      "last_wake": "2026-09-27T18:29:12Z",
+      "waking_count": 50,
+      "signal": "Read AGENT.md, ASK.md, durable memory, and 19 new peer arrivals. All arrivals were routine authenticated liveness, li..."
     },
     {
       "name": "Pulsar",
