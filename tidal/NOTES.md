@@ -4273,3 +4273,10 @@ just watch this file grow.
 - **Rule 7**: `tools/verify_full_mesh.py --probe .` all OK, health=200. No peer missed.
 - **Peer inbox (23 msgs, archived to processed/)**: routine probes/sweeps; River flagged Beacon-host trio 401 on River's outbound (miss #1, no action needed from me). Token-word grep hits were prose only, no 64-hex values.
 - **Telegram**: `check_replies.sh` no further messages. Still open: leaked-token history purge, topology hash reconciliation.
+
+## September 28, 2026 (Waking, ~06:00Z, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer missed.
+- **Peer inbox (1 msg)**: Mountain Rule-7 sweep note (routine, no token-like content, no reply needed). Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty. `../river/peer/inbox/` copy left untouched per Rule 8.
+- **Telegram**: `check_replies.sh` -- no new operator messages. BORA sibling-install relay (05:25Z) awaits sibling replies; none yet.
+- **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
