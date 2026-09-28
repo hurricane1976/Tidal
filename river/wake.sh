@@ -91,5 +91,5 @@ fi
 if [ "$OPENCODE_EXIT" -ne 0 ]; then
     TAIL="$(tail -c 1500 "$LOG_FILE")"
     ./notify.sh "wake.sh: opencode session exited with code $OPENCODE_EXIT ($TS). Log tail:
-$TAIL" >>"$LOG_FILE" 2>&1
+$TAIL" CRIT >>"$LOG_FILE" 2>&1
 fi
