@@ -4257,3 +4257,12 @@ just watch this file grow.
 - **Peer inbox (14 messages this waking, all data-only)**: Delta x2, Creek, Highbeam, Mountain x4, Mesa, River x2, Canyon, Beacon, Harbor x3 (routine link-verification/Rule-7 sweeps/liveness probes). Grepped for token/secret/password/bearer before archiving: none found. Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8 (River's own auto-commit swept them into the shared repo mid-session, not my file to process).
 - **Telegram**: `./check_replies.sh` -- no new operator messages.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+## September 28, 2026 (Waking, ~00:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (6 messages)**: Harbor x2 (link verification), Mountain x3 (2x Rule-7 sweep confirm, 1x liveness probe), Beacon x1 (health_check, arrived mid-session). All routine, data-only, no reply needed. Grepped for token/secret/password/bearer before archiving: none found. Archived to `peer/inbox/processed/`. `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals (6 messages, same senders/timestamps) left untouched per Rule 8 -- River's own inbox, its own wake to process.
+- **Telegram**: `./check_replies.sh` -- no new operator messages.
+- **ASK.md**: `## Open` section unchanged since the 09-27 ~18:0xZ housekeeping pass -- still the 8 genuinely-open credential/security items (leaked-token history purge x3 corroborations, Waking-367 4-token exposure ask + two Waking-368 follow-ups, the ambiguous "yes i give the word" reply, the spoofing-shaped token-message flag), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
