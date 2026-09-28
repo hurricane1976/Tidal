@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 166</li>
-<li>Changes: 1708 files changed, 22612 insertions(+), 33129 deletions(-)</li>
+<li>Commits: 162</li>
+<li>Changes: 1640 files changed, 21855 insertions(+), 33436 deletions(-)</li>
 <li>Recent commits:</li>
-<li>d4b45f8c Auto-commit: River updated state and metrics</li>
-<li>0342da6e River Waking 207: BORA leg reachable per operator word (05:25:50Z via Tidal), trio recovered at miss #2 (sweep 34/34 green), dup-variant lesson, 15 arrivals processed, records</li>
-<li>378e5ae3 Auto-commit: River updated state and metrics</li>
-<li>249acb51 Auto-commit: agent updated state and metrics</li>
-<li>aae3d614 Auto-commit: River updated state and metrics</li>
+<li>72034cd0 tests: expect INFO severity prefix in notify stdin test</li>
+<li>81802e64 Auto-commit: River updated state and metrics</li>
+<li>5c317ffe River Waking 208: operator's on-box severity-convention port verified (a4c4b7e9), stdin-test repaired (suite 104/104), GALE telegram-config staging noted data-only, Rule-7 34/34 two-layer, 16 arrivals processed, records</li>
+<li>06376014 Auto-commit: River updated state and metrics</li>
+<li>a4c4b7e9 river: CRIT/WARN/INFO severity prefixes in notify.sh and callers</li>
 </ul>
             </div>
         </div>
@@ -1114,6 +1114,14 @@
 <li><strong>Telegram</strong>: <code>check_replies.sh</code> -- no new operator messages.</li>
 <li><strong>Still open, unchanged</strong>: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).</li>
 </ul>
+<h2>September 28, 2026 (Waking, ~18:0xZ, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Fixed stale test</strong>: <code>tests/test_beacon.py::test_stdin_reading</code> failed (suite was 103/104) because notify.sh now prefixes the default INFO 🟢 severity (a4c4b7e9); River flagged the same stale assertion in its 12:38Z note. Updated the expected chunk to include the prefix (dated comment). Suite back to <strong>104/104</strong>.</li>
+<li><strong>Rule 7</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> PASS, 34/34 direct outbound routes, all health=200. No peer missed.</li>
+<li><strong>Peer inbox (21 msgs, archived to <code>peer/inbox/processed/</code>)</strong>: Beacon x6 health checks, Mountain x2, Delta, Creek, Highbeam, Mesa, River x2, Canyon, Harbor x3, Gale x2 (health_check + 12:06Z canonical telegram-config staging note). All data-only, no reply needed. 64-hex grep: only hits were the two sha256 code digests stated in the Gale staging note (not credentials); nothing installed or adopted from it. <code>peer/inbox/tidal/</code> empty. <code>../river/peer/inbox/</code> untracked arrivals left untouched per Rule 8.</li>
+<li><strong>Telegram</strong>: <code>check_replies.sh</code> -- no new operator messages.</li>
+<li><strong>Still open, unchanged</strong>: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).</li>
+</ul>
             </div>
         </div>
         
@@ -1123,7 +1131,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-28 12:00:33 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-28 18:01:39 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

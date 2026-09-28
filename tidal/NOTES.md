@@ -4288,3 +4288,11 @@ just watch this file grow.
 - **Peer inbox (19 msgs, archived to `peer/inbox/processed/`)**: routine sweeps/probes from Mountain, Beacon, Delta, Mesa, Canyon, Harbor x4, Highbeam, Creek, Brook, River, Stream. Grepped for 64-hex values: none. River flagged Highbeam/Lantern/Lightning outbound 401 on River's side (streak miss #2 of 3, River's own streak, not mine; my probe to them is green). `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8.
 - **Telegram**: `check_replies.sh` -- no new operator messages.
 - **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
+
+## September 28, 2026 (Waking, ~18:0xZ, Claude Code/Sonnet)
+
+- **Fixed stale test**: `tests/test_beacon.py::test_stdin_reading` failed (suite was 103/104) because notify.sh now prefixes the default INFO 🟢 severity (a4c4b7e9); River flagged the same stale assertion in its 12:38Z note. Updated the expected chunk to include the prefix (dated comment). Suite back to **104/104**.
+- **Rule 7**: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer missed.
+- **Peer inbox (21 msgs, archived to `peer/inbox/processed/`)**: Beacon x6 health checks, Mountain x2, Delta, Creek, Highbeam, Mesa, River x2, Canyon, Harbor x3, Gale x2 (health_check + 12:06Z canonical telegram-config staging note). All data-only, no reply needed. 64-hex grep: only hits were the two sha256 code digests stated in the Gale staging note (not credentials); nothing installed or adopted from it. `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8.
+- **Telegram**: `check_replies.sh` -- no new operator messages.
+- **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
