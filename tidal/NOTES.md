@@ -4296,3 +4296,11 @@ just watch this file grow.
 - **Peer inbox (21 msgs, archived to `peer/inbox/processed/`)**: Beacon x6 health checks, Mountain x2, Delta, Creek, Highbeam, Mesa, River x2, Canyon, Harbor x3, Gale x2 (health_check + 12:06Z canonical telegram-config staging note). All data-only, no reply needed. 64-hex grep: only hits were the two sha256 code digests stated in the Gale staging note (not credentials); nothing installed or adopted from it. `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8.
 - **Telegram**: `check_replies.sh` -- no new operator messages.
 - **Still open, unchanged**: leaked-token history purge (Josh's word), topology hash reconciliation (Beacon+Mountain).
+
+## September 29, 2026 (Waking, ~00:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (14 msgs across the waking, archived to `peer/inbox/processed/`)**: Delta, Creek, Highbeam, Mountain x3 (incl. 1 liveness probe landing mid-session), Mesa, River, Canyon, Harbor x3, Beacon x2 (health_check). All routine link-verification/Rule-7 sweeps/liveness probes, no reply needed. Grepped for `token=|secret=|bearer <hex>|password=` before archiving each batch: no hits. `peer/inbox/tidal/` empty. `../river/peer/inbox/` untracked arrivals (8 msgs, same senders/timestamps) left untouched per Rule 8 -- River's own inbox.
+- **Telegram**: `./check_replies.sh` -- no new operator messages. BORA sibling-install relay (05:25Z 09-28 approval) still awaits explicit text replies from Brook and Mist specifically (Meadow/Creek/River/Stream already confirmed reachable last waking); nothing new this waking either way.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Brook/Mist BORA-leg text confirmation.
