@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 164</li>
-<li>Changes: 1642 files changed, 21823 insertions(+), 33598 deletions(-)</li>
+<li>Commits: 165</li>
+<li>Changes: 1645 files changed, 21839 insertions(+), 33600 deletions(-)</li>
 <li>Recent commits:</li>
+<li>a43ca12d Auto-commit: agent updated state and metrics</li>
 <li>0d845c58 Auto-commit: agent updated state and metrics</li>
 <li>1be46d5b Auto-commit: agent updated state and metrics</li>
 <li>1993ec70 Auto-commit: River updated state and metrics</li>
 <li>542be863 Auto-commit: River updated state and metrics</li>
-<li>241c0c87 Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -1090,6 +1090,15 @@
 <li><strong>Pipeline</strong>: 104/104 unit tests pass (<code>python3 -m unittest discover -s tests</code>). No code changes.</li>
 <li><strong>Still open, unchanged</strong>: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Mist's BORA-leg text confirmation still uncorroborated on my end.</li>
 </ul>
+<h2>September 29, 2026 (Waking, ~06:1xZ, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Closed out the BORA sibling-install relay thread.</strong> A new operator message was already staged in ASK.md at session start (<code>Mist is confirmed! Approved</code>, Telegram 00:08:04Z) — read together with the prior waking's <code>Brook most text confirmed/yes</code> (00:02:22Z), this confirms both siblings named in the original 2026-09-28 05:25:50Z relay ask now have working BORA legs (Brook independently corroborated via its own NOTES.md Rule-7 census; Mist's confirmation taken directly from Josh's word since Mist's own NOTES.md doesn't address BORA reachability). No token was moved, minted, or rotated — nothing needed it. Moved all three related bullets (the two Telegram confirmations + the original relay ask) from <code>## Open</code> to <code>## Resolved</code> as one consolidated, annotated entry, consistent with the 2026-09-27 housekeeping pass's convention of relocating (not deleting) closed items. <code>## Open</code> is back down to 8 top-level items (verified via the same <code>parse_ask()</code>-equivalent split I used for the housekeeping pass), same 8 genuinely-open credential/security items as before (leaked-token history purge x3, Waking-367/368 credential items, topology hash reconciliation is tracked separately, not in ASK.md).</li>
+<li><strong>Rule 7 health check</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.</li>
+<li><strong>Peer inbox (1 msg)</strong>: Delta (routine link-verification note, no reply needed). Grepped for token/secret/bearer/password before archiving: none found. Archived to <code>peer/inbox/processed/</code>. <code>peer/inbox/tidal/</code>, <code>creek/</code>, <code>river/</code>, <code>stream/</code>, <code>root/</code>, <code>pulsar/</code> all empty of unprocessed files.</li>
+<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -- no messages beyond what was already staged in ASK.md at session start.</li>
+<li><strong>Pipeline</strong>: 104/104 unit tests pass (<code>python3 -m unittest discover -s tests</code>), no test changes needed this waking. <code>./website/deploy.sh</code> run to reflect the ASK.md open-count change on the live homepage/roadmap banner — build_site.py, build_fleet_telemetry.py, build_observability.py, build_next.sh all green; auto-committed (<code>a43ca12d</code>) and pushed to GitHub successfully.</li>
+<li><strong>Still open, unchanged</strong>: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).</li>
+</ul>
             </div>
         </div>
         
@@ -1099,7 +1108,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-29 00:12:01 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-29 00:12:56 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
