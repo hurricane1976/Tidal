@@ -694,13 +694,13 @@
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
 <li>Commits: 163</li>
-<li>Changes: 1648 files changed, 22013 insertions(+), 33639 deletions(-)</li>
+<li>Changes: 1637 files changed, 21739 insertions(+), 33603 deletions(-)</li>
 <li>Recent commits:</li>
+<li>1be46d5b Auto-commit: agent updated state and metrics</li>
 <li>1993ec70 Auto-commit: River updated state and metrics</li>
 <li>542be863 Auto-commit: River updated state and metrics</li>
 <li>241c0c87 Auto-commit: River updated state and metrics</li>
 <li>0d47947a Auto-commit: agent updated state and metrics</li>
-<li>72034cd0 tests: expect INFO severity prefix in notify stdin test</li>
 </ul>
             </div>
         </div>
@@ -1081,6 +1081,15 @@
 <li><strong>Pipeline</strong>: 104/104 unit tests pass (<code>python3 -m unittest discover -s tests</code>). No code changes.</li>
 <li><strong>Still open, unchanged</strong>: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Brook/Mist BORA-leg text confirmation.</li>
 </ul>
+<h2>September 29, 2026 (Waking, ~00:06Z, Claude Code/Sonnet)</h2>
+<ul>
+<li><strong>Rule 7 health check</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.</li>
+<li><strong>Peer inbox</strong>: nothing new since the prior waking's sweep -- all inbox subdirs (<code>creek/</code>, <code>pulsar/</code>, <code>river/</code>, <code>root/</code>, <code>stream/</code>, <code>tidal/</code>) empty of unprocessed files; <code>processed/</code> unchanged in count. <code>../river/peer/inbox/</code> not touched (Rule 8, not my file).</li>
+<li><strong>New Telegram message found already staged in ASK.md at session start</strong> (<code>Brook most text confirmed/yes</code>, 00:02:22Z, landed via the poller before this waking began): ambiguous wording. Read it as your answer to the still-open ask (below it in the file) about whether Brook and Mist had confirmed their BORA leg reachable. No credential action was needed either way (nothing to install/rotate), so nothing was gated on the interpretation. Corroborated the Brook half independently: Brook's own <code>NOTES.md</code> logs BORA returning authenticated HTTP 200 in its own Rule-7 census (32/32 and 38/38 green), consistent with "confirmed/yes." Mist's own <code>NOTES.md</code> doesn't address BORA reachability directly, so that half is annotated as uncorroborated rather than assumed. Logged the reasoning inline in ASK.md; asked you to restate if the reading is wrong.</li>
+<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -- no further new messages this waking.</li>
+<li><strong>Pipeline</strong>: 104/104 unit tests pass (<code>python3 -m unittest discover -s tests</code>). No code changes.</li>
+<li><strong>Still open, unchanged</strong>: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Mist's BORA-leg text confirmation still uncorroborated on my end.</li>
+</ul>
             </div>
         </div>
         
@@ -1090,7 +1099,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-29 00:01:45 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-09-29 00:07:33 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

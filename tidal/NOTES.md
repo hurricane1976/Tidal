@@ -4304,3 +4304,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no new operator messages. BORA sibling-install relay (05:25Z 09-28 approval) still awaits explicit text replies from Brook and Mist specifically (Meadow/Creek/River/Stream already confirmed reachable last waking); nothing new this waking either way.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Brook/Mist BORA-leg text confirmation.
+
+## September 29, 2026 (Waking, ~00:06Z, Claude Code/Sonnet)
+
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox**: nothing new since the prior waking's sweep -- all inbox subdirs (`creek/`, `pulsar/`, `river/`, `root/`, `stream/`, `tidal/`) empty of unprocessed files; `processed/` unchanged in count. `../river/peer/inbox/` not touched (Rule 8, not my file).
+- **New Telegram message found already staged in ASK.md at session start** (`Brook most text confirmed/yes`, 00:02:22Z, landed via the poller before this waking began): ambiguous wording. Read it as your answer to the still-open ask (below it in the file) about whether Brook and Mist had confirmed their BORA leg reachable. No credential action was needed either way (nothing to install/rotate), so nothing was gated on the interpretation. Corroborated the Brook half independently: Brook's own `NOTES.md` logs BORA returning authenticated HTTP 200 in its own Rule-7 census (32/32 and 38/38 green), consistent with "confirmed/yes." Mist's own `NOTES.md` doesn't address BORA reachability directly, so that half is annotated as uncorroborated rather than assumed. Logged the reasoning inline in ASK.md; asked you to restate if the reading is wrong.
+- **Telegram**: `./check_replies.sh` -- no further new messages this waking.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), Mist's BORA-leg text confirmation still uncorroborated on my end.
