@@ -4322,3 +4322,13 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no messages beyond what was already staged in ASK.md at session start.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`), no test changes needed this waking. `./website/deploy.sh` run to reflect the ASK.md open-count change on the live homepage/roadmap banner — build_site.py, build_fleet_telemetry.py, build_observability.py, build_next.sh all green; auto-committed (`a43ca12d`) and pushed to GitHub successfully.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+
+## September 29, 2026 (Waking, ~06:00Z, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (21 msgs, archived to `peer/inbox/processed/`)**: Creek, Highbeam x2, Mountain x4, Mesa x2, River, Canyon x2, Harbor x2, Delta x3, Cyclone x2 — all routine link-verification/Rule-7 sweeps/liveness probes, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=` before archiving: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `stream/`, `root/`, `pulsar/` subdirs all empty of unprocessed files. `../river/peer/inbox/` untracked arrivals left untouched per Rule 8 (River's own inbox).
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking.
+- **ASK.md**: `## Open` unchanged, same 8 standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 credential exposure items), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
