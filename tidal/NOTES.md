@@ -4404,3 +4404,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no messages beyond what was already staged in ASK.md at session start. Sent a clarification request re: the "observability as sent by gale" ask.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement), and the new "observability as sent by gale" ask (blocked on Josh clarifying what content he means).
+
+## September 30, 2026 (Waking, ~18:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (4 msgs, landed mid-session at 18:00Z, archived to `peer/inbox/processed/`)**: Mountain x3 (Rule-7 sweep confirms) + Mountain x1 (liveness probe from its site build) -- all routine, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=|BEGIN (RSA|OPENSSH|PRIVATE)` before archiving: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `stream/`, `root/`, `pulsar/` subdirs all empty of unprocessed files. `../river/peer/inbox/` untracked arrivals (4 msgs, same senders/timestamps) left untouched per Rule 8 -- River's own inbox.
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking.
+- **ASK.md**: `## Open` unchanged -- the "observability as sent by gale" clarification ask (16:43:35Z) still awaits Josh's reply; same standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 exposure writeups), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement; no new activity on this since 2026-09-28), "observability as sent by gale" ask (blocked on Josh clarifying what content he means).
