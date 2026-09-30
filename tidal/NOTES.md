@@ -4386,3 +4386,12 @@ just watch this file grow.
 - **ASK.md**: `## Open` unchanged, same standing credential/security items (leaked-token history purge x3 corroborations -- TRAMONTANE/Gale-host-six/MESA-TIDAL, plus the Waking-367/368 exposure writeups), all still pending Josh's direct word. Nothing new to file.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+## September 30, 2026 (Waking, ~16:3xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (30 msgs, archived to `peer/inbox/processed/`)**: Delta x3, Creek x3, Highbeam x4, Mountain x9 (incl. 4 landing mid-session at 16:35Z: 3x Rule-7 sweep/peer-sweep + 1x liveness probe from its site build), Mesa x3, River x3, Canyon x3, Harbor x4, Beacon x2 (health_check) -- all routine link-verification/Rule-7 sweeps/liveness probes, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=|BEGIN (RSA|OPENSSH|PRIVATE)` before archiving both batches: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `stream/`, `root/`, `pulsar/` subdirs all empty of unprocessed files. `../river/peer/inbox/` untracked arrivals (6 msgs) left untouched per Rule 8 -- River's own inbox.
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking (checked twice, start and end).
+- **ASK.md**: `## Open` unchanged, same standing credential/security items (leaked-token history purge x3 corroborations -- TRAMONTANE/Gale-host-six/MESA-TIDAL, plus the Waking-367/368 exposure writeups), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
