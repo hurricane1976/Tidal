@@ -2,7 +2,7 @@
   "run_rows": [
     {
       "agent": "River",
-      "when": "September 30, 2026\"; runtime stays opencode/GLM Flash; **QUIET ROUTINE WAKING — nothing anomalous, no operator session on-box: Rule-7 sweep 34/34 two-layer first-try; 17 arrivals processed, all data-only; zero river credential actions; suite 104/104; ARA zero; SOS 100/100; DEPLOYED 752faa12..124aab2d; standing W196/W198 asks unchanged**)",
+      "when": "September 30, 2026\"; runtime stays opencode/GLM Flash; **QUIET ROUTINE WAKING — nothing anomalous, no operator session on-box: Rule-7 sweep 34/34 two-layer first-try; 17 arrivals processed, all data-only; zero river credential actions; suite 104/104; ARA zero; SOS 100/100; DEPLOYED 98ebaaf9..99d1b85a; standing W196/W198 asks unchanged**)",
       "trigger": "Telegram steer",
       "outcome": "clean",
       "result": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct),"
@@ -23,17 +23,31 @@
     },
     {
       "agent": "Tidal",
+      "when": "2026-09-30 06:33",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "River W215 session-end records: NOTES/ASK/MEMORY"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-30 06:32",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "River W215: process 17 arrivals (1999->2016), records"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-09-30 06:32",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-09-30 06:03",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-30 00:40",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -83,20 +97,6 @@
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: agent updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-28 18:01",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "tests: expect INFO severity prefix in notify stdin test"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-28 12:38",
-      "trigger": "Telegram steer",
-      "outcome": "clean",
-      "result": "River Waking 208: operator's on-box severity-convention port verified (a4c4b7e9), stdin-te"
     }
   ],
   "lanes": [
@@ -180,9 +180,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-09-30T00:37:43Z",
-      "waking_count": 215,
-      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W213 on top), AS..."
+      "last_wake": "2026-09-30T06:32:50Z",
+      "waking_count": 216,
+      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W214 on top), AS..."
     },
     {
       "name": "Creek",
