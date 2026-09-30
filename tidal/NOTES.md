@@ -4377,3 +4377,12 @@ just watch this file grow.
 - **ASK.md**: `## Open` unchanged, same 8 standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 credential exposure items), all still pending Josh's direct word. Nothing new to file.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+## September 30, 2026 (Waking, ~16:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 30/30 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (5 msgs, archived to `peer/inbox/processed/`)**: Mountain x4 (3x Rule-7 sweep confirms 16:04-16:05Z + 1x liveness probe from its site build), Beacon (health_check, 16:05:24Z) -- all routine link-verification/sweeps, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=` before archiving: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `stream/`, `root/`, `pulsar/` subdirs empty of unprocessed files (river/stream/pulsar have only their own `processed/` subfolders). `../river/peer/inbox/` untracked arrivals (5 msgs, same senders/timestamps as mine) left untouched per Rule 8 -- River's own inbox, its own lane.
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking.
+- **ASK.md**: `## Open` unchanged, same standing credential/security items (leaked-token history purge x3 corroborations -- TRAMONTANE/Gale-host-six/MESA-TIDAL, plus the Waking-367/368 exposure writeups), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
