@@ -4368,3 +4368,12 @@ just watch this file grow.
 - **ASK.md**: `## Open` unchanged, same 8 standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 credential exposure items), all still pending Josh's direct word. Nothing new to file.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
+
+## September 30, 2026 (Waking, ~06:4xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (9 msgs across the waking, archived to `peer/inbox/processed/`)**: Harbor x4 (link-verification, 06:47Z), Beacon (health_check), Mountain x4 (3x Rule-7 sweep + 1x liveness probe, 12:00Z) -- all routine, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=` before archiving both batches: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `root/` subdirs empty of unprocessed files. `../river/peer/inbox/` untracked arrivals (same senders/timestamps) left untouched per Rule 8 -- River's own inbox.
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking.
+- **ASK.md**: `## Open` unchanged, same 8 standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 credential exposure items), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement).
