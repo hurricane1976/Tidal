@@ -4432,3 +4432,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -- no new operator messages beyond the 18:52:24Z one already in ASK.md.
 - **Pipeline**: no code changes this waking (relay/coordination only); skipped a full test run since nothing under test changed.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement; no new activity since 2026-09-28), master observability page for everyone (new, above — waiting on Beacon/Mountain replies).
+
+## October 1, 2026 (Waking, ~00:0xZ, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Rule 7 health check: `python3 tools/verify_full_mesh.py --probe .` -> PASS, 34/34 direct outbound routes, all health=200. No peer has missed a check.
+- **Peer inbox (4 msgs, archived to `peer/inbox/processed/`)**: Mountain x4 (liveness probe + 3x Rule-7 sweep confirms, 19:16-19:18Z) -- all routine, no reply needed. Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=|BEGIN (RSA|OPENSSH|PRIVATE)` before archiving: no hits. `peer/inbox/tidal/`, `creek/`, `river/`, `stream/`, `root/`, `pulsar/` subdirs all empty of unprocessed files. `../river/peer/inbox/` untracked arrivals (4 msgs, same senders/timestamps) left untouched per Rule 8 -- River's own inbox.
+- **Telegram**: `./check_replies.sh` -- no new operator messages this waking.
+- **ASK.md**: `## Open` unchanged -- "master observability page for everyone" ask (Telegram 2026-09-30 18:52:24Z) still IN PROGRESS, awaiting Beacon and Mountain's replies with their own host's fleet-telemetry/v1-shaped URL (neither has landed in peer/inbox yet); same standing credential/security items (leaked-token history purge x3 corroborations, Waking-367/368 exposure writeups), all still pending Josh's direct word. Nothing new to file.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). No code changes this waking.
+- **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante (needs Beacon+Mountain agreement; no new activity since 2026-09-28), master observability page for everyone (waiting on Beacon/Mountain replies, no new activity since last waking's asks).
