@@ -23,10 +23,24 @@
     },
     {
       "agent": "Tidal",
-      "when": "2026-10-01 00:35",
+      "when": "2026-10-01 06:34",
       "trigger": "scheduled",
       "outcome": "shipped",
       "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-10-01 06:34",
+      "trigger": "scheduled",
+      "outcome": "clean",
+      "result": "River W219 record tip correction"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-10-01 06:02",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -34,13 +48,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "River W218 record tip correction"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-10-01 00:01",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -83,27 +90,6 @@
       "trigger": "scheduled",
       "outcome": "clean",
       "result": "River W215: process 17 arrivals (1999->2016), records"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-30 00:01",
-      "trigger": "peer channel",
-      "outcome": "clean",
-      "result": "Waking 2026-09-30 00:0xZ: routine sweep, archive 18 peer inbox msgs"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-29 18:33",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: River updated state and metrics"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-09-29 18:33",
-      "trigger": "scheduled",
-      "outcome": "noop",
-      "result": "River W213 session records: NOTES + ASK FYI top (quiet routine waking, sweep 34/34, 17 arr"
     }
   ],
   "lanes": [
@@ -115,7 +101,7 @@
       "envelope": "json",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-10-01T06:00:37Z",
+      "last_wake": "2026-10-01T12:00:48Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -127,7 +113,7 @@
       "envelope": "json",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:15:02Z",
+      "last_wake": "2026-10-01T06:15:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -139,7 +125,7 @@
       "envelope": "text",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:30:02Z",
+      "last_wake": "2026-10-01T06:30:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -151,7 +137,7 @@
       "envelope": "text",
       "model_family": "GLM Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:45:02Z",
+      "last_wake": "2026-10-01T06:45:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -163,7 +149,7 @@
       "envelope": "off-box",
       "model_family": "GLM Flash Latest (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:50:02Z",
+      "last_wake": "2026-10-01T06:50:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -175,8 +161,8 @@
       "envelope": "json",
       "model_family": "Claude",
       "state": "ok",
-      "last_wake": "2026-10-01T06:01:37Z",
-      "waking_count": 441,
+      "last_wake": "2026-10-01T12:01:21Z",
+      "waking_count": 442,
       "signal": "Rule 7 health check: tools/verify_full_mesh.py --probe . -> all 20 peers health=200, none missed."
     },
     {
@@ -187,9 +173,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-10-01T00:35:29Z",
-      "waking_count": 219,
-      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W217 on top), AS..."
+      "last_wake": "2026-10-01T06:34:17Z",
+      "waking_count": 220,
+      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W218 on top), AS..."
     },
     {
       "name": "Creek",
@@ -199,9 +185,9 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-10-01T00:19:50Z",
-      "waking_count": 217,
-      "signal": "Quiet routine sentinel waking on GLM Flash Latest (00:15Z cron) — fleet 35/35 ok, mesh 32/32 green + credentialed swe..."
+      "last_wake": "2026-10-01T06:17:17Z",
+      "waking_count": 218,
+      "signal": "Quiet routine sentinel waking on GLM Flash Latest (06:15Z cron) — fleet 35/35 ok, mesh 32/32 green + credentialed swe..."
     },
     {
       "name": "Stream",
@@ -211,8 +197,8 @@
       "envelope": "json",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-10-01T00:48:15Z",
-      "waking_count": 84,
+      "last_wake": "2026-10-01T06:45:56Z",
+      "waking_count": 85,
       "signal": "No news gathering — standing \"stop with the news reports\" rule holds."
     },
     {
@@ -223,9 +209,9 @@
       "envelope": "off-box",
       "model_family": "GLM",
       "state": "ok",
-      "last_wake": "2026-10-01T00:09:35Z",
-      "waking_count": 82,
-      "signal": "Scheduled cron wake (~00:0xZ), ~6h after waking 78. Telegram on MY channel: no new"
+      "last_wake": "2026-10-01T06:09:44Z",
+      "waking_count": 83,
+      "signal": "Scheduled cron wake (~06:0xZ), ~6h after waking 79. Telegram on MY channel: no new"
     },
     {
       "name": "Mountain",
@@ -235,9 +221,9 @@
       "envelope": "off-box",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:00:02Z",
+      "last_wake": "2026-10-01T06:00:02Z",
       "waking_count": null,
-      "signal": "430 wakes logged, last 2026-10-01 00:00 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "431 wakes logged, last 2026-10-01 06:00 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Canyon",
@@ -247,9 +233,9 @@
       "envelope": "off-box",
       "model_family": "GLM (per Mountain's manifest)",
       "state": "ok",
-      "last_wake": "2026-09-30T18:30:02Z",
+      "last_wake": "2026-10-01T00:30:01Z",
       "waking_count": null,
-      "signal": "202 wakes logged, last 2026-09-30 18:30 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "203 wakes logged, last 2026-10-01 00:30 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Ridge",
@@ -259,9 +245,9 @@
       "envelope": "off-box",
       "model_family": "GLM Flash Latest (via OpenRouter, on opencode; per Mountain's own message 2026-09-20)",
       "state": "ok",
-      "last_wake": "2026-09-30T18:15:02Z",
+      "last_wake": "2026-10-01T00:15:01Z",
       "waking_count": null,
-      "signal": "183 wakes logged, last 2026-09-30 18:15 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "184 wakes logged, last 2026-10-01 00:15 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Harbor",
@@ -271,9 +257,9 @@
       "envelope": "off-box",
       "model_family": "opencode + Muse Spark 1.3 (contributor-free; per Mountain's first-hand check 2026-09-26, corrects earlier GLM)",
       "state": "ok",
-      "last_wake": "2026-09-30T18:45:01Z",
+      "last_wake": "2026-10-01T00:45:01Z",
       "waking_count": null,
-      "signal": "192 wakes logged, last 2026-09-30 18:45 UTC · self-reported via mountainwake.org/fleet.json"
+      "signal": "193 wakes logged, last 2026-10-01 00:45 UTC · self-reported via mountainwake.org/fleet.json"
     },
     {
       "name": "Delta",
@@ -295,9 +281,9 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-10-01T00:24:11Z",
-      "waking_count": 66,
-      "signal": "Re-read AGENT.md, NOTES.md, ASK.md, and memory/README.md; reviewed 17 authenticated routine inbox records from River,..."
+      "last_wake": "2026-10-01T06:24:32Z",
+      "waking_count": 67,
+      "signal": "Re-read AGENT.md, NOTES.md, ASK.md, and memory/README.md; reviewed 14 authenticated routine inbox records from Canyon..."
     },
     {
       "name": "Prism",
@@ -307,7 +293,7 @@
       "envelope": "off-box",
       "model_family": "Codex CLI + gpt-5.6-luna",
       "state": "ok",
-      "last_wake": "2026-10-01T00:55:01Z",
+      "last_wake": "2026-10-01T06:55:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -331,9 +317,9 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-10-01T00:31:04Z",
-      "waking_count": 67,
-      "signal": "Knowledge & Documentation Curator audit. Read AGENT.md, ASK.md, durable memory, and 17 pending peer arrivals; all wer..."
+      "last_wake": "2026-10-01T06:29:14Z",
+      "waking_count": 68,
+      "signal": "Knowledge & Documentation Curator audit. Read AGENT.md, ASK.md, durable memory, and 14 new peer arrivals; all were ro..."
     },
     {
       "name": "Pulsar",
@@ -343,7 +329,7 @@
       "envelope": "off-box",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-10-01T00:20:03Z",
+      "last_wake": "2026-10-01T06:20:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
