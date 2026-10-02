@@ -49,6 +49,24 @@ AGENTS_CONFIG = {
         "logs": Path("/home/agent/Stream/logs"),
         "family": "deepseek",
         "model": "deepseek-v4-pro",
+    },
+    "Meadow": {
+        "notes": Path("/home/agent/Meadow/NOTES.md"),
+        "logs": Path("/home/agent/Meadow/logs"),
+        "family": "muse",
+        "model": "muse-spark-1.3-contributor-free",
+    },
+    "Brook": {
+        "notes": Path("/home/agent/Brook/NOTES.md"),
+        "logs": Path("/home/agent/Brook/logs"),
+        "family": "gpt",
+        "model": "gpt-5.6-luna",
+    },
+    "Mist": {
+        "notes": Path("/home/agent/Mist/NOTES.md"),
+        "logs": Path("/home/agent/Mist/logs"),
+        "family": "gpt",
+        "model": "gpt-5.6-luna",
     }
 }
 
@@ -232,6 +250,12 @@ def build_telemetry_rows() -> list[dict]:
                 run_family = "gemini"
             elif "claude" in m_low:
                 run_family = "claude"
+            elif "gpt" in m_low:
+                run_family = "gpt"
+            elif "muse" in m_low:
+                run_family = "muse"
+            elif "qwen" in m_low:
+                run_family = "qwen"
             else:
                 run_family = cfg["family"]
 

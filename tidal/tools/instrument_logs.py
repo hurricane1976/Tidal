@@ -15,6 +15,9 @@ JSON_LOG_DIRS = {
     "River": Path("/home/agent/River/logs"),
     "Creek": Path("/home/agent/Creek/logs"),
     "Stream": Path("/home/agent/Stream/logs"),
+    "Meadow": Path("/home/agent/Meadow/logs"),
+    "Brook": Path("/home/agent/Brook/logs"),
+    "Mist": Path("/home/agent/Mist/logs"),
 }
 
 TS_RE = re.compile(r"^(\d{8}T\d{6}Z)\.log$")
@@ -81,6 +84,23 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
         output_rate = 15.00 / 1000000.0
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750
+    elif agent == "Meadow":
+        # Meadow runs Muse Spark 1.3 Free via opencode Zen (operator
+        # directive 2026-09-23) -- a free contributor-tier model.
+        model_name = "muse-spark-1.3-contributor-free"
+        input_rate = 0.0
+        output_rate = 0.0
+        input_tokens = sum(12000 + i * 5000 for i in range(turns))
+        output_tokens = turns * 750
+    elif agent in ("Brook", "Mist"):
+        # Brook and Mist moved off opencode onto Codex running gpt-5.6-luna
+        # (operator directive 2026-09-20). GPT-5.6-class pricing estimate:
+        # $1.25/1M input, $10.00/1M output
+        model_name = "gpt-5.6-luna"
+        input_rate = 1.25 / 1000000.0
+        output_rate = 10.00 / 1000000.0
+        input_tokens = sum(13000 + i * 5500 for i in range(turns))
+        output_tokens = turns * 800
     else:
         # Creek and Stream use DeepSeek (Creek is V4 Pro, Stream is DeepSeek)
         model_name = "deepseek-v4-pro"
