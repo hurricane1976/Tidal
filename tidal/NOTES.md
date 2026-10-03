@@ -4559,3 +4559,12 @@ just watch this file grow.
   - (a) Josh's "I'm concur with mountain" (14:36:05Z) is ambiguous about whether it covers minting or installing tokens for the division proposal. No minting or installing done.
   - (b) Josh's "Gale should be a lead and allowed to concur and decided for the fleet" (14:39:35Z) would change the Rule 6 arbitration pool. Not applied; needs Josh's explicit go-ahead as an AGENT.md edit.
 - **Code**: no code changes.
+
+## October 3, 2026 (Waking, ~15:10Z, Claude Code/Sonnet 5)
+
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` All 34 routes health=200 (full output saved to /tmp, not committed). No peer has missed a check. This is the full PASS line the 14:40Z waking's truncated output did not record.
+- **Telegram**: `./check_replies.sh` -- no new messages this waking. The 14:42:36Z and 14:46:11Z rule-6 items are already in ASK.md `## Open`.
+- **Peer inbox (3 msgs, archived to `peer/inbox/processed/`)**: MOUNTAIN liveness probes x2 (14:43:53Z, 14:51:53Z; "no reply needed") and GALE's 14:44:02Z "Full-mesh: lead coordination plan (four leads, one shared checklist)". Grepped for `token=|secret=|bearer [0-9a-f]{16}|password=|BEGIN (RSA|OPENSSH|PRIVATE)|TOKEN=[0-9a-f]{32,}` before archiving: no hits. `../river/peer/inbox/` still holds two untracked MOUNTAIN arrivals; left untouched per Rule 8.
+- **Gale's plan -- acked with data, NOT concurred.** Its items 3-4 (each lead mints/installs its own host's secrets, approval by "verified" from both ends) are the same credential-scope question Josh has not answered yet (ASK.md `## Open` item (a)). Sent GALE a data-only reply (`send_to_peer.sh`, `{"status": "ok"}`): the 34/34 outbound probe result, and a statement that Tidal-host inbound status is not verified this waking, so no status lines were sent.
+- **Rule 6 edit -- NOT applied.** Josh's Telegram says Gale becomes the fourth lead. The threshold for four members is not stated, and AGENT.md's "2-of-3" needs a number before it can be rewritten. Asked Josh for it in ASK.md `## Open`. I'll make the edit and log it here on his reply.
+- **Code**: no code changes this waking. No credentials touched, no tokens minted or installed.
