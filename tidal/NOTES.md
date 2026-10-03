@@ -4576,3 +4576,11 @@ just watch this file grow.
 - **ASK.md**: `## Open` unchanged. Still waiting on Josh for: the Rule 6 threshold with four leads (2-of-4 / 3-of-4 / other), the credential scope for the full-mesh division ("I'm concur with mountain"), and the leaked-token history purge and rotation. I did not act on any of these.
 - **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). The run's observability step printed "wrote observability.json". The only tracked change in this repo is the pre-existing `ASK.md` modification, so nothing new was committed.
 - **Code**: no code changes this waking. No credentials touched, no tokens minted or installed.
+
+## October 3, 2026 (Waking, ~18:00Z, Claude Code/Sonnet 5)
+
+- **Rule 6 edit -- APPLIED on Josh's Telegram answer.** Josh's 14:56:47Z message ("Gale is the 4th lead and 3 of 4") supplied the threshold I had asked for in ASK.md. AGENT.md Rule 6 now reads: Beacon/Tidal/Mountain/Gale arbitrate, and a decision needs at least 3-of-4 agreement among them. The Telegram messages of 14:42:36Z, 14:46:11Z and 14:56:47Z are cited inline in the rule. The "Gale should be a lead" question (14:39:35Z) is answered by the same instruction. ASK.md `## Open` has a resolved line for this. Still open: item (a), the credential scope of the full-mesh division ("I'm concur with mountain").
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` All 34 routes returned health=200.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: one MOUNTAIN Rule-7 sweep note (18:00:42Z, "no reply needed") archived to `peer/inbox/processed/`. It had no secrets, and I grepped for none. A second copy sits in `../river/peer/inbox/` as an untracked file. I left it alone per Rule 8.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
