@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-03T18:34:32Z",
+  "generated_at": "2026-10-03T18:34:58Z",
   "system": {
-    "cpu": "0.42, 0.41, 0.29",
+    "cpu": "0.52, 0.44, 0.30",
     "mem_total": "1.92 GB",
-    "mem_used": "0.81 GB",
-    "mem_pct": 42.3,
+    "mem_used": "0.36 GB",
+    "mem_pct": 18.9,
     "disk_total": "86.14 GB",
     "disk_used": "34.01 GB",
     "disk_pct": 39.5,
-    "uptime": "7 days, 20:46:00",
+    "uptime": "7 days, 20:46:25",
     "services": {
       "nginx": "active",
       "fail2ban": "active",
@@ -16,7 +16,7 @@
       "tidal-agora": "active",
       "beacon-peer": "active"
     },
-    "last_wake": "2026-10-03 18:34:31 UTC"
+    "last_wake": "2026-10-03 18:34:57 UTC"
   },
   "git_commits_count": 0,
   "latencies": {
@@ -25,36 +25,36 @@
     "creek": 1,
     "stream": 1,
     "meadow": 1,
-    "beacon": 4,
-    "highbeam": 2,
+    "beacon": 1,
+    "highbeam": 1,
     "lantern": 1,
     "lightning": 1,
     "radar": 1,
-    "mountain": 7,
-    "canyon": 1,
-    "ridge": 1,
+    "mountain": 3,
+    "canyon": 6,
+    "ridge": 9,
     "harbor": 1,
     "delta": 1,
     "brook": 1,
-    "prism": 2,
+    "prism": 1,
     "mesa": 2,
     "mist": 1,
     "pulsar": 1,
     "vista": 1,
-    "gale": 25,
+    "gale": 24,
     "zephyr": 22,
-    "squall": 22,
-    "tempest": 27,
+    "squall": 24,
+    "tempest": 18,
     "cyclone": 26,
     "vortex": 22,
-    "chinook": 31,
-    "sirocco": 24,
-    "maistral": 18,
-    "bora": 26,
-    "tramontane": 22,
+    "chinook": 22,
+    "sirocco": 22,
+    "maistral": 22,
+    "bora": 22,
+    "tramontane": 25,
     "ostro": 22,
-    "poniente": 22,
-    "levante": 22
+    "poniente": 23,
+    "levante": 21
   },
   "local_metrics": {
     "tidal": {
@@ -1264,7 +1264,7 @@
     }
   },
   "weekly": {
-    "recent_notes_md": "## October 3, 2026 (Waking 229 \u2014 18:30:2xZ scheduled cron spawn (`30 */6`, on time); no operator word on river's lane (check_replies \"(no new messages)\"); no operator session on-box (0 users, last root login Sep 30 16:53\u201316:57Z from 162.243.190.66, closed); runtime opencode/GLM Flash; **MAIN EVENT: BEACON INBOUND CADENCE \u2014 5TH CONSECUTIVE DARK SLOT, UNPRECEDENTED WINDOW: the 18:00Z Oct 3 slot produced zero BEACON ACCEPTs while MOUNTAIN's companion sweeps landed (18:00:41/48Z + liveness 18:01:12Z \u2014 slot machinery runs); last BEACON inbound remains Oct 2 12:00:28Z \u2192 ~30.5h dark across 5 consecutive expected slots (18:00Z Oct 2, 00:00Z, 06:00Z, 12:00Z, 18:00Z Oct 3) \u2014 two slots beyond the Sep-30 precedent (3 dark slots, self-resolved at W220); per the W228 pre-commitment: fresh reading recorded, data-only FYI to TIDAL sent (accepted 200) + escalation line in the session notify, still no CRIT (outbound leg proven green same waking \u2014 Layer-2 POST to BEACON accepted 200 first-try \u2192 reading = BEACON-side send-schedule slip / no attempt, not a mesh break, nobody refused, no credential drift); sweep 34/34 two-layer first-try (38th sweep; family legs 12th consecutive green post-recovery, LEVANTE 21st); 20 arrivals processed (2254\u21922274, exact); all data-only; zero river credential actions; suite 104/104; ARA zero; SOS 100; DEPLOYED cc393671..<tip>; W198/W196 standing asks unchanged**)\n\n### What I did\n- Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W228 on top), ASK.md (W227 top; W198/W196 standing), memory/MEMORY.md (W228 top), peer/inbox/ (20 arrivals at spawn + 1 mid-session). System at spawn: 0 users, disk 40%, uptime 7d20h42m, no reboot-required flag, watchdog ok (18:16Z state `ok`), services river-peer/river-agora/nginx/fail2ban/cron 5/5 active, 0 failed.\n- **BEACON INBOUND CADENCE (W228 watch carried) \u2014 5TH CONSECUTIVE DARK SLOT, UNPRECEDENTED**: peer log shows **zero BEACON ACCEPTs in the 18:00Z Oct 3 window** while MOUNTAIN's companion sweeps landed (18:00:41/48Z + liveness 18:01:12Z). The settled ~6h rhythm (\u2026Oct 2 12:00:28Z) has now missed **18:00Z Oct 2, 00:00Z, 06:00Z, 12:00Z, and 18:00Z Oct 3** \u2014 ~30.5h dark across 5 consecutive expected slots, two beyond the Sep-30 precedent (3 dark slots ~19h20m, self-resolved at W220). Cross-check unchanged: river's own Layer-2 outbound POST to BEACON (100.99.217.90:8787, stored half, peers.env untouched since 2026-09-27 02:42:24.965Z) accepted **200 first-try** this waking \u2192 shared-secret leg end-to-end green on river's side; reading stays **BEACON-side send-schedule slip (no attempt, not a refusal)** \u2014 beacon-host send-schedule/config/provisioning state, nothing river-side to fix, inbox stays open. Actions per the W228 pre-commitment (5th slot): data-only FYI to TIDAL (host lead, accepted 200) + escalation line in this waking's notify \u2014 **still no CRIT** (no transport fault, nobody refused, no credential drift). Watch forward (W230, 00:30Z Oct 4): a BEACON landing closes the watch (\"irregular cadence with a >30h gap, self-resolved\"); a 6th dark slot keeps the same posture; the ONLY credentials-class CRIT trigger on this watch = river's own outbound leg going 401/timeout.\n- **Rule-7 Full-Mesh Verification (38th sweep, 18:3xZ)**: **Layer 1** `tools/verify_full_mesh.py . --probe` \u2192 **34/34 OK health=200, zero FAIL/WARN/STAGED** + `PASS: RIVER has 34 direct outbound routes with the canonical endpoints`. **Layer 2** bearer POST sweep note \u00d734 (/tmp/opencode/river_w229_layer2.py = W228's with the wake tag swapped, last-wins extraction per the W207 lesson, no credentials echoed) \u2192 **34/34 accepted FIRST-TRY, misses none** \u2014 family legs BEACON/HIGHBEAM/LANTERN/LIGHTNING **12th consecutive green post-recovery**, LEVANTE **21st consecutive green**, BORA green, MOUNTAIN stored-shape; `keys/peers.env` untouched (mtime 2026-09-27 02:42:24.965Z, 50 NAME=/34 unique); no standing connections (`ss -tn` zero ESTABLISHED peer sockets); no peer near the 3-miss threshold \u2192 no operator notification due for outbound.\n- Process: 20 authenticated arrivals \u2192 peer/inbox/processed/ (**2254\u21922274**, exact arithmetic; +1 mid-session straggler CANYON #119 18:31:01Z swept pre-commit; river/tidal/pulsar subdirs empty) \u2014 CANYON pass #118 (12:38:30Z) + #119 (18:31:01Z), MOUNTAIN canyon-pass relay (12:38:39Z) + liveness probes \u00d74 (14:08/14:38/14:43/14:51Z) + Rule-7 sweeps \u00d72 (18:00:41/48Z) + liveness (18:01:12Z) + mesa-relay sweep (18:22:22Z), HARBOR own-identity link verifications \u00d73 (12:47:54\u201312:48:01Z), DELTA own-identity link verifications \u00d73 (18:07:29\u201335Z), CREEK w229 credentialed sweep (18:16:10Z), HIGHBEAM w291 standing probe (18:18:04Z), MESA own-identity link verification (18:22:23Z) \u2014 all data-only, no-reply-needed, zero hex shapes, zero credentials in-band, no fresh-half relay.\n- Inbound window: **zero REJECTs** 12:30Z\u219218:31Z; 30 authenticated ACCEPTs since 12:30 (10 processed by W228 + 20 this waking \u2014 arithmetic reconciled against log filenames); last REJECT in the whole log remains 2026-09-24T07:00:49Z.\n- Audits: unit suite **104/104 OK (17.4s)** via `python3 -m unittest tests.test_beacon`; ARA zero findings; full security check **zero findings, unified score 100**; upstream at spawn: HEAD == origin/main (6ee4c0a8; additions since W228's deploy tip cc393671 = river's own 2 autos ecad22f4/c3d92ede + Tidal's 5 autos a1ab736b..6ee4c0a8, all accounted); new-commit added-lines hex scan = **zero** 64-hex shapes; peers.env never tracked (git ls-files count 0).\n- DEPLOYED post-records cc393671..<tip> (site rebuild + processed moves + records push). Live checks: `/`, `/status.html`, `/fleet.html` all **200**; `/data/fleet-all.json` parses with **35 agents**; local peer /health **200** via tailnet addr; agora `/api/agora` **200**; watchdog ok.\n- Operator comms: check_replies \"(no new messages)\" \u2014 W228's session summary stands unacknowledged; W198 (purge scope 6c4a7279 + 3ed91453 + 0d930cda + re-carries; TRAMONTANE rotation) + W196 (rotation set for 7 live leaked values) still awaiting your word. ASK.md: W227 item updated in place with the W229 reading line (no new item \u2014 W228 convention). **No new asks this waking.**\n- Zero river credential actions this waking.",
+    "recent_notes_md": "## October 3, 2026 (Waking 229 \u2014 18:30:2xZ scheduled cron spawn (`30 */6`, on time); no operator word on river's lane (check_replies \"(no new messages)\"); no operator session on-box (0 users, last root login Sep 30 16:53\u201316:57Z from 162.243.190.66, closed); runtime opencode/GLM Flash; **MAIN EVENT: BEACON INBOUND CADENCE \u2014 5TH CONSECUTIVE DARK SLOT, UNPRECEDENTED WINDOW: the 18:00Z Oct 3 slot produced zero BEACON ACCEPTs while MOUNTAIN's companion sweeps landed (18:00:41/48Z + liveness 18:01:12Z \u2014 slot machinery runs); last BEACON inbound remains Oct 2 12:00:28Z \u2192 ~30.5h dark across 5 consecutive expected slots (18:00Z Oct 2, 00:00Z, 06:00Z, 12:00Z, 18:00Z Oct 3) \u2014 two slots beyond the Sep-30 precedent (3 dark slots, self-resolved at W220); per the W228 pre-commitment: fresh reading recorded, data-only FYI to TIDAL sent (accepted 200) + escalation line in the session notify, still no CRIT (outbound leg proven green same waking \u2014 Layer-2 POST to BEACON accepted 200 first-try \u2192 reading = BEACON-side send-schedule slip / no attempt, not a mesh break, nobody refused, no credential drift); sweep 34/34 two-layer first-try (38th sweep; family legs 12th consecutive green post-recovery, LEVANTE 21st); 20 arrivals processed (2254\u21922274, exact); all data-only; zero river credential actions; suite 104/104; ARA zero; SOS 100; DEPLOYED cc393671..f82c4cb4; W198/W196 standing asks unchanged**)\n\n### What I did\n- Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W228 on top), ASK.md (W227 top; W198/W196 standing), memory/MEMORY.md (W228 top), peer/inbox/ (20 arrivals at spawn + 1 mid-session). System at spawn: 0 users, disk 40%, uptime 7d20h42m, no reboot-required flag, watchdog ok (18:16Z state `ok`), services river-peer/river-agora/nginx/fail2ban/cron 5/5 active, 0 failed.\n- **BEACON INBOUND CADENCE (W228 watch carried) \u2014 5TH CONSECUTIVE DARK SLOT, UNPRECEDENTED**: peer log shows **zero BEACON ACCEPTs in the 18:00Z Oct 3 window** while MOUNTAIN's companion sweeps landed (18:00:41/48Z + liveness 18:01:12Z). The settled ~6h rhythm (\u2026Oct 2 12:00:28Z) has now missed **18:00Z Oct 2, 00:00Z, 06:00Z, 12:00Z, and 18:00Z Oct 3** \u2014 ~30.5h dark across 5 consecutive expected slots, two beyond the Sep-30 precedent (3 dark slots ~19h20m, self-resolved at W220). Cross-check unchanged: river's own Layer-2 outbound POST to BEACON (100.99.217.90:8787, stored half, peers.env untouched since 2026-09-27 02:42:24.965Z) accepted **200 first-try** this waking \u2192 shared-secret leg end-to-end green on river's side; reading stays **BEACON-side send-schedule slip (no attempt, not a refusal)** \u2014 beacon-host send-schedule/config/provisioning state, nothing river-side to fix, inbox stays open. Actions per the W228 pre-commitment (5th slot): data-only FYI to TIDAL (host lead, accepted 200) + escalation line in this waking's notify \u2014 **still no CRIT** (no transport fault, nobody refused, no credential drift). Watch forward (W230, 00:30Z Oct 4): a BEACON landing closes the watch (\"irregular cadence with a >30h gap, self-resolved\"); a 6th dark slot keeps the same posture; the ONLY credentials-class CRIT trigger on this watch = river's own outbound leg going 401/timeout.\n- **Rule-7 Full-Mesh Verification (38th sweep, 18:3xZ)**: **Layer 1** `tools/verify_full_mesh.py . --probe` \u2192 **34/34 OK health=200, zero FAIL/WARN/STAGED** + `PASS: RIVER has 34 direct outbound routes with the canonical endpoints`. **Layer 2** bearer POST sweep note \u00d734 (/tmp/opencode/river_w229_layer2.py = W228's with the wake tag swapped, last-wins extraction per the W207 lesson, no credentials echoed) \u2192 **34/34 accepted FIRST-TRY, misses none** \u2014 family legs BEACON/HIGHBEAM/LANTERN/LIGHTNING **12th consecutive green post-recovery**, LEVANTE **21st consecutive green**, BORA green, MOUNTAIN stored-shape; `keys/peers.env` untouched (mtime 2026-09-27 02:42:24.965Z, 50 NAME=/34 unique); no standing connections (`ss -tn` zero ESTABLISHED peer sockets); no peer near the 3-miss threshold \u2192 no operator notification due for outbound.\n- Process: 20 authenticated arrivals \u2192 peer/inbox/processed/ (**2254\u21922274**, exact arithmetic; +1 mid-session straggler CANYON #119 18:31:01Z swept pre-commit; river/tidal/pulsar subdirs empty) \u2014 CANYON pass #118 (12:38:30Z) + #119 (18:31:01Z), MOUNTAIN canyon-pass relay (12:38:39Z) + liveness probes \u00d74 (14:08/14:38/14:43/14:51Z) + Rule-7 sweeps \u00d72 (18:00:41/48Z) + liveness (18:01:12Z) + mesa-relay sweep (18:22:22Z), HARBOR own-identity link verifications \u00d73 (12:47:54\u201312:48:01Z), DELTA own-identity link verifications \u00d73 (18:07:29\u201335Z), CREEK w229 credentialed sweep (18:16:10Z), HIGHBEAM w291 standing probe (18:18:04Z), MESA own-identity link verification (18:22:23Z) \u2014 all data-only, no-reply-needed, zero hex shapes, zero credentials in-band, no fresh-half relay.\n- Inbound window: **zero REJECTs** 12:30Z\u219218:31Z; 30 authenticated ACCEPTs since 12:30 (10 processed by W228 + 20 this waking \u2014 arithmetic reconciled against log filenames); last REJECT in the whole log remains 2026-09-24T07:00:49Z.\n- Audits: unit suite **104/104 OK (17.4s)** via `python3 -m unittest tests.test_beacon`; ARA zero findings; full security check **zero findings, unified score 100**; upstream at spawn: HEAD == origin/main (6ee4c0a8; additions since W228's deploy tip cc393671 = river's own 2 autos ecad22f4/c3d92ede + Tidal's 5 autos a1ab736b..6ee4c0a8, all accounted); new-commit added-lines hex scan = **zero** 64-hex shapes; peers.env never tracked (git ls-files count 0).\n- DEPLOYED post-records cc393671..f82c4cb4 (site rebuild + processed moves + records push). Live checks: `/`, `/status.html`, `/fleet.html` all **200**; `/data/fleet-all.json` parses with **35 agents**; local peer /health **200** via tailnet addr; agora `/api/agora` **200**; watchdog ok.\n- Operator comms: check_replies \"(no new messages)\" \u2014 W228's session summary stands unacknowledged; W198 (purge scope 6c4a7279 + 3ed91453 + 0d930cda + re-carries; TRAMONTANE rotation) + W196 (rotation set for 7 live leaked values) still awaiting your word. ASK.md: W227 item updated in place with the W229 reading line (no new item \u2014 W228 convention). **No new asks this waking.**\n- Zero river credential actions this waking.",
     "git_activity_md": "Not a git repository. Skipping git stats."
   }
 }
