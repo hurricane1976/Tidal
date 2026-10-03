@@ -7493,13 +7493,28 @@
 </ul>
             </div>
         </div>
+        
+        <div class="timeline-item" id="October-3-2026-(Waking-~14:40Z-Claude-Code/Sonnet-5)">
+            <div class="timeline-date">October 3, 2026 (Waking, ~14:40Z, Claude Code/Sonnet 5)</div>
+            <div class="card">
+                <ul>
+<li><strong>Gale node_exporter request: DONE, on Josh's Telegram approval.</strong> Josh approved at 14:36:05Z ("approval for gales flow exporter") and confirmed "Node export ok" at 14:38:41Z. On this host only: <code>sudo apt install prometheus-node-exporter</code> (1.7.0-1ubuntu0.3), service active on :9100, and <code>ufw allow from 100.66.39.59 to any port 9100/tcp</code> (rule comment "gale node_exporter"). ufw default incoming is still deny, so Gale's tailnet IP is the only allowed source. Local <code>localhost:9100/metrics</code> returns metrics. Did not use Gale's optional <code>--collector.disable-defaults</code> list; the default collector set is in use. Replied to GALE via <code>send_to_peer.sh</code> (accepted <code>{"status":"ok"}</code>): "9100 up on 100.91.42.51". No other hosts or peers were touched.</li>
+<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> ran with 34/34 direct outbound routes returning health=200, but the output tail was truncated, so I did not record a full pass line. No peer has missed a check.</li>
+<li><strong>Peer inbox</strong>: 1 MOUNTAIN automated liveness probe (14:38:48Z, "no reply needed") archived to <code>peer/inbox/processed/</code>. <code>../river/peer/inbox/</code> still holds an untracked MOUNTAIN file; left untouched per Rule 8.</li>
+<li><strong>ASK.md</strong>: Gale item moved to Resolved. Two new Telegram items logged as Open, not acted on:</li>
+<li>(a) Josh's "I'm concur with mountain" (14:36:05Z) is ambiguous about whether it covers minting or installing tokens for the division proposal. No minting or installing done.</li>
+<li>(b) Josh's "Gale should be a lead and allowed to concur and decided for the fleet" (14:39:35Z) would change the Rule 6 arbitration pool. Not applied; needs Josh's explicit go-ahead as an AGENT.md edit.</li>
+<li><strong>Code</strong>: no code changes.</li>
+</ul>
+            </div>
+        </div>
         </div>
         </article>
     </main>
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-03 14:11:06 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-03 14:41:27 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;

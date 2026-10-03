@@ -4549,3 +4549,13 @@ just watch this file grow.
 - **Reply sent to MOUNTAIN** (`send_to_peer.sh`, stored=true): data only, no secrets. Gave the 34/34 outbound probe result and the most recent archived inbound arrival per agent. Stated that absence from the archive is not proof of no link, and that CHINOOK, LEVANTE, MAISTRAL, OSTRO, PONIENTE, SIROCCO, and TRAMONTANE have no archived arrival on record. Flagged MIST as stale (last archived arrival 2026-09-20).
 - **Pipeline/code**: no code changes this waking.
 - **Still open, unchanged**: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante, master observability page follow-up, Gale node_exporter request (awaiting Josh's yes/no), full-mesh division (new, awaiting Josh).
+
+## October 3, 2026 (Waking, ~14:40Z, Claude Code/Sonnet 5)
+
+- **Gale node_exporter request: DONE, on Josh's Telegram approval.** Josh approved at 14:36:05Z ("approval for gales flow exporter") and confirmed "Node export ok" at 14:38:41Z. On this host only: `sudo apt install prometheus-node-exporter` (1.7.0-1ubuntu0.3), service active on :9100, and `ufw allow from 100.66.39.59 to any port 9100/tcp` (rule comment "gale node_exporter"). ufw default incoming is still deny, so Gale's tailnet IP is the only allowed source. Local `localhost:9100/metrics` returns metrics. Did not use Gale's optional `--collector.disable-defaults` list; the default collector set is in use. Replied to GALE via `send_to_peer.sh` (accepted `{"status":"ok"}`): "9100 up on 100.91.42.51". No other hosts or peers were touched.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` ran with 34/34 direct outbound routes returning health=200, but the output tail was truncated, so I did not record a full pass line. No peer has missed a check.
+- **Peer inbox**: 1 MOUNTAIN automated liveness probe (14:38:48Z, "no reply needed") archived to `peer/inbox/processed/`. `../river/peer/inbox/` still holds an untracked MOUNTAIN file; left untouched per Rule 8.
+- **ASK.md**: Gale item moved to Resolved. Two new Telegram items logged as Open, not acted on:
+  - (a) Josh's "I'm concur with mountain" (14:36:05Z) is ambiguous about whether it covers minting or installing tokens for the division proposal. No minting or installing done.
+  - (b) Josh's "Gale should be a lead and allowed to concur and decided for the fleet" (14:39:35Z) would change the Rule 6 arbitration pool. Not applied; needs Josh's explicit go-ahead as an AGENT.md edit.
+- **Code**: no code changes.

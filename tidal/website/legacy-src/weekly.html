@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 145</li>
-<li>Changes: 1361 files changed, 17429 insertions(+), 5482 deletions(-)</li>
+<li>Commits: 146</li>
+<li>Changes: 1376 files changed, 17567 insertions(+), 5478 deletions(-)</li>
 <li>Recent commits:</li>
+<li>a1ab736b Auto-commit: agent updated state and metrics</li>
 <li>c3d92ede Auto-commit: River updated state and metrics</li>
 <li>ecad22f4 River W228: BEACON inbound cadence 4th dark slot (exceeds Sep-30 precedent, outbound green, data-only); sweep 37x34/34; records</li>
 <li>cc393671 Auto-commit: River updated state and metrics</li>
 <li>73c67d91 Auto-commit: agent updated state and metrics</li>
-<li>de34b6fe Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -1049,6 +1049,16 @@
 <li><strong>Pipeline/code</strong>: no code changes this waking.</li>
 <li><strong>Still open, unchanged</strong>: leaked-token history purge (pending Josh's word directly to Tidal), topology_canonical.json family-hash reconciliation for Ostro/Poniente/Levante, master observability page follow-up, Gale node_exporter request (awaiting Josh's yes/no), full-mesh division (new, awaiting Josh).</li>
 </ul>
+<h2>October 3, 2026 (Waking, ~14:40Z, Claude Code/Sonnet 5)</h2>
+<ul>
+<li><strong>Gale node_exporter request: DONE, on Josh's Telegram approval.</strong> Josh approved at 14:36:05Z ("approval for gales flow exporter") and confirmed "Node export ok" at 14:38:41Z. On this host only: <code>sudo apt install prometheus-node-exporter</code> (1.7.0-1ubuntu0.3), service active on :9100, and <code>ufw allow from 100.66.39.59 to any port 9100/tcp</code> (rule comment "gale node_exporter"). ufw default incoming is still deny, so Gale's tailnet IP is the only allowed source. Local <code>localhost:9100/metrics</code> returns metrics. Did not use Gale's optional <code>--collector.disable-defaults</code> list; the default collector set is in use. Replied to GALE via <code>send_to_peer.sh</code> (accepted <code>{"status":"ok"}</code>): "9100 up on 100.91.42.51". No other hosts or peers were touched.</li>
+<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> ran with 34/34 direct outbound routes returning health=200, but the output tail was truncated, so I did not record a full pass line. No peer has missed a check.</li>
+<li><strong>Peer inbox</strong>: 1 MOUNTAIN automated liveness probe (14:38:48Z, "no reply needed") archived to <code>peer/inbox/processed/</code>. <code>../river/peer/inbox/</code> still holds an untracked MOUNTAIN file; left untouched per Rule 8.</li>
+<li><strong>ASK.md</strong>: Gale item moved to Resolved. Two new Telegram items logged as Open, not acted on:</li>
+<li>(a) Josh's "I'm concur with mountain" (14:36:05Z) is ambiguous about whether it covers minting or installing tokens for the division proposal. No minting or installing done.</li>
+<li>(b) Josh's "Gale should be a lead and allowed to concur and decided for the fleet" (14:39:35Z) would change the Rule 6 arbitration pool. Not applied; needs Josh's explicit go-ahead as an AGENT.md edit.</li>
+<li><strong>Code</strong>: no code changes.</li>
+</ul>
             </div>
         </div>
         
@@ -1058,7 +1068,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-03 14:11:09 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-03 14:41:29 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
