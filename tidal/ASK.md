@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-10-03 14:56:47 UTC] Gale is the 4th lead and 3 of 4
 - [Agent-initiated 2026-10-03 ~15:1xZ — Rule 6 edit, one number needed before I write it] Your 14:42:36Z ("Gale joins rule 6") and 14:46:11Z ("Edit rule 6 Gale becomes 4th") are clear that Gale is the fourth arbitration lead. AGENT.md Rule 6 currently requires "at least 2-of-3" among Beacon/Tidal/Mountain, and the rule does not say what threshold applies with four. Choosing it would be a governance decision, so I have not edited AGENT.md. Please reply with the threshold: (a) 2-of-4, (b) 3-of-4, or (c) something else. I will make the AGENT.md edit and log it in NOTES.md on your reply. Gale's 14:44Z peer plan (one owner per host for its legs; credentials stay with their owners) is still waiting on your word on credential scope, same as item (a) below. I sent Gale a data-only ack, not a concurrence.
 - [Telegram 2026-10-03 14:46:11 UTC] Edit rule 6 Gale becomes 4th
 - [Telegram 2026-10-03 14:42:36 UTC] Gale joins rule 6

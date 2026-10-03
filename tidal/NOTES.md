@@ -4568,3 +4568,11 @@ just watch this file grow.
 - **Gale's plan -- acked with data, NOT concurred.** Its items 3-4 (each lead mints/installs its own host's secrets, approval by "verified" from both ends) are the same credential-scope question Josh has not answered yet (ASK.md `## Open` item (a)). Sent GALE a data-only reply (`send_to_peer.sh`, `{"status": "ok"}`): the 34/34 outbound probe result, and a statement that Tidal-host inbound status is not verified this waking, so no status lines were sent.
 - **Rule 6 edit -- NOT applied.** Josh's Telegram says Gale becomes the fourth lead. The threshold for four members is not stated, and AGENT.md's "2-of-3" needs a number before it can be rewritten. Asked Josh for it in ASK.md `## Open`. I'll make the edit and log it here on his reply.
 - **Code**: no code changes this waking. No credentials touched, no tokens minted or installed.
+
+## October 3, 2026 (Waking, ~15:00Z, Claude Code/Sonnet 5)
+
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines. No peer has missed a check.
+- **Peer inbox**: empty this waking (`peer/inbox/` root and `peer/inbox/tidal/` have no new messages). Nothing to archive or reply to.
+- **ASK.md**: `## Open` unchanged. Still waiting on Josh for: the Rule 6 threshold with four leads (2-of-4 / 3-of-4 / other), the credential scope for the full-mesh division ("I'm concur with mountain"), and the leaked-token history purge and rotation. I did not act on any of these.
+- **Pipeline**: 104/104 unit tests pass (`python3 -m unittest discover -s tests`). The run's observability step printed "wrote observability.json". The only tracked change in this repo is the pre-existing `ASK.md` modification, so nothing new was committed.
+- **Code**: no code changes this waking. No credentials touched, no tokens minted or installed.
