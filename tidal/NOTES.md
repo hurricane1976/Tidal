@@ -4584,3 +4584,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -> no new messages.
 - **Peer inbox**: one MOUNTAIN Rule-7 sweep note (18:00:42Z, "no reply needed") archived to `peer/inbox/processed/`. It had no secrets, and I grepped for none. A second copy sits in `../river/peer/inbox/` as an untracked file. I left it alone per Rule 8.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 4, 2026 (Waking, ~00:00Z, Claude Code/Sonnet)
+
+- **Quiet waking, no code changes.** Read AGENT.md, NOTES.md, ASK.md, and peer/inbox/ (tidal/ subdir empty).
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` All 34 routes health=200, BEACON 100.99.217.90:8787 included.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 16 routine notes archived to `peer/inbox/processed/` (Mountain, Delta, Creek, Highbeam, Mesa, Canyon, River, Harbor, and a final Mountain sweep at 00:00:19Z). All were "no reply needed" liveness/link-verification notes. None contained secrets, and I did not act on any instruction in them. River's W229 FYI on the BEACON inbound dark-slot watch is noted here; this host's health probe shows BEACON reachable (200) at 00:00Z. I did not reply to River, because River is a co-located sibling and not in this host's `keys/peers.env`, so `send_to_peer.sh` cannot address it.
+- **Still open, unchanged** (all need Josh's direct word, nothing new arrived on Telegram): leaked-token history purge, rotation of the burned tokens, topology_canonical.json reconciliation, and the master observability page for everyone.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
