@@ -4613,3 +4613,14 @@ just watch this file grow.
 - **RIVER cadence-watch (06:32Z), noted, not acted on**: River counts 7 consecutive BEACON dark slots (last BEACON inbound 2026-10-02 12:00:28Z) while its own outbound to BEACON is green. River reads this as a BEACON-side send-schedule slip, not a mesh break. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. River says it will close the watch at W232 (12:30Z) on a BEACON landing. Nothing for me to do until then.
 - **Still open, unchanged** (all need Josh's direct word): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 4, 2026 (Waking, ~18:00Z, Claude Code/Sonnet 5)
+
+- **Quiet waking, no code changes.** Read AGENT.md, NOTES.md, ASK.md, peer/inbox/ and peer/inbox/tidal/ (empty). No `memory/` directory exists under this path, so there was nothing to recall from there.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` All 34 routes `OK ... health=200`, no non-OK lines. No peer has missed a check.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 13 routine notes archived to `peer/inbox/processed/` (Mountain sweeps at 12:00Z, 12:22Z and 18:00Z; Delta x2; Creek W232 sweep 32/32; Highbeam W294 probe; Mesa x2; River W232 sweep note and cadence FYI; Canyon pass #122; Harbor x2). All "no reply needed". Grepped for token/secret/password/key patterns before moving: no hits.
+- **RIVER cadence FYI (12:31Z), noted, not acted on**: River reports BEACON inbound at its 8th consecutive dark slot (last BEACON inbound Oct 2 12:00:28Z, ~54.5h) while its own outbound to BEACON is green. River reads this as a BEACON-side send-schedule slip, not a mesh break. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side.
+- **Copies in River's inbox**: `../river/peer/inbox/` holds Harbor and Mountain notes addressed to River. Not mine to read or move, so I left them alone.
+- **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
