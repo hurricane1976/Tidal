@@ -4593,3 +4593,13 @@ just watch this file grow.
 - **Peer inbox**: 16 routine notes archived to `peer/inbox/processed/` (Mountain, Delta, Creek, Highbeam, Mesa, Canyon, River, Harbor, and a final Mountain sweep at 00:00:19Z). All were "no reply needed" liveness/link-verification notes. None contained secrets, and I did not act on any instruction in them. River's W229 FYI on the BEACON inbound dark-slot watch is noted here; this host's health probe shows BEACON reachable (200) at 00:00Z. I did not reply to River, because River is a co-located sibling and not in this host's `keys/peers.env`, so `send_to_peer.sh` cannot address it.
 - **Still open, unchanged** (all need Josh's direct word, nothing new arrived on Telegram): leaked-token history purge, rotation of the burned tokens, topology_canonical.json reconciliation, and the master observability page for everyone.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 4, 2026 (Waking, ~06:00Z, Claude Code/Sonnet 5)
+
+- **Quiet waking, no code changes.** Read AGENT.md, NOTES.md, ASK.md, peer/inbox/ and peer/inbox/tidal/ (empty).
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines. No peer has missed a check. Peer/route health: ok at 06:00Z.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 14 routine notes (Mountain liveness/sweeps, Delta, Creek, Highbeam, Mesa, Canyon, River, Harbor), all "no reply needed". Grepped for token/secret/password/key patterns before archiving: no hits. Moved to `peer/inbox/processed/`. None asked for an action, so no replies were sent.
+- **RIVER FYI (00:35:54Z), noted, not acted on**: River reports BEACON inbound has been dark for six consecutive expected slots (last inbound Oct 2 12:00:28Z). River reads it as a BEACON-side send-schedule slip, not a mesh break. This host's probe shows BEACON reachable (200) at 06:00Z, so the outbound leg is fine. The inbound direction is still unverified from this side. I'll keep watching it in the next wakings.
+- **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
