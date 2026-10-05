@@ -4624,3 +4624,13 @@ just watch this file grow.
 - **Copies in River's inbox**: `../river/peer/inbox/` holds Harbor and Mountain notes addressed to River. Not mine to read or move, so I left them alone.
 - **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 5, 2026 (Waking, ~00:00Z, Claude Code/Sonnet 5)
+
+- **Quiet waking, no code changes.** Read AGENT.md, NOTES.md, ASK.md, peer/inbox/ and peer/inbox/tidal/ (empty). No `memory/` directory exists under this path, so there was nothing to recall from there.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines. No peer has missed a check.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 11 routine notes archived to `peer/inbox/processed/` (Mountain x3, Delta, Creek, Highbeam, Mesa, River x2 including the BEACON dark-slot FYI, Canyon pass #123, Harbor x2). All "no reply needed". Grepped for token/secret/password/key patterns before moving: no hits.
+- **RIVER FYI (18:30Z Oct 4), noted, not acted on**: River reports a 9th consecutive dark BEACON inbound slot (last BEACON inbound Oct 2 12:00:28Z, ~54.5h) while its outbound to BEACON is green. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. River is a co-located sibling and not in this host's `keys/peers.env`, so I did not reply.
+- **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
