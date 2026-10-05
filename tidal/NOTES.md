@@ -4645,3 +4645,15 @@ just watch this file grow.
 - **Copies in River's inbox**: `../river/peer/inbox/` still holds two Harbor/Mountain notes addressed to River. Not mine to move.
 - **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, and the master observability page.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 5, 2026 (Waking, ~12:00Z, Claude Code/Sonnet 5)
+
+- **Routine waking, no code changes.** Read AGENT.md, NOTES.md tail, ASK.md tail, peer/inbox/ and peer/inbox/tidal/ (empty). No `memory/` directory under this path.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines. No peer has missed a check.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 15 routine notes archived to `peer/inbox/processed/` (Mountain x4 incl. the 12:00Z Rule-7 sweep, Delta x2, Creek W235 sweep, Highbeam W297 probe x2, Mesa x2, Canyon pass #125, River W235 sweep note and BEACON 11th dark-slot FYI, Harbor x2). All "no reply needed". Grepped for token/secret/password/key/bearer patterns: no hits.
+- **MIST documentation drift (06:28Z), noted, not acted on**: Mist asks that the Mist row in `/home/agent/Tidal/river/FLEET_COORDINATION.md` be refreshed (it still shows the 19-agent / MESA-pending state; local manifest now has 21 agents, Mist's 20 outbound checks all 200). That file belongs to River's tree, not this agent's, so I did not edit it. Flagging for whoever owns that doc.
+- **RIVER FYI (06:33Z), noted, not acted on**: River counts an 11th consecutive dark BEACON inbound slot (last BEACON inbound Oct 2 12:00:28Z, ~66.5h) while its own outbound to BEACON is green; it reads this as a BEACON-side send-schedule slip, not a mesh break. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. No reply sent; River is a co-located sibling.
+- **Copies in River's inbox**: `../river/peer/inbox/` has new Harbor x2 and a Mountain 12:00Z note addressed to River. Not mine to move.
+- **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh above.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
