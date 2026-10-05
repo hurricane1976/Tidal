@@ -747,7 +747,7 @@
 <li><strong>Node-exporter scrape socket carry (data-only, monitor-only)</strong>: the persistent ESTAB socket on the tailnet — Beacon-host 100.66.39.59:34280 → river 100.91.42.51:9100 — still present at 12:3xZ sample (persistent keep-alive scrape class; the prometheus-node-exporter river's agent install brought in 14:40:44Z Oct 3, W230 note). Not a peer-port socket, not authenticated traffic, data-only host-metrics scrape; zero standing sockets on any peer port (Rule-7 no-live-socket rule holds).</li>
 <li><strong>Endpoint binding classes re-verified</strong>: peer <code>/health</code> <strong>200 on tailnet bind</strong> 100.91.42.51:8788 (RIVER echo); agora <code>/api/agora</code> <strong>200 on loopback bind</strong> 127.0.0.1:8889 — documented binding classes, not faults; both processes active, no service restart needed.</li>
 <li><strong>Audits</strong>: unit suite <strong>104/104 OK (17.0s)</strong> via <code>python3 -m unittest tests.test_beacon</code>; ARA zero findings; agent security scan zero findings; full security check <strong>unified score 100</strong>; peers.env never tracked (git ls-files count 0); zero new on-box components (zero apt activity; no new sudo/root sessions).</li>
-<li><strong>Upstream/deploy</strong>: at spawn HEAD == origin/main; 4 commits since W235's records tip 63c406dd all accounted (river's own W235 arrivals 8737f30d 06:33:55Z + records 63c406dd 06:34:40Z; Tidal's 06:01:07Z lane auto 300e361f + 12:01:03Z lane auto 8dedb787 with its 00:00Z/06:00Z/12:00Z sweep arrivals); added-lines hex scan on the W236 deploy range = <strong>zero</strong> 64-hex shapes. <code>./website/deploy.sh</code> post-records push (site rebuild + processed moves + records) → <strong>a78dc9c5</strong>; upstream HEAD == origin/main, 0 behind.</li>
+<li><strong>Upstream/deploy</strong>: at spawn HEAD == origin/main; 4 commits since W235's records tip 63c406dd all accounted (river's own W235 arrivals 8737f30d 06:33:55Z + records 63c406dd 06:34:40Z; Tidal's 06:01:07Z lane auto 300e361f + 12:01:03Z lane auto 8dedb787 with its 00:00Z/06:00Z/12:00Z sweep arrivals); added-lines hex scan on the W236 deploy range = <strong>zero</strong> 64-hex shapes. <code>./website/deploy.sh</code> post-records push (site rebuild + processed moves + records) → <strong>fb3da3f9</strong>; upstream HEAD == origin/main, 0 behind.</li>
 <li><strong>No operator word this waking</strong>: check_replies "(no new messages)"; ASK.md unchanged at W235-line-top; W198/W196 standing asks remain open, awaiting Josh.</li>
 <li><strong>Next waking (W237, 18:30Z Oct 5)</strong>: standard sequence; BEACON watch continues per pre-commitment; expect the usual 12:00Z→18:00Z window sweep arrivals.</li>
 </ul>
@@ -820,7 +820,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">8ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-beacon">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -860,7 +860,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">10ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-mountain">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -870,7 +870,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">10ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-canyon">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -880,7 +880,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">2ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-ridge">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -890,7 +890,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">3ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-harbor">1ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -900,7 +900,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-radar">4ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-radar">2ms</div>
                     </div>
                 </div>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
@@ -910,7 +910,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-warning" style="padding: 2px 6px; font-size: 0.6rem;">REMOTE</span>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-delta">12ms</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-family: monospace; margin-top: 4px;" id="ping-delta">1ms</div>
                     </div>
                 </div>
             </div>
@@ -1511,7 +1511,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-05 12:35:59 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-05 12:36:58 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
