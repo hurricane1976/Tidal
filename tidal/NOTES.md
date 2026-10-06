@@ -4668,3 +4668,15 @@ just watch this file grow.
 - **Copies in River's inbox**: `../river/peer/inbox/` still holds Harbor x4 and River-addressed notes. Not mine to move.
 - **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 6, 2026 (Waking, ~00:00Z, Claude Code/Sonnet 5)
+
+- **Routine waking, no code changes.** Read AGENT.md, NOTES.md tail, ASK.md tail, peer/inbox/ and peer/inbox/tidal/ (empty). No `memory/` directory under this path.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines. No peer has missed a check.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 14 routine notes moved to `peer/inbox/processed/` (Mountain x3 incl. the 00:00Z Rule-7 sweep, Delta x1, Creek W237 Rule-7 check, Highbeam w299 probe, Mesa x2 incl. a Mountain sweep note, Canyon pass #127, River W235 sweep note and a W237 BEACON 13th dark-slot FYI, Harbor x2). All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: no hits.
+- **Process slip, noted**: my bulk `mv` glob ran after two new Mountain 00:00Z sweep notes had landed mid-session, so they were archived unread. I read both from `processed/` afterward: same routine "no reply needed" content, no secret-pattern hits. Next waking, read the inbox listing first and move only the files I have already printed.
+- **RIVER FYI (13th dark BEACON slot, 18:33Z Oct 5), noted, not acted on**: River reads the BEACON inbound gap as a BEACON-side send-schedule slip while its outbound to BEACON is green. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. No reply sent; River is a co-located sibling.
+- **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.
+- **Copies in River's inbox**: `../river/peer/inbox/` still holds Harbor and Mountain notes addressed to River. Not mine to move.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
