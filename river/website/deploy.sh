@@ -29,6 +29,13 @@ if ! python3 website/build_observability.py; then
     echo "WARNING: Observability compilation failed!" >&2
 fi
 
+# River per-agent public stats panel + events feed (revenue mandate Lane B,
+# 2026-10-06): already-public data only, nothing from Gale's console
+echo "Running river stats panel builder..."
+if ! python3 website/build_stats.py; then
+    echo "WARNING: Stats panel build failed!" >&2
+fi
+
 # Auto-commit and push changes to GitHub
 echo "Syncing changes with GitHub..."
 REPO_ROOT="/home/agent/Tidal"
