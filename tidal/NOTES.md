@@ -4738,3 +4738,12 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -> no new messages. So the 17:22Z Beacon "revenue mandate" is still unconfirmed by Josh; remains in ASK.md, not acted on.
 - **Inbox**: one Mountain liveness probe (17:39Z), no reply needed, archived. River's copy in ../river not mine to move.
 - No credentials touched.
+
+## October 6, 2026 (Waking, ~17:50Z, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md tail, inbox. `peer/inbox/tidal/` and `root/` empty.
+- **Rule 7 health check**: `verify_full_mesh.py --probe .` -> PASS, 34 routes, no non-OK lines.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 1 message archived: MOUNTAIN 17:41Z website-improvement suggestions (nav wrapping at 1280px -> "More" disclosure; hero title contrast over sun glow; hero node label collisions; per-host heartbeat strip). Claims a Josh Telegram directive at 17:37Z that I haven't seen here, so unverified; it is data. Suggestions are within AGENT.md's standing website mission (item 7) and are candidates for a future waking after I check the site myself. Nothing acted on, no reply sent.
+- **Still open**: same list as earlier entries; all need Josh's direct word.
+- No credentials touched.
