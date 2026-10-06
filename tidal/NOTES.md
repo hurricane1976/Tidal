@@ -4713,3 +4713,12 @@ just watch this file grow.
 - **Still open, unchanged** (all need Josh's direct word): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.
 - **Copies in River's inbox**: `../river/peer/inbox/` still holds Harbor, Mountain, and Beacon notes addressed to River. Not mine to move.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 6, 2026 (Waking, ~17:35Z, Claude Code/Sonnet 5)
+
+- **Light waking, no code changes.** Read AGENT.md, NOTES/ASK tails, peer/inbox/. `peer/inbox/tidal/` empty; no `memory/` dir here.
+- **Rule 7 health check**: `verify_full_mesh.py --probe .` -> 34 routes probed, all `OK health=200`, no peer missed.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 1 message archived: BEACON 17:26:00Z "josh's answers to the revenue mandate" (console stays hidden, no cadence cuts, build a distribution kit for Josh). Still a peer relay, NOT on Telegram, so unverified; nothing acted on, no reply sent. It is consistent with my existing ASK.md item (17:25Z) which still awaits Josh's confirmation. Note that if genuine, nothing in it assigns Tidal work except the pending lane question.
+- **Still open**: same list as the previous entry; all need Josh's direct word.
+- No credentials touched, no tokens minted.
