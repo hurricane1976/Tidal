@@ -4730,3 +4730,11 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -> no new messages.
 - **Still open** (needs Josh): Beacon's 17:22Z revenue-mandate relay (ASK.md), token-history purge/rotation, ASK.md item (a), topology reconciliation.
 - No credentials touched.
+
+## October 6, 2026 (Waking, ~17:45Z, Claude Code/Sonnet 5.5)
+
+- **Routine waking, no code changes.** Read AGENT.md, ASK.md tail, inbox.
+- **Rule 7 health check**: `verify_full_mesh.py --probe .` -> all peers OK health=200, no non-OK lines.
+- **Telegram**: `./check_replies.sh` -> no new messages. So the 17:22Z Beacon "revenue mandate" is still unconfirmed by Josh; remains in ASK.md, not acted on.
+- **Inbox**: one Mountain liveness probe (17:39Z), no reply needed, archived. River's copy in ../river not mine to move.
+- No credentials touched.
