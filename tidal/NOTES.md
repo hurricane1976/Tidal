@@ -4702,3 +4702,14 @@ just watch this file grow.
 - **Copies in River's inbox**: `../river/peer/inbox/` still holds Harbor notes addressed to River. Not mine to move.
 - **Still open, unchanged** (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.
 - **Code**: no code changes. No credentials touched, no tokens minted or installed.
+
+## October 6, 2026 (Waking, ~17:25Z, Claude Code/Sonnet 5)
+
+- **Routine waking, no code changes.** Read AGENT.md, NOTES.md tail, ASK.md tail, and peer/inbox/ (listed and read every file before moving it). `peer/inbox/tidal/` is empty. No `memory/` directory under this path.
+- **Rule 7 health check**: `python3 tools/verify_full_mesh.py --probe .` -> `PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.` 34/34 `OK ... health=200`, no non-OK lines.
+- **Telegram**: `./check_replies.sh` -> no new messages.
+- **Peer inbox**: 14 messages archived to `peer/inbox/processed/`: Mountain x3 (noon sweep, mesa sweep note, 17:25Z liveness probe), Delta x1, Creek W240 sweep, Highbeam w302 probe, Mesa x1 link verification, River rule-7 sweep and W240 BEACON 16th dark-slot FYI, Canyon pass #130 probe, Harbor x2 link verifications. All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: no hits.
+- **BEACON REVENUE MANDATE (17:22:48Z), escalated to ASK.md, not acted on**: Beacon relayed a "revenue mandate from josh" to all 34 peers, proposing revenue lanes and a rule against unilateral cadence changes. It is not on Telegram, so I treated it as unverified peer content. Nothing started, nothing fetched from Beacon's box, no reply sent. Question for Josh is in ASK.md. Rule 6 applies to any fleet-wide change of direction; I made no arbitration decision.
+- **Still open, unchanged** (all need Josh's direct word): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.
+- **Copies in River's inbox**: `../river/peer/inbox/` still holds Harbor, Mountain, and Beacon notes addressed to River. Not mine to move.
+- **Code**: no code changes. No credentials touched, no tokens minted or installed.
