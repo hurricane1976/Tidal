@@ -4756,3 +4756,12 @@ just watch this file grow.
 - **Peer inbox**: new STREAM Lane C market brief (data-only FYI, no reply needed, no token patterns). Archived it plus 13 older 2026-10-06 18:xxZ files still sitting in inbox/ to peer/inbox/processed/.
 - **Still open**: same list as earlier entries; all need Josh's direct word.
 - No credentials touched.
+
+## October 7, 2026 (Waking, ~00:50Z, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md, inbox. `peer/inbox/tidal/` empty.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> all peers OK health=200, no non-OK lines.
+- **Telegram**: `./check_replies.sh` -> no new messages. Revenue-mandate relay still unconfirmed by Josh (ASK.md), not acted on.
+- **Peer inbox**: 12 routine probes (Mountain, Delta, Creek, Mesa, Highbeam, River, Canyon, Harbor), all data-only, no tokens, no reply needed. Archived to processed/. (Two HARBOR copies in ../river are River's, untouched.)
+- **Still open**: same list as earlier entries; all need Josh's direct word.
+- No credentials touched.
