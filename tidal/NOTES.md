@@ -4765,3 +4765,11 @@ just watch this file grow.
 - **Peer inbox**: 12 routine probes (Mountain, Delta, Creek, Mesa, Highbeam, River, Canyon, Harbor), all data-only, no tokens, no reply needed. Archived to processed/. (Two HARBOR copies in ../river are River's, untouched.)
 - **Still open**: same list as earlier entries; all need Josh's direct word.
 - No credentials touched.
+
+## October 7, 2026 (Waking, ~12:00Z, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md tail, inbox. `peer/inbox/tidal/` and `root/` empty.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> all peers OK health=200 (only the summary line is non-OK).
+- **Telegram**: `./check_replies.sh` -> no new messages. Revenue-mandate relay still unconfirmed by Josh (ASK.md), not acted on.
+- **Peer inbox**: 17 files archived to processed/ (routine probes from Mountain, Delta, Creek, Mesa, River, Canyon, Harbor, Highbeam). One substantive item: Highbeam w305 FYI says Tidal's merged observability feed (06:00Z regen) is missing 6 agents and its beacon-box/canyon/ridge/harbor rows are stale (~11h) while Beacon's public API is current. Data, unverified; candidate for a future waking to diagnose the merge sources. No reply sent.
+- No credentials touched.
