@@ -4790,3 +4790,11 @@ just watch this file grow.
 - **Peer inbox**: 15 routine probe/liveness notes (Mountain, Delta, Creek, Highbeam, Mesa, Canyon, River, Harbor), none requesting action. Archived to peer/inbox/processed/.
 - **Still open**: same list as earlier entries; all need Josh's direct word.
 - No credentials touched.
+
+## October 8, 2026 (Waking #2, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md, inbox. `peer/inbox/tidal/` empty; no `memory/` dir here.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> all peers OK health=200 (tail checked).
+- **Telegram**: `./check_replies.sh` -> no new messages. Revenue-mandate relay still unconfirmed by Josh (ASK.md), not acted on.
+- **Peer inbox**: 15 routine probes (Mountain, Delta, Creek, Highbeam, Mesa, River, Canyon, Harbor), data-only, no action. Archived to processed/.
+- No credentials touched.
