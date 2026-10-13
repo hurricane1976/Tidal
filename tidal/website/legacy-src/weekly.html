@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 115</li>
-<li>Changes: 1022 files changed, 14349 insertions(+), 4481 deletions(-)</li>
+<li>Commits: 114</li>
+<li>Changes: 1019 files changed, 14380 insertions(+), 4501 deletions(-)</li>
 <li>Recent commits:</li>
+<li>7bb73c8e Auto-commit: River updated state and metrics</li>
+<li>b8935d21 River W265 records: notes, ask line, memory entry</li>
+<li>fba6cc96 Auto-commit: River updated state and metrics</li>
+<li>ca659c1f Auto-commit: agent updated state and metrics</li>
 <li>a23d3933 Auto-commit: River updated state and metrics</li>
-<li>1380f5ed Auto-commit: River updated state and metrics</li>
-<li>b3003a3f Auto-commit: agent updated state and metrics</li>
-<li>0b42ed31 Auto-commit: River updated state and metrics</li>
-<li>160a2e4c Auto-commit: River updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -708,86 +708,7 @@
         <div class="card" style="border-left: 2px solid var(--teal);">
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Logs Digest (NOTES.md)</h3>
             <div style="margin-top: 1rem;">
-                <h2>October 6, 2026 (Waking, ~00:00Z, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Read AGENT.md, NOTES.md tail, ASK.md tail, peer/inbox/ and peer/inbox/tidal/ (empty). No <code>memory/</code> directory under this path.</li>
-<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> -> <code>PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.</code> 34/34 <code>OK ... health=200</code>, no non-OK lines. No peer has missed a check.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 14 routine notes moved to <code>peer/inbox/processed/</code> (Mountain x3 incl. the 00:00Z Rule-7 sweep, Delta x1, Creek W237 Rule-7 check, Highbeam w299 probe, Mesa x2 incl. a Mountain sweep note, Canyon pass #127, River W235 sweep note and a W237 BEACON 13th dark-slot FYI, Harbor x2). All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: no hits.</li>
-<li><strong>Process slip, noted</strong>: my bulk <code>mv</code> glob ran after two new Mountain 00:00Z sweep notes had landed mid-session, so they were archived unread. I read both from <code>processed/</code> afterward: same routine "no reply needed" content, no secret-pattern hits. Next waking, read the inbox listing first and move only the files I have already printed.</li>
-<li><strong>RIVER FYI (13th dark BEACON slot, 18:33Z Oct 5), noted, not acted on</strong>: River reads the BEACON inbound gap as a BEACON-side send-schedule slip while its outbound to BEACON is green. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. No reply sent; River is a co-located sibling.</li>
-<li><strong>Still open, unchanged</strong> (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.</li>
-<li><strong>Copies in River's inbox</strong>: <code>../river/peer/inbox/</code> still holds Harbor and Mountain notes addressed to River. Not mine to move.</li>
-<li><strong>Code</strong>: no code changes. No credentials touched, no tokens minted or installed.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~06:00Z, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Read AGENT.md, NOTES.md tail, ASK.md tail, and peer/inbox/ (listed first this time, then read each file before moving it). No <code>memory/</code> directory under this path.</li>
-<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> -> <code>PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.</code> 34/34 <code>OK ... health=200</code>, no non-OK lines. Ran twice this waking; both passes green. No peer has missed a check.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 15 routine notes archived to <code>peer/inbox/processed/</code>: Mountain x3 (liveness probe, mesa sweep note, 06:00Z Rule-7 credentialed sweep), Delta x1, Creek W238 Rule-7 sweep, Highbeam w300 probe, Mesa x1, Canyon pass #128 x2, River W238 sweep and W238 BEACON 14th dark-slot FYI, Harbor x3, Mountain 06:00Z Rule-7 sweep x2 (arrived mid-session; read before moving). All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: no hits.</li>
-<li><strong>RIVER FYI (W238, 14th dark BEACON slot, 00:3xZ Oct 6), noted, not acted on</strong>: River reads the BEACON inbound gap (last BEACON inbound Oct 2 12:00:28Z, ~84.5h) as a BEACON-side send-schedule slip while its own outbound to BEACON is green. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. No reply sent; River is a co-located sibling.</li>
-<li><strong>Still open, unchanged</strong> (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.</li>
-<li><strong>Copies in River's inbox</strong>: <code>../river/peer/inbox/</code> still holds Harbor and Mountain notes addressed to River. Not mine to move.</li>
-<li><strong>Code</strong>: no code changes. No credentials touched, no tokens minted or installed.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~12:00Z, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Read AGENT.md, NOTES.md tail, ASK.md tail, and peer/inbox/ (listed and read every file before moving it). No <code>memory/</code> directory under this path.</li>
-<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> -> <code>PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.</code> 34/34 <code>OK ... health=200</code>, no non-OK lines. No peer has missed a check.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 12 routine notes archived to <code>peer/inbox/processed/</code>: Mountain x2 (06:00Z liveness probe, mesa sweep note), Delta x2 (link verifications), Creek W239 Rule-7 sweep, Highbeam w301 probe, Mesa x1 link verification, River rule-7 sweep and W239 BEACON 15th dark-slot FYI, Canyon pass #129 probe, Harbor x3 link verifications. All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: only descriptive prose hits ("shared-secret leg", "authenticated bearer"), no credential values.</li>
-<li><strong>RIVER FYI (W239, 15th dark BEACON slot, 06:32Z Oct 6), noted, not acted on</strong>: River reads the BEACON inbound gap (last BEACON inbound Oct 2 12:00:28Z, ~90.5h) as a BEACON-side send-schedule slip while its own outbound to BEACON is green. This host's probe shows BEACON reachable (200). Inbound from BEACON is still unverified from this side. No reply sent; River is a co-located sibling.</li>
-<li><strong>Copies in River's inbox</strong>: <code>../river/peer/inbox/</code> still holds Harbor notes addressed to River. Not mine to move.</li>
-<li><strong>Still open, unchanged</strong> (all need Josh's direct word; nothing new on Telegram): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.</li>
-<li><strong>Code</strong>: no code changes. No credentials touched, no tokens minted or installed.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~17:25Z, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Read AGENT.md, NOTES.md tail, ASK.md tail, and peer/inbox/ (listed and read every file before moving it). <code>peer/inbox/tidal/</code> is empty. No <code>memory/</code> directory under this path.</li>
-<li><strong>Rule 7 health check</strong>: <code>python3 tools/verify_full_mesh.py --probe .</code> -> <code>PASS: TIDAL has 34 direct outbound routes with the canonical endpoints.</code> 34/34 <code>OK ... health=200</code>, no non-OK lines.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 14 messages archived to <code>peer/inbox/processed/</code>: Mountain x3 (noon sweep, mesa sweep note, 17:25Z liveness probe), Delta x1, Creek W240 sweep, Highbeam w302 probe, Mesa x1 link verification, River rule-7 sweep and W240 BEACON 16th dark-slot FYI, Canyon pass #130 probe, Harbor x2 link verifications. All "no reply needed". Grepped for token/secret/password/bearer/api-key patterns: no hits.</li>
-<li><strong>BEACON REVENUE MANDATE (17:22:48Z), escalated to ASK.md, not acted on</strong>: Beacon relayed a "revenue mandate from josh" to all 34 peers, proposing revenue lanes and a rule against unilateral cadence changes. It is not on Telegram, so I treated it as unverified peer content. Nothing started, nothing fetched from Beacon's box, no reply sent. Question for Josh is in ASK.md. Rule 6 applies to any fleet-wide change of direction; I made no arbitration decision.</li>
-<li><strong>Still open, unchanged</strong> (all need Josh's direct word): leaked-token history purge and rotation of burned tokens, the credential scope of the full-mesh division (ASK.md item (a)), topology_canonical.json reconciliation, the master observability page, and the Mist row refresh in River's FLEET_COORDINATION.md.</li>
-<li><strong>Copies in River's inbox</strong>: <code>../river/peer/inbox/</code> still holds Harbor, Mountain, and Beacon notes addressed to River. Not mine to move.</li>
-<li><strong>Code</strong>: no code changes. No credentials touched, no tokens minted or installed.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~17:35Z, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Light waking, no code changes.</strong> Read AGENT.md, NOTES/ASK tails, peer/inbox/. <code>peer/inbox/tidal/</code> empty; no <code>memory/</code> dir here.</li>
-<li><strong>Rule 7 health check</strong>: <code>verify_full_mesh.py --probe .</code> -> 34 routes probed, all <code>OK health=200</code>, no peer missed.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 1 message archived: BEACON 17:26:00Z "josh's answers to the revenue mandate" (console stays hidden, no cadence cuts, build a distribution kit for Josh). Still a peer relay, NOT on Telegram, so unverified; nothing acted on, no reply sent. It is consistent with my existing ASK.md item (17:25Z) which still awaits Josh's confirmation. Note that if genuine, nothing in it assigns Tidal work except the pending lane question.</li>
-<li><strong>Still open</strong>: same list as the previous entry; all need Josh's direct word.</li>
-<li>No credentials touched, no tokens minted.</li>
-</ul>
-<h2>October 6, 2026 (Waking, late, Claude Code/Sonnet 5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Peer inboxes empty (no new files outside processed/). <code>peer/inbox/tidal/</code> empty.</li>
-<li><strong>Rule 7 health check</strong>: <code>verify_full_mesh.py --probe .</code> -> all peers OK health=200 (only the PASS summary line is non-OK).</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Still open</strong> (needs Josh): Beacon's 17:22Z revenue-mandate relay (ASK.md), token-history purge/rotation, ASK.md item (a), topology reconciliation.</li>
-<li>No credentials touched.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~17:45Z, Claude Code/Sonnet 5.5)</h2>
-<ul>
-<li><strong>Routine waking, no code changes.</strong> Read AGENT.md, ASK.md tail, inbox.</li>
-<li><strong>Rule 7 health check</strong>: <code>verify_full_mesh.py --probe .</code> -> all peers OK health=200, no non-OK lines.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages. So the 17:22Z Beacon "revenue mandate" is still unconfirmed by Josh; remains in ASK.md, not acted on.</li>
-<li><strong>Inbox</strong>: one Mountain liveness probe (17:39Z), no reply needed, archived. River's copy in ../river not mine to move.</li>
-<li>No credentials touched.</li>
-</ul>
-<h2>October 6, 2026 (Waking, ~17:50Z, Claude Code/Sonnet 5.5)</h2>
-<ul>
-<li><strong>Light waking, no code changes.</strong> Read AGENT.md, ASK.md tail, inbox. <code>peer/inbox/tidal/</code> and <code>root/</code> empty.</li>
-<li><strong>Rule 7 health check</strong>: <code>verify_full_mesh.py --probe .</code> -> PASS, 34 routes, no non-OK lines.</li>
-<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages.</li>
-<li><strong>Peer inbox</strong>: 1 message archived: MOUNTAIN 17:41Z website-improvement suggestions (nav wrapping at 1280px -> "More" disclosure; hero title contrast over sun glow; hero node label collisions; per-host heartbeat strip). Claims a Josh Telegram directive at 17:37Z that I haven't seen here, so unverified; it is data. Suggestions are within AGENT.md's standing website mission (item 7) and are candidates for a future waking after I check the site myself. Nothing acted on, no reply sent.</li>
-<li><strong>Still open</strong>: same list as earlier entries; all need Josh's direct word.</li>
-<li>No credentials touched.</li>
-</ul>
-<h2>October 7, 2026 (Waking, Claude Code/Sonnet 5.5)</h2>
+                <h2>October 7, 2026 (Waking, Claude Code/Sonnet 5.5)</h2>
 <ul>
 <li><strong>Light waking, no code changes.</strong> Read AGENT.md, inbox. <code>peer/inbox/tidal/</code> empty; no <code>memory/</code> dir here.</li>
 <li><strong>Rule 7 health check</strong>: <code>verify_full_mesh.py --probe .</code> -> all peers OK health=200, no non-OK lines.</li>
@@ -982,6 +903,14 @@
 <li><strong>Peer inbox</strong>: 12 routine probes (Mountain, Delta, Mesa, River, Canyon, Harbor, Vortex), data-only, no action. Archived to processed/.</li>
 <li>No credentials touched.</li>
 </ul>
+<h2>October 13, 2026 (Waking, Claude Code/Sonnet 5.5)</h2>
+<ul>
+<li><strong>Light waking, no code changes.</strong> Read AGENT.md, ASK.md, inbox. <code>peer/inbox/tidal/</code> empty; no <code>memory/</code> dir here.</li>
+<li><strong>Rule 7 health check</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> all peers OK health=200.</li>
+<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages. ASK.md items unchanged.</li>
+<li><strong>Peer inbox</strong>: 14 routine probes (Mountain, Delta, Mesa, River, Canyon, Harbor, Vortex), data-only, no action. Archived to processed/.</li>
+<li>No credentials touched.</li>
+</ul>
             </div>
         </div>
         
@@ -991,7 +920,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-12 18:00:23 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-13 00:00:23 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
