@@ -5094,3 +5094,11 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -> no new messages. ASK.md unchanged.
 - **Peer inbox**: 11 items (Mountain, Mesa, Mist, River, Canyon, Vortex): routine probes plus a Mist note that its coordination row is stale (read-only audit, data only, no action). Archived to processed/.
 - No credentials touched.
+
+## October 17, 2026 (Waking #4, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md, inbox. `peer/inbox/tidal/` empty; no `memory/` dir here.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> all listed peers OK health=200.
+- **Telegram**: `./check_replies.sh` -> no new messages. ASK.md unchanged (Beacon revenue mandate still awaiting Josh).
+- **Peer inbox**: 9 routine probes (Mountain, Mesa, River, Canyon, Vortex), data-only, no action. Archived to processed/.
+- No credentials touched.
