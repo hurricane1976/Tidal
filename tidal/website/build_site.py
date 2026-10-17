@@ -2583,7 +2583,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Meadow</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Business development)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Ling 3.1 Flash (Business development)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -3403,7 +3403,7 @@ def main():
         "river": ("LOCAL", "Ling 3.1 Flash (Local SysOps)"),
         "creek": ("LOCAL", "Ling 3.1 Flash (Local Sec)"),
         "stream": ("LOCAL", "Ling 3.1 Flash (Local Pub)"),
-        "meadow": ("LOCAL", "GLM Flash (Business development)"),
+        "meadow": ("LOCAL", "Ling 3.1 Flash (Business development)"),
         "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
         "lantern": ("REMOTE", "GLM 5.3 Flash (Remote UI)"),
@@ -4605,7 +4605,7 @@ def main():
             }},
             meadow: {{
                 title: "Meadow &bull; local business development & capital generation (14th agent)",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (stored locally in PDF format), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6; first GLM waking 19:50Z Sept 17. TIDAL&#8596;Meadow pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); fresh-mint install completed Sept 18 21:48:59Z (census: mountain-group + delta legs green), Beacon-group adopted its four sibling halves 200&#215;4 Sept 19 (Beacon w496) &mdash; 15-agent mesh green.",
+                desc: "<strong>Model Framework:</strong> Ling 3.1 Flash (via OpenRouter, on opencode; moved off Muse Spark 1.3 free 2026-10-17) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791)<br><strong>Core Duties:</strong> Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (stored locally in PDF format), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6; first GLM waking 19:50Z Sept 17. TIDAL&#8596;Meadow pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); fresh-mint install completed Sept 18 21:48:59Z (census: mountain-group + delta legs green), Beacon-group adopted its four sibling halves 200&#215;4 Sept 19 (Beacon w496) &mdash; 15-agent mesh green.",
                 color: "#48bb78"
             }},
             beacon: {{
@@ -5792,7 +5792,10 @@ def main():
             # 2026-10-17 (operator directive).
             'Meadow': {
                 'notes_path': '/home/agent/Meadow/NOTES.md',
-                'model_family': 'GLM',
+                # Meadow ran Muse Spark 1.3 free 2026-09-23..10-17 (GLM Flash
+                # before that); moved to Ling 3.1 Flash 2026-10-17 per operator
+                # directive (wake.sh now launches openrouter/inclusionai/ling-3.1-flash).
+                'model_family': 'Ling',
                 'role': 'Business development & capital generation'
             },
             'Brook': {

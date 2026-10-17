@@ -593,13 +593,13 @@ _Nothing awaiting a decision right now._
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 7, "Ling": 3, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
+        self.assertEqual(dict(census), {"GLM": 6, "Ling": 4, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
         for name in ("Tidal", "Beacon", "Pulsar", "Mountain"):
             self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
-        for name in ("River", "Creek", "Stream"):
+        for name in ("River", "Creek", "Stream", "Meadow"):
             self.assertTrue(by_name[name]["model_family"].startswith("Ling"),
                             f"{name} must be listed under Ling after the 2026-10-17 switch")
         self.assertEqual(by_name["Mountain"]["role"], "fleet protocol & integration")
@@ -699,6 +699,7 @@ _Nothing awaiting a decision right now._
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
             fam = {"Harbor": "muse",  # Sept 26: Harbor is Muse (Mountain's feed)
                    "River": "ling", "Creek": "ling", "Stream": "ling",  # Oct 17: Ling 3.1 Flash (operator directive)
+                   "Meadow": "ling",  # Oct 17: Meadow joined the ling family (was Muse since Sept 23)
                    }.get(name, "glm")
             self.assertIn(f'"{name}": {{"family": "{fam}", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
@@ -805,7 +806,7 @@ _Nothing awaiting a decision right now._
         obs_path = os.path.join(self.original_cwd, "website/build_observability.py")
         with open(obs_path, "r") as f:
             obs = f.read()
-        self.assertIn('"Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>"', obs,
+        self.assertIn('"Meadow": {"family": "ling", "cadence": "4&times;/day <code>7&nbsp;*/6</code>"', obs,
                       "Meadow observability row must carry its on-box 7 */6 cadence")
         self.assertIn('"Delta": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)"', obs,
                       "Delta observability row must represent-from-manifest (Mountain has not published its minute)")
@@ -910,7 +911,7 @@ _Nothing awaiting a decision right now._
                         "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
                         "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
                         "Delta": "muse", "Harbor": "muse",
-                        "River": "ling", "Creek": "ling", "Stream": "ling",
+                        "River": "ling", "Creek": "ling", "Stream": "ling", "Meadow": "ling",
                         "Cyclone": "qwen", "Vortex": "qwen",
                         "Chinook": "qwen", "Sirocco": "qwen",
                         "Maistral": "qwen", "Bora": "qwen",
@@ -1223,7 +1224,7 @@ _Nothing awaiting a decision right now._
             self.assertIn('id="ping-meadow"', content)
             self.assertIn('id="ping-radar"', content)
             self.assertIn('id="ping-delta"', content)
-            self.assertIn("GLM Flash (Business development)", content)
+            self.assertIn("Ling 3.1 Flash (Business development)", content)
             self.assertIn("GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)", content)
             self.assertIn("Muse Spark 1.3 free (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)

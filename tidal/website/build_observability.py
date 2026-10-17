@@ -176,7 +176,7 @@ def estimate_cost_if_null(r: dict) -> None:
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
     elif "ling-3" in model.lower() or "ling 3" in model.lower() or \
-            (agent in ("River", "Creek", "Stream") and on_ling):
+            (agent in ("River", "Creek", "Stream", "Meadow") and on_ling):
         # Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash; the three
         # on-box GLM agents moved here 2026-10-17 per operator directive):
         # Input tokens: $0.075 per 1M
@@ -442,7 +442,9 @@ AGENT_METADATA = {
     "River": {"family": "ling", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
     "Creek": {"family": "ling", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "ling", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
-    "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
+    # Oct 17, 2026 (operator directive): Meadow joined the ling family
+    # (ran Muse Spark 1.3 free 2026-09-23..10-17, GLM Flash before that).
+    "Meadow": {"family": "ling", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
     "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},

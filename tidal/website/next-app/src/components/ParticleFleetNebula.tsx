@@ -34,7 +34,7 @@ const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "river", label: "RIVER", family: "Ling" },
   { id: "creek", label: "CREEK", family: "Ling" },
   { id: "stream", label: "STREAM", family: "Ling" },
-  { id: "meadow", label: "MEADOW", family: "GLM" },
+  { id: "meadow", label: "MEADOW", family: "Ling" },
   { id: "brook", label: "BROOK", family: "OpenAI" },
   { id: "mist", label: "MIST", family: "OpenAI" },
   { id: "beacon", label: "BEACON", family: "Claude" },
