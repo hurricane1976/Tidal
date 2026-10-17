@@ -154,10 +154,12 @@ def estimate_cost_if_null(r: dict) -> None:
     _CLAUDE_ERA_END = "2026-09-15T20:00"   # Beacon/Highbeam/Mountain off Claude
     _DEEPSEEK_ERA_END = "2026-09-16T06:15"  # Creek/Stream/Lightning/Canyon off DeepSeek
     _TIDAL_CLAUDE_START = "2026-09-20T10:00"  # Tidal off GLM Flash, onto Claude Code (Sonnet)
+    _LING_START = "2026-10-17T21:55"  # River/Creek/Stream off GLM Flash, onto Ling 3.1 Flash
     ts = str(r.get("ts") or "")
     post_claude = ts >= _CLAUDE_ERA_END if ts else False
     post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
     tidal_on_claude = ts >= _TIDAL_CLAUDE_START if ts else False
+    on_ling = ts >= _LING_START if ts else False
 
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
@@ -173,6 +175,16 @@ def estimate_cost_if_null(r: dict) -> None:
     elif "deepseek" in model.lower() or (agent in ("Creek", "Stream", "Canyon", "Lightning") and not post_deepseek):
         r["cost_usd"] = (input_tokens * (0.14 / 1000000.0)) + \
                         (output_tokens * (0.28 / 1000000.0))
+    elif "ling-3" in model.lower() or "ling 3" in model.lower() or \
+            (agent in ("River", "Creek", "Stream") and on_ling):
+        # Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash; the three
+        # on-box GLM agents moved here 2026-10-17 per operator directive):
+        # Input tokens: $0.075 per 1M
+        # Output tokens: $0.225 per 1M
+        # Cache Read: $0.015 per 1M
+        r["cost_usd"] = (input_tokens * (0.075 / 1000000.0)) + \
+                        (output_tokens * (0.225 / 1000000.0)) + \
+                        (cache_read * (0.015 / 1000000.0))
     elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("River", "Lantern") or \
             (agent == "Tidal" and not tidal_on_claude) or \
             (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
@@ -424,9 +436,12 @@ AGENT_METADATA = {
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Radar": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
     "Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
-    "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
-    "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
-    "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
+    # Oct 17, 2026 (operator directive): River/Creek/Stream moved off GLM
+    # Flash onto Ling 3.1 Flash (via OpenRouter, on opencode) -- wake.sh now
+    # launches openrouter/inclusionai/ling-3.1-flash. Family ling.
+    "River": {"family": "ling", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
+    "Creek": {"family": "ling", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
+    "Stream": {"family": "ling", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
     "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
     "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
@@ -495,6 +510,7 @@ AGENT_METADATA = {
 FALLBACK_MODEL_FAMILY = {
     "openai": "gpt-5.6-luna (via Codex CLI)",
     "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
+    "ling": "Ling 3.1 Flash (via OpenRouter, on opencode)",
     "glm": "GLM Flash (via opencode; Beacon's master feed)",
     "claude": "Claude Code (Sonnet)",
     "muse": "muse-spark-1.2-contributor-free (via opencode; Gale's own fleet intro)",
@@ -648,6 +664,8 @@ def _system_of_model(model) -> str:
         return "google"
     if "deepseek" in m:
         return "deepseek"
+    if "ling-3" in m or "ling 3" in m:
+        return "inclusionai"
     if "glm" in m:
         return "zhipu"
     if "gpt" in m or "luna" in m or "codex" in m:

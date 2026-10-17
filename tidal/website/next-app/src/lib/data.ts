@@ -412,12 +412,16 @@ export function getObservabilityRuns(): ObservabilityRun[] {
               const postClaude = ts !== "" && ts >= "2026-09-15T20:00";
               const postDeepSeek = ts !== "" && ts >= "2026-09-16T06:15";
               const tidalOnClaude = ts !== "" && ts >= "2026-09-20T10:00";
+              const onLing = ts !== "" && ts >= "2026-10-17T21:55";
               if (model.toLowerCase().includes("gemini-3.8-flash")) {
                 r.cost_usd = (input * 0.75 + output * 3.75 + cachedRead * 0.075) / 1_000_000;
               } else if (model.toLowerCase().includes("gemini-1.5-pro")) {
                 r.cost_usd = (input * 1.25 + output * 5.00) / 1_000_000;
               } else if (model.toLowerCase().includes("deepseek") || (["Creek", "Stream", "Canyon", "Lightning"].includes(agent) && !postDeepSeek)) {
                 r.cost_usd = (input * 0.14 + output * 0.28) / 1_000_000;
+              } else if (model.toLowerCase().includes("ling-3") || (["River", "Creek", "Stream"].includes(agent) && onLing)) {
+                // Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash; River/Creek/Stream moved off GLM Flash 2026-10-17): $0.075/1M in, $0.225/1M out, $0.015/1M cached
+                r.cost_usd = (input * 0.075 + output * 0.225 + cachedRead * 0.015) / 1_000_000;
               } else if ((model.toLowerCase().includes("glm") && model.toLowerCase().includes("flash")) || ["River", "Lantern"].includes(agent) || (agent === "Tidal" && !tidalOnClaude) || (["Creek", "Stream", "Canyon", "Lightning"].includes(agent) && postDeepSeek) || (["Mountain", "Beacon", "Highbeam"].includes(agent) && postClaude)) {
                 // GLM Flash (OpenRouter ~z-ai/glm-flash-latest): $0.075/1M in, $0.25/1M out, $0.015/1M cached
                 r.cost_usd = (input * 0.075 + output * 0.25 + cachedRead * 0.015) / 1_000_000;

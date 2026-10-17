@@ -2,11 +2,12 @@
 
 import { useEffect, useRef } from "react";
 
-type Family = "Claude" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
+type Family = "Claude" | "DeepSeek" | "GLM" | "Ling" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
 
 const FAMILY_RGB: Record<Family, [number, number, number]> = {
   Claude: [255, 194, 51], // --fleet-claude #ffc233 (shared palette)
   DeepSeek: [90, 169, 255], // var(--blue)
+  Ling: [56, 189, 248], // --fleet-ling #38bdf8 sky (Ling 3.1 Flash, Oct 17 2026)
   GLM: [240, 111, 176], // var(--magenta)
   OpenAI: [255, 90, 95], // --fleet-openai #ff5a5f (labelled GPT)
   Muse: [157, 255, 61], // --fleet-muse lime
@@ -30,9 +31,9 @@ const TEXT_RGB = "232,234,237";
 // (32nd-35th, Qwen) Sept 25-26 -- bringing Gale's host to its full 14.
 const AGENTS: { id: string; label: string; family: Family }[] = [
   { id: "tidal", label: "TIDAL", family: "Claude" },
-  { id: "river", label: "RIVER", family: "GLM" },
-  { id: "creek", label: "CREEK", family: "GLM" },
-  { id: "stream", label: "STREAM", family: "GLM" },
+  { id: "river", label: "RIVER", family: "Ling" },
+  { id: "creek", label: "CREEK", family: "Ling" },
+  { id: "stream", label: "STREAM", family: "Ling" },
   { id: "meadow", label: "MEADOW", family: "GLM" },
   { id: "brook", label: "BROOK", family: "OpenAI" },
   { id: "mist", label: "MIST", family: "OpenAI" },

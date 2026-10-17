@@ -527,10 +527,12 @@ _Nothing awaiting a decision right now._
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
-        for name in ("River", "Lantern"):
-            if name in families:
-                self.assertEqual(families[name], "GLM",
-                                 f"{name} should be listed under the GLM family after the GLM Flash migration")
+        if "Lantern" in families:
+            self.assertTrue(families["Lantern"].startswith("GLM"),
+                            "Lantern should stay listed under the GLM family after the GLM Flash migration")
+        if "River" in families:
+            self.assertTrue(families["River"].startswith("Ling"),
+                            "River should be listed under the Ling family after the 2026-10-17 Ling 3.1 Flash migration")
 
     def test_manifest_tidal_claude_migration(self):
         """Sept 20, 2026 (operator directive): Tidal itself moved off
@@ -591,12 +593,15 @@ _Nothing awaiting a decision right now._
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 10, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
+        self.assertEqual(dict(census), {"GLM": 7, "Ling": 3, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
         for name in ("Tidal", "Beacon", "Pulsar", "Mountain"):
             self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
+        for name in ("River", "Creek", "Stream"):
+            self.assertTrue(by_name[name]["model_family"].startswith("Ling"),
+                            f"{name} must be listed under Ling after the 2026-10-17 switch")
         self.assertEqual(by_name["Mountain"]["role"], "fleet protocol & integration")
         self.assertIn("fleet onboarding & external liaison", by_name["Meadow"]["role"])
 
@@ -610,8 +615,8 @@ _Nothing awaiting a decision right now._
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
         for name in ("Creek", "Stream"):
             if name in families:
-                self.assertEqual(families[name], "GLM",
-                                 f"{name} should be listed under the GLM family after the Sept-16 GLM-flash-latest migration")
+                self.assertTrue(families[name].startswith("Ling"),
+                                f"{name} should be listed under the Ling family after the 2026-10-17 Ling 3.1 Flash migration")
 
     def test_wake_configs_glm_flash_latest(self):
         """River, Creek, and Stream must launch GLM Flash latest via the
@@ -626,8 +631,10 @@ _Nothing awaiting a decision right now._
                 continue
             with open(path, "r") as f:
                 content = f.read()
-            self.assertIn("openrouter/~z-ai/glm-flash-latest", content,
-                          f"{agent}'s wake.sh must launch GLM Flash latest")
+            self.assertIn("openrouter/inclusionai/ling-3.1-flash", content,
+                          f"{agent}'s wake.sh must launch Ling 3.1 Flash via OpenRouter")
+            self.assertNotIn("openrouter/~z-ai/glm-flash-latest", content,
+                             f"{agent}'s wake.sh must not regress to the GLM Flash alias")
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
@@ -690,7 +697,9 @@ _Nothing awaiting a decision right now._
                               ("Canyon", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Ridge", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
-            fam = "muse" if name == "Harbor" else "glm"  # Sept 26: Harbor is Muse (Mountain's feed)
+            fam = {"Harbor": "muse",  # Sept 26: Harbor is Muse (Mountain's feed)
+                   "River": "ling", "Creek": "ling", "Stream": "ling",  # Oct 17: Ling 3.1 Flash (operator directive)
+                   }.get(name, "glm")
             self.assertIn(f'"{name}": {{"family": "{fam}", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
         # Sept 20, 2026: Mountain's first-party agent.json reports Claude
@@ -901,6 +910,7 @@ _Nothing awaiting a decision right now._
                         "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
                         "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
                         "Delta": "muse", "Harbor": "muse",
+                        "River": "ling", "Creek": "ling", "Stream": "ling",
                         "Cyclone": "qwen", "Vortex": "qwen",
                         "Chinook": "qwen", "Sirocco": "qwen",
                         "Maistral": "qwen", "Bora": "qwen",
@@ -961,7 +971,7 @@ _Nothing awaiting a decision right now._
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Claude", "GPT", "Muse", "Qwen"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Ling", "Claude", "GPT", "Muse", "Qwen"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 

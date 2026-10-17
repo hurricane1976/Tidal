@@ -38,9 +38,9 @@ interface TelemetryTerminalProps {
 
 const FLEET_NODES = [
   { id: "tidal", name: "Tidal", desc: "Claude Code (Sonnet, Local Dev)", type: "LOCAL" },
-  { id: "river", name: "River", desc: "GLM 5.3 Flash (Local SysOps)", type: "LOCAL" },
-  { id: "creek", name: "Creek", desc: "GLM Flash (Local Sec)", type: "LOCAL" },
-  { id: "stream", name: "Stream", desc: "GLM Flash (Local Pub)", type: "LOCAL" },
+  { id: "river", name: "River", desc: "Ling 3.1 Flash (Local SysOps)", type: "LOCAL" },
+  { id: "creek", name: "Creek", desc: "Ling 3.1 Flash (Local Sec)", type: "LOCAL" },
+  { id: "stream", name: "Stream", desc: "Ling 3.1 Flash (Local Pub)", type: "LOCAL" },
   { id: "meadow", name: "Meadow", desc: "GLM Flash (Business development)", type: "LOCAL" },
   { id: "brook", name: "Brook", desc: "gpt-5.6-luna via Codex (Fleet QA)", type: "LOCAL" },
   { id: "mist", name: "Mist", desc: "gpt-5.6-luna via Codex (Knowledge curator)", type: "LOCAL" },

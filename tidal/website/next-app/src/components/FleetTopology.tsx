@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FleetParticles from "./FleetParticles";
 
-type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
+type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "Ling" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
 
 // A dedicated, higher-saturation palette (defined in globals.css) so the
 // fleet map itself pops without touching the colors any other component
@@ -93,9 +93,9 @@ GALE_HOST.members.forEach((id, i) => { POS[id] = ringPos(GALE_HOST.cx, GALE_HOST
 const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // TIDAL HOST pentagram (this box, tidalwake.org)
   { id: "tidal", label: "TIDAL", family: "Claude", title: "Tidal • local development & security gateway", desc: "Model Framework: Claude Code (Sonnet) — moved off opencode/GLM Flash per operator directive 2026-09-20 • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
-  { id: "creek", label: "CREEK", family: "GLM", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
-  { id: "stream", label: "STREAM", family: "GLM", title: "Stream • local research & context gathering gateway", desc: "Model Framework: GLM Flash (via opencode) • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
-  { id: "river", label: "RIVER", family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM 5.3 Flash • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
+  { id: "creek", label: "CREEK", family: "Ling", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
+  { id: "stream", label: "STREAM", family: "Ling", title: "Stream • local research & context gathering gateway", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
+  { id: "river", label: "RIVER", family: "Ling", title: "River • local system operations & recovery sentinel", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // MEADOW (14th agent, onboarded Sept 17 2026 -- Josh's admin session built
   // it on THIS box, live 100.91.42.51:8791 since 18:49:26Z). Business
