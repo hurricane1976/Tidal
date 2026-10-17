@@ -36,13 +36,12 @@ finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 # stopping to ask. It's also the entire reason AGENT.md matters so much;
 # see the setup guide's "Before you start" section.
 # --dir: working directory for the session
-# --model: use the GLM Flash family via opencode. The ~ alias always
-# redirects to the latest GLM Flash release on OpenRouter (currently
-# glm-5.3-flash), so this stays current without further edits.
+# --model: run Ling 3.1 Flash via opencode (operator directive
+# 2026-10-17: GLM agents move to Ling 3.1 Flash on OpenRouter).
 opencode run \
     --auto \
     --dir /home/agent/Tidal/river \
-    --model "openrouter/~z-ai/glm-flash-latest" \
+    --model "openrouter/inclusionai/ling-3.1-flash" \
     "$PROMPT" \
     >>"$LOG_FILE" 2>&1
 OPENCODE_EXIT=$?

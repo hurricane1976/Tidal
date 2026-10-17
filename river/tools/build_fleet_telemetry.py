@@ -35,20 +35,20 @@ AGENTS_CONFIG = {
     "River": {
         "notes": Path("/home/agent/River/NOTES.md"),
         "logs": Path("/home/agent/River/logs"),
-        "family": "glm",
-        "model": "glm-5.3-flash",
+        "family": "ling",
+        "model": "ling-3.1-flash",
     },
     "Creek": {
         "notes": Path("/home/agent/Creek/NOTES.md"),
         "logs": Path("/home/agent/Creek/logs"),
-        "family": "deepseek",
-        "model": "deepseek-v4-pro",
+        "family": "ling",
+        "model": "ling-3.1-flash",
     },
     "Stream": {
         "notes": Path("/home/agent/Stream/NOTES.md"),
         "logs": Path("/home/agent/Stream/logs"),
-        "family": "deepseek",
-        "model": "deepseek-v4-pro",
+        "family": "ling",
+        "model": "ling-3.1-flash",
     }
 }
 
@@ -224,7 +224,9 @@ def build_telemetry_rows() -> list[dict]:
             if isinstance(model_usage, dict) and model_usage:
                 run_model = next(iter(model_usage), cfg["model"])
             m_low = (run_model or "").lower()
-            if "glm" in m_low:
+            if "ling-3" in m_low:
+                run_family = "ling"
+            elif "glm" in m_low:
                 run_family = "glm"
             elif "deepseek" in m_low:
                 run_family = "deepseek"

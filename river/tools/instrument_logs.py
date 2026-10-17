@@ -64,9 +64,22 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
     # real envelope on every successful run -- this fabricator only fires as
     # a fallback for incomplete/crashed runs, so old Tidal logs still price
     # as GLM and new ones price as Claude).
-    if agent == "River" or (agent == "Tidal" and ts_str < "20260920T100000"):
-        # River (and pre-migration Tidal) run GLM Flash (latest alias on
-        # OpenRouter, currently glm-5.3-flash). GLM 5.3 Flash pricing:
+    # Oct 17, 2026 (operator directive): River/Creek/Stream moved off GLM
+    # Flash onto Ling 3.1 Flash (openrouter/inclusionai/ling-3.1-flash);
+    # Creek/Stream had run GLM Flash since 2026-09-16. Older crashed-run
+    # logs keep their era's truth via the date boundaries below.
+    if agent in ("River", "Creek", "Stream") and ts_str >= "20261017T215500":
+        # Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash):
+        # $0.075/1M input, $0.225/1M output
+        model_name = "ling-3.1-flash"
+        input_rate = 0.075 / 1000000.0
+        output_rate = 0.225 / 1000000.0
+        # Context grows with each turn
+        input_tokens = sum(12000 + i * 5000 for i in range(turns))
+        output_tokens = turns * 750
+    elif agent == "River" or (agent == "Tidal" and ts_str < "20260920T100000"):
+        # River (and pre-migration Tidal) ran GLM Flash (latest alias on
+        # OpenRouter, glm-5.3-flash). GLM 5.3 Flash pricing:
         # $0.075/1M input, $0.25/1M output
         model_name = "glm-5.3-flash"
         input_rate = 0.075 / 1000000.0
@@ -74,6 +87,15 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
         # Context grows with each turn
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750
+    elif agent in ("Creek", "Stream"):
+        # Creek/Stream ran GLM Flash 2026-09-16..10-17 (pre-Oct-17 crashed-run
+        # logs land here; the DeepSeek era ended 2026-09-16). GLM 5.3 Flash
+        # pricing: $0.075/1M input, $0.25/1M output
+        model_name = "glm-5.3-flash"
+        input_rate = 0.075 / 1000000.0
+        output_rate = 0.25 / 1000000.0
+        input_tokens = sum(15000 + i * 6000 for i in range(turns))
+        output_tokens = turns * 900
     elif agent == "Tidal":
         # Claude Code (Sonnet): $3.00/1M input, $15.00/1M output
         model_name = "claude-sonnet-5"

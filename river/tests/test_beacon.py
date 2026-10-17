@@ -522,30 +522,35 @@ _Nothing awaiting a decision right now._
         directive 2026-09-09); the manifest must not regress to stale families.
         Tidal itself was part of that same migration but moved again on
         2026-09-20 (operator directive) off opencode/GLM Flash onto Claude
-        Code (Sonnet) -- covered separately below."""
+        Code (Sonnet) -- covered separately below. Oct 17, 2026 (operator
+        directive): River moved again, off GLM Flash onto Ling 3.1 Flash --
+        Lantern stays under the GLM family."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
-        for name in ("River", "Lantern"):
-            if name in families:
-                self.assertEqual(families[name], "GLM",
-                                 f"{name} should be listed under the GLM family after the GLM Flash migration")
+        if "Lantern" in families:
+            self.assertTrue(families["Lantern"].startswith("GLM"),
+                            "Lantern should stay listed under the GLM family after the GLM Flash migration")
+        if "River" in families:
+            self.assertTrue(families["River"].startswith("Ling"),
+                            "River should be listed under the Ling family after the 2026-10-17 Ling 3.1 Flash migration")
 
     def test_manifest_tidal_claude_migration(self):
         """Sept 20, 2026 (operator directive): Tidal itself moved off
         opencode/GLM Flash onto Claude Code (Sonnet) -- its wake.sh now
         invokes `claude -p`. The manifest's Tidal fleet-array row must
         reflect Claude, not GLM. River's lane: the top-level framework/
-        model_family are River's own identity (still opencode/GLM Flash --
-        no operator word has moved River), so only the fleet row is pinned
-        here; the top-level River identity is pinned in the cadence test."""
+        model_family are River's own identity -- no operator word had moved
+        River at that time (still opencode/GLM Flash then); the Oct 17,
+        2026 operator directive has since moved River to Ling 3.1 Flash,
+        so the top-level identity pins Ling now."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         self.assertEqual(data.get("name"), "River")
         self.assertIn("opencode", data.get("framework", ""))
-        self.assertIn("GLM", data.get("model_family", ""))
+        self.assertIn("Ling", data.get("model_family", ""))
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
         self.assertIn("Claude", families.get("Tidal", ""))
 
@@ -587,7 +592,10 @@ _Nothing awaiting a decision right now._
         framework not yet published -- 34 agents, Unknown 8. Levante (35th) same
         day: 35 agents, Unknown 9. Sept 26, 2026 (Josh: "unknown would be qwen";
         Delta/Harbor confirmed Muse by Mountain's first-party feed): 35 agents,
-        GLM 10 / Claude 5 / GPT 5 / Muse 5 / Qwen 10."""
+        GLM 10 / Claude 5 / GPT 5 / Muse 5 / Qwen 10. Oct 17, 2026 (operator
+        directive): River/Creek/Stream moved off GLM Flash onto Ling 3.1
+        Flash -- 35 agents, GLM 7 / Ling 3 / Claude 5 / GPT 5 / Muse 5 /
+        Qwen 10."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
@@ -595,33 +603,38 @@ _Nothing awaiting a decision right now._
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 10, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
+        self.assertEqual(dict(census), {"GLM": 7, "Ling": 3, "Claude": 5, "GPT": 5, "Muse": 5, "Qwen": 10})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Brook", "Mist", "Mesa", "Vista"):
             self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
         for name in ("Tidal", "Beacon", "Pulsar", "Mountain"):
             self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
+        for name in ("River", "Creek", "Stream"):
+            self.assertTrue(by_name[name]["model_family"].startswith("Ling"),
+                            f"{name} must be listed under Ling after the 2026-10-17 switch")
         self.assertEqual(by_name["Mountain"]["role"], "fleet protocol & integration")
         self.assertIn("fleet onboarding & external liaison", by_name["Meadow"]["role"])
 
-    def test_manifest_glm_flash_latest_migration(self):
-        """Creek and Stream moved off DeepSeek V4 Pro to GLM Flash latest
-        (operator directive 2026-09-16, Telegram 05:56:39Z: all agents on GLM
-        flash latest unless already on it); the manifest must not regress."""
+    def test_manifest_ling_3_1_flash_migration(self):
+        """Creek and Stream ran GLM Flash latest 2026-09-16..10-17 (moved off
+        DeepSeek V4 Pro per operator directive 2026-09-16, Telegram
+        05:56:39Z); on 2026-10-17 the operator directive moved the GLM Flash
+        agents onto Ling 3.1 Flash via OpenRouter -- the manifest must not
+        regress to GLM or DeepSeek."""
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
             data = json.load(f)
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
         for name in ("Creek", "Stream"):
             if name in families:
-                self.assertEqual(families[name], "GLM",
-                                 f"{name} should be listed under the GLM family after the Sept-16 GLM-flash-latest migration")
+                self.assertTrue(families[name].startswith("Ling"),
+                                f"{name} should be listed under the Ling family after the 2026-10-17 Ling 3.1 Flash migration")
 
-    def test_wake_configs_glm_flash_latest(self):
-        """River, Creek, and Stream must launch GLM Flash latest via the
-        ~z-ai/glm-flash-latest alias (operator directive 2026-09-16). Tidal
-        itself moved off this alias onto Claude Code on 2026-09-20 -- covered
-        separately below."""
+    def test_wake_configs_ling_3_1_flash(self):
+        """River, Creek, and Stream must launch Ling 3.1 Flash via OpenRouter
+        (operator directive 2026-10-17: the GLM Flash agents move to
+        inclusionai/ling-3.1-flash). Tidal itself moved off the GLM alias
+        onto Claude Code on 2026-09-20 -- covered separately below."""
         for agent, base in (("river", "/home/agent/River"),
                             ("creek", "/home/agent/Creek"),
                             ("stream", "/home/agent/Stream")):
@@ -630,8 +643,10 @@ _Nothing awaiting a decision right now._
                 continue
             with open(path, "r") as f:
                 content = f.read()
-            self.assertIn("openrouter/~z-ai/glm-flash-latest", content,
-                          f"{agent}'s wake.sh must launch GLM Flash latest")
+            self.assertIn("openrouter/inclusionai/ling-3.1-flash", content,
+                          f"{agent}'s wake.sh must launch Ling 3.1 Flash via OpenRouter")
+            self.assertNotIn("openrouter/~z-ai/glm-flash-latest", content,
+                             f"{agent}'s wake.sh must not regress to the GLM Flash alias")
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
@@ -700,7 +715,9 @@ _Nothing awaiting a decision right now._
                               ("Canyon", "4&times;/day <code>15&nbsp;*/6</code>"),
                               ("Ridge", "4&times;/day <code>30&nbsp;*/6</code>"),
                               ("Harbor", "4&times;/day <code>45&nbsp;*/6</code>")):
-            fam = "muse" if name == "Harbor" else "glm"  # Sept 26: Harbor is Muse (Mountain's feed)
+            fam = {"Harbor": "muse",  # Sept 26: Harbor is Muse (Mountain's feed)
+                   "River": "ling", "Creek": "ling", "Stream": "ling",  # Oct 17: Ling 3.1 Flash (operator directive)
+                   }.get(name, "glm")
             self.assertIn(f'"{name}": {{"family": "{fam}", "cadence": "{pattern}"', obs,
                           f"observability AGENT_METADATA {name} row must be the every-6h cadence")
         # Sept 20, 2026: Mountain's first-party agent.json reports Claude
@@ -918,7 +935,10 @@ _Nothing awaiting a decision right now._
         framework not yet published -- another "unknown" row. Sept 26, 2026
         (Josh: "unknown would be qwen"; Delta/Harbor confirmed Muse by
         Mountain's first-party feed): every formerly-unknown Gale-box row is
-        qwen and Delta/Harbor are muse -- no "unknown" rows remain."""
+        qwen and Delta/Harbor are muse -- no "unknown" rows remain. Oct 17,
+        2026 (operator directive): River/Creek/Stream moved off GLM Flash
+        onto Ling 3.1 Flash (via OpenRouter, on opencode) -- the fleet's
+        first live ling family rows; remote GLM rows are unchanged."""
         import os
         from importlib.machinery import SourceFileLoader
         test_dir = os.path.dirname(os.path.abspath(__file__))
@@ -932,6 +952,7 @@ _Nothing awaiting a decision right now._
                         "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
                         "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
                         "Delta": "muse", "Harbor": "muse",
+                        "River": "ling", "Creek": "ling", "Stream": "ling",
                         "Cyclone": "qwen", "Vortex": "qwen",
                         "Chinook": "qwen", "Sirocco": "qwen",
                         "Maistral": "qwen", "Bora": "qwen",
@@ -992,7 +1013,7 @@ _Nothing awaiting a decision right now._
             self.assertEqual(agent.get("state"), "ok")
             self.assertIn("last_wake", agent)
             self.assertIsInstance(agent.get("waking_count"), int)
-            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Claude", "GPT", "Muse", "Qwen"])
+            self.assertIn(agent.get("model_family"), ["Gemini", "DeepSeek", "GLM", "Ling", "Claude", "GPT", "Muse", "Qwen"])
             self.assertIn("role", agent)
             self.assertIn("signal", agent)
 
@@ -2983,17 +3004,18 @@ class TestObservability(unittest.TestCase):
         build_obs.estimate_cost_if_null(r_mountain_claude)
         self.assertAlmostEqual(r_mountain_claude["cost_usd"], 18.00)
 
-    def test_wake_script_uses_glm_flash_latest(self):
-        """River's own wake.sh invokes River on the OpenRouter GLM Flash
-        latest alias (per the operator directive of 2026-09-09; River has
-        received no operator word moving it off this runtime). The ~ alias
-        always redirects to the newest GLM Flash release. Tidal itself moved
-        onto Claude Code 2026-09-20 -- its lane, pinned separately."""
+    def test_wake_script_uses_ling_3_1_flash(self):
+        """River's own wake.sh invokes River on Ling 3.1 Flash via OpenRouter
+        (operator directive 2026-10-17: the GLM Flash agents move to
+        inclusionai/ling-3.1-flash). River previously ran the GLM Flash
+        latest alias (2026-09-09 directive, unchanged until this switch).
+        Tidal itself moved onto Claude Code 2026-09-20 -- its lane, pinned
+        separately."""
         wake_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wake.sh"))
         with open(wake_path, "r") as f:
             content = f.read()
-        self.assertIn('--model "openrouter/~z-ai/glm-flash-latest"', content)
-        self.assertNotIn("z-ai/glm-5.3\n", content)
+        self.assertIn('--model "openrouter/inclusionai/ling-3.1-flash"', content)
+        self.assertNotIn("openrouter/~z-ai/glm-flash-latest", content)
 
 
 class TestFleetTelemetry(unittest.TestCase):

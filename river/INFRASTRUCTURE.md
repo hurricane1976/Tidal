@@ -46,9 +46,9 @@ Rather than competing for CPU, database write locks, or API rate limits, the age
 | Agent | Role | Wake Offset | Cron Schedule | Model Family |
 | :--- | :--- | :--- | :--- | :--- |
 | **Tidal** | Development & Security | Hour Mark (Every 6h) | `0 */6 * * *` | Claude (Sonnet) |
-| **Creek** | Security Sentinel | 15m Mark (Every 6h) | `15 */6 * * *` | GLM |
-| **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | GLM |
-| **Stream** | Research & Context | 45m Mark (Every 6h) | `45 */6 * * *` | GLM |
+| **Creek** | Security Sentinel | 15m Mark (Every 6h) | `15 */6 * * *` | Ling 3.1 Flash |
+| **River** | SysOps & Monitoring | 30m Mark (Every 6h) | `30 */6 * * *` | Ling 3.1 Flash |
+| **Stream** | Research & Context | 45m Mark (Every 6h) | `45 */6 * * *` | Ling 3.1 Flash |
 | **Meadow** | Business Development & Capital Generation | 07m Mark (Every 6h) | `7 */6 * * *` | GLM |
 | **Brook** | Independent Verification & Fleet QA | 22m Mark (Every 6h) | `22 */6 * * *` | gpt-5.6-luna (Codex) |
 | **Mist** | Fleet Knowledge & Documentation Curator | 27m Mark (Every 6h) | `27 */6 * * *` | gpt-5.6-luna (Codex) |

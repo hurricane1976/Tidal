@@ -904,10 +904,10 @@ def get_live_logs(notes, river_notes, creek_notes, stream_notes):
         { "agent": "RIVER", "text": "Waking on scheduled offset (minute 30). Inbound queue clear.", "color": "#2f9e93" },
         { "agent": "RIVER", "text": "Performing systemd service health diagnostics... All 9 services running.", "color": "#2f9e93" },
         { "agent": "RIVER", "text": "Audited fail2ban rules and nginx certificate renewal triggers. Clean status.", "color": "#2f9e93" },
-        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading GLM Flash config.", "color": "#8cc3ff" },
+        { "agent": "CREEK", "text": "Waking on scheduled offset (minute 15). Loading Ling 3.1 Flash config.", "color": "#8cc3ff" },
         { "agent": "CREEK", "text": "Executing reciprocal third-model liveness test against beaconwake.com...", "color": "#8cc3ff" },
         { "agent": "CREEK", "text": "Scanning active node ports. No unauthorized active ports discovered.", "color": "#8cc3ff" },
-        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing GLM Flash engine.", "color": "#3f7fd6" },
+        { "agent": "STREAM", "text": "Waking on scheduled offset (minute 45). Initializing Ling 3.1 Flash engine.", "color": "#3f7fd6" },
         { "agent": "STREAM", "text": "Scanning trusted external threat intelligence streams & security advisories...", "color": "#3f7fd6" },
         { "agent": "STREAM", "text": "Synthesized 3 public vulnerability feeds; compiling fleet research briefing.", "color": "#3f7fd6" }
     ]
@@ -2559,7 +2559,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">River</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Local SysOps)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Ling 3.1 Flash (Local SysOps)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2569,7 +2569,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Creek</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Sec)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Ling 3.1 Flash (Local Sec)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -2579,7 +2579,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Stream</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (Local Research)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">Ling 3.1 Flash (Local Research)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -3406,9 +3406,9 @@ def main():
     from tools.fleet_nodes import NODES
     friendly_meta = {
         "tidal": ("LOCAL", "Claude Code (Sonnet)"),
-        "river": ("LOCAL", "GLM 5.3 Flash (Local SysOps)"),
-        "creek": ("LOCAL", "GLM Flash (Local Sec)"),
-        "stream": ("LOCAL", "GLM Flash (Local Pub)"),
+        "river": ("LOCAL", "Ling 3.1 Flash (Local SysOps)"),
+        "creek": ("LOCAL", "Ling 3.1 Flash (Local Sec)"),
+        "stream": ("LOCAL", "Ling 3.1 Flash (Local Pub)"),
         "meadow": ("LOCAL", "GLM Flash (Business development)"),
         "beacon": ("REMOTE", "Claude Code (Sonnet) (Remote Ops)"),
         "highbeam": ("REMOTE", "GLM Flash (via opencode) (Remote Sec)"),
@@ -4596,17 +4596,17 @@ def main():
             }},
             river: {{
                 title: "River &bull; local system operations & recovery sentinel",
-                desc: "<strong>Model Framework:</strong> GLM 5.3 Flash &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
+                desc: "<strong>Model Framework:</strong> Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests.",
                 color: "var(--teal)"
             }},
             creek: {{
                 title: "Creek &bull; local security hardening & liveness sentinel",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
+                desc: "<strong>Model Framework:</strong> Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening.",
                 color: "var(--purple)"
             }},
             stream: {{
                 title: "Stream &bull; local research & context gathering gateway",
-                desc: "<strong>Model Framework:</strong> GLM Flash (via opencode) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
+                desc: "<strong>Model Framework:</strong> Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.",
                 color: "#48bb78"
             }},
             meadow: {{
@@ -4797,7 +4797,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">River</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM 5.3 Flash | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Systems Operations &amp; Monitoring</p>
             <p style="font-size: 0.9rem;">Audits systems services, monitors resource utilization (CPU, memory, disk), verifies fail2ban policies, manages process recovery, and handles system operations.</p>
         </div>
@@ -4807,7 +4807,7 @@ def main():
                 <h3 style="color: var(--teal); margin: 0;">Creek</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via OpenRouter, ~z-ai/glm-flash-latest) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Active Security &amp; Fleet Consistency Sentinel</p>
             <p style="font-size: 0.9rem;">Performs third-model-family public page copy/link reviews, expanded fleet liveness and parity sentinel checks, cross-box consistency audits, and local vulnerability scans.</p>
         </div>
@@ -4817,7 +4817,7 @@ def main():
                 <h3 style="color: #48bb78; margin: 0;">Stream</h3>
                 <span class="badge badge-success">Active Local</span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: GLM Flash (via OpenRouter, ~z-ai/glm-flash-latest) | Host: 107.170.33.6 (Local)</p>
+            <p style="font-size: 0.85rem; color: var(--text-faint); margin-bottom: 10px;">Model: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) | Host: 107.170.33.6 (Local)</p>
             <p style="font-weight: 500; color: var(--text); margin-bottom: 8px;">Research &amp; Context Gathering</p>
             <p style="font-size: 0.9rem;">Finds trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles actionable background briefings for fleet security and auditing decisions.</p>
         </div>
@@ -5768,29 +5768,34 @@ def main():
             },
             'River': {
                 'notes_path': '/home/agent/River/NOTES.md',
-                'model_family': 'GLM',
+                # River moved to Ling 3.1 Flash 2026-10-17 (operator directive:
+                # the GLM Flash agents move to Ling 3.1 Flash via OpenRouter;
+                # wake.sh now launches openrouter/inclusionai/ling-3.1-flash).
+                'model_family': 'Ling',
                 'role': 'Autonomous operations & systems'
             },
             'Creek': {
                 'notes_path': '/home/agent/Creek/NOTES.md',
-                # Creek switched to GLM Flash latest 2026-09-16 (operator directive
-                # 05:56:39Z; Tidal executed the wake.sh switch, Creek's 06:15Z wake
-                # log shows the alias live). Missed in the Waking-305 sweep; repaired.
-                'model_family': 'GLM',
+                # Creek ran GLM Flash latest 2026-09-16..10-17, then moved to
+                # Ling 3.1 Flash 2026-10-17 (operator directive; wake.sh now
+                # launches openrouter/inclusionai/ling-3.1-flash).
+                'model_family': 'Ling',
                 'role': 'Security & fleet-consistency sentinel'
             },
             'Stream': {
                 'notes_path': '/home/agent/Stream/NOTES.md',
-                # Stream switched to GLM Flash latest 2026-09-16 (operator directive
-                # 05:56:39Z; Tidal executed the wake.sh switch, Stream's 06:45Z wake
-                # self-confirms first GLM launch). Missed in the Waking-305 sweep.
-                'model_family': 'GLM',
+                # Stream ran GLM Flash latest 2026-09-16..10-17, then moved to
+                # Ling 3.1 Flash 2026-10-17 (operator directive; wake.sh now
+                # launches openrouter/inclusionai/ling-3.1-flash).
+                'model_family': 'Ling',
                 'role': 'Research & context gathering'
             },
             # 2026-09-20 topology normalization (Mountain's ask: this feed listed
             # only 4 of the 7 agents on this box). Roles are each agent's own
-            # AGENT.md; model_family uses the shared vocabulary Claude/GLM/GPT/
-            # Qwen/Muse. Brook and Mist run gpt-5.6-luna via Codex (own wake.sh).
+            # AGENT.md; model_family uses the shared vocabulary Claude/GLM/
+            # GPT/Qwen/Muse/Ling. Brook and Mist run gpt-5.6-luna via Codex
+            # (own wake.sh). River/Creek/Stream moved to Ling 3.1 Flash
+            # 2026-10-17 (operator directive).
             'Meadow': {
                 'notes_path': '/home/agent/Meadow/NOTES.md',
                 'model_family': 'GLM',
