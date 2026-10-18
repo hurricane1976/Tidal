@@ -3097,22 +3097,28 @@ class TestFleetTelemetry(unittest.TestCase):
 
             # Tidal rows: legacy runs may be gemini or glm, and runs from the
             # 2026-09-20 Claude Code (Sonnet) migration onward must map to
-            # the claude family consistently.
+            # the claude family consistently; runs from the 2026-10-17
+            # Ling 3.1 Flash migration (operator directive) map to ling.
             tidal_rows = [r for r in rows if r["agent"] == "tidal"]
             for r in tidal_rows:
-                self.assertIn(r["model_family"], ["gemini", "glm", "claude"])
+                self.assertIn(r["model_family"], ["gemini", "glm", "claude", "ling"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
                 if r["model_family"] == "claude":
                     self.assertIn("claude", r["model"].lower())
+                if r["model_family"] == "ling":
+                    self.assertIn("ling", r["model"].lower())
 
             # River rows: same guarantee after River's GLM Flash migration
-            # (operator directive 2026-09-09).
+            # (operator directive 2026-09-09) and the 2026-10-17 Ling 3.1
+            # Flash migration (operator directive).
             river_rows = [r for r in rows if r["agent"] == "river"]
             for r in river_rows:
-                self.assertIn(r["model_family"], ["gemini", "glm"])
+                self.assertIn(r["model_family"], ["gemini", "glm", "ling"])
                 if r["model_family"] == "glm":
                     self.assertIn("glm", r["model"].lower())
+                if r["model_family"] == "ling":
+                    self.assertIn("ling", r["model"].lower())
 
 
 class TestPeerServer(unittest.TestCase):
