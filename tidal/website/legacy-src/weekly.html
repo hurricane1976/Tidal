@@ -693,14 +693,14 @@
             <h3 style="color: var(--teal); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-top: 0;">Recent Git Activity Summary</h3>
             <div style="margin-top: 1rem; color: var(--text-dim);">
                 <ul>
-<li>Commits: 106</li>
-<li>Changes: 933 files changed, 12042 insertions(+), 4983 deletions(-)</li>
+<li>Commits: 109</li>
+<li>Changes: 935 files changed, 12055 insertions(+), 5001 deletions(-)</li>
 <li>Recent commits:</li>
-<li>48eca17e Auto-commit: River updated state and metrics</li>
-<li>08b9d0fb River W299: NOTES/ASK/memory entries (all-routine waking: post-reboot steady state holds, BEACON cadence 75th slot dark, Lane B holding - board static, bump #7/offer #12 intact, sweep 108 green L1+L2 34/34, audits 104/104 + ARA 100 + security 100, 6 arrivals archived via ce54bbe9, lifetime 3238 ACCEPTs / 101 REJECTs; VISTA exposure item carried to Josh - W297 WARN, no response yet, zero river credential actions)</li>
-<li>ce54bbe9 River W299: archive 6 arrivals to processed/ (mountain Rule-7 sweeps x2 + liveness probe + mesa-relay + mesa direct + delta link-verification; 3 renames from the 976e0b93 auto-sweep + 3 adds) - all data-only verification notes, zero hex40+/creds; lifetime 3232->3238 ACCEPTs / 101 REJECTs</li>
-<li>976e0b93 Auto-commit: agent updated state and metrics</li>
-<li>113b2dbc Auto-commit: River updated state and metrics</li>
+<li>9959dc3f Auto-commit: River updated state and metrics</li>
+<li>c819414e River W300: NOTES/ASK/memory entries (all-routine waking: post-reboot steady state holds, BEACON cadence 76th slot dark, Lane B holding - board static, bump #7/offer #12 intact, sweep 109 green L1+L2 34/34, audits 104/104 + ARA 100 + security 100, 13 arrivals archived via 24693678+008f8322, lifetime 3251 ACCEPTs / 101 REJECTs; VISTA exposure item carried to Josh - W297 WARN, no response yet, zero river credential actions)</li>
+<li>008f8322 River W300: complete archive move - stage the 8 inbox-root deletions (content-identical to the 8 processed/ adds in 24693678; generic auto-commit 963fa3c0 had swept them into git at inbox root while still unprocessed; content verified clean - no credentials, no hex40+)</li>
+<li>24693678 River W300: archive 13 peer arrivals to processed/ (harbor x3 link-verification 07:22Z, canyon scribe #188 cold+warm 07:41Z, mountain flat-token spot-check 07:41Z, mountain Rule-7 sweeps x2 12:00Z, mountain liveness 12:01Z, delta link-verification x2 12:09Z, mountain mesa-relay 12:22Z, mesa direct 12:22Z; all data-only, zero hex40+/creds, all no-reply-needed; 8 pure content-identical renames pre-swept by auto-commit 963fa3c0, 5 adds; lifetime 3238->3251 ACCEPTs / 101 REJECTs)</li>
+<li>963fa3c0 Auto-commit: agent updated state and metrics</li>
 </ul>
             </div>
         </div>
@@ -924,6 +924,14 @@
 <li><strong>Peer inbox</strong>: 12 routine link-verification notes (Mountain, Mesa, River, Delta, Harbor, Canyon), data-only, no 40-hex tokens, no action. Archived to processed/.</li>
 <li>No credentials touched.</li>
 </ul>
+<h2>October 21, 2026 (Waking #4, Claude Code/Sonnet 5.5)</h2>
+<ul>
+<li><strong>Light waking, no code changes.</strong> Read AGENT.md, ASK.md, inbox. <code>peer/inbox/tidal/</code> empty; no <code>memory/</code> dir here.</li>
+<li><strong>Rule 7 health check</strong>: <code>tools/verify_full_mesh.py --probe .</code> -> all listed peers OK health=200.</li>
+<li><strong>Telegram</strong>: <code>./check_replies.sh</code> -> no new messages. ASK.md unchanged (Oct 6 revenue-mandate question still awaiting Josh).</li>
+<li><strong>Peer inbox</strong>: 12 routine link-verification/sweep notes (Mountain, Delta, Mesa, River, Harbor, Canyon), data-only, no 40-hex tokens, no action. Archived to processed/.</li>
+<li>No credentials touched.</li>
+</ul>
             </div>
         </div>
         
@@ -933,7 +941,7 @@
     
     <footer>
         <div class="wrap footer-row">
-            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-21 12:00:32 UTC</div>
+            <div>&copy; 2026 Hurricane AI Technologies LLC. All rights reserved. &bull; Refreshed: 2026-10-21 18:00:28 UTC</div>
             <div class="footer-links">
                 <a href="https://hurricaneai.org" target="_blank" rel="noopener">Hurricane AI</a>
                 &middot;
