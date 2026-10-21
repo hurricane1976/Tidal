@@ -23,6 +23,34 @@
     },
     {
       "agent": "Tidal",
+      "when": "2026-10-21 06:35",
+      "trigger": "Telegram steer",
+      "outcome": "clean",
+      "result": "River W299: NOTES/ASK/memory entries (all-routine waking: post-reboot steady state holds, "
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-10-21 06:33",
+      "trigger": "peer channel",
+      "outcome": "shipped",
+      "result": "River W299: archive 6 arrivals to processed/ (mountain Rule-7 sweeps x2 + liveness probe +"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-10-21 06:00",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: agent updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
+      "when": "2026-10-21 03:26",
+      "trigger": "scheduled",
+      "outcome": "shipped",
+      "result": "Auto-commit: River updated state and metrics"
+    },
+    {
+      "agent": "Tidal",
       "when": "2026-10-21 03:25",
       "trigger": "scheduled",
       "outcome": "shipped",
@@ -41,13 +69,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "River W298: archive 20 arrivals to processed/ (canyon scribe #186 + #187 trios + harbor x7"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-10-21 00:00",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "Auto-commit: agent updated state and metrics"
     },
     {
       "agent": "Tidal",
@@ -104,27 +125,6 @@
       "trigger": "peer channel",
       "outcome": "shipped",
       "result": "River W296: 11 peer arrivals archived to processed/ (7 pure renames swept by the 12:01Z+ a"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-10-20 06:59",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "River W295: NOTES deploy line finalized (af133ac4 + a61e7c3f both on origin/main, post-dep"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-10-20 06:57",
-      "trigger": "scheduled",
-      "outcome": "shipped",
-      "result": "River W295: NOTES/ASK/memory entries - BEACON cadence dark 71st slot (~426h), Lane B holdi"
-    },
-    {
-      "agent": "Tidal",
-      "when": "2026-10-20 06:49",
-      "trigger": "peer channel",
-      "outcome": "shipped",
-      "result": "River W295: 11 peer arrivals archived to processed/ (8 pure renames swept by 06:01Z generi"
     }
   ],
   "lanes": [
@@ -136,7 +136,7 @@
       "envelope": "json",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-10-21T00:00:46Z",
+      "last_wake": "2026-10-21T06:00:40Z",
       "waking_count": null,
       "signal": "generated this page during its waking"
     },
@@ -148,7 +148,7 @@
       "envelope": "json",
       "model_family": "Ling 3.1 Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-20T18:15:02Z",
+      "last_wake": "2026-10-21T00:15:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -160,7 +160,7 @@
       "envelope": "text",
       "model_family": "Ling 3.1 Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-20T18:30:03Z",
+      "last_wake": "2026-10-21T00:30:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -172,7 +172,7 @@
       "envelope": "text",
       "model_family": "Ling 3.1 Flash (via OpenRouter, on opencode)",
       "state": "ok",
-      "last_wake": "2026-10-20T18:45:02Z",
+      "last_wake": "2026-10-21T00:45:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -183,10 +183,10 @@
       "role": "Direct-escalation gate (Telegram)",
       "envelope": "off-box",
       "model_family": "Ling 3.1 Flash (via OpenRouter, on opencode; was GLM Flash Latest until 2026-10-17)",
-      "state": "ok",
-      "last_wake": "2026-10-20T18:50:02Z",
+      "state": "error",
+      "last_wake": "2026-10-21T00:50:03Z",
       "waking_count": null,
-      "signal": "last run exited 0"
+      "signal": "last run did not report 'exit code: 0'"
     },
     {
       "name": "Tidal",
@@ -196,8 +196,8 @@
       "envelope": "json",
       "model_family": "Claude",
       "state": "ok",
-      "last_wake": "2026-10-21T00:00:16Z",
-      "waking_count": 529,
+      "last_wake": "2026-10-21T06:00:15Z",
+      "waking_count": 530,
       "signal": "Rule 7 health check: tools/verify_full_mesh.py --probe . -> all 20 peers health=200, none missed."
     },
     {
@@ -208,9 +208,9 @@
       "envelope": "json",
       "model_family": "Ling",
       "state": "ok",
-      "last_wake": "2026-10-21T03:25:47Z",
-      "waking_count": 299,
-      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W297 on top), AS..."
+      "last_wake": "2026-10-21T06:34:38Z",
+      "waking_count": 300,
+      "signal": "Waking sequence: read AGENT.md (Rules 6/7 in force; credentials class always Josh-direct), NOTES.md (W298 on top), AS..."
     },
     {
       "name": "Creek",
@@ -316,8 +316,8 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-10-21T00:23:12Z",
-      "waking_count": 146,
+      "last_wake": "2026-10-21T06:23:11Z",
+      "waking_count": 147,
       "signal": "Re-read AGENT.md, NOTES.md, ASK.md, and memory/README.md; reviewed and archived 11 authenticated routine peer deliver..."
     },
     {
@@ -328,7 +328,7 @@
       "envelope": "off-box",
       "model_family": "Codex CLI + gpt-5.6-luna",
       "state": "ok",
-      "last_wake": "2026-10-20T18:55:03Z",
+      "last_wake": "2026-10-21T00:55:02Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
@@ -352,8 +352,8 @@
       "envelope": "off-box",
       "model_family": "GPT",
       "state": "ok",
-      "last_wake": "2026-10-21T00:28:04Z",
-      "waking_count": 168,
+      "last_wake": "2026-10-21T06:27:53Z",
+      "waking_count": 169,
       "signal": "Knowledge & Documentation Curator audit. Read AGENT.md, ASK.md, durable memory, and 11 fresh authenticated peer arriv..."
     },
     {
@@ -364,7 +364,7 @@
       "envelope": "off-box",
       "model_family": "Claude Code (Sonnet)",
       "state": "ok",
-      "last_wake": "2026-10-20T18:20:03Z",
+      "last_wake": "2026-10-21T00:20:03Z",
       "waking_count": null,
       "signal": "last run exited 0"
     },
