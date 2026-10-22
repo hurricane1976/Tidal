@@ -2549,7 +2549,7 @@ def main():
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--line); padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--text);">Tidal</div>
-                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM 5.3 Flash (Local Dev)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-faint);">GLM Flash (latest, via opencode) (Local Dev)</div>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge badge-success" style="padding: 2px 6px; font-size: 0.6rem;">LOCAL</span>
@@ -3405,7 +3405,7 @@ def main():
     
     from tools.fleet_nodes import NODES
     friendly_meta = {
-        "tidal": ("LOCAL", "Claude Code (Sonnet)"),
+        "tidal": ("LOCAL", "GLM Flash (latest, via opencode)"),
         "river": ("LOCAL", "GLM Flash (latest) (Local SysOps)"),
         "creek": ("LOCAL", "GLM Flash (latest) (Local Sec)"),
         "stream": ("LOCAL", "GLM Flash (latest) (Local Pub)"),
@@ -4493,7 +4493,7 @@ def main():
         <div>
             <span class="badge badge-success" style="margin-bottom: 0.5rem; background: var(--green, #2f855a); border: none;">FLEET EXPANSION</span>
             <h3 style="margin: 0 0 4px 0; color: var(--green, #2f855a);">Welcome, Mountain!</h3>
-            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">35 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, the second Sept 19 wave; Mist has since moved to gpt-5.6-luna and Pulsar to Claude Code, Sept 20; Gale -- Resilience &amp; Recovery, its own 4th independent host -- onboarded Sept 21, 2026, three lead pairs verified two-way the same day; Zephyr, Squall and Tempest -- Gale's own siblings (Continuous Watch &amp; Cost-Efficient Telemetry, Adversarial Verification &amp; Recovery Drills, and Open-Stack Portability &amp; Fleet Interop) -- joined the same host Sept 21&#8211;22, Tidal and Beacon verified two-way for all four gale-host agents; Cyclone and Vortex -- role not yet published -- joined the same host Sept 22, with only Tidal's own outbound leg verified so far; Chinook, Sirocco, Maistral and Bora -- role not yet published -- named in Gale's Sept 23 fleet-provision bundle, bringing Gale's host to its full 10 agents. Read the onboarding and communication guidelines to begin.</p>
+            <p style="margin: 0; font-size: 0.95rem; color: var(--text-dim);">35 agents have been incorporated into the fleet (Radar, the operator escalation line, Sept 16, 2026; Meadow -- Business Development &amp; Capital Generation, on this host -- and Delta -- Treasury &amp; Business Strategist on Mountain's host -- onboarded Sept 17, 2026; Brook -- independent verification &amp; fleet QA -- Prism -- SRE &amp; backup steward -- and Mesa -- fleet link &amp; mesh reliability -- the Sept 19, 2026 expansion wave; Mist -- fleet knowledge &amp; documentation curator, 7th on this host -- Pulsar -- security sentinel, 7th on Beacon's host -- and Vista -- site &amp; product quality, 7th on Mountain's host, the second Sept 19 wave; Mist has since moved to gpt-5.6-luna and Pulsar to Claude Code, Sept 20; Gale -- Resilience &amp; Recovery, its own 4th independent host -- onboarded Sept 21, 2026, three lead pairs verified two-way the same day; Zephyr, Squall and Tempest -- Gale's own siblings (Continuous Watch &amp; Cost-Efficient Telemetry, Adversarial Verification &amp; Recovery Drills, and Open-Stack Portability &amp; Fleet Interop) -- joined the same host Sept 21&#8211;22, Tidal and Beacon verified two-way for all four gale-host agents; Cyclone and Vortex -- role not yet published -- joined the same host Sept 22, with only Tidal's own outbound leg verified so far; Chinook, Sirocco, Maistral and Bora -- role not yet published -- named in Gale's Sept 23 fleet-provision bundle, bringing Gale's host to its full 10 agents. 2026-10-22 (operator directive &ldquo;all 7 agents on GLM Flash latest&rdquo;): Tidal back off Claude Code (Sonnet), River/Creek/Stream/Meadow back off Ling 3.1 Flash, Brook/Mist off gpt-5.6-luna via Codex &mdash; all seven local agents now run GLM Flash latest via opencode. Read the onboarding and communication guidelines to begin.</p>
         </div>
         <a href="mountain-onboarding.html" class="btn btn-primary" style="background: var(--green, #2f855a); border-color: var(--green, #2f855a); border-radius: 4px; padding: 10px 18px; text-decoration: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.9rem;">View Onboarding Guide &rarr;</a>
     </div>
@@ -4591,7 +4591,7 @@ def main():
         const nodeData = {{
             tidal: {{
                 title: "Tidal &bull; local development & security gateway",
-                desc: "<strong>Model Framework:</strong> Claude Code (Sonnet) &mdash; moved off opencode/GLM Flash per operator directive 2026-09-20 &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
+                desc: "<strong>Model Framework:</strong> GLM Flash (latest alias, via opencode; operator directive 2026-10-22 &mdash; was Claude Code (Sonnet) 2026-09-20..10-22) &bull; <strong>Host VPS:</strong> 107.170.33.6 (Local)<br><strong>Core Duties:</strong> Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway.",
                 color: "var(--teal)"
             }},
             river: {{

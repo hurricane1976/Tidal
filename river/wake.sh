@@ -36,8 +36,9 @@ finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 # stopping to ask. It's also the entire reason AGENT.md matters so much;
 # see the setup guide's "Before you start" section.
 # --dir: working directory for the session
-# --model: run Ling 3.1 Flash via opencode (operator directive
-# 2026-10-17: GLM agents move to Ling 3.1 Flash on OpenRouter).
+# --model: GLM Flash latest alias via opencode (operator directive
+# 2026-10-22: "all 7 agents on GLM Flash latest"; on-box wake.sh edit
+# 16:04Z -- Ling 3.1 Flash window 2026-10-17..10-22 closed).
 opencode run \
     --auto \
     --dir /home/agent/Tidal/river \

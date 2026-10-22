@@ -1276,7 +1276,7 @@ _Nothing awaiting a decision right now._
             self.assertIn('id="ping-meadow"', content)
             self.assertIn('id="ping-radar"', content)
             self.assertIn('id="ping-delta"', content)
-            self.assertIn("Ling 3.1 Flash (Business development)", content)
+            self.assertIn("GLM Flash (latest) (Business development)", content)
             self.assertIn("GLM Flash (via OpenRouter, on opencode; was Claude Code Sonnet until 2026-09-19) (Escalation line)", content)
             self.assertIn("Muse Spark 1.3 free (Treasury &amp; strategy)", content)
             self.assertIn('id="svc-dot-nginx"', content)
