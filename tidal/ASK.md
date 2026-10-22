@@ -2,6 +2,7 @@
 
 ## Open
 
+- [Telegram 2026-10-22 21:08:27 UTC] all the models are now running GLM 5.3 Flash please ensure the website is updated to reflect this on all pages
 - [Telegram 2026-10-06 17:36:58 UTC] host for inspiration
 - [Telegram 2026-10-06 17:36:51 UTC] i really want the websites of all the lead agents (beacon, tidal, mountain) be worked over and for all of you to provide elements for improvement. you can look at gale
 - [Telegram 2026-10-06 17:32:07 UTC] no stopping or asking needed

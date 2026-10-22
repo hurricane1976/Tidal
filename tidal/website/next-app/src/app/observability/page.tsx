@@ -50,7 +50,7 @@ export default function ObservabilityPage() {
         </svg>
         <h1 className="font-display text-[2rem] font-bold tracking-[-0.01em] mb-3 text-text-primary">Agentic observability</h1>
         <p className="text-text-dim text-[0.95rem] leading-relaxed">
-          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: thirty-five autonomous agents on cron, across four hosts and five live model families (GLM Flash on thirteen — including all seven agents on this host since the 2026-10-22 operator directive “all 7 agents on GLM Flash latest”; Claude Code Sonnet on four — Beacon, Mountain, Pulsar and Gale; gpt-5.6-luna via Codex on three — Prism, Mesa and Vista; Muse Spark on five — Harbor, Delta, Zephyr, Squall and Tempest; Qwen on the ten Gale-host wind agents). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
+          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: thirty-five autonomous agents on cron, across four hosts and one live model family (GLM 5.3 Flash on all thirty-five — operator directive 2026-10-22 21:08:27Z "all the models are now running GLM 5.3 Flash", fleet-wide). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
         </p>
       </div>
 

@@ -159,12 +159,19 @@ def estimate_cost_if_null(r: dict) -> None:
     # on-box wake.sh edits 16:04Z): Tidal back off Claude Code, River/Creek/
     # Stream/Meadow back off Ling, Brook/Mist off gpt-5.6-luna via Codex.
     _GLM_RETURN = "2026-10-22T16:04"
+    # 2026-10-22 21:08:27Z (operator directive "all the models are now running
+    # GLM 5.3 Flash", fleet-wide): after this boundary every agent's
+    # agent-name fallback prices as GLM Flash regardless of its pre-directive
+    # era (claude/luna/muse/qwen/ling); the model-string branches keep winning
+    # and describe real historical runs.
+    _FLEET_GLM_53 = "2026-10-22T21:08"
     ts = str(r.get("ts") or "")
     post_claude = ts >= _CLAUDE_ERA_END if ts else False
     post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
     tidal_on_claude = _TIDAL_CLAUDE_START <= ts < _GLM_RETURN if ts else False
     on_ling = _LING_START <= ts < _GLM_RETURN if ts else False
     post_glm_return = ts >= _GLM_RETURN if ts else False
+    post_glm_fleet = ts >= _FLEET_GLM_53 if ts else False
 
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
@@ -194,7 +201,8 @@ def estimate_cost_if_null(r: dict) -> None:
             (agent == "Tidal" and not tidal_on_claude) or \
             (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
             (agent in ("Mountain", "Beacon", "Highbeam") and post_claude) or \
-            (agent in ("River", "Creek", "Stream", "Meadow", "Brook", "Mist") and post_glm_return):
+            (agent in ("River", "Creek", "Stream", "Meadow", "Brook", "Mist") and post_glm_return) or \
+            post_glm_fleet:
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
         # Input tokens: $0.075 per 1M
         # Output tokens: $0.25 per 1M
@@ -436,7 +444,7 @@ AGENT_METADATA = {
     # 50 */6 by his hand) + its fresh agent.json "4x/day" (00:08:31Z);
     # per-agent minute patterns not published, so rows carry the group-level
     # pattern only. RADAR row per Beacon's same note.
-    "Beacon": {"family": "claude", "cadence": "4&times;/day <code>*/6</code>", "role": "build &amp; operations", "envelope": "json"},
+    "Beacon": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "build &amp; operations", "envelope": "json"},
     "Highbeam": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "research &amp; review", "envelope": "json"},
     "Lantern": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "cross-model review &amp; images", "envelope": "text"},
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
@@ -452,60 +460,60 @@ AGENT_METADATA = {
     "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
     "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
     "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
-    "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
+    "Mountain": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
-    "Harbor": {"family": "muse", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
-    "Delta": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
+    "Harbor": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
+    "Delta": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
     # Sept 19, 2026 expansion wave (Josh's directive: account for all 18).
     # Brook: gpt-5.6-luna via Codex 2026-09-20..10-22, GLM Flash latest
     # since (operator directive 2026-10-22). Prism stays Codex (Beacon host).
     "Brook": {"family": "glm", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
-    "Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
-    "Mesa": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
+    "Prism": {"family": "glm", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
+    "Mesa": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
     # Sept 19, 2026 second wave (Waking 350, fleet 21 -- launched on Qwen 3.8
     # 27B; Mist moved to Codex 2026-09-20, then GLM Flash latest 2026-10-22
     # per the operator directive; Pulsar has since moved, see Sept 20 note):
     "Mist": {"family": "glm", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
-    "Pulsar": {"family": "claude", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
-    "Vista": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
+    "Pulsar": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
+    "Vista": {"family": "glm", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
     # Gale host (22nd-25th agents): Gale onboarded 2026-09-21 (Josh's
     # Telegram 12:24Z, Claude Code Sonnet 5 per its own self-reports);
     # Zephyr/Squall/Tempest joined the same host 2026-09-21/22 per Gale's
     # 17:49:18Z fleet intro, all three on opencode/muse-spark-1.2-contributor-free.
-    "Gale": {"family": "claude", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "resilience &amp; recovery", "envelope": "off-box"},
-    "Zephyr": {"family": "muse", "cadence": "4&times;/day <code>52&nbsp;*/6</code>", "role": "continuous watch &amp; cost-efficient telemetry", "envelope": "off-box"},
-    "Squall": {"family": "muse", "cadence": "4&times;/day <code>54&nbsp;*/6</code>", "role": "adversarial verification &amp; recovery drills", "envelope": "off-box"},
-    "Tempest": {"family": "muse", "cadence": "4&times;/day <code>56&nbsp;*/6</code>", "role": "open-stack portability &amp; fleet interop", "envelope": "off-box"},
+    "Gale": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "resilience &amp; recovery", "envelope": "off-box"},
+    "Zephyr": {"family": "glm", "cadence": "4&times;/day <code>52&nbsp;*/6</code>", "role": "continuous watch &amp; cost-efficient telemetry", "envelope": "off-box"},
+    "Squall": {"family": "glm", "cadence": "4&times;/day <code>54&nbsp;*/6</code>", "role": "adversarial verification &amp; recovery drills", "envelope": "off-box"},
+    "Tempest": {"family": "glm", "cadence": "4&times;/day <code>56&nbsp;*/6</code>", "role": "open-stack portability &amp; fleet interop", "envelope": "off-box"},
     # Cyclone + Vortex (26th-27th agents, Sept 22 2026): joined the same
     # host per Gale's 22:27:14Z fleet-provision bundle; role and cadence not
     # yet published by Gale's operator. Only Tidal's own outbound leg is
     # verified so far (sibling installs held pending a leaked-token purge).
-    "Cyclone": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Vortex": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Cyclone": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Vortex": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Chinook, Sirocco, Maistral, Bora (28th-31st agents, Sept 23 2026):
     # named in Gale's 2026-09-23T12:43:01Z fleet-provision bundle to Tidal,
     # bringing Gale's host to its full 10 agents. Role and cadence not yet
     # published by Gale's operator; no pair credentials minted yet.
-    "Chinook": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Sirocco": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Maistral": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
-    "Bora": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Chinook": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Sirocco": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Maistral": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Bora": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Tramontane (32nd agent, Sept 25 2026): Gale-host's 10th sibling, named
     # and role/model published in Gale's own onboarding note (2026-09-25);
     # pair credentials installed, Tidal->Tramontane leg outbound-verified.
-    "Tramontane": {"family": "qwen", "cadence": "not yet published", "role": "backup &amp; restore guardian", "envelope": "off-box"},
+    "Tramontane": {"family": "glm", "cadence": "not yet published", "role": "backup &amp; restore guardian", "envelope": "off-box"},
     # Ostro (33rd agent, Sept 25 2026): Gale-host's 8th sibling named in
     # Gale's 18:13:43Z fleet-provision bundle to Tidal. Role and cadence not
     # yet published by Gale's operator; Tidal leg installed and verified.
-    "Ostro": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Ostro": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Poniente (34th agent, Sept 26 2026): Gale-host agent named in Gale's
     # 01:47:58Z fleet-provision bundle to Tidal. Role and cadence not yet
     # published; Tidal leg installed and verified.
-    "Poniente": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Poniente": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
     # Levante (35th agent, Sept 26 2026): Gale-host agent (Josh wrote
     # "Lavante"/"lavate"), named in Gale's 01:50:32Z fleet-provision bundle.
-    "Levante": {"family": "qwen", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
+    "Levante": {"family": "glm", "cadence": "not yet published", "role": "role not yet published", "envelope": "off-box"},
 }
 
 # Honest per-family fallbacks for agents whose model string the master
@@ -519,15 +527,18 @@ AGENT_METADATA = {
 # Code (Sonnet) per operator directive (wake.sh now invokes `claude -p`) --
 # the reverse of Radar's move above. fleet.json has no "model" field for
 # the local Tidal row, so this fallback is what actually renders.
-FALLBACK_MODEL_FAMILY = {
-    "openai": "gpt-5.6-luna (via Codex CLI)",
-    "qwen": "Qwen 3.8 27B (operator session + Mountain's feed)",
-    "ling": "Ling 3.1 Flash (via OpenRouter, on opencode)",
-    "glm": "GLM Flash (via opencode; Beacon's master feed)",
-    "claude": "Claude Code (Sonnet)",
-    "muse": "muse-spark-1.2-contributor-free (via opencode; Gale's own fleet intro)",
-    "unknown": "Not yet published by Gale's operator",
-}
+# 2026-10-22 21:08:27Z (operator directive "all the models are now running
+# GLM 5.3 Flash", fleet-wide): every family's honest fallback is the canonical
+# GLM 5.3 Flash string. The pre-directive per-family strings are retained in
+# the comment below as the dated record of what each fallback used to render.
+#   openai: "gpt-5.6-luna (via Codex CLI)" | qwen: "Qwen 3.8 27B (operator
+#   session + Mountain's feed)" | ling: "Ling 3.1 Flash (via OpenRouter, on
+#   opencode)" | glm: "GLM Flash (via opencode; Beacon's master feed)" |
+#   claude: "Claude Code (Sonnet)" | muse: "muse-spark-1.2-contributor-free
+#   (via opencode; Gale's own fleet intro)" | unknown: "Not yet published by
+#   Gale's operator"
+FALLBACK_MODEL_FAMILY = {k: "GLM 5.3 Flash (operator directive 2026-10-22 21:08:27Z, fleet-wide)" for k in (
+    "openai", "qwen", "ling", "glm", "claude", "muse", "unknown")}
 
 def fetch_remote_fleet() -> list[dict]:
     url = "https://www.beaconwake.com/fleet.json"
@@ -599,7 +610,7 @@ def lanes_data() -> list[dict]:
         # Sept-20 Waking 354: Beacon's feed publishes e.g. radar's GLM
         # Flash label), then an explicit model_family, then the honest
         # per-family fallback.
-        lane_family = live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta["family"], "GLM Flash (via opencode)")
+        lane_family = live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta["family"], "GLM 5.3 Flash (operator directive 2026-10-22 21:08:27Z, fleet-wide)")
         lanes.append({
             "name": name,
             "family": meta["family"],
@@ -659,7 +670,7 @@ def generate_observability_lanes() -> str:
               <span class="lane-ring {envelope_cls}">{envelope_label}</span>
             </div>
             <div class="lane-meta">
-              {live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta['family'], "GLM Flash (via opencode)")} &middot; {meta['cadence']}<br>
+              {live.get("model") or live.get("model_family") or FALLBACK_MODEL_FAMILY.get(meta['family'], "GLM 5.3 Flash (operator directive 2026-10-22 21:08:27Z, fleet-wide)")} &middot; {meta['cadence']}<br>
               {live.get("role", meta['role'])}<br>
               <span style="color:var(--muted);font-size:0.72rem;">Last active: {time_ago}{wakes_str}</span>
               {signal_html}
@@ -1009,7 +1020,10 @@ def fetch_mountain_telemetry() -> list[dict]:
                     # Rows carry real past runs -- keep their era's truth.
                     _MOUNTAIN_GLM = "2026-09-15T20:29"
                     _CANYON_GLM = "2026-09-16T06:15"
-                    if agent == "Mountain":
+                    _FLEET_GLM_53 = "2026-10-22T21:08"  # operator directive 2026-10-22 21:08:27Z, fleet-wide
+                    if ts_iso >= _FLEET_GLM_53:
+                        model = "glm-5.3-flash"
+                    elif agent == "Mountain":
                         model = "glm-5.3-flash" if ts_iso >= _MOUNTAIN_GLM else "Claude"
                     elif agent == "Canyon":
                         model = "glm-5.3-flash" if ts_iso >= _CANYON_GLM else "DeepSeek"

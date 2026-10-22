@@ -559,10 +559,10 @@ _Nothing awaiting a decision right now._
         # Sept 15 removed Claude Code from the fleet; on 2026-09-20 Beacon and
         # Mountain moved BACK to Claude Code (each host's own manifest says
         # so), so only Highbeam stays under GLM here.
-        self.assertEqual(families.get("Highbeam"), "GLM")
-        for name in ("Beacon", "Mountain"):
-            self.assertTrue(families.get(name, "").startswith("Claude"),
-                            f"{name} must be listed under Claude (its own manifest, 2026-09-20)")
+        # 2026-10-22 21:08:27Z fleet-wide directive: every family is GLM now.
+        for name in ("Highbeam", "Beacon", "Mountain"):
+            self.assertTrue(families.get(name, "").startswith("GLM"),
+                            f"{name} must be listed under GLM (fleet-wide GLM 5.3 Flash, operator directive 2026-10-22)")
 
     def test_manifest_family_census_matches_topology(self):
         """2026-09-20 normalization across the three sites: our published
@@ -593,11 +593,12 @@ _Nothing awaiting a decision right now._
             data = json.load(f)
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
+        # 2026-10-22 21:08:27Z fleet-wide directive: all 35 rows are GLM now.
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 13, "Claude": 4, "GPT": 3, "Muse": 5, "Qwen": 10})
+        self.assertEqual(dict(census), {"GLM": 35})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Mesa", "Vista"):
-            self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
+            self.assertTrue(by_name[name]["model_family"].startswith("GLM"), name)
         for name in ("Beacon", "Pulsar", "Mountain", "Gale"):
             self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
         for name in ("Tidal", "River", "Creek", "Stream", "Meadow", "Brook", "Mist"):
@@ -909,22 +910,13 @@ _Nothing awaiting a decision right now._
         build_obs_path = os.path.abspath(os.path.join(test_dir, "..", "website", "build_observability.py"))
         build_obs = SourceFileLoader("build_observability", build_obs_path).load_module()
         meta = build_obs.AGENT_METADATA
+        # 2026-10-22 21:08:27Z (operator directive "all the models are now
+        # running GLM 5.3 Flash", fleet-wide): every family row -- claude/
+        # openai/muse/qwen/unknown alike -- unifies under glm. The historical
+        # per-era maps are retained in the docstring above as the dated record.
         for name, entry in meta.items():
-            expected = {"Mesa": "openai", "Vista": "openai",
-                        "Prism": "openai",
-                        "Beacon": "claude",
-                        "Pulsar": "claude", "Mountain": "claude", "Gale": "claude",
-                        "Zephyr": "muse", "Squall": "muse", "Tempest": "muse",
-                        "Delta": "muse", "Harbor": "muse",
-                        "Tidal": "glm", "River": "glm", "Creek": "glm",
-                        "Stream": "glm", "Meadow": "glm", "Brook": "glm", "Mist": "glm",
-                        "Cyclone": "qwen", "Vortex": "qwen",
-                        "Chinook": "qwen", "Sirocco": "qwen",
-                        "Maistral": "qwen", "Bora": "qwen",
-                        "Tramontane": "qwen", "Ostro": "qwen",
-                        "Poniente": "qwen", "Levante": "qwen"}.get(name, "glm")
-            self.assertEqual(entry.get("family"), expected,
-                             f"{name} must be under the {expected} family")
+            self.assertEqual(entry.get("family"), "glm",
+                             f"{name} must be under the glm family (fleet-wide GLM 5.3 Flash, operator directive 2026-10-22)")
 
     def test_cost_estimate_historical_boundaries(self):
         """Agent-name cost fallbacks must be date-boundaried at the model

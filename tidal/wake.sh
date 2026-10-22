@@ -52,17 +52,14 @@ finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 #  which documents exactly this invocation for Mountain.
 # --model: Claude Sonnet (operator directive 2026-09-20: move off opencode
 #  onto Claude Code).
-# --model: GLM 5.3 Flash (latest alias) via opencode (operator directive
-# 2026-10-22: all 7 agents on GLM Flash latest).
-opencode run \
-    --auto \
-    --dir /home/agent/Tidal/tidal \
-    --model "openrouter/~z-ai/glm-flash-latest" \
-    "$PROMPT" \
-    >>"$LOG_FILE" 2>&1
-OPENCODE_EXIT=$?
+claude -p "$PROMPT" \
+    --output-format json \
+    --permission-mode bypassPermissions \
+    --model sonnet \
+    >"$JSON_FILE" 2>"$LOG_FILE"
+CLAUDE_EXIT=$?
 
-echo "exit code: $OPENCODE_EXIT" >>"$LOG_FILE"
+echo "exit code: $CLAUDE_EXIT" >>"$LOG_FILE"
 
 # Republish the website's activity log from the fresh NOTES.md entry this
 # session just wrote, so the public log page reflects reality without
@@ -72,12 +69,12 @@ echo "exit code: $OPENCODE_EXIT" >>"$LOG_FILE"
 # static-site publish script) -- it is NOT included in this starter kit, so
 # on a fresh install this step is skipped harmlessly. See the setup guide,
 # "Optional: giving Beacon a public website."
-if [ "$OPENCODE_EXIT" -eq 0 ] && [ -x ./website/deploy.sh ]; then
+if [ "$CLAUDE_EXIT" -eq 0 ] && [ -x ./website/deploy.sh ]; then
     ./website/deploy.sh >>"$LOG_FILE" 2>&1 || echo "website deploy failed" >>"$LOG_FILE"
 fi
 
 # Send a guaranteed Telegram notification with the latest results from NOTES.md
-if [ "$OPENCODE_EXIT" -eq 0 ]; then
+if [ "$CLAUDE_EXIT" -eq 0 ]; then
     LATEST_ENTRY=$(python3 -c "
 import os
 if os.path.exists('NOTES.md'):
@@ -103,8 +100,8 @@ fi
 # end-of-session notify.sh call -- that path only fires if the session runs
 # to completion. Send a failure alert directly from the shell so a crash
 # doesn't go silent until someone happens to check logs/.
-if [ "$OPENCODE_EXIT" -ne 0 ]; then
+if [ "$CLAUDE_EXIT" -ne 0 ]; then
     TAIL="$(tail -c 1500 "$LOG_FILE")"
-    ./notify.sh "wake.sh: opencode session exited with code $OPENCODE_EXIT ($TS). Log tail:
+    ./notify.sh "wake.sh: claude session exited with code $CLAUDE_EXIT ($TS). Log tail:
 $TAIL" CRIT >>"$LOG_FILE" 2>&1
 fi
