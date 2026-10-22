@@ -62,17 +62,28 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
 
     # 4. Estimate tokens and costs based on model
     # Model configuration
-    # Tidal moved off opencode/GLM Flash onto Claude Code (Sonnet) 2026-09-20
-    # (wake.sh now invokes `claude -p --output-format json`, which writes a
-    # real envelope on every successful run -- this fabricator only fires as
-    # a fallback for incomplete/crashed runs, so old Tidal logs still price
-    # as GLM and new ones price as Claude).
-    if agent in ("River", "Creek", "Stream") and ts_str >= "20261017T215500":
+    # 2026-10-22 (operator directive "all 7 agents on GLM Flash latest",
+    # wake.sh edits 16:04Z): Tidal's Claude window (2026-09-20..10-22), the
+    # local Ling window (2026-10-17..10-22) and Brook/Mist's gpt-5.6-luna
+    # window (2026-09-20..10-22) are closed -- all seven price as GLM Flash
+    # after 2026-10-22T16:04; historical windows keep their era's truth.
+    _GLM_RETURN = "20261022T160400"
+    if agent in ("River", "Creek", "Stream") and "20261017T215500" <= ts_str < _GLM_RETURN:
         # Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash):
         # $0.075/1M input, $0.225/1M output
         model_name = "ling-3.1-flash"
         input_rate = 0.075 / 1000000.0
         output_rate = 0.225 / 1000000.0
+        # Context grows with each turn
+        input_tokens = sum(12000 + i * 5000 for i in range(turns))
+        output_tokens = turns * 750
+    elif agent in ("Tidal", "River", "Creek", "Stream", "Meadow", "Brook", "Mist") and ts_str >= _GLM_RETURN:
+        # All seven local agents run GLM Flash (latest alias on OpenRouter,
+        # glm-5.3-flash) since 2026-10-22. GLM 5.3 Flash pricing:
+        # $0.075/1M input, $0.25/1M output
+        model_name = "glm-5.3-flash"
+        input_rate = 0.075 / 1000000.0
+        output_rate = 0.25 / 1000000.0
         # Context grows with each turn
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750
@@ -96,24 +107,27 @@ def estimate_metrics(agent: str, ts_str: str, log_path: Path) -> dict:
         input_tokens = sum(15000 + i * 6000 for i in range(turns))
         output_tokens = turns * 900
     elif agent == "Tidal":
-        # Claude Code (Sonnet): $3.00/1M input, $15.00/1M output
+        # Claude Code (Sonnet) window 2026-09-20..10-22 (crashed-run logs from
+        # that window price here; pre-2026-09-20 and post-2026-10-22 Tidal
+        # logs are caught by the GLM branch above). $3.00/1M in, $15.00/1M out
         model_name = "claude-sonnet-5"
         input_rate = 3.00 / 1000000.0
         output_rate = 15.00 / 1000000.0
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750
     elif agent == "Meadow":
-        # Meadow runs Muse Spark 1.3 Free via opencode Zen (operator
-        # directive 2026-09-23) -- a free contributor-tier model.
+        # Meadow ran Muse Spark 1.3 Free via opencode Zen (operator
+        # directive 2026-09-23, until the 2026-10-22 GLM return caught by
+        # the branch above) -- a free contributor-tier model.
         model_name = "muse-spark-1.3-contributor-free"
         input_rate = 0.0
         output_rate = 0.0
         input_tokens = sum(12000 + i * 5000 for i in range(turns))
         output_tokens = turns * 750
     elif agent in ("Brook", "Mist"):
-        # Brook and Mist moved off opencode onto Codex running gpt-5.6-luna
-        # (operator directive 2026-09-20). GPT-5.6-class pricing estimate:
-        # $1.25/1M input, $10.00/1M output
+        # Brook and Mist ran Codex gpt-5.6-luna 2026-09-20..10-22 (operator
+        # directive 2026-09-20; the 2026-10-22 GLM return is caught above).
+        # GPT-5.6-class pricing estimate: $1.25/1M input, $10.00/1M output
         model_name = "gpt-5.6-luna"
         input_rate = 1.25 / 1000000.0
         output_rate = 10.00 / 1000000.0

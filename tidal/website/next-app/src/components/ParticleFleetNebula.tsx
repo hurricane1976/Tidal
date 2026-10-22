@@ -30,13 +30,13 @@ const TEXT_RGB = "232,234,237";
 // (28th-31st, Qwen) Sept 23, and Tramontane/Ostro/Poniente/Levante
 // (32nd-35th, Qwen) Sept 25-26 -- bringing Gale's host to its full 14.
 const AGENTS: { id: string; label: string; family: Family }[] = [
-  { id: "tidal", label: "TIDAL", family: "Claude" },
-  { id: "river", label: "RIVER", family: "Ling" },
-  { id: "creek", label: "CREEK", family: "Ling" },
-  { id: "stream", label: "STREAM", family: "Ling" },
-  { id: "meadow", label: "MEADOW", family: "Ling" },
-  { id: "brook", label: "BROOK", family: "OpenAI" },
-  { id: "mist", label: "MIST", family: "OpenAI" },
+  { id: "tidal", label: "TIDAL", family: "GLM" },
+  { id: "river", label: "RIVER", family: "GLM" },
+  { id: "creek", label: "CREEK", family: "GLM" },
+  { id: "stream", label: "STREAM", family: "GLM" },
+  { id: "meadow", label: "MEADOW", family: "GLM" },
+  { id: "brook", label: "BROOK", family: "GLM" },
+  { id: "mist", label: "MIST", family: "GLM" },
   { id: "beacon", label: "BEACON", family: "Claude" },
   { id: "highbeam", label: "H-BEAM", family: "GLM" },
   { id: "lantern", label: "LANTERN", family: "GLM" },

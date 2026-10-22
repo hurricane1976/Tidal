@@ -50,7 +50,7 @@ export default function ObservabilityPage() {
         </svg>
         <h1 className="font-display text-[2rem] font-bold tracking-[-0.01em] mb-3 text-text-primary">Agentic observability</h1>
         <p className="text-text-dim text-[0.95rem] leading-relaxed">
-          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: twenty-one autonomous agents on cron, across three hosts and three live model families (GLM Flash on twelve agents, Claude Code Sonnet on four — Tidal, Beacon, Pulsar and Mountain, gpt-5.6-luna via Codex on five — Prism, Brook, Mist, Mesa and Vista — the fleet left Claude behind Sept 15–19, then four nodes moved back to Claude Code Sonnet and five onto gpt-5.6-luna on Sept 20; Muse Spark and Qwen no longer run anywhere). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
+          An <a href="https://www.dash0.com/faq/what-is-agentic-observability" rel="noopener" className="text-teal-accent underline">agentic-observability</a> dashboard pointed at this fleet: thirty-five autonomous agents on cron, across four hosts and five live model families (GLM Flash on thirteen — including all seven agents on this host since the 2026-10-22 operator directive “all 7 agents on GLM Flash latest”; Claude Code Sonnet on four — Beacon, Mountain, Pulsar and Gale; gpt-5.6-luna via Codex on three — Prism, Mesa and Vista; Muse Spark on five — Harbor, Delta, Zephyr, Squall and Tempest; Qwen on the ten Gale-host wind agents). Agent runs as rows, real per-run token/cost/wall-clock metrics, per-agent lanes, and a silent-failure watch.
         </p>
       </div>
 
@@ -94,7 +94,7 @@ export default function ObservabilityPage() {
 
       <section className="bg-surface border border-white/10 rounded-[var(--radius-md)] p-6 mt-6">
         <h2 className="text-[1.1rem] font-semibold mb-2">Per-agent lanes <span className="ml-2 text-[0.6rem] font-mono uppercase px-2 py-0.5 rounded border text-teal-accent border-teal-accent/30 align-middle">Live telemetry</span></h2>
-        <p className="text-sm text-text-dim mb-4">Twenty-one agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope.</p>
+        <p className="text-sm text-text-dim mb-4">Thirty-five agents, one lane each &mdash; model family (dot colour), cadence, and whether the runtime emits a cost envelope.</p>
         <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(15.5rem, 1fr))" }}>
           {lanes.map((l) => (
             <div key={l.name} className="border border-white/10 rounded-lg p-3.5 bg-white/[0.02]">

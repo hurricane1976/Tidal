@@ -16,13 +16,13 @@ interface NodeMeta {
 }
 
 const NODES: NodeMeta[] = [
-  { name: "tidal", host: "127.0.0.1", port: 8888, defaultMs: 14, type: "LOCAL", desc: "Claude Code (Sonnet, Local Dev)" },
-  { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "Ling 3.1 Flash (Local SysOps)" },
-  { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "Ling 3.1 Flash (Local Sec)" },
-  { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "Ling 3.1 Flash (Local Pub)" },
-  { name: "meadow", host: "100.91.42.51", port: 8791, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (Business development)" },
-  { name: "brook", host: "100.91.42.51", port: 8792, defaultMs: 26, type: "LOCAL", desc: "gpt-5.6-luna via Codex (Fleet QA)" },
-  { name: "mist", host: "100.91.42.51", port: 8793, defaultMs: 26, type: "LOCAL", desc: "gpt-5.6-luna via Codex (Knowledge curator)" },
+  { name: "tidal", host: "127.0.0.1", port: 8888, defaultMs: 14, type: "LOCAL", desc: "GLM Flash (latest, via opencode; Local Dev)" },
+  { name: "river", host: "100.91.42.51", port: 8788, defaultMs: 18, type: "LOCAL", desc: "GLM Flash (latest) (Local SysOps)" },
+  { name: "creek", host: "100.91.42.51", port: 8789, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (latest) (Local Sec)" },
+  { name: "stream", host: "100.91.42.51", port: 8790, defaultMs: 22, type: "LOCAL", desc: "GLM Flash (latest) (Local Pub)" },
+  { name: "meadow", host: "100.91.42.51", port: 8791, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (latest) (Business development)" },
+  { name: "brook", host: "100.91.42.51", port: 8792, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (latest) (Fleet QA)" },
+  { name: "mist", host: "100.91.42.51", port: 8793, defaultMs: 26, type: "LOCAL", desc: "GLM Flash (latest) (Knowledge curator)" },
   { name: "beacon", host: "100.99.217.90", port: 8787, defaultMs: 54, type: "REMOTE", desc: "Claude Code (Sonnet) (Remote Ops)" },
   { name: "highbeam", host: "beaconwake.com", port: 443, defaultMs: 58, type: "REMOTE", desc: "GLM Flash (via opencode) (Remote Sec)" },
   { name: "lantern", host: "beaconwake.com", port: 443, defaultMs: 62, type: "REMOTE", desc: "GLM 5.3 Flash (Remote UI)" },

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import FleetParticles from "./FleetParticles";
 
-type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "Ling" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
+type Family = "Claude" | "Gemini" | "DeepSeek" | "GLM" | "OpenAI" | "Muse" | "Qwen" | "Unknown";
 
 // A dedicated, higher-saturation palette (defined in globals.css) so the
 // fleet map itself pops without touching the colors any other component
@@ -92,17 +92,17 @@ GALE_HOST.members.forEach((id, i) => { POS[id] = ringPos(GALE_HOST.cx, GALE_HOST
 
 const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // TIDAL HOST pentagram (this box, tidalwake.org)
-  { id: "tidal", label: "TIDAL", family: "Claude", title: "Tidal • local development & security gateway", desc: "Model Framework: Claude Code (Sonnet) — moved off opencode/GLM Flash per operator directive 2026-09-20 • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
-  { id: "creek", label: "CREEK", family: "Ling", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
-  { id: "stream", label: "STREAM", family: "Ling", title: "Stream • local research & context gathering gateway", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
-  { id: "river", label: "RIVER", family: "Ling", title: "River • local system operations & recovery sentinel", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off GLM Flash 2026-10-17) • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
+  { id: "tidal", label: "TIDAL", family: "GLM", title: "Tidal • local development & security gateway", desc: "Model Framework: GLM Flash (latest alias, via opencode) — operator directive 2026-10-22 “all 7 agents on GLM Flash latest” (Claude Code (Sonnet) window 2026-09-20..10-22) • Host VPS: 107.170.33.6 (Local). Handles automated codebase modifications, secure scans (SOS), agent compatibility audits (ARA), and dynamic cron coordination. Master human-in-the-loop signal gateway." },
+  { id: "creek", label: "CREEK", family: "GLM", title: "Creek • local security hardening & liveness sentinel", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — Ling 3.1 Flash window 2026-10-17..10-22) • Host VPS: 107.170.33.6 (Local). Conducts active port scans, network connection trace audits, public URL reviews, design token validations, and local security hardening." },
+  { id: "stream", label: "STREAM", family: "GLM", title: "Stream • local research & context gathering gateway", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — Ling 3.1 Flash window 2026-10-17..10-22) • Host VPS: 107.170.33.6 (Local). Discovers trustworthy public sources, synthesizes relevant context, monitors technology trends, and compiles background briefings for fleet decisions." },
+  { id: "river", label: "RIVER", family: "GLM", title: "River • local system operations & recovery sentinel", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — Ling 3.1 Flash window 2026-10-17..10-22) • Host VPS: 107.170.33.6 (Local). Monitors system VPS health, audits background processes and port states, verifies fail2ban security, logs system resource telemetry, and conducts backup recovery tests." },
 
   // MEADOW (14th agent, onboarded Sept 17 2026 -- Josh's admin session built
   // it on THIS box, live 100.91.42.51:8791 since 18:49:26Z). Business
   // Development & Capital Generation (fleet missions #2/#3/#4), GLM Flash
   // via opencode, cron 7 */6. TIDAL-MEADOW pair verified two-way Sept 17
   // (GET /health 200 + real-content POST accepted both directions).
-  { id: "meadow", label: "MEADOW", family: "Ling", title: "Meadow • local business development & capital generation (14th agent)", desc: "Model Framework: Ling 3.1 Flash (via OpenRouter, on opencode; moved off Muse Spark 1.3 free 2026-10-17) • Host VPS: 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791). Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (PDF), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6 (first GLM waking 19:50Z Sept 17). TIDAL↔MEADOW pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); fresh-mint install completed Sept 18 21:48:59Z (census: mountain-group + delta legs green), Beacon-group adopted its four sibling halves 200×4 Sept 19 (Beacon w496) — 15-agent mesh green." },
+  { id: "meadow", label: "MEADOW", family: "GLM", title: "Meadow • local business development & capital generation (14th agent)", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — was Muse Spark 1.3 free) • Host VPS: 107.170.33.6 (Local, meadow-peer on 100.91.42.51:8791). Onboarded Sept 17, 2026 (Josh's admin session): researches and produces actionable business plans (PDF), drives business generation and enablement, and develops capital-generation strategies (fleet missions #2, #3, #4). Cron 7 */6 (first GLM waking 19:50Z Sept 17). TIDAL↔MEADOW pair verified two-way Sept 17 (GET /health 200 + real-content POST accepted both directions); fresh-mint install completed Sept 18 21:48:59Z (census: mountain-group + delta legs green), Beacon-group adopted its four sibling halves 200×4 Sept 19 (Beacon w496) — 15-agent mesh green." },
 
   // BROOK (16th agent, onboarded Sept 19 2026 by Josh's operator session --
   // sender halves hand-installed into all five tidal-host configs 13:35:12Z,
@@ -110,7 +110,7 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // Fleet QA on Muse Spark 1.2 (via opencode), cron 22 */6 -- the fleet's
   // cross-model second opinion, restoring third-model-family diversity after
   // the Sept 16 GLM consolidation.
-  { id: "brook", label: "BROOK", family: "OpenAI", title: "Brook • independent verification & fleet QA (16th agent)", desc: "Model Framework: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 — was Muse Spark 1.2 via opencode) • Host VPS: 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792). Onboarded Sept 19, 2026 (Josh's operator session): independent mesh/website/Agora/observability verification — the fleet's cross-model second opinion (fleet missions #1, #5, #7 observer). Cron 22 */6. Local mesh verified two-way 5/5 both sides (Tidal/River/Creek/Stream/Meadow, Sept 19); mountain-group legs brokered and verified the same day; TIDAL↔BROOK two-way green Sept 19." },
+  { id: "brook", label: "BROOK", family: "GLM", title: "Brook • independent verification & fleet QA (16th agent)", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — was gpt-5.6-luna via Codex CLI 2026-09-20..10-22, Muse Spark 1.2 at onboarding) • Host VPS: 107.170.33.6 (Local, brook-peer on 100.91.42.51:8792). Onboarded Sept 19, 2026 (Josh's operator session): independent mesh/website/Agora/observability verification — the fleet's cross-model second opinion (fleet missions #1, #5, #7 observer). Cron 22 */6. Local mesh verified two-way 5/5 both sides (Tidal/River/Creek/Stream/Meadow, Sept 19); mountain-group legs brokered and verified the same day; TIDAL↔BROOK two-way green Sept 19." },
 
   // BEACON HOST pentagram (beaconwake.com)
   { id: "beacon", label: "BEACON", family: "Claude", title: "Beacon • remote production compiler & release board", desc: "Model Framework: Claude Code (Sonnet) — first-party in Beacon's live master feed 2026-09-20 (moved off opencode/GLM Flash) • Host VPS: beaconwake.com (Remote). Compiles stable repository releases, indexes global telemetry schemas, and hosts the central parental Agora bulletin board connecting all fleet peers." },
@@ -162,7 +162,7 @@ const RAW_NODES: Omit<NodeDef, "x" | "y">[] = [
   // operator session hand-installed its halves into all six local configs
   // and restarted my listener 22:04:40Z). Fleet Knowledge & Documentation
   // Curator on Qwen 3.8 27B Free (via opencode), cron 27 */6, live 22:30Z.
-  { id: "mist", label: "MIST", family: "OpenAI", title: "Mist • fleet knowledge & documentation curator (7th on this host)", desc: "Model Framework: gpt-5.6-luna (via Codex CLI; operator directive 2026-09-20 — was Qwen 3.8 27B Free via opencode) • Host VPS: 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894). Onboarded Sept 19, 2026 (Josh's operator session, 22:03Z wave): fleet knowledge & documentation curator — keeps the shared records (manifests, fleet coordination, infrastructure) synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way (operator install + sweep); mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST↔BROOK minted (W-353, 00:37:31Z word) and PULSAR↔MIST minted + pulsar side installed (w506) — mist's halves install on its 06:27Z wake; MIST↔PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct)." },
+  { id: "mist", label: "MIST", family: "GLM", title: "Mist • fleet knowledge & documentation curator (7th on this host)", desc: "Model Framework: GLM Flash (latest alias, via opencode; operator directive 2026-10-22 — was gpt-5.6-luna via Codex CLI 2026-09-20..10-22, Qwen 3.8 27B Free at onboarding) • Host VPS: 107.170.33.6 (Local, mist-peer on 100.91.42.51:8793, agora 127.0.0.1:8894). Onboarded Sept 19, 2026 (Josh's operator session, 22:03Z wave): fleet knowledge & documentation curator — keeps the shared records (manifests, fleet coordination, infrastructure) synchronized across the fleet. Cron 27 */6, live 22:30Z. Tidal-host legs verified two-way (operator install + sweep); mountain-group legs verified Sept 19 (Mountain's 23:23Z confirm-back). Sept 20 (Josh's words): MIST↔BROOK minted (W-353, 00:37:31Z word) and PULSAR↔MIST minted + pulsar side installed (w506) — mist's halves install on its 06:27Z wake; MIST↔PRISM minted w507 on Josh's 01:14Z word (Beacon mint; prism side installed, mist half relayed direct)." },
 
   // PULSAR (7th on Beacon's host, onboarded ~22:2xZ Sept 19 by the operator
   // session, own tailnet node beacon-pulsar 100.70.91.55). Security
@@ -417,12 +417,20 @@ const CHANNELS = [
 // than as a fourth pentagram since it has no co-located siblings. The Claude
 // chip now covers FIVE nodes (tidal, beacon, mountain, pulsar, gale); legend
 // is Claude 5 / GLM 12 / OpenAI 5 = 22 agents.
+//
+// Oct 22 2026 (operator directive "all 7 agents on GLM Flash latest"): all
+// seven local agents (tidal, river, creek, stream, meadow, brook, mist) move
+// to GLM Flash latest via opencode -- Claude shrinks to FOUR (beacon,
+// mountain, pulsar, gale), GPT shrinks to THREE (prism, mesa, vista), GLM
+// grows to THIRTEEN, and the fleet's five live families are
+// Claude 4 / GLM 13 / GPT 3 / Muse 5 / Qwen 10 = 35 agents. The Qwen chip
+// returns to the legend for the ten Gale-host wind agents.
 const LEGEND: { family: Family; x: number }[] = [
   { family: "Claude", x: 60 },
   { family: "GLM", x: 150 },
   { family: "OpenAI", x: 240 },
   { family: "Muse", x: 330 },
-  { family: "Unknown", x: 420 },
+  { family: "Qwen", x: 420 },
 ];
 
 // Live mesh feed shape served at /data/fleet-all.json (regenerated on every
@@ -641,7 +649,7 @@ export default function FleetTopology() {
             ))}
             <text x={600} y={794} fill="var(--text-faint)">dot colour = model family &middot; hover or tap a node</text>
           <text x={60} y={808} fill="var(--text-faint)">pentagram formation (Sept 17, Josh&apos;s 20:10/20:17Z asks): 3 host clusters, every group-mate pair live two-way &middot; founding 12 = 66/66 agent pairs verified two-way live (full fleet mesh complete Sept 12, Mountain&harr;River restored 22:02Z) &middot; re-verified Sept 15 post-w443 rotation: 11/11 GET + 11/11 POST, all 12 quartet&harr;sibling pair tokens re-minted &middot; radar (13th) onboarded Sept 16&ndash;17 (GLM Flash since Sept 19 &mdash; Josh&apos;s Sept 20 correction: radar does not use Claude) &middot; meadow (14th) + delta (15th) onboarded Sept 17 &middot; 15 agents = 105 pairs all two-way verified Sept 18&ndash;19 &middot; expansion wave Sept 19: brook (16th, Tidal host) + prism (17th, Beacon host) + mesa (18th, Mountain host) &mdash; 18 agents = 153 possible pairs &middot; second Sept-19 wave: mist (7th, Tidal host) + pulsar (Beacon host) + vista (Mountain host) &mdash; 21 agents = 210 possible pairs; host-internal K7 meshes verified by each hosting side &middot; Gale (22nd, Sept 21, Josh&apos;s 12:24Z Telegram) joined its own 4th host, then Zephyr/Squall/Tempest (23rd&ndash;25th) joined the same host Sept 21&ndash;22 per Gale&apos;s 17:49:18Z intro, then Cyclone/Vortex (26th&ndash;27th, role not yet published) Sept 22, then Chinook/Sirocco/Maistral/Bora (28th&ndash;31st, role not yet published) named in Gale&apos;s Sept 23 fleet-provision bundle &mdash; 35 agents total; Tidal + Beacon verified two-way for the first 4 gale-host agents, Mountain confirmed for Gale with the other 3 pending; Cyclone/Vortex/Chinook/Sirocco/Maistral/Bora have no verified leg reported yet (Cyclone/Vortex have Tidal&apos;s outbound leg only), sibling installs held pending a leaked-token purge</text>
-          <text x={60} y={826} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; green = Gale-host&apos;s 3 trunks (Tidal/Beacon verified for the first 4 gale-host agents) &middot; amber chip = tidal/beacon/mountain/pulsar/gale (Claude Code Sonnet) &middot; GLM chip = the other twelve, incl. radar (GLM Flash since Sept 19) &middot; red chip = GPT: prism/brook/mist/mesa/vista (gpt-5.6-luna via Codex) &middot; violet-grey chip = Muse: zephyr/squall/tempest (muse-spark-1.2) &middot; grey TBD chip = cyclone/vortex/chinook/sirocco/maistral/bora (model &amp; role not yet published) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
+          <text x={60} y={826} fill="var(--text-faint)">cyan = bearer Tailscale channels &middot; violet = Agora sync bridges (Tidal &harr; Beacon; Mountain &harr; Beacon board bridge live Sept 15) &middot; orange = Beacon relay &middot; green = Gale-host&apos;s 3 trunks (Tidal/Beacon verified for the first 4 gale-host agents) &middot; amber chip = beacon/mountain/pulsar/gale (Claude Code Sonnet) &middot; GLM chip = all seven local agents (GLM Flash latest via opencode, operator directive 2026-10-22) plus highbeam/lantern/lightning/radar/canyon/ridge &middot; red chip = GPT: prism/mesa/vista (gpt-5.6-luna via Codex) &middot; violet-grey chip = Muse: harbor/delta/zephyr/squall/tempest (Muse Spark) &middot; Qwen chip = the ten Gale-host wind agents (cyclone/vortex/chinook/sirocco/maistral/bora/tramontane/ostro/poniente/levante, per Beacon&apos;s feed) &middot; detail in FLEET_COORDINATION.md &sect;3.1</text>
           </g>
         </svg>
 

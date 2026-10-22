@@ -411,8 +411,12 @@ export function getObservabilityRuns(): ObservabilityRun[] {
               const ts = String(r.ts || "");
               const postClaude = ts !== "" && ts >= "2026-09-15T20:00";
               const postDeepSeek = ts !== "" && ts >= "2026-09-16T06:15";
-              const tidalOnClaude = ts !== "" && ts >= "2026-09-20T10:00";
-              const onLing = ts !== "" && ts >= "2026-10-17T21:55";
+              // 2026-10-22 (operator directive "all 7 agents on GLM Flash
+              // latest"): Tidal's Claude window and the local Ling window
+              // close; all seven local agents price as GLM Flash after it.
+              const glmReturn = ts !== "" && ts >= "2026-10-22T16:04";
+              const tidalOnClaude = ts !== "" && ts >= "2026-09-20T10:00" && !glmReturn;
+              const onLing = ts !== "" && ts >= "2026-10-17T21:55" && !glmReturn;
               if (model.toLowerCase().includes("gemini-3.8-flash")) {
                 r.cost_usd = (input * 0.75 + output * 3.75 + cachedRead * 0.075) / 1_000_000;
               } else if (model.toLowerCase().includes("gemini-1.5-pro")) {
@@ -420,9 +424,9 @@ export function getObservabilityRuns(): ObservabilityRun[] {
               } else if (model.toLowerCase().includes("deepseek") || (["Creek", "Stream", "Canyon", "Lightning"].includes(agent) && !postDeepSeek)) {
                 r.cost_usd = (input * 0.14 + output * 0.28) / 1_000_000;
               } else if (model.toLowerCase().includes("ling-3") || (["River", "Creek", "Stream", "Meadow"].includes(agent) && onLing)) {
-                // Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash; River/Creek/Stream moved off GLM Flash 2026-10-17): $0.075/1M in, $0.225/1M out, $0.015/1M cached
+                // Ling 3.1 Flash (OpenRouter inclusionai/ling-3.1-flash; River/Creek/Stream ran it 2026-10-17..10-22): $0.075/1M in, $0.225/1M out, $0.015/1M cached
                 r.cost_usd = (input * 0.075 + output * 0.225 + cachedRead * 0.015) / 1_000_000;
-              } else if ((model.toLowerCase().includes("glm") && model.toLowerCase().includes("flash")) || ["River", "Lantern"].includes(agent) || (agent === "Tidal" && !tidalOnClaude) || (["Creek", "Stream", "Canyon", "Lightning"].includes(agent) && postDeepSeek) || (["Mountain", "Beacon", "Highbeam"].includes(agent) && postClaude)) {
+              } else if ((model.toLowerCase().includes("glm") && model.toLowerCase().includes("flash")) || ["River", "Lantern"].includes(agent) || (agent === "Tidal" && !tidalOnClaude) || (["Creek", "Stream", "Canyon", "Lightning"].includes(agent) && postDeepSeek) || (["Mountain", "Beacon", "Highbeam"].includes(agent) && postClaude) || (["River", "Creek", "Stream", "Meadow", "Brook", "Mist"].includes(agent) && glmReturn)) {
                 // GLM Flash (OpenRouter ~z-ai/glm-flash-latest): $0.075/1M in, $0.25/1M out, $0.015/1M cached
                 r.cost_usd = (input * 0.075 + output * 0.25 + cachedRead * 0.015) / 1_000_000;
               } else if (model.toLowerCase().includes("glm") || ["Ridge", "Harbor"].includes(agent)) {
@@ -430,8 +434,7 @@ export function getObservabilityRuns(): ObservabilityRun[] {
               } else if (model.toLowerCase().includes("luna") || model.toLowerCase().includes("gpt-5.6")) {
                 // GPT 5.6 Luna (OpenAI gpt-5.6-luna via OpenRouter): $0.20/1M in, $1.20/1M out, $0.02/1M cached
                 r.cost_usd = (input * 0.20 + output * 1.20 + cachedRead * 0.02) / 1_000_000;
-              } else if (model.toLowerCase().includes("claude") || model.toLowerCase().includes("sonnet") || (["Mountain", "Beacon", "Highbeam"].includes(agent) && !postClaude) || (agent === "Tidal" && tidalOnClaude)) {
-                r.cost_usd = (input * 3.00 + output * 15.00) / 1_000_000;
+              } else if (model.toLowerCase().includes("claude") || model.toLowerCase().includes("sonnet") || (["Mountain", "Beacon", "Highbeam"].includes(agent) && !postClaude) || (agent === "Tidal" && tidalOnClaude)) {                r.cost_usd = (input * 3.00 + output * 15.00) / 1_000_000;
               }
             }
           }

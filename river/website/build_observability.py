@@ -155,11 +155,16 @@ def estimate_cost_if_null(r: dict) -> None:
     _DEEPSEEK_ERA_END = "2026-09-16T06:15"  # Creek/Stream/Lightning/Canyon off DeepSeek
     _TIDAL_CLAUDE_START = "2026-09-20T10:00"  # Tidal off GLM Flash, onto Claude Code (Sonnet)
     _LING_START = "2026-10-17T21:55"  # River/Creek/Stream off GLM Flash, onto Ling 3.1 Flash
+    # 2026-10-22 (operator directive "all 7 agents on GLM Flash latest",
+    # on-box wake.sh edits 16:04Z): Tidal back off Claude Code, River/Creek/
+    # Stream/Meadow back off Ling, Brook/Mist off gpt-5.6-luna via Codex.
+    _GLM_RETURN = "2026-10-22T16:04"
     ts = str(r.get("ts") or "")
     post_claude = ts >= _CLAUDE_ERA_END if ts else False
     post_deepseek = ts >= _DEEPSEEK_ERA_END if ts else False
-    tidal_on_claude = ts >= _TIDAL_CLAUDE_START if ts else False
-    on_ling = ts >= _LING_START if ts else False
+    tidal_on_claude = _TIDAL_CLAUDE_START <= ts < _GLM_RETURN if ts else False
+    on_ling = _LING_START <= ts < _GLM_RETURN if ts else False
+    post_glm_return = ts >= _GLM_RETURN if ts else False
 
     # Standard Gemini 3.8 Flash Pricing through Dec 31, 2026:
     # Input tokens: $0.75 per 1M
@@ -188,7 +193,8 @@ def estimate_cost_if_null(r: dict) -> None:
     elif ("glm" in model.lower() and "flash" in model.lower()) or agent in ("River", "Lantern") or \
             (agent == "Tidal" and not tidal_on_claude) or \
             (agent in ("Creek", "Stream", "Canyon", "Lightning") and post_deepseek) or \
-            (agent in ("Mountain", "Beacon", "Highbeam") and post_claude):
+            (agent in ("Mountain", "Beacon", "Highbeam") and post_claude) or \
+            (agent in ("River", "Creek", "Stream", "Meadow", "Brook", "Mist") and post_glm_return):
         # GLM Flash (OpenRouter ~z-ai/glm-flash-latest, currently glm-5.3-flash):
         # Input tokens: $0.075 per 1M
         # Output tokens: $0.25 per 1M
@@ -436,27 +442,28 @@ AGENT_METADATA = {
     "Lightning": {"family": "glm", "cadence": "4&times;/day <code>*/6</code>", "role": "data analysis &amp; metrics", "envelope": "text"},
     "Radar": {"family": "glm", "cadence": "4&times;/day <code>50&nbsp;*/6</code>", "role": "operator escalation line", "envelope": "off-box"},
     "Tidal": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
-    # Oct 17, 2026 (operator directive): River/Creek/Stream moved off GLM
-    # Flash onto Ling 3.1 Flash (via OpenRouter, on opencode) -- wake.sh now
-    # launches openrouter/inclusionai/ling-3.1-flash. Family ling.
-    "River": {"family": "ling", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
-    "Creek": {"family": "ling", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
-    "Stream": {"family": "ling", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
-    # Oct 17, 2026 (operator directive): Meadow joined the ling family
-    # (ran Muse Spark 1.3 free 2026-09-23..10-17, GLM Flash before that).
-    "Meadow": {"family": "ling", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
+    "Tidal": {"family": "glm", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "dev &amp; security audit", "envelope": "json"},
+    # 2026-10-22 operator directive: all seven local agents back on GLM
+    # Flash latest via opencode -- see the comment above.
+    "River": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "autonomous ops &amp; systems", "envelope": "json"},
+    "Creek": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "security &amp; consistency sentinel", "envelope": "json"},
+    "Stream": {"family": "glm", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "research &amp; context gathering", "envelope": "json"},
+    "Meadow": {"family": "glm", "cadence": "4&times;/day <code>7&nbsp;*/6</code>", "role": "business development &amp; capital generation", "envelope": "off-box"},
     "Mountain": {"family": "claude", "cadence": "4&times;/day <code>0&nbsp;*/6</code>", "role": "fleet protocol &amp; integration", "envelope": "off-box"},
     "Canyon": {"family": "glm", "cadence": "4&times;/day <code>15&nbsp;*/6</code>", "role": "fleet scribe / watchtower", "envelope": "off-box"},
     "Ridge": {"family": "glm", "cadence": "4&times;/day <code>30&nbsp;*/6</code>", "role": "fleet sentinel", "envelope": "off-box"},
     "Harbor": {"family": "muse", "cadence": "4&times;/day <code>45&nbsp;*/6</code>", "role": "growth &amp; outreach", "envelope": "off-box"},
     "Delta": {"family": "muse", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "treasury &amp; business strategist", "envelope": "off-box"},
-    # Sept 19, 2026 expansion wave (Josh's directive: account for all 18):
-    "Brook": {"family": "openai", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
+    # Sept 19, 2026 expansion wave (Josh's directive: account for all 18).
+    # Brook: gpt-5.6-luna via Codex 2026-09-20..10-22, GLM Flash latest
+    # since (operator directive 2026-10-22). Prism stays Codex (Beacon host).
+    "Brook": {"family": "glm", "cadence": "4&times;/day <code>22&nbsp;*/6</code>", "role": "independent verification &amp; fleet QA", "envelope": "off-box"},
     "Prism": {"family": "openai", "cadence": "4&times;/day <code>55&nbsp;*/6</code>", "role": "SRE &amp; backup steward", "envelope": "off-box"},
     "Mesa": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (per Mountain's feed, wakes at :21)", "role": "fleet link &amp; mesh reliability", "envelope": "off-box"},
     # Sept 19, 2026 second wave (Waking 350, fleet 21 -- launched on Qwen 3.8
-    # 27B; Mist and Pulsar have since moved, see the Sept 20 note below):
-    "Mist": {"family": "openai", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
+    # 27B; Mist moved to Codex 2026-09-20, then GLM Flash latest 2026-10-22
+    # per the operator directive; Pulsar has since moved, see Sept 20 note):
+    "Mist": {"family": "glm", "cadence": "4&times;/day <code>27&nbsp;*/6</code>", "role": "fleet knowledge &amp; documentation curator", "envelope": "off-box"},
     "Pulsar": {"family": "claude", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "security sentinel", "envelope": "off-box"},
     "Vista": {"family": "openai", "cadence": "4&times;/day <code>*/6</code> (minute unpublished)", "role": "site &amp; product quality", "envelope": "off-box"},
     # Gale host (22nd-25th agents): Gale onboarded 2026-09-21 (Josh's

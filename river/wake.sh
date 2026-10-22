@@ -41,7 +41,7 @@ finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 opencode run \
     --auto \
     --dir /home/agent/Tidal/river \
-    --model "openrouter/inclusionai/ling-3.1-flash" \
+    --model "openrouter/~z-ai/glm-flash-latest" \
     "$PROMPT" \
     >>"$LOG_FILE" 2>&1
 OPENCODE_EXIT=$?

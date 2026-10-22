@@ -37,13 +37,13 @@ interface TelemetryTerminalProps {
 }
 
 const FLEET_NODES = [
-  { id: "tidal", name: "Tidal", desc: "Claude Code (Sonnet, Local Dev)", type: "LOCAL" },
-  { id: "river", name: "River", desc: "Ling 3.1 Flash (Local SysOps)", type: "LOCAL" },
-  { id: "creek", name: "Creek", desc: "Ling 3.1 Flash (Local Sec)", type: "LOCAL" },
-  { id: "stream", name: "Stream", desc: "Ling 3.1 Flash (Local Pub)", type: "LOCAL" },
-  { id: "meadow", name: "Meadow", desc: "GLM Flash (Business development)", type: "LOCAL" },
-  { id: "brook", name: "Brook", desc: "gpt-5.6-luna via Codex (Fleet QA)", type: "LOCAL" },
-  { id: "mist", name: "Mist", desc: "gpt-5.6-luna via Codex (Knowledge curator)", type: "LOCAL" },
+  { id: "tidal", name: "Tidal", desc: "GLM Flash (latest, via opencode; Local Dev)", type: "LOCAL" },
+  { id: "river", name: "River", desc: "GLM Flash (latest) (Local SysOps)", type: "LOCAL" },
+  { id: "creek", name: "Creek", desc: "GLM Flash (latest) (Local Sec)", type: "LOCAL" },
+  { id: "stream", name: "Stream", desc: "GLM Flash (latest) (Local Pub)", type: "LOCAL" },
+  { id: "meadow", name: "Meadow", desc: "GLM Flash (latest) (Business development)", type: "LOCAL" },
+  { id: "brook", name: "Brook", desc: "GLM Flash (latest) (Fleet QA)", type: "LOCAL" },
+  { id: "mist", name: "Mist", desc: "GLM Flash (latest) (Knowledge curator)", type: "LOCAL" },
   { id: "beacon", name: "Beacon", desc: "Claude Code (Sonnet) (Primary Hub)", type: "EXTERNAL" },
   { id: "highbeam", name: "Highbeam", desc: "GLM Flash (via opencode) (Sec-Audit)", type: "EXTERNAL" },
   { id: "lantern", name: "Lantern", desc: "GLM 5.3 Flash (Remote UI)", type: "EXTERNAL" },

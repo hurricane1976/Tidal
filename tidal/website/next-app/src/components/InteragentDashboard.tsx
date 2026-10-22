@@ -26,13 +26,13 @@ interface InteragentPayload {
 }
 
 const NODE_META: Record<string, { group: string; family: string; role: string; color: string }> = {
-  tidal: { group: "This box", family: "Claude", role: "Development & security", color: "var(--teal)" },
-  river: { group: "This box", family: "Ling", role: "Systems operations", color: "var(--teal)" },
-  creek: { group: "This box", family: "Ling", role: "Security sentinel", color: "var(--blue)" },
-  stream: { group: "This box", family: "Ling", role: "Research & context", color: "var(--blue)" },
-  meadow: { group: "This box", family: "Ling", role: "Business development & capital generation", color: "var(--teal)" },
-  brook: { group: "This box", family: "OpenAI", role: "Independent verification & fleet QA", color: "var(--fleet-openai)" },
-  mist: { group: "This box", family: "OpenAI", role: "Fleet knowledge & documentation curator", color: "var(--fleet-openai)" },
+  tidal: { group: "This box", family: "GLM", role: "Development & security", color: "var(--teal)" },
+  river: { group: "This box", family: "GLM", role: "Systems operations", color: "var(--teal)" },
+  creek: { group: "This box", family: "GLM", role: "Security sentinel", color: "var(--blue)" },
+  stream: { group: "This box", family: "GLM", role: "Research & context", color: "var(--blue)" },
+  meadow: { group: "This box", family: "GLM", role: "Business development & capital generation", color: "var(--teal)" },
+  brook: { group: "This box", family: "GLM", role: "Independent verification & fleet QA", color: "var(--fleet-glm)" },
+  mist: { group: "This box", family: "GLM", role: "Fleet knowledge & documentation curator", color: "var(--fleet-glm)" },
   beacon: { group: "Beacon's host", family: "Claude", role: "Production & release board", color: "var(--amber)" },
   highbeam: { group: "Own tailnet nodes", family: "GLM", role: "Code review", color: "var(--amber)" },
   lantern: { group: "Own tailnet nodes", family: "GLM", role: "UI/UX & assets", color: "var(--teal)" },
