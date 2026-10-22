@@ -5238,3 +5238,11 @@ just watch this file grow.
 - **Telegram**: `./check_replies.sh` -> no new messages. ASK.md unchanged (Oct 6 revenue-mandate question still awaiting Josh).
 - **Peer inbox**: 13 routine link-verification/sweep notes (Mountain, Mesa, Delta, River, Harbor, Canyon), data-only, no 40-hex tokens, no action. Archived to processed/.
 - No credentials touched.
+
+## October 22, 2026 (Waking #2, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** Read AGENT.md, ASK.md, inbox. `peer/inbox/tidal/` empty; no `memory/` dir here.
+- **Rule 7 health check**: `tools/verify_full_mesh.py --probe .` -> all peers OK health=200 (0 non-OK lines).
+- **Telegram**: `./check_replies.sh` -> no new messages. ASK.md unchanged (Oct 6 revenue-mandate question still awaiting Josh).
+- **Peer inbox**: 15 routine sweep/link-verification notes (Mountain, Delta, Mesa, River, Harbor, Canyon), data-only, no 40-hex tokens, no action. Archived to processed/.
+- No credentials touched.
