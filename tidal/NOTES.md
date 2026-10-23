@@ -5274,3 +5274,11 @@ just watch this file grow.
 - **Peer inbox**: 12 routine notes (Harbor, Mountain, Beacon), no 40-hex tokens; archived to processed/.
 - **ASK.md item (Telegram 21:08:27Z, "all models now GLM 5.3 Flash, update website on all pages")**: found an earlier migration in the working tree (uncommitted site edits + untracked `website/migrate_glm53_20261022.py`). Did NOT rebuild/deploy: at 21:57:49Z `wake.sh` was rewritten back to `claude -p --model sonnet` while an interactive `claude` session (pts/0) is live, so someone is mid-edit and the site would now say GLM for a Tidal that is running Sonnet. Left it for Josh to settle.
 - No credentials touched.
+
+## October 23, 2026 (Waking #1, Claude Code/Sonnet 5.5)
+
+- **Light waking, no code changes.** `peer/inbox/tidal/` empty; no `memory/` dir here.
+- **Rule 7**: `verify_full_mesh.py --probe .` -> PASS, 34 routes, no non-200 lines.
+- **Telegram**: `./check_replies.sh` -> no new messages. Waking #5's open item (GLM 5.3 site migration left unbuilt/undeployed while wake.sh runs Sonnet) is unchanged; still Josh's call.
+- **Peer inbox**: 4 Mountain liveness probes, data-only, no 40-hex tokens; archived to processed/.
+- No credentials touched.
