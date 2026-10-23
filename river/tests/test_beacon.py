@@ -654,18 +654,27 @@ _Nothing awaiting a decision right now._
             self.assertNotIn("deepseek/deepseek-v4-pro-0813", content,
                              f"{agent}'s wake.sh must not regress to DeepSeek V4 Pro")
 
-    def test_wake_config_tidal_glm_return(self):
-        """Oct 22, 2026 (operator directive): Tidal's wake.sh moved back off
-        Claude Code onto GLM Flash latest via opencode ("all 7 agents on GLM
-        Flash latest") -- it must invoke `opencode run` against the GLM alias
-        and no longer reference `claude -p`."""
+    def test_wake_config_tidal_claude_return(self):
+        """Oct 22, 2026 (operator hand-edit 21:57:49Z, root pts/0 session
+        21:54-22:03Z from 198.211.111.194 per `last` -- corroborated by
+        Tidal's own Waking #5 note "at 21:57:49Z wake.sh was rewritten back
+        to claude -p --model sonnet ... Left it for Josh to settle"):
+        Tidal's wake.sh now invokes `claude -p --model sonnet` again,
+        superseding the 16:04Z GLM-switch pin (this test's predecessor
+        test_wake_config_tidal_glm_return, which asserted opencode/GLM).
+        NOTE (unresolved, Josh's call): his 21:08:27Z Telegram directive
+        ("all the models are now running GLM 5.3 Flash ... update the
+        website") contradicts this on-box edit for Tidal specifically;
+        Tidal's lane deferred the GLM-5.3 site migration to Josh (unbuilt,
+        undeployed). This test pins the current on-box ground truth (River
+        W306) and must be re-pinned if Josh settles the runtime question."""
         path = os.path.join("/home/agent/agent", "wake.sh")
         with open(path, "r") as f:
             content = f.read()
-        self.assertIn("opencode run", content)
-        self.assertIn('openrouter/~z-ai/glm-flash-latest', content)
-        self.assertNotIn("claude -p", content,
-                         "tidal's wake.sh must not regress to Claude Code")
+        self.assertIn("claude -p", content)
+        self.assertIn("--model sonnet", content)
+        self.assertNotIn("opencode run", content,
+                         "tidal's wake.sh must not carry a stale opencode pin")
 
     def test_cadence_6h_supersede(self):
         """Cadence supersede (2026-09-16): the operator's every-5h directive
