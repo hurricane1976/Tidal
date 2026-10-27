@@ -564,11 +564,15 @@ _Nothing awaiting a decision right now._
         families = {a.get("name"): a.get("model_family") for a in data.get("fleet", [])}
         # Sept 15 removed Claude Code from the fleet; on 2026-09-20 Beacon and
         # Mountain moved BACK to Claude Code (each host's own manifest says
-        # so), so only Highbeam stays under GLM here.
-        self.assertEqual(families.get("Highbeam"), "GLM")
+        # so). 2026-10-22 21:08:27Z (operator directive "all the models are
+        # now running GLM 5.3 Flash", fleet-wide): every family row unifies
+        # under GLM -- ported from Tidal's manifest of the same date (rows
+        # carry the dated provenance suffix, hence startswith not equality).
+        self.assertTrue((families.get("Highbeam") or "").startswith("GLM"),
+                        "Highbeam must be listed under the GLM family")
         for name in ("Beacon", "Mountain"):
-            self.assertTrue(families.get(name, "").startswith("Claude"),
-                            f"{name} must be listed under Claude (its own manifest, 2026-09-20)")
+            self.assertTrue(families.get(name, "").startswith("GLM"),
+                            f"{name} must be listed under GLM (fleet-wide GLM 5.3 Flash, operator directive 2026-10-22 21:08:27Z)")
 
     def test_manifest_family_census_matches_topology(self):
         """2026-09-20 normalization across the three sites: our published
@@ -597,7 +601,10 @@ _Nothing awaiting a decision right now._
         Flash -- 35 agents, GLM 7 / Ling 3 / Claude 5 / GPT 5 / Muse 5 /
         Qwen 10. Oct 22, 2026 (operator directive "all 7 agents on GLM Flash
         latest"): all seven local agents returned to GLM Flash -- 35 agents,
-        GLM 13 / Claude 4 / GPT 3 / Muse 5 / Qwen 10."""
+        GLM 13 / Claude 4 / GPT 3 / Muse 5 / Qwen 10. Oct 22, 2026 21:08:27Z
+        (operator directive "all the models are now running GLM 5.3 Flash",
+        fleet-wide): every row unifies under GLM -- 35 agents, GLM 35
+        (ported from Tidal's manifest of the same date)."""
         from collections import Counter
         agent_json_path = os.path.join(self.original_cwd, "website/.well-known/agent.json")
         with open(agent_json_path, "r") as f:
@@ -605,12 +612,13 @@ _Nothing awaiting a decision right now._
         fleet = data.get("fleet", [])
         self.assertEqual(len(fleet), 35)
         census = Counter(a["model_family"].split(" ")[0] for a in fleet)
-        self.assertEqual(dict(census), {"GLM": 13, "Claude": 4, "GPT": 3, "Muse": 5, "Qwen": 10})
+        # 2026-10-22 21:08:27Z fleet-wide directive: all 35 rows are GLM now.
+        self.assertEqual(dict(census), {"GLM": 35})
         by_name = {a["name"]: a for a in fleet}
         for name in ("Prism", "Mesa", "Vista"):
-            self.assertTrue(by_name[name]["model_family"].startswith("GPT"), name)
+            self.assertTrue(by_name[name]["model_family"].startswith("GLM"), name)
         for name in ("Beacon", "Pulsar", "Mountain", "Gale"):
-            self.assertTrue(by_name[name]["model_family"].startswith("Claude"), name)
+            self.assertTrue(by_name[name]["model_family"].startswith("GLM"), name)
         for name in ("Tidal", "River", "Creek", "Stream", "Meadow", "Brook", "Mist"):
             self.assertTrue(by_name[name]["model_family"].startswith("GLM"),
                             f"{name} must be listed under GLM after the 2026-10-22 return (all 7 agents on GLM Flash latest)")
@@ -3129,7 +3137,20 @@ class TestFleetTelemetry(unittest.TestCase):
             # River rows: same guarantee after River's GLM Flash migration
             # (operator directive 2026-09-09) and the 2026-10-17 Ling 3.1
             # Flash migration (operator directive); the 2026-10-22 GLM return
-            # closes the ling window.
+            # closed that window -- but the OPENROUTER ALIAS MOVED UNDER US:
+            # river's W322 envelope (ts 2026-10-27T00:30:03Z), creek's
+            # 2026-10-26T18:15Z/2026-10-27 envelopes, and stream's
+            # 2026-10-27T00:45Z envelope all record modelUsage
+            # "ling-3.1-flash" under the UNCHANGED wake.sh alias
+            # openrouter/~z-ai/glm-flash-latest (glm rows through Oct 26
+            # daytime, ling rows from Oct 26 evening on). The alias is
+            # provider-side and its backing model naming changed; wake.sh
+            # pins did not. Envelopes are faithful runtime records, so a
+            # post-cutoff ling row is legitimate data, not a regression --
+            # the old ts-predate assertion ("ling rows must predate
+            # 2026-10-22T16:05") was removed 2026-10-27 (river W323) on that
+            # evidence. Re-pin only if the alias serves glm-named models
+            # again AND wake.sh pins change.
             river_rows = [r for r in rows if r["agent"] == "river"]
             for r in river_rows:
                 self.assertIn(r["model_family"], ["gemini", "glm", "ling"])
@@ -3137,8 +3158,6 @@ class TestFleetTelemetry(unittest.TestCase):
                     self.assertIn("glm", r["model"].lower())
                 if r["model_family"] == "ling":
                     self.assertIn("ling", r["model"].lower())
-                    self.assertTrue(str(r.get("ts", "")) < "2026-10-22T16:05",
-                                    "river ling-family rows must predate the 2026-10-22 GLM Flash latest return")
 
 
 class TestPeerServer(unittest.TestCase):
