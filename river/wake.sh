@@ -3,6 +3,7 @@
 cd /home/agent/River || exit 1
 
 export HOME="${HOME:-/home/agent}"
+export PATH="$HOME/.local/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
@@ -10,7 +11,7 @@ mkdir -p logs
 
 # Single-flight guard: a scheduled cron wake and an operator /wake (spawned
 # by check_replies.sh) can land in the same minute. The second invocation
-# exits immediately instead of running a duplicate opencode session.
+# exits immediately instead of running a duplicate codex session.
 LOCK_FD=9
 LOCK_FILE="/tmp/river_wake.lock"
 exec {LOCK_FD}>"$LOCK_FILE"
@@ -31,23 +32,21 @@ dated entry to NOTES.md summarizing what you did this waking. Before you \
 finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 'Keeping me posted' instruction."
 
-# --auto: auto-approve every tool call for this session (file writes, shell
-# commands, etc.) -- this is what makes it run unattended instead of
-# stopping to ask. It's also the entire reason AGENT.md matters so much;
-# see the setup guide's "Before you start" section.
-# --dir: working directory for the session
-# --model: GLM Flash latest alias via opencode (operator directive
-# 2026-10-22: "all 7 agents on GLM Flash latest"; on-box wake.sh edit
-# 16:04Z -- Ling 3.1 Flash window 2026-10-17..10-22 closed).
-opencode run \
-    --auto \
-    --dir /home/agent/Tidal/river \
-    --model "openrouter/~z-ai/glm-flash-latest" \
+# exec --approve-for-me: auto-approve tool calls for this session so it runs
+#  unattended (this is why AGENT.md matters so much).
+# -C: working directory for the session
+# -m: gpt-5.6-luna via Codex (operator directive 2026-10-27: River and Creek
+#  default to Codex luna; supersedes the 2026-10-22 GLM Flash directive for
+#  these two agents).
+codex exec \
+    --approve-for-me \
+    -C /home/agent/Tidal/river \
+    -m gpt-5.6-luna \
     "$PROMPT" \
     >>"$LOG_FILE" 2>&1
-OPENCODE_EXIT=$?
+CODEX_EXIT=$?
 
-echo "exit code: $OPENCODE_EXIT" >>"$LOG_FILE"
+echo "exit code: $CODEX_EXIT" >>"$LOG_FILE"
 
 # Republish the website's activity log from the fresh NOTES.md entry this
 # session just wrote, so the public log page reflects reality without
@@ -57,12 +56,12 @@ echo "exit code: $OPENCODE_EXIT" >>"$LOG_FILE"
 # static-site publish script) -- it is NOT included in this starter kit, so
 # on a fresh install this step is skipped harmlessly. See the setup guide,
 # "Optional: giving Beacon a public website."
-if [ "$OPENCODE_EXIT" -eq 0 ] && [ -x ./website/deploy.sh ]; then
+if [ "$CODEX_EXIT" -eq 0 ] && [ -x ./website/deploy.sh ]; then
     ./website/deploy.sh >>"$LOG_FILE" 2>&1 || echo "website deploy failed" >>"$LOG_FILE"
 fi
 
 # Send a guaranteed Telegram notification with the latest results from NOTES.md
-if [ "$OPENCODE_EXIT" -eq 0 ]; then
+if [ "$CODEX_EXIT" -eq 0 ]; then
     LATEST_ENTRY=$(python3 -c "
 import os
 if os.path.exists('NOTES.md'):
@@ -88,8 +87,8 @@ fi
 # end-of-session notify.sh call -- that path only fires if the session runs
 # to completion. Send a failure alert directly from the shell so a crash
 # doesn't go silent until someone happens to check logs/.
-if [ "$OPENCODE_EXIT" -ne 0 ]; then
+if [ "$CODEX_EXIT" -ne 0 ]; then
     TAIL="$(tail -c 1500 "$LOG_FILE")"
-    ./notify.sh "wake.sh: opencode session exited with code $OPENCODE_EXIT ($TS). Log tail:
+    ./notify.sh "wake.sh: codex session exited with code $CODEX_EXIT ($TS). Log tail:
 $TAIL" CRIT >>"$LOG_FILE" 2>&1
 fi
