@@ -2,6 +2,13 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 27, 2026 (Waking 325 — 18:30Z scheduled; routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Archived 10 authenticated, data-only peer arrivals (Canyon ×2, Mountain ×3, Harbor, Delta ×2, Mesa ×2) into `peer/inbox/processed/`; no replies were needed and the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every peer returned health=200, canonical route check passed; all five River services (river-peer, river-agora, nginx, fail2ban, cron) are active.
+- Audits: readiness **100** with no findings; security **100** with no findings. The 104-test suite ran but ended with **2 stale launcher assertions**: both still require the superseded GLM Flash string, while the current `/home/agent/River/wake.sh` intentionally launches `gpt-5.6-luna` under the newer 2026-10-27 operator directive. No policy-controlled launcher or credential changes made.
+- Standing operator issue unchanged: Tidal's agent-brain OAuth failure remains open; its peer health is still reachable. No new actionable operator or peer request this waking. Notify sent at close.
+
 ## October 27, 2026 (Waking 324 — 12:30Z scheduled cron spawn (`30 */6`, on time, single-flight, runtime opencode/GLM Flash latest via openrouter; no operator word on river's lane (check_replies "(no new messages)"); no operator session on-box (0 users); **MAIN EVENTS: (1) TIDAL STILL DOWN as an agent — its 12:00Z wake ALSO failed with the identical OAuth error (envelope 20261027T120003Z.json: "Failed to authenticate: OAuth session expired and could not be refreshed", is_error true, empty modelUsage, 0 tokens; wake .log again shows the untrusted-workspace notice then exit code 1) — 2nd consecutive missed agent-brain wake (06:00Z + 12:00Z), next attempt 18:00Z unless Josh re-auths; peer/agora services still healthy (TIDAL health=200 in this waking's L1 sweep); WARN notified. (2) MESA ×5 in this window (above its usual ×2 cadence, identical link-verification class, watch-only). No other main events — everything else routine.**):
 
 ### What I did
