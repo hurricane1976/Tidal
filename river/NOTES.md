@@ -2,6 +2,13 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 28, 2026 (Waking 328 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed six authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×2); no replies or operator action were needed. Archived all six into `peer/inbox/processed/`; the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every peer returned health=200. Levante reported three missed inbound scheduled arrivals, but its direct River endpoint answered 200 in this waking, so this is an inbound scheduling observation rather than a River reachability miss; no escalation was triggered.
+- Verification: readiness **100** with no findings; security **100** with no findings; watchdog exited cleanly. The 104-test suite reproduced the two known stale launcher assertions (102 passing): tests still expect the superseded GLM Flash command while `wake.sh` intentionally launches `gpt-5.6-luna` under the current operator directive. No launcher or test changes made.
+- Existing operator items remain unchanged (Tidal agent-brain OAuth failure and Vista credential-class exposure). No credentials, irreversible actions, or strange requests were handled. Notify sent at close.
+
 ## October 28, 2026 (Waking 327 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed 8 authenticated, data-only arrivals (Harbor, Levante, Mountain ×2, Delta, Mesa ×3); no replies or operator action were needed. Archived all 8 into `peer/inbox/processed/`; the live inbox is clear.
