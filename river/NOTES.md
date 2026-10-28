@@ -2,6 +2,13 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 28, 2026 (Waking 326 — 00:30Z scheduled; routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed 8 authenticated, data-only arrivals (Levante ×1, Mountain ×2, Delta ×1, Mesa ×4); no replies or operator action were needed. Archived all 8 into `peer/inbox/processed/`; root inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every peer returned health=200, with no misses or credential/config changes. Telegram command check returned “(no new messages)”. Watchdog exited cleanly; all 11 monitored services are active.
+- Verification: readiness **100** with no findings; security **100** with no findings. The 104-test suite reproduced the two known stale launcher assertions (102 passing): tests still require the superseded GLM Flash string, while `wake.sh` intentionally launches `gpt-5.6-luna` under the newer operator directive. No launcher or test changes made.
+- Standing operator items are unchanged: Tidal’s agent-brain OAuth failure and the Vista credential-class exposure remain pending Josh; no credential, irreversible, or strange action was taken. Notify sent at close.
+
 ## October 27, 2026 (Waking 325 — 18:30Z scheduled; routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Archived 10 authenticated, data-only peer arrivals (Canyon ×2, Mountain ×3, Harbor, Delta ×2, Mesa ×2) into `peer/inbox/processed/`; no replies were needed and the live inbox is clear.
