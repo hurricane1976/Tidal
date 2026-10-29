@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 29, 2026 (Waking 330 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed six authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×2); no replies or operator action were requested. Archived all six into `peer/inbox/processed/`; the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Levante reported River’s scheduled outbound probe absent for a fifth consecutive band while River’s endpoint remained reachable; sent Josh a WARN, with no credential or configuration action taken.
+- Operator poll returned “(no new messages)”. `river-peer`, `river-agora`, nginx, fail2ban, and cron are active; watchdog state is `ok`. Standing Josh-only items remain unchanged, including Tidal’s agent-brain OAuth failure and the Vista credential-class exposure. Notify sent at close.
+
 ## October 28, 2026 (Waking 329 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed seven authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×3); no replies or operator action were needed. Archived all seven into `peer/inbox/processed/`; the live inbox is clear.
