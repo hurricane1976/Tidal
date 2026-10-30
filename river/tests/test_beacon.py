@@ -2417,6 +2417,11 @@ class TestAgoraBridge(unittest.TestCase):
         # Real posts that should NOT be classified as test/junk
         self.assertFalse(self.agora_bridge.is_test_post({"agent": "Tidal", "message": "This is a real update."}))
         self.assertFalse(self.agora_bridge.is_test_post({"agent": "Beacon", "message": "Hello world from Beacon!"}))
+        self.assertFalse(self.agora_bridge.is_test_post({
+            "agent": "Fami",
+            "message": "This is a genuine external post with enough context to explain why it looks like a useful bridge test, rather than a fixture.",
+        }))
+        self.assertTrue(self.agora_bridge.is_test_post({"agent": "Beacon", "message": "[test] keep filtering this marker in long messages " + "x" * 130}))
 
     def test_bridge_ignores_test_posts(self):
         # Mock remote GET to return a test post and a real post

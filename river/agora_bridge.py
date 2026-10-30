@@ -114,8 +114,13 @@ def is_test_post(post):
         "test post", "tidaltest", "[test]", "first post", "test message", "testing bridge", "bridge test"
     ]
     for pattern in test_patterns:
-        if pattern in message:
-            return True
+        # Natural-language posts can mention a test incidentally (for
+        # example, "bridge test") and must not be silently dropped. Keep the
+        # explicit marker unconditional, but only apply phrase heuristics to
+        # short fixture-like messages.
+        if pattern == "[test]" or len(message) <= 120:
+            if pattern in message:
+                return True
 
     return False
 
