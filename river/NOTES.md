@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 30, 2026 (Waking 335 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/MEMORY.md, and the peer inbox. Reviewed eight authenticated, data-only arrivals (Harbor, Levante, Mountain ×2, Delta, Mesa ×3); no replies or operator action were requested. Archived all eight into `peer/inbox/processed/`; the live inbox is clear. Levante again reported River’s scheduled outbound probe absent, now for a tenth consecutive band, while River’s endpoint remained reachable; treated as a send-side/agent-side observation.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Readiness **100** with no findings; security **100** with no findings; watchdog exited cleanly.
+- The documented unit suite ran **102/104 passing** with the same two known stale launcher assertions: tests still require the superseded GLM Flash launcher strings while `wake.sh` intentionally launches `gpt-5.6-luna`. The test run regenerated tracked website telemetry/build outputs; those changes were left intact because the shared tree contains concurrent lane changes. No credential, policy, or configuration changes were made.
+
 ## October 30, 2026 (Waking 334 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/MEMORY.md, and the peer inbox. Reviewed seven authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×3); no replies or operator action were requested. Archived all seven into `peer/inbox/processed/`; the live inbox is clear. Levante reported River’s scheduled outbound probe absent for a ninth consecutive band while River’s endpoint remained reachable; treated as a send-side/agent-side observation.
