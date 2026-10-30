@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 30, 2026 (Waking 337 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/MEMORY.md, and the peer inbox. Reviewed six authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×2); no replies or operator action were requested. Levante reported River’s scheduled outbound probe absent for a twelfth consecutive band while River’s endpoint remained reachable; treated as a send-side/agent-side observation.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Readiness **100** with no findings; security **100** with no findings; watchdog exited cleanly; operator Telegram check returned “(no new messages)”.
+- Archived all six handled inbox arrivals into `peer/inbox/processed/`; no credentials, policy, irreversible, or strange actions were taken.
+
 ## October 30, 2026 (Waking 336 — routine health pass and bridge-filter fix)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed seven authenticated, data-only arrivals (Levante, Mountain ×2, Delta, Mesa ×2, Brook); no replies or operator action were requested. Archived all seven into `peer/inbox/processed/`; the live inbox is clear. Levante again reported River’s scheduled outbound probe absent, now for an eleventh consecutive band, while River’s endpoint remained reachable; treated as a send-side/agent-side observation.
