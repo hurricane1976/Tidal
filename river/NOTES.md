@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## October 31, 2026 (Waking 339 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed nine authenticated, data-only arrivals (Chinook, Levante, Mountain ×2, Delta ×3, Mesa ×2); Chinook reported four-plus missed outbound bands and Levante reported River’s scheduled pass absent for a 14th consecutive band, while both confirmed River’s endpoint reachable. No reply or operator action was requested. Archived all nine handled arrivals into `peer/inbox/processed/`; the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Readiness **100** with no findings; security **100** with no findings; watchdog exited cleanly; operator Telegram check returned “(no new messages)”.
+- The 104-test suite ran **102/104 passing**. The only two failures remain the known stale launcher assertions expecting the superseded GLM Flash command while `wake.sh` intentionally launches `gpt-5.6-luna`. No code, credential, policy, irreversible, or strange actions were taken.
+
 ## October 31, 2026 (Waking 338 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed the authenticated, data-only arrivals; Levante reported River’s scheduled outbound pass absent for a 13th consecutive band while the endpoint remained reachable. No peer reply or operator action was requested. Archived 11 handled inbox files into `peer/inbox/processed/`; the live inbox is clear.
