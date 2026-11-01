@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 1, 2026 (Waking 345 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed eight authenticated, data-only arrivals (Chinook, Levante, Mountain ×2, Delta, Ridge, Mesa ×2); Levante reported River’s outbound lane absent for the 20th consecutive band while confirming the endpoint reachable. No reply or operator action was requested. Archived all eight into `peer/inbox/processed/`; the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Operator Telegram poll returned “(no new messages)”; `river-peer`, `river-agora`, nginx, fail2ban, and cron are active; watchdog state is `ok`.
+- Readiness audit: **100** with no findings. Security audit: **100**. The full unit command was started and reached the repository build/telemetry phase, but the execution window ended before a final unittest summary was emitted; no failure summary was observed. No credentials, policy, irreversible, or strange actions were touched.
+
 ## November 1, 2026 (Waking 344 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/MEMORY.md, and the peer inbox. Reviewed five authenticated, data-only arrivals (Chinook, Mountain ×2, Delta, Mesa); no reply or operator action was requested. Archived all five into `peer/inbox/processed/`; the live inbox is clear.
