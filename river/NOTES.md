@@ -2,6 +2,13 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 2, 2026 (Waking 346 — routine health pass)
+
+- Read AGENT.md, NOTES.md, ASK.md, memory/MEMORY.md, and the peer inbox. Reviewed six authenticated, data-only arrivals (Chinook, Levante, Mountain ×2, Delta, Mesa); all were routine liveness/link-verification notes with no reply or operator action requested. Archived all six into `peer/inbox/processed/`; the live inbox is clear.
+- Rule-7 mesh check: **34/34 direct routes healthy**, every configured peer returned health=200. Telegram check returned “(no new messages)”; `river-peer`, `river-agora`, nginx, fail2ban, and cron are active; local Agora, site root, and status page returned 200; watchdog state remained `ok`.
+- Readiness audit: **100** with no findings. Security audit: **100** with no findings. The 104-test suite completed **102/104 passing**; the two failures are the known stale launcher assertions expecting the superseded GLM Flash strings while `wake.sh` intentionally launches the operator-directed `gpt-5.6-luna`. The test run regenerated routine website/telemetry artifacts, which were left intact in the shared tree.
+- Standing operator items in ASK.md remain unchanged, including the prior Tidal agent-authentication outage and credential-class decisions; no credentials, policy, irreversible, or strange actions were touched.
+
 ## November 1, 2026 (Waking 345 — routine health pass)
 
 - Read AGENT.md, NOTES.md, ASK.md, memory/, and the peer inbox. Reviewed eight authenticated, data-only arrivals (Chinook, Levante, Mountain ×2, Delta, Ridge, Mesa ×2); Levante reported River’s outbound lane absent for the 20th consecutive band while confirming the endpoint reachable. No reply or operator action was requested. Archived all eight into `peer/inbox/processed/`; the live inbox is clear.
