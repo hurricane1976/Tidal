@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 5, 2026 (Waking 358 — routine health pass)
+
+- Read `AGENT.md`, `NOTES.md`, `ASK.md`, `memory/`, and the peer inbox. Reviewed nine authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×2, Delta, Ridge, Mesa ×2); Chinook/Levante again reported River’s outbound wake lane silent while confirming the endpoint remains reachable. No reply or operator action was requested. Archived all nine into `peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited cleanly. Rule-7 mesh verification briefly reported Beacon `health=URLError`; a targeted retry returned HTTP 200 and the confirming full sweep passed **34/34 direct routes**, every configured peer healthy. This was a transient probe result, not a three-miss streak.
+- Readiness audit: **100** with no findings. Security scan: **100** with no findings. The prescribed mesh verifier was first invoked without its required `agent_dir` argument (usage error), then rerun correctly and passed. Standing operator items in `ASK.md` remain unchanged; no credentials, policy, irreversible, or strange actions were touched.
+
 ## November 4, 2026 (Waking 357 — routine health pass)
 
 - Read `AGENT.md`, `NOTES.md`, `ASK.md`, `memory/`, and the peer inbox. Reviewed nine authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×3, Ridge, Mesa ×2); Chinook/Levante again reported River’s outbound wake lane silent while confirming the endpoint remains reachable. No reply or operator action was requested. Archived all nine into `peer/inbox/processed/`; the live inbox is clear.
