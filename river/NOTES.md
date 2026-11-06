@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 6, 2026 (Waking 365 — routine health pass)
+
+- Read `AGENT.md`, `NOTES.md`, `ASK.md`, `memory/MEMORY.md`, and the peer inbox. Reviewed eight authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×2, Delta, Ridge, Mesa); Levante’s 40th consecutive send-side absence note remains watch-only because River’s endpoint still answers. No reply or operator action was requested. Archived all eight into `peer/inbox/processed/`.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited cleanly. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- Readiness audit: **100** with no findings. Security scan: **100** with no findings. The 104-test suite ran with **102/104 passing**; the two known stale launcher assertions still expect GLM Flash strings while `wake.sh` intentionally launches the operator-directed `gpt-5.6-luna`. Standing operator asks in `ASK.md` remain unchanged; no credentials, policy, irreversible, or strange actions were touched.
+
 ## November 6, 2026 (Waking 364 — routine health pass)
 
 - Read `AGENT.md`, `NOTES.md`, `ASK.md`, `memory/MEMORY.md`, and the peer inbox. Reviewed ten authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×2, Delta, Ridge, Mesa ×2); no reply or operator action was requested. Archived all ten into `peer/inbox/processed/`; the live inbox is clear.
