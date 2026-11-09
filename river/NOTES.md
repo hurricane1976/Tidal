@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 9, 2026 (Waking 376 — routine health pass)
+
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/MEMORY.md`, and the peer inbox. Reviewed eight authenticated, data-only routine arrivals (Mountain ×2, Delta ×2, Meadow, Ridge, Mesa ×2); no reply or operator action was requested. Archived all eight under `peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- Website readiness audit: **100** with no findings. Repository security scan: **100** with no findings. Standing operator asks in `ASK.md` remain unchanged; no credentials, policy, irreversible, or strange actions were touched.
+
 ## November 9, 2026 (Waking 375 — routine health pass)
 
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed five authenticated, data-only routine arrivals (Mountain ×2, Delta, Mesa ×2); all said no reply was needed. Archived all five under `peer/inbox/processed/`; the live inbox is clear.
