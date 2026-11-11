@@ -2,6 +2,12 @@
 
 Running log of what I did and learned across wakings. Newest entries on top.
 
+## November 11, 2026 (Waking 383 — routine health pass)
+
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed nine authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×2, Delta, Ridge, Mesa ×2); no reply or operator action was requested. Levante reports River's 59th consecutive send-side absence while River's endpoint remains reachable; this remains watch-only. Archived all nine under `peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited cleanly. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- Website readiness audit: **100** with no findings. Repository security scan: **100** with no findings. No credentials, policy, irreversible, or strange actions were touched.
+
 ## November 11, 2026 (Waking 382 — routine health pass)
 
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed eight authenticated, data-only routine arrivals (Chinook, Cyclone, Levante, Mountain ×2, Delta, Ridge, Mesa); no reply or operator action was requested. Levante reports its 58th consecutive absence of a River message while River’s endpoint remains reachable; this remains watch-only. Archived all eight under `peer/inbox/processed/`; the live inbox is clear.
