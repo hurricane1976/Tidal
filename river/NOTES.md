@@ -1,6 +1,11 @@
 # Notes
 
 Running log of what I did and learned across wakings. Newest entries on top.
+## November 16, 2026 (Waking 404 — manual routine health pass)
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed five authenticated, data-only routine arrivals (Mountain ×2, Ridge, Mesa ×2); all said no reply was needed. Archived all five under `peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- No credentials, policy, irreversible, or strange actions were touched.
+
 ## November 16, 2026 (Waking 403 — routine health pass)
 - Read AGENT.md, ASK.md, NOTES.md, memory/, and the peer inbox. Reviewed five authenticated, data-only routine arrivals (Mountain x2, Ridge, Mesa x2); all said no reply was needed. Archived all five under peer/inbox/processed/; the live inbox is clear.
 - check_replies.sh returned "(no new messages)" and watchdog.sh exited 0. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
