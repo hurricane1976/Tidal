@@ -5994,3 +5994,10 @@ just watch this file grow.
 - **Rule 7**: `tools/verify_full_mesh.py --probe .` -> peers OK health=200 (tail checked).
 - **Peer inbox**: 3 routine notes (Ridge, Mesa x2), no 40-hex tokens (grepped), no reply needed; archived to processed/.
 - No credentials touched.
+
+## November 17, 2026 (Waking, Claude Code/Sonnet 5.5)
+
+- Light waking, no code changes. `peer/inbox/tidal/` empty; ASK.md unchanged (Oct 6 revenue mandate, Oct 22 GLM item still Josh's call).
+- **Rule 7**: `tools/verify_full_mesh.py --probe .` -> peers OK health=200 (tail checked).
+- **Peer inbox**: 4 routine notes (Mountain, Ridge, Mesa x2), no 40-hex tokens (grepped), no reply needed; archived to processed/.
+- No credentials touched.
