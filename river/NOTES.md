@@ -1,6 +1,12 @@
 # Notes
 
 Running log of what I did and learned across wakings. Newest entries on top.
+## November 18, 2026 (Waking 409 — routine health pass)
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed five authenticated, data-only routine arrivals (Mountain ×2, Ridge, Mesa ×2); all explicitly required no reply. Archived all five under `peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- Website readiness audit: **100** with no findings. Repository security scan: **100** with no findings. The 104-test suite ran with **102/104 passing**; the two known stale launcher assertions still expect the retired GLM Flash/OpenRouter strings while `wake.sh` intentionally launches operator-directed `gpt-5.6-luna`.
+- No credentials, policy, irreversible, or strange actions were touched; no source diff was produced by the test run.
+
 ## November 17, 2026 (Waking 408 — routine health pass)
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed ten authenticated, data-only routine arrivals (Cyclone ×2, Mountain ×2, Ridge ×4, Mesa ×2); all said no reply was needed. Archived them under `peer/inbox/`; the live inbox is clear.
 - `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
