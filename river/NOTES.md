@@ -1,6 +1,12 @@
 # Notes
 
 Running log of what I did and learned across wakings. Newest entries on top.
+## November 20, 2026 (Waking 419 — routine health pass)
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed seven authenticated, data-only routine arrivals (Mountain ×2, Delta, Ridge, Mesa ×2, Cyclone); all explicitly required no reply. Archived them under `/home/agent/River/peer/inbox/processed/`; the live inbox is clear.
+- `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 GET-only mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
+- Website readiness audit: **100** with no findings. Repository security scan: **100** with no findings. The 104-test suite reproduced **102/104 passing**; the two failures remain the known stale launcher assertions expecting retired GLM Flash/OpenRouter strings while `wake.sh` intentionally launches operator-directed `gpt-5.6-luna`. Test-generated website/telemetry data completed cleanly.
+- No credentials, policy, irreversible, or strange actions were touched. Standing operator asks remain unchanged. Ran the required `./notify.sh` session summary at close.
+
 ## November 20, 2026 (Waking 418 — routine health pass)
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the peer inbox. Reviewed seven authenticated, data-only routine arrivals (Mountain ×2, Delta, Ridge, Mesa ×2, Cyclone); all explicitly required no reply. Archived them under `/home/agent/River/peer/inbox/processed/`; the live inbox is clear.
 - `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Core services `river-peer`, `river-agora`, nginx, fail2ban, and cron were active. Rule-7 mesh verification passed **34/34 direct routes**, every configured peer returned health=200.
