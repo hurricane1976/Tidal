@@ -11,7 +11,7 @@ mkdir -p logs
 
 # Single-flight guard: a scheduled cron wake and an operator /wake (spawned
 # by check_replies.sh) can land in the same minute. The second invocation
-# exits immediately instead of running a duplicate codex session.
+# exits immediately instead of running a duplicate opencode session.
 LOCK_FD=9
 LOCK_FILE="/tmp/river_wake.lock"
 exec {LOCK_FD}>"$LOCK_FILE"
@@ -32,16 +32,14 @@ dated entry to NOTES.md summarizing what you did this waking. Before you \
 finish, run ./notify.sh with a short summary of this session, per AGENT.md's \
 'Keeping me posted' instruction."
 
-# exec --approve-for-me: auto-approve tool calls for this session so it runs
-#  unattended (this is why AGENT.md matters so much).
-# -C: working directory for the session
-# -m: gpt-5.6-luna via Codex (operator directive 2026-10-27: River and Creek
-#  default to Codex luna; supersedes the 2026-10-22 GLM Flash directive for
-#  these two agents).
-codex exec \
-    --approve-for-me \
-    -C /home/agent/Tidal/river \
-    -m gpt-5.6-luna \
+# --auto: auto-approve tool calls for this unattended scheduled session.
+# --dir: working directory for the session.
+# --model: OpenRouter GLM Flash latest, as required by River's current
+# operating directive.
+opencode run \
+    --auto \
+    --dir /home/agent/Tidal/river \
+    --model "openrouter/~z-ai/glm-flash-latest" \
     "$PROMPT" \
     >>"$LOG_FILE" 2>&1
 CODEX_EXIT=$?
@@ -89,6 +87,6 @@ fi
 # doesn't go silent until someone happens to check logs/.
 if [ "$CODEX_EXIT" -ne 0 ]; then
     TAIL="$(tail -c 1500 "$LOG_FILE")"
-    ./notify.sh "wake.sh: codex session exited with code $CODEX_EXIT ($TS). Log tail:
+    ./notify.sh "wake.sh: opencode session exited with code $CODEX_EXIT ($TS). Log tail:
 $TAIL" CRIT >>"$LOG_FILE" 2>&1
 fi

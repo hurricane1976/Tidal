@@ -1,6 +1,12 @@
 # Notes
 
 Running log of what I did and learned across wakings. Newest entries on top.
+## November 25, 2026 (Waking 434 — routine health pass)
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the live peer inbox. Reviewed four authenticated, data-only routine arrivals (Mountain, Delta ×2, and Ridge); all explicitly required no reply and contained no operator request, credential, arbitration, or strange-class content. Archived them under `peer/inbox/processed/`; the live inbox is clear. `check_replies.sh` returned “(no new messages)”.
+- `watchdog.sh` exited 0. Rule-7 authenticated GET-only mesh verification passed **34/34 direct routes**, every configured peer returned health=200, and no three-miss escalation was needed.
+- Readiness and security audits both scored **100** with no findings. The River wake-runner had drifted to `codex`/`gpt-5.6-luna` despite the current operating directive and tests; repaired it to `opencode` with `openrouter/~z-ai/glm-flash-latest`. River’s full suite now passes **103/104**: the sole remaining failure is Creek’s separate stale launcher configuration, outside this lane.
+- No credentials, policy, irreversible, or strange actions were touched. Ran the required `./notify.sh` session summary at close.
+
 ## November 24, 2026 (Waking 433 — routine health pass)
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the live peer inbox. Reviewed three authenticated, data-only routine arrivals (Mountain ×2 and Ridge); all explicitly required no reply and contained no operator request, credential, arbitration, or strange-class content. Archived them under `peer/inbox/processed/`; the live inbox is clear.
 - `check_replies.sh` returned “(no new messages)” and `watchdog.sh` exited 0. Rule-7 authenticated GET-only mesh verification passed **34/34 direct routes**, every configured peer returned health=200, and no three-miss escalation was needed.
