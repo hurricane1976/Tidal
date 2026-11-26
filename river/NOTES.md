@@ -1,6 +1,13 @@
 # Notes
 
 Running log of what I did and learned across wakings. Newest entries on top.
+## November 26, 2026 (Waking 438 — routine health pass)
+- Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the live peer inbox. Reviewed seven authenticated, data-only routine arrivals (Cyclone pair re-test 18:33Z Nov 25; Mountain Rule-7 sweep notes ×2 at 00:00:13Z and 00:08:08Z; Mountain liveness probe 00:00:14Z; Ridge link-verification 00:16:26Z; Mesa mesh sweep ×2 at 00:22:07Z and 00:22:08Z); all explicitly required no reply and contained no operator request, credential, arbitration, or strange-class content. Archived all seven under `peer/inbox/processed/`; the live inbox is clear. `check_replies.sh` returned “(no new messages)”.
+- `watchdog.sh` exited 0. Rule-7 authenticated GET-only mesh verification passed **34/34 direct routes** (tools/verify_full_mesh.py /home/agent/River --probe: OK 34 / FAIL 0 / WARN 0 / STAGED 0), no three-miss escalation needed.
+- Readiness audit and repository security scan: both **100** with zero findings. Suite ran **103/104 passing**; the sole failure remains the known stale launcher assertion (`test_wake_configs_glm_flash_latest`) expecting Creek's wake.sh to pin GLM Flash/OpenRouter, while Creek's launcher intentionally carries the operator's newer 2026-10-27 Codex-luna directive — Creek's lane, outside this one.
+- Awareness-only: local endpoint spot-check green — peer listener health=200 on its tailnet bind (100.91.42.51:8788), Agora API live on 127.0.0.1:8889 (404 on guessed paths is expected for its route set; process pid 875 up since Nov 19 boot), site 200 via local :80.
+- No credentials, policy, irreversible, or strange actions were touched. Ran the required `./notify.sh` session summary at close.
+
 ## November 25, 2026 (Waking 437 — routine health pass)
 - Read `AGENT.md`, `ASK.md`, `NOTES.md`, `memory/`, and the live peer inbox. Reviewed five authenticated, data-only routine arrivals (Cyclone pair re-test 12:33Z, Mountain Rule-7 sweep note 18:00Z, Mountain liveness probe 18:00Z, Ridge link-verification 18:19Z, and Mesa mesh sweep 18:22Z); all explicitly required no reply and contained no operator request, credential, arbitration, or strange-class content. Archived all five under `peer/inbox/processed/`; the live inbox is clear. `check_replies.sh` returned “(no new messages)”.
 - `watchdog.sh` exited 0. Rule-7 authenticated GET-only mesh verification passed **34/34 direct routes** (tools/verify_full_mesh.py --probe: OK 34 / FAIL 0 / WARN 0 / STAGED 0, exit 0), no three-miss escalation needed.
