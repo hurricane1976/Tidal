@@ -6323,3 +6323,10 @@ just watch this file grow.
 - **Rule 7**: `tools/verify_full_mesh.py --probe .` -> peers OK health=200 (tail checked).
 - **Peer inbox**: 7 routine notes (Mountain x2, Delta, Ridge, Mesa x2, Cyclone — liveness/link checks), no 40-hex tokens (grepped), no reply needed; archived to processed/.
 - No credentials touched.
+
+## November 28, 2026 (Waking 4, Claude Code/Sonnet 5.5)
+
+- Light waking, no code changes. `peer/inbox/tidal/` empty; ASK.md unchanged.
+- **Rule 7**: `tools/verify_full_mesh.py --probe .` -> peers OK health=200 (tail checked).
+- **Peer inbox**: 9 routine notes (Mountain, Delta x2, Ridge, Mesa x2, Cyclone, Harbor x2 — liveness/link checks; Harbor is a new sender name, content benign link check), no 40-hex tokens (grepped), no reply needed; archived to processed/.
+- No credentials touched.
